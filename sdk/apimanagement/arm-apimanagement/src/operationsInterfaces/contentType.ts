@@ -8,77 +8,77 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    ContentTypeContract,
-    ContentTypeCreateOrUpdateOptionalParams,
-    ContentTypeCreateOrUpdateResponse,
-    ContentTypeDeleteOptionalParams,
-    ContentTypeGetOptionalParams,
-    ContentTypeGetResponse,
-    ContentTypeListByServiceOptionalParams
-} from "../models/index.js";
+  ContentTypeContract,
+  ContentTypeListByServiceOptionalParams,
+  ContentTypeGetOptionalParams,
+  ContentTypeGetResponse,
+  ContentTypeCreateOrUpdateOptionalParams,
+  ContentTypeCreateOrUpdateResponse,
+  ContentTypeDeleteOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContentType. */
 export interface ContentType {
-    /**
-     * Lists the developer portal's content types. Content types describe content items' properties,
-     * validation rules, and constraints.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ContentTypeListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<ContentTypeContract>;
-    /**
-     * Gets the details of the developer portal's content type. Content types describe content items'
-     * properties, validation rules, and constraints.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param contentTypeId Content type identifier.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        contentTypeId: string,
-        options?: ContentTypeGetOptionalParams
-    ): Promise<ContentTypeGetResponse>;
-    /**
-     * Creates or updates the developer portal's content type. Content types describe content items'
-     * properties, validation rules, and constraints. Custom content types' identifiers need to start with
-     * the `c-` prefix. Built-in content types can't be modified.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param contentTypeId Content type identifier.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        contentTypeId: string,
-        parameters: ContentTypeContract,
-        options?: ContentTypeCreateOrUpdateOptionalParams
-    ): Promise<ContentTypeCreateOrUpdateResponse>;
-    /**
-     * Removes the specified developer portal's content type. Content types describe content items'
-     * properties, validation rules, and constraints. Built-in content types (with identifiers starting
-     * with the `c-` prefix) can't be removed.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param contentTypeId Content type identifier.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        contentTypeId: string,
-        ifMatch: string,
-        options?: ContentTypeDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists the developer portal's content types. Content types describe content items' properties,
+   * validation rules, and constraints.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ContentTypeListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<ContentTypeContract>;
+  /**
+   * Gets the details of the developer portal's content type. Content types describe content items'
+   * properties, validation rules, and constraints.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param contentTypeId Content type identifier.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    contentTypeId: string,
+    options?: ContentTypeGetOptionalParams,
+  ): Promise<ContentTypeGetResponse>;
+  /**
+   * Creates or updates the developer portal's content type. Content types describe content items'
+   * properties, validation rules, and constraints. Custom content types' identifiers need to start with
+   * the `c-` prefix. Built-in content types can't be modified.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param contentTypeId Content type identifier.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    contentTypeId: string,
+    parameters: ContentTypeContract,
+    options?: ContentTypeCreateOrUpdateOptionalParams,
+  ): Promise<ContentTypeCreateOrUpdateResponse>;
+  /**
+   * Removes the specified developer portal's content type. Content types describe content items'
+   * properties, validation rules, and constraints. Built-in content types (with identifiers starting
+   * with the `c-` prefix) can't be removed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param contentTypeId Content type identifier.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    contentTypeId: string,
+    ifMatch: string,
+    options?: ContentTypeDeleteOptionalParams,
+  ): Promise<void>;
 }

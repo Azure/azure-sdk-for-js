@@ -6,1590 +6,1582 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Reports } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    ReportRecordContract,
-    ReportsListByApiNextOptionalParams,
-    ReportsListByApiNextResponse,
-    ReportsListByApiOptionalParams,
-    ReportsListByApiResponse,
-    ReportsListByGeoNextOptionalParams,
-    ReportsListByGeoNextResponse,
-    ReportsListByGeoOptionalParams,
-    ReportsListByGeoResponse,
-    ReportsListByOperationNextOptionalParams,
-    ReportsListByOperationNextResponse,
-    ReportsListByOperationOptionalParams,
-    ReportsListByOperationResponse,
-    ReportsListByProductNextOptionalParams,
-    ReportsListByProductNextResponse,
-    ReportsListByProductOptionalParams,
-    ReportsListByProductResponse,
-    ReportsListByRequestOptionalParams,
-    ReportsListByRequestResponse,
-    ReportsListBySubscriptionNextOptionalParams,
-    ReportsListBySubscriptionNextResponse,
-    ReportsListBySubscriptionOptionalParams,
-    ReportsListBySubscriptionResponse,
-    ReportsListByTimeNextOptionalParams,
-    ReportsListByTimeNextResponse,
-    ReportsListByTimeOptionalParams,
-    ReportsListByTimeResponse,
-    ReportsListByUserNextOptionalParams,
-    ReportsListByUserNextResponse,
-    ReportsListByUserOptionalParams,
-    ReportsListByUserResponse,
-    RequestReportRecordContract
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { Reports } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+  ReportRecordContract,
+  ReportsListByApiNextOptionalParams,
+  ReportsListByApiOptionalParams,
+  ReportsListByApiResponse,
+  ReportsListByUserNextOptionalParams,
+  ReportsListByUserOptionalParams,
+  ReportsListByUserResponse,
+  ReportsListByOperationNextOptionalParams,
+  ReportsListByOperationOptionalParams,
+  ReportsListByOperationResponse,
+  ReportsListByProductNextOptionalParams,
+  ReportsListByProductOptionalParams,
+  ReportsListByProductResponse,
+  ReportsListByGeoNextOptionalParams,
+  ReportsListByGeoOptionalParams,
+  ReportsListByGeoResponse,
+  ReportsListBySubscriptionNextOptionalParams,
+  ReportsListBySubscriptionOptionalParams,
+  ReportsListBySubscriptionResponse,
+  ReportsListByTimeNextOptionalParams,
+  ReportsListByTimeOptionalParams,
+  ReportsListByTimeResponse,
+  RequestReportRecordContract,
+  ReportsListByRequestOptionalParams,
+  ReportsListByRequestResponse,
+  ReportsListByApiNextResponse,
+  ReportsListByUserNextResponse,
+  ReportsListByOperationNextResponse,
+  ReportsListByProductNextResponse,
+  ReportsListByGeoNextResponse,
+  ReportsListBySubscriptionNextResponse,
+  ReportsListByTimeNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Reports operations. */
 export class ReportsImpl implements Reports {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class Reports class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class Reports class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists report records by API.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter The filter to apply on the operation.
-     * @param options The options parameters.
-     */
-    public listByApi(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByApiOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listByApiPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByApiPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByApiPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByApiOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListByApiResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByApi(
-                resourceGroupName,
-                serviceName,
-                filter,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists report records by API.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter The filter to apply on the operation.
+   * @param options The options parameters.
+   */
+  public listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByApiOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listByApiPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByApiNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
+        return this.listByApiPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByApiPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByApiOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListByApiResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByApi(
+        resourceGroupName,
+        serviceName,
+        filter,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByApiNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByApiPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByApiOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listByApiPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by User.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| userId | select, filter | eq |
+   *               | </br>| apiRegion | filter | eq |     | </br>| productId | filter | eq |     | </br>|
+   *               subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter
+   *               | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked |
+   *               select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>|
+   *               callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     |
+   *               </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
+   *               cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>|
+   *               apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg |
+   *               select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |
+   *                 |     | </br>
+   * @param options The options parameters.
+   */
+  public listByUser(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByUserOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listByUserPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-    }
+        return this.listByUserPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
+        );
+      },
+    };
+  }
 
-    private async *listByApiPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByApiOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listByApiPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
+  private async *listByUserPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByUserOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListByUserResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByUser(
+        resourceGroupName,
+        serviceName,
+        filter,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByUserNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByUserPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByUserOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listByUserPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by API Operations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
+   *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | select, filter | eq |
+   *                | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy
+   *               |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>| callCountOther | select,
+   *               orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth |
+   *               select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
+   *               select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |
+   *                  |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     |
+   *               </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  public listByOperation(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByOperationOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listByOperationPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-    }
-
-    /**
-     * Lists report records by User.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| userId | select, filter | eq |
-     *               | </br>| apiRegion | filter | eq |     | </br>| productId | filter | eq |     | </br>|
-     *               subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter
-     *               | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked |
-     *               select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>|
-     *               callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     |
-     *               </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
-     *               cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>|
-     *               apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg |
-     *               select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |
-     *                 |     | </br>
-     * @param options The options parameters.
-     */
-    public listByUser(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByUserOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listByUserPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
+        return this.listByOperationPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
         );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByUserPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+      },
+    };
+  }
 
-    private async *listByUserPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByUserOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListByUserResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByUser(
-                resourceGroupName,
-                serviceName,
-                filter,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  private async *listByOperationPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByOperationOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListByOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByOperation(
+        resourceGroupName,
+        serviceName,
+        filter,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByOperationNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByOperationPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByOperationOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listByOperationPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by Product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
+   *               subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
+   *               callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |
+   *                | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |
+   *                 |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |
+   *                | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     |
+   *               </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
+   *               serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   *               serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  public listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByProductOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listByProductPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByUserNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
+        return this.listByProductPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByProductPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByProductOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListByProductResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProduct(
+        resourceGroupName,
+        serviceName,
+        filter,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProductNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProductPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByProductOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listByProductPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by geography.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| country | select |     |     | </br>| region | select |     |     | </br>| zip |
+   *               select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId | filter | eq |     |
+   *               </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId |
+   *               filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select |
+   *               |     | </br>| callCountBlocked | select |     |     | </br>| callCountFailed | select |     |     |
+   *               </br>| callCountOther | select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>|
+   *               cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg
+   *               | select |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
+   *                 | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   *               serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  public listByGeo(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByGeoOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listByGeoPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-    }
+        return this.listByGeoPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
+        );
+      },
+    };
+  }
 
-    private async *listByUserPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByUserOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listByUserPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
+  private async *listByGeoPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByGeoOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListByGeoResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGeo(
+        resourceGroupName,
+        serviceName,
+        filter,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByGeoNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByGeoPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByGeoOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listByGeoPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | select, filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
+   *               subscriptionId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     |
+   *               </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
+   *                 |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
+   *               orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   *               select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
+   *               orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
+   *                | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   *               serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listBySubscriptionPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-    }
-
-    /**
-     * Lists report records by API Operations.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
-     *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | select, filter | eq |
-     *                | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy
-     *               |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>| callCountOther | select,
-     *               orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth |
-     *               select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
-     *               select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |
-     *                  |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     |
-     *               </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    public listByOperation(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByOperationOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listByOperationPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
+        return this.listBySubscriptionPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
         );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByOperationPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+      },
+    };
+  }
 
-    private async *listByOperationPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByOperationOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListByOperationResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByOperation(
-                resourceGroupName,
-                serviceName,
-                filter,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  private async *listBySubscriptionPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(
+        resourceGroupName,
+        serviceName,
+        filter,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listBySubscriptionPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by Time.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
+   *               | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
+   *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     |
+   *               </br>| callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
+   *               callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>| bandwidth
+   *               | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
+   *               select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin | select |     |
+   *               | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   *               serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
+   * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero. The
+   *                 value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can
+   *                 be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours,
+   *                 minutes, seconds)).
+   * @param options The options parameters.
+   */
+  public listByTime(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options?: ReportsListByTimeOptionalParams,
+  ): PagedAsyncIterableIterator<ReportRecordContract> {
+    const iter = this.listByTimePagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      interval,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByOperationNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
+        return this.listByTimePagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          interval,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByTimePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options?: ReportsListByTimeOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ReportRecordContract[]> {
+    let result: ReportsListByTimeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByTime(
+        resourceGroupName,
+        serviceName,
+        filter,
+        interval,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByTimeNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByTimePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options?: ReportsListByTimeOptionalParams,
+  ): AsyncIterableIterator<ReportRecordContract> {
+    for await (const page of this.listByTimePagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      interval,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists report records by Request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>| productId
+   *               | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| subscriptionId | filter | eq |     | </br>
+   * @param options The options parameters.
+   */
+  public listByRequest(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByRequestOptionalParams,
+  ): PagedAsyncIterableIterator<RequestReportRecordContract> {
+    const iter = this.listByRequestPagingAll(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-    }
-
-    private async *listByOperationPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByOperationOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listByOperationPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists report records by Product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
-     *               subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
-     *               callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |
-     *                | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |
-     *                 |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |
-     *                | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     |
-     *               </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
-     *               serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-     *               serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    public listByProduct(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByProductOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listByProductPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
+        return this.listByRequestPagingPage(
+          resourceGroupName,
+          serviceName,
+          filter,
+          options,
+          settings,
         );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByProductPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+      },
+    };
+  }
 
-    private async *listByProductPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByProductOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListByProductResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByProduct(
-                resourceGroupName,
-                serviceName,
-                filter,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-        while (continuationToken) {
-            result = await this._listByProductNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
+  private async *listByRequestPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByRequestOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<RequestReportRecordContract[]> {
+    let result: ReportsListByRequestResponse;
+    result = await this._listByRequest(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    );
+    yield result.value || [];
+  }
 
-    private async *listByProductPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByProductOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listByProductPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
-        }
+  private async *listByRequestPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByRequestOptionalParams,
+  ): AsyncIterableIterator<RequestReportRecordContract> {
+    for await (const page of this.listByRequestPagingPage(
+      resourceGroupName,
+      serviceName,
+      filter,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Lists report records by geography.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| country | select |     |     | </br>| region | select |     |     | </br>| zip |
-     *               select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId | filter | eq |     |
-     *               </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId |
-     *               filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select |
-     *               |     | </br>| callCountBlocked | select |     |     | </br>| callCountFailed | select |     |     |
-     *               </br>| callCountOther | select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>|
-     *               cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg
-     *               | select |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
-     *                 | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-     *               serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    public listByGeo(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByGeoOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listByGeoPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByGeoPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+  /**
+   * Lists report records by API.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter The filter to apply on the operation.
+   * @param options The options parameters.
+   */
+  private _listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByApiOptionalParams,
+  ): Promise<ReportsListByApiResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listByApiOperationSpec,
+    );
+  }
 
-    private async *listByGeoPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByGeoOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListByGeoResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByGeo(
-                resourceGroupName,
-                serviceName,
-                filter,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-        while (continuationToken) {
-            result = await this._listByGeoNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
+  /**
+   * Lists report records by User.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| userId | select, filter | eq |
+   *               | </br>| apiRegion | filter | eq |     | </br>| productId | filter | eq |     | </br>|
+   *               subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter
+   *               | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked |
+   *               select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>|
+   *               callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     |
+   *               </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
+   *               cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>|
+   *               apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg |
+   *               select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |
+   *                 |     | </br>
+   * @param options The options parameters.
+   */
+  private _listByUser(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByUserOptionalParams,
+  ): Promise<ReportsListByUserResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listByUserOperationSpec,
+    );
+  }
 
-    private async *listByGeoPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByGeoOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listByGeoPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
-        }
-    }
+  /**
+   * Lists report records by API Operations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
+   *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | select, filter | eq |
+   *                | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy
+   *               |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>| callCountOther | select,
+   *               orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth |
+   *               select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
+   *               select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |
+   *                  |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     |
+   *               </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  private _listByOperation(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByOperationOptionalParams,
+  ): Promise<ReportsListByOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listByOperationOperationSpec,
+    );
+  }
 
-    /**
-     * Lists report records by subscription.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | select, filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
-     *               subscriptionId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     |
-     *               </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
-     *                 |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
-     *               orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
-     *               select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
-     *               orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
-     *                | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-     *               serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    public listBySubscription(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListBySubscriptionOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listBySubscriptionPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listBySubscriptionPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+  /**
+   * Lists report records by Product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
+   *               subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
+   *               callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |
+   *                | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |
+   *                 |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |
+   *                | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     |
+   *               </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
+   *               serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   *               serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  private _listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByProductOptionalParams,
+  ): Promise<ReportsListByProductResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listByProductOperationSpec,
+    );
+  }
 
-    private async *listBySubscriptionPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListBySubscriptionOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListBySubscriptionResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listBySubscription(
-                resourceGroupName,
-                serviceName,
-                filter,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-        while (continuationToken) {
-            result = await this._listBySubscriptionNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
+  /**
+   * Lists report records by geography.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| country | select |     |     | </br>| region | select |     |     | </br>| zip |
+   *               select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId | filter | eq |     |
+   *               </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId |
+   *               filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select |
+   *               |     | </br>| callCountBlocked | select |     |     | </br>| callCountFailed | select |     |     |
+   *               </br>| callCountOther | select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>|
+   *               cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg
+   *               | select |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
+   *                 | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   *               serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  private _listByGeo(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByGeoOptionalParams,
+  ): Promise<ReportsListByGeoResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listByGeoOperationSpec,
+    );
+  }
 
-    private async *listBySubscriptionPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListBySubscriptionOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listBySubscriptionPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
-        }
-    }
+  /**
+   * Lists report records by subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | select, filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
+   *               subscriptionId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     |
+   *               </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
+   *                 |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
+   *               orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
+   *               select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
+   *               orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
+   *                | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
+   *               serviceTimeMax | select |     |     | </br>
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListBySubscriptionOptionalParams,
+  ): Promise<ReportsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listBySubscriptionOperationSpec,
+    );
+  }
 
-    /**
-     * Lists report records by Time.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
-     *               | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
-     *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     |
-     *               </br>| callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
-     *               callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>| bandwidth
-     *               | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
-     *               select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin | select |     |
-     *               | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
-     *               serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
-     * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero. The
-     *                 value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can
-     *                 be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours,
-     *                 minutes, seconds)).
-     * @param options The options parameters.
-     */
-    public listByTime(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        interval: string,
-        options?: ReportsListByTimeOptionalParams
-    ): PagedAsyncIterableIterator<ReportRecordContract> {
-        const iter = this.listByTimePagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            interval,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByTimePagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    interval,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+  /**
+   * Lists report records by Time.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
+   *               | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
+   *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     |
+   *               </br>| callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
+   *               callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>| bandwidth
+   *               | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
+   *               select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin | select |     |
+   *               | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
+   *               serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
+   * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero. The
+   *                 value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can
+   *                 be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours,
+   *                 minutes, seconds)).
+   * @param options The options parameters.
+   */
+  private _listByTime(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options?: ReportsListByTimeOptionalParams,
+  ): Promise<ReportsListByTimeResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, interval, options },
+      listByTimeOperationSpec,
+    );
+  }
 
-    private async *listByTimePagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        interval: string,
-        options?: ReportsListByTimeOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ReportRecordContract[]> {
-        let result: ReportsListByTimeResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByTime(
-                resourceGroupName,
-                serviceName,
-                filter,
-                interval,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-        while (continuationToken) {
-            result = await this._listByTimeNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
+  /**
+   * Lists report records by Request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
+   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
+   *               |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>| productId
+   *               | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion | filter | eq |     |
+   *               </br>| subscriptionId | filter | eq |     | </br>
+   * @param options The options parameters.
+   */
+  private _listByRequest(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: ReportsListByRequestOptionalParams,
+  ): Promise<ReportsListByRequestResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, filter, options },
+      listByRequestOperationSpec,
+    );
+  }
 
-    private async *listByTimePagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        interval: string,
-        options?: ReportsListByTimeOptionalParams
-    ): AsyncIterableIterator<ReportRecordContract> {
-        for await (const page of this.listByTimePagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            interval,
-            options
-        )) {
-            yield* page;
-        }
-    }
+  /**
+   * ListByApiNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByApi method.
+   * @param options The options parameters.
+   */
+  private _listByApiNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListByApiNextOptionalParams,
+  ): Promise<ReportsListByApiNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByApiNextOperationSpec,
+    );
+  }
 
-    /**
-     * Lists report records by Request.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>| productId
-     *               | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| subscriptionId | filter | eq |     | </br>
-     * @param options The options parameters.
-     */
-    public listByRequest(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByRequestOptionalParams
-    ): PagedAsyncIterableIterator<RequestReportRecordContract> {
-        const iter = this.listByRequestPagingAll(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByRequestPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    filter,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
+  /**
+   * ListByUserNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByUser method.
+   * @param options The options parameters.
+   */
+  private _listByUserNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListByUserNextOptionalParams,
+  ): Promise<ReportsListByUserNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByUserNextOperationSpec,
+    );
+  }
 
-    private async *listByRequestPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByRequestOptionalParams,
-        _settings?: PageSettings
-    ): AsyncIterableIterator<RequestReportRecordContract[]> {
-        let result: ReportsListByRequestResponse;
-        result = await this._listByRequest(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        );
-        yield result.value || [];
-    }
+  /**
+   * ListByOperationNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByOperation method.
+   * @param options The options parameters.
+   */
+  private _listByOperationNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListByOperationNextOptionalParams,
+  ): Promise<ReportsListByOperationNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByOperationNextOperationSpec,
+    );
+  }
 
-    private async *listByRequestPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByRequestOptionalParams
-    ): AsyncIterableIterator<RequestReportRecordContract> {
-        for await (const page of this.listByRequestPagingPage(
-            resourceGroupName,
-            serviceName,
-            filter,
-            options
-        )) {
-            yield* page;
-        }
-    }
+  /**
+   * ListByProductNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
+   * @param options The options parameters.
+   */
+  private _listByProductNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListByProductNextOptionalParams,
+  ): Promise<ReportsListByProductNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByProductNextOperationSpec,
+    );
+  }
 
-    /**
-     * Lists report records by API.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter The filter to apply on the operation.
-     * @param options The options parameters.
-     */
-    private _listByApi(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByApiOptionalParams
-    ): Promise<ReportsListByApiResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listByApiOperationSpec
-        );
-    }
+  /**
+   * ListByGeoNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByGeo method.
+   * @param options The options parameters.
+   */
+  private _listByGeoNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListByGeoNextOptionalParams,
+  ): Promise<ReportsListByGeoNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByGeoNextOperationSpec,
+    );
+  }
 
-    /**
-     * Lists report records by User.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| userId | select, filter | eq |
-     *               | </br>| apiRegion | filter | eq |     | </br>| productId | filter | eq |     | </br>|
-     *               subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter
-     *               | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked |
-     *               select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>|
-     *               callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     |
-     *               </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
-     *               cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>|
-     *               apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg |
-     *               select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |
-     *                 |     | </br>
-     * @param options The options parameters.
-     */
-    private _listByUser(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByUserOptionalParams
-    ): Promise<ReportsListByUserResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listByUserOperationSpec
-        );
-    }
+  /**
+   * ListBySubscriptionNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListBySubscriptionNextOptionalParams,
+  ): Promise<ReportsListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listBySubscriptionNextOperationSpec,
+    );
+  }
 
-    /**
-     * Lists report records by API Operations.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
-     *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | select, filter | eq |
-     *                | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy
-     *               |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>| callCountOther | select,
-     *               orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth |
-     *               select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
-     *               select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |
-     *                  |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     |
-     *               </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    private _listByOperation(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByOperationOptionalParams
-    ): Promise<ReportsListByOperationResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listByOperationOperationSpec
-        );
-    }
-
-    /**
-     * Lists report records by Product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
-     *               subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
-     *               callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |
-     *                | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |
-     *                 |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |
-     *                | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     |
-     *               </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
-     *               serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-     *               serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    private _listByProduct(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByProductOptionalParams
-    ): Promise<ReportsListByProductResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listByProductOperationSpec
-        );
-    }
-
-    /**
-     * Lists report records by geography.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| country | select |     |     | </br>| region | select |     |     | </br>| zip |
-     *               select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId | filter | eq |     |
-     *               </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId |
-     *               filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select |
-     *               |     | </br>| callCountBlocked | select |     |     | </br>| callCountFailed | select |     |     |
-     *               </br>| callCountOther | select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>|
-     *               cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg
-     *               | select |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
-     *                 | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-     *               serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    private _listByGeo(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByGeoOptionalParams
-    ): Promise<ReportsListByGeoResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listByGeoOperationSpec
-        );
-    }
-
-    /**
-     * Lists report records by subscription.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | select, filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
-     *               subscriptionId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     |
-     *               </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
-     *                 |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
-     *               orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
-     *               select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
-     *               orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
-     *                | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-     *               serviceTimeMax | select |     |     | </br>
-     * @param options The options parameters.
-     */
-    private _listBySubscription(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListBySubscriptionOptionalParams
-    ): Promise<ReportsListBySubscriptionResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listBySubscriptionOperationSpec
-        );
-    }
-
-    /**
-     * Lists report records by Time.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
-     *               | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
-     *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     |
-     *               </br>| callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
-     *               callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>| bandwidth
-     *               | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
-     *               select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin | select |     |
-     *               | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
-     *               serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
-     * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero. The
-     *                 value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can
-     *                 be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours,
-     *                 minutes, seconds)).
-     * @param options The options parameters.
-     */
-    private _listByTime(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        interval: string,
-        options?: ReportsListByTimeOptionalParams
-    ): Promise<ReportsListByTimeResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, interval, options },
-            listByTimeOperationSpec
-        );
-    }
-
-    /**
-     * Lists report records by Request.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-     *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-     *               |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     | </br>| productId
-     *               | filter | eq |     | </br>| userId | filter | eq |     | </br>| apiRegion | filter | eq |     |
-     *               </br>| subscriptionId | filter | eq |     | </br>
-     * @param options The options parameters.
-     */
-    private _listByRequest(
-        resourceGroupName: string,
-        serviceName: string,
-        filter: string,
-        options?: ReportsListByRequestOptionalParams
-    ): Promise<ReportsListByRequestResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, filter, options },
-            listByRequestOperationSpec
-        );
-    }
-
-    /**
-     * ListByApiNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByApi method.
-     * @param options The options parameters.
-     */
-    private _listByApiNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListByApiNextOptionalParams
-    ): Promise<ReportsListByApiNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByApiNextOperationSpec
-        );
-    }
-
-    /**
-     * ListByUserNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByUser method.
-     * @param options The options parameters.
-     */
-    private _listByUserNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListByUserNextOptionalParams
-    ): Promise<ReportsListByUserNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByUserNextOperationSpec
-        );
-    }
-
-    /**
-     * ListByOperationNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByOperation method.
-     * @param options The options parameters.
-     */
-    private _listByOperationNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListByOperationNextOptionalParams
-    ): Promise<ReportsListByOperationNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByOperationNextOperationSpec
-        );
-    }
-
-    /**
-     * ListByProductNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
-     * @param options The options parameters.
-     */
-    private _listByProductNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListByProductNextOptionalParams
-    ): Promise<ReportsListByProductNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByProductNextOperationSpec
-        );
-    }
-
-    /**
-     * ListByGeoNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByGeo method.
-     * @param options The options parameters.
-     */
-    private _listByGeoNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListByGeoNextOptionalParams
-    ): Promise<ReportsListByGeoNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByGeoNextOperationSpec
-        );
-    }
-
-    /**
-     * ListBySubscriptionNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-     * @param options The options parameters.
-     */
-    private _listBySubscriptionNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListBySubscriptionNextOptionalParams
-    ): Promise<ReportsListBySubscriptionNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listBySubscriptionNextOperationSpec
-        );
-    }
-
-    /**
-     * ListByTimeNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByTime method.
-     * @param options The options parameters.
-     */
-    private _listByTimeNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ReportsListByTimeNextOptionalParams
-    ): Promise<ReportsListByTimeNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByTimeNextOperationSpec
-        );
-    }
+  /**
+   * ListByTimeNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByTime method.
+   * @param options The options parameters.
+   */
+  private _listByTimeNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ReportsListByTimeNextOptionalParams,
+  ): Promise<ReportsListByTimeNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByTimeNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApiOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byApi",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byApi",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.orderby,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByUserOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.orderby,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByOperationOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byOperation",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byOperation",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.orderby,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByProductOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byProduct",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byProduct",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.orderby,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByGeoOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byGeo",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byGeo",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscription",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscription",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.orderby,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByTimeOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.orderby,
-        Parameters.filter1,
-        Parameters.interval
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+    Parameters.interval,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByRequestOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.RequestReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RequestReportCollection,
     },
-    queryParameters: [
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion,
-        Parameters.filter1
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByApiNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByUserNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByOperationNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByProductNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByGeoNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByTimeNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ReportCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -6,473 +6,468 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import { setContinuationToken } from "../pagingHelper";
+import { GraphQLApiResolverPolicy } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    GraphQLApiResolverPolicyCreateOrUpdateOptionalParams,
-    GraphQLApiResolverPolicyCreateOrUpdateResponse,
-    GraphQLApiResolverPolicyDeleteOptionalParams,
-    GraphQLApiResolverPolicyGetEntityTagOptionalParams,
-    GraphQLApiResolverPolicyGetEntityTagResponse,
-    GraphQLApiResolverPolicyGetOptionalParams,
-    GraphQLApiResolverPolicyGetResponse,
-    GraphQLApiResolverPolicyListByResolverNextOptionalParams,
-    GraphQLApiResolverPolicyListByResolverNextResponse,
-    GraphQLApiResolverPolicyListByResolverOptionalParams,
-    GraphQLApiResolverPolicyListByResolverResponse,
-    PolicyContract,
-    PolicyIdName
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { GraphQLApiResolverPolicy } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+  PolicyContract,
+  GraphQLApiResolverPolicyListByResolverNextOptionalParams,
+  GraphQLApiResolverPolicyListByResolverOptionalParams,
+  GraphQLApiResolverPolicyListByResolverResponse,
+  PolicyIdName,
+  GraphQLApiResolverPolicyGetEntityTagOptionalParams,
+  GraphQLApiResolverPolicyGetEntityTagResponse,
+  GraphQLApiResolverPolicyGetOptionalParams,
+  GraphQLApiResolverPolicyGetResponse,
+  GraphQLApiResolverPolicyCreateOrUpdateOptionalParams,
+  GraphQLApiResolverPolicyCreateOrUpdateResponse,
+  GraphQLApiResolverPolicyDeleteOptionalParams,
+  GraphQLApiResolverPolicyListByResolverNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GraphQLApiResolverPolicy operations. */
 export class GraphQLApiResolverPolicyImpl implements GraphQLApiResolverPolicy {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class GraphQLApiResolverPolicy class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class GraphQLApiResolverPolicy class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Get the list of policy configuration at the GraphQL API Resolver level.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param options The options parameters.
-     */
-    public listByResolver(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        options?: GraphQLApiResolverPolicyListByResolverOptionalParams
-    ): PagedAsyncIterableIterator<PolicyContract> {
-        const iter = this.listByResolverPagingAll(
-            resourceGroupName,
-            serviceName,
-            apiId,
-            resolverId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByResolverPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    apiId,
-                    resolverId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByResolverPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        options?: GraphQLApiResolverPolicyListByResolverOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<PolicyContract[]> {
-        let result: GraphQLApiResolverPolicyListByResolverResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByResolver(
-                resourceGroupName,
-                serviceName,
-                apiId,
-                resolverId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Get the list of policy configuration at the GraphQL API Resolver level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param options The options parameters.
+   */
+  public listByResolver(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    options?: GraphQLApiResolverPolicyListByResolverOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyContract> {
+    const iter = this.listByResolverPagingAll(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      resolverId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByResolverNext(
-                resourceGroupName,
-                serviceName,
-                apiId,
-                resolverId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByResolverPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        options?: GraphQLApiResolverPolicyListByResolverOptionalParams
-    ): AsyncIterableIterator<PolicyContract> {
-        for await (const page of this.listByResolverPagingPage(
-            resourceGroupName,
-            serviceName,
-            apiId,
-            resolverId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Get the list of policy configuration at the GraphQL API Resolver level.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param options The options parameters.
-     */
-    private _listByResolver(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        options?: GraphQLApiResolverPolicyListByResolverOptionalParams
-    ): Promise<GraphQLApiResolverPolicyListByResolverResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, resolverId, options },
-            listByResolverOperationSpec
+        return this.listByResolverPagingPage(
+          resourceGroupName,
+          serviceName,
+          apiId,
+          resolverId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the GraphQL API resolver policy specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param policyId The identifier of the Policy.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        policyId: PolicyIdName,
-        options?: GraphQLApiResolverPolicyGetEntityTagOptionalParams
-    ): Promise<GraphQLApiResolverPolicyGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, resolverId, policyId, options },
-            getEntityTagOperationSpec
-        );
+  private async *listByResolverPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    options?: GraphQLApiResolverPolicyListByResolverOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PolicyContract[]> {
+    let result: GraphQLApiResolverPolicyListByResolverResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResolver(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        resolverId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByResolverNext(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        resolverId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Get the policy configuration at the GraphQL API Resolver level.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param policyId The identifier of the Policy.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        policyId: PolicyIdName,
-        options?: GraphQLApiResolverPolicyGetOptionalParams
-    ): Promise<GraphQLApiResolverPolicyGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, resolverId, policyId, options },
-            getOperationSpec
-        );
+  private async *listByResolverPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    options?: GraphQLApiResolverPolicyListByResolverOptionalParams,
+  ): AsyncIterableIterator<PolicyContract> {
+    for await (const page of this.listByResolverPagingPage(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      resolverId,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Creates or updates policy configuration for the GraphQL API Resolver level.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param policyId The identifier of the Policy.
-     * @param parameters The policy contents to apply.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        policyId: PolicyIdName,
-        parameters: PolicyContract,
-        options?: GraphQLApiResolverPolicyCreateOrUpdateOptionalParams
-    ): Promise<GraphQLApiResolverPolicyCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                apiId,
-                resolverId,
-                policyId,
-                parameters,
-                options
-            },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Get the list of policy configuration at the GraphQL API Resolver level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param options The options parameters.
+   */
+  private _listByResolver(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    options?: GraphQLApiResolverPolicyListByResolverOptionalParams,
+  ): Promise<GraphQLApiResolverPolicyListByResolverResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, resolverId, options },
+      listByResolverOperationSpec,
+    );
+  }
 
-    /**
-     * Deletes the policy configuration at the GraphQL Api Resolver.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param policyId The identifier of the Policy.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        policyId: PolicyIdName,
-        ifMatch: string,
-        options?: GraphQLApiResolverPolicyDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                apiId,
-                resolverId,
-                policyId,
-                ifMatch,
-                options
-            },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the GraphQL API resolver policy specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param policyId The identifier of the Policy.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    policyId: PolicyIdName,
+    options?: GraphQLApiResolverPolicyGetEntityTagOptionalParams,
+  ): Promise<GraphQLApiResolverPolicyGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, resolverId, policyId, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * ListByResolverNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param nextLink The nextLink from the previous successful call to the ListByResolver method.
-     * @param options The options parameters.
-     */
-    private _listByResolverNext(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        nextLink: string,
-        options?: GraphQLApiResolverPolicyListByResolverNextOptionalParams
-    ): Promise<GraphQLApiResolverPolicyListByResolverNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, resolverId, nextLink, options },
-            listByResolverNextOperationSpec
-        );
-    }
+  /**
+   * Get the policy configuration at the GraphQL API Resolver level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param policyId The identifier of the Policy.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    policyId: PolicyIdName,
+    options?: GraphQLApiResolverPolicyGetOptionalParams,
+  ): Promise<GraphQLApiResolverPolicyGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, resolverId, policyId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates or updates policy configuration for the GraphQL API Resolver level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param policyId The identifier of the Policy.
+   * @param parameters The policy contents to apply.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    policyId: PolicyIdName,
+    parameters: PolicyContract,
+    options?: GraphQLApiResolverPolicyCreateOrUpdateOptionalParams,
+  ): Promise<GraphQLApiResolverPolicyCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        resolverId,
+        policyId,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes the policy configuration at the GraphQL Api Resolver.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param policyId The identifier of the Policy.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    policyId: PolicyIdName,
+    ifMatch: string,
+    options?: GraphQLApiResolverPolicyDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        resolverId,
+        policyId,
+        ifMatch,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResolverNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param nextLink The nextLink from the previous successful call to the ListByResolver method.
+   * @param options The options parameters.
+   */
+  private _listByResolverNext(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    nextLink: string,
+    options?: GraphQLApiResolverPolicyListByResolverNextOptionalParams,
+  ): Promise<GraphQLApiResolverPolicyListByResolverNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, resolverId, nextLink, options },
+      listByResolverNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResolverOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.resolverId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.resolverId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.GraphQLApiResolverPolicyGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.GraphQLApiResolverPolicyGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.policyId,
-        Parameters.resolverId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.policyId,
+    Parameters.resolverId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyContract,
-            headersMapper: Mappers.GraphQLApiResolverPolicyGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.GraphQLApiResolverPolicyGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion, Parameters.format],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.policyId,
-        Parameters.resolverId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.format],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.policyId,
+    Parameters.resolverId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyContract,
-            headersMapper: Mappers.GraphQLApiResolverPolicyCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.PolicyContract,
-            headersMapper: Mappers.GraphQLApiResolverPolicyCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.GraphQLApiResolverPolicyCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters5,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.policyId,
-        Parameters.resolverId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.GraphQLApiResolverPolicyCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.policyId,
+    Parameters.resolverId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}/policies/{policyId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.policyId,
-        Parameters.resolverId
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.policyId,
+    Parameters.resolverId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const listByResolverNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.nextLink,
-        Parameters.resolverId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.resolverId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

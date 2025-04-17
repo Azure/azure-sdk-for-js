@@ -6,143 +6,143 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-    PortalRevisionContract,
-    PortalRevisionCreateOrUpdateOptionalParams,
-    PortalRevisionCreateOrUpdateResponse,
-    PortalRevisionGetEntityTagOptionalParams,
-    PortalRevisionGetEntityTagResponse,
-    PortalRevisionGetOptionalParams,
-    PortalRevisionGetResponse,
-    PortalRevisionListByServiceOptionalParams,
-    PortalRevisionUpdateOptionalParams,
-    PortalRevisionUpdateResponse
-} from "../models/index.js";
+  PortalRevisionContract,
+  PortalRevisionListByServiceOptionalParams,
+  PortalRevisionGetEntityTagOptionalParams,
+  PortalRevisionGetEntityTagResponse,
+  PortalRevisionGetOptionalParams,
+  PortalRevisionGetResponse,
+  PortalRevisionCreateOrUpdateOptionalParams,
+  PortalRevisionCreateOrUpdateResponse,
+  PortalRevisionUpdateOptionalParams,
+  PortalRevisionUpdateResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PortalRevision. */
 export interface PortalRevision {
-    /**
-     * Lists developer portal's revisions.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PortalRevisionListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<PortalRevisionContract>;
-    /**
-     * Gets the developer portal revision specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
-     *                         service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        portalRevisionId: string,
-        options?: PortalRevisionGetEntityTagOptionalParams
-    ): Promise<PortalRevisionGetEntityTagResponse>;
-    /**
-     * Gets the developer portal's revision specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
-     *                         service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        portalRevisionId: string,
-        options?: PortalRevisionGetOptionalParams
-    ): Promise<PortalRevisionGetResponse>;
-    /**
-     * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
-     * property indicates if the revision is publicly accessible.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
-     *                         service instance.
-     * @param parameters Portal Revision's contract details.
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        portalRevisionId: string,
-        parameters: PortalRevisionContract,
-        options?: PortalRevisionCreateOrUpdateOptionalParams
-    ): Promise<
-        SimplePollerLike<
-            OperationState<PortalRevisionCreateOrUpdateResponse>,
-            PortalRevisionCreateOrUpdateResponse
-        >
-    >;
-    /**
-     * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
-     * property indicates if the revision is publicly accessible.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
-     *                         service instance.
-     * @param parameters Portal Revision's contract details.
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdateAndWait(
-        resourceGroupName: string,
-        serviceName: string,
-        portalRevisionId: string,
-        parameters: PortalRevisionContract,
-        options?: PortalRevisionCreateOrUpdateOptionalParams
-    ): Promise<PortalRevisionCreateOrUpdateResponse>;
-    /**
-     * Updates the description of specified portal revision or makes it current.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
-     *                         service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Portal Revision's contract details.
-     * @param options The options parameters.
-     */
-    beginUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        portalRevisionId: string,
-        ifMatch: string,
-        parameters: PortalRevisionContract,
-        options?: PortalRevisionUpdateOptionalParams
-    ): Promise<
-        SimplePollerLike<
-            OperationState<PortalRevisionUpdateResponse>,
-            PortalRevisionUpdateResponse
-        >
-    >;
-    /**
-     * Updates the description of specified portal revision or makes it current.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
-     *                         service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Portal Revision's contract details.
-     * @param options The options parameters.
-     */
-    beginUpdateAndWait(
-        resourceGroupName: string,
-        serviceName: string,
-        portalRevisionId: string,
-        ifMatch: string,
-        parameters: PortalRevisionContract,
-        options?: PortalRevisionUpdateOptionalParams
-    ): Promise<PortalRevisionUpdateResponse>;
+  /**
+   * Lists developer portal's revisions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalRevisionListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PortalRevisionContract>;
+  /**
+   * Gets the developer portal revision specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
+   *                         service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    options?: PortalRevisionGetEntityTagOptionalParams,
+  ): Promise<PortalRevisionGetEntityTagResponse>;
+  /**
+   * Gets the developer portal's revision specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
+   *                         service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    options?: PortalRevisionGetOptionalParams,
+  ): Promise<PortalRevisionGetResponse>;
+  /**
+   * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
+   * property indicates if the revision is publicly accessible.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
+   *                         service instance.
+   * @param parameters Portal Revision's contract details.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PortalRevisionCreateOrUpdateResponse>,
+      PortalRevisionCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
+   * property indicates if the revision is publicly accessible.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
+   *                         service instance.
+   * @param parameters Portal Revision's contract details.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
+  ): Promise<PortalRevisionCreateOrUpdateResponse>;
+  /**
+   * Updates the description of specified portal revision or makes it current.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
+   *                         service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Portal Revision's contract details.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    ifMatch: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PortalRevisionUpdateResponse>,
+      PortalRevisionUpdateResponse
+    >
+  >;
+  /**
+   * Updates the description of specified portal revision or makes it current.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param portalRevisionId Portal revision identifier. Must be unique in the current API Management
+   *                         service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Portal Revision's contract details.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    portalRevisionId: string,
+    ifMatch: string,
+    parameters: PortalRevisionContract,
+    options?: PortalRevisionUpdateOptionalParams,
+  ): Promise<PortalRevisionUpdateResponse>;
 }

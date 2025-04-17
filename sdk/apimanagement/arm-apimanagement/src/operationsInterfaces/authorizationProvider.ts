@@ -8,71 +8,71 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    AuthorizationProviderContract,
-    AuthorizationProviderCreateOrUpdateOptionalParams,
-    AuthorizationProviderCreateOrUpdateResponse,
-    AuthorizationProviderDeleteOptionalParams,
-    AuthorizationProviderGetOptionalParams,
-    AuthorizationProviderGetResponse,
-    AuthorizationProviderListByServiceOptionalParams
-} from "../models/index.js";
+  AuthorizationProviderContract,
+  AuthorizationProviderListByServiceOptionalParams,
+  AuthorizationProviderGetOptionalParams,
+  AuthorizationProviderGetResponse,
+  AuthorizationProviderCreateOrUpdateOptionalParams,
+  AuthorizationProviderCreateOrUpdateResponse,
+  AuthorizationProviderDeleteOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AuthorizationProvider. */
 export interface AuthorizationProvider {
-    /**
-     * Lists a collection of authorization providers defined within a service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: AuthorizationProviderListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<AuthorizationProviderContract>;
-    /**
-     * Gets the details of the authorization provider specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        options?: AuthorizationProviderGetOptionalParams
-    ): Promise<AuthorizationProviderGetResponse>;
-    /**
-     * Creates or updates authorization provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        parameters: AuthorizationProviderContract,
-        options?: AuthorizationProviderCreateOrUpdateOptionalParams
-    ): Promise<AuthorizationProviderCreateOrUpdateResponse>;
-    /**
-     * Deletes specific authorization provider from the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        ifMatch: string,
-        options?: AuthorizationProviderDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists a collection of authorization providers defined within a service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: AuthorizationProviderListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<AuthorizationProviderContract>;
+  /**
+   * Gets the details of the authorization provider specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    options?: AuthorizationProviderGetOptionalParams,
+  ): Promise<AuthorizationProviderGetResponse>;
+  /**
+   * Creates or updates authorization provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    parameters: AuthorizationProviderContract,
+    options?: AuthorizationProviderCreateOrUpdateOptionalParams,
+  ): Promise<AuthorizationProviderCreateOrUpdateResponse>;
+  /**
+   * Deletes specific authorization provider from the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    ifMatch: string,
+    options?: AuthorizationProviderDeleteOptionalParams,
+  ): Promise<void>;
 }

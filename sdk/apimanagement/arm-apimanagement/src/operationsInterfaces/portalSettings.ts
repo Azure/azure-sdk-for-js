@@ -7,21 +7,21 @@
  */
 
 import {
-    PortalSettingsListByServiceOptionalParams,
-    PortalSettingsListByServiceResponse
-} from "../models/index.js";
+  PortalSettingsListByServiceOptionalParams,
+  PortalSettingsListByServiceResponse,
+} from "../models";
 
 /** Interface representing a PortalSettings. */
 export interface PortalSettings {
-    /**
-     * Lists a collection of portalsettings defined within a service instance..
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PortalSettingsListByServiceOptionalParams
-    ): Promise<PortalSettingsListByServiceResponse>;
+  /**
+   * Lists a collection of portalsettings defined within a service instance..
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalSettingsListByServiceOptionalParams,
+  ): Promise<PortalSettingsListByServiceResponse>;
 }

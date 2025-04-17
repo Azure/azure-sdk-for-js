@@ -6,83 +6,82 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { ApiExport } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    ApiExportGetOptionalParams,
-    ApiExportGetResponse,
-    ExportApi,
-    ExportFormat
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ApiExport } from "../operationsInterfaces/index.js";
+  ExportFormat,
+  ExportApi,
+  ApiExportGetOptionalParams,
+  ApiExportGetResponse,
+} from "../models";
 
 /** Class containing ApiExport operations. */
 export class ApiExportImpl implements ApiExport {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class ApiExport class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class ApiExport class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets the details of the API specified by its identifier in the format specified to the Storage Blob
-     * with SAS Key valid for 5 minutes.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5
-     *               minutes.
-     * @param exportParam Query parameter required to export the API details.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        format: ExportFormat,
-        exportParam: ExportApi,
-        options?: ApiExportGetOptionalParams
-    ): Promise<ApiExportGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, format, exportParam, options },
-            getOperationSpec
-        );
-    }
+  /**
+   * Gets the details of the API specified by its identifier in the format specified to the Storage Blob
+   * with SAS Key valid for 5 minutes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5
+   *               minutes. New formats can be added in the future.
+   * @param exportParam Query parameter required to export the API details.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    format: ExportFormat,
+    exportParam: ExportApi,
+    options?: ApiExportGetOptionalParams,
+  ): Promise<ApiExportGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, format, exportParam, options },
+      getOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ApiExportResult
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiExportResult,
     },
-    queryParameters: [
-        Parameters.apiVersion,
-        Parameters.format1,
-        Parameters.exportParam
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.format1,
+    Parameters.exportParam,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -6,217 +6,216 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import { setContinuationToken } from "../pagingHelper";
+import { ApiProduct } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    ApiProductListByApisNextOptionalParams,
-    ApiProductListByApisNextResponse,
-    ApiProductListByApisOptionalParams,
-    ApiProductListByApisResponse,
-    ProductContract
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ApiProduct } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+  ProductContract,
+  ApiProductListByApisNextOptionalParams,
+  ApiProductListByApisOptionalParams,
+  ApiProductListByApisResponse,
+  ApiProductListByApisNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiProduct operations. */
 export class ApiProductImpl implements ApiProduct {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class ApiProduct class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class ApiProduct class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists all Products, which the API is part of.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    public listByApis(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiProductListByApisOptionalParams
-    ): PagedAsyncIterableIterator<ProductContract> {
-        const iter = this.listByApisPagingAll(
-            resourceGroupName,
-            serviceName,
-            apiId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByApisPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    apiId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByApisPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiProductListByApisOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ProductContract[]> {
-        let result: ApiProductListByApisResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByApis(
-                resourceGroupName,
-                serviceName,
-                apiId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists all Products, which the API is part of.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  public listByApis(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiProductListByApisOptionalParams,
+  ): PagedAsyncIterableIterator<ProductContract> {
+    const iter = this.listByApisPagingAll(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByApisNext(
-                resourceGroupName,
-                serviceName,
-                apiId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByApisPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiProductListByApisOptionalParams
-    ): AsyncIterableIterator<ProductContract> {
-        for await (const page of this.listByApisPagingPage(
-            resourceGroupName,
-            serviceName,
-            apiId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists all Products, which the API is part of.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    private _listByApis(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiProductListByApisOptionalParams
-    ): Promise<ApiProductListByApisResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, options },
-            listByApisOperationSpec
+        return this.listByApisPagingPage(
+          resourceGroupName,
+          serviceName,
+          apiId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * ListByApisNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API identifier. Must be unique in the current API Management service instance.
-     * @param nextLink The nextLink from the previous successful call to the ListByApis method.
-     * @param options The options parameters.
-     */
-    private _listByApisNext(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        nextLink: string,
-        options?: ApiProductListByApisNextOptionalParams
-    ): Promise<ApiProductListByApisNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, nextLink, options },
-            listByApisNextOperationSpec
-        );
+  private async *listByApisPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiProductListByApisOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ProductContract[]> {
+    let result: ApiProductListByApisResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByApis(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByApisNext(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByApisPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiProductListByApisOptionalParams,
+  ): AsyncIterableIterator<ProductContract> {
+    for await (const page of this.listByApisPagingPage(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all Products, which the API is part of.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  private _listByApis(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiProductListByApisOptionalParams,
+  ): Promise<ApiProductListByApisResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, options },
+      listByApisOperationSpec,
+    );
+  }
+
+  /**
+   * ListByApisNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param nextLink The nextLink from the previous successful call to the ListByApis method.
+   * @param options The options parameters.
+   */
+  private _listByApisNext(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    nextLink: string,
+    options?: ApiProductListByApisNextOptionalParams,
+  ): Promise<ApiProductListByApisNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, nextLink, options },
+      listByApisNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApisOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/products",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ProductCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/products",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId1
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByApisNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ProductCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProductCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink,
-        Parameters.apiId1
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.apiId1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

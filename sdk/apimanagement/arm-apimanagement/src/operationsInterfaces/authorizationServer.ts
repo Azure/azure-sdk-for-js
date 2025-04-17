@@ -8,122 +8,122 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    AuthorizationServerContract,
-    AuthorizationServerCreateOrUpdateOptionalParams,
-    AuthorizationServerCreateOrUpdateResponse,
-    AuthorizationServerDeleteOptionalParams,
-    AuthorizationServerGetEntityTagOptionalParams,
-    AuthorizationServerGetEntityTagResponse,
-    AuthorizationServerGetOptionalParams,
-    AuthorizationServerGetResponse,
-    AuthorizationServerListByServiceOptionalParams,
-    AuthorizationServerListSecretsOptionalParams,
-    AuthorizationServerListSecretsResponse,
-    AuthorizationServerUpdateContract,
-    AuthorizationServerUpdateOptionalParams,
-    AuthorizationServerUpdateResponse
-} from "../models/index.js";
+  AuthorizationServerContract,
+  AuthorizationServerListByServiceOptionalParams,
+  AuthorizationServerGetEntityTagOptionalParams,
+  AuthorizationServerGetEntityTagResponse,
+  AuthorizationServerGetOptionalParams,
+  AuthorizationServerGetResponse,
+  AuthorizationServerCreateOrUpdateOptionalParams,
+  AuthorizationServerCreateOrUpdateResponse,
+  AuthorizationServerUpdateContract,
+  AuthorizationServerUpdateOptionalParams,
+  AuthorizationServerUpdateResponse,
+  AuthorizationServerDeleteOptionalParams,
+  AuthorizationServerListSecretsOptionalParams,
+  AuthorizationServerListSecretsResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AuthorizationServer. */
 export interface AuthorizationServer {
-    /**
-     * Lists a collection of authorization servers defined within a service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: AuthorizationServerListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<AuthorizationServerContract>;
-    /**
-     * Gets the entity state (Etag) version of the authorizationServer specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authsid Identifier of the authorization server.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        authsid: string,
-        options?: AuthorizationServerGetEntityTagOptionalParams
-    ): Promise<AuthorizationServerGetEntityTagResponse>;
-    /**
-     * Gets the details of the authorization server specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authsid Identifier of the authorization server.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        authsid: string,
-        options?: AuthorizationServerGetOptionalParams
-    ): Promise<AuthorizationServerGetResponse>;
-    /**
-     * Creates new authorization server or updates an existing authorization server.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authsid Identifier of the authorization server.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        authsid: string,
-        parameters: AuthorizationServerContract,
-        options?: AuthorizationServerCreateOrUpdateOptionalParams
-    ): Promise<AuthorizationServerCreateOrUpdateResponse>;
-    /**
-     * Updates the details of the authorization server specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authsid Identifier of the authorization server.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters OAuth2 Server settings Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        authsid: string,
-        ifMatch: string,
-        parameters: AuthorizationServerUpdateContract,
-        options?: AuthorizationServerUpdateOptionalParams
-    ): Promise<AuthorizationServerUpdateResponse>;
-    /**
-     * Deletes specific authorization server instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authsid Identifier of the authorization server.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        authsid: string,
-        ifMatch: string,
-        options?: AuthorizationServerDeleteOptionalParams
-    ): Promise<void>;
-    /**
-     * Gets the client secret details of the authorization server.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authsid Identifier of the authorization server.
-     * @param options The options parameters.
-     */
-    listSecrets(
-        resourceGroupName: string,
-        serviceName: string,
-        authsid: string,
-        options?: AuthorizationServerListSecretsOptionalParams
-    ): Promise<AuthorizationServerListSecretsResponse>;
+  /**
+   * Lists a collection of authorization servers defined within a service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: AuthorizationServerListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<AuthorizationServerContract>;
+  /**
+   * Gets the entity state (Etag) version of the authorizationServer specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: AuthorizationServerGetEntityTagOptionalParams,
+  ): Promise<AuthorizationServerGetEntityTagResponse>;
+  /**
+   * Gets the details of the authorization server specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: AuthorizationServerGetOptionalParams,
+  ): Promise<AuthorizationServerGetResponse>;
+  /**
+   * Creates new authorization server or updates an existing authorization server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: AuthorizationServerContract,
+    options?: AuthorizationServerCreateOrUpdateOptionalParams,
+  ): Promise<AuthorizationServerCreateOrUpdateResponse>;
+  /**
+   * Updates the details of the authorization server specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters OAuth2 Server settings Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    ifMatch: string,
+    parameters: AuthorizationServerUpdateContract,
+    options?: AuthorizationServerUpdateOptionalParams,
+  ): Promise<AuthorizationServerUpdateResponse>;
+  /**
+   * Deletes specific authorization server instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    ifMatch: string,
+    options?: AuthorizationServerDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets the client secret details of the authorization server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authsid Identifier of the authorization server.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: AuthorizationServerListSecretsOptionalParams,
+  ): Promise<AuthorizationServerListSecretsResponse>;
 }

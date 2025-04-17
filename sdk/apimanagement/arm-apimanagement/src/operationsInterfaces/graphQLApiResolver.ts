@@ -8,130 +8,130 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    GraphQLApiResolverCreateOrUpdateOptionalParams,
-    GraphQLApiResolverCreateOrUpdateResponse,
-    GraphQLApiResolverDeleteOptionalParams,
-    GraphQLApiResolverGetEntityTagOptionalParams,
-    GraphQLApiResolverGetEntityTagResponse,
-    GraphQLApiResolverGetOptionalParams,
-    GraphQLApiResolverGetResponse,
-    GraphQLApiResolverListByApiOptionalParams,
-    GraphQLApiResolverUpdateOptionalParams,
-    GraphQLApiResolverUpdateResponse,
-    ResolverContract,
-    ResolverUpdateContract
-} from "../models/index.js";
+  ResolverContract,
+  GraphQLApiResolverListByApiOptionalParams,
+  GraphQLApiResolverGetEntityTagOptionalParams,
+  GraphQLApiResolverGetEntityTagResponse,
+  GraphQLApiResolverGetOptionalParams,
+  GraphQLApiResolverGetResponse,
+  GraphQLApiResolverCreateOrUpdateOptionalParams,
+  GraphQLApiResolverCreateOrUpdateResponse,
+  ResolverUpdateContract,
+  GraphQLApiResolverUpdateOptionalParams,
+  GraphQLApiResolverUpdateResponse,
+  GraphQLApiResolverDeleteOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GraphQLApiResolver. */
 export interface GraphQLApiResolver {
-    /**
-     * Lists a collection of the resolvers for the specified GraphQL API.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param options The options parameters.
-     */
-    listByApi(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: GraphQLApiResolverListByApiOptionalParams
-    ): PagedAsyncIterableIterator<ResolverContract>;
-    /**
-     * Gets the entity state (Etag) version of the GraphQL API resolver specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        options?: GraphQLApiResolverGetEntityTagOptionalParams
-    ): Promise<GraphQLApiResolverGetEntityTagResponse>;
-    /**
-     * Gets the details of the GraphQL API Resolver specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        options?: GraphQLApiResolverGetOptionalParams
-    ): Promise<GraphQLApiResolverGetResponse>;
-    /**
-     * Creates a new resolver in the GraphQL API or updates an existing one.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        parameters: ResolverContract,
-        options?: GraphQLApiResolverCreateOrUpdateOptionalParams
-    ): Promise<GraphQLApiResolverCreateOrUpdateResponse>;
-    /**
-     * Updates the details of the resolver in the GraphQL API specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters GraphQL API Resolver Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        ifMatch: string,
-        parameters: ResolverUpdateContract,
-        options?: GraphQLApiResolverUpdateOptionalParams
-    ): Promise<GraphQLApiResolverUpdateResponse>;
-    /**
-     * Deletes the specified resolver in the GraphQL API.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
-     *                   Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        resolverId: string,
-        ifMatch: string,
-        options?: GraphQLApiResolverDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists a collection of the resolvers for the specified GraphQL API.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param options The options parameters.
+   */
+  listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: GraphQLApiResolverListByApiOptionalParams,
+  ): PagedAsyncIterableIterator<ResolverContract>;
+  /**
+   * Gets the entity state (Etag) version of the GraphQL API resolver specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    options?: GraphQLApiResolverGetEntityTagOptionalParams,
+  ): Promise<GraphQLApiResolverGetEntityTagResponse>;
+  /**
+   * Gets the details of the GraphQL API Resolver specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    options?: GraphQLApiResolverGetOptionalParams,
+  ): Promise<GraphQLApiResolverGetResponse>;
+  /**
+   * Creates a new resolver in the GraphQL API or updates an existing one.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    parameters: ResolverContract,
+    options?: GraphQLApiResolverCreateOrUpdateOptionalParams,
+  ): Promise<GraphQLApiResolverCreateOrUpdateResponse>;
+  /**
+   * Updates the details of the resolver in the GraphQL API specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters GraphQL API Resolver Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    ifMatch: string,
+    parameters: ResolverUpdateContract,
+    options?: GraphQLApiResolverUpdateOptionalParams,
+  ): Promise<GraphQLApiResolverUpdateResponse>;
+  /**
+   * Deletes the specified resolver in the GraphQL API.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param resolverId Resolver identifier within a GraphQL API. Must be unique in the current API
+   *                   Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    resolverId: string,
+    ifMatch: string,
+    options?: GraphQLApiResolverDeleteOptionalParams,
+  ): Promise<void>;
 }

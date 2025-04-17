@@ -7,37 +7,37 @@
  */
 
 import {
-    AccessIdName,
-    TenantAccessGitRegeneratePrimaryKeyOptionalParams,
-    TenantAccessGitRegenerateSecondaryKeyOptionalParams
-} from "../models/index.js";
+  AccessIdName,
+  TenantAccessGitRegeneratePrimaryKeyOptionalParams,
+  TenantAccessGitRegenerateSecondaryKeyOptionalParams,
+} from "../models";
 
 /** Interface representing a TenantAccessGit. */
 export interface TenantAccessGit {
-    /**
-     * Regenerate primary access key for GIT.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param accessName The identifier of the Access configuration.
-     * @param options The options parameters.
-     */
-    regeneratePrimaryKey(
-        resourceGroupName: string,
-        serviceName: string,
-        accessName: AccessIdName,
-        options?: TenantAccessGitRegeneratePrimaryKeyOptionalParams
-    ): Promise<void>;
-    /**
-     * Regenerate secondary access key for GIT.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param accessName The identifier of the Access configuration.
-     * @param options The options parameters.
-     */
-    regenerateSecondaryKey(
-        resourceGroupName: string,
-        serviceName: string,
-        accessName: AccessIdName,
-        options?: TenantAccessGitRegenerateSecondaryKeyOptionalParams
-    ): Promise<void>;
+  /**
+   * Regenerate primary access key for GIT.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param accessName The identifier of the Access configuration.
+   * @param options The options parameters.
+   */
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    accessName: AccessIdName,
+    options?: TenantAccessGitRegeneratePrimaryKeyOptionalParams,
+  ): Promise<void>;
+  /**
+   * Regenerate secondary access key for GIT.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param accessName The identifier of the Access configuration.
+   * @param options The options parameters.
+   */
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    accessName: AccessIdName,
+    options?: TenantAccessGitRegenerateSecondaryKeyOptionalParams,
+  ): Promise<void>;
 }

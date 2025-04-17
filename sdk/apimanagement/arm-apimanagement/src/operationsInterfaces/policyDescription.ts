@@ -7,21 +7,21 @@
  */
 
 import {
-    PolicyDescriptionListByServiceOptionalParams,
-    PolicyDescriptionListByServiceResponse
-} from "../models/index.js";
+  PolicyDescriptionListByServiceOptionalParams,
+  PolicyDescriptionListByServiceResponse,
+} from "../models";
 
 /** Interface representing a PolicyDescription. */
 export interface PolicyDescription {
-    /**
-     * Lists all policy descriptions.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PolicyDescriptionListByServiceOptionalParams
-    ): Promise<PolicyDescriptionListByServiceResponse>;
+  /**
+   * Lists all policy descriptions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyDescriptionListByServiceOptionalParams,
+  ): Promise<PolicyDescriptionListByServiceResponse>;
 }

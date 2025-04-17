@@ -8,24 +8,24 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    ProductSubscriptionsListOptionalParams,
-    SubscriptionContract
-} from "../models/index.js";
+  SubscriptionContract,
+  ProductSubscriptionsListOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProductSubscriptions. */
 export interface ProductSubscriptions {
-    /**
-     * Lists the collection of subscriptions to the specified product.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param productId Product identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    list(
-        resourceGroupName: string,
-        serviceName: string,
-        productId: string,
-        options?: ProductSubscriptionsListOptionalParams
-    ): PagedAsyncIterableIterator<SubscriptionContract>;
+  /**
+   * Lists the collection of subscriptions to the specified product.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductSubscriptionsListOptionalParams,
+  ): PagedAsyncIterableIterator<SubscriptionContract>;
 }

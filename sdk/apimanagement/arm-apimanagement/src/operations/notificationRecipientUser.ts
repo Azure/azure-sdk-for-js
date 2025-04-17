@@ -6,213 +6,210 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { NotificationRecipientUser } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    NotificationName,
-    NotificationRecipientUserCheckEntityExistsOptionalParams,
-    NotificationRecipientUserCheckEntityExistsResponse,
-    NotificationRecipientUserCreateOrUpdateOptionalParams,
-    NotificationRecipientUserCreateOrUpdateResponse,
-    NotificationRecipientUserDeleteOptionalParams,
-    NotificationRecipientUserListByNotificationOptionalParams,
-    NotificationRecipientUserListByNotificationResponse
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NotificationRecipientUser } from "../operationsInterfaces/index.js";
+  NotificationName,
+  NotificationRecipientUserListByNotificationOptionalParams,
+  NotificationRecipientUserListByNotificationResponse,
+  NotificationRecipientUserCheckEntityExistsOptionalParams,
+  NotificationRecipientUserCheckEntityExistsResponse,
+  NotificationRecipientUserCreateOrUpdateOptionalParams,
+  NotificationRecipientUserCreateOrUpdateResponse,
+  NotificationRecipientUserDeleteOptionalParams,
+} from "../models";
 
 /** Class containing NotificationRecipientUser operations. */
 export class NotificationRecipientUserImpl
-    implements NotificationRecipientUser {
-    private readonly client: ApiManagementClient;
+  implements NotificationRecipientUser
+{
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class NotificationRecipientUser class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class NotificationRecipientUser class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets the list of the Notification Recipient User subscribed to the notification.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param notificationName Notification Name Identifier.
-     * @param options The options parameters.
-     */
-    listByNotification(
-        resourceGroupName: string,
-        serviceName: string,
-        notificationName: NotificationName,
-        options?: NotificationRecipientUserListByNotificationOptionalParams
-    ): Promise<NotificationRecipientUserListByNotificationResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, notificationName, options },
-            listByNotificationOperationSpec
-        );
-    }
+  /**
+   * Gets the list of the Notification Recipient User subscribed to the notification.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param notificationName Notification Name Identifier.
+   * @param options The options parameters.
+   */
+  listByNotification(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: NotificationName,
+    options?: NotificationRecipientUserListByNotificationOptionalParams,
+  ): Promise<NotificationRecipientUserListByNotificationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, notificationName, options },
+      listByNotificationOperationSpec,
+    );
+  }
 
-    /**
-     * Determine if the Notification Recipient User is subscribed to the notification.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param notificationName Notification Name Identifier.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    checkEntityExists(
-        resourceGroupName: string,
-        serviceName: string,
-        notificationName: NotificationName,
-        userId: string,
-        options?: NotificationRecipientUserCheckEntityExistsOptionalParams
-    ): Promise<NotificationRecipientUserCheckEntityExistsResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, notificationName, userId, options },
-            checkEntityExistsOperationSpec
-        );
-    }
+  /**
+   * Determine if the Notification Recipient User is subscribed to the notification.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param notificationName Notification Name Identifier.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: NotificationName,
+    userId: string,
+    options?: NotificationRecipientUserCheckEntityExistsOptionalParams,
+  ): Promise<NotificationRecipientUserCheckEntityExistsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, notificationName, userId, options },
+      checkEntityExistsOperationSpec,
+    );
+  }
 
-    /**
-     * Adds the API Management User to the list of Recipients for the Notification.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param notificationName Notification Name Identifier.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        notificationName: NotificationName,
-        userId: string,
-        options?: NotificationRecipientUserCreateOrUpdateOptionalParams
-    ): Promise<NotificationRecipientUserCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, notificationName, userId, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Adds the API Management User to the list of Recipients for the Notification.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param notificationName Notification Name Identifier.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: NotificationName,
+    userId: string,
+    options?: NotificationRecipientUserCreateOrUpdateOptionalParams,
+  ): Promise<NotificationRecipientUserCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, notificationName, userId, options },
+      createOrUpdateOperationSpec,
+    );
+  }
 
-    /**
-     * Removes the API Management user from the list of Notification.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param notificationName Notification Name Identifier.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        notificationName: NotificationName,
-        userId: string,
-        options?: NotificationRecipientUserDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, notificationName, userId, options },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Removes the API Management user from the list of Notification.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param notificationName Notification Name Identifier.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: NotificationName,
+    userId: string,
+    options?: NotificationRecipientUserDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, notificationName, userId, options },
+      deleteOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNotificationOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.RecipientUserCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecipientUserCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.notificationName
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.notificationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const checkEntityExistsOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
-    httpMethod: "HEAD",
-    responses: {
-        204: {},
-        404: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  httpMethod: "HEAD",
+  responses: {
+    204: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.userId,
-        Parameters.notificationName
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.userId,
+    Parameters.notificationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.RecipientUserContract
-        },
-        201: {
-            bodyMapper: Mappers.RecipientUserContract
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecipientUserContract,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.userId,
-        Parameters.notificationName
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    201: {
+      bodyMapper: Mappers.RecipientUserContract,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.userId,
+    Parameters.notificationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.userId,
-        Parameters.notificationName
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.userId,
+    Parameters.notificationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

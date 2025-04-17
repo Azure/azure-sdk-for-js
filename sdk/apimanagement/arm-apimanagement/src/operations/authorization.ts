@@ -6,459 +6,454 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Authorization } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    AuthorizationConfirmConsentCodeOptionalParams,
-    AuthorizationConfirmConsentCodeRequestContract,
-    AuthorizationConfirmConsentCodeResponse,
-    AuthorizationContract,
-    AuthorizationCreateOrUpdateOptionalParams,
-    AuthorizationCreateOrUpdateResponse,
-    AuthorizationDeleteOptionalParams,
-    AuthorizationGetOptionalParams,
-    AuthorizationGetResponse,
-    AuthorizationListByAuthorizationProviderNextOptionalParams,
-    AuthorizationListByAuthorizationProviderNextResponse,
-    AuthorizationListByAuthorizationProviderOptionalParams,
-    AuthorizationListByAuthorizationProviderResponse
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { Authorization } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+  AuthorizationContract,
+  AuthorizationListByAuthorizationProviderNextOptionalParams,
+  AuthorizationListByAuthorizationProviderOptionalParams,
+  AuthorizationListByAuthorizationProviderResponse,
+  AuthorizationGetOptionalParams,
+  AuthorizationGetResponse,
+  AuthorizationCreateOrUpdateOptionalParams,
+  AuthorizationCreateOrUpdateResponse,
+  AuthorizationDeleteOptionalParams,
+  AuthorizationConfirmConsentCodeRequestContract,
+  AuthorizationConfirmConsentCodeOptionalParams,
+  AuthorizationConfirmConsentCodeResponse,
+  AuthorizationListByAuthorizationProviderNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Authorization operations. */
 export class AuthorizationImpl implements Authorization {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class Authorization class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class Authorization class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists a collection of authorization providers defined within a authorization provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param options The options parameters.
-     */
-    public listByAuthorizationProvider(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        options?: AuthorizationListByAuthorizationProviderOptionalParams
-    ): PagedAsyncIterableIterator<AuthorizationContract> {
-        const iter = this.listByAuthorizationProviderPagingAll(
-            resourceGroupName,
-            serviceName,
-            authorizationProviderId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByAuthorizationProviderPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    authorizationProviderId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByAuthorizationProviderPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        options?: AuthorizationListByAuthorizationProviderOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<AuthorizationContract[]> {
-        let result: AuthorizationListByAuthorizationProviderResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByAuthorizationProvider(
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists a collection of authorization providers defined within a authorization provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param options The options parameters.
+   */
+  public listByAuthorizationProvider(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
+  ): PagedAsyncIterableIterator<AuthorizationContract> {
+    const iter = this.listByAuthorizationProviderPagingAll(
+      resourceGroupName,
+      serviceName,
+      authorizationProviderId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByAuthorizationProviderNext(
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByAuthorizationProviderPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        options?: AuthorizationListByAuthorizationProviderOptionalParams
-    ): AsyncIterableIterator<AuthorizationContract> {
-        for await (const page of this.listByAuthorizationProviderPagingPage(
-            resourceGroupName,
-            serviceName,
-            authorizationProviderId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists a collection of authorization providers defined within a authorization provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param options The options parameters.
-     */
-    private _listByAuthorizationProvider(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        options?: AuthorizationListByAuthorizationProviderOptionalParams
-    ): Promise<AuthorizationListByAuthorizationProviderResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, authorizationProviderId, options },
-            listByAuthorizationProviderOperationSpec
+        return this.listByAuthorizationProviderPagingPage(
+          resourceGroupName,
+          serviceName,
+          authorizationProviderId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the details of the authorization specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param authorizationId Identifier of the authorization.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        authorizationId: string,
-        options?: AuthorizationGetOptionalParams
-    ): Promise<AuthorizationGetResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                authorizationId,
-                options
-            },
-            getOperationSpec
-        );
+  private async *listByAuthorizationProviderPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<AuthorizationContract[]> {
+    let result: AuthorizationListByAuthorizationProviderResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAuthorizationProvider(
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByAuthorizationProviderNext(
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Creates or updates authorization.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param authorizationId Identifier of the authorization.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        authorizationId: string,
-        parameters: AuthorizationContract,
-        options?: AuthorizationCreateOrUpdateOptionalParams
-    ): Promise<AuthorizationCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                authorizationId,
-                parameters,
-                options
-            },
-            createOrUpdateOperationSpec
-        );
+  private async *listByAuthorizationProviderPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
+  ): AsyncIterableIterator<AuthorizationContract> {
+    for await (const page of this.listByAuthorizationProviderPagingPage(
+      resourceGroupName,
+      serviceName,
+      authorizationProviderId,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Deletes specific Authorization from the Authorization provider.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param authorizationId Identifier of the authorization.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        authorizationId: string,
-        ifMatch: string,
-        options?: AuthorizationDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                authorizationId,
-                ifMatch,
-                options
-            },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Lists a collection of authorization providers defined within a authorization provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param options The options parameters.
+   */
+  private _listByAuthorizationProvider(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
+  ): Promise<AuthorizationListByAuthorizationProviderResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, authorizationProviderId, options },
+      listByAuthorizationProviderOperationSpec,
+    );
+  }
 
-    /**
-     * Confirm valid consent code to suppress Authorizations anti-phishing page.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param authorizationId Identifier of the authorization.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    confirmConsentCode(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        authorizationId: string,
-        parameters: AuthorizationConfirmConsentCodeRequestContract,
-        options?: AuthorizationConfirmConsentCodeOptionalParams
-    ): Promise<AuthorizationConfirmConsentCodeResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                authorizationId,
-                parameters,
-                options
-            },
-            confirmConsentCodeOperationSpec
-        );
-    }
+  /**
+   * Gets the details of the authorization specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param authorizationId Identifier of the authorization.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    authorizationId: string,
+    options?: AuthorizationGetOptionalParams,
+  ): Promise<AuthorizationGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        authorizationId,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
 
-    /**
-     * ListByAuthorizationProviderNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param nextLink The nextLink from the previous successful call to the ListByAuthorizationProvider
-     *                 method.
-     * @param options The options parameters.
-     */
-    private _listByAuthorizationProviderNext(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        nextLink: string,
-        options?: AuthorizationListByAuthorizationProviderNextOptionalParams
-    ): Promise<AuthorizationListByAuthorizationProviderNextResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                nextLink,
-                options
-            },
-            listByAuthorizationProviderNextOperationSpec
-        );
-    }
+  /**
+   * Creates or updates authorization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param authorizationId Identifier of the authorization.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    authorizationId: string,
+    parameters: AuthorizationContract,
+    options?: AuthorizationCreateOrUpdateOptionalParams,
+  ): Promise<AuthorizationCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        authorizationId,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes specific Authorization from the Authorization provider.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param authorizationId Identifier of the authorization.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    authorizationId: string,
+    ifMatch: string,
+    options?: AuthorizationDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        authorizationId,
+        ifMatch,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Confirm valid consent code to suppress Authorizations anti-phishing page.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param authorizationId Identifier of the authorization.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  confirmConsentCode(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    authorizationId: string,
+    parameters: AuthorizationConfirmConsentCodeRequestContract,
+    options?: AuthorizationConfirmConsentCodeOptionalParams,
+  ): Promise<AuthorizationConfirmConsentCodeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        authorizationId,
+        parameters,
+        options,
+      },
+      confirmConsentCodeOperationSpec,
+    );
+  }
+
+  /**
+   * ListByAuthorizationProviderNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param nextLink The nextLink from the previous successful call to the ListByAuthorizationProvider
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByAuthorizationProviderNext(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    nextLink: string,
+    options?: AuthorizationListByAuthorizationProviderNextOptionalParams,
+  ): Promise<AuthorizationListByAuthorizationProviderNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        nextLink,
+        options,
+      },
+      listByAuthorizationProviderNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAuthorizationProviderOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.AuthorizationCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.authorizationProviderId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.AuthorizationContract,
-            headersMapper: Mappers.AuthorizationGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationContract,
+      headersMapper: Mappers.AuthorizationGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.authorizationProviderId,
-        Parameters.authorizationId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+    Parameters.authorizationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.AuthorizationContract,
-            headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.AuthorizationContract,
-            headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationContract,
+      headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters23,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.authorizationProviderId,
-        Parameters.authorizationId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.AuthorizationContract,
+      headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters23,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+    Parameters.authorizationId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.authorizationProviderId,
-        Parameters.authorizationId
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+    Parameters.authorizationId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const confirmConsentCodeOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/confirmConsentCode",
-    httpMethod: "POST",
-    responses: {
-        200: {
-            headersMapper: Mappers.AuthorizationConfirmConsentCodeHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/confirmConsentCode",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AuthorizationConfirmConsentCodeHeaders,
     },
-    requestBody: Parameters.parameters24,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.authorizationProviderId,
-        Parameters.authorizationId
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters24,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+    Parameters.authorizationId,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listByAuthorizationProviderNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.AuthorizationCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink,
-        Parameters.authorizationProviderId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

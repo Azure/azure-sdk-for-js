@@ -6,68 +6,68 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { OutboundNetworkDependenciesEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
-    OutboundNetworkDependenciesEndpointsListByServiceResponse
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { OutboundNetworkDependenciesEndpoints } from "../operationsInterfaces/index.js";
+  OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
+  OutboundNetworkDependenciesEndpointsListByServiceResponse,
+} from "../models";
 
 /** Class containing OutboundNetworkDependenciesEndpoints operations. */
 export class OutboundNetworkDependenciesEndpointsImpl
-    implements OutboundNetworkDependenciesEndpoints {
-    private readonly client: ApiManagementClient;
+  implements OutboundNetworkDependenciesEndpoints
+{
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class OutboundNetworkDependenciesEndpoints class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class OutboundNetworkDependenciesEndpoints class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets the network endpoints of all outbound dependencies of a ApiManagement service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams
-    ): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            listByServiceOperationSpec
-        );
-    }
+  /**
+   * Gets the network endpoints of all outbound dependencies of a ApiManagement service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
+  ): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listByServiceOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/outboundNetworkDependenciesEndpoints",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.OutboundEnvironmentEndpointList
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointList,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

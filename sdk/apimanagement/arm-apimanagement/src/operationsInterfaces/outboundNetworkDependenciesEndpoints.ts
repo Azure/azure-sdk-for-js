@@ -7,21 +7,21 @@
  */
 
 import {
-    OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
-    OutboundNetworkDependenciesEndpointsListByServiceResponse
-} from "../models/index.js";
+  OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
+  OutboundNetworkDependenciesEndpointsListByServiceResponse,
+} from "../models";
 
 /** Interface representing a OutboundNetworkDependenciesEndpoints. */
 export interface OutboundNetworkDependenciesEndpoints {
-    /**
-     * Gets the network endpoints of all outbound dependencies of a ApiManagement service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams
-    ): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse>;
+  /**
+   * Gets the network endpoints of all outbound dependencies of a ApiManagement service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
+  ): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse>;
 }

@@ -6,109 +6,109 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-    GlobalSchemaContract,
-    GlobalSchemaCreateOrUpdateOptionalParams,
-    GlobalSchemaCreateOrUpdateResponse,
-    GlobalSchemaDeleteOptionalParams,
-    GlobalSchemaGetEntityTagOptionalParams,
-    GlobalSchemaGetEntityTagResponse,
-    GlobalSchemaGetOptionalParams,
-    GlobalSchemaGetResponse,
-    GlobalSchemaListByServiceOptionalParams
-} from "../models/index.js";
+  GlobalSchemaContract,
+  GlobalSchemaListByServiceOptionalParams,
+  GlobalSchemaGetEntityTagOptionalParams,
+  GlobalSchemaGetEntityTagResponse,
+  GlobalSchemaGetOptionalParams,
+  GlobalSchemaGetResponse,
+  GlobalSchemaCreateOrUpdateOptionalParams,
+  GlobalSchemaCreateOrUpdateResponse,
+  GlobalSchemaDeleteOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GlobalSchema. */
 export interface GlobalSchema {
-    /**
-     * Lists a collection of schemas registered with service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: GlobalSchemaListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<GlobalSchemaContract>;
-    /**
-     * Gets the entity state (Etag) version of the Schema specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        schemaId: string,
-        options?: GlobalSchemaGetEntityTagOptionalParams
-    ): Promise<GlobalSchemaGetEntityTagResponse>;
-    /**
-     * Gets the details of the Schema specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        schemaId: string,
-        options?: GlobalSchemaGetOptionalParams
-    ): Promise<GlobalSchemaGetResponse>;
-    /**
-     * Creates new or updates existing specified Schema of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        schemaId: string,
-        parameters: GlobalSchemaContract,
-        options?: GlobalSchemaCreateOrUpdateOptionalParams
-    ): Promise<
-        SimplePollerLike<
-            OperationState<GlobalSchemaCreateOrUpdateResponse>,
-            GlobalSchemaCreateOrUpdateResponse
-        >
-    >;
-    /**
-     * Creates new or updates existing specified Schema of the API Management service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdateAndWait(
-        resourceGroupName: string,
-        serviceName: string,
-        schemaId: string,
-        parameters: GlobalSchemaContract,
-        options?: GlobalSchemaCreateOrUpdateOptionalParams
-    ): Promise<GlobalSchemaCreateOrUpdateResponse>;
-    /**
-     * Deletes specific Schema.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        schemaId: string,
-        ifMatch: string,
-        options?: GlobalSchemaDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists a collection of schemas registered with service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: GlobalSchemaListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<GlobalSchemaContract>;
+  /**
+   * Gets the entity state (Etag) version of the Schema specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    schemaId: string,
+    options?: GlobalSchemaGetEntityTagOptionalParams,
+  ): Promise<GlobalSchemaGetEntityTagResponse>;
+  /**
+   * Gets the details of the Schema specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    schemaId: string,
+    options?: GlobalSchemaGetOptionalParams,
+  ): Promise<GlobalSchemaGetResponse>;
+  /**
+   * Creates new or updates existing specified Schema of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GlobalSchemaCreateOrUpdateResponse>,
+      GlobalSchemaCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates new or updates existing specified Schema of the API Management service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams,
+  ): Promise<GlobalSchemaCreateOrUpdateResponse>;
+  /**
+   * Deletes specific Schema.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    schemaId: string,
+    ifMatch: string,
+    options?: GlobalSchemaDeleteOptionalParams,
+  ): Promise<void>;
 }

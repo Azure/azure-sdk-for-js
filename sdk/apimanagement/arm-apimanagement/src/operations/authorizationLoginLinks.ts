@@ -6,86 +6,85 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { AuthorizationLoginLinks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    AuthorizationLoginLinksPostOptionalParams,
-    AuthorizationLoginLinksPostResponse,
-    AuthorizationLoginRequestContract
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AuthorizationLoginLinks } from "../operationsInterfaces/index.js";
+  AuthorizationLoginRequestContract,
+  AuthorizationLoginLinksPostOptionalParams,
+  AuthorizationLoginLinksPostResponse,
+} from "../models";
 
 /** Class containing AuthorizationLoginLinks operations. */
 export class AuthorizationLoginLinksImpl implements AuthorizationLoginLinks {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class AuthorizationLoginLinks class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class AuthorizationLoginLinks class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets authorization login links.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param authorizationProviderId Identifier of the authorization provider.
-     * @param authorizationId Identifier of the authorization.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    post(
-        resourceGroupName: string,
-        serviceName: string,
-        authorizationProviderId: string,
-        authorizationId: string,
-        parameters: AuthorizationLoginRequestContract,
-        options?: AuthorizationLoginLinksPostOptionalParams
-    ): Promise<AuthorizationLoginLinksPostResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                authorizationProviderId,
-                authorizationId,
-                parameters,
-                options
-            },
-            postOperationSpec
-        );
-    }
+  /**
+   * Gets authorization login links.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param authorizationId Identifier of the authorization.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  post(
+    resourceGroupName: string,
+    serviceName: string,
+    authorizationProviderId: string,
+    authorizationId: string,
+    parameters: AuthorizationLoginRequestContract,
+    options?: AuthorizationLoginLinksPostOptionalParams,
+  ): Promise<AuthorizationLoginLinksPostResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        authorizationId,
+        parameters,
+        options,
+      },
+      postOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/getLoginLinks",
-    httpMethod: "POST",
-    responses: {
-        200: {
-            bodyMapper: Mappers.AuthorizationLoginResponseContract,
-            headersMapper: Mappers.AuthorizationLoginLinksPostHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/getLoginLinks",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationLoginResponseContract,
+      headersMapper: Mappers.AuthorizationLoginLinksPostHeaders,
     },
-    requestBody: Parameters.parameters25,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.authorizationProviderId,
-        Parameters.authorizationId
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters25,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
+    Parameters.authorizationId,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };

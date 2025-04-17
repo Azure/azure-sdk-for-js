@@ -8,106 +8,106 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    GatewayHostnameConfigurationContract,
-    GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
-    GatewayHostnameConfigurationCreateOrUpdateResponse,
-    GatewayHostnameConfigurationDeleteOptionalParams,
-    GatewayHostnameConfigurationGetEntityTagOptionalParams,
-    GatewayHostnameConfigurationGetEntityTagResponse,
-    GatewayHostnameConfigurationGetOptionalParams,
-    GatewayHostnameConfigurationGetResponse,
-    GatewayHostnameConfigurationListByServiceOptionalParams
-} from "../models/index.js";
+  GatewayHostnameConfigurationContract,
+  GatewayHostnameConfigurationListByServiceOptionalParams,
+  GatewayHostnameConfigurationGetEntityTagOptionalParams,
+  GatewayHostnameConfigurationGetEntityTagResponse,
+  GatewayHostnameConfigurationGetOptionalParams,
+  GatewayHostnameConfigurationGetResponse,
+  GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
+  GatewayHostnameConfigurationCreateOrUpdateResponse,
+  GatewayHostnameConfigurationDeleteOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GatewayHostnameConfiguration. */
 export interface GatewayHostnameConfiguration {
-    /**
-     * Lists the collection of hostname configurations for the specified gateway.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        options?: GatewayHostnameConfigurationListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<GatewayHostnameConfigurationContract>;
-    /**
-     * Checks that hostname configuration entity specified by identifier exists for specified Gateway
-     * entity.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-     *             entity.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        hcId: string,
-        options?: GatewayHostnameConfigurationGetEntityTagOptionalParams
-    ): Promise<GatewayHostnameConfigurationGetEntityTagResponse>;
-    /**
-     * Get details of a hostname configuration
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-     *             entity.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        hcId: string,
-        options?: GatewayHostnameConfigurationGetOptionalParams
-    ): Promise<GatewayHostnameConfigurationGetResponse>;
-    /**
-     * Creates of updates hostname configuration for a Gateway.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-     *             entity.
-     * @param parameters Gateway hostname configuration details.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        hcId: string,
-        parameters: GatewayHostnameConfigurationContract,
-        options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams
-    ): Promise<GatewayHostnameConfigurationCreateOrUpdateResponse>;
-    /**
-     * Deletes the specified hostname configuration from the specified Gateway.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
-     *             entity.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        hcId: string,
-        ifMatch: string,
-        options?: GatewayHostnameConfigurationDeleteOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists the collection of hostname configurations for the specified gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayHostnameConfigurationListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<GatewayHostnameConfigurationContract>;
+  /**
+   * Checks that hostname configuration entity specified by identifier exists for specified Gateway
+   * entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
+   *             entity.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: GatewayHostnameConfigurationGetEntityTagOptionalParams,
+  ): Promise<GatewayHostnameConfigurationGetEntityTagResponse>;
+  /**
+   * Get details of a hostname configuration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
+   *             entity.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: GatewayHostnameConfigurationGetOptionalParams,
+  ): Promise<GatewayHostnameConfigurationGetResponse>;
+  /**
+   * Creates of updates hostname configuration for a Gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
+   *             entity.
+   * @param parameters Gateway hostname configuration details.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    parameters: GatewayHostnameConfigurationContract,
+    options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
+  ): Promise<GatewayHostnameConfigurationCreateOrUpdateResponse>;
+  /**
+   * Deletes the specified hostname configuration from the specified Gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param hcId Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway
+   *             entity.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    ifMatch: string,
+    options?: GatewayHostnameConfigurationDeleteOptionalParams,
+  ): Promise<void>;
 }

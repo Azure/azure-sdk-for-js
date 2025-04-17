@@ -7,52 +7,52 @@
  */
 
 import {
-    QuotaByPeriodKeysGetOptionalParams,
-    QuotaByPeriodKeysGetResponse,
-    QuotaByPeriodKeysUpdateOptionalParams,
-    QuotaByPeriodKeysUpdateResponse,
-    QuotaCounterValueUpdateContract
-} from "../models/index.js";
+  QuotaByPeriodKeysGetOptionalParams,
+  QuotaByPeriodKeysGetResponse,
+  QuotaCounterValueUpdateContract,
+  QuotaByPeriodKeysUpdateOptionalParams,
+  QuotaByPeriodKeysUpdateResponse,
+} from "../models";
 
 /** Interface representing a QuotaByPeriodKeys. */
 export interface QuotaByPeriodKeys {
-    /**
-     * Gets the value of the quota counter associated with the counter-key in the policy for the specific
-     * period in service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
-     *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
-     *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
-     *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
-     * @param quotaPeriodKey Quota period key identifier.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        quotaCounterKey: string,
-        quotaPeriodKey: string,
-        options?: QuotaByPeriodKeysGetOptionalParams
-    ): Promise<QuotaByPeriodKeysGetResponse>;
-    /**
-     * Updates an existing quota counter value in the specified service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
-     *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
-     *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
-     *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
-     * @param quotaPeriodKey Quota period key identifier.
-     * @param parameters The value of the Quota counter to be applied on the specified period.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        quotaCounterKey: string,
-        quotaPeriodKey: string,
-        parameters: QuotaCounterValueUpdateContract,
-        options?: QuotaByPeriodKeysUpdateOptionalParams
-    ): Promise<QuotaByPeriodKeysUpdateResponse>;
+  /**
+   * Gets the value of the quota counter associated with the counter-key in the policy for the specific
+   * period in service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
+   *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
+   *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
+   *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
+   * @param quotaPeriodKey Quota period key identifier.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    quotaCounterKey: string,
+    quotaPeriodKey: string,
+    options?: QuotaByPeriodKeysGetOptionalParams,
+  ): Promise<QuotaByPeriodKeysGetResponse>;
+  /**
+   * Updates an existing quota counter value in the specified service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
+   *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
+   *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
+   *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
+   * @param quotaPeriodKey Quota period key identifier.
+   * @param parameters The value of the Quota counter to be applied on the specified period.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    quotaCounterKey: string,
+    quotaPeriodKey: string,
+    parameters: QuotaCounterValueUpdateContract,
+    options?: QuotaByPeriodKeysUpdateOptionalParams,
+  ): Promise<QuotaByPeriodKeysUpdateResponse>;
 }

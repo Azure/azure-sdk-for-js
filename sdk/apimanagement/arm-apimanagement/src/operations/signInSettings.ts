@@ -6,208 +6,204 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SignInSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
-    PortalSigninSettings,
-    SignInSettingsCreateOrUpdateOptionalParams,
-    SignInSettingsCreateOrUpdateResponse,
-    SignInSettingsGetEntityTagOptionalParams,
-    SignInSettingsGetEntityTagResponse,
-    SignInSettingsGetOptionalParams,
-    SignInSettingsGetResponse,
-    SignInSettingsUpdateOptionalParams
-} from "../models/index.js";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SignInSettings } from "../operationsInterfaces/index.js";
+  SignInSettingsGetEntityTagOptionalParams,
+  SignInSettingsGetEntityTagResponse,
+  SignInSettingsGetOptionalParams,
+  SignInSettingsGetResponse,
+  PortalSigninSettings,
+  SignInSettingsUpdateOptionalParams,
+  SignInSettingsCreateOrUpdateOptionalParams,
+  SignInSettingsCreateOrUpdateResponse,
+} from "../models";
 
 /** Class containing SignInSettings operations. */
 export class SignInSettingsImpl implements SignInSettings {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class SignInSettings class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class SignInSettings class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the SignInSettings.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: SignInSettingsGetEntityTagOptionalParams
-    ): Promise<SignInSettingsGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            getEntityTagOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the SignInSettings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: SignInSettingsGetEntityTagOptionalParams,
+  ): Promise<SignInSettingsGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * Get Sign In Settings for the Portal
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: SignInSettingsGetOptionalParams
-    ): Promise<SignInSettingsGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            getOperationSpec
-        );
-    }
+  /**
+   * Get Sign In Settings for the Portal
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: SignInSettingsGetOptionalParams,
+  ): Promise<SignInSettingsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      getOperationSpec,
+    );
+  }
 
-    /**
-     * Update Sign-In settings.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Update Sign-In settings.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        ifMatch: string,
-        parameters: PortalSigninSettings,
-        options?: SignInSettingsUpdateOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, ifMatch, parameters, options },
-            updateOperationSpec
-        );
-    }
+  /**
+   * Update Sign-In settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Update Sign-In settings.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    ifMatch: string,
+    parameters: PortalSigninSettings,
+    options?: SignInSettingsUpdateOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, ifMatch, parameters, options },
+      updateOperationSpec,
+    );
+  }
 
-    /**
-     * Create or Update Sign-In settings.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        parameters: PortalSigninSettings,
-        options?: SignInSettingsCreateOrUpdateOptionalParams
-    ): Promise<SignInSettingsCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, parameters, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Create or Update Sign-In settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: PortalSigninSettings,
+    options?: SignInSettingsCreateOrUpdateOptionalParams,
+  ): Promise<SignInSettingsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.SignInSettingsGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.SignInSettingsGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PortalSigninSettings,
-            headersMapper: Mappers.SignInSettingsGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PortalSigninSettings,
+      headersMapper: Mappers.SignInSettingsGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-    httpMethod: "PATCH",
-    responses: {
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  httpMethod: "PATCH",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    requestBody: Parameters.parameters60,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch1
-    ],
-    mediaType: "json",
-    serializer
+  },
+  requestBody: Parameters.parameters70,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch1,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PortalSigninSettings
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PortalSigninSettings,
     },
-    requestBody: Parameters.parameters60,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters70,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };

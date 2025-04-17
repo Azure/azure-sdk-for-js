@@ -6,57 +6,57 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-    DeletedServiceContract,
-    DeletedServicesGetByNameOptionalParams,
-    DeletedServicesGetByNameResponse,
-    DeletedServicesListBySubscriptionOptionalParams,
-    DeletedServicesPurgeOptionalParams
-} from "../models/index.js";
+  DeletedServiceContract,
+  DeletedServicesListBySubscriptionOptionalParams,
+  DeletedServicesGetByNameOptionalParams,
+  DeletedServicesGetByNameResponse,
+  DeletedServicesPurgeOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedServices. */
 export interface DeletedServices {
-    /**
-     * Lists all soft-deleted services available for undelete for the given subscription.
-     * @param options The options parameters.
-     */
-    listBySubscription(
-        options?: DeletedServicesListBySubscriptionOptionalParams
-    ): PagedAsyncIterableIterator<DeletedServiceContract>;
-    /**
-     * Get soft-deleted Api Management Service by name.
-     * @param serviceName The name of the API Management service.
-     * @param location The location of the deleted API Management service.
-     * @param options The options parameters.
-     */
-    getByName(
-        serviceName: string,
-        location: string,
-        options?: DeletedServicesGetByNameOptionalParams
-    ): Promise<DeletedServicesGetByNameResponse>;
-    /**
-     * Purges Api Management Service (deletes it with no option to undelete).
-     * @param serviceName The name of the API Management service.
-     * @param location The location of the deleted API Management service.
-     * @param options The options parameters.
-     */
-    beginPurge(
-        serviceName: string,
-        location: string,
-        options?: DeletedServicesPurgeOptionalParams
-    ): Promise<SimplePollerLike<OperationState<void>, void>>;
-    /**
-     * Purges Api Management Service (deletes it with no option to undelete).
-     * @param serviceName The name of the API Management service.
-     * @param location The location of the deleted API Management service.
-     * @param options The options parameters.
-     */
-    beginPurgeAndWait(
-        serviceName: string,
-        location: string,
-        options?: DeletedServicesPurgeOptionalParams
-    ): Promise<void>;
+  /**
+   * Lists all soft-deleted services available for undelete for the given subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: DeletedServicesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<DeletedServiceContract>;
+  /**
+   * Get soft-deleted Api Management Service by name.
+   * @param serviceName The name of the API Management service.
+   * @param location The location of the deleted API Management service.
+   * @param options The options parameters.
+   */
+  getByName(
+    serviceName: string,
+    location: string,
+    options?: DeletedServicesGetByNameOptionalParams,
+  ): Promise<DeletedServicesGetByNameResponse>;
+  /**
+   * Purges Api Management Service (deletes it with no option to undelete).
+   * @param serviceName The name of the API Management service.
+   * @param location The location of the deleted API Management service.
+   * @param options The options parameters.
+   */
+  beginPurge(
+    serviceName: string,
+    location: string,
+    options?: DeletedServicesPurgeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Purges Api Management Service (deletes it with no option to undelete).
+   * @param serviceName The name of the API Management service.
+   * @param location The location of the deleted API Management service.
+   * @param options The options parameters.
+   */
+  beginPurgeAndWait(
+    serviceName: string,
+    location: string,
+    options?: DeletedServicesPurgeOptionalParams,
+  ): Promise<void>;
 }

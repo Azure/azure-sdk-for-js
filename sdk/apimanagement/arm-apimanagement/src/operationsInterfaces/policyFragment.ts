@@ -6,123 +6,124 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-    PolicyFragmentContract,
-    PolicyFragmentCreateOrUpdateOptionalParams,
-    PolicyFragmentCreateOrUpdateResponse,
-    PolicyFragmentDeleteOptionalParams,
-    PolicyFragmentGetEntityTagOptionalParams,
-    PolicyFragmentGetEntityTagResponse,
-    PolicyFragmentGetOptionalParams,
-    PolicyFragmentGetResponse,
-    PolicyFragmentListByServiceOptionalParams,
-    PolicyFragmentListByServiceResponse,
-    PolicyFragmentListReferencesOptionalParams,
-    PolicyFragmentListReferencesResponse
-} from "../models/index.js";
+  PolicyFragmentContract,
+  PolicyFragmentListByServiceOptionalParams,
+  PolicyFragmentGetEntityTagOptionalParams,
+  PolicyFragmentGetEntityTagResponse,
+  PolicyFragmentGetOptionalParams,
+  PolicyFragmentGetResponse,
+  PolicyFragmentCreateOrUpdateOptionalParams,
+  PolicyFragmentCreateOrUpdateResponse,
+  PolicyFragmentDeleteOptionalParams,
+  PolicyFragmentListReferencesOptionalParams,
+  PolicyFragmentListReferencesResponse,
+} from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicyFragment. */
 export interface PolicyFragment {
-    /**
-     * Gets all policy fragments.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PolicyFragmentListByServiceOptionalParams
-    ): Promise<PolicyFragmentListByServiceResponse>;
-    /**
-     * Gets the entity state (Etag) version of a policy fragment.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param id A resource identifier.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        id: string,
-        options?: PolicyFragmentGetEntityTagOptionalParams
-    ): Promise<PolicyFragmentGetEntityTagResponse>;
-    /**
-     * Gets a policy fragment.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param id A resource identifier.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        id: string,
-        options?: PolicyFragmentGetOptionalParams
-    ): Promise<PolicyFragmentGetResponse>;
-    /**
-     * Creates or updates a policy fragment.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param id A resource identifier.
-     * @param parameters The policy fragment contents to apply.
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        id: string,
-        parameters: PolicyFragmentContract,
-        options?: PolicyFragmentCreateOrUpdateOptionalParams
-    ): Promise<
-        SimplePollerLike<
-            OperationState<PolicyFragmentCreateOrUpdateResponse>,
-            PolicyFragmentCreateOrUpdateResponse
-        >
-    >;
-    /**
-     * Creates or updates a policy fragment.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param id A resource identifier.
-     * @param parameters The policy fragment contents to apply.
-     * @param options The options parameters.
-     */
-    beginCreateOrUpdateAndWait(
-        resourceGroupName: string,
-        serviceName: string,
-        id: string,
-        parameters: PolicyFragmentContract,
-        options?: PolicyFragmentCreateOrUpdateOptionalParams
-    ): Promise<PolicyFragmentCreateOrUpdateResponse>;
-    /**
-     * Deletes a policy fragment.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param id A resource identifier.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        id: string,
-        ifMatch: string,
-        options?: PolicyFragmentDeleteOptionalParams
-    ): Promise<void>;
-    /**
-     * Lists policy resources that reference the policy fragment.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param id A resource identifier.
-     * @param options The options parameters.
-     */
-    listReferences(
-        resourceGroupName: string,
-        serviceName: string,
-        id: string,
-        options?: PolicyFragmentListReferencesOptionalParams
-    ): Promise<PolicyFragmentListReferencesResponse>;
+  /**
+   * Gets all policy fragments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyFragmentListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyFragmentContract>;
+  /**
+   * Gets the entity state (Etag) version of a policy fragment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param id A resource identifier.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    id: string,
+    options?: PolicyFragmentGetEntityTagOptionalParams,
+  ): Promise<PolicyFragmentGetEntityTagResponse>;
+  /**
+   * Gets a policy fragment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param id A resource identifier.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    id: string,
+    options?: PolicyFragmentGetOptionalParams,
+  ): Promise<PolicyFragmentGetResponse>;
+  /**
+   * Creates or updates a policy fragment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param id A resource identifier.
+   * @param parameters The policy fragment contents to apply.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    id: string,
+    parameters: PolicyFragmentContract,
+    options?: PolicyFragmentCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PolicyFragmentCreateOrUpdateResponse>,
+      PolicyFragmentCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates a policy fragment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param id A resource identifier.
+   * @param parameters The policy fragment contents to apply.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    id: string,
+    parameters: PolicyFragmentContract,
+    options?: PolicyFragmentCreateOrUpdateOptionalParams,
+  ): Promise<PolicyFragmentCreateOrUpdateResponse>;
+  /**
+   * Deletes a policy fragment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param id A resource identifier.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    id: string,
+    ifMatch: string,
+    options?: PolicyFragmentDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Lists policy resources that reference the policy fragment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param id A resource identifier.
+   * @param options The options parameters.
+   */
+  listReferences(
+    resourceGroupName: string,
+    serviceName: string,
+    id: string,
+    options?: PolicyFragmentListReferencesOptionalParams,
+  ): Promise<PolicyFragmentListReferencesResponse>;
 }

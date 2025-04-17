@@ -8,25 +8,25 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-    OperationListByTagsOptionalParams,
-    TagResourceContract
-} from "../models/index.js";
+  TagResourceContract,
+  OperationListByTagsOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OperationOperations. */
 export interface OperationOperations {
-    /**
-     * Lists a collection of operations associated with tags.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param options The options parameters.
-     */
-    listByTags(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: OperationListByTagsOptionalParams
-    ): PagedAsyncIterableIterator<TagResourceContract>;
+  /**
+   * Lists a collection of operations associated with tags.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param options The options parameters.
+   */
+  listByTags(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: OperationListByTagsOptionalParams,
+  ): PagedAsyncIterableIterator<TagResourceContract>;
 }
