@@ -49,7 +49,7 @@ function generateMsalBrowserConfiguration(
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.
-      redirectUri: options.redirectUri || isLocationDefined ? self.location.origin : undefined,
+      redirectUri: options.redirectUri || (isLocationDefined ? self.location.origin : undefined),
     },
     cache: {
       cacheLocation: "sessionStorage",
