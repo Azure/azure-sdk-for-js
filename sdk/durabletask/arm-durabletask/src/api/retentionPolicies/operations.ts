@@ -4,17 +4,18 @@
 import { DurableTaskContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
-  TaskHub,
-  taskHubSerializer,
-  taskHubDeserializer,
-  _TaskHubListResult,
-  _taskHubListResultDeserializer,
+  RetentionPolicy,
+  retentionPolicySerializer,
+  retentionPolicyDeserializer,
+  _RetentionPolicyListResult,
+  _retentionPolicyListResultDeserializer,
 } from "../../models/models.js";
 import {
-  TaskHubsListBySchedulerOptionalParams,
-  TaskHubsDeleteOptionalParams,
-  TaskHubsCreateOrUpdateOptionalParams,
-  TaskHubsGetOptionalParams,
+  RetentionPoliciesListBySchedulerOptionalParams,
+  RetentionPoliciesDeleteOptionalParams,
+  RetentionPoliciesUpdateOptionalParams,
+  RetentionPoliciesCreateOrReplaceOptionalParams,
+  RetentionPoliciesGetOptionalParams,
 } from "./options.js";
 import {
   PagedAsyncIterableIterator,
@@ -34,10 +35,12 @@ export function _listBySchedulerSend(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  options: TaskHubsListBySchedulerOptionalParams = { requestOptions: {} },
+  options: RetentionPoliciesListBySchedulerOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -61,7 +64,7 @@ export function _listBySchedulerSend(
 
 export async function _listBySchedulerDeserialize(
   result: PathUncheckedResponse,
-): Promise<_TaskHubListResult> {
+): Promise<_RetentionPolicyListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -69,16 +72,18 @@ export async function _listBySchedulerDeserialize(
     throw error;
   }
 
-  return _taskHubListResultDeserializer(result.body);
+  return _retentionPolicyListResultDeserializer(result.body);
 }
 
-/** List Task Hubs */
+/** List Retention Policies */
 export function listByScheduler(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  options: TaskHubsListBySchedulerOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TaskHub> {
+  options: RetentionPoliciesListBySchedulerOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<RetentionPolicy> {
   return buildPagedAsyncIterator(
     context,
     () =>
@@ -93,16 +98,14 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  taskHubName: string,
-  options: TaskHubsDeleteOptionalParams = { requestOptions: {} },
+  options: RetentionPoliciesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      taskHubName: taskHubName,
       "api%2Dversion": context.apiVersion,
     },
     {
@@ -133,7 +136,7 @@ export async function _$deleteDeserialize(
   return;
 }
 
-/** Delete a Task Hub */
+/** Delete a Retention Policy */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -143,8 +146,7 @@ export function $delete(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  taskHubName: string,
-  options: TaskHubsDeleteOptionalParams = { requestOptions: {} },
+  options: RetentionPoliciesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -154,33 +156,95 @@ export function $delete(
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          resourceGroupName,
-          schedulerName,
-          taskHubName,
-          options,
-        ),
+        _$deleteSend(context, resourceGroupName, schedulerName, options),
       resourceLocationConfig: "location",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
 
-export function _createOrUpdateSend(
+export function _updateSend(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  taskHubName: string,
-  resource: TaskHub,
-  options: TaskHubsCreateOrUpdateOptionalParams = { requestOptions: {} },
+  properties: RetentionPolicy,
+  options: RetentionPoliciesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      taskHubName: taskHubName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: retentionPolicySerializer(properties),
+    });
+}
+
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RetentionPolicy> {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return retentionPolicyDeserializer(result.body);
+}
+
+/** Update a Retention Policy */
+export function update(
+  context: Client,
+  resourceGroupName: string,
+  schedulerName: string,
+  properties: RetentionPolicy,
+  options: RetentionPoliciesUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<RetentionPolicy>, RetentionPolicy> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(
+        context,
+        resourceGroupName,
+        schedulerName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
+}
+
+export function _createOrReplaceSend(
+  context: Client,
+  resourceGroupName: string,
+  schedulerName: string,
+  resource: RetentionPolicy,
+  options: RetentionPoliciesCreateOrReplaceOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      schedulerName: schedulerName,
       "api%2Dversion": context.apiVersion,
     },
     {
@@ -196,13 +260,13 @@ export function _createOrUpdateSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      body: taskHubSerializer(resource),
+      body: retentionPolicySerializer(resource),
     });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _createOrReplaceDeserialize(
   result: PathUncheckedResponse,
-): Promise<TaskHub> {
+): Promise<RetentionPolicy> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -210,53 +274,51 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return taskHubDeserializer(result.body);
+  return retentionPolicyDeserializer(result.body);
 }
 
-/** Create or Update a Task Hub */
-export function createOrUpdate(
+/** Create or Update a Retention Policy */
+export function createOrReplace(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  taskHubName: string,
-  resource: TaskHub,
-  options: TaskHubsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<TaskHub>, TaskHub> {
+  resource: RetentionPolicy,
+  options: RetentionPoliciesCreateOrReplaceOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<RetentionPolicy>, RetentionPolicy> {
   return getLongRunningPoller(
     context,
-    _createOrUpdateDeserialize,
+    _createOrReplaceDeserialize,
     ["200", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
-        _createOrUpdateSend(
+        _createOrReplaceSend(
           context,
           resourceGroupName,
           schedulerName,
-          taskHubName,
           resource,
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<TaskHub>, TaskHub>;
+  ) as PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
 }
 
 export function _getSend(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  taskHubName: string,
-  options: TaskHubsGetOptionalParams = { requestOptions: {} },
+  options: RetentionPoliciesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       schedulerName: schedulerName,
-      taskHubName: taskHubName,
       "api%2Dversion": context.apiVersion,
     },
     {
@@ -276,7 +338,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<TaskHub> {
+): Promise<RetentionPolicy> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -284,22 +346,20 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return taskHubDeserializer(result.body);
+  return retentionPolicyDeserializer(result.body);
 }
 
-/** Get a Task Hub */
+/** Get a Retention Policy */
 export async function get(
   context: Client,
   resourceGroupName: string,
   schedulerName: string,
-  taskHubName: string,
-  options: TaskHubsGetOptionalParams = { requestOptions: {} },
-): Promise<TaskHub> {
+  options: RetentionPoliciesGetOptionalParams = { requestOptions: {} },
+): Promise<RetentionPolicy> {
   const result = await _getSend(
     context,
     resourceGroupName,
     schedulerName,
-    taskHubName,
     options,
   );
   return _getDeserialize(result);

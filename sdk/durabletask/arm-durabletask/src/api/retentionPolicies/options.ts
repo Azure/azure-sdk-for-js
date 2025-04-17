@@ -4,31 +4,29 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SchedulersListBySubscriptionOptionalParams
+export interface RetentionPoliciesListBySchedulerOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SchedulersListByResourceGroupOptionalParams
-  extends OperationOptions {}
-
-/** Optional parameters. */
-export interface SchedulersDeleteOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface SchedulersUpdateOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface SchedulersCreateOrUpdateOptionalParams
+export interface RetentionPoliciesDeleteOptionalParams
   extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SchedulersGetOptionalParams extends OperationOptions {}
+export interface RetentionPoliciesUpdateOptionalParams
+  extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface RetentionPoliciesCreateOrReplaceOptionalParams
+  extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface RetentionPoliciesGetOptionalParams extends OperationOptions {}

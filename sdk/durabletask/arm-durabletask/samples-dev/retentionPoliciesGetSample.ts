@@ -5,26 +5,24 @@ import { DurableTaskClient } from "@azure/arm-durabletask";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create or Update a Task Hub
+ * This sample demonstrates how to get a Retention Policy
  *
- * @summary create or Update a Task Hub
- * x-ms-original-file: 2025-04-01-preview/TaskHubs_CreateOrUpdate.json
+ * @summary get a Retention Policy
+ * x-ms-original-file: 2025-04-01-preview/RetentionPolicies_Get_MaximumSet_Gen.json
  */
-async function taskHubsCreateOrUpdate(): Promise<void> {
+async function retentionPoliciesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "EE9BD735-67CE-4A90-89C4-439D3F6A4C93";
+  const subscriptionId = "194D3C1E-462F-4738-9025-092A628C06EB";
   const client = new DurableTaskClient(credential, subscriptionId);
-  const result = await client.taskHubs.createOrUpdate(
-    "rgopenapi",
+  const result = await client.retentionPolicies.get(
+    "rgdurabletask",
     "testscheduler",
-    "testtaskhub",
-    { properties: {} },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await taskHubsCreateOrUpdate();
+  await retentionPoliciesGetMaximumSet();
 }
 
 main().catch(console.error);
