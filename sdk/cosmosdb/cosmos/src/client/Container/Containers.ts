@@ -14,7 +14,7 @@ import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys.js";
 import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
 import { mergeHeaders } from "../../queryExecutionContext/index.js";
 import { QueryIterator } from "../../queryIterator.js";
-import { ErrorResponse, type FeedOptions, type RequestOptions } from "../../request/index.js";
+import { type FeedOptions, type RequestOptions } from "../../request/index.js";
 import type { Database } from "../Database/index.js";
 import type { Resource } from "../Resource.js";
 import { Container } from "./Container.js";
@@ -229,17 +229,9 @@ export class Containers {
       diagnosticNode,
       options,
     });
-    if (!response || !response.result) {
-      throw new ErrorResponse("Failed to create container with id: " + body.id);
-    }
-    let containerId = response.result.id;
-    // for AAD containers we need to extract the containerId from result.body
-    if (!containerId && "body" in response.result && response.result.body) {
-      containerId = (response.result as any).body.id;
-    }
     const ref = new Container(
       this.database,
-      containerId,
+      response.result.id,
       this.clientContext,
       this.encryptionManager,
       response.result._rid,

@@ -761,6 +761,14 @@ export class Containers {
     readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource>;
 }
 
+// @public (undocumented)
+export interface CosmosBulkOperationResult {
+    error?: ErrorResponse;
+    operationInput: OperationInput;
+    // Warning: (ae-forgotten-export) The symbol "ExtendedOperationResponse" needs to be exported by the entry point index.d.ts
+    response?: ExtendedOperationResponse;
+}
+
 // @public
 export class CosmosClient {
     constructor(connectionString: string);
@@ -1420,8 +1428,6 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    // Warning: (ae-forgotten-export) The symbol "CosmosBulkOperationResult" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<CosmosBulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;

@@ -14,9 +14,8 @@ import type { ItemBulkOperation } from "./index.js";
 import { LimiterQueue } from "./Limiter.js";
 
 /**
- * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
- * There is always one batch at a time being filled. Locking is in place to avoid concurrent threads trying to Add operations while the timer might be Dispatching the current batch.
- * The current batch is dispatched and a new one is readied to be filled by new operations, the dispatched batch runs independently through a fire and forget pattern.
+ * Handles operations batching and queuing for dispatch. Fills batches efficiently. There is always one batch at a time being filled. When the batch is full, it is added to the
+ * dispatch queue and a new batch is created.
  * @hidden
  */
 
@@ -148,10 +147,18 @@ export class BulkHelperPerPartition {
       this.processedOperationCountRef,
     );
   }
-
+  /**
+   * Runs congestion algo for a partition.
+   * Controlled by a single timer for all the partitions.
+   */
   public runCongestionAlgorithm(): void {
     this.congestionControlAlgorithm.run();
   }
+
+  /**
+   * Empties the dispatch queue and clears the current batch.
+   * This is used in case of stale container Rid detected for encryption operations
+   */
   public async dispose(): Promise<void> {
     await this.dispatchLimiter.pauseAndClear(null);
     this.currentBatcher = undefined;

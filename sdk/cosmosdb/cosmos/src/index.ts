@@ -24,6 +24,7 @@ export {
   DeleteOperationInput,
   PatchOperationInput,
   BulkPatchOperation,
+  CosmosBulkOperationResult,
 } from "./utils/batch.js";
 export {
   PatchOperation,

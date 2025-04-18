@@ -232,7 +232,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   }
 
   /**
-   * Merge given DiagnosticNodeInternal's context to current node's DiagnosticContext for bulk streamer.
+   * Merge given DiagnosticNodeInternal's context to current node's DiagnosticContext for bulk.
    * Given DiagnosticNodeInternal becomes a child of this node.
    * @internal
    */

@@ -10,7 +10,7 @@ import type { ItemBulkOperationContext } from "./ItemBulkOperationContext.js";
  */
 
 export interface ItemBulkOperation {
-  // stores unenecrypted operationInput to avoid decryption of operationInput in bulk response.
+  // stores unencrypted operationInput to avoid decryption of operationInput in bulk response.
   plainTextOperationInput: OperationInput;
   operationInput: OperationInput;
   operationContext: ItemBulkOperationContext;

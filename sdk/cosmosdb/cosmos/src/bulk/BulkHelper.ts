@@ -29,8 +29,8 @@ import { ItemBulkOperationContext, BulkResponse } from "./index.js";
 
 /**
  * BulkHelper for bulk operations in a container.
- * It maintains one @see {@link BulkHelperPerPartition} for each Partition Key Range, which allows independent execution of requests. Semaphores are in place to rate limit the operations
- * at the helper / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
+ * It maintains one @see {@link BulkHelperPerPartition} for each Partition Key Range, which allows independent execution of requests. Queue based limiters @see {@link LimiterQueue}
+ * rate limit requestsbat the helper / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
  * will be limited. Two callback implementations define how a particular request should be executed, and how operations should be retried. When the helper dispatches a batch
  * the batch will create a request and call the execute callback (executeRequest), if conditions are met, it might call the retry callback (reBatchOperation).
  * @hidden
@@ -49,7 +49,7 @@ export class BulkHelper {
   private operationPromisesList: Promise<CosmosBulkOperationResult>[] = [];
   private congestionControlTimer: NodeJS.Timeout;
   private readonly congestionControlDelayInMs: number = 1000;
-  private staleError: ErrorResponse | undefined;
+  private staleRidError: ErrorResponse | undefined;
 
   /**
    * @internal
@@ -95,11 +95,10 @@ export class BulkHelper {
       clearInterval(this.congestionControlTimer);
     }
     const operationResults = await Promise.allSettled(this.operationPromisesList);
-    if (this.isCancelled && this.staleError) {
-      throw this.staleError;
+    if (this.isCancelled && this.staleRidError) {
+      throw this.staleRidError;
     }
-    // TODO: check for error  response structure. response should be serialize for every case (e.g. context.fail)
-    // check if we need to remove stack details from error.
+
     return operationResults.map((result) => {
       if (result.status === "fulfilled") {
         return result.value;
@@ -110,7 +109,7 @@ export class BulkHelper {
 
   private async addOperation(operation: OperationInput, idx: number): Promise<void> {
     if (this.isCancelled) {
-      throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
+      return;
     }
     if (!operation) {
       this.operationPromisesList[idx] = Promise.resolve({
@@ -119,10 +118,10 @@ export class BulkHelper {
           code: StatusCodes.InternalServerError,
         }),
       });
-      this.processedOperationCountRef.count++;
       return;
     }
 
+    // Checks for id and partition key in input body
     if (operation.operationType === "Create" || operation.operationType === "Upsert") {
       if (!operation.resourceBody.id) {
         this.operationPromisesList[idx] = Promise.resolve({
@@ -181,10 +180,7 @@ export class BulkHelper {
         }
         await this.partitionKeyDefinitionPromise;
       }
-      // Copy for diagnostics.
       plainTextOperation = copyObject(operation);
-      // Resolve the partition key range id.
-      partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
       // If encryption is enabled, encrypt the operation input.
       if (this.clientContext.enableEncryption) {
         operation = copyObject(operation);
@@ -198,12 +194,14 @@ export class BulkHelper {
           totalPropertiesEncryptedCount,
         );
       }
+      // Resolve the partition key range id.
+      partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
     } catch (error) {
       operationError = error;
     }
 
     // Get helper & context.
-    const helperForPartition = this.gethelperForPKRange(partitionKeyRangeId);
+    const helperForPartition = this.getHelperForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
     const itemOperation: ItemBulkOperation = {
@@ -216,7 +214,6 @@ export class BulkHelper {
     this.operationPromisesList[idx] = context.operationPromise;
 
     if (operationError) {
-      this.processedOperationCountRef.count++;
       const response: CosmosBulkOperationResult = {
         operationInput: plainTextOperation,
         error: Object.assign(new ErrorResponse(operationError.message), {
@@ -225,9 +222,10 @@ export class BulkHelper {
         }),
       };
       context.fail(response);
+      this.processedOperationCountRef.count++;
       return;
     }
-    // Process the operation normally.
+    // Add the operation to the helper.
     return helperForPartition.add(itemOperation);
   }
 
@@ -235,27 +233,22 @@ export class BulkHelper {
     operation: OperationInput,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<string> {
-    try {
-      const partitionKeyRanges = (
-        await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
-      ).getOrderedParitionKeyRanges();
+    const partitionKeyRanges = (
+      await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
+    ).getOrderedParitionKeyRanges();
 
-      const partitionKey = convertToInternalPartitionKey(operation.partitionKey);
+    const partitionKey = convertToInternalPartitionKey(operation.partitionKey);
 
-      const hashedKey = hashPartitionKey(partitionKey, this.partitionKeyDefinition);
+    const hashedKey = hashPartitionKey(partitionKey, this.partitionKeyDefinition);
 
-      const matchingRange = partitionKeyRanges.find((range) =>
-        isKeyInRange(range.minInclusive, range.maxExclusive, hashedKey),
-      );
+    const matchingRange = partitionKeyRanges.find((range) =>
+      isKeyInRange(range.minInclusive, range.maxExclusive, hashedKey),
+    );
 
-      if (!matchingRange) {
-        throw new Error("No matching partition key range found for the operation.");
-      }
-      return matchingRange.id;
-    } catch (error) {
-      console.error("Error determining partition key range ID:", error);
-      throw error;
+    if (!matchingRange) {
+      throw new Error("No matching partition key range found for the operation.");
     }
+    return matchingRange.id;
   }
 
   private getRetryPolicy(): RetryPolicy {
@@ -332,25 +325,25 @@ export class BulkHelper {
       diagnosticNode,
     );
     operation.operationContext.updatePKRangeId(partitionKeyRangeId);
-    const helper = this.gethelperForPKRange(partitionKeyRangeId);
+    const helper = this.getHelperForPKRange(partitionKeyRangeId);
     helper.add(operation);
   }
 
   private async cancelExecution(error: ErrorResponse): Promise<void> {
     this.isCancelled = true;
-    this.staleError = error;
+    this.staleRidError = error;
     for (const helper of this.helpersByPartitionKeyRangeId.values()) {
       await helper.dispose();
     }
     this.helpersByPartitionKeyRangeId.clear();
   }
 
-  private gethelperForPKRange(pkRangeId: string): BulkHelperPerPartition {
+  private getHelperForPKRange(pkRangeId: string): BulkHelperPerPartition {
     if (this.helpersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.helpersByPartitionKeyRangeId.get(pkRangeId);
     }
-    // const limiter = this.getLimiterForPKRange(pkRangeId);
-    const newhelper = new BulkHelperPerPartition(
+
+    const newHelper = new BulkHelperPerPartition(
       this.executeRequest,
       this.reBatchOperation,
       this.clientContext.diagnosticLevel,
@@ -359,8 +352,8 @@ export class BulkHelper {
       this.container.encryptionProcessor,
       this.processedOperationCountRef,
     );
-    this.helpersByPartitionKeyRangeId.set(pkRangeId, newhelper);
-    return newhelper;
+    this.helpersByPartitionKeyRangeId.set(pkRangeId, newHelper);
+    return newHelper;
   }
 
   private runCongestionControlTimer(): void {

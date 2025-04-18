@@ -93,7 +93,7 @@ export class CosmosDiagnosticContext {
   }
 
   /**
-   * Merge given DiagnosticContext to current node's DiagnosticContext for bulk streamer
+   * Merge given DiagnosticContext to current node's DiagnosticContext for bulk
    */
   public mergeBulkDiagnostics(childDiagnostics: CosmosDiagnosticContext): void {
     // Copy Location endpoints contacted.

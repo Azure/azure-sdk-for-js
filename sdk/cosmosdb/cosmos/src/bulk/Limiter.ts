@@ -89,7 +89,7 @@ export class LimiterQueue {
   public concurrency: number;
   // number of tasks currently executing
   private running = 0;
-  // doubly linked list to store tasks (with their associated resolve/reject functions)
+  // doubly linked list to store batchers and resolve/reject functions for dispatch tasks
   private tasks: DoublyLinkedList<QueueItem> = new DoublyLinkedList();
   // boolean flag that indicates whether the queue has been permanently paused
   private terminated = false;
@@ -99,7 +99,9 @@ export class LimiterQueue {
   private scheduled = false;
   // indicates whether the queue is currently in the process of dequeueing and executing tasks
   private processing = false;
+  // retry callback to retry all the queued operations in case of split/merge error
   private retrier: RetryCallback;
+  // partiton metric for collecting metrics for the requests
   private partitionMetric: BulkPartitionMetric;
 
   /**
@@ -215,7 +217,6 @@ export class LimiterQueue {
     if (!this.terminated && this.running < this.concurrency) {
       // Use the scheduleCallback helper for consistency
       this.scheduleProcess();
-      // scheduleCallback(() => this.process());
     }
   }
 }
