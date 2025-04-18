@@ -139,7 +139,7 @@ export class Sanitizer {
 
   /**
    * Sanitizes a URL for logging.
-   * @param value - The URL to sanitize 
+   * @param value - The URL to sanitize
    * @returns - The sanitized URL as a string
    */
   public sanitizeUrl(value: string): string {

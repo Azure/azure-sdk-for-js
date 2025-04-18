@@ -8313,7 +8313,7 @@ index 0000000..5130ca6
 +}
 diff --git a/src/util/sanitizer.ts b/src/util/sanitizer.ts
 new file mode 100644
-index 0000000..04b18a4
+index 0000000..bf8848f
 --- /dev/null
 +++ b/src/util/sanitizer.ts
 @@ -0,0 +1,194 @@
@@ -8458,7 +8458,7 @@ index 0000000..04b18a4
 +
 +  /**
 +   * Sanitizes a URL for logging.
-+   * @param value - The URL to sanitize 
++   * @param value - The URL to sanitize
 +   * @returns - The sanitized URL as a string
 +   */
 +  public sanitizeUrl(value: string): string {
