@@ -22,7 +22,7 @@ import {
   DiskSnapshotList as DiskSnapshotListMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Snapshot as SnapshotMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

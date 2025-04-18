@@ -25,7 +25,7 @@ import {
   DiskSnapshotList,
   VolumesPreRestoreOptionalParams,
   VolumesPreRestoreResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Volumes. */

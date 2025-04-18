@@ -19,7 +19,7 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
   OperationsImpl,
   SkusImpl,
@@ -29,7 +29,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   VolumeSnapshotsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Skus,
@@ -39,14 +39,14 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   VolumeSnapshots,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ElasticSanManagementOptionalParams,
   RestoreVolumeOptionalParams,
   RestoreVolumeResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class ElasticSanManagement extends coreClient.ServiceClient {
   $host: string;
