@@ -5434,7 +5434,7 @@ export const RestorePointSourceVMStorageProfile: coreClient.CompositeMapper = {
           className: "RestorePointSourceVmosDisk",
         },
       },
-      dataDiskList: {
+      dataDisks: {
         serializedName: "dataDisks",
         type: {
           name: "Sequence",

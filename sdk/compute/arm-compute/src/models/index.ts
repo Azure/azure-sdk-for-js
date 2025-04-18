@@ -1964,7 +1964,7 @@ export interface RestorePointSourceVMStorageProfile {
   /** Gets the OS disk of the VM captured at the time of the restore point creation. */
   osDisk?: RestorePointSourceVmosDisk;
   /** Gets the data disks of the VM captured at the time of the restore point creation. */
-  dataDiskList?: RestorePointSourceVMDataDisk[];
+  dataDisks?: RestorePointSourceVMDataDisk[];
   /**
    * Gets the disk controller type of the VM captured at the time of the restore point creation.
    * NOTE: This property will not be serialized. It can only be populated by the server.

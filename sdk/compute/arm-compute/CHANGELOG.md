@@ -1,6 +1,6 @@
 # Release History
     
-## 23.0.0 (2025-04-17)
+## 23.0.0 (2025-04-18)
     
 ### Features Added
 
@@ -148,7 +148,6 @@
   - Interface DedicatedHostSizeListResult has a new optional parameter nextLink
   - Interface DedicatedHostsRedeployHeaders has a new optional parameter retryAfter
   - Interface Resource has a new optional parameter systemData
-  - Interface RestorePointSourceVMStorageProfile has a new optional parameter dataDiskList
   - Interface SystemData has a new optional parameter createdBy
   - Interface SystemData has a new optional parameter createdByType
   - Interface SystemData has a new optional parameter lastModifiedBy
@@ -190,7 +189,6 @@
   - Interface PrivateEndpointConnection no longer has parameter type
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
-  - Interface RestorePointSourceVMStorageProfile no longer has parameter dataDisks
   - Interface VirtualMachine no longer has parameter etag
   - Interface VirtualMachineScaleSet no longer has parameter etag
   - Interface VirtualMachineScaleSetExtension no longer has parameter name
