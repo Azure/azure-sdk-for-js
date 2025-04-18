@@ -1,4 +1,4 @@
-# Use an official Ubuntu base image
+# Use an official node 22-slim image
 FROM node:22-slim
 
 # Install Node.js LTS, pnpm, and other dependencies
