@@ -8,8 +8,6 @@
 - Adding list threads support and sample
 - Adding sharepoint sample
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - fixed an issue with tool_calls naming in convertOutputModelsFromWire
