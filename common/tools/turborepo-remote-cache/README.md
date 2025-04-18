@@ -59,7 +59,7 @@ docker build -t azure-turborepo-remote-cache .
 Using an `.env` file is supported so you can run the container with the following command:
 
 ```bash
-docker run -p 3000:3000 azure-turborepo-remote-cache /bin/bash
+docker run -it -p 3000:3000 azure-turborepo-remote-cache /bin/bash
 ```
 
 Then in the launched terminal, you can then log into Azure locally to set the token:
