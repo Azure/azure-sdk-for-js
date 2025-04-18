@@ -13,30 +13,27 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a particular backup Policy
+ * This sample demonstrates how to Get current subscription usages
  *
- * @summary Get a particular backup Policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/BackupPolicies_Get.json
+ * @summary Get current subscription usages
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Usages_List.json
  */
-async function backupsGet(): Promise<void> {
+async function usagesList(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
-  const accountName = "account1";
-  const backupPolicyName = "backupPolicyName";
+  const location = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
-  const result = await client.backupPolicies.get(
-    resourceGroupName,
-    accountName,
-    backupPolicyName,
-  );
-  console.log(result);
+  const resArray = new Array();
+  for await (const item of client.netAppResourceUsages.list(location)) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await backupsGet();
+  await usagesList();
 }
 
 main().catch(console.error);

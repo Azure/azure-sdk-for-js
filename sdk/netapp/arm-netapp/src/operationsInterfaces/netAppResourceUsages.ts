@@ -8,31 +8,33 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  RegionInfoResource,
-  NetAppResourceRegionInfosListOptionalParams,
-  NetAppResourceRegionInfosGetOptionalParams,
-  NetAppResourceRegionInfosGetResponse,
+  UsageResult,
+  NetAppResourceUsagesListOptionalParams,
+  NetAppResourceUsagesGetOptionalParams,
+  NetAppResourceUsagesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a NetAppResourceRegionInfos. */
-export interface NetAppResourceRegionInfos {
+/** Interface representing a NetAppResourceUsages. */
+export interface NetAppResourceUsages {
   /**
-   * Provides region specific information.
+   * Get current subscription usages
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams,
-  ): PagedAsyncIterableIterator<RegionInfoResource>;
+    options?: NetAppResourceUsagesListOptionalParams,
+  ): PagedAsyncIterableIterator<UsageResult>;
   /**
-   * Provides storage to network proximity and logical zone mapping information.
+   * Get current subscription usage of the specific type
    * @param location The name of the Azure region.
+   * @param usageType The type of usage
    * @param options The options parameters.
    */
   get(
     location: string,
-    options?: NetAppResourceRegionInfosGetOptionalParams,
-  ): Promise<NetAppResourceRegionInfosGetResponse>;
+    usageType: string,
+    options?: NetAppResourceUsagesGetOptionalParams,
+  ): Promise<NetAppResourceUsagesGetResponse>;
 }

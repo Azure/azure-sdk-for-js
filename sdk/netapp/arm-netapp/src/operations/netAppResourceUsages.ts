@@ -8,30 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { NetAppResourceRegionInfos } from "../operationsInterfaces";
+import { NetAppResourceUsages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
 import {
-  RegionInfoResource,
-  NetAppResourceRegionInfosListNextOptionalParams,
-  NetAppResourceRegionInfosListOptionalParams,
-  NetAppResourceRegionInfosListResponse,
-  NetAppResourceRegionInfosGetOptionalParams,
-  NetAppResourceRegionInfosGetResponse,
-  NetAppResourceRegionInfosListNextResponse,
+  UsageResult,
+  NetAppResourceUsagesListNextOptionalParams,
+  NetAppResourceUsagesListOptionalParams,
+  NetAppResourceUsagesListResponse,
+  NetAppResourceUsagesGetOptionalParams,
+  NetAppResourceUsagesGetResponse,
+  NetAppResourceUsagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetAppResourceRegionInfos operations. */
-export class NetAppResourceRegionInfosImpl
-  implements NetAppResourceRegionInfos
-{
+/** Class containing NetAppResourceUsages operations. */
+export class NetAppResourceUsagesImpl implements NetAppResourceUsages {
   private readonly client: NetAppManagementClient;
 
   /**
-   * Initialize a new instance of the class NetAppResourceRegionInfos class.
+   * Initialize a new instance of the class NetAppResourceUsages class.
    * @param client Reference to the service client
    */
   constructor(client: NetAppManagementClient) {
@@ -39,14 +37,14 @@ export class NetAppResourceRegionInfosImpl
   }
 
   /**
-   * Provides region specific information.
+   * Get current subscription usages
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams,
-  ): PagedAsyncIterableIterator<RegionInfoResource> {
+    options?: NetAppResourceUsagesListOptionalParams,
+  ): PagedAsyncIterableIterator<UsageResult> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -66,10 +64,10 @@ export class NetAppResourceRegionInfosImpl
 
   private async *listPagingPage(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams,
+    options?: NetAppResourceUsagesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<RegionInfoResource[]> {
-    let result: NetAppResourceRegionInfosListResponse;
+  ): AsyncIterableIterator<UsageResult[]> {
+    let result: NetAppResourceUsagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(location, options);
@@ -89,22 +87,22 @@ export class NetAppResourceRegionInfosImpl
 
   private async *listPagingAll(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams,
-  ): AsyncIterableIterator<RegionInfoResource> {
+    options?: NetAppResourceUsagesListOptionalParams,
+  ): AsyncIterableIterator<UsageResult> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * Provides region specific information.
+   * Get current subscription usages
    * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: NetAppResourceRegionInfosListOptionalParams,
-  ): Promise<NetAppResourceRegionInfosListResponse> {
+    options?: NetAppResourceUsagesListOptionalParams,
+  ): Promise<NetAppResourceUsagesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec,
@@ -112,16 +110,18 @@ export class NetAppResourceRegionInfosImpl
   }
 
   /**
-   * Provides storage to network proximity and logical zone mapping information.
+   * Get current subscription usage of the specific type
    * @param location The name of the Azure region.
+   * @param usageType The type of usage
    * @param options The options parameters.
    */
   get(
     location: string,
-    options?: NetAppResourceRegionInfosGetOptionalParams,
-  ): Promise<NetAppResourceRegionInfosGetResponse> {
+    usageType: string,
+    options?: NetAppResourceUsagesGetOptionalParams,
+  ): Promise<NetAppResourceUsagesGetResponse> {
     return this.client.sendOperationRequest(
-      { location, options },
+      { location, usageType, options },
       getOperationSpec,
     );
   }
@@ -135,8 +135,8 @@ export class NetAppResourceRegionInfosImpl
   private _listNext(
     location: string,
     nextLink: string,
-    options?: NetAppResourceRegionInfosListNextOptionalParams,
-  ): Promise<NetAppResourceRegionInfosListNextResponse> {
+    options?: NetAppResourceUsagesListNextOptionalParams,
+  ): Promise<NetAppResourceUsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec,
@@ -147,11 +147,11 @@ export class NetAppResourceRegionInfosImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfosList,
+      bodyMapper: Mappers.UsagesListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -167,11 +167,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfos/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/usages/{usageType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfoResource,
+      bodyMapper: Mappers.UsageResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -182,6 +182,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
+    Parameters.usageType,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -191,7 +192,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfosList,
+      bodyMapper: Mappers.UsagesListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

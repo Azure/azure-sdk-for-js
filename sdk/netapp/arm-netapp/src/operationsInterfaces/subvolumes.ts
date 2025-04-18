@@ -21,7 +21,7 @@ import {
   SubvolumesDeleteOptionalParams,
   SubvolumesGetMetadataOptionalParams,
   SubvolumesGetMetadataResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Subvolumes. */

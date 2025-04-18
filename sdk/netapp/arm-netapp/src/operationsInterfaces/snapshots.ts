@@ -20,7 +20,7 @@ import {
   SnapshotsDeleteOptionalParams,
   SnapshotRestoreFiles,
   SnapshotsRestoreFilesOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Snapshots. */
