@@ -9,7 +9,7 @@
 import {
   PrivateLinkResourcesListByElasticSanOptionalParams,
   PrivateLinkResourcesListByElasticSanResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {

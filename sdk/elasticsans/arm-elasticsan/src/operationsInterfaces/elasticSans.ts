@@ -20,7 +20,7 @@ import {
   ElasticSansDeleteOptionalParams,
   ElasticSansGetOptionalParams,
   ElasticSansGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ElasticSans. */
