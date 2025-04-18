@@ -41,7 +41,7 @@ import {
   Table as TableMapper,
   StorageTaskAssignment as StorageTaskAssignmentMapper,
   StorageTaskAssignmentUpdateParameters as StorageTaskAssignmentUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
