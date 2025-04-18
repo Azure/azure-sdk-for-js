@@ -2,18 +2,16 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
-import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
 import {
-  blobToString,
-  bodyToString,
-  getBrowserFile,
-  blobToArrayBuffer,
-  arrayBufferEqual,
-} from "../utils/index.browser";
-import { MB } from "../../src/utils/constants";
-import type { Context } from "mocha";
+  getDataLakeServiceClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils/index.js";
+import { getBrowserFile, arrayBufferEqual } from "../utils/index-browser.mjs";
+import { MB } from "../../src/utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;
@@ -26,8 +24,8 @@ describe("Highlevel browser only", () => {
   const tempFileSmallLength: number = 1 * MB - 1;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder);
@@ -38,45 +36,45 @@ describe("Highlevel browser only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async () => {
     if (fileSystemClient) {
       await fileSystemClient.delete();
     }
     await recorder.stop();
   });
 
-  before(async function (this: Context) {
+  beforeAll(async () => {
     tempFileLarge = getBrowserFile("browserfilesmall", tempFileLargeLength);
     tempFileSmall = getBrowserFile("browserfilelarge", tempFileSmallLength);
   });
 
-  it("upload should succeed with a single upload", async function (this: Context) {
+  it("upload should succeed with a single upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.upload(tempFileSmall);
 
     const readResponse = await fileClient.read();
-    const readString = await bodyToString(readResponse);
-    const uploadedString = await blobToString(tempFileSmall);
+    const readString = await (await readResponse.contentAsBlob!).text();
+    const uploadedString = await tempFileSmall.text();
     assert.equal(uploadedString, readString);
   });
 
-  it("upload should work for large data", async function (this: Context) {
+  it("upload should work for large data", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await fileClient.upload(tempFileLarge);
     const readResponse = await fileClient.read();
 
-    const readBuf = await blobToArrayBuffer(await readResponse.contentAsBlob!);
-    const localBuf = await blobToArrayBuffer(tempFileLarge);
+    const readBuf = await (await readResponse.contentAsBlob!).arrayBuffer();
+    const localBuf = await tempFileLarge.arrayBuffer();
     assert.ok(arrayBufferEqual(readBuf, localBuf));
   });
 
-  it("upload can abort", async function (this: Context) {
+  it("upload can abort", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const aborter = AbortSignal.timeout(1);
     try {
@@ -90,9 +88,9 @@ describe("Highlevel browser only", () => {
     }
   });
 
-  it("upload can update progress with single-shot upload", async function (this: Context) {
+  it("upload can update progress with single-shot upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -113,9 +111,9 @@ describe("Highlevel browser only", () => {
     assert.ok(eventTriggered);
   });
 
-  it("upload can update progress with parallel upload", async function (this: Context) {
+  it("upload can update progress with parallel upload", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     let eventTriggered = false;
     const aborter = new AbortController();
@@ -144,11 +142,12 @@ describe("Highlevel browser only", () => {
     );
     await fileClient.upload(tempFileEmpty);
     const response = await fileClient.read();
-    assert.deepStrictEqual(await bodyToString(response), "");
+    const bodyString = await (await response.contentAsBlob!).text();
+    assert.deepStrictEqual(bodyString, "");
   });
 
   it("upload should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
-    async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob) {
+    async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob): Promise<void> {
       if (!actualBlob) {
         throw new Error("actualBlob is undefined");
       }

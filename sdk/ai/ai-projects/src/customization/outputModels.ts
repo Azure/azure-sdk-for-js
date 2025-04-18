@@ -66,6 +66,14 @@ export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputP
   bingGrounding: ToolConnectionListOutput;
 }
 
+/** The input definition information for a bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of connections used by the bing custom search tool. */
+  bingCustomSearch?: SearchConfigurationListOutput;
+}
+
 /** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionListOutput {
   /**
@@ -73,6 +81,20 @@ export interface ToolConnectionListOutput {
    * resource attached to the tool.
    */
   connections?: Array<ToolConnectionOutput>;
+}
+
+/** An array of connection resources currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationListOutput {
+  /** The connections attached to this tool. */
+  searchConfigurations?: Array<SearchConfigurationOutput>;
+}
+
+/** The connection information for a search configuration. This is used by the `bing_custom_search` tool. */
+export interface SearchConfigurationOutput {
+  /** The connection ID of the search configuration. */
+  connectionId: string;
+  /** The name of the search configuration. */
+  instanceName: string;
 }
 
 /** A connection resource. */
@@ -1540,6 +1562,7 @@ export type ToolDefinitionOutput =
   | SharepointToolDefinitionOutput
   | AzureAISearchToolDefinitionOutput
   | OpenApiToolDefinitionOutput
+  | BingCustomSearchToolDefinitionOutput
   | AzureFunctionToolDefinitionOutput;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetailsOutput =

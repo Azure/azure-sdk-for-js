@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata";
+import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata.js";
 
 /**
  * Interface representing a request for client encryption key in Cosmos DB.
