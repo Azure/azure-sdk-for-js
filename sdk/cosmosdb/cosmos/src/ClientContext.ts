@@ -43,6 +43,7 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform.js";
+import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -66,6 +67,7 @@ export class ClientContext {
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
+    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
   ) {
     if (cosmosClientOptions.clientEncryptionOptions) {
       this.enableEncryption = true;
@@ -979,6 +981,7 @@ export class ClientContext {
     pipeline?: Pipeline;
     plugins: PluginConfig[];
     httpClient?: HttpClient;
+    globalPartitionEndpointManager: GlobalPartitionEndpointManager;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -988,6 +991,7 @@ export class ClientContext {
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
       httpClient: this.cosmosClientOptions.httpClient,
+      globalPartitionEndpointManager: this.globalPartitionEndpointManager,
     };
   }
 

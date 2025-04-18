@@ -76,6 +76,12 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
+  public async getAvailableReadEndpoints(): Promise<ReadonlyArray<string>> {
+    return this.readableLocations
+      .filter((loc) => !loc.unavailable)
+      .map((loc) => loc.databaseAccountEndpoint);
+  }
+
   public async markCurrentLocationUnavailableForRead(
     diagnosticNode: DiagnosticNodeInternal,
     endpoint: string,

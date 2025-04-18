@@ -9,7 +9,7 @@ import { Constants } from "../common/constants.js";
 import type { RetryContext } from "./RetryContext.js";
 import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
-import type { ErrorResponse } from "../request/index.js";
+import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 
 /**
@@ -34,6 +34,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private resourceType: ResourceType,
     private operationType: OperationType,
     private enableEndPointDiscovery: boolean,
+    private requestContext: RequestContext,
   ) {}
 
   /**
@@ -68,6 +69,13 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     }
     if (!this.enableEndPointDiscovery) {
       return false;
+    }
+    if (
+      this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        this.requestContext,
+      )
+    ) {
+      return true;
     }
     if (
       err.code === StatusCodes.ServiceUnavailable &&

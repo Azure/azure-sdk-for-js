@@ -30,6 +30,8 @@ export interface ConnectionPolicy {
   /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
+  /** Flag to enable/disable the Per Partition Level Failover. Defaults to false */
+  enablePartitionLevelFailover?: boolean;
 }
 
 /**
@@ -48,4 +50,5 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,
   enableBackgroundEndpointRefreshing: true,
+  enablePartitionLevelFailover: false,
 });

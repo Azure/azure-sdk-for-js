@@ -62,6 +62,7 @@ export async function execute({
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
             requestContext.operationType,
+            requestContext,
           ),
           resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
             requestContext.connectionPolicy.retryOptions ?? {},
@@ -80,6 +81,7 @@ export async function execute({
             requestContext.resourceType,
             requestContext.operationType,
             requestContext.connectionPolicy.enableEndpointDiscovery,
+            requestContext,
           ),
         };
       }
@@ -104,6 +106,18 @@ export async function execute({
       const startTimeUTCInMs = getCurrentTimestampInMs();
       const correlatedActivityId =
         requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
+
+      const overridePresent =
+        requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+          requestContext,
+        );
+      if (overridePresent) {
+        const newUrl = (overridePresent as any)[1];
+        if (newUrl !== undefined) {
+          requestContext.endpoint = newUrl;
+        }
+      }
+
       try {
         const response = await executeRequest(localDiagnosticNode, requestContext);
         response.headers[Constants.ThrottleRetryCount] =
