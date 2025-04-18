@@ -62,29 +62,19 @@ For development, you can use the following command:
 docker build -t azure-turborepo-remote-cache --build-arg NODE_ENV=development .
 ```
 
-Using an `.env` file is supported so you can run the container with the following command:
+Using an `.env` file is supported so you can run the container with the following command where you mount the local `.azure` directory to the container's `/root/.azure` directory:
 
 ```bash
-docker run -it -p 3000:3000 azure-turborepo-remote-cache /bin/bash
+docker run -p 3000:3000 -it -v ~/.azure:/root/.azure azure-turborepo-remote-cache
 ```
 
-Then in the launched terminal, you can then log into Azure locally to set the token:
 
-
-```bash
-az login
-```
-
-Then you can launch the server with the following command:
-
-```bash
-node dist/src/index.js
-```
-
-You can also pass the environment variables directly in the command line. For example, to run the cache with a specific Azure Storage connection string and container name, you can use the following command followed by the previous steps of `az login` and running the app via `node dist/src/index.js`:
+You can also pass the environment variables directly in the command line. For example, to run the cache with a specific Azure Storage account name and container name.
 
 ```bash
 docker run -p 3000:3000 \
+  -it \
+  -v ~/.azure:/root/.azure \
   -e AZURE_CACHE_PORT=3000 \
   -e PACKAGE_VERSION=1.0.0 \
   -e CACHE_LOG_LEVEL=info \
@@ -92,7 +82,6 @@ docker run -p 3000:3000 \
   -e AZURE_STORAGE_ACCOUNT=your_account_name \
   -e AZURE_STORAGE_CONTAINER_NAME=your_container_name \
   azure-turborepo-remote-cache \
-  /bin/bash
 ```
 
 ### Configuring TurboRepo
