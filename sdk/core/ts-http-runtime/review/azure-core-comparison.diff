@@ -4858,10 +4858,10 @@ index 321bbec..6b7d1ab 100644
 +  };
  }
 diff --git a/src/policies/multipartPolicy.ts b/src/policies/multipartPolicy.ts
-index ceed09c..268c132 100644
+index 1e6560f..268c132 100644
 --- a/src/policies/multipartPolicy.ts
 +++ b/src/policies/multipartPolicy.ts
-@@ -1,21 +1,155 @@
+@@ -1,41 +1,155 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -4876,6 +4876,11 @@ index ceed09c..268c132 100644
 -  multipartPolicyName as tspMultipartPolicyName,
 -  multipartPolicy as tspMultipartPolicy,
 -} from "@typespec/ts-http-runtime/internal/policies";
+-import type {
+-  PipelineRequest as TspPipelineRequest,
+-  SendRequest as TspSendRequest,
+-} from "@typespec/ts-http-runtime";
+-import { getRawContent, hasRawContent } from "../util/file.js";
 +function generateBoundary(): string {
 +  return `----AzSDKFormBoundary${randomUUID()}`;
 +}
@@ -4979,17 +4984,23 @@ index ceed09c..268c132 100644
   * Pipeline policy for multipart requests
   */
  export function multipartPolicy(): PipelinePolicy {
--  return tspMultipartPolicy();
-+  return {
-+    name: multipartPolicyName,
+-  const tspPolicy = tspMultipartPolicy();
+-
+   return {
+     name: multipartPolicyName,
+-    sendRequest: async (request, next) => {
+-      if (request.multipartBody) {
+-        for (const part of request.multipartBody.parts) {
+-          if (hasRawContent(part.body)) {
+-            part.body = getRawContent(part.body);
 +    async sendRequest(request, next): Promise<PipelineResponse> {
 +      if (!request.multipartBody) {
 +        return next(request);
-+      }
+       }
 +
 +      if (request.body) {
 +        throw new Error("multipartBody and regular body cannot be set at the same time");
-+      }
+       }
 +
 +      let boundary = request.multipartBody.boundary;
 +
@@ -5006,8 +5017,9 @@ index ceed09c..268c132 100644
 +        throw new Error(
 +          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`,
 +        );
-+      }
-+
+       }
+ 
+-      return tspPolicy.sendRequest(request as TspPipelineRequest, next as TspSendRequest);
 +      boundary ??= parsedBoundary;
 +      if (boundary) {
 +        assertValidBoundary(boundary);
@@ -5020,8 +5032,8 @@ index ceed09c..268c132 100644
 +      request.multipartBody = undefined;
 +
 +      return next(request);
-+    },
-+  };
+     },
+   };
  }
 diff --git a/src/policies/ndJsonPolicy.ts b/src/policies/ndJsonPolicy.ts
 deleted file mode 100644
@@ -6046,10 +6058,10 @@ index a33b7a0..0000000
 -  };
 -}
 diff --git a/src/restError.ts b/src/restError.ts
-index f0bd1ce..722db2a 100644
+index 90b5645..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
-@@ -1,14 +1,12 @@
+@@ -1,13 +1,12 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -6058,17 +6070,16 @@ index f0bd1ce..722db2a 100644
 +import { custom } from "./util/inspect.js";
 +import { Sanitizer } from "./util/sanitizer.js";
  
--import type {
--  RestErrorOptions as TspRestErrorOptions} from "@typespec/ts-http-runtime";
+-import type { RestErrorOptions as TspRestErrorOptions } from "@typespec/ts-http-runtime";
 -import {
 -  RestError as TspRestError,
--  isRestError as tspIsRestError
+-  isRestError as tspIsRestError,
 -} from "@typespec/ts-http-runtime";
 +const errorSanitizer = new Sanitizer();
  
  /**
   * The options supported by RestError.
-@@ -73,13 +71,32 @@ export class RestError extends Error {
+@@ -72,13 +71,32 @@ export class RestError extends Error {
  
    constructor(message: string, options: RestErrorOptions = {}) {
      super(message);
@@ -6107,7 +6118,7 @@ index f0bd1ce..722db2a 100644
    }
  }
  
-@@ -88,5 +105,8 @@ export class RestError extends Error {
+@@ -87,5 +105,8 @@ export class RestError extends Error {
   * @param e - Something caught by a catch clause.
   */
  export function isRestError(e: unknown): e is RestError {
@@ -7447,15 +7458,14 @@ index 0000000..83a8af3
 +export * from "./concat.common.js";
 diff --git a/src/util/concat.common.ts b/src/util/concat.common.ts
 new file mode 100644
-index 0000000..36e2d99
+index 0000000..44a4962
 --- /dev/null
 +++ b/src/util/concat.common.ts
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,55 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
-+import { getRawContent } from "./file.js";
-+import { isNodeReadableStream, isWebReadableStream } from "./typeGuards.js";
++import { isWebReadableStream } from "./typeGuards.js";
 +
 +/**
 + * Drain the content of the given ReadableStream into a Blob.
@@ -7474,21 +7484,11 @@ index 0000000..36e2d99
 +
 +  if (isWebReadableStream(source)) {
 +    return drain(source);
-+  }
-+
-+  // If it's not a true Blob, and it's not a Uint8Array, we can assume the source
-+  // is a fake File created by createFileFromStream and we can get the original stream
-+  // using getRawContent.
-+  const rawContent = getRawContent(source);
-+
-+  // Shouldn't happen but guard for it anyway
-+  if (isNodeReadableStream(rawContent)) {
++  } else {
 +    throw new Error(
-+      "Encountered unexpected type. In the browser, `concat` supports Web ReadableStream, Blob, Uint8Array, and files created using `createFile` only.",
++      "Unsupported source type. Only Blob, Uint8Array, and ReadableStream are supported in browser.",
 +    );
 +  }
-+
-+  return toBlobPart(rawContent);
 +}
 +
 +/**
@@ -7519,17 +7519,16 @@ index 0000000..36e2d99
 +}
 diff --git a/src/util/concat.ts b/src/util/concat.ts
 new file mode 100644
-index 0000000..cbadccf
+index 0000000..4177903
 --- /dev/null
 +++ b/src/util/concat.ts
-@@ -0,0 +1,92 @@
+@@ -0,0 +1,91 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
 +import { Readable } from "stream";
 +import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 +import { isBlob } from "./typeGuards.js";
-+import { getRawContent } from "./file.js";
 +
 +async function* streamAsyncIterator(
 +  this: ReadableStream<Uint8Array>,
@@ -7576,7 +7575,7 @@ index 0000000..cbadccf
 +  if (source instanceof Uint8Array) {
 +    return Readable.from(Buffer.from(source));
 +  } else if (isBlob(source)) {
-+    return toStream(getRawContent(source));
++    return toStream(source);
 +  } else {
 +    return ensureNodeStream(source);
 +  }
@@ -7767,136 +7766,191 @@ index 508e2d5..34ec31c 100644
 +  return false;
  }
 diff --git a/src/util/file.ts b/src/util/file.ts
-index f57d781..babdea0 100644
+deleted file mode 100644
+index 02ba689..0000000
 --- a/src/util/file.ts
-+++ b/src/util/file.ts
-@@ -1,11 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import {
--  getRawContent as tspGetRawContent,
--  createFileFromStream as tspCreateFileFromStream,
--  createFile as tspCreateFile,
--} from "@typespec/ts-http-runtime/internal/util";
-+import { isNodeLike } from "./checkEnvironment.js";
-+import { isNodeReadableStream } from "./typeGuards.js";
- 
- /**
-  * Options passed into createFile specifying metadata about the file.
-@@ -41,17 +38,61 @@ export interface CreateFileFromStreamOptions extends CreateFileOptions {
-   size?: number;
- }
- 
-+const unimplementedMethods = {
-+  arrayBuffer: () => {
-+    throw new Error("Not implemented");
-+  },
-+  bytes: () => {
-+    throw new Error("Not implemented");
-+  },
-+  slice: () => {
-+    throw new Error("Not implemented");
-+  },
-+  text: () => {
-+    throw new Error("Not implemented");
-+  },
-+};
-+
-+/**
-+ * Private symbol used as key on objects created using createFile containing the
-+ * original source of the file object.
-+ *
-+ * This is used in Node to access the original Node stream without using Blob#stream, which
-+ * returns a web stream. This is done to avoid a couple of bugs to do with Blob#stream and
-+ * Readable#to/fromWeb in Node versions we support:
-+ * - https://github.com/nodejs/node/issues/42694 (fixed in Node 18.14)
-+ * - https://github.com/nodejs/node/issues/48916 (fixed in Node 20.6)
-+ *
-+ * Once these versions are no longer supported, we may be able to stop doing this.
-+ *
-+ * @internal
-+ */
-+const rawContent: unique symbol = Symbol("rawContent");
-+
-+/**
-+ * Type signature of a blob-like object with a raw content property.
-+ */
-+interface RawContent {
-+  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
-+}
-+
-+function hasRawContent(x: unknown): x is RawContent {
-+  return typeof (x as RawContent)[rawContent] === "function";
-+}
-+
- /**
-  * Extract the raw content from a given blob-like object. If the input was created using createFile
-  * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
-  * For true instances of Blob and File, returns the blob's content as a Web ReadableStream<Uint8Array>.
++++ /dev/null
+@@ -1,180 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import { isNodeLike } from "@azure/core-util";
+-
+-function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
+-  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
+-}
+-
+-/**
+- * Options passed into createFile specifying metadata about the file.
+- */
+-export interface CreateFileOptions {
+-  /**
+-   * The MIME type of the file.
+-   */
+-  type?: string;
+-
+-  /**
+-   * Last modified time of the file as a UNIX timestamp.
+-   * This will default to the current date.
+-   */
+-  lastModified?: number;
+-
+-  /**
+-   * relative path of this file when uploading a directory.
+-   */
+-  webkitRelativePath?: string;
+-}
+-
+-/**
+- * Extra options for createFile when a stream is being passed in.
+- */
+-export interface CreateFileFromStreamOptions extends CreateFileOptions {
+-  /**
+-   * Size of the file represented by the stream in bytes.
+-   *
+-   * This will be used by the pipeline when calculating the Content-Length header
+-   * for the overall request.
+-   */
+-  size?: number;
+-}
+-
+-const unimplementedMethods = {
+-  arrayBuffer: () => {
+-    throw new Error("Not implemented");
+-  },
+-  bytes: () => {
+-    throw new Error("Not implemented");
+-  },
+-  slice: () => {
+-    throw new Error("Not implemented");
+-  },
+-  text: () => {
+-    throw new Error("Not implemented");
+-  },
+-};
+-
+-/**
+- * Private symbol used as key on objects created using createFile containing the
+- * original source of the file object.
+- *
+- * This is used in Node to access the original Node stream without using Blob#stream, which
+- * returns a web stream. This is done to avoid a couple of bugs to do with Blob#stream and
+- * Readable#to/fromWeb in Node versions we support:
+- * - https://github.com/nodejs/node/issues/42694 (fixed in Node 18.14)
+- * - https://github.com/nodejs/node/issues/48916 (fixed in Node 20.6)
+- *
+- * Once these versions are no longer supported, we may be able to stop doing this.
 - *
 - * @internal
-  */
- export function getRawContent(
-   blob: Blob,
- ): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
--  return tspGetRawContent(blob);
-+  if (hasRawContent(blob)) {
-+    return blob[rawContent]();
-+  } else {
-+    return blob.stream();
-+  }
- }
- 
- /**
-@@ -76,7 +117,25 @@ export function createFileFromStream(
-   name: string,
-   options: CreateFileFromStreamOptions = {},
- ): File {
--  return tspCreateFileFromStream(stream, name, options);
-+  return {
-+    ...unimplementedMethods,
-+    type: options.type ?? "",
-+    lastModified: options.lastModified ?? new Date().getTime(),
-+    webkitRelativePath: options.webkitRelativePath ?? "",
-+    size: options.size ?? -1,
-+    name,
-+    stream: () => {
-+      const s = stream();
-+      if (isNodeReadableStream(s)) {
-+        throw new Error(
-+          "Not supported: a Node stream was provided as input to createFileFromStream.",
-+        );
-+      }
-+
-+      return s;
-+    },
-+    [rawContent]: stream,
-+  } as File & RawContent;
- }
- 
- /**
-@@ -95,5 +154,19 @@ export function createFile(
-   name: string,
-   options: CreateFileOptions = {},
- ): File {
--  return tspCreateFile(content, name, options);
-+  if (isNodeLike) {
-+    return {
-+      ...unimplementedMethods,
-+      type: options.type ?? "",
-+      lastModified: options.lastModified ?? new Date().getTime(),
-+      webkitRelativePath: options.webkitRelativePath ?? "",
-+      size: content.byteLength,
-+      name,
-+      arrayBuffer: async () => content.buffer,
-+      stream: () => new Blob([content]).stream(),
-+      [rawContent]: () => content,
-+    } as File & RawContent;
-+  } else {
-+    return new File([content], name, options);
-+  }
- }
+- */
+-const rawContent: unique symbol = Symbol("rawContent");
+-
+-/**
+- * Type signature of a blob-like object with a raw content property.
+- */
+-export interface RawContent extends Blob {
+-  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
+-}
+-
+-/**
+- * Type guard to check if a given object is a blob-like object with a raw content property.
+- */
+-export function hasRawContent(x: unknown): x is RawContent {
+-  return typeof (x as RawContent)[rawContent] === "function";
+-}
+-
+-/**
+- * Extract the raw content from a given blob-like object. If the input was created using createFile
+- * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
+- * For true instances of Blob and File, returns the actual blob.
+- *
+- * @internal
+- */
+-export function getRawContent(
+-  blob: Blob,
+-): Blob | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
+-  if (hasRawContent(blob)) {
+-    return blob[rawContent]();
+-  } else {
+-    return blob;
+-  }
+-}
+-
+-/**
+- * Create an object that implements the File interface. This object is intended to be
+- * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
+- * other situations.
+- *
+- * Use this function to:
+- * - Create a File object for use in RequestBodyType.formData in environments where the
+- *   global File object is unavailable.
+- * - Create a File-like object from a readable stream without reading the stream into memory.
+- *
+- * @param stream - the content of the file as a callback returning a stream. When a File object made using createFile is
+- *                  passed in a request's form data map, the stream will not be read into memory
+- *                  and instead will be streamed when the request is made. In the event of a retry, the
+- *                  stream needs to be read again, so this callback SHOULD return a fresh stream if possible.
+- * @param name - the name of the file.
+- * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
+- */
+-export function createFileFromStream(
+-  stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+-  name: string,
+-  options: CreateFileFromStreamOptions = {},
+-): File {
+-  return {
+-    ...unimplementedMethods,
+-    type: options.type ?? "",
+-    lastModified: options.lastModified ?? new Date().getTime(),
+-    webkitRelativePath: options.webkitRelativePath ?? "",
+-    size: options.size ?? -1,
+-    name,
+-    stream: () => {
+-      const s = stream();
+-      if (isNodeReadableStream(s)) {
+-        throw new Error(
+-          "Not supported: a Node stream was provided as input to createFileFromStream.",
+-        );
+-      }
+-
+-      return s;
+-    },
+-    [rawContent]: stream,
+-  } as File & RawContent;
+-}
+-
+-/**
+- * Create an object that implements the File interface. This object is intended to be
+- * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
+- * other situations.
+- *
+- * Use this function create a File object for use in RequestBodyType.formData in environments where the global File object is unavailable.
+- *
+- * @param content - the content of the file as a Uint8Array in memory.
+- * @param name - the name of the file.
+- * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
+- */
+-export function createFile(
+-  content: Uint8Array,
+-  name: string,
+-  options: CreateFileOptions = {},
+-): File {
+-  if (isNodeLike) {
+-    return {
+-      ...unimplementedMethods,
+-      type: options.type ?? "",
+-      lastModified: options.lastModified ?? new Date().getTime(),
+-      webkitRelativePath: options.webkitRelativePath ?? "",
+-      size: content.byteLength,
+-      name,
+-      arrayBuffer: async () => content.buffer,
+-      stream: () => new Blob([content]).stream(),
+-      [rawContent]: () => content,
+-    } as File & RawContent;
+-  } else {
+-    return new File([content], name, options);
+-  }
+-}
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
 new file mode 100644
 index 0000000..a5b7c9d
@@ -8220,10 +8274,10 @@ index 0000000..8ef0f31
 +export const custom = inspect.custom;
 diff --git a/src/util/internal.ts b/src/util/internal.ts
 new file mode 100644
-index 0000000..f459bc3
+index 0000000..4bd0118
 --- /dev/null
 +++ b/src/util/internal.ts
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,26 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -8249,13 +8303,6 @@ index 0000000..f459bc3
 +  isWebWorker,
 +} from "./checkEnvironment.js";
 +export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./bytesEncoding.js";
-+export {
-+  createFile,
-+  createFileFromStream,
-+  getRawContent,
-+  type CreateFileOptions,
-+  type CreateFileFromStreamOptions,
-+} from "./file.js";
 +export { Sanitizer, type SanitizerOptions } from "./sanitizer.js";
 diff --git a/src/util/object.ts b/src/util/object.ts
 new file mode 100644

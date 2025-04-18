@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getRawContent as tspGetRawContent,
-  createFileFromStream as tspCreateFileFromStream,
-  createFile as tspCreateFile,
-} from "@typespec/ts-http-runtime/internal/util";
+import { isNodeLike } from "@azure/core-util";
+
+function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
+  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
+}
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -41,17 +41,66 @@ export interface CreateFileFromStreamOptions extends CreateFileOptions {
   size?: number;
 }
 
+const unimplementedMethods = {
+  arrayBuffer: () => {
+    throw new Error("Not implemented");
+  },
+  bytes: () => {
+    throw new Error("Not implemented");
+  },
+  slice: () => {
+    throw new Error("Not implemented");
+  },
+  text: () => {
+    throw new Error("Not implemented");
+  },
+};
+
+/**
+ * Private symbol used as key on objects created using createFile containing the
+ * original source of the file object.
+ *
+ * This is used in Node to access the original Node stream without using Blob#stream, which
+ * returns a web stream. This is done to avoid a couple of bugs to do with Blob#stream and
+ * Readable#to/fromWeb in Node versions we support:
+ * - https://github.com/nodejs/node/issues/42694 (fixed in Node 18.14)
+ * - https://github.com/nodejs/node/issues/48916 (fixed in Node 20.6)
+ *
+ * Once these versions are no longer supported, we may be able to stop doing this.
+ *
+ * @internal
+ */
+const rawContent: unique symbol = Symbol("rawContent");
+
+/**
+ * Type signature of a blob-like object with a raw content property.
+ */
+export interface RawContent extends Blob {
+  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
+}
+
+/**
+ * Type guard to check if a given object is a blob-like object with a raw content property.
+ */
+export function hasRawContent(x: unknown): x is RawContent {
+  return typeof (x as RawContent)[rawContent] === "function";
+}
+
 /**
  * Extract the raw content from a given blob-like object. If the input was created using createFile
  * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
- * For true instances of Blob and File, returns the blob's content as a Web ReadableStream<Uint8Array>.
+ * For true instances of Blob and File, returns the actual blob.
  *
  * @internal
  */
 export function getRawContent(
   blob: Blob,
-): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
-  return tspGetRawContent(blob);
+): Blob | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
+  if (hasRawContent(blob)) {
+    return blob[rawContent]();
+  } else {
+    return blob;
+  }
 }
 
 /**
@@ -76,7 +125,25 @@ export function createFileFromStream(
   name: string,
   options: CreateFileFromStreamOptions = {},
 ): File {
-  return tspCreateFileFromStream(stream, name, options);
+  return {
+    ...unimplementedMethods,
+    type: options.type ?? "",
+    lastModified: options.lastModified ?? new Date().getTime(),
+    webkitRelativePath: options.webkitRelativePath ?? "",
+    size: options.size ?? -1,
+    name,
+    stream: () => {
+      const s = stream();
+      if (isNodeReadableStream(s)) {
+        throw new Error(
+          "Not supported: a Node stream was provided as input to createFileFromStream.",
+        );
+      }
+
+      return s;
+    },
+    [rawContent]: stream,
+  } as File & RawContent;
 }
 
 /**
@@ -95,5 +162,19 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  return tspCreateFile(content, name, options);
+  if (isNodeLike) {
+    return {
+      ...unimplementedMethods,
+      type: options.type ?? "",
+      lastModified: options.lastModified ?? new Date().getTime(),
+      webkitRelativePath: options.webkitRelativePath ?? "",
+      size: content.byteLength,
+      name,
+      arrayBuffer: async () => content.buffer,
+      stream: () => new Blob([content]).stream(),
+      [rawContent]: () => content,
+    } as File & RawContent;
+  } else {
+    return new File([content], name, options);
+  }
 }

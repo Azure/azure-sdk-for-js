@@ -19,31 +19,10 @@ export function computeSha256Hash(content: string, encoding: "base64" | "hex"): 
 export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
-export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
-
-// @public
-export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
-
-// @public
-export interface CreateFileFromStreamOptions extends CreateFileOptions {
-    size?: number;
-}
-
-// @public
-export interface CreateFileOptions {
-    lastModified?: number;
-    type?: string;
-    webkitRelativePath?: string;
-}
-
-// @public
 export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 // @public
 export function getRandomIntegerInclusive(min: number, max: number): number;
-
-// @public
-export function getRawContent(blob: Blob): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array;
 
 // @public
 export const isBrowser: boolean;

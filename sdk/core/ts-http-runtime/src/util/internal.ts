@@ -23,11 +23,4 @@ export {
   isWebWorker,
 } from "./checkEnvironment.js";
 export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./bytesEncoding.js";
-export {
-  createFile,
-  createFileFromStream,
-  getRawContent,
-  type CreateFileOptions,
-  type CreateFileFromStreamOptions,
-} from "./file.js";
 export { Sanitizer, type SanitizerOptions } from "./sanitizer.js";
