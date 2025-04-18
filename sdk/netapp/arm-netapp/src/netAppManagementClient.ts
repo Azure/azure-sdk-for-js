@@ -34,7 +34,7 @@ import {
   BackupsUnderBackupVaultImpl,
   BackupsUnderVolumeImpl,
   BackupsUnderAccountImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   NetAppResource,
@@ -55,8 +55,8 @@ import {
   BackupsUnderBackupVault,
   BackupsUnderVolume,
   BackupsUnderAccount,
-} from "./operationsInterfaces";
-import { NetAppManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NetAppManagementClientOptionalParams } from "./models/index.js";
 
 export class NetAppManagementClient extends coreClient.ServiceClient {
   $host: string;

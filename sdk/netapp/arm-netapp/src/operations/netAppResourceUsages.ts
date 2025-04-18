@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { NetAppResourceUsages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { NetAppResourceUsages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetAppManagementClient } from "../netAppManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
   UsageResult,
   NetAppResourceUsagesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   NetAppResourceUsagesGetOptionalParams,
   NetAppResourceUsagesGetResponse,
   NetAppResourceUsagesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetAppResourceUsages operations. */

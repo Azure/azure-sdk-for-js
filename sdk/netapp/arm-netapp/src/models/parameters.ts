@@ -51,7 +51,7 @@ import {
   BackupVaultPatch as BackupVaultPatchMapper,
   BackupRestoreFiles as BackupRestoreFilesMapper,
   BackupsMigrationRequest as BackupsMigrationRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
