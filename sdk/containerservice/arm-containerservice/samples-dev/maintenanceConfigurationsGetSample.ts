@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified maintenance configuration of a managed cluster.
  *
  * @summary Gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/MaintenanceConfigurationsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-01-02-preview/examples/MaintenanceConfigurationsGet.json
  */
 async function getMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
@@ -38,7 +40,7 @@ async function getMaintenanceConfiguration(): Promise<void> {
  * This sample demonstrates how to Gets the specified maintenance configuration of a managed cluster.
  *
  * @summary Gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/MaintenanceConfigurationsGet_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-01-02-preview/examples/MaintenanceConfigurationsGet_MaintenanceWindow.json
  */
 async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =

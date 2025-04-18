@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import type { TrustedAccessRoles } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { TrustedAccessRoles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerServiceClient } from "../containerServiceClient";
+import {
   TrustedAccessRole,
   TrustedAccessRolesListNextOptionalParams,
   TrustedAccessRolesListOptionalParams,
   TrustedAccessRolesListResponse,
   TrustedAccessRolesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TrustedAccessRoles operations. */
@@ -101,7 +101,10 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     location: string,
     options?: TrustedAccessRolesListOptionalParams,
   ): Promise<TrustedAccessRolesListResponse> {
-    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { location, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -115,7 +118,10 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     nextLink: string,
     options?: TrustedAccessRolesListNextOptionalParams,
   ): Promise<TrustedAccessRolesListNextResponse> {
-    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -133,7 +139,11 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/RunCommandResultFailed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-01-02-preview/examples/RunCommandResultFailed.json
  */
 async function commandFailedResult(): Promise<void> {
   const subscriptionId =
@@ -38,7 +40,7 @@ async function commandFailedResult(): Promise<void> {
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/RunCommandResultSucceed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-01-02-preview/examples/RunCommandResultSucceed.json
  */
 async function commandSucceedResult(): Promise<void> {
   const subscriptionId =

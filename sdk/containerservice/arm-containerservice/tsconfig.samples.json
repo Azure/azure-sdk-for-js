@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-containerservice": ["./dist/esm"]
+      "@azure/arm-containerservice": [
+        "./dist/esm"
+      ]
     }
   }
 }

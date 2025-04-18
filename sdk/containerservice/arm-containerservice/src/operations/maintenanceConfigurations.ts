@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import type { MaintenanceConfigurations } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { MaintenanceConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerServiceClient } from "../containerServiceClient";
+import {
   MaintenanceConfiguration,
   MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
   MaintenanceConfigurationsListByManagedClusterOptionalParams,
@@ -24,11 +24,13 @@ import type {
   MaintenanceConfigurationsCreateOrUpdateResponse,
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsListByManagedClusterNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MaintenanceConfigurations operations. */
-export class MaintenanceConfigurationsImpl implements MaintenanceConfigurations {
+export class MaintenanceConfigurationsImpl
+  implements MaintenanceConfigurations
+{
   private readonly client: ContainerServiceClient;
 
   /**
@@ -50,7 +52,11 @@ export class MaintenanceConfigurationsImpl implements MaintenanceConfigurations 
     resourceName: string,
     options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
   ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
-    const iter = this.listByManagedClusterPagingAll(resourceGroupName, resourceName, options);
+    const iter = this.listByManagedClusterPagingAll(
+      resourceGroupName,
+      resourceName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -81,7 +87,11 @@ export class MaintenanceConfigurationsImpl implements MaintenanceConfigurations 
     let result: MaintenanceConfigurationsListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedCluster(resourceGroupName, resourceName, options);
+      result = await this._listByManagedCluster(
+        resourceGroupName,
+        resourceName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -270,7 +280,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
