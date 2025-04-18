@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions`.
+- Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions` [PR #33724](https://github.com/Azure/azure-sdk-for-js/pull/33724).
 
 ### Breaking Changes
 

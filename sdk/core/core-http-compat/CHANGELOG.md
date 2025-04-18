@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Add an optional `requestOverrides` property to `WebResourceLike`.
+- Add an optional `requestOverrides` property to `WebResourceLike` [PR #33724](https://github.com/Azure/azure-sdk-for-js/pull/33724).
 
 ### Breaking Changes
 

@@ -1,5 +1,11 @@
 # Release History
 
+## 0.3.0 (Unreleased)
+
+### Features Added
+
+- Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions`.
+
 ## 0.2.1 (2025-04-08)
 
 ### Bugs Fixed
