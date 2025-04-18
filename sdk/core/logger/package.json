@@ -82,7 +82,7 @@
   },
   "dependencies": {
     "tslib": "^2.6.2",
-    "@typespec/ts-http-runtime": "^0.2.1"
+    "@typespec/ts-http-runtime": "^0.3.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
