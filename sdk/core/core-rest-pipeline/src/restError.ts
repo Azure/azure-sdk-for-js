@@ -3,11 +3,10 @@
 
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
 
-import type {
-  RestErrorOptions as TspRestErrorOptions} from "@typespec/ts-http-runtime";
+import type { RestErrorOptions as TspRestErrorOptions } from "@typespec/ts-http-runtime";
 import {
   RestError as TspRestError,
-  isRestError as tspIsRestError
+  isRestError as tspIsRestError,
 } from "@typespec/ts-http-runtime";
 
 /**

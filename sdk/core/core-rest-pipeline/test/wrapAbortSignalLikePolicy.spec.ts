@@ -14,7 +14,7 @@ describe("wrapAbortSignalLikePolicy", () => {
   it("should wrap AbortSignalLike with native AbortSignal", async () => {
     const policy = wrapAbortSignalLikePolicy();
     const nextSpy = vi.fn().mockResolvedValue({ status: 200 });
-    
+
     // Create a mock AbortSignalLike
     const mockAbortSignalLike: AbortSignalLike = {
       aborted: false,
@@ -22,9 +22,9 @@ describe("wrapAbortSignalLikePolicy", () => {
       removeEventListener: vi.fn(),
     };
 
-    const request = createPipelineRequest({ 
+    const request = createPipelineRequest({
       url: "https://example.com",
-      abortSignal: mockAbortSignalLike
+      abortSignal: mockAbortSignalLike,
     });
 
     const result = await policy.sendRequest(request, nextSpy);
@@ -36,26 +36,25 @@ describe("wrapAbortSignalLikePolicy", () => {
     expect(mockAbortSignalLike.addEventListener).toHaveBeenCalledOnce();
     expect(mockAbortSignalLike.removeEventListener).toHaveBeenCalledOnce();
   });
-  
+
   it("should clean up even if next handler throws", async () => {
     const policy = wrapAbortSignalLikePolicy();
     const error = new Error("Test error");
     const nextSpy = vi.fn().mockRejectedValue(error);
-    
+
     const mockAbortSignalLike: AbortSignalLike = {
       aborted: false,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     };
 
-    const request = createPipelineRequest({ 
+    const request = createPipelineRequest({
       url: "https://example.com",
-      abortSignal: mockAbortSignalLike
+      abortSignal: mockAbortSignalLike,
     });
 
-
     await expect(policy.sendRequest(request, nextSpy)).rejects.toThrow(error);
-    
+
     // Verify cleanup still happened despite error
     expect(mockAbortSignalLike.removeEventListener).toHaveBeenCalled();
   });
