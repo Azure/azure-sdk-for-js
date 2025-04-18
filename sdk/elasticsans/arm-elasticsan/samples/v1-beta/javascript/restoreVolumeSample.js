@@ -13,54 +13,54 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 /**
- * This sample demonstrates how to Delete a Volume Snapshot.
+ * This sample demonstrates how to Restore Soft Deleted Volumes. The volume name is obtained by using the API to list soft deleted volumes by volume group
  *
- * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
+ * @summary Restore Soft Deleted Volumes. The volume name is obtained by using the API to list soft deleted volumes by volume group
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/RestoreVolume_MaximumSet_Gen.json
  */
-async function volumeSnapshotsDeleteMaximumSetGen() {
+async function restoreVolumeMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
-  const snapshotName = "snapshotname";
+  const volumeName = "volumename-1741526907";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.volumeSnapshots.beginDeleteAndWait(
+  const result = await client.beginRestoreVolumeAndWait(
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName,
+    volumeName,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Delete a Volume Snapshot.
+ * This sample demonstrates how to Restore Soft Deleted Volumes. The volume name is obtained by using the API to list soft deleted volumes by volume group
  *
- * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
+ * @summary Restore Soft Deleted Volumes. The volume name is obtained by using the API to list soft deleted volumes by volume group
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/RestoreVolume_MinimumSet_Gen.json
  */
-async function volumeSnapshotsDeleteMinimumSetGen() {
+async function restoreVolumeMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
-  const snapshotName = "snapshotname";
+  const volumeName = "volumename-1741526907";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
-  const result = await client.volumeSnapshots.beginDeleteAndWait(
+  const result = await client.beginRestoreVolumeAndWait(
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName,
+    volumeName,
   );
   console.log(result);
 }
 
 async function main() {
-  await volumeSnapshotsDeleteMaximumSetGen();
-  await volumeSnapshotsDeleteMinimumSetGen();
+  await restoreVolumeMaximumSetGen();
+  await restoreVolumeMinimumSetGen();
 }
 
 main().catch(console.error);
