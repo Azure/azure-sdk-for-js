@@ -69,7 +69,13 @@ Then in the launched terminal, you can then log into Azure locally to set the to
 az login
 ```
 
-You can also pass the environment variables directly in the command line. For example, to run the cache with a specific Azure Storage connection string and container name, you can use the following command:
+Then you can launch the server with the following command:
+
+```bash
+node dist/src/index.js
+```
+
+You can also pass the environment variables directly in the command line. For example, to run the cache with a specific Azure Storage connection string and container name, you can use the following command followed by the previous steps of `az login` and running the app via `node dist/src/index.js`:
 
 ```bash
 docker run -p 3000:3000 \
@@ -81,13 +87,6 @@ docker run -p 3000:3000 \
   -e AZURE_STORAGE_CONTAINER_NAME=your_container_name \
   azure-turborepo-remote-cache \
   /bin/bash
-```
-
-Then in the launched terminal, you can then log into Azure locally to set the token:
-
-
-```bash
-az login
 ```
 
 ### Configuring TurboRepo
