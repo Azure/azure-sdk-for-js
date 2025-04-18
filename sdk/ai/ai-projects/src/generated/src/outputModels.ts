@@ -201,6 +201,25 @@ export interface SearchConfigurationOutput {
   instance_name: string;
 }
 
+/** The input definition information for a connected agent tool which defines a domain specific sub-agent */
+export interface ConnectedAgentToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'connected_agent'. */
+  type: "connected_agent";
+  /** The sub-agent to connect */
+  connected_agent: ConnectedAgentDetailsOutput;
+}
+
+/** Information for connecting one agent to another as a tool */
+export interface ConnectedAgentDetailsOutput {
+  /** The identifier of the child agent. */
+  id: string;
+  /** The name of the agent to be called. */
+  name: string;
+  /** A description of what the agent does, used by the model to choose when and how to call the agent. */
+  description: string;
+}
+
 /** The input definition information for a azure function tool as used to configure an agent. */
 export interface AzureFunctionToolDefinitionOutput
   extends ToolDefinitionOutputParent {
@@ -676,7 +695,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search", "connected_agent"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -1720,6 +1739,7 @@ export type ToolDefinitionOutput =
   | AzureAISearchToolDefinitionOutput
   | OpenApiToolDefinitionOutput
   | BingCustomSearchToolDefinitionOutput
+  | ConnectedAgentToolDefinitionOutput
   | AzureFunctionToolDefinitionOutput;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetailsOutput =

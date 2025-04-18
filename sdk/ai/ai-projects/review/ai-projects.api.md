@@ -189,7 +189,7 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
-export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
+export type AzureAISearchQueryType = string;
 
 // @public
 export interface AzureAISearchResource {
@@ -268,6 +268,12 @@ export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
 }
 
 // @public
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+    bing_custom_search: SearchConfigurationList;
+    type: "bing_custom_search";
+}
+
+// @public
 export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
     bingCustomSearch?: SearchConfigurationListOutput;
     type: "bing_custom_search";
@@ -332,7 +338,7 @@ export enum connectionToolType {
 }
 
 // @public
-export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
+export type ConnectionType = string;
 
 // @public
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
@@ -1591,6 +1597,17 @@ export interface SearchConfiguration {
 }
 
 // @public
+export interface SearchConfiguration {
+    connectionId: string;
+    instanceName: string;
+}
+
+// @public
+export interface SearchConfigurationList {
+    searchConfigurations: Array<SearchConfiguration>;
+}
+
+// @public
 export interface SearchConfigurationList {
     searchConfigurations: Array<SearchConfiguration>;
 }
@@ -1656,7 +1673,8 @@ export interface ThreadDeletionStatusOutput {
 // @public
 export interface ThreadMessageOptions {
     attachments?: Array<MessageAttachment> | null;
-    content: string;
+    // Warning: (ae-forgotten-export) The symbol "CreateMessageContent" needs to be exported by the entry point index.d.ts
+    content: CreateMessageContent;
     metadata?: Record<string, string> | null;
     role: MessageRole;
 }
