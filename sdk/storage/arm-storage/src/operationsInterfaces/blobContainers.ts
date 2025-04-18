@@ -37,7 +37,7 @@ import {
   BlobContainersLeaseOptionalParams,
   BlobContainersLeaseResponse,
   BlobContainersObjectLevelWormOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BlobContainers. */

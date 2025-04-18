@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TableServices } from "../operationsInterfaces/index.js";
+import { TableServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { StorageManagementClient } from "../storageManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   TableServicesListOptionalParams,
   TableServicesListResponse,
@@ -19,7 +19,7 @@ import {
   TableServicesSetServicePropertiesResponse,
   TableServicesGetServicePropertiesOptionalParams,
   TableServicesGetServicePropertiesResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing TableServices operations. */
 export class TableServicesImpl implements TableServices {

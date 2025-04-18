@@ -14,7 +14,7 @@ import {
   BlobServicesSetServicePropertiesResponse,
   BlobServicesGetServicePropertiesOptionalParams,
   BlobServicesGetServicePropertiesResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BlobServices. */
