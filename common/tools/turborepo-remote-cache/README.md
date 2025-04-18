@@ -62,6 +62,12 @@ For development, you can use the following command:
 docker build -t azure-turborepo-remote-cache --build-arg NODE_ENV=development .
 ```
 
+In order to run the cache in Docker, you will need to log into Azure to create the token on your local system.  You can do this using the Azure CLI:
+
+```bash
+az login
+```
+
 Using an `.env` file is supported so you can run the container with the following command where you mount the local `.azure` directory to the container's `/root/.azure` directory for local development:
 
 ```bash
