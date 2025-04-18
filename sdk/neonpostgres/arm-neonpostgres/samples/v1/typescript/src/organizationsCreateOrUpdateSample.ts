@@ -5,28 +5,27 @@ import { PostgresClient } from "@azure/arm-neonpostgres";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a OrganizationResource
+ * This sample demonstrates how to create a OrganizationResource
  *
- * @summary update a OrganizationResource
- * x-ms-original-file: 2025-03-01/Organizations_Update_MaximumSet_Gen.json
+ * @summary create a OrganizationResource
+ * x-ms-original-file: 2025-03-01/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function organizationsUpdateMaximumSet(): Promise<void> {
+async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.organizations.update("rgneon", "test-org", {
-    location: "upxxgikyqrbnv",
+  const result = await client.organizations.createOrUpdate("rgneon", "test-org", {
     properties: {
       marketplaceDetails: {
-        subscriptionId: "yxmkfivp",
+        subscriptionId: "xfahbbbzwlcwhhjbxarnwfcy",
         subscriptionStatus: "PendingFulfillmentStart",
         offerDetails: {
-          publisherId: "hporaxnopmolttlnkbarw",
-          offerId: "bunyeeupoedueofwrzej",
-          planId: "nlbfiwtslenfwek",
-          planName: "ljbmgpkfqklaufacbpml",
-          termUnit: "qbcq",
-          termId: "aedlchikwqckuploswthvshe",
+          publisherId: "eibghzuyqsksouwlgqphhmuxeqeigf",
+          offerId: "qscggwfdnippiwrrnmuscg",
+          planId: "sveqoxtdwxutxmtniuufyrdu",
+          planName: "t",
+          termUnit: "jnxhyql",
+          termId: "uptombvymytfonj",
         },
       },
       userDetails: {
@@ -45,7 +44,7 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
         numberOfEmployees: 12,
       },
       partnerOrganizationProperties: {
-        organizationId: "fynmpcbivqkwqdfhrmsyusjd",
+        organizationId: "hzejhmftwsruhwspvtwoy",
         organizationName: "entity-name",
         singleSignOnProperties: {
           singleSignOnState: "Initial",
@@ -57,13 +56,13 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
       projectProperties: {
         entityName: "entity-name",
         attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
-        regionId: "vxvmjwuttpiakirzdf",
-        storage: 23,
-        pgVersion: 16,
-        historyRetention: 16,
+        regionId: "tlcltldfrnxh",
+        storage: 7,
+        pgVersion: 10,
+        historyRetention: 7,
         defaultEndpointSettings: {
-          autoscalingLimitMinCu: 8,
-          autoscalingLimitMaxCu: 4,
+          autoscalingLimitMinCu: 26,
+          autoscalingLimitMaxCu: 20,
         },
         branch: {
           entityName: "entity-name",
@@ -127,13 +126,14 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
         ],
       },
     },
-    tags: { key609: "qyosjypklxtiamqebd" },
+    tags: { key8832: "rvukepuxkykdtqjtwk" },
+    location: "kcdph",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationsUpdateMaximumSet();
+  await organizationsCreateOrUpdateMaximumSet();
 }
 
 main().catch(console.error);

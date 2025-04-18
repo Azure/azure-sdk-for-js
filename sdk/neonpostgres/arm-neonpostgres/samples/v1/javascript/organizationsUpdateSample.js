@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresClient } from "@azure/arm-neonpostgres";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PostgresClient } = require("@azure/arm-neonpostgres");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a OrganizationResource
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a OrganizationResource
  * x-ms-original-file: 2025-03-01/Organizations_Update_MaximumSet_Gen.json
  */
-async function organizationsUpdateMaximumSet(): Promise<void> {
+async function organizationsUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
@@ -132,7 +132,7 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await organizationsUpdateMaximumSet();
 }
 
