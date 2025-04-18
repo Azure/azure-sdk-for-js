@@ -10,13 +10,7 @@ import {
   ComputesCreateOrUpdateOptionalParams,
   ComputesGetOptionalParams,
 } from "../../api/computes/options.js";
-import {
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/computes/operations.js";
+import { list, $delete, update, createOrUpdate, get } from "../../api/computes/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -83,15 +77,7 @@ function _getComputes(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: ComputesListOptionalParams,
-    ) =>
-      list(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -167,9 +153,7 @@ function _getComputes(context: PostgresContext) {
   };
 }
 
-export function _getComputesOperations(
-  context: PostgresContext,
-): ComputesOperations {
+export function _getComputesOperations(context: PostgresContext): ComputesOperations {
   return {
     ..._getComputes(context),
   };

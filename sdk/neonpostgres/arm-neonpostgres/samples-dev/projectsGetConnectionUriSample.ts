@@ -14,19 +14,14 @@ async function projectsGetConnectionUriMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.projects.getConnectionUri(
-    "rgneon",
-    "test-org",
-    "entity-name",
-    {
-      projectId: "riuifmoqtorrcffgksvfcobia",
-      branchId: "iimmlbqv",
-      databaseName: "xc",
-      roleName: "xhmcvsgtp",
-      endpointId: "jcpdvsyjcn",
-      isPooled: true,
-    },
-  );
+  const result = await client.projects.getConnectionUri("rgneon", "test-org", "entity-name", {
+    projectId: "riuifmoqtorrcffgksvfcobia",
+    branchId: "iimmlbqv",
+    databaseName: "xc",
+    roleName: "xhmcvsgtp",
+    endpointId: "jcpdvsyjcn",
+    isPooled: true,
+  });
   console.log(result);
 }
 

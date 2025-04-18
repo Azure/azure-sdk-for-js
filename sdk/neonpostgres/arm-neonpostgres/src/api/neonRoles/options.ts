@@ -16,8 +16,7 @@ export interface NeonRolesUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface NeonRolesCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface NeonRolesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

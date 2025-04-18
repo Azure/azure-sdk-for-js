@@ -10,13 +10,7 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "../../api/endpoints/options.js";
-import {
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/endpoints/operations.js";
+import { list, $delete, update, createOrUpdate, get } from "../../api/endpoints/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -83,15 +77,7 @@ function _getEndpoints(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: EndpointsListOptionalParams,
-    ) =>
-      list(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
     delete: (
       resourceGroupName: string,
       organizationName: string,
@@ -167,9 +153,7 @@ function _getEndpoints(context: PostgresContext) {
   };
 }
 
-export function _getEndpointsOperations(
-  context: PostgresContext,
-): EndpointsOperations {
+export function _getEndpointsOperations(context: PostgresContext): EndpointsOperations {
   return {
     ..._getEndpoints(context),
   };

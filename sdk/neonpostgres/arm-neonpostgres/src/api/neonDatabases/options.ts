@@ -16,8 +16,7 @@ export interface NeonDatabasesUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface NeonDatabasesCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface NeonDatabasesCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

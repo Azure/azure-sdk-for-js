@@ -14,62 +14,25 @@ async function projectsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.projects.update(
-    "rgneon",
-    "test-org",
-    "test-project",
-    {
-      properties: {
+  const result = await client.projects.update("rgneon", "test-org", "test-project", {
+    properties: {
+      entityName: "entity-name",
+      attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+      regionId: "vxvmjwuttpiakirzdf",
+      storage: 23,
+      pgVersion: 16,
+      historyRetention: 16,
+      defaultEndpointSettings: {
+        autoscalingLimitMinCu: 8,
+        autoscalingLimitMaxCu: 4,
+      },
+      branch: {
         entityName: "entity-name",
         attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
-        regionId: "vxvmjwuttpiakirzdf",
-        storage: 23,
-        pgVersion: 16,
-        historyRetention: 16,
-        defaultEndpointSettings: {
-          autoscalingLimitMinCu: 8,
-          autoscalingLimitMaxCu: 4,
-        },
-        branch: {
-          entityName: "entity-name",
-          attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
-          projectId: "oik",
-          parentId: "entity-id",
-          roleName: "qrrairsupyosxnqotdwhbpc",
-          databaseName: "duhxebzhd",
-          roles: [
-            {
-              entityName: "entity-name",
-              attributes: [
-                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
-              ],
-              branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
-              permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
-              isSuperUser: true,
-            },
-          ],
-          databases: [
-            {
-              entityName: "entity-name",
-              attributes: [
-                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
-              ],
-              branchId: "orfdwdmzvfvlnrgussvcvoek",
-              ownerName: "odmbeg",
-            },
-          ],
-          endpoints: [
-            {
-              entityName: "entity-name",
-              attributes: [
-                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
-              ],
-              projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
-              branchId: "rzsyrhpfbydxtfkpaa",
-              endpointType: "read_only",
-            },
-          ],
-        },
+        projectId: "oik",
+        parentId: "entity-id",
+        roleName: "qrrairsupyosxnqotdwhbpc",
+        databaseName: "duhxebzhd",
         roles: [
           {
             entityName: "entity-name",
@@ -97,8 +60,34 @@ async function projectsUpdateMaximumSet(): Promise<void> {
           },
         ],
       },
+      roles: [
+        {
+          entityName: "entity-name",
+          attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+          branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
+          permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
+          isSuperUser: true,
+        },
+      ],
+      databases: [
+        {
+          entityName: "entity-name",
+          attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+          branchId: "orfdwdmzvfvlnrgussvcvoek",
+          ownerName: "odmbeg",
+        },
+      ],
+      endpoints: [
+        {
+          entityName: "entity-name",
+          attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+          projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
+          branchId: "rzsyrhpfbydxtfkpaa",
+          endpointType: "read_only",
+        },
+      ],
     },
-  );
+  });
   console.log(result);
 }
 

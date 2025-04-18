@@ -26,8 +26,7 @@ export function createPostgres(
   subscriptionId: string,
   options: PostgresClientOptionalParams = {},
 ): PostgresContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-neonpostgres/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

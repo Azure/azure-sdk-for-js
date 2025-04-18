@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  getConnectionUri,
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "./operations.js";
+export { getConnectionUri, list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,

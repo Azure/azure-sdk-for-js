@@ -15,11 +15,7 @@ async function branchesListMaximumSet(): Promise<void> {
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.branches.list(
-    "rgneon",
-    "test-org",
-    "entity-name",
-  )) {
+  for await (const item of client.branches.list("rgneon", "test-org", "entity-name")) {
     resArray.push(item);
   }
 

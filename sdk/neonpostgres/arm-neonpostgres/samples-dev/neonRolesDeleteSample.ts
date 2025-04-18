@@ -14,13 +14,7 @@ async function neonRolesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  await client.neonRoles.delete(
-    "rgneon",
-    "test-org",
-    "entity-name",
-    "entity-name",
-    "entity-name",
-  );
+  await client.neonRoles.delete("rgneon", "test-org", "entity-name", "entity-name", "entity-name");
 }
 
 async function main(): Promise<void> {

@@ -1,43 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createPostgres,
-  PostgresContext,
-  PostgresClientOptionalParams,
-} from "./api/index.js";
-import {
-  EndpointsOperations,
-  _getEndpointsOperations,
-} from "./classic/endpoints/index.js";
-import {
-  NeonRolesOperations,
-  _getNeonRolesOperations,
-} from "./classic/neonRoles/index.js";
+import { createPostgres, PostgresContext, PostgresClientOptionalParams } from "./api/index.js";
+import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
+import { NeonRolesOperations, _getNeonRolesOperations } from "./classic/neonRoles/index.js";
 import {
   NeonDatabasesOperations,
   _getNeonDatabasesOperations,
 } from "./classic/neonDatabases/index.js";
-import {
-  ComputesOperations,
-  _getComputesOperations,
-} from "./classic/computes/index.js";
-import {
-  BranchesOperations,
-  _getBranchesOperations,
-} from "./classic/branches/index.js";
-import {
-  ProjectsOperations,
-  _getProjectsOperations,
-} from "./classic/projects/index.js";
+import { ComputesOperations, _getComputesOperations } from "./classic/computes/index.js";
+import { BranchesOperations, _getBranchesOperations } from "./classic/branches/index.js";
+import { ProjectsOperations, _getProjectsOperations } from "./classic/projects/index.js";
 import {
   OrganizationsOperations,
   _getOrganizationsOperations,
 } from "./classic/organizations/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
