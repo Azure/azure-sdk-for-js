@@ -8,10 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  ClusterMetricsConfigurationPatchParameters,
-  MetricsConfigurationsUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  ClusterMetricsConfigurationPatchParameters,
+  MetricsConfigurationsUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch properties of metrics configuration for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently.
  *
  * @summary Patch properties of metrics configuration for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterMetricsConfigurations_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/ClusterMetricsConfigurations_Patch.json
  */
 async function patchMetricsConfigurationOfCluster(): Promise<void> {
   const subscriptionId =

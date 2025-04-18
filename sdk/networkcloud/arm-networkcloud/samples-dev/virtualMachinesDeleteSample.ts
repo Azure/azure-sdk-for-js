@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided virtual machine.
  *
  * @summary Delete the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/VirtualMachines_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/VirtualMachines_Delete.json
  */
 async function deleteVirtualMachine(): Promise<void> {
   const subscriptionId =

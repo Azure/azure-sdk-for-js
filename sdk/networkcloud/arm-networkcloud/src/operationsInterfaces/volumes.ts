@@ -20,7 +20,7 @@ import {
   VolumesDeleteResponse,
   VolumesUpdateOptionalParams,
   VolumesUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Volumes. */

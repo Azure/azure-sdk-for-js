@@ -18,7 +18,7 @@ All customer initiated requests will be rejected as the life cycle of this resou
  *
  * @summary Delete the provided storage appliance.
 All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/StorageAppliances_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/StorageAppliances_Delete.json
  */
 async function deleteStorageAppliance(): Promise<void> {
   const subscriptionId =

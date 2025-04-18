@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided volume.
  *
  * @summary Delete the provided volume.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Volumes_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Volumes_Delete.json
  */
 async function deleteVolume(): Promise<void> {
   const subscriptionId =

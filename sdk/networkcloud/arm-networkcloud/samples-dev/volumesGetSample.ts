@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get properties of the provided volume.
  *
  * @summary Get properties of the provided volume.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Volumes_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Volumes_Get.json
  */
 async function getVolume(): Promise<void> {
   const subscriptionId =

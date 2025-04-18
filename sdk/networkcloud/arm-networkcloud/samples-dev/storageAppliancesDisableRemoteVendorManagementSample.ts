@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Disable remote vendor management of the provided storage appliance.
  *
  * @summary Disable remote vendor management of the provided storage appliance.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/StorageAppliances_DisableRemoteVendorManagement.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/StorageAppliances_DisableRemoteVendorManagement.json
  */
 async function turnOffRemoteVendorManagementForStorageAppliance(): Promise<void> {
   const subscriptionId =

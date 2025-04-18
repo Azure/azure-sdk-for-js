@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  ClusterContinueUpdateVersionParameters} from "@azure/arm-networkcloud";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
+  ClusterContinueUpdateVersionParameters,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update.
  *
  * @summary Trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_ContinueUpdateVersion.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Clusters_ContinueUpdateVersion.json
  */
 async function continueUpdateClusterVersion(): Promise<void> {
   const subscriptionId =

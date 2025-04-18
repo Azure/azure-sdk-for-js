@@ -8,8 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { L2Network} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { L2Network, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new layer 2 (L2) network or update the properties of the existing network.
  *
  * @summary Create a new layer 2 (L2) network or update the properties of the existing network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/L2Networks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/L2Networks_Create.json
  */
 async function createOrUpdateL2Network(): Promise<void> {
   const subscriptionId =

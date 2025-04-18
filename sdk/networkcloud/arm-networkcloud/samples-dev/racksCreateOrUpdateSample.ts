@@ -8,8 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Rack} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { Rack, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,7 +18,7 @@ All customer initiated requests will be rejected as the life cycle of this resou
  *
  * @summary Create a new rack or update properties of the existing one.
 All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Racks_Create.json
  */
 async function createOrUpdateRack(): Promise<void> {
   const subscriptionId =

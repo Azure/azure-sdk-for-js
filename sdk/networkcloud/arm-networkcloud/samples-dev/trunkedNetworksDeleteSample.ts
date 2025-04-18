@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided trunked network.
  *
  * @summary Delete the provided trunked network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/TrunkedNetworks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/TrunkedNetworks_Delete.json
  */
 async function deleteTrunkedNetwork(): Promise<void> {
   const subscriptionId =

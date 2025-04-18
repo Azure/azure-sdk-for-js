@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the metrics configuration of the provided cluster.
  *
  * @summary Delete the metrics configuration of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterMetricsConfigurations_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/ClusterMetricsConfigurations_Delete.json
  */
 async function deleteMetricsConfigurationOfCluster(): Promise<void> {
   const subscriptionId =

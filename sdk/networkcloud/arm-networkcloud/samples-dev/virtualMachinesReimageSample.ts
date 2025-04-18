@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Reimage the provided virtual machine.
  *
  * @summary Reimage the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/VirtualMachines_Reimage.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/VirtualMachines_Reimage.json
  */
 async function reimageVirtualMachine(): Promise<void> {
   const subscriptionId =

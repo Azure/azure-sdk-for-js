@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided layer 2 (L2) network.
  *
  * @summary Delete the provided layer 2 (L2) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/L2Networks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/L2Networks_Delete.json
  */
 async function deleteL2Network(): Promise<void> {
   const subscriptionId =

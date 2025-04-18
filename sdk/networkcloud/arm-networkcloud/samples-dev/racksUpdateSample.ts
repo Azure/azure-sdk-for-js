@@ -8,10 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  RackPatchParameters,
-  RacksUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  RackPatchParameters,
+  RacksUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch properties of the provided rack, or update the tags associated with the rack. Properties and tag updates can be done independently.
  *
  * @summary Patch properties of the provided rack, or update the tags associated with the rack. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Racks_Patch.json
  */
 async function patchRack(): Promise<void> {
   const subscriptionId =

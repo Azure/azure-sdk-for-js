@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get properties of the provided rack.
  *
  * @summary Get properties of the provided rack.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Racks_Get.json
  */
 async function getRack(): Promise<void> {
   const subscriptionId =

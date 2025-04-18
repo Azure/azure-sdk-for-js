@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of consoles for the provided virtual machine.
  *
  * @summary Get a list of consoles for the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Consoles_ListByVirtualMachine.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Consoles_ListByVirtualMachine.json
  */
 async function listConsolesOfTheVirtualMachine(): Promise<void> {
   const subscriptionId =

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of racks in the provided subscription.
  *
  * @summary Get a list of racks in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Racks_ListBySubscription.json
  */
 async function listRacksForSubscription(): Promise<void> {
   const subscriptionId =

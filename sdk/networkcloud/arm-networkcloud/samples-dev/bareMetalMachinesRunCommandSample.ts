@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  BareMetalMachineRunCommandParameters} from "@azure/arm-networkcloud";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
+  BareMetalMachineRunCommandParameters,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Run the command or the script on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
  *
  * @summary Run the command or the script on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_RunCommand.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/BareMetalMachines_RunCommand.json
  */
 async function runCommandOnBareMetalMachine(): Promise<void> {
   const subscriptionId =
@@ -28,11 +29,11 @@ async function runCommandOnBareMetalMachine(): Promise<void> {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters =
-  {
-    arguments: ["--argument1", "argument2"],
-    limitTimeSeconds: 60,
-    script: "cHdkCg==",
-  };
+    {
+      arguments: ["--argument1", "argument2"],
+      limitTimeSeconds: 60,
+      script: "cHdkCg==",
+    };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginRunCommandAndWait(

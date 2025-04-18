@@ -8,9 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  KubernetesClusterRestartNodeParameters} from "@azure/arm-networkcloud";
 import {
+  KubernetesClusterRestartNodeParameters,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Restart a targeted node of a Kubernetes cluster.
  *
  * @summary Restart a targeted node of a Kubernetes cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusters_RestartNode.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/KubernetesClusters_RestartNode.json
  */
 async function restartAKubernetesClusterNode(): Promise<void> {
   const subscriptionId =

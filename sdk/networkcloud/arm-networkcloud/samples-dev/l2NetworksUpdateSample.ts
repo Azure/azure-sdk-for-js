@@ -8,10 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  L2NetworkPatchParameters,
-  L2NetworksUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  L2NetworkPatchParameters,
+  L2NetworksUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update tags associated with the provided layer 2 (L2) network.
  *
  * @summary Update tags associated with the provided layer 2 (L2) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/L2Networks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/L2Networks_Patch.json
  */
 async function patchL2Network(): Promise<void> {
   const subscriptionId =

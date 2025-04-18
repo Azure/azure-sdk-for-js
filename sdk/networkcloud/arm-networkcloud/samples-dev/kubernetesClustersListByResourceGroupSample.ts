@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of Kubernetes clusters in the provided resource group.
  *
  * @summary Get a list of Kubernetes clusters in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusters_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/KubernetesClusters_ListByResourceGroup.json
  */
 async function listKubernetesClustersForResourceGroup(): Promise<void> {
   const subscriptionId =

@@ -8,10 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  ClusterScanRuntimeParameters,
-  ClustersScanRuntimeOptionalParams} from "@azure/arm-networkcloud";
 import {
+  ClusterScanRuntimeParameters,
+  ClustersScanRuntimeOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
  *
  * @summary Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_ScanRuntime.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Clusters_ScanRuntime.json
  */
 async function executeARuntimeProtectionScanOnTheCluster(): Promise<void> {
   const subscriptionId =

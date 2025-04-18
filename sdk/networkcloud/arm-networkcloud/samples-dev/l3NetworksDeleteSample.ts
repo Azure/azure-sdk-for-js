@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided layer 3 (L3) network.
  *
  * @summary Delete the provided layer 3 (L3) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/L3Networks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/L3Networks_Delete.json
  */
 async function deleteL3Network(): Promise<void> {
   const subscriptionId =

@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { BmcKeySet} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import { BmcKeySet, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new baseboard management controller key set or update the existing one for the provided cluster.
  *
  * @summary Create a new baseboard management controller key set or update the existing one for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BmcKeySets_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/BmcKeySets_Create.json
  */
 async function createOrUpdateBaseboardManagementControllerKeySetOfCluster(): Promise<void> {
   const subscriptionId =

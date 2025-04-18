@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of features for the provided Kubernetes cluster.
  *
  * @summary Get a list of features for the provided Kubernetes cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusterFeatures_ListByKubernetesCluster.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/KubernetesClusterFeatures_ListByKubernetesCluster.json
  */
 async function listFeaturesForTheKubernetesCluster(): Promise<void> {
   const subscriptionId =

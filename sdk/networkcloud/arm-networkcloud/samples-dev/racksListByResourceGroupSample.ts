@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of racks in the provided resource group.
  *
  * @summary Get a list of racks in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Racks_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Racks_ListByResourceGroup.json
  */
 async function listRacksForResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,9 @@ async function listRacksForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.racks.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.racks.listByResourceGroup(
+    resourceGroupName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

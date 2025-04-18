@@ -24,7 +24,7 @@ import {
   StorageAppliancesDisableRemoteVendorManagementResponse,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   StorageAppliancesEnableRemoteVendorManagementResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StorageAppliances. */

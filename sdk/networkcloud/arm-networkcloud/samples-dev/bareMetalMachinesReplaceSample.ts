@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  BareMetalMachineReplaceParameters,
-  BareMetalMachinesReplaceOptionalParams} from "@azure/arm-networkcloud";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
+  BareMetalMachineReplaceParameters,
+  BareMetalMachinesReplaceOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Replace the provided bare metal machine.
  *
  * @summary Replace the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Replace.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/BareMetalMachines_Replace.json
  */
 async function replaceBareMetalMachine(): Promise<void> {
   const subscriptionId =
@@ -29,7 +30,10 @@ async function replaceBareMetalMachine(): Promise<void> {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineReplaceParameters: BareMetalMachineReplaceParameters = {
-    bmcCredentials: { password: "{password}", username: "bmcuser" },
+    bmcCredentials: {
+      password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+      username: "bmcuser",
+    },
     bmcMacAddress: "00:00:4f:00:57:ad",
     bootMacAddress: "00:00:4e:00:58:af",
     machineName: "name",

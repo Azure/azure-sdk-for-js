@@ -8,9 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  KubernetesClusterFeature} from "@azure/arm-networkcloud";
 import {
+  KubernetesClusterFeature,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new Kubernetes cluster feature or update properties of the Kubernetes cluster feature if it exists.
  *
  * @summary Create a new Kubernetes cluster feature or update properties of the Kubernetes cluster feature if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusterFeatures_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/KubernetesClusterFeatures_Create.json
  */
 async function createOrUpdateKubernetesClusterFeature(): Promise<void> {
   const subscriptionId =

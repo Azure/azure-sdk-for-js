@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of trunked networks in the provided resource group.
  *
  * @summary Get a list of trunked networks in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/TrunkedNetworks_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/TrunkedNetworks_ListByResourceGroup.json
  */
 async function listTrunkedNetworksForResourceGroup(): Promise<void> {
   const subscriptionId =

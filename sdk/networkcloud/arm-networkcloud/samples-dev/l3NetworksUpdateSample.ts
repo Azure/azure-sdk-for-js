@@ -8,10 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  L3NetworkPatchParameters,
-  L3NetworksUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  L3NetworkPatchParameters,
+  L3NetworksUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update tags associated with the provided layer 3 (L3) network.
  *
  * @summary Update tags associated with the provided layer 3 (L3) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/L3Networks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/L3Networks_Patch.json
  */
 async function patchL3Network(): Promise<void> {
   const subscriptionId =

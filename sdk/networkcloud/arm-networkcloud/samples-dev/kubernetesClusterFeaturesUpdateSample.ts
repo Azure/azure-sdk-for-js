@@ -8,10 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  KubernetesClusterFeaturePatchParameters,
-  KubernetesClusterFeaturesUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  KubernetesClusterFeaturePatchParameters,
+  KubernetesClusterFeaturesUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch properties of the provided Kubernetes cluster feature.
  *
  * @summary Patch properties of the provided Kubernetes cluster feature.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/KubernetesClusterFeatures_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/KubernetesClusterFeatures_Patch.json
  */
 async function patchKubernetesClusterFeature(): Promise<void> {
   const subscriptionId =

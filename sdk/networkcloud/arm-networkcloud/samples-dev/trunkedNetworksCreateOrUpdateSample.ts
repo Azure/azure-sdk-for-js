@@ -8,8 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { TrunkedNetwork} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { TrunkedNetwork, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new trunked network or update the properties of the existing trunked network.
  *
  * @summary Create a new trunked network or update the properties of the existing trunked network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/TrunkedNetworks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/TrunkedNetworks_Create.json
  */
 async function createOrUpdateTrunkedNetwork(): Promise<void> {
   const subscriptionId =

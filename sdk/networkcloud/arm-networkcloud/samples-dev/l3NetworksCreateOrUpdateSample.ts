@@ -8,8 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { L3Network} from "@azure/arm-networkcloud";
-import { NetworkCloud } from "@azure/arm-networkcloud";
+import { L3Network, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -17,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a new layer 3 (L3) network or update the properties of the existing network.
  *
  * @summary Create a new layer 3 (L3) network or update the properties of the existing network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/L3Networks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/L3Networks_Create.json
  */
 async function createOrUpdateL3Network(): Promise<void> {
   const subscriptionId =

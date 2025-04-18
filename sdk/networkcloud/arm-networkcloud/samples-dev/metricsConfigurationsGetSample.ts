@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get metrics configuration of the provided cluster.
  *
  * @summary Get metrics configuration of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterMetricsConfigurations_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/ClusterMetricsConfigurations_Get.json
  */
 async function getMetricsConfigurationOfCluster(): Promise<void> {
   const subscriptionId =

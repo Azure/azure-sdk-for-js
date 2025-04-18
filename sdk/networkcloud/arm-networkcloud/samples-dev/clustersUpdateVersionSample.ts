@@ -8,9 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  ClusterUpdateVersionParameters} from "@azure/arm-networkcloud";
 import {
+  ClusterUpdateVersionParameters,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update the version of the provided cluster to one of the available supported versions.
  *
  * @summary Update the version of the provided cluster to one of the available supported versions.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_UpdateVersion.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-10-01-preview/examples/Clusters_UpdateVersion.json
  */
 async function updateClusterVersion(): Promise<void> {
   const subscriptionId =
