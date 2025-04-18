@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  RecorderStartOptions} from "@azure-tools/test-recorder";
 import {
-  Recorder,
-  RecorderStartOptions,
+  Recorder
 } from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
