@@ -37,6 +37,7 @@ describe("Postgres test", () => {
     }
     assert.notEqual(resArray.length, 0);
   });
+
   it("organizations list test", async () => {
     const res = await client.organizations.listByResourceGroup("myjstest");
     assert.ok(res);
