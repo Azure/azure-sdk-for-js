@@ -47,6 +47,7 @@ export function executeActions(action, serviceDirs, extraParams, artifactNames, 
         break;
 
       case "lint":
+      case "update-snippets":
         exitCode = runInPackageDirs(action, packageDirs);
         break;
       case "check-format":
