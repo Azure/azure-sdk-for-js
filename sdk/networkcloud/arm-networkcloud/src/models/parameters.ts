@@ -61,7 +61,7 @@ import {
   KubernetesClusterFeaturePatchParameters as KubernetesClusterFeaturePatchParametersMapper,
   Console as ConsoleMapper,
   ConsolePatchParameters as ConsolePatchParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
