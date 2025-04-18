@@ -15,8 +15,11 @@ RUN apt-get update && apt-get install -y \
   && npm install -g pnpm \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Azure CLI
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+# Conditionally install Azure CLI if NODE_ENV is development
+ARG NODE_ENV=production
+RUN if [ "$NODE_ENV" = "development" ]; then \
+  curl -sL https://aka.ms/InstallAzureCLIDeb | bash; \
+  fi
 
 # Set the working directory in the container
 WORKDIR /app

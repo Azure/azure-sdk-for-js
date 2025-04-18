@@ -50,10 +50,16 @@ pnpm dev
 
 ### Running the Cache in Docker
 
-To run the cache in Docker, you can use the following command in the `common/tools/turborepo-remote-cache` directory:
+To run the cache in Docker, you can use the following command in the `common/tools/turborepo-remote-cache` directory for production:
 
 ```bash
 docker build -t azure-turborepo-remote-cache .
+```
+
+For development, you can use the following command:
+
+```bash
+docker build -t azure-turborepo-remote-cache --build-arg NODE_ENV=development .
 ```
 
 Using an `.env` file is supported so you can run the container with the following command:
