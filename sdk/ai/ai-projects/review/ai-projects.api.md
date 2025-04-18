@@ -268,12 +268,6 @@ export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
 }
 
 // @public
-export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
-    bing_custom_search: SearchConfigurationList;
-    type: "bing_custom_search";
-}
-
-// @public
 export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
     bingCustomSearch?: SearchConfigurationListOutput;
     type: "bing_custom_search";
@@ -1148,7 +1142,7 @@ export interface OpenApiConnectionSecuritySchemeOutput {
 // @public
 export interface OpenApiFunctionDefinition {
     auth: OpenApiAuthDetails;
-    default_params?: string[];
+    defaultParams?: string[];
     description?: string;
     functions?: Array<FunctionDefinition>;
     name: string;

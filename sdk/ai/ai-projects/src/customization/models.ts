@@ -181,7 +181,7 @@ export interface OpenApiFunctionDefinition {
   /** Open API authentication details */
   auth: OpenApiAuthDetails;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
-  default_params?: string[];
+  defaultParams?: string[];
   /** List of functions returned in response */
   functions?: Array<FunctionDefinition>;
 }
@@ -223,14 +223,6 @@ export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
 export interface OpenApiManagedSecurityScheme {
   /** Authentication scope for managed_identity auth type */
   audience: string;
-}
-
-/** The input definition information for a Bing custom search tool as used to configure an agent. */
-export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
-  /** The object type, which is always 'bing_custom_search'. */
-  type: "bing_custom_search";
-  /** The list of search configurations used by the bing custom search tool. */
-  bing_custom_search: SearchConfigurationList;
 }
 
 /** A list of search configurations currently used by the `bing_custom_search` tool. */
