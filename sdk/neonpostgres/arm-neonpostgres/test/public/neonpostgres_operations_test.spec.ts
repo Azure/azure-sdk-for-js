@@ -39,7 +39,7 @@ describe("Postgres test", () => {
   });
 
   it("organizations list test", async () => {
-    const res = await client.organizations.listByResourceGroup("myjstest");
+    const res = client.organizations.listByResourceGroup("myjstest");
     assert.ok(res);
   });
 });
