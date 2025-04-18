@@ -465,7 +465,7 @@ describe("HttpsPipeline", function () {
   });
 
   describe("requestOverrides", function () {
-    it("is undefined by default", async function() {
+    it("is undefined by default", async function () {
       const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
           assert.strictEqual(request.requestOverrides, undefined);
@@ -514,5 +514,5 @@ describe("HttpsPipeline", function () {
       assert.strictEqual(response.request.timeout, 1);
       assert.strictEqual((response.request as any).priority, "low");
     });
-  })
+  });
 });
