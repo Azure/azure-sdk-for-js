@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AIProjectClient, Connection, ConnectionsOperations } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import type { AIProjectClient, Connection, ConnectionsOperations } from "../../../src/index.js";
 
-describe("Agents - assistants", () => {
+describe("connections - basic", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
   let connections: ConnectionsOperations;
