@@ -1,10 +1,26 @@
 # Release History
 
-## 1.0.0-beta.30 ()
+## 1.0.0-beta.31 ()
+
+### Features Added
+
+- Support `syntheticSource` from `user_agent.synthetic.type` semantic convention.
+
+## Other Changes
+
+- Hide iKey in debug logs.
+- Add to statsbeat success count when a batch of envelopes is partially accepted by breeze.
+
+## 1.0.0-beta.30 (2025-04-09)
+
+### Bugs Fixed
+
+- Fixed process time normalized calculation returning NaN.
 
 ### Features Added
 
 - Support setting the AiLocationIp on logs and events.
+- Add support for performance counters.
 
 ### Other Changes
 

@@ -18,6 +18,7 @@ import type {
   DeleteUserParameters,
   GetUserParameters,
   CreateOrUpdateUserParameters,
+  ListUserDefinedFunctionsParameters,
 } from "./parameters.js";
 import type {
   GetConstitution200Response,
@@ -52,6 +53,8 @@ import type {
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse,
+  ListUserDefinedFunctions200Response,
+  ListUserDefinedFunctionsDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -155,6 +158,15 @@ export interface DeleteUser {
   ): StreamableMethod<CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse>;
 }
 
+export interface ListUserDefinedFunctions {
+  /** User defined functions stored in the Confidential Ledger */
+  get(
+    options?: ListUserDefinedFunctionsParameters,
+  ): StreamableMethod<
+    ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/app/governance/constitution' has methods for the following verbs: get */
   (path: "/app/governance/constitution"): GetConstitution;
@@ -180,6 +192,8 @@ export interface Routes {
   (path: "/app/users/{userId}", userId: string): DeleteUser;
   /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: delete, get, patch */
   (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
+  /** Resource for '/app/userDefinedFunctions' has methods for the following verbs: get */
+  (path: "/app/userDefinedFunctions"): ListUserDefinedFunctions;
 }
 
 export type ConfidentialLedgerClient = Client & {

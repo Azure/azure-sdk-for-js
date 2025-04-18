@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { OperationArguments, OperationSpec } from "@azure/core-client";
-import { isNode } from "@azure/core-util";
-import { StorageClient } from "./generated/src";
+import { isNodeLike } from "@azure/core-util";
+import { StorageClient } from "./generated/src/index.js";
 
 /**
  * @internal
@@ -16,7 +16,7 @@ export class StorageContextClient extends StorageClient {
     const operationSpecToSend = { ...operationSpec };
 
     if (
-      !isNode &&
+      !isNodeLike &&
       !operationSpec.requestBody &&
       operationSpec.headerParameters?.some(
         (param) => param.mapper.serializedName === "Content-Length",

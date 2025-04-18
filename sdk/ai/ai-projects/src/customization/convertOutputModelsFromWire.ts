@@ -97,6 +97,28 @@ function convertBingGroundingToolDefinitionOutput(
   };
 }
 
+function convertBingCustomSearchToolDefinitionOutput(
+  input: GeneratedModels.BingCustomSearchToolDefinitionOutput,
+): PublicModels.BingCustomSearchToolDefinitionOutput {
+  return {
+    type: "bing_custom_search",
+    bingCustomSearch: input.bing_custom_search
+      ? convertToolSearchConfigurationListOutput(input.bing_custom_search)
+      : undefined,
+  };
+}
+
+function convertToolSearchConfigurationListOutput(
+  input: GeneratedModels.SearchConfigurationListOutput,
+): PublicModels.SearchConfigurationListOutput {
+  return {
+    searchConfigurations: input.search_configurations?.map((item) => ({
+      connectionId: item.connection_id,
+      instanceName: item.instance_name,
+    })),
+  };
+}
+
 function convertToolConnectionListOutput(
   input: GeneratedModels.ToolConnectionListOutput,
 ): PublicModels.ToolConnectionListOutput {
@@ -248,6 +270,10 @@ function convertToolDefinitionOutput(
     case "bing_grounding":
       return convertBingGroundingToolDefinitionOutput(
         tool as GeneratedModels.BingGroundingToolDefinitionOutput,
+      );
+    case "bing_custom_search":
+      return convertBingCustomSearchToolDefinitionOutput(
+        tool as GeneratedModels.BingCustomSearchToolDefinitionOutput,
       );
     case "fabric_dataagent":
       return convertMicrosoftFabricToolDefinitionOutput(
@@ -651,7 +677,7 @@ function convertRunStepDetailsOutput(
       return convertRunStepMessageCreationDetailsOutput(
         input as GeneratedModels.RunStepMessageCreationDetailsOutput,
       );
-    case "tool_call":
+    case "tool_calls":
       return convertRunStepToolCallDetailsOutput(
         input as GeneratedModels.RunStepToolCallDetailsOutput,
       );
@@ -1269,7 +1295,7 @@ function convertRunStepDetailsDelta(
       return convertRunStepMessageCreationDetailsDelta(
         input as WireStreamingModels.RunStepDeltaMessageCreation,
       );
-    case "tool_call":
+    case "tool_calls":
       return convertRunStepToolCallDetailsDelta(
         input as WireStreamingModels.RunStepDeltaToolCallObject,
       );
