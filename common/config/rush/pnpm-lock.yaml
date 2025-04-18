@@ -2773,7 +2773,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz':
-    resolution: {integrity: sha512-G5l6R+/M3LpP9pj7sYrwjkAfIuZWwSkxGksvNqtrHiviuIMkjEmVIMLZbfKHSQy8jWC9Sdq+jSy1w9B7i6aGSw==, tarball: file:projects/arm-durabletask.tgz}
+    resolution: {integrity: sha512-JXdFUxKU2RBj4t+t+pdAAc3qkcfyxObSOlEdZSK+sreETe1CGxaA7Ds1eX0TBxE4TTPCpIHBDj42dscxL9e6kg==, tarball: file:projects/arm-durabletask.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
@@ -12328,7 +12328,7 @@ snapshots:
       eslint: 9.24.0
       playwright: 1.51.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.1)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
