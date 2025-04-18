@@ -47,13 +47,6 @@ import {
 } from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
-import type {
-  AddParticipantEventResult,
-  CancelAddParticipantEventResult,
-  RemoveParticipantEventResult,
-  TransferCallToParticipantEventResult,
-} from "./eventprocessor/eventResponses.js";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
@@ -66,12 +59,10 @@ export class CallConnection {
   private readonly endpoint: string;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly callAutomationApiClientOptions?: CallAutomationApiClientOptionalParams;
-  private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
   constructor(
     callConnectionId: string,
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    eventProcessor: CallAutomationEventProcessor,
     options?: CallAutomationApiClientOptionalParams,
   ) {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
@@ -83,7 +74,6 @@ export class CallConnection {
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
     this.credential = credential;
-    this.callAutomationEventProcessor = eventProcessor;
     this.callAutomationApiClientOptions = options;
   }
 
@@ -95,7 +85,6 @@ export class CallConnection {
       this.callConnectionId,
       this.endpoint,
       this.credential,
-      this.callAutomationEventProcessor,
       this.callAutomationApiClientOptions,
     );
   }
@@ -221,7 +210,7 @@ export class CallConnection {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!,
@@ -244,37 +233,6 @@ export class CallConnection {
         identifier: result.participant?.identifier
           ? communicationIdentifierConverter(result.participant?.identifier)
           : undefined,
-      },
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const addParticipantEventResult: AddParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "AddParticipantSucceeded" &&
-              event.operationContext === addParticipantRequest.operationContext
-            ) {
-              addParticipantEventResult.isSuccess = true;
-              addParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "AddParticipantFailed" &&
-              event.operationContext === addParticipantRequest.operationContext
-            ) {
-              addParticipantEventResult.isSuccess = false;
-              addParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return addParticipantEventResult;
       },
     };
     return addParticipantsResult;
@@ -309,37 +267,6 @@ export class CallConnection {
     );
     const transferCallResult: TransferCallResult = {
       ...result,
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const transferCallToParticipantEventResult: TransferCallToParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CallTransferAccepted" &&
-              event.operationContext === transferToParticipantRequest.operationContext
-            ) {
-              transferCallToParticipantEventResult.isSuccess = true;
-              transferCallToParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CallTransferFailed" &&
-              event.operationContext === transferToParticipantRequest.operationContext
-            ) {
-              transferCallToParticipantEventResult.isSuccess = false;
-              transferCallToParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return transferCallToParticipantEventResult;
-      },
     };
     return transferCallResult;
   }
@@ -370,37 +297,6 @@ export class CallConnection {
     );
     const removeParticipantsResult: RemoveParticipantResult = {
       ...result,
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const removeParticipantEventResult: RemoveParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RemoveParticipantSucceeded" &&
-              event.operationContext === removeParticipantRequest.operationContext
-            ) {
-              removeParticipantEventResult.isSuccess = true;
-              removeParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RemoveParticipantFailed" &&
-              event.operationContext === removeParticipantRequest.operationContext
-            ) {
-              removeParticipantEventResult.isSuccess = false;
-              removeParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return removeParticipantEventResult;
-      },
     };
     return removeParticipantsResult;
   }
@@ -467,37 +363,6 @@ export class CallConnection {
 
     const cancelAddParticipantResult: CancelAddParticipantOperationResult = {
       ...result,
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const cancelAddParticipantEventResult: CancelAddParticipantEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CancelAddParticipantSucceeded" &&
-              event.operationContext === cancelAddParticipantRequest.operationContext
-            ) {
-              cancelAddParticipantEventResult.isSuccess = true;
-              cancelAddParticipantEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "CancelAddParticipantFailed" &&
-              event.operationContext === cancelAddParticipantRequest.operationContext
-            ) {
-              cancelAddParticipantEventResult.isSuccess = false;
-              cancelAddParticipantEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return cancelAddParticipantEventResult;
-      },
     };
 
     return cancelAddParticipantResult;

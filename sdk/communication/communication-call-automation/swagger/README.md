@@ -11,9 +11,9 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2024-09-01-preview
+tag: package-2025-03-30-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/c8d14e82887409318f471cb17d2fa03844e8187f/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/f953e3da103ce9ce733acf8f09489b4f33567b5d/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.4.0-beta.2
 model-date-time-as-string: false
 optional-response-headers: true
@@ -183,23 +183,8 @@ directive:
       from: PlayStarted
       to: RestPlayStarted
   - rename-model:
-      from: PlayPaused
-      to: RestPlayPaused
-  - rename-model:
-      from: PlayResumed
-      to: RestPlayResumed
-  - rename-model:
-      from: HoldAudioStarted
-      to: RestHoldAudioStarted
-  - rename-model:
-      from: HoldAudioPaused
-      to: RestHoldAudioPaused
-  - rename-model:
-      from: HoldAudioResumed
-      to: RestHoldAudioResumed
-  - rename-model:
-      from: HoldAudioCompleted
-      to: RestHoldAudioCompleted
+      from: StartRecordingFailed
+      to: RestStartRecordingFailed
 module-kind: esm
 ```
 
