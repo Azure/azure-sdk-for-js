@@ -1395,15 +1395,15 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 201ff0d..248a49a 100644
+index 8136c63..0ff983d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.19.2";
-+export const SDK_VERSION: string = "0.2.1";
+-export const SDK_VERSION: string = "1.20.0";
++export const SDK_VERSION: string = "0.2.2";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
@@ -1524,10 +1524,10 @@ index b217f8c..7da85d9 100644
  }
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
 new file mode 100644
-index 0000000..ae5349c
+index 0000000..e250048
 --- /dev/null
 +++ b/src/fetchHttpClient.ts
-@@ -0,0 +1,322 @@
+@@ -0,0 +1,325 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -1614,7 +1614,10 @@ index 0000000..ae5349c
 +     * of request options.
 +     * It will not work as you expect.
 +     */
-+    const response = await fetch(request.url, requestInit);
++    const response = await fetch(request.url, {
++      ...requestInit,
++      ...request.requestOverrides,
++    });
 +    // If we're uploading a blob, we need to fire the progress event manually
 +    if (isBlob(request.body) && request.onUploadProgress) {
 +      request.onUploadProgress({ loadedBytes: request.body.size });
@@ -2155,7 +2158,7 @@ index 9cf0b30..1220eb5 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index ae5513d..28b26c8 100644
+index bbc7e3a..babbfd7 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -2199,7 +2202,7 @@ index ae5513d..28b26c8 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -315,6 +317,21 @@ export type TransferProgressEvent = {
+@@ -327,6 +329,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
@@ -2748,10 +2751,10 @@ index 0000000..1002e6f
 +}
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
 new file mode 100644
-index 0000000..2b974db
+index 0000000..8f1aaee
 --- /dev/null
 +++ b/src/nodeHttpClient.ts
-@@ -0,0 +1,401 @@
+@@ -0,0 +1,402 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -2985,6 +2988,7 @@ index 0000000..2b974db
 +      port: url.port,
 +      method: request.method,
 +      headers: request.headers.toJSON({ preserveCase: true }),
++      ...request.requestOverrides,
 +    };
 +
 +    return new Promise<http.IncomingMessage>((resolve, reject) => {
@@ -3483,7 +3487,7 @@ index b944058..f5612f8 100644
 +  return HttpPipeline.create();
  }
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 32b75b7..6c09a01 100644
+index 8c58dc8..81d925d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
 @@ -2,23 +2,17 @@
@@ -3554,8 +3558,8 @@ index 32b75b7..6c09a01 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -134,14 +110,52 @@ export interface PipelineRequestOptions {
-   allowInsecureConnection?: boolean;
+@@ -146,14 +122,54 @@ export interface PipelineRequestOptions {
+   requestOverrides?: Record<string, unknown>;
  }
  
 +class PipelineRequestImpl implements PipelineRequest {
@@ -3577,6 +3581,7 @@ index 32b75b7..6c09a01 100644
 +  public allowInsecureConnection?: boolean;
 +  public onUploadProgress?: (progress: TransferProgressEvent) => void;
 +  public onDownloadProgress?: (progress: TransferProgressEvent) => void;
++  public requestOverrides?: Record<string, unknown>;
 +
 +  constructor(options: PipelineRequestOptions) {
 +    this.url = options.url;
@@ -3596,6 +3601,7 @@ index 32b75b7..6c09a01 100644
 +    this.requestId = options.requestId || randomUUID();
 +    this.allowInsecureConnection = options.allowInsecureConnection ?? false;
 +    this.enableBrowserStreams = options.enableBrowserStreams ?? false;
++    this.requestOverrides = options.requestOverrides;
 +  }
 +}
 +
