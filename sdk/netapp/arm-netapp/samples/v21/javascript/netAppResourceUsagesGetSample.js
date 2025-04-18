@@ -13,34 +13,24 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 /**
- * This sample demonstrates how to List all replications for a specified volume
+ * This sample demonstrates how to Get current subscription usage of the specific type
  *
- * @summary List all replications for a specified volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Volumes_ListReplications.json
+ * @summary Get current subscription usage of the specific type
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Usages_Get.json
  */
-async function volumesListReplications() {
+async function usagesGet() {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
-  const accountName = "account1";
-  const poolName = "pool1";
-  const volumeName = "volume1";
+  const location = "eastus";
+  const usageType = "totalTibsPerSubscription";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.volumes.listReplications(
-    resourceGroupName,
-    accountName,
-    poolName,
-    volumeName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.netAppResourceUsages.get(location, usageType);
+  console.log(result);
 }
 
 async function main() {
-  await volumesListReplications();
+  await usagesGet();
 }
 
 main().catch(console.error);
