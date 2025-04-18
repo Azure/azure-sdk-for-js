@@ -189,7 +189,7 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
-export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
+export type AzureAISearchQueryType = string;
 
 // @public
 export interface AzureAISearchResource {
@@ -264,6 +264,12 @@ export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputP
 // @public
 export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
     bingCustomSearch?: SearchConfigurationList;
+    type: "bing_custom_search";
+}
+
+// @public
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+    bing_custom_search: SearchConfigurationList;
     type: "bing_custom_search";
 }
 
@@ -1591,6 +1597,17 @@ export interface SearchConfiguration {
 }
 
 // @public
+export interface SearchConfiguration {
+    connectionId: string;
+    instanceName: string;
+}
+
+// @public
+export interface SearchConfigurationList {
+    searchConfigurations: Array<SearchConfiguration>;
+}
+
+// @public
 export interface SearchConfigurationList {
     searchConfigurations: Array<SearchConfiguration>;
 }
@@ -1737,8 +1754,6 @@ export interface ToolConnectionOutput {
     connectionId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BingCustomSearchToolDefinition" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | AzureFunctionToolDefinition;
 

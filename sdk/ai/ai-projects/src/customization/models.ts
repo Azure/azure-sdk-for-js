@@ -239,15 +239,15 @@ export interface SearchConfigurationList {
    * The connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
    */
-  search_configurations: Array<SearchConfiguration>;
+  searchConfigurations: Array<SearchConfiguration>;
 }
 
 /** A custom search configuration. */
 export interface SearchConfiguration {
   /** A connection in a ToolConnectionList attached to this tool. */
-  connection_id: string;
+  connectionId: string;
   /** Name of the custom configuration instance given to config. */
-  instance_name: string;
+  instanceName: string;
 }
 
 /** The input definition information for a azure function tool as used to configure an agent. */
@@ -377,14 +377,6 @@ export interface AzureAISearchResource {
    */
   indexes?: Array<IndexResource>;
 }
-
-/** the query type for the Azure AI Search tool */
-export type AzureAISearchQueryType =
-  | "simple"
-  | "semantic"
-  | "vector"
-  | "vector_simple_hybrid"
-  | "vector_semantic_hybrid";
 
 /** the optional parameters for the Azure AI Search tool */
 export interface CreateAzureAISearchToolOptions {
