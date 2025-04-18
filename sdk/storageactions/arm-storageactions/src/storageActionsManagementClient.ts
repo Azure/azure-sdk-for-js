@@ -19,14 +19,14 @@ import {
   StorageTasksImpl,
   StorageTaskAssignmentOperationsImpl,
   StorageTasksReportImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Operations,
   StorageTasks,
   StorageTaskAssignmentOperations,
   StorageTasksReport,
-} from "./operationsInterfaces/index.js";
-import { StorageActionsManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { StorageActionsManagementClientOptionalParams } from "./models";
 
 export class StorageActionsManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -60,7 +60,7 @@ export class StorageActionsManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storageactions/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-storageactions/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

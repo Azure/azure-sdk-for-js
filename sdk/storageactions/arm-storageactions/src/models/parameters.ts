@@ -15,7 +15,7 @@ import {
   StorageTask as StorageTaskMapper,
   StorageTaskUpdateParameters as StorageTaskUpdateParametersMapper,
   StorageTaskPreviewAction as StorageTaskPreviewActionMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -150,7 +150,7 @@ export const maxpagesize: OperationQueryParameter = {
   mapper: {
     serializedName: "$maxpagesize",
     type: {
-      name: "String",
+      name: "Number",
     },
   },
 };

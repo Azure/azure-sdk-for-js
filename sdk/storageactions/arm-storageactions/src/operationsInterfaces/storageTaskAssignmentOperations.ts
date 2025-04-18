@@ -10,13 +10,13 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   StorageTaskAssignment,
   StorageTaskAssignmentListOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StorageTaskAssignmentOperations. */
 export interface StorageTaskAssignmentOperations {
   /**
-   * Lists all the storage tasks available under the given resource group.
+   * Lists Resource IDs of the Storage Task Assignments associated with this Storage Task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageTaskName The name of the storage task within the specified resource group. Storage
    *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
