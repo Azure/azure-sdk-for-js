@@ -2,41 +2,56 @@
 // Licensed under the MIT License.
 
 import { PostgresContext } from "../../api/postgresContext.js";
-import {
-  organizationsGet,
-  organizationsCreateOrUpdate,
-  organizationsUpdate,
-  organizationsDelete,
-  organizationsListByResourceGroup,
-  organizationsListBySubscription,
-} from "../../api/organizations/index.js";
 import { OrganizationResource } from "../../models/models.js";
+import { PgVersionsResult } from "../../models/models/models.js";
+import {
+  OrganizationsGetPostgresVersionsOptionalParams,
+  OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+} from "../../api/organizations/options.js";
+import {
+  getPostgresVersions,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/organizations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  OrganizationsGetOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsListBySubscriptionOptionalParams,
-} from "../../api/options.js";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {
-  /** Get a OrganizationResource */
-  get: (
+  /** Action to retrieve the PostgreSQL versions. */
+  getPostgresVersions: (
+    resourceGroupName: string,
+    options?: OrganizationsGetPostgresVersionsOptionalParams,
+  ) => Promise<PgVersionsResult>;
+  /** List OrganizationResource resources by subscription ID */
+  listBySubscription: (
+    options?: OrganizationsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<OrganizationResource>;
+  /** List OrganizationResource resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: OrganizationsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<OrganizationResource>;
+  /** Delete a OrganizationResource */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationsGetOptionalParams,
-  ) => Promise<OrganizationResource>;
-  /** Create a OrganizationResource */
-  createOrUpdate: (
-    resourceGroupName: string,
-    organizationName: string,
-    resource: OrganizationResource,
-    options?: OrganizationsCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+    options?: OrganizationsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a OrganizationResource */
   update: (
     resourceGroupName: string,
@@ -44,77 +59,71 @@ export interface OrganizationsOperations {
     properties: OrganizationResource,
     options?: OrganizationsUpdateOptionalParams,
   ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
-  /** Delete a OrganizationResource */
-  delete: (
+  /** Create a OrganizationResource */
+  createOrUpdate: (
     resourceGroupName: string,
     organizationName: string,
-    options?: OrganizationsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List OrganizationResource resources by resource group */
-  listByResourceGroup: (
+    resource: OrganizationResource,
+    options?: OrganizationsCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+  /** Get a OrganizationResource */
+  get: (
     resourceGroupName: string,
-    options?: OrganizationsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<OrganizationResource>;
-  /** List OrganizationResource resources by subscription ID */
-  listBySubscription: (
-    options?: OrganizationsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<OrganizationResource>;
+    organizationName: string,
+    options?: OrganizationsGetOptionalParams,
+  ) => Promise<OrganizationResource>;
 }
 
-export function getOrganizations(context: PostgresContext, subscriptionId: string) {
+function _getOrganizations(context: PostgresContext) {
   return {
-    get: (
+    getPostgresVersions: (
+      resourceGroupName: string,
+      options?: OrganizationsGetPostgresVersionsOptionalParams,
+    ) => getPostgresVersions(context, resourceGroupName, options),
+    listBySubscription: (
+      options?: OrganizationsListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: OrganizationsListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
+    delete: (
       resourceGroupName: string,
       organizationName: string,
-      options?: OrganizationsGetOptionalParams,
-    ) => organizationsGet(context, subscriptionId, resourceGroupName, organizationName, options),
-    createOrUpdate: (
-      resourceGroupName: string,
-      organizationName: string,
-      resource: OrganizationResource,
-      options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) =>
-      organizationsCreateOrUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        organizationName,
-        resource,
-        options,
-      ),
+      options?: OrganizationsDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, organizationName, options),
     update: (
       resourceGroupName: string,
       organizationName: string,
       properties: OrganizationResource,
       options?: OrganizationsUpdateOptionalParams,
     ) =>
-      organizationsUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        organizationName,
-        properties,
-        options,
-      ),
-    delete: (
+      update(context, resourceGroupName, organizationName, properties, options),
+    createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
-      options?: OrganizationsDeleteOptionalParams,
-    ) => organizationsDelete(context, subscriptionId, resourceGroupName, organizationName, options),
-    listByResourceGroup: (
+      resource: OrganizationResource,
+      options?: OrganizationsCreateOrUpdateOptionalParams,
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        organizationName,
+        resource,
+        options,
+      ),
+    get: (
       resourceGroupName: string,
-      options?: OrganizationsListByResourceGroupOptionalParams,
-    ) => organizationsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
-      organizationsListBySubscription(context, subscriptionId, options),
+      organizationName: string,
+      options?: OrganizationsGetOptionalParams,
+    ) => get(context, resourceGroupName, organizationName, options),
   };
 }
 
-export function getOrganizationsOperations(
+export function _getOrganizationsOperations(
   context: PostgresContext,
-  subscriptionId: string,
 ): OrganizationsOperations {
   return {
-    ...getOrganizations(context, subscriptionId),
+    ..._getOrganizations(context),
   };
 }

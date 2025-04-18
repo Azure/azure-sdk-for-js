@@ -8,17 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a OrganizationResource
  *
  * @summary delete a OrganizationResource
- * x-ms-original-file: 2024-08-01-preview/Organizations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Organizations_Delete_MaximumSet_Gen.json
  */
-async function organizationsDelete(): Promise<void> {
+async function organizationsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
+  const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  await client.organizations.delete("rgneon", "2_3");
+  await client.organizations.delete("rgneon", "test-org");
 }
 
 async function main(): Promise<void> {
-  await organizationsDelete();
+  await organizationsDeleteMaximumSet();
 }
 
 main().catch(console.error);

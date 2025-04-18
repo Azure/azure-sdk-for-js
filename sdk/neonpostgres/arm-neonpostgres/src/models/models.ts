@@ -1,13 +1,228 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  ProjectProperties,
+  projectPropertiesSerializer,
+  projectPropertiesDeserializer,
+  BranchProperties,
+  branchPropertiesSerializer,
+  branchPropertiesDeserializer,
+  NeonRoleProperties,
+  neonRolePropertiesSerializer,
+  neonRolePropertiesDeserializer,
+  NeonDatabaseProperties,
+  neonDatabasePropertiesSerializer,
+  neonDatabasePropertiesDeserializer,
+  EndpointProperties,
+  endpointPropertiesSerializer,
+  endpointPropertiesDeserializer,
+  ComputeProperties,
+  computePropertiesSerializer,
+  computePropertiesDeserializer,
+} from "./models/models.js";
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for and operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
+}
+
 /** Organization Resource by Neon */
 export interface OrganizationResource extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: OrganizationProperties;
 }
 
-export function organizationResourceSerializer(item: OrganizationResource): any {
+export function organizationResourceSerializer(
+  item: OrganizationResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -17,7 +232,9 @@ export function organizationResourceSerializer(item: OrganizationResource): any 
   };
 }
 
-export function organizationResourceDeserializer(item: any): OrganizationResource {
+export function organizationResourceDeserializer(
+  item: any,
+): OrganizationResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -33,7 +250,7 @@ export function organizationResourceDeserializer(item: any): OrganizationResourc
   };
 }
 
-/** Properties specific to Data Organization resource */
+/** Properties specific to Neon Organization resource */
 export interface OrganizationProperties {
   /** Marketplace details of the resource. */
   marketplaceDetails: MarketplaceDetails;
@@ -43,30 +260,50 @@ export interface OrganizationProperties {
   companyDetails: CompanyDetails;
   /** Provisioning state of the resource. */
   readonly provisioningState?: ResourceProvisioningState;
-  /** Organization properties */
+  /** Neon Organization properties */
   partnerOrganizationProperties?: PartnerOrganizationProperties;
+  /** Neon Project Properties */
+  projectProperties?: ProjectProperties;
 }
 
-export function organizationPropertiesSerializer(item: OrganizationProperties): any {
+export function organizationPropertiesSerializer(
+  item: OrganizationProperties,
+): any {
   return {
-    marketplaceDetails: marketplaceDetailsSerializer(item["marketplaceDetails"]),
+    marketplaceDetails: marketplaceDetailsSerializer(
+      item["marketplaceDetails"],
+    ),
     userDetails: userDetailsSerializer(item["userDetails"]),
     companyDetails: companyDetailsSerializer(item["companyDetails"]),
     partnerOrganizationProperties: !item["partnerOrganizationProperties"]
       ? item["partnerOrganizationProperties"]
-      : partnerOrganizationPropertiesSerializer(item["partnerOrganizationProperties"]),
+      : partnerOrganizationPropertiesSerializer(
+          item["partnerOrganizationProperties"],
+        ),
+    projectProperties: !item["projectProperties"]
+      ? item["projectProperties"]
+      : projectPropertiesSerializer(item["projectProperties"]),
   };
 }
 
-export function organizationPropertiesDeserializer(item: any): OrganizationProperties {
+export function organizationPropertiesDeserializer(
+  item: any,
+): OrganizationProperties {
   return {
-    marketplaceDetails: marketplaceDetailsDeserializer(item["marketplaceDetails"]),
+    marketplaceDetails: marketplaceDetailsDeserializer(
+      item["marketplaceDetails"],
+    ),
     userDetails: userDetailsDeserializer(item["userDetails"]),
     companyDetails: companyDetailsDeserializer(item["companyDetails"]),
     provisioningState: item["provisioningState"],
     partnerOrganizationProperties: !item["partnerOrganizationProperties"]
       ? item["partnerOrganizationProperties"]
-      : partnerOrganizationPropertiesDeserializer(item["partnerOrganizationProperties"]),
+      : partnerOrganizationPropertiesDeserializer(
+          item["partnerOrganizationProperties"],
+        ),
+    projectProperties: !item["projectProperties"]
+      ? item["projectProperties"]
+      : projectPropertiesDeserializer(item["projectProperties"]),
   };
 }
 
@@ -261,7 +498,9 @@ export interface PartnerOrganizationProperties {
   singleSignOnProperties?: SingleSignOnProperties;
 }
 
-export function partnerOrganizationPropertiesSerializer(item: PartnerOrganizationProperties): any {
+export function partnerOrganizationPropertiesSerializer(
+  item: PartnerOrganizationProperties,
+): any {
   return {
     organizationId: item["organizationId"],
     organizationName: item["organizationName"],
@@ -295,7 +534,9 @@ export interface SingleSignOnProperties {
   aadDomains?: string[];
 }
 
-export function singleSignOnPropertiesSerializer(item: SingleSignOnProperties): any {
+export function singleSignOnPropertiesSerializer(
+  item: SingleSignOnProperties,
+): any {
   return {
     singleSignOnState: item["singleSignOnState"],
     enterpriseAppId: item["enterpriseAppId"],
@@ -308,7 +549,9 @@ export function singleSignOnPropertiesSerializer(item: SingleSignOnProperties): 
   };
 }
 
-export function singleSignOnPropertiesDeserializer(item: any): SingleSignOnProperties {
+export function singleSignOnPropertiesDeserializer(
+  item: any,
+): SingleSignOnProperties {
   return {
     singleSignOnState: item["singleSignOnState"],
     enterpriseAppId: item["enterpriseAppId"],
@@ -414,7 +657,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -464,122 +709,382 @@ export function _organizationResourceListResultDeserializer(
   };
 }
 
-export function organizationResourceArraySerializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArraySerializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceSerializer(item);
   });
 }
 
-export function organizationResourceArrayDeserializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArrayDeserializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceDeserializer(item);
   });
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
+/** The Project resource type. */
+export interface Project extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ProjectProperties;
+}
+
+export function projectSerializer(item: Project): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function projectDeserializer(item: any): Project {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(item: ProxyResource): any {
+  return item;
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a Project list operation. */
+export interface _ProjectListResult {
+  /** The Project items on this page */
+  value: Project[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _projectListResultDeserializer(item: any): _ProjectListResult {
   return {
-    value: operationArrayDeserializer(item["value"]),
+    value: projectArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
+export function projectArraySerializer(result: Array<Project>): any[] {
   return result.map((item) => {
-    return operationDeserializer(item);
+    return projectSerializer(item);
   });
 }
 
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+export function projectArrayDeserializer(result: Array<Project>): any[] {
+  return result.map((item) => {
+    return projectDeserializer(item);
+  });
 }
 
-export function operationDeserializer(item: any): Operation {
+/** The Branch resource type. */
+export interface Branch extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BranchProperties;
+}
+
+export function branchSerializer(item: Branch): any {
   return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : branchPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function branchDeserializer(item: any): Branch {
+  return {
+    id: item["id"],
     name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : branchPropertiesDeserializer(item["properties"]),
   };
 }
 
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
+/** The response of a Branch list operation. */
+export interface _BranchListResult {
+  /** The Branch items on this page */
+  value: Branch[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-export function operationDisplayDeserializer(item: any): OperationDisplay {
+export function _branchListResultDeserializer(item: any): _BranchListResult {
   return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
+    value: branchArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+export function branchArraySerializer(result: Array<Branch>): any[] {
+  return result.map((item) => {
+    return branchSerializer(item);
+  });
 }
 
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
- */
-export type Origin = string;
-
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
+export function branchArrayDeserializer(result: Array<Branch>): any[] {
+  return result.map((item) => {
+    return branchDeserializer(item);
+  });
 }
 
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
- */
-export type ActionType = string;
+/** The Compute resource type. */
+export interface Compute extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ComputeProperties;
+}
+
+export function computeSerializer(item: Compute): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : computePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function computeDeserializer(item: any): Compute {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : computePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of a Compute list operation. */
+export interface _ComputeListResult {
+  /** The Compute items on this page */
+  value: Compute[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _computeListResultDeserializer(item: any): _ComputeListResult {
+  return {
+    value: computeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function computeArraySerializer(result: Array<Compute>): any[] {
+  return result.map((item) => {
+    return computeSerializer(item);
+  });
+}
+
+export function computeArrayDeserializer(result: Array<Compute>): any[] {
+  return result.map((item) => {
+    return computeDeserializer(item);
+  });
+}
+
+/** The Neon Database resource type. */
+export interface NeonDatabase extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NeonDatabaseProperties;
+}
+
+export function neonDatabaseSerializer(item: NeonDatabase): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : neonDatabasePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function neonDatabaseDeserializer(item: any): NeonDatabase {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : neonDatabasePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of a NeonDatabase list operation. */
+export interface _NeonDatabaseListResult {
+  /** The NeonDatabase items on this page */
+  value: NeonDatabase[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _neonDatabaseListResultDeserializer(
+  item: any,
+): _NeonDatabaseListResult {
+  return {
+    value: neonDatabaseArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function neonDatabaseArraySerializer(
+  result: Array<NeonDatabase>,
+): any[] {
+  return result.map((item) => {
+    return neonDatabaseSerializer(item);
+  });
+}
+
+export function neonDatabaseArrayDeserializer(
+  result: Array<NeonDatabase>,
+): any[] {
+  return result.map((item) => {
+    return neonDatabaseDeserializer(item);
+  });
+}
+
+/** The Neon Role resource type. */
+export interface NeonRole extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: NeonRoleProperties;
+}
+
+export function neonRoleSerializer(item: NeonRole): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : neonRolePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function neonRoleDeserializer(item: any): NeonRole {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : neonRolePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of a NeonRole list operation. */
+export interface _NeonRoleListResult {
+  /** The NeonRole items on this page */
+  value: NeonRole[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _neonRoleListResultDeserializer(
+  item: any,
+): _NeonRoleListResult {
+  return {
+    value: neonRoleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function neonRoleArraySerializer(result: Array<NeonRole>): any[] {
+  return result.map((item) => {
+    return neonRoleSerializer(item);
+  });
+}
+
+export function neonRoleArrayDeserializer(result: Array<NeonRole>): any[] {
+  return result.map((item) => {
+    return neonRoleDeserializer(item);
+  });
+}
+
+/** The Neon compute endpoint resource type. */
+export interface Endpoint extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EndpointProperties;
+}
+
+export function endpointSerializer(item: Endpoint): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : endpointPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function endpointDeserializer(item: any): Endpoint {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : endpointPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The response of a Endpoint list operation. */
+export interface _EndpointListResult {
+  /** The Endpoint items on this page */
+  value: Endpoint[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _endpointListResultDeserializer(
+  item: any,
+): _EndpointListResult {
+  return {
+    value: endpointArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function endpointArraySerializer(result: Array<Endpoint>): any[] {
+  return result.map((item) => {
+    return endpointSerializer(item);
+  });
+}
+
+export function endpointArrayDeserializer(result: Array<Endpoint>): any[] {
+  return result.map((item) => {
+    return endpointDeserializer(item);
+  });
+}
 
 /** Supported API versions for the Neon.Postgres resource provider. */
 export enum KnownVersions {
   /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview, LiftrBase.Data.Versions.v1_preview */
-  V1_Preview = "2024-08-01-preview",
+  V20250301 = "2025-03-01",
 }

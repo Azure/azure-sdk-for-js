@@ -6,7 +6,13 @@ import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-export interface PostgresContext extends Client {}
+export interface PostgresContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface PostgresClientOptionalParams extends ClientOptions {
@@ -17,9 +23,11 @@ export interface PostgresClientOptionalParams extends ClientOptions {
 
 export function createPostgres(
   credential: TokenCredential,
+  subscriptionId: string,
   options: PostgresClientOptionalParams = {},
 ): PostgresContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-neonpostgres/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -35,7 +43,7 @@ export function createPostgres(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-08-01-preview";
+  const apiVersion = options.apiVersion ?? "2025-03-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -51,5 +59,5 @@ export function createPostgres(
       return next(req);
     },
   });
-  return clientContext;
+  return { ...clientContext, apiVersion, subscriptionId } as PostgresContext;
 }

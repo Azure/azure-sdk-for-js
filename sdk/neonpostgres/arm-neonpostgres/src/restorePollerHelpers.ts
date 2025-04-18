@@ -3,12 +3,39 @@
 
 import { PostgresClient } from "./postgresClient.js";
 import {
-  _organizationsCreateOrUpdateDeserialize,
-  _organizationsUpdateDeserialize,
-  _organizationsDeleteDeserialize,
-} from "./api/organizations/index.js";
+  _updateDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/endpoints/operations.js";
+import {
+  _updateDeserialize as _updateDeserializeNeonRoles,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeNeonRoles,
+} from "./api/neonRoles/operations.js";
+import {
+  _updateDeserialize as _updateDeserializeNeonDatabases,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeNeonDatabases,
+} from "./api/neonDatabases/operations.js";
+import {
+  _updateDeserialize as _updateDeserializeComputes,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeComputes,
+} from "./api/computes/operations.js";
+import {
+  _updateDeserialize as _updateDeserializeBranches,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBranches,
+} from "./api/branches/operations.js";
+import {
+  _updateDeserialize as _updateDeserializeProjects,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeProjects,
+} from "./api/projects/operations.js";
+import {
+  _$deleteDeserialize,
+  _updateDeserialize as _updateDeserializeOrganizations,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeOrganizations,
+} from "./api/organizations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -39,7 +66,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: PostgresClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -80,20 +109,77 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/endpoints/{endpointName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/endpoints/{endpointName}":
     {
-      deserializer: _organizationsCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonRoles/{neonRoleName}":
     {
-      deserializer: _organizationsUpdateDeserialize,
+      deserializer: _updateDeserializeNeonRoles,
       expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonRoles/{neonRoleName}":
+    {
+      deserializer: _createOrUpdateDeserializeNeonRoles,
+      expectedStatuses: ["200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonDatabases/{neonDatabaseName}":
+    {
+      deserializer: _updateDeserializeNeonDatabases,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/neonDatabases/{neonDatabaseName}":
+    {
+      deserializer: _createOrUpdateDeserializeNeonDatabases,
+      expectedStatuses: ["200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/computes/{computeName}":
+    {
+      deserializer: _updateDeserializeComputes,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}/computes/{computeName}":
+    {
+      deserializer: _createOrUpdateDeserializeComputes,
+      expectedStatuses: ["200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}":
+    {
+      deserializer: _updateDeserializeBranches,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}/branches/{branchName}":
+    {
+      deserializer: _createOrUpdateDeserializeBranches,
+      expectedStatuses: ["200", "201"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}":
+    {
+      deserializer: _updateDeserializeProjects,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}":
+    {
+      deserializer: _createOrUpdateDeserializeProjects,
+      expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
     {
-      deserializer: _organizationsDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
+    {
+      deserializer: _updateDeserializeOrganizations,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}":
+    {
+      deserializer: _createOrUpdateDeserializeOrganizations,
+      expectedStatuses: ["200", "201"],
     },
 };
 
@@ -123,17 +209,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

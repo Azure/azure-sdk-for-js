@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list OrganizationResource resources by resource group
  *
  * @summary list OrganizationResource resources by resource group
- * x-ms-original-file: 2024-08-01-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Organizations_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function organizationsListByResourceGroup(): Promise<void> {
+async function organizationsListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
+  const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.organizations.listByResourceGroup("rgneon")) {
@@ -23,7 +23,7 @@ async function organizationsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await organizationsListByResourceGroup();
+  await organizationsListByResourceGroupMaximumSet();
 }
 
 main().catch(console.error);

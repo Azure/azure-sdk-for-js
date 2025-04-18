@@ -8,55 +8,137 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a OrganizationResource
  *
  * @summary update a OrganizationResource
- * x-ms-original-file: 2024-08-01-preview/Organizations_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Organizations_Update_MaximumSet_Gen.json
  */
-async function organizationsUpdate(): Promise<void> {
+async function organizationsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
+  const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.organizations.update("rgneon", "eRY-J_:", {
-    location: "upxxgikyqrbnv",
+  const result = await client.organizations.update("rgneon", "test-org", {
     properties: {
+      marketplaceDetails: {
+        subscriptionId: "yxmkfivp",
+        subscriptionStatus: "PendingFulfillmentStart",
+        offerDetails: {
+          publisherId: "hporaxnopmolttlnkbarw",
+          offerId: "bunyeeupoedueofwrzej",
+          planId: "nlbfiwtslenfwek",
+          planName: "ljbmgpkfqklaufacbpml",
+          termUnit: "qbcq",
+          termId: "aedlchikwqckuploswthvshe",
+        },
+      },
       userDetails: {
-        firstName: "buwwe",
-        lastName: "escynjpynkoox",
-        emailAddress: "3i_%@w8-y.H-p.tvj.dG",
-        upn: "fwedjamgwwrotcjaucuzdwycfjdqn",
-        phoneNumber: "dlrqoowumy",
+        firstName: "zhelh",
+        lastName: "zbdhouyeozylnerrc",
+        emailAddress: "test@contoso.com",
+        upn: "mixcikvxlnhkfugetqlngz",
+        phoneNumber: "zmejenytglrmjnt",
       },
       companyDetails: {
-        companyName: "uxn",
-        country: "lpajqzptqchuko",
-        officeAddress: "chpkrlpmfslmawgunjxdllzcrctykq",
-        businessPhone: "hbeb",
-        domain: "krjldeakhwiepvs",
-        numberOfEmployees: 23,
+        companyName: "xtul",
+        country: "ycmyjdcpyjieemfrthfyxdlvn",
+        officeAddress: "icirtoqmmozijk",
+        businessPhone: "hucxvzcvpaupqjkgb",
+        domain: "snoshqumfsthyofpnrsgyjhszvgtj",
+        numberOfEmployees: 12,
       },
       partnerOrganizationProperties: {
-        organizationId: "njyoqflcmfwzfsqe",
-        organizationName: "J:.._3P",
+        organizationId: "fynmpcbivqkwqdfhrmsyusjd",
+        organizationName: "entity-name",
         singleSignOnProperties: {
           singleSignOnState: "Initial",
-          enterpriseAppId: "fpibacregjfncfdsojs",
-          singleSignOnUrl: "tmojh",
-          aadDomains: ["kndszgrwzbvvlssvkej"],
+          enterpriseAppId: "urtjzjfr",
+          singleSignOnUrl: "gcmlwvtxcsjozitm",
+          aadDomains: ["mdzbelaiphukhe"],
         },
       },
-      marketplaceDetails: {
-        offerDetails: {
-          publisherId: "",
-          offerId: "",
-          planId: "",
+      projectProperties: {
+        entityName: "entity-name",
+        attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+        regionId: "vxvmjwuttpiakirzdf",
+        storage: 23,
+        pgVersion: 16,
+        historyRetention: 16,
+        defaultEndpointSettings: {
+          autoscalingLimitMinCu: 8,
+          autoscalingLimitMaxCu: 4,
         },
+        branch: {
+          entityName: "entity-name",
+          attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+          projectId: "oik",
+          parentId: "entity-id",
+          roleName: "qrrairsupyosxnqotdwhbpc",
+          databaseName: "duhxebzhd",
+          roles: [
+            {
+              entityName: "entity-name",
+              attributes: [
+                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
+              ],
+              branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
+              permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
+              isSuperUser: true,
+            },
+          ],
+          databases: [
+            {
+              entityName: "entity-name",
+              attributes: [
+                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
+              ],
+              branchId: "orfdwdmzvfvlnrgussvcvoek",
+              ownerName: "odmbeg",
+            },
+          ],
+          endpoints: [
+            {
+              entityName: "entity-name",
+              attributes: [
+                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
+              ],
+              projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
+              branchId: "rzsyrhpfbydxtfkpaa",
+              endpointType: "read_only",
+            },
+          ],
+        },
+        roles: [
+          {
+            entityName: "entity-name",
+            attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+            branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
+            permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
+            isSuperUser: true,
+          },
+        ],
+        databases: [
+          {
+            entityName: "entity-name",
+            attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+            branchId: "orfdwdmzvfvlnrgussvcvoek",
+            ownerName: "odmbeg",
+          },
+        ],
+        endpoints: [
+          {
+            entityName: "entity-name",
+            attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
+            projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
+            branchId: "rzsyrhpfbydxtfkpaa",
+            endpointType: "read_only",
+          },
+        ],
       },
     },
-    tags: { key8990: "wuvaontoqyttxtikvvahdegcfdfkz" },
+    tags: { key609: "qyosjypklxtiamqebd" },
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await organizationsUpdate();
+  await organizationsUpdateMaximumSet();
 }
 
 main().catch(console.error);
