@@ -1,17 +1,9 @@
-# Use an official Ubuntu base image
-FROM ubuntu:24.04
-
-# Set environment variables
-ENV NODE_VERSION=22 \
-  DEBIAN_FRONTEND=noninteractive
+# Use an official node 22-slim image
+FROM node:22-slim
 
 # Install Node.js LTS, pnpm, and other dependencies
 RUN apt-get update && apt-get install -y \
   curl \
-  gnupg \
-  ca-certificates \
-  && curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
-  && apt-get install -y nodejs \
   && npm install -g pnpm \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
