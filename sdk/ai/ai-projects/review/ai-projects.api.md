@@ -390,6 +390,9 @@ export interface CreateAzureAISearchToolOptions {
 }
 
 // @public
+export type CreateMessageContent = string | Array<MessageContentBlockInput>;
+
+// @public
 export interface CreateMessageOptionalParams extends OperationOptions {
 }
 
@@ -656,6 +659,9 @@ export interface GetWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
+export type ImageDetailLevel = string;
+
+// @public
 export type IncompleteDetailsReasonOutput = string;
 
 // @public
@@ -813,6 +819,18 @@ export type MessageAttachmentToolDefinition = CodeInterpreterToolDefinition | Fi
 export type MessageAttachmentToolDefinitionOutput = CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput;
 
 // @public
+export type MessageBlockType = string;
+
+// @public
+export type MessageContentBlockInput = MessageContentBlockInputParent | MessageTextBlockInput | MessageImageFileBlockInput | MessageImageUrlBlockInput;
+
+// @public
+export interface MessageContentBlockInputParent {
+    // (undocumented)
+    type: MessageBlockType;
+}
+
+// @public
 export type MessageContentOutput = MessageContentOutputParent | MessageTextContentOutput | MessageImageFileContentOutput;
 
 // @public
@@ -911,6 +929,12 @@ export interface MessageDeltaTextUrlCitationDetails {
 }
 
 // @public
+export interface MessageImageFileBlockInput extends MessageContentBlockInputParent {
+    image_file: MessageImageFileParam;
+    type: "image_file";
+}
+
+// @public
 export interface MessageImageFileContentOutput extends MessageContentOutputParent {
     imageFile: MessageImageFileDetailsOutput;
     type: "image_file";
@@ -919,6 +943,24 @@ export interface MessageImageFileContentOutput extends MessageContentOutputParen
 // @public
 export interface MessageImageFileDetailsOutput {
     fileId: string;
+}
+
+// @public
+export interface MessageImageFileParam {
+    detail?: ImageDetailLevel;
+    fileId: string;
+}
+
+// @public
+export interface MessageImageUrlBlockInput extends MessageContentBlockInputParent {
+    image_url: MessageImageUrlParam;
+    type: "image_url";
+}
+
+// @public
+export interface MessageImageUrlParam {
+    detail?: ImageDetailLevel;
+    url: string;
 }
 
 // @public
@@ -955,6 +997,12 @@ export interface MessageTextAnnotationOutputParent {
     text: string;
     // (undocumented)
     type: string;
+}
+
+// @public
+export interface MessageTextBlockInput extends MessageContentBlockInputParent {
+    text: string;
+    type: "text";
 }
 
 // @public
@@ -1667,7 +1715,6 @@ export interface ThreadDeletionStatusOutput {
 // @public
 export interface ThreadMessageOptions {
     attachments?: Array<MessageAttachment> | null;
-    // Warning: (ae-forgotten-export) The symbol "CreateMessageContent" needs to be exported by the entry point index.d.ts
     content: CreateMessageContent;
     metadata?: Record<string, string> | null;
     role: MessageRole;

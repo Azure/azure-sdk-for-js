@@ -34,7 +34,7 @@ async function main() {
   console.log(`Created thread, thread ID : ${thread.id}`);
 
   // List all threads for the agent
-  const threads = client.agents.listThreads();
+  const threads = await client.agents.listThreads();
   console.log(`Threads for agent ${agent.id}:`);
   for await (const t of (await threads).data) {
     console.log(`Thread ID: ${t.id}`);
