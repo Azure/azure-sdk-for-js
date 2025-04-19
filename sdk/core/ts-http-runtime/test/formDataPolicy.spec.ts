@@ -3,7 +3,6 @@
 
 import { describe, it, assert, vi } from "vitest";
 import type { PipelineResponse, SendRequest } from "../src/index.js";
-import { stringToUint8Array } from "../src/index.js";
 import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
