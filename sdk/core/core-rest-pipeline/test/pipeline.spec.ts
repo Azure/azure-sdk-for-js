@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expectTypeOf } from "vitest";
-import type { HttpHeaders, PipelineResponse } from "../src/index.js";
+import { describe, it, assert, expectTypeOf } from "vitest";
+import type { HttpClient, HttpHeaders, PipelineResponse } from "../src/index.js";
 import {
   createDefaultHttpClient,
   createEmptyPipeline,
   createPipelineRequest,
+  createPipelineFromOptions,
+  createHttpHeaders,
 } from "../src/index.js";
 
 describe("HttpsPipeline", function () {
