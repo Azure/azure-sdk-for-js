@@ -261,6 +261,17 @@ export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputP
     type: "azure_function";
 }
 
+// @public (undocumented)
+export interface AzureFunctionToolResource {
+    description: string;
+    // (undocumented)
+    inputQueue: AzureFunctionStorageQueue;
+    name: string;
+    // (undocumented)
+    outputQueue: AzureFunctionStorageQueue;
+    parameters: unknown;
+}
+
 // @public
 export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
     bingCustomSearch?: SearchConfigurationList;
@@ -1822,7 +1833,6 @@ export interface ToolOutput {
 // @public
 export interface ToolResources {
     azureAISearch?: AzureAISearchResource;
-    // Warning: (ae-forgotten-export) The symbol "AzureFunctionToolResource" needs to be exported by the entry point index.d.ts
     azureFunction?: AzureFunctionToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
