@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.5 (Unreleased)
+## 2.3.6 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.5 (2025-04-07)
+
+### Features Added
+
+- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
+
+### Other Changes
+
+- Handling REST errors that don't have a response body.
 
 ## 2.3.4 (2025-03-06)
 

@@ -8,20 +8,15 @@
  * @azsdk-weight 70
  */
 
-import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
-const accountName = process.env["ACCOUNT_NAME"] || "";
-const accountKey = process.env["ACCOUNT_KEY"] || "";
 
 async function workingWithBigint(): Promise<void> {
   console.log("Working with bigint sample");
-  const client = new TableClient(
-    tablesUrl,
-    "testbigint",
-    new AzureNamedKeyCredential(accountName, accountKey),
-  );
+  const client = new TableClient(tablesUrl, "testbigint", new DefaultAzureCredential());
 
   await client.createTable();
 

@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { setAuthorizationHeader } from "../auth";
+import { setAuthorizationHeader } from "../auth.js";
 import {
   Constants,
   HTTPMethod,
   jsonStringifyAndEscapeNonASCII,
   ResourceType,
   SDKSupportedCapabilities,
-} from "../common";
-import type { CosmosClientOptions } from "../CosmosClientOptions";
-import type { PartitionKeyInternal } from "../documents";
-import type { CosmosHeaders } from "../queryExecutionContext";
-import type { FeedOptions, RequestOptions } from "./index";
-import { defaultLogger } from "../common/logger";
-import { ChangeFeedMode } from "../client/ChangeFeed";
-import { OperationType } from "../common/constants";
+} from "../common/index.js";
+import type { CosmosClientOptions } from "../CosmosClientOptions.js";
+import type { PartitionKeyInternal } from "../documents/index.js";
+import type { CosmosHeaders } from "../queryExecutionContext/index.js";
+import type { FeedOptions, RequestOptions } from "./index.js";
+import { defaultLogger } from "../common/logger.js";
+import { ChangeFeedMode } from "../client/ChangeFeed/index.js";
 // ----------------------------------------------------------------------------
 // Utility methods
 //
@@ -26,19 +25,6 @@ function javaScriptFriendlyJSONStringify(s: unknown): string {
   return JSON.stringify(s)
     .replace(/\u2028/g, "\\u2028")
     .replace(/\u2029/g, "\\u2029");
-}
-
-/** @hidden */
-function isWriteOperation(operationType: OperationType): boolean {
-  return (
-    operationType === OperationType.Create ||
-    operationType === OperationType.Upsert ||
-    operationType === OperationType.Delete ||
-    operationType === OperationType.Replace ||
-    operationType === OperationType.Batch ||
-    operationType === OperationType.Patch ||
-    operationType === OperationType.Execute
-  );
 }
 
 /** @hidden */
@@ -60,7 +46,6 @@ interface GetHeadersOptions {
   resourceId: string;
   resourceType: ResourceType;
   options: RequestOptions & FeedOptions;
-  operationType: OperationType;
   partitionKeyRangeId?: string;
   useMultipleWriteLocations?: boolean;
   partitionKey?: PartitionKeyInternal;
@@ -79,7 +64,6 @@ export async function getHeaders({
   resourceId,
   resourceType,
   options = {},
-  operationType,
   partitionKeyRangeId,
   useMultipleWriteLocations,
   partitionKey,
@@ -265,15 +249,6 @@ export async function getHeaders({
     clientOptions.permissionFeed
   ) {
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
-  }
-
-  if (
-    resourceType === ResourceType.item &&
-    isWriteOperation(operationType) &&
-    Object.prototype.hasOwnProperty.call(options, "contentResponseOnWriteEnabled") &&
-    !options.contentResponseOnWriteEnabled
-  ) {
-    headers[Constants.HttpHeaders.Prefer] = Constants.PREFER_RETURN_MINIMAL;
   }
   return headers;
 }

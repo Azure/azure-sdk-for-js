@@ -10,10 +10,11 @@
 const { AIProjectsClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -21,14 +22,14 @@ async function main() {
     new DefaultAzureCredential(),
   );
 
-  const agent = await client.agents.createAgent("gpt-4o", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are helpful agent",
   });
 
   console.log(`Created agent, agent ID : ${agent.id}`);
 
-  client.agents.deleteAgent(agent.id);
+  await client.agents.deleteAgent(agent.id);
 
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }

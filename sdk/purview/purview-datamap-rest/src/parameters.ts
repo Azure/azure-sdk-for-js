@@ -384,7 +384,7 @@ export type EntityAddOrUpdateBusinessMetadataAttributesParameters =
 export type EntityGetSampleBusinessMetadataTemplateParameters = RequestParameters;
 
 export interface EntityImportBusinessMetadataBodyParam {
-  /** Body parameter. */
+  /** Multipart body */
   body: BusinessMetadataOptions;
 }
 

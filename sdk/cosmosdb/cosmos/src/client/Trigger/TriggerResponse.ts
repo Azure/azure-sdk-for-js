@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import type { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import type { Resource } from "../Resource";
-import type { Trigger } from "./index";
-import type { TriggerDefinition } from "./TriggerDefinition";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { Trigger } from "./index.js";
+import type { TriggerDefinition } from "./TriggerDefinition.js";
 
 export class TriggerResponse extends ResourceResponse<TriggerDefinition & Resource> {
   constructor(

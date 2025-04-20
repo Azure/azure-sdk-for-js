@@ -12,6 +12,7 @@
     - `HeaderSanitizers` that redact sensitive information in the headers of the requests.
 - Added support for the TestProxy/addSanitizers API, which improves the recording of tests by reducing flakiness and timeouts caused by concurrent requests. This helps to speed up the recording process and reduces the burden on the test proxy.
 - Adds `removeCentralSanitizers` option to the `RecorderStartOptions` to allow users pass in the central sanitizer ids to skip the specific santiizers at the test proxy level.
+- Ignore `Origin` header for browsers in Playback mode, to address [#32851](https://github.com/Azure/azure-sdk-for-js/issues/32851).
 
 ### Bugs Fixed
 

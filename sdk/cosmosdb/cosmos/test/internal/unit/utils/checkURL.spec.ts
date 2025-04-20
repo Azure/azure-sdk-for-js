@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import { sanitizeEndpoint } from "../../../../src/utils/checkURL";
 
-describe("URL utils", function () {
-  describe("sanitizeEndpoint", function () {
-    it("correctly formats URL with scope", function () {
+import { sanitizeEndpoint } from "../../../../src/utils/checkURL.js";
+import { describe, it, assert } from "vitest";
+
+describe("URL utils", () => {
+  describe("sanitizeEndpoint", () => {
+    it("correctly formats URL with scope", () => {
       const testURLs = [
         "https://sample.documents.azure.com",
         "https://sample.documents.azure.com/",

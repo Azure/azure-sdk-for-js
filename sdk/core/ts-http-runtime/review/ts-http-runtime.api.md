@@ -10,20 +10,6 @@ export class AbortError extends Error {
 }
 
 // @public
-export interface AbortSignalLike {
-    readonly aborted: boolean;
-    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-}
-
-// @public
-export interface AccessToken {
-    expiresOnTimestamp: number;
-    refreshAfterTimestamp?: number;
-    token: string;
-}
-
-// @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";
@@ -47,6 +33,53 @@ export interface Agent {
 }
 
 // @public
+export interface ApiKeyAuthScheme {
+    apiKeyLocation: "query" | "header" | "cookie";
+    kind: "apiKey";
+    name: string;
+}
+
+// @public
+export interface ApiKeyCredential {
+    key: string;
+}
+
+// @public
+export interface AuthorizationCodeFlow {
+    authorizationUrl: string;
+    kind: "authorizationCode";
+    refreshUrl?: string;
+    scopes?: string[];
+    tokenUrl: string;
+}
+
+// @public
+export type AuthScheme = BasicAuthScheme | BearerAuthScheme | NoAuthAuthScheme | ApiKeyAuthScheme | OAuth2AuthScheme<OAuth2Flow[]>;
+
+// @public
+export interface BasicAuthScheme {
+    kind: "http";
+    scheme: "basic";
+}
+
+// @public
+export interface BasicCredential {
+    password: string;
+    username: string;
+}
+
+// @public
+export interface BearerAuthScheme {
+    kind: "http";
+    scheme: "bearer";
+}
+
+// @public
+export interface BearerTokenCredential {
+    getBearerToken(options?: GetBearerTokenOptions): Promise<string>;
+}
+
+// @public
 export interface BodyPart {
     body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
@@ -60,11 +93,20 @@ export interface Client {
 }
 
 // @public
+export type ClientCredential = OAuth2TokenCredential<OAuth2Flow> | BearerTokenCredential | BasicCredential | ApiKeyCredential;
+
+// @public
+export interface ClientCredentialsFlow {
+    kind: "clientCredentials";
+    refreshUrl?: string[];
+    scopes?: string[];
+    tokenUrl: string;
+}
+
+// @public
 export type ClientOptions = PipelineOptions & {
-    credentials?: {
-        scopes?: string[];
-        apiKeyHeaderName?: string;
-    };
+    authSchemes?: AuthScheme[];
+    credential?: ClientCredential;
     endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
@@ -117,20 +159,19 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export function getClient(endpoint: string, options?: ClientOptions): Client;
+export interface GetBearerTokenOptions {
+    abortSignal?: AbortSignal;
+}
 
 // @public
-export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
 
 // @public
-export interface GetTokenOptions {
-    abortSignal?: AbortSignalLike;
-    claims?: string;
-    enableCae?: boolean;
-    requestOptions?: {
-        timeout?: number;
-    };
-    tenantId?: string;
+export function getLogLevel(): TypeSpecRuntimeLogLevel | undefined;
+
+// @public
+export interface GetOAuth2TokenOptions {
+    abortSignal?: AbortSignal;
 }
 
 // @public
@@ -171,18 +212,15 @@ export type HttpResponse = {
 };
 
 // @public
-export function isKeyCredential(credential: unknown): credential is KeyCredential;
+export interface ImplicitFlow {
+    authorizationUrl: string;
+    kind: "implicit";
+    refreshUrl?: string;
+    scopes?: string[];
+}
 
 // @public
 export function isRestError(e: unknown): e is RestError;
-
-// @public
-export function isTokenCredential(credential: unknown): credential is TokenCredential;
-
-// @public
-export interface KeyCredential {
-    readonly key: string;
-}
 
 // @public
 export interface KeyObject {
@@ -204,8 +242,27 @@ export interface MultipartRequestBody {
 }
 
 // @public
+export interface NoAuthAuthScheme {
+    kind: "noAuth";
+}
+
+// @public
+export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
+    flows: TFlows;
+    kind: "oauth2";
+}
+
+// @public
+export type OAuth2Flow = AuthorizationCodeFlow | ClientCredentialsFlow | ImplicitFlow | PasswordFlow;
+
+// @public
+export interface OAuth2TokenCredential<TFlows extends OAuth2Flow> {
+    getOAuth2Token(flows: TFlows[], options?: GetOAuth2TokenOptions): Promise<string>;
+}
+
+// @public
 export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
 }
@@ -221,6 +278,14 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     skipUrlEncoding?: boolean;
     timeout?: number;
+}
+
+// @public
+export interface PasswordFlow {
+    kind: "password";
+    refreshUrl?: string;
+    scopes?: string[];
+    tokenUrl: string;
 }
 
 // @public
@@ -278,9 +343,10 @@ export interface PipelinePolicy {
 
 // @public
 export interface PipelineRequest {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     agent?: Agent;
     allowInsecureConnection?: boolean;
+    authSchemes?: AuthScheme[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     enableBrowserStreams?: boolean;
@@ -292,6 +358,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
@@ -301,7 +368,7 @@ export interface PipelineRequest {
 
 // @public
 export interface PipelineRequestOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -314,6 +381,7 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;
@@ -384,7 +452,7 @@ export type RequestParameters = {
     timeout?: number;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
 };
 
@@ -403,8 +471,6 @@ export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>>
 // @public
 export class RestError extends Error {
     constructor(message: string, options?: RestErrorOptions);
-    // (undocumented)
-    [x: symbol]: () => string;
     code?: string;
     details?: unknown;
     static readonly PARSE_ERROR: string;
@@ -424,6 +490,9 @@ export interface RestErrorOptions {
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+
+// @public
+export function setLogLevel(logLevel?: TypeSpecRuntimeLogLevel): void;
 
 // @public
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
@@ -449,11 +518,6 @@ export interface TlsSettings {
 }
 
 // @public
-export interface TokenCredential {
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
-
-// @public
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
@@ -462,15 +526,18 @@ export type TransferProgressEvent = {
 export type TypeSpecRuntimeClientLogger = Debugger;
 
 // @public
-export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger;
-
-// @public
 export interface TypeSpecRuntimeLogger {
     error: Debugger;
     info: Debugger;
     verbose: Debugger;
     warning: Debugger;
 }
+
+// @public
+export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger;
+
+// @public
+export type TypeSpecRuntimeLogLevel = "verbose" | "info" | "warning" | "error";
 
 // @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;

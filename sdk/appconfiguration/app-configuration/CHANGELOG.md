@@ -1,4 +1,25 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
+
+## 1.9.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.9.0 (2025-04-08)
+
+### Features Added
+ - Include all the changes from 1.9.0-beta.1 version
+ 
+### Other Changes
+
+- Update README with a link to [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider). [#33152](https://github.com/Azure/azure-sdk-for-js/pull/33152)
 
 ## 1.9.0-beta.1 (2025-03-11)
 

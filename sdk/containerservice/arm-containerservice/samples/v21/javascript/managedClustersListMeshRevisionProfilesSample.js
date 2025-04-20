@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersList_MeshRevisionProfiles.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/ManagedClustersList_MeshRevisionProfiles.json
  */
 async function listMeshRevisionProfilesInALocation() {
   const subscriptionId =
@@ -23,7 +23,7 @@ async function listMeshRevisionProfilesInALocation() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.listMeshRevisionProfiles(location)) {
+  for await (const item of client.managedClusters.listMeshRevisionProfiles(location)) {
     resArray.push(item);
   }
   console.log(resArray);

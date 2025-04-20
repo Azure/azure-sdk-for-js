@@ -5,6 +5,9 @@ import {
   ATTR_CLIENT_ADDRESS,
   ATTR_CLIENT_PORT,
   ATTR_ERROR_TYPE,
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_STACKTRACE,
+  ATTR_EXCEPTION_TYPE,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
   ATTR_NETWORK_LOCAL_ADDRESS,
@@ -28,6 +31,7 @@ import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_HTTP_CLIENT_IP,
   SEMATTRS_HTTP_FLAVOR,
   SEMATTRS_HTTP_HOST,
   SEMATTRS_HTTP_METHOD,
@@ -101,9 +105,11 @@ export enum OTelPerformanceCounterNames {
   PRIVATE_BYTES = "Private_Bytes",
   AVAILABLE_BYTES = "Available_Bytes",
   PROCESSOR_TIME = "Processor_Time",
-  PROCESS_TIME = "Process_Time",
+  PROCESS_TIME_STANDARD = "Process_Time_Standard",
   REQUEST_RATE = "Request_Rate",
   REQUEST_DURATION = "Request_Execution_Time",
+  PROCESS_TIME_NORMALIZED = "Process_Time_Normalized",
+  EXCEPTION_RATE = "Exception_Rate",
 }
 
 /**
@@ -114,9 +120,11 @@ export enum BreezePerformanceCounterNames {
   PRIVATE_BYTES = "\\Process(??APP_WIN32_PROC??)\\Private Bytes",
   AVAILABLE_BYTES = "\\Memory\\Available Bytes",
   PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
-  PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  PROCESS_TIME_STANDARD = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
+  PROCESS_TIME_NORMALIZED = "\\Process(??APP_WIN32_PROC??)\\% Processor Time Normalized",
+  EXCEPTION_RATE = "\\.NET CLR Exceptions(??APP_CLR_PROC??)\\# of Exceps Thrown / sec",
 }
 
 /**
@@ -161,8 +169,17 @@ export const legacySemanticValues = [
   SEMATTRS_NET_HOST_NAME,
   SEMATTRS_NET_HOST_PORT,
   SEMATTRS_NET_PEER_PORT,
+  SEMATTRS_HTTP_CLIENT_IP,
   "http.status_text",
 ];
+
+/**
+ * Experimental OpenTelemetry semantic convention values
+ * @internal
+ */
+export enum experimentalOpenTelemetryValues {
+  SYNTHETIC_TYPE = "user_agent.synthetic.type",
+}
 
 /**
  * HTTP semantic convention values
@@ -188,4 +205,14 @@ export const httpSemanticValues = [
   ATTR_USER_AGENT_ORIGINAL,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_EXCEPTION_TYPE,
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_STACKTRACE,
+  experimentalOpenTelemetryValues.SYNTHETIC_TYPE,
 ];
+
+/**
+ * Internal Microsoft attributes
+ * @internal
+ */
+export const internalMicrosoftAttributes = ["_MS.ProcessedByMetricExtractors"];

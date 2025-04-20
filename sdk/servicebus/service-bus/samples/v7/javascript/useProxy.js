@@ -13,8 +13,7 @@ const WebSocket = require("ws");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // Define connection string for your Service Bus instance here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
