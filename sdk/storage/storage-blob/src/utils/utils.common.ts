@@ -44,6 +44,7 @@ import type {
   PageRangeInfo,
 } from "../generatedModels";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { Stream } from "stream";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -1018,4 +1019,12 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function isNodeReadableStream(source: any) : boolean {
+  return source !== null && source instanceof Stream && typeof (source as any)._read == 'function' && typeof (source as any)._readableState == 'object' && typeof source.pipe === "function"
+}
+
+export function isBrowserReadableStream(source: any) : boolean {
+  return source !== null && typeof source.tee === "function"
 }

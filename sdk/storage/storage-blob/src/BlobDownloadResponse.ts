@@ -18,6 +18,7 @@ import type {
 } from "./utils/RetriableReadableStream";
 import { RetriableReadableStream } from "./utils/RetriableReadableStream";
 import type { ResponseWithHeaders } from "./utils/utils.common";
+import { StructuredMessageDecodingStream } from "./utils/StructuredMessageDecodingStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -531,7 +532,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(
-      this.originalResponse.readableStreamBody!,
+      new StructuredMessageDecodingStream(this.originalResponse.readableStreamBody!, options),
       getter,
       offset,
       count,
