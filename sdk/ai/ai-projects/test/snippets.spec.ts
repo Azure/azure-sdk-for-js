@@ -358,7 +358,14 @@ describe("snippets", function () {
   });
 
   it("listThreads", async function () {
-    const threads = client.agents.listThreads();
+      const threads = await client.agents.listThreads();
+  console.log(`Threads for agent ${agent.id}:`);
+  for await (const t of (await threads).data) {
+    console.log(`Thread ID: ${t.id}`);
+    console.log(`Created at: ${t.createdAt}`);
+    console.log(`Metadata: ${t.metadata}`);
+    console.log(`---- `);
+  }
   });
 
   it("createMessage", async function () {
