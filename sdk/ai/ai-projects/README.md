@@ -476,7 +476,14 @@ const thread = await client.agents.createThread({ toolResources: fileSearchTool.
 To list all threads attached to a given agent, use the list_threads API:
 
 ```ts snippet:listThreads
-const threads = client.agents.listThreads();
+const threads = await client.agents.listThreads();
+console.log(`Threads for agent ${agent.id}:`);
+for await (const t of (await threads).data) {
+  console.log(`Thread ID: ${t.id}`);
+  console.log(`Created at: ${t.createdAt}`);
+  console.log(`Metadata: ${t.metadata}`);
+  console.log(`---- `);
+}
 ```
 
 #### Create Message
