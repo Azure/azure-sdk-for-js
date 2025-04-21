@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Tasks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Tasks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
 import {
   Task,
   TasksListNextOptionalParams,
@@ -29,7 +29,7 @@ import {
   TasksGetDetailsOptionalParams,
   TasksGetDetailsResponse,
   TasksListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Tasks operations. */
