@@ -9,7 +9,7 @@
 import {
   ProtectionPolicyOperationStatusesGetOptionalParams,
   ProtectionPolicyOperationStatusesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ProtectionPolicyOperationStatuses. */
 export interface ProtectionPolicyOperationStatuses {

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "../models/index.js";
+import { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "../models";
 
 /** Interface representing a ProtectionContainerRefreshOperationResults. */
 export interface ProtectionContainerRefreshOperationResults {

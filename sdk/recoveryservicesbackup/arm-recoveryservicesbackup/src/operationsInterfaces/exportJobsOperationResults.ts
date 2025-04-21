@@ -9,7 +9,7 @@
 import {
   ExportJobsOperationResultsGetOptionalParams,
   ExportJobsOperationResultsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ExportJobsOperationResults. */
 export interface ExportJobsOperationResults {

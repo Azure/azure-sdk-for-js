@@ -6,7 +6,7 @@ Open API 2.0 Specs for Azure RecoveryServices Backup service
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservicesbackup) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -44,7 +44,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure Recovery Services Backup** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
@@ -64,16 +63,14 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new RecoveryServicesBackupClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -107,7 +104,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
 
 
 [azure_cli]: https://learn.microsoft.com/cli/azure

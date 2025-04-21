@@ -14,7 +14,7 @@ import {
   BackupResourceVaultConfigsUpdateResponse,
   BackupResourceVaultConfigsPutOptionalParams,
   BackupResourceVaultConfigsPutResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a BackupResourceVaultConfigs. */
 export interface BackupResourceVaultConfigs {

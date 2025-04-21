@@ -16,7 +16,7 @@ import {
   UnlockDeleteRequest,
   ResourceGuardProxyUnlockDeleteOptionalParams,
   ResourceGuardProxyUnlockDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ResourceGuardProxy. */
 export interface ResourceGuardProxy {

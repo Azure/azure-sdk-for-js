@@ -9,7 +9,7 @@
 import {
   ValidateOperationStatusesGetOptionalParams,
   ValidateOperationStatusesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ValidateOperationStatuses. */
 export interface ValidateOperationStatuses {

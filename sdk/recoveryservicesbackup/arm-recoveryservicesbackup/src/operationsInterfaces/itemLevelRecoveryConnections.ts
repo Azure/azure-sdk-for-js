@@ -10,7 +10,7 @@ import {
   ILRRequestResource,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
   ItemLevelRecoveryConnectionsRevokeOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ItemLevelRecoveryConnections. */
 export interface ItemLevelRecoveryConnections {

@@ -11,7 +11,7 @@ import {
   BackupResourceEncryptionConfigsGetResponse,
   BackupResourceEncryptionConfigResource,
   BackupResourceEncryptionConfigsUpdateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a BackupResourceEncryptionConfigs. */
 export interface BackupResourceEncryptionConfigs {

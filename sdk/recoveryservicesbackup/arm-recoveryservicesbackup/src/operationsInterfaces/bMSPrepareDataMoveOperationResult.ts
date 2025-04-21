@@ -9,7 +9,7 @@
 import {
   BMSPrepareDataMoveOperationResultGetOptionalParams,
   BMSPrepareDataMoveOperationResultGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a BMSPrepareDataMoveOperationResult. */
 export interface BMSPrepareDataMoveOperationResult {

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BackupRequestResource, BackupsTriggerOptionalParams } from "../models/index.js";
+import { BackupRequestResource, BackupsTriggerOptionalParams } from "../models";
 
 /** Interface representing a Backups. */
 export interface Backups {

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BackupOperationResultsGetOptionalParams } from "../models/index.js";
+import { BackupOperationResultsGetOptionalParams } from "../models";
 
 /** Interface representing a BackupOperationResults. */
 export interface BackupOperationResults {

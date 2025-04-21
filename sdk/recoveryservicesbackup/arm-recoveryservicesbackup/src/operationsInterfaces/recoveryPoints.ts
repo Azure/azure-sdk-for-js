@@ -12,7 +12,7 @@ import {
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
   RecoveryPointsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecoveryPoints. */

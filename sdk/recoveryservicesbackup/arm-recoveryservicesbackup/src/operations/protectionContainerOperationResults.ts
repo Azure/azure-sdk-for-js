@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProtectionContainerOperationResults } from "../operationsInterfaces/index.js";
+import { ProtectionContainerOperationResults } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ProtectionContainerOperationResultsGetOptionalParams,
   ProtectionContainerOperationResultsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ProtectionContainerOperationResults operations. */
 export class ProtectionContainerOperationResultsImpl

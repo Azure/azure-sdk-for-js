@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BackupResourceEncryptionConfigs } from "../operationsInterfaces/index.js";
+import { BackupResourceEncryptionConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   BackupResourceEncryptionConfigsGetOptionalParams,
   BackupResourceEncryptionConfigsGetResponse,
   BackupResourceEncryptionConfigResource,
   BackupResourceEncryptionConfigsUpdateOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing BackupResourceEncryptionConfigs operations. */
 export class BackupResourceEncryptionConfigsImpl

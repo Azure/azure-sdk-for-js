@@ -19,7 +19,7 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl.js";
+import { createLroSpec } from "./lroImpl";
 import {
   BackupResourceStorageConfigsNonCRRImpl,
   ProtectionIntentOperationsImpl,
@@ -73,7 +73,7 @@ import {
   FetchTieringCostImpl,
   GetTieringCostOperationResultImpl,
   TieringCostOperationStatusImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   BackupResourceStorageConfigsNonCRR,
   ProtectionIntentOperations,
@@ -127,9 +127,9 @@ import {
   FetchTieringCost,
   GetTieringCostOperationResult,
   TieringCostOperationStatus,
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
   RecoveryServicesBackupClientOptionalParams,
   GetOperationStatusOptionalParams,
@@ -140,7 +140,7 @@ import {
   BMSTriggerDataMoveOptionalParams,
   MoveRPAcrossTiersRequest,
   MoveRecoveryPointOptionalParams,
-} from "./models/index.js";
+} from "./models";
 
 export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
   $host: string;
@@ -174,7 +174,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/13.1.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -228,7 +228,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2025-02-01";
     this.backupResourceStorageConfigsNonCRR =
       new BackupResourceStorageConfigsNonCRRImpl(this);
     this.protectionIntentOperations = new ProtectionIntentOperationsImpl(this);

@@ -16,7 +16,7 @@ import {
   ProtectionIntentCreateOrUpdateOptionalParams,
   ProtectionIntentCreateOrUpdateResponse,
   ProtectionIntentDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ProtectionIntentOperations. */
 export interface ProtectionIntentOperations {

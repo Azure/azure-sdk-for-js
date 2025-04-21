@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { BackupProtectionContainers } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { BackupProtectionContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   ProtectionContainerResource,
   BackupProtectionContainersListNextOptionalParams,
   BackupProtectionContainersListOptionalParams,
   BackupProtectionContainersListResponse,
   BackupProtectionContainersListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BackupProtectionContainers operations. */

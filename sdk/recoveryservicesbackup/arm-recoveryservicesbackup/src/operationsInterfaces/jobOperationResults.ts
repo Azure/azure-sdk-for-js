@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { JobOperationResultsGetOptionalParams } from "../models/index.js";
+import { JobOperationResultsGetOptionalParams } from "../models";
 
 /** Interface representing a JobOperationResults. */
 export interface JobOperationResults {

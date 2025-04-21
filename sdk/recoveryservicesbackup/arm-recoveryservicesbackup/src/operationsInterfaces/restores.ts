@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RestoreRequestResource,
   RestoresTriggerOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Restores. */
 export interface Restores {

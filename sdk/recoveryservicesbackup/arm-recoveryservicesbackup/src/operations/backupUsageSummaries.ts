@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { BackupUsageSummaries } from "../operationsInterfaces/index.js";
+import { BackupUsageSummaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
   BackupManagementUsage,
   BackupUsageSummariesListOptionalParams,
   BackupUsageSummariesListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BackupUsageSummaries operations. */
