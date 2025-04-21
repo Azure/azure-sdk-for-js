@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
   const bingCustomSearchTool = ToolUtility.createBingCustomSearchTool([
     {
       connectionId: bingCustomSearchConnection.id,
-      // please do not use bingCustomSearchInstanceName here
+      // please do not use bingCustomSearchConnection.name here
       instanceName: bingCustomSearchInstanceName,
     },
   ]);

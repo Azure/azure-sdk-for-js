@@ -17,7 +17,8 @@ import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
-const bingCustomSearchInstanceName = process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "<instance-name>";
+const bingCustomSearchInstanceName =
+  process.env["BING_CUSTOM_SEARCH_INSTANCE_NAME"] || "<instance-name>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
@@ -36,7 +37,7 @@ export async function main(): Promise<void> {
   const bingCustomSearchTool = ToolUtility.createBingCustomSearchTool([
     {
       connectionId: bingCustomSearchConnection.id,
-      // please do not use bingCustomSearchInstanceName here
+      // please do not use bingCustomSearchConnection.name here
       instanceName: bingCustomSearchInstanceName,
     },
   ]);
