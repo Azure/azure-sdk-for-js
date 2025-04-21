@@ -303,5 +303,5 @@ export {
   MessageImageFileParam,
   MessageImageUrlParam,
   ImageDetailLevel,
-  AzureFunctionToolResource
+  AzureFunctionToolResource,
 } from "../customization/models.js";
