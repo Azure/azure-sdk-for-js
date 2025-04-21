@@ -50,9 +50,7 @@ import type {
   UpdateTranscriptionOptions,
 } from "./models/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type {
-  SendDtmfTonesResult,
-} from "./models/responses.js";
+import type { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
@@ -152,7 +150,7 @@ export class CallMedia {
     if (options.interruptHoldAudio !== undefined) {
       playRequest.playOptions = playRequest.playOptions || {
         loop: false,
-      }; 
+      };
     }
     return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
@@ -185,7 +183,7 @@ export class CallMedia {
     if (options.interruptCallMediaOperation !== undefined) {
       playRequest.playOptions = playRequest.playOptions || {
         loop: false,
-      }; 
+      };
     }
 
     return this.callMedia.play(this.callConnectionId, playRequest, options);

@@ -6,6 +6,7 @@ import type {
   CommunicationUserIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
+  TeamsExtensionUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
 import type {
@@ -180,12 +181,13 @@ export enum RecognizeInputType {
 
 /** Call invitee details. */
 export interface CallInvite {
-  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
+  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier, MicrosoftTeamsAppIdentifier or TeamsExtensionUserIdentifier. */
   readonly targetParticipant:
     | PhoneNumberIdentifier
     | CommunicationUserIdentifier
     | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier;
+    | MicrosoftTeamsAppIdentifier
+    | TeamsExtensionUserIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -248,11 +250,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 /** SIP Custom header. */
 export interface SipCustomHeader extends CustomCallingContextHeader {
   kind: "sipx";
-  sipHeaderPrefix?: SipHeaderPrefix;
 }
-
-/** The type of the Sip header prefix. */
-export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Custom Calling Context */
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];

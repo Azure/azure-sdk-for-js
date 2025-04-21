@@ -14,10 +14,6 @@ import type {
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import type { CallInvite, CallConnection, AnswerCallOptions } from "../../src/index.js";
-import type {
-  AnswerCallEventResult,
-  CreateCallEventResult,
-} from "../../src/eventprocessor/eventResponses.js";
 import { randomUUID } from "@azure/core-util";
 import { KnownCommunicationCloudEnvironmentModel } from "../../src/generated/src/index.js";
 import type { MockedObject } from "vitest";
@@ -82,9 +78,6 @@ describe("Call Automation Client Unit Tests", () => {
     const createCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
     vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
 
@@ -102,9 +95,6 @@ describe("Call Automation Client Unit Tests", () => {
     const createGroupCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
 
     vi.spyOn(client, "createGroupCall").mockResolvedValue(createGroupCallResultMock);
@@ -133,9 +123,6 @@ describe("Call Automation Client Unit Tests", () => {
         } as MicrosoftTeamsAppIdentifier,
       } as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as CreateCallEventResult;
-      },
     };
 
     vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
@@ -169,9 +156,6 @@ describe("Call Automation Client Unit Tests", () => {
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as AnswerCallEventResult;
-      },
     };
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
 
@@ -190,9 +174,6 @@ describe("Call Automation Client Unit Tests", () => {
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
-      waitForEventProcessor: async () => {
-        return {} as AnswerCallEventResult;
-      },
     };
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
     const answerCallOptions: AnswerCallOptions = {

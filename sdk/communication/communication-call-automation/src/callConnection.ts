@@ -13,11 +13,11 @@ import type {
   TransferToParticipantRequest,
 } from "./generated/src/index.js";
 import { CallConnectionImpl } from "./generated/src/operations/index.js";
-import {
-  type CallConnectionProperties,
-  type CallInvite,
-  type CallParticipant,
-  type CustomCallingContext,
+import type {
+  CallConnectionProperties,
+  CallInvite,
+  CallParticipant,
+  CustomCallingContext,
 } from "./models/models.js";
 import type {
   AddParticipantOptions,
@@ -185,11 +185,7 @@ export class CallConnection {
         if (header.kind === "sipuui") {
           sipHeaders[`User-To-User`] = header.value;
         } else if (header.kind === "sipx") {
-          if (header.sipHeaderPrefix === "X-") {
-            sipHeaders[`X-${header.key}`] = header.value;
-          } else {
-            sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
-          }
+          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
         }

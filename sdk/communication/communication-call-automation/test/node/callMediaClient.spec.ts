@@ -42,9 +42,7 @@ import type {
   StopMediaStreamingOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
   PlayToAllOptions,
-  InterruptAudioAndAnnounceOptions,
 } from "../../src/index.js";
-import { CallAutomationEventProcessor } from "../../src/index.js";
 
 // Current directory imports
 import {
@@ -85,12 +83,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() },
-      new CallAutomationEventProcessor(),
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -352,7 +345,7 @@ describe("CallMedia Unit Tests", async function () {
     const options: HoldOptions = {
       playSource: playSource,
       operationContext: "withPlaySource",
-      operationCallbackUri: "https://localhost",
+      operationCallbackUrl: "https://localhost",
     };
     await callMedia.hold(participantToHold, options);
     const request = spy.mock.calls[0][0];
@@ -690,34 +683,6 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
     assert.equal(data.playOptions.interruptCallMediaOperation, undefined);
-  });
-
-  it("makes successful interrupt audio and announce test", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = vi.spyOn(mockHttpClient, "sendRequest");
-
-    const playSource: FileSource[] = [
-      {
-        url: MEDIA_URL_WAV,
-        kind: "fileSource",
-      },
-    ];
-
-    const options: InterruptAudioAndAnnounceOptions = {
-      operationContext: "interruptAudioAndAnnounceContext",
-    };
-    const playTo: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    await callMedia.interruptAudioAndAnnounce(playSource, playTo, options);
-    const request = spy.mock.calls[0][0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.playSources[0].kind, "file");
-    assert.equal(data.playSources[0].file.uri, playSource[0].url);
-    assert.equal(request.method, "POST");
-    assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.playTo.rawId, CALL_TARGET_ID);
   });
 });
 
@@ -2327,15 +2292,6 @@ describe("Call Media Client Live Tests", function () {
       const participantHold: CallParticipant = await callConnection.getParticipant(testUser2);
       assert.isDefined(participantHold);
       assert.isTrue(participantHold.isOnHold);
-
-      const playSource: FileSource[] = [
-        {
-          url: fileSourceUrl,
-          kind: "fileSource",
-        },
-      ];
-
-      await callConnection.getCallMedia().interruptAudioAndAnnounce(playSource, testUser2);
 
       const holdAudioPausedEvent = await waitForEvent("HoldAudioPaused", callConnectionId, 8000);
       assert.isDefined(holdAudioPausedEvent);
