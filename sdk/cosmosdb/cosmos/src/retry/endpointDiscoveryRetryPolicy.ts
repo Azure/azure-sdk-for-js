@@ -7,7 +7,6 @@ import type { GlobalEndpointManager } from "../globalEndpointManager.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { RetryContext } from "./RetryContext.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
-import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class implements the retry policy for endpoint discovery.

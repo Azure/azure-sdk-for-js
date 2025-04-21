@@ -5,7 +5,7 @@ import type { HTTPMethod, OperationType, ResourceType } from "../common/index.js
 import type { Agent } from "../CosmosClientOptions.js";
 import type { ConnectionPolicy, PartitionKey } from "../documents/index.js";
 import type { GlobalEndpointManager } from "../globalEndpointManager.js";
-import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
+import type { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 import type { PluginConfig } from "../plugins/Plugin.js";
 import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import type { FeedOptions } from "./FeedOptions.js";

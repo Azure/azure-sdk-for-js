@@ -43,9 +43,8 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform.js";
-import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
-import { hashPartitionKey } from "./utils/hashing/hash.js";
-import { readPartitionKeyDefinition } from "./client/ClientUtils.js";
+import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";

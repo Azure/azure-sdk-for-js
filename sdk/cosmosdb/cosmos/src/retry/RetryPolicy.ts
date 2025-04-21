@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import type { ErrorResponse, RequestContext } from "../request/index.js";
+import type { ErrorResponse } from "../request/index.js";
 import type { RetryContext } from "./RetryContext.js";
 
 /**

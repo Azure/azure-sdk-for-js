@@ -156,6 +156,7 @@ export class CosmosClient {
     );
 
     const globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+      optionsOrConnectionString,
       globalEndpointManager,
     );
 

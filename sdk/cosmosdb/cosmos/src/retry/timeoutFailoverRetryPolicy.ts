@@ -11,7 +11,6 @@ import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { stat } from "node:fs";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
