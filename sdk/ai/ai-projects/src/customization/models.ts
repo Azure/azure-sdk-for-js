@@ -125,6 +125,24 @@ export interface SearchConfiguration {
   instanceName: string;
 }
 
+/** The input definition information for a connected agent tool which defines a domain specific sub-agent */
+export interface ConnectedAgentToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'connected_agent'. */
+  type: "connected_agent";
+  /** The sub-agent to connect */
+  connectedAgent: ConnectedAgentDetails;
+}
+
+/** Information for connecting one agent to another as a tool */
+export interface ConnectedAgentDetails {
+  /** The identifier of the child agent. */
+  id: string;
+  /** The name of the agent to be called. */
+  name: string;
+  /** A description of what the agent does, used by the model to choose when and how to call the agent. */
+  description: string;
+}
+
 /** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionList {
   /**

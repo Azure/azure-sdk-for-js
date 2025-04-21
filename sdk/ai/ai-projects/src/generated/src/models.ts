@@ -746,12 +746,6 @@ export interface CreateAndRunThreadOptions {
   metadata?: Record<string, string> | null;
 }
 
-export interface HttpPartFile {}
-
-export interface HttpPartFilePurpose {}
-
-export interface HttpPartString {}
-
 /** The expiration policy for a vector store. */
 export interface VectorStoreExpirationPolicy {
   /**

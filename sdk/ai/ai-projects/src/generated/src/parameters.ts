@@ -15,9 +15,6 @@ import type {
   ToolOutput,
   CreateAndRunThreadOptions,
   FilePurpose,
-  HttpPartFile,
-  HttpPartFilePurpose,
-  HttpPartString,
   VectorStoreOptions,
   VectorStoreUpdateOptions,
   VectorStoreFileStatusFilter,
@@ -285,23 +282,32 @@ export interface ListFilesQueryParam {
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
-  /** Multipart body */
+  /**
+   * Multipart body
+   *
+   * Value may contain any sequence of octets
+   */
   body:
     | FormData
     | Array<
         | {
             name: "file";
-            body: HttpPartFile;
+            body:
+              | string
+              | Uint8Array
+              | ReadableStream<Uint8Array>
+              | NodeJS.ReadableStream
+              | File;
             filename?: string;
             contentType?: string;
           }
         | {
             name: "purpose";
-            body: HttpPartFilePurpose;
+            body: FilePurpose;
             filename?: string;
             contentType?: string;
           }
-        | { name: "filename"; body: HttpPartString }
+        | { name: "filename"; body: string }
       >;
 }
 

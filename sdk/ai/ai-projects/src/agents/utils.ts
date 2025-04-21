@@ -21,6 +21,7 @@ import type {
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
   OpenApiFunctionDefinition,
+  ConnectedAgentToolDefinition,
 } from "./inputOutputs.js";
 import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
@@ -51,6 +52,8 @@ export enum connectionToolType {
   AzureFunction = "azure_function",
   /** Bing custom search tool */
   BingCustomSearch = "bing_custom_search",
+  /** Connected agent tool */
+  ConnectedAgent = "connected_agent",
 }
 
 const toolMap = {
@@ -59,6 +62,7 @@ const toolMap = {
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
   bing_custom_search: "bingCustomSearch",
+  connected_agent: "connectedAgent",
 };
 
 /**
@@ -249,6 +253,24 @@ export class ToolUtility {
   }
 
   /**
+   * Creates a connected agent tool
+   *
+   * @returns An object containing the definition for the connected agent tool.
+   */
+  static createConnectedAgentTool(id: string, name: string, description: string ): { definition: ConnectedAgentToolDefinition } {
+    return {
+      definition: {
+        type: "connected_agent",
+        connectedAgent: {
+          id:id,
+          name: name,
+          description: description,
+        },
+      },
+    };
+  }
+
+  /**
    * Creates an OpenApi tool
    *
    * @param openApiFunctionDefinition - The OpenApi function definition to use.
@@ -406,4 +428,19 @@ export class ToolSet {
     this.toolDefinitions.push(tool.definition);
     return tool;
   }
+
+  /**
+   * Adds a connected agent tool to the tool set.
+   * 
+   * @param id - The ID of the connected agent.
+   * @param name - The name of the connected agent.
+   * @param description - The description of the connected agent.
+   * @returns An object containing the definition for the connected agent tool
+   */
+  addConnectedAgentTool(id: string, name: string, description: string): { definition: ConnectedAgentToolDefinition } {
+    const tool = ToolUtility.createConnectedAgentTool(id, name, description);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+}
+
 }

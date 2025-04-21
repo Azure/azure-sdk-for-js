@@ -327,6 +327,13 @@ export interface CodeInterpreterToolResourceOutput {
 }
 
 // @public
+export interface ConnectedAgentToolDefinition extends ToolDefinitionParent {
+    // Warning: (ae-forgotten-export) The symbol "ConnectedAgentDetails" needs to be exported by the entry point index.d.ts
+    connectedAgent: ConnectedAgentDetails;
+    type: "connected_agent";
+}
+
+// @public
 export interface ConnectionsOperations {
     getConnection: (connectionName: string, options?: GetConnectionOptionalParams) => Promise<GetConnectionResponseOutput>;
     getConnectionWithSecrets: (connectionName: string, options?: GetConnectionWithSecretsOptionalParams) => Promise<GetConnectionResponseOutput>;
@@ -338,6 +345,7 @@ export enum connectionToolType {
     AzureFunction = "azure_function",
     BingCustomSearch = "bing_custom_search",
     BingGrounding = "bing_grounding",
+    ConnectedAgent = "connected_agent",
     MicrosoftFabric = "fabric_dataagent",
     SharepointGrounding = "sharepoint_grounding"
 }
@@ -1859,6 +1867,9 @@ export class ToolSet {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
     };
+    addConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
+    };
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
@@ -1892,6 +1903,9 @@ export class ToolUtility {
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
+    };
+    static createConnectedAgentTool(id: string, name: string, description: string): {
+        definition: ConnectedAgentToolDefinition;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;

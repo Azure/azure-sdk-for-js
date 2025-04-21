@@ -304,4 +304,5 @@ export {
   MessageImageUrlParam,
   ImageDetailLevel,
   AzureFunctionToolResource,
+  ConnectedAgentToolDefinition
 } from "../customization/models.js";
