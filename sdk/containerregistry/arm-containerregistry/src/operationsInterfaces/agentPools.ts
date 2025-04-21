@@ -16,12 +16,13 @@ import {
   AgentPoolsCreateOptionalParams,
   AgentPoolsCreateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolUpdateParameters,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsGetQueueStatusResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AgentPools. */
@@ -97,7 +98,12 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  >;
   /**
    * Deletes a specified agent pool resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -110,7 +116,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<AgentPoolsDeleteResponse>;
   /**
    * Updates an agent pool with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

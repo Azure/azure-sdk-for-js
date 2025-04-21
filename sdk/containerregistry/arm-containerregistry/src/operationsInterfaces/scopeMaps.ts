@@ -19,7 +19,7 @@ import {
   ScopeMapUpdateParameters,
   ScopeMapsUpdateOptionalParams,
   ScopeMapsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScopeMaps. */

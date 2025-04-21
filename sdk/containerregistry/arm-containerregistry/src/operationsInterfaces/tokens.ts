@@ -19,7 +19,7 @@ import {
   TokenUpdateParameters,
   TokensUpdateOptionalParams,
   TokensUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Tokens. */

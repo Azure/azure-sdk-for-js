@@ -46,7 +46,7 @@ import {
   TaskRunUpdateParameters as TaskRunUpdateParametersMapper,
   Task as TaskMapper,
   TaskUpdateParameters as TaskUpdateParametersMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -75,7 +75,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-11-01-preview",
+    defaultValue: "2025-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -371,18 +371,6 @@ export const resourceGroupName1: OperationURLParameter = {
     },
     serializedName: "resourceGroupName",
     required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2019-06-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
     type: {
       name: "String",
     },

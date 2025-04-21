@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper.js";
-export * from "./models/index.js";
-export { ContainerRegistryManagementClient } from "./containerRegistryManagementClient.js";
-export * from "./operationsInterfaces/index.js";
+export { getContinuationToken } from "./pagingHelper";
+export * from "./models";
+export { ContainerRegistryManagementClient } from "./containerRegistryManagementClient";
+export * from "./operationsInterfaces";

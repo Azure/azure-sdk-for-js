@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Archives } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Archives } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   Archive,
   ArchivesListNextOptionalParams,
@@ -34,7 +34,7 @@ import {
   ArchivesUpdateOptionalParams,
   ArchivesUpdateResponse,
   ArchivesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Archives operations. */

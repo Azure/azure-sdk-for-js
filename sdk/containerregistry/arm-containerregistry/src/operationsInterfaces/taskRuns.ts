@@ -21,7 +21,7 @@ import {
   TaskRunsUpdateResponse,
   TaskRunsGetDetailsOptionalParams,
   TaskRunsGetDetailsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TaskRuns. */
@@ -92,20 +92,7 @@ export interface TaskRuns {
    * @param taskRunName The name of the task run.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a specified task run resource.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param taskRunName The name of the task run.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
