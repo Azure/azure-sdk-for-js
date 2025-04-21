@@ -19,13 +19,17 @@ const config = {
   test: {
     ...mergedConfig.test,
     include: ["test/integration/**/*.spec.ts"],
-        exclude: [
-          "test/**/browser/*.spec.ts",
-          "test/snippets.spec.ts",
-          "test/stress/**/*.ts",
-        ],
+    exclude: [
+      "test/**/browser/*.spec.ts",
+      "test/snippets.spec.ts",
+      "test/stress/**/*.ts",
+    ],
+    typecheck: {
+      ...mergedConfig.typecheck,
+      include: ["test/integration/**/*.ts", "test/integration/**/*.mts", "test/integration/**/*.cts"],
+    },
   },
 };
 
-console.log("vitest.managed-identity.config.ts", config);
+console.log("vitest.managed-identity.config.ts", JSON.stringify(config, null, 2));
 export default config;
