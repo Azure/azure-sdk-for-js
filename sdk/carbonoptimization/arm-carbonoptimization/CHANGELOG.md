@@ -4,4 +4,4 @@
 
 ### Features Added
 
-The package of @azure/arm-carbonoptimization is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+Initial release of the Azure Carbon package
