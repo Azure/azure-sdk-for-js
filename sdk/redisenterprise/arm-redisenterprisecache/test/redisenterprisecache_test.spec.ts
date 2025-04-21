@@ -48,7 +48,7 @@ describe("RedisEnterprise test", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-
+  // Due to our recent policy, we don't block the SDK release if all the other resource types of this new version are available. so skip operation_list and add another list case instead
   it.skip("operations list test", async () => {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
@@ -56,6 +56,7 @@ describe("RedisEnterprise test", () => {
     }
     assert.notEqual(resArray.length, 0);
   });
+
   it("redisEnterprise list test", async () => {
     const res = client.redisEnterprise.listByResourceGroup("myjstest");
     assert.ok(res);
