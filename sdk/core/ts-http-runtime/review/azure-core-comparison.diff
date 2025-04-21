@@ -8280,18 +8280,12 @@ index 0000000..8ef0f31
 +export const custom = inspect.custom;
 diff --git a/src/util/internal.ts b/src/util/internal.ts
 new file mode 100644
-index 0000000..4bd0118
+index 0000000..ce8873a
 --- /dev/null
 +++ b/src/util/internal.ts
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,20 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
-+
-+declare global {
-+  interface Blob {}
-+  interface File {}
-+  interface ReadableStream<R = any> {}
-+}
 +
 +export { calculateRetryDelay } from "./delay.js";
 +export { getRandomIntegerInclusive } from "./random.js";
