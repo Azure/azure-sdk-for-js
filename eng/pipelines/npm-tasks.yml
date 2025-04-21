@@ -80,22 +80,18 @@ extends:
                   -reason "${{parameters.Reason}}"
                 pwsh: true
 
+        # This is a workaround to not run admin job in deployment job but still have the approval gate
         - deployment: NPMSuccess
           displayName: NPM package management success
           environment: npm
           dependsOn: NPM_Admin
           condition: succeeded()
 
-          pool:
-            name: azsdk-pool-mms-win-2022-general
-            image: azsdk-pool-mms-win-2022-1espt
-            os: windows
-
           strategy:
             runOnce:
               deploy:
                 steps:
-                  - pwsh: |
-                      # This is a workaround to not run admin job in deployment job but still have the approval gate
-                      Write-Host "Successfully ${{parameters.TaskType}} to package ${{parameters.PackageName}} on version ${{parameters.PkgVersion}} with tag ${{parameters.TagName}}"
-                    displayName: 'NPM package management success'
+                  - task: Delay@1
+                    inputs:
+                      delayForMinutes: '0'
+                    displayName: 'NPM package management approval gate'
