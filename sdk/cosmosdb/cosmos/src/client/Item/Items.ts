@@ -40,7 +40,11 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import type {
+  PartitionKey,
+  PartitionKeyDefinition,
+  PartitionKeyInternal,
+} from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -520,6 +524,13 @@ export class Items {
         }
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        const partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
+          partitionKey,
+          partitionKeyDefinition,
+          diagnosticNode,
+        );
+
         response = await this.clientContext.create<T>({
           body,
           path,
@@ -528,6 +539,7 @@ export class Items {
           diagnosticNode,
           options,
           partitionKey,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -674,6 +686,13 @@ export class Items {
 
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        const partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
+          partitionKey,
+          partitionKeyDefinition,
+          diagnosticNode,
+        );
+
         response = await this.clientContext.upsert<T>({
           body,
           path,
@@ -682,6 +701,7 @@ export class Items {
           options,
           partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -1225,5 +1245,28 @@ export class Items {
       }
     }
     return { operations, totalPropertiesEncryptedCount };
+  }
+
+  private async getPartitionKeyRangeIdFromPartitionKey(
+    partitionKey: PartitionKeyInternal,
+    partitionKeyDefinition: PartitionKeyDefinition,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<string> {
+    const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
+    const partitionKeyRanges = (
+      await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
+    ).getOrderedParitionKeyRanges();
+
+    for (const partitionKeyRange of partitionKeyRanges) {
+      if (
+        isKeyInRange(
+          partitionKeyRange.minInclusive,
+          partitionKeyRange.maxExclusive,
+          hashedPartitionKey,
+        )
+      ) {
+        return partitionKeyRange.id;
+      }
+    }
   }
 }

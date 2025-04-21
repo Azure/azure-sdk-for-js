@@ -44,6 +44,8 @@ import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.j
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform.js";
 import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import { hashPartitionKey } from "./utils/hashing/hash.js";
+import { readPartitionKeyDefinition } from "./client/ClientUtils.js";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -439,6 +441,7 @@ export class ClientContext {
     diagnosticNode,
     options = {},
     partitionKey,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -447,6 +450,7 @@ export class ClientContext {
     diagnosticNode: DiagnosticNodeInternal;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -459,6 +463,7 @@ export class ClientContext {
         body,
         options,
         partitionKey,
+        partitionKeyRangeId,
       };
       diagnosticNode.addData({
         operationType: OperationType.Create,
@@ -598,6 +603,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -606,6 +612,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -618,6 +625,7 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
+        partitionKeyRangeId,
       };
       diagnosticNode.addData({
         operationType: OperationType.Upsert,
