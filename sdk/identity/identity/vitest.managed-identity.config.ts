@@ -4,7 +4,7 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
 
-export default mergeConfig(
+const config = mergeConfig(
   viteConfig,
   defineConfig({
     test: {
@@ -14,3 +14,6 @@ export default mergeConfig(
     },
   }),
 );
+
+console.log("vitest.managed-identity.config.ts", config);
+export default config;
