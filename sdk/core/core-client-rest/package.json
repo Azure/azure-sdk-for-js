@@ -80,7 +80,8 @@
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.0.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@typespec/ts-http-runtime": "^0.2.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

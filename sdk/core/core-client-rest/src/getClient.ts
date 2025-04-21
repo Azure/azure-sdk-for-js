@@ -3,19 +3,26 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
-import type { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
-import { createDefaultPipeline } from "./clientHelpers.js";
-import type {
-  Client,
-  ClientOptions,
-  HttpBrowserStreamResponse,
-  HttpNodeStreamResponse,
-  RequestParameters,
-  StreamableMethod,
-} from "./common.js";
-import { sendRequest } from "./sendRequest.js";
-import { buildRequestUrl } from "./urlHelpers.js";
-import { isNodeLike } from "@azure/core-util";
+import type { PipelineOptions } from "@azure/core-rest-pipeline";
+import { addCredentialPipelinePolicy } from "./clientHelpers.js";
+import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
+import {
+  getClient as tspGetClient,
+  type ClientOptions as TspClientOptions,
+} from "@typespec/ts-http-runtime";
+
+/**
+ * Function to wrap RequestParameters so that we get the legacy onResponse behavior in core-client-rest
+ */
+function wrapRequestParameters(parameters: RequestParameters): RequestParameters {
+  const wrapped = { ...parameters };
+  if (parameters.onResponse) {
+    wrapped.onResponse = function (rawResponse, error) {
+      parameters.onResponse!(rawResponse, error, error);
+    };
+  }
+  return wrapped;
+}
 
 /**
  * Creates a client with a default pipeline
@@ -48,104 +55,39 @@ export function getClient(
     }
   }
 
-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
-  if (clientOptions.additionalPolicies?.length) {
-    for (const { policy, position } of clientOptions.additionalPolicies) {
-      // Sign happens after Retry and is commonly needed to occur
-      // before policies that intercept post-retry.
-      const afterPhase = position === "perRetry" ? "Sign" : undefined;
-      pipeline.addPolicy(policy, {
-        afterPhase,
-      });
-    }
+  const tspClient = tspGetClient(endpoint, clientOptions as TspClientOptions) as Client;
+  if (credentials) {
+    addCredentialPipelinePolicy(tspClient.pipeline, endpoint, {
+      clientOptions,
+      credential: credentials,
+    });
   }
 
-  const { allowInsecureConnection, httpClient } = clientOptions;
-  const endpointUrl = clientOptions.endpoint ?? endpoint;
   const client = (path: string, ...args: Array<any>) => {
-    const getUrl = (requestOptions: RequestParameters) =>
-      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
-
     return {
       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "GET",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).get(wrapRequestParameters(requestOptions));
       },
       post: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "POST",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).post(wrapRequestParameters(requestOptions));
       },
       put: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "PUT",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).put(wrapRequestParameters(requestOptions));
       },
       patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "PATCH",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).patch(wrapRequestParameters(requestOptions));
       },
       delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "DELETE",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).delete(wrapRequestParameters(requestOptions));
       },
       head: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "HEAD",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).head(wrapRequestParameters(requestOptions));
       },
       options: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "OPTIONS",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).options(wrapRequestParameters(requestOptions));
       },
       trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
-        return buildOperation(
-          "TRACE",
-          getUrl(requestOptions),
-          pipeline,
-          requestOptions,
-          allowInsecureConnection,
-          httpClient,
-        );
+        return tspClient.path(path, ...args).trace(wrapRequestParameters(requestOptions));
       },
     };
   };
@@ -153,59 +95,7 @@ export function getClient(
   return {
     path: client,
     pathUnchecked: client,
-    pipeline,
-  };
-}
-
-function buildOperation(
-  method: HttpMethods,
-  url: string,
-  pipeline: Pipeline,
-  options: RequestParameters,
-  allowInsecureConnection?: boolean,
-  httpClient?: HttpClient,
-): StreamableMethod {
-  allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
-  return {
-    then: function (onFulfilled, onrejected) {
-      return sendRequest(
-        method,
-        url,
-        pipeline,
-        { ...options, allowInsecureConnection },
-        httpClient,
-      ).then(onFulfilled, onrejected);
-    },
-    async asBrowserStream() {
-      if (isNodeLike) {
-        throw new Error(
-          "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
-        );
-      } else {
-        return sendRequest(
-          method,
-          url,
-          pipeline,
-          { ...options, allowInsecureConnection, responseAsStream: true },
-          httpClient,
-        ) as Promise<HttpBrowserStreamResponse>;
-      }
-    },
-    async asNodeStream() {
-      if (isNodeLike) {
-        return sendRequest(
-          method,
-          url,
-          pipeline,
-          { ...options, allowInsecureConnection, responseAsStream: true },
-          httpClient,
-        ) as Promise<HttpNodeStreamResponse>;
-      } else {
-        throw new Error(
-          "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
-        );
-      }
-    },
+    pipeline: tspClient.pipeline,
   };
 }
 
