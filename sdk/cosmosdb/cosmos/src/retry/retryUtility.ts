@@ -81,6 +81,7 @@ export async function execute({
             requestContext.resourceType,
             requestContext.operationType,
             requestContext.connectionPolicy.enableEndpointDiscovery,
+            requestContext.connectionPolicy.enablePartitionLevelFailover,
             requestContext,
           ),
         };

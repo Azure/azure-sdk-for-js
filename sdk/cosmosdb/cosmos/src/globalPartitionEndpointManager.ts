@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
-import type { GlobalEndpointManager, RequestContext } from "./index.js";
+import type { CosmosClientOptions, GlobalEndpointManager, RequestContext } from "./index.js";
 
 /**
  * @hidden
@@ -9,16 +9,31 @@ import type { GlobalEndpointManager, RequestContext } from "./index.js";
  */
 export class GlobalPartitionEndpointManager {
   private readonly partitionKeyRangeToLocation: Map<string, PartitionKeyRangeFailoverInfo>;
+  private enablePartitionLevelFailover: boolean;
+  private preferredLocations: string[];
+  public preferredLocationsCount: number;
 
-  constructor(private globalEndpointManager: GlobalEndpointManager) {
+  constructor(
+    options: CosmosClientOptions,
+    private globalEndpointManager: GlobalEndpointManager,
+  ) {
     this.partitionKeyRangeToLocation = new Map<string, PartitionKeyRangeFailoverInfo>();
+    this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
+    this.preferredLocations = options.connectionPolicy.preferredLocations;
+    this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
   }
 
   private async CanUsePartitionLevelFailoverLocations(
     operationType?: OperationType,
     resourceType?: ResourceType,
   ): Promise<boolean> {
-    if (this.globalEndpointManager.getReadEndpoint.length <= 1) {
+    if (!this.enablePartitionLevelFailover) {
+      return false;
+    }
+    if (this.preferredLocationsCount <= 0) {
+      return false;
+    }
+    if (this.globalEndpointManager.getReadEndpoints.length <= 1) {
       return false;
     }
     if (

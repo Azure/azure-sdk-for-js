@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import type { OperationType } from "../common/index.js";
+import { StatusCodes, SubStatusCodes, type OperationType } from "../common/index.js";
 import { isReadRequest } from "../common/helper.js";
 import type { GlobalEndpointManager } from "../globalEndpointManager.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
@@ -54,11 +54,9 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
-
-    if (!this.globalEndpointManager.enableEndpointDiscovery) {
-      return false;
-    }
     if (
+      err.code === StatusCodes.Forbidden &&
+      err.substatus === SubStatusCodes.WriteForbidden &&
       this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
         this.requestContext,
       )
@@ -66,6 +64,9 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
       return true;
     }
 
+    if (!this.globalEndpointManager.enableEndpointDiscovery) {
+      return false;
+    }
     if (this.currentRetryAttemptCount >= this.maxTries) {
       return false;
     }
