@@ -520,7 +520,7 @@ export interface MessageImageFileBlockInput extends MessageContentBlockInputPare
   /** Always 'image_file'. */
   type: "image_file";
   /** References an uploaded image by file ID. */
-  image_file: MessageImageFileParam;
+  imageFile: MessageImageFileParam;
 }
 
 /** Parameter for an image file (by ID) at creation time. */
@@ -540,7 +540,7 @@ export interface MessageImageUrlBlockInput extends MessageContentBlockInputParen
   /** Always 'image_url'. */
   type: "image_url";
   /** References an external image by URL. */
-  image_url: MessageImageUrlParam;
+  imageUrl: MessageImageUrlParam;
 }
 
 /** Parameter for an external image URL at creation time. */

@@ -941,7 +941,7 @@ export interface MessageDeltaTextUrlCitationDetails {
 
 // @public
 export interface MessageImageFileBlockInput extends MessageContentBlockInputParent {
-    image_file: MessageImageFileParam;
+    imageFile: MessageImageFileParam;
     type: "image_file";
 }
 
@@ -964,7 +964,7 @@ export interface MessageImageFileParam {
 
 // @public
 export interface MessageImageUrlBlockInput extends MessageContentBlockInputParent {
-    image_url: MessageImageUrlParam;
+    imageUrl: MessageImageUrlParam;
     type: "image_url";
 }
 
