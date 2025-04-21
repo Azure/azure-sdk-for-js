@@ -13,6 +13,85 @@ import type { SASCredential } from '@azure/core-auth';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AcsCallEndedBy {
+    communicationIdentifier: CommunicationIdentifierModel;
+    name: string;
+    type: AcsCallEndedByKind;
+}
+
+// @public
+export type AcsCallEndedByKind = string;
+
+// @public
+export interface AcsCallEndedEventData extends AcsCallingEvent {
+    callDurationInSeconds: number;
+    endedBy: AcsCallEndedBy;
+    reason: AcsCallEndReason;
+}
+
+// @public
+export interface AcsCallEndReason {
+    code: number;
+    phrase: string;
+    subCode: number;
+}
+
+// @public
+export interface AcsCallGroup {
+    id: string;
+}
+
+// @public
+export interface AcsCallingEvent {
+    correlationId: string;
+    group?: AcsCallGroup;
+    isRoomsCall?: boolean;
+    isTwoParty?: boolean;
+    room?: AcsCallRoom;
+    serverCallId: string;
+    startedBy: AcsCallParticipant;
+}
+
+// @public
+export interface AcsCallParticipant {
+    communicationIdentifier: CommunicationIdentifierModel;
+    role: string;
+}
+
+// @public
+export interface AcsCallParticipantAddedEventData extends AcsCallParticipantEventData {
+}
+
+// @public
+export interface AcsCallParticipantEventData extends AcsCallingEvent {
+    displayName: string;
+    participantId: string;
+    user: AcsCallParticipant;
+    userAgent: string;
+}
+
+// @public
+export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEventData {
+}
+
+// @public
+export interface AcsCallRoom {
+    id: string;
+}
+
+// @public
+export interface AcsCallStartedEventData extends AcsCallingEvent {
+}
+
+// @public
+export interface AcsChatAzureBotCommandReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
+    messageBody: string;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface AcsChatEventBase {
     recipientCommunicationIdentifier: CommunicationIdentifierModel;
     threadId: string;
@@ -37,40 +116,40 @@ export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEv
 
 // @public
 export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
-    editTime: string;
+    editTime?: string;
     messageBody: string;
-    metadata: {
+    metadata?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
 export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
-    editTime: string;
+    editTime?: string;
     messageBody: string;
-    metadata: {
+    metadata?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
 export interface AcsChatMessageEventBase extends AcsChatEventBase {
-    composeTime: string;
+    composeTime?: string;
     messageId: string;
-    senderCommunicationIdentifier: CommunicationIdentifierModel;
-    senderDisplayName: string;
+    senderCommunicationIdentifier?: CommunicationIdentifierModel;
+    senderDisplayName?: string;
     type: string;
-    version: number;
+    version?: number;
 }
 
 // @public
 export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBase {
-    composeTime: string;
+    composeTime?: string;
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
-    senderDisplayName: string;
+    senderDisplayName?: string;
     type: string;
-    version: number;
+    version?: number;
 }
 
 // @public
@@ -84,7 +163,7 @@ export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase
 // @public
 export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
     messageBody: string;
-    metadata: {
+    metadata?: {
         [propertyName: string]: string;
     };
 }
@@ -93,8 +172,8 @@ export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageE
 export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventInThreadBase {
     addedByCommunicationIdentifier: CommunicationIdentifierModel;
     participantAdded: AcsChatThreadParticipant;
-    time: string;
-    version: number;
+    time?: string;
+    version?: number;
 }
 
 // @public
@@ -108,8 +187,8 @@ export interface AcsChatParticipantAddedToThreadWithUserEventData extends AcsCha
 export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEventInThreadBase {
     participantRemoved: AcsChatThreadParticipant;
     removedByCommunicationIdentifier: CommunicationIdentifierModel;
-    time: string;
-    version: number;
+    time?: string;
+    version?: number;
 }
 
 // @public
@@ -122,7 +201,7 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends Ac
 // @public
 export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    metadata: {
+    metadata?: {
         [propertyName: string]: string;
     };
     participants: AcsChatThreadParticipant[];
@@ -134,7 +213,7 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
 // @public
 export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    metadata: {
+    metadata?: {
         [propertyName: string]: string;
     };
     participants: AcsChatThreadParticipant[];
@@ -146,7 +225,7 @@ export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEven
 // @public
 export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
-    deleteTime: string;
+    deleteTime?: string;
 }
 
 // @public
@@ -163,8 +242,8 @@ export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase
 
 // @public
 export interface AcsChatThreadParticipant {
-    displayName: string;
-    metadata: {
+    displayName?: string;
+    metadata?: {
         [propertyName: string]: string;
     };
     participantCommunicationIdentifier: CommunicationIdentifierModel;
@@ -185,8 +264,8 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
 // @public
 export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
-    editTime: string;
-    metadata: {
+    editTime?: string;
+    metadata?: {
         [propertyName: string]: string;
     };
     properties: {
@@ -197,7 +276,15 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
 // @public
 export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEventBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
-    deleteTime: string;
+    deleteTime?: string;
+}
+
+// @public
+export interface AcsChatTypingIndicatorReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
+    messageBody: string;
+    metadata?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -638,8 +725,8 @@ export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
     deliveryAttempts: AcsSmsDeliveryAttempt[];
     deliveryStatus: string;
     deliveryStatusDetails: string;
-    receivedTimestamp: string;
-    tag: string;
+    receivedTimestamp?: string;
+    tag?: string;
 }
 
 // @public
@@ -651,7 +738,7 @@ export interface AcsSmsEventBase {
 
 // @public
 export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
-    message?: string;
+    message: string;
     receivedTimestamp?: string;
     segmentCount: number;
 }
@@ -715,6 +802,31 @@ export interface ApiManagementApiUpdatedEventData {
 }
 
 // @public
+export interface ApiManagementCircuitBreaker {
+    rules: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
+
+// @public
+export interface ApiManagementCircuitBreakerClosedEventData {
+    backendName: string;
+    circuitBreaker: ApiManagementCircuitBreaker;
+}
+
+// @public
+export interface ApiManagementCircuitBreakerOpenedEventData {
+    backendName: string;
+    circuitBreaker: ApiManagementCircuitBreaker;
+}
+
+// @public
+export interface ApiManagementGateway {
+    gatewayId: string;
+    instanceId: string;
+}
+
+// @public
 export interface ApiManagementGatewayApiAddedEventData {
     resourceUri: string;
 }
@@ -762,6 +874,24 @@ export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
 // @public
 export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
     resourceUri: string;
+}
+
+// @public
+export interface ApiManagementGatewayTokenExpiredEventData {
+    gateway: ApiManagementGateway;
+    // Warning: (ae-forgotten-export) The symbol "ApiManagementExpiredGatewayToken" needs to be exported by the entry point index.d.ts
+    token: ApiManagementExpiredGatewayToken;
+}
+
+// @public
+export interface ApiManagementGatewayTokenNearExpiry {
+    expiresOn: string;
+}
+
+// @public
+export interface ApiManagementGatewayTokenNearExpiryEventData {
+    gateway: ApiManagementGateway;
+    token: ApiManagementGatewayTokenNearExpiry;
 }
 
 // @public
@@ -1510,6 +1640,12 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
     objectType: string;
     vaultName: string;
     version: string;
+}
+
+// @public
+export enum KnownAcsCallEndedByKind {
+    MicrosoftInternal = "MicrosoftInternal",
+    Participant = "Participant"
 }
 
 // @public
@@ -2727,6 +2863,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
     "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
     "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+    "Microsoft.ApiManagement.CircuitBreaker.Closed": ApiManagementCircuitBreakerClosedEventData;
+    "Microsoft.ApiManagement.CircuitBreaker.Opened": ApiManagementCircuitBreakerOpenedEventData;
     "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
     "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
     "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
@@ -2737,6 +2875,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
     "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
     "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayTokenExpired": ApiManagementGatewayTokenExpiredEventData;
+    "Microsoft.ApiManagement.GatewayTokenNearExpiry": ApiManagementGatewayTokenNearExpiryEventData;
     "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
     "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
     "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
@@ -2765,6 +2905,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
     "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
     "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
+    "Microsoft.Communication.CallEnded": AcsCallEndedEventData;
+    "Microsoft.Communication.CallParticipantAdded": AcsCallParticipantAddedEventData;
+    "Microsoft.Communication.CallParticipantRemoved": AcsCallParticipantRemovedEventData;
+    "Microsoft.Communication.CallStarted": AcsCallStartedEventData;
+    "Microsoft.Communication.ChatAzureBotCommandReceivedInThread": AcsChatAzureBotCommandReceivedInThreadEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2781,6 +2926,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.ChatTypingIndicatorReceivedInThread": AcsChatTypingIndicatorReceivedInThreadEventData;
     "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
     "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
     "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
@@ -2828,6 +2974,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
     "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
     "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    "Microsoft.Edge.SolutionVersionPublished": EdgeSolutionVersionPublishedEventData;
     "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
     "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
     "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;

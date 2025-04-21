@@ -2245,6 +2245,64 @@ export interface AcsRouterWorkerUpdatedEventData {
   updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
+/** Schema of calling event participant user */
+export interface AcsCallParticipant {
+  /** The communication identifier of the call ended by */
+  communicationIdentifier: CommunicationIdentifierModel;
+  /** The role of participant user. */
+  role: string;
+}
+
+/** Schema of common properties of all calling events */
+export interface AcsCallingEvent {
+  /** The call participant who initiated the call. */
+  startedBy: AcsCallParticipant;
+  /** The callId of the server */
+  serverCallId: string;
+  /** The group metadata */
+  group?: AcsCallGroup;
+  /** The group metadata */
+  room?: AcsCallRoom;
+  /** Is two-party in calling event. */
+  isTwoParty?: boolean;
+  /** The correlation ID of the calling event */
+  correlationId: string;
+  /** Is the calling event a room call. */
+  isRoomsCall?: boolean;
+}
+
+/** Schema of calling event group properties */
+export interface AcsCallGroup {
+  /** Group Id. Format is Guid as string. */
+  id: string;
+}
+
+/** Schema of calling event room properties */
+export interface AcsCallRoom {
+  /** Room Id. Format is Guid as string. */
+  id: string;
+}
+
+/** Schema of calling event endedby properties */
+export interface AcsCallEndedBy {
+  /** The communication identifier of the call ended by */
+  communicationIdentifier: CommunicationIdentifierModel;
+  /** The type of the call ended by. */
+  type: AcsCallEndedByKind;
+  /** The name of the call ended by. */
+  name: string;
+}
+
+/** Schema of calling event reason properties */
+export interface AcsCallEndReason {
+  /** Reason code for ending the call. */
+  code: number;
+  /** Reason subcode for ending the call. */
+  subCode: number;
+  /** Reason for ending the call. */
+  phrase: string;
+}
+
 /** Schema of common properties of all chat events */
 export interface AcsChatEventBase {
   /** The communication identifier of the target user */
@@ -2266,11 +2324,11 @@ export interface AcsChatEventInThreadBase {
 /** Schema of the chat thread participant */
 export interface AcsChatThreadParticipant {
   /** The name of the user */
-  displayName: string;
+  displayName?: string;
   /** The communication identifier of the user */
   participantCommunicationIdentifier: CommunicationIdentifierModel;
   /** The metadata of the user */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Schema for details of a delivery attempt */
@@ -2697,6 +2755,64 @@ export interface ApiManagementGatewayApiRemovedEventData {
   resourceUri: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.CircuitBreaker.Opened event. */
+export interface ApiManagementCircuitBreakerOpenedEventData {
+  /** Name of the backend for which the circuit has opened. */
+  backendName: string;
+  /** Information related to the circuit breaker configured on the backend. */
+  circuitBreaker: ApiManagementCircuitBreaker;
+}
+
+/** Information related to the circuit breaker configured on the backend. */
+export interface ApiManagementCircuitBreaker {
+  /** Overview of all configured rules and respective details. */
+  rules: { [propertyName: string]: Record<string, unknown> };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.CircuitBreaker.Closed event. */
+export interface ApiManagementCircuitBreakerClosedEventData {
+  /** Name of the backend for which the circuit has closed. */
+  backendName: string;
+  /** Information related to the circuit breaker configured on the backend. */
+  circuitBreaker: ApiManagementCircuitBreaker;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenNearExpiry event. */
+export interface ApiManagementGatewayTokenNearExpiryEventData {
+  /** Information related to a given self-hosted gateway deployment. */
+  gateway: ApiManagementGateway;
+  /** Information related to a gateway token that is near expiry for a self-hosted gateway deployment. */
+  token: ApiManagementGatewayTokenNearExpiry;
+}
+
+/** Information related to a given self-hosted gateway deployment. */
+export interface ApiManagementGateway {
+  /** Id of Gateway that is used to deploy the gateway to get the configuration for. This is the ARM resource ID referenced in the Azure API Management instance. */
+  gatewayId: string;
+  /** Unique instance ID of the deployed gateway */
+  instanceId: string;
+}
+
+/** Information related to a gateway token that is near expiry for a self-hosted gateway deployment. */
+export interface ApiManagementGatewayTokenNearExpiry {
+  /** Timestamp when the gateway token will expire. */
+  expiresOn: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenExpired event. */
+export interface ApiManagementGatewayTokenExpiredEventData {
+  /** Information related to a given self-hosted gateway deployment. */
+  gateway: ApiManagementGateway;
+  /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
+  token: ApiManagementExpiredGatewayToken;
+}
+
+/** Information related to a an expired gateway token for a self-hosted gateway deployment. */
+export interface ApiManagementExpiredGatewayToken {
+  /** Timestamp when the gateway token has expired. */
+  expiresOn: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceCreated event. */
 export interface HealthcareFhirResourceCreatedEventData {
   /** Type of HL7 FHIR resource. */
@@ -3072,20 +3188,45 @@ export interface AcsRouterWorkerEventData extends AcsRouterEventData {
   workerId: string;
 }
 
+/** Schema of common properties of participant events */
+export interface AcsCallParticipantEventData extends AcsCallingEvent {
+  /** The user of the call participant. */
+  user: AcsCallParticipant;
+  /** The display name of the participant. */
+  displayName: string;
+  /** The Id of the participant. */
+  participantId: string;
+  /** The user agent of the participant. */
+  userAgent: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallStarted event. */
+export interface AcsCallStartedEventData extends AcsCallingEvent {}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallEnded event. */
+export interface AcsCallEndedEventData extends AcsCallingEvent {
+  /** The communication identifier of the user who was disconnected */
+  endedBy: AcsCallEndedBy;
+  /** The reason for ending the call. */
+  reason: AcsCallEndReason;
+  /** Duration of the call in seconds. */
+  callDurationInSeconds: number;
+}
+
 /** Schema of common properties of all chat message events */
 export interface AcsChatMessageEventBase extends AcsChatEventBase {
   /** The chat message id */
   messageId: string;
   /** The communication identifier of the sender */
-  senderCommunicationIdentifier: CommunicationIdentifierModel;
+  senderCommunicationIdentifier?: CommunicationIdentifierModel;
   /** The display name of the sender */
-  senderDisplayName: string;
+  senderDisplayName?: string;
   /** The original compose time of the message */
-  composeTime: string;
+  composeTime?: string;
   /** The type of the message */
   type: string;
   /** The version of the message */
-  version: number;
+  version?: number;
 }
 
 /** Schema of common properties of all chat thread events */
@@ -3104,13 +3245,13 @@ export interface AcsChatMessageEventInThreadBase
   /** The communication identifier of the sender */
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
-  senderDisplayName: string;
+  senderDisplayName?: string;
   /** The original compose time of the message */
-  composeTime: string;
+  composeTime?: string;
   /** The type of the message */
   type: string;
   /** The version of the message */
-  version: number;
+  version?: number;
 }
 
 /** Schema of common properties of all chat thread events */
@@ -3126,26 +3267,26 @@ export interface AcsChatThreadEventInThreadBase
 export interface AcsChatParticipantAddedToThreadEventData
   extends AcsChatEventInThreadBase {
   /** The time at which the user was added to the thread */
-  time: string;
+  time?: string;
   /** The communication identifier of the user who added the user */
   addedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The details of the user who was added */
   participantAdded: AcsChatThreadParticipant;
   /** The version of the thread */
-  version: number;
+  version?: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantRemoved event. */
 export interface AcsChatParticipantRemovedFromThreadEventData
   extends AcsChatEventInThreadBase {
   /** The time at which the user was removed to the thread */
-  time: string;
+  time?: string;
   /** The communication identifier of the user who removed the user */
   removedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The details of the user who was removed */
   participantRemoved: AcsChatThreadParticipant;
   /** The version of the thread */
-  version: number;
+  version?: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSDeliveryReportReceived event. */
@@ -3157,15 +3298,15 @@ export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
   /** List of details of delivery attempts made */
   deliveryAttempts: AcsSmsDeliveryAttempt[];
   /** The time at which the SMS delivery report was received */
-  receivedTimestamp: string;
+  receivedTimestamp?: string;
   /** Customer Content */
-  tag: string;
+  tag?: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSReceived event. */
 export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
   /** The SMS content */
-  message?: string;
+  message: string;
   /** The time at which the SMS was received */
   receivedTimestamp?: string;
   /** Number of segments in the message */
@@ -3507,6 +3648,14 @@ export interface AcsRouterWorkerOfferRevokedEventData
   offerId: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallParticipantAdded event. */
+export interface AcsCallParticipantAddedEventData
+  extends AcsCallParticipantEventData {}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallParticipantRemoved event. */
+export interface AcsCallParticipantRemovedEventData
+  extends AcsCallParticipantEventData {}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceived event. */
 export interface AcsChatMessageReceivedEventData
   extends AcsChatMessageEventBase {
@@ -3521,9 +3670,9 @@ export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
   /** The time at which the message was edited */
-  editTime: string;
+  editTime?: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeleted event. */
@@ -3541,7 +3690,7 @@ export interface AcsChatThreadCreatedWithUserEventData
   /** The thread properties */
   properties: { [propertyName: string]: Record<string, unknown> };
   /** The thread metadata */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 }
@@ -3552,7 +3701,7 @@ export interface AcsChatThreadWithUserDeletedEventData
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
-  deleteTime: string;
+  deleteTime?: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event. */
@@ -3561,9 +3710,9 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
-  editTime: string;
+  editTime?: string;
   /** The thread metadata */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
   /** The updated thread properties */
   properties: { [propertyName: string]: Record<string, unknown> };
 }
@@ -3590,13 +3739,31 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData
   participantRemoved: AcsChatThreadParticipant;
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatAzureBotCommandReceivedInThread event. */
+export interface AcsChatAzureBotCommandReceivedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
+  /** The body of the chat message */
+  messageBody: string;
+  /** The chat message metadata */
+  metadata?: { [propertyName: string]: string };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatTypingIndicatorReceivedInThread event. */
+export interface AcsChatTypingIndicatorReceivedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
+  /** The body of the chat message */
+  messageBody: string;
+  /** The chat message metadata */
+  metadata?: { [propertyName: string]: string };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceivedInThread event. */
 export interface AcsChatMessageReceivedInThreadEventData
   extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEditedInThread event. */
@@ -3605,9 +3772,9 @@ export interface AcsChatMessageEditedInThreadEventData
   /** The body of the chat message */
   messageBody: string;
   /** The chat message metadata */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
   /** The time at which the message was edited */
-  editTime: string;
+  editTime?: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeletedInThread event. */
@@ -3625,7 +3792,7 @@ export interface AcsChatThreadCreatedEventData
   /** The thread properties */
   properties: { [propertyName: string]: Record<string, unknown> };
   /** The chat thread created metadata */
-  metadata: { [propertyName: string]: string };
+  metadata?: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 }
@@ -3636,7 +3803,7 @@ export interface AcsChatThreadDeletedEventData
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
-  deleteTime: string;
+  deleteTime?: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdated event. */
@@ -4080,6 +4247,24 @@ export enum KnownAcsRouterUpdatedWorkerProperty {
  * **ChannelConfigurations**
  */
 export type AcsRouterUpdatedWorkerProperty = string;
+
+/** Known values of {@link AcsCallEndedByKind} that the service accepts. */
+export enum KnownAcsCallEndedByKind {
+  /** Call end initiator is a participant */
+  Participant = "Participant",
+  /** Call end initiator is the local participant */
+  MicrosoftInternal = "MicrosoftInternal",
+}
+
+/**
+ * Defines values for AcsCallEndedByKind. \
+ * {@link KnownAcsCallEndedByKind} can be used interchangeably with AcsCallEndedByKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Participant**: Call end initiator is a participant \
+ * **MicrosoftInternal**: Call end initiator is the local participant
+ */
+export type AcsCallEndedByKind = string;
 
 /** Known values of {@link RecordingContentType} that the service accepts. */
 export enum KnownRecordingContentType {

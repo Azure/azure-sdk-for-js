@@ -6578,6 +6578,177 @@ export const AcsRouterWorkerUpdatedEventData: coreClient.CompositeMapper = {
   },
 };
 
+export const AcsCallParticipant: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallParticipant",
+    modelProperties: {
+      communicationIdentifier: {
+        serializedName: "communicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      role: {
+        serializedName: "role",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AcsCallingEvent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallingEvent",
+    modelProperties: {
+      startedBy: {
+        serializedName: "startedBy",
+        type: {
+          name: "Composite",
+          className: "AcsCallParticipant",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      group: {
+        serializedName: "group",
+        type: {
+          name: "Composite",
+          className: "AcsCallGroup",
+        },
+      },
+      room: {
+        serializedName: "room",
+        type: {
+          name: "Composite",
+          className: "AcsCallRoom",
+        },
+      },
+      isTwoParty: {
+        serializedName: "isTwoParty",
+        type: {
+          name: "Boolean",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      isRoomsCall: {
+        serializedName: "isRoomsCall",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AcsCallGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallGroup",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AcsCallRoom: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallRoom",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AcsCallEndedBy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallEndedBy",
+    modelProperties: {
+      communicationIdentifier: {
+        serializedName: "communicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AcsCallEndReason: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallEndReason",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      subCode: {
+        serializedName: "subCode",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      phrase: {
+        serializedName: "phrase",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AcsChatEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6638,7 +6809,6 @@ export const AcsChatThreadParticipant: coreClient.CompositeMapper = {
     modelProperties: {
       displayName: {
         serializedName: "displayName",
-        required: true,
         type: {
           name: "String",
         },
@@ -6652,7 +6822,6 @@ export const AcsChatThreadParticipant: coreClient.CompositeMapper = {
       },
       metadata: {
         serializedName: "metadata",
-        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
@@ -7933,6 +8102,176 @@ export const ApiManagementGatewayApiRemovedEventData: coreClient.CompositeMapper
     },
   };
 
+export const ApiManagementCircuitBreakerOpenedEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ApiManagementCircuitBreakerOpenedEventData",
+      modelProperties: {
+        backendName: {
+          serializedName: "backendName",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        circuitBreaker: {
+          serializedName: "circuitBreaker",
+          type: {
+            name: "Composite",
+            className: "ApiManagementCircuitBreaker",
+          },
+        },
+      },
+    },
+  };
+
+export const ApiManagementCircuitBreaker: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementCircuitBreaker",
+    modelProperties: {
+      rules: {
+        serializedName: "rules",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ApiManagementCircuitBreakerClosedEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ApiManagementCircuitBreakerClosedEventData",
+      modelProperties: {
+        backendName: {
+          serializedName: "backendName",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        circuitBreaker: {
+          serializedName: "circuitBreaker",
+          type: {
+            name: "Composite",
+            className: "ApiManagementCircuitBreaker",
+          },
+        },
+      },
+    },
+  };
+
+export const ApiManagementGatewayTokenNearExpiryEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ApiManagementGatewayTokenNearExpiryEventData",
+      modelProperties: {
+        gateway: {
+          serializedName: "gatewayInfo",
+          type: {
+            name: "Composite",
+            className: "ApiManagementGateway",
+          },
+        },
+        token: {
+          serializedName: "tokenInfo",
+          type: {
+            name: "Composite",
+            className: "ApiManagementGatewayTokenNearExpiry",
+          },
+        },
+      },
+    },
+  };
+
+export const ApiManagementGateway: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGateway",
+    modelProperties: {
+      gatewayId: {
+        serializedName: "gatewayId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      instanceId: {
+        serializedName: "instanceId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ApiManagementGatewayTokenNearExpiry: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementGatewayTokenNearExpiry",
+    modelProperties: {
+      expiresOn: {
+        serializedName: "expiresAtUtc",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ApiManagementGatewayTokenExpiredEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ApiManagementGatewayTokenExpiredEventData",
+      modelProperties: {
+        gateway: {
+          serializedName: "gatewayInfo",
+          type: {
+            name: "Composite",
+            className: "ApiManagementGateway",
+          },
+        },
+        token: {
+          serializedName: "tokenInfo",
+          type: {
+            name: "Composite",
+            className: "ApiManagementExpiredGatewayToken",
+          },
+        },
+      },
+    },
+  };
+
+export const ApiManagementExpiredGatewayToken: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiManagementExpiredGatewayToken",
+    modelProperties: {
+      expiresOn: {
+        serializedName: "expiredAtUtc",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const HealthcareFhirResourceCreatedEventData: coreClient.CompositeMapper =
   {
     type: {
@@ -9089,6 +9428,85 @@ export const AcsRouterWorkerEventData: coreClient.CompositeMapper = {
   },
 };
 
+export const AcsCallParticipantEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallParticipantEventData",
+    modelProperties: {
+      ...AcsCallingEvent.type.modelProperties,
+      user: {
+        serializedName: "user",
+        type: {
+          name: "Composite",
+          className: "AcsCallParticipant",
+        },
+      },
+      displayName: {
+        serializedName: "displayName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      participantId: {
+        serializedName: "participantId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAgent: {
+        serializedName: "userAgent",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AcsCallStartedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallStartedEventData",
+    modelProperties: {
+      ...AcsCallingEvent.type.modelProperties,
+    },
+  },
+};
+
+export const AcsCallEndedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallEndedEventData",
+    modelProperties: {
+      ...AcsCallingEvent.type.modelProperties,
+      endedBy: {
+        serializedName: "endedBy",
+        type: {
+          name: "Composite",
+          className: "AcsCallEndedBy",
+        },
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "Composite",
+          className: "AcsCallEndReason",
+        },
+      },
+      callDurationInSeconds: {
+        serializedName: "callDurationInSeconds",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const AcsChatMessageEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9111,14 +9529,12 @@ export const AcsChatMessageEventBase: coreClient.CompositeMapper = {
       },
       senderDisplayName: {
         serializedName: "senderDisplayName",
-        required: true,
         type: {
           name: "String",
         },
       },
       composeTime: {
         serializedName: "composeTime",
-        required: true,
         type: {
           name: "String",
         },
@@ -9132,7 +9548,6 @@ export const AcsChatMessageEventBase: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "version",
-        required: true,
         type: {
           name: "Number",
         },
@@ -9187,14 +9602,12 @@ export const AcsChatMessageEventInThreadBase: coreClient.CompositeMapper = {
       },
       senderDisplayName: {
         serializedName: "senderDisplayName",
-        required: true,
         type: {
           name: "String",
         },
       },
       composeTime: {
         serializedName: "composeTime",
-        required: true,
         type: {
           name: "String",
         },
@@ -9208,7 +9621,6 @@ export const AcsChatMessageEventInThreadBase: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "version",
-        required: true,
         type: {
           name: "Number",
         },
@@ -9250,7 +9662,6 @@ export const AcsChatParticipantAddedToThreadEventData: coreClient.CompositeMappe
         ...AcsChatEventInThreadBase.type.modelProperties,
         time: {
           serializedName: "time",
-          required: true,
           type: {
             name: "String",
           },
@@ -9271,7 +9682,6 @@ export const AcsChatParticipantAddedToThreadEventData: coreClient.CompositeMappe
         },
         version: {
           serializedName: "version",
-          required: true,
           type: {
             name: "Number",
           },
@@ -9289,7 +9699,6 @@ export const AcsChatParticipantRemovedFromThreadEventData: coreClient.CompositeM
         ...AcsChatEventInThreadBase.type.modelProperties,
         time: {
           serializedName: "time",
-          required: true,
           type: {
             name: "String",
           },
@@ -9310,7 +9719,6 @@ export const AcsChatParticipantRemovedFromThreadEventData: coreClient.CompositeM
         },
         version: {
           serializedName: "version",
-          required: true,
           type: {
             name: "Number",
           },
@@ -9355,14 +9763,12 @@ export const AcsSmsDeliveryReportReceivedEventData: coreClient.CompositeMapper =
         },
         receivedTimestamp: {
           serializedName: "receivedTimestamp",
-          required: true,
           type: {
             name: "String",
           },
         },
         tag: {
           serializedName: "tag",
-          required: true,
           type: {
             name: "String",
           },
@@ -9379,6 +9785,7 @@ export const AcsSmsReceivedEventData: coreClient.CompositeMapper = {
       ...AcsSmsEventBase.type.modelProperties,
       message: {
         serializedName: "message",
+        required: true,
         type: {
           name: "String",
         },
@@ -10456,6 +10863,26 @@ export const AcsRouterWorkerOfferRevokedEventData: coreClient.CompositeMapper =
     },
   };
 
+export const AcsCallParticipantAddedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallParticipantAddedEventData",
+    modelProperties: {
+      ...AcsCallParticipantEventData.type.modelProperties,
+    },
+  },
+};
+
+export const AcsCallParticipantRemovedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsCallParticipantRemovedEventData",
+    modelProperties: {
+      ...AcsCallParticipantEventData.type.modelProperties,
+    },
+  },
+};
+
 export const AcsChatMessageReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10496,7 +10923,6 @@ export const AcsChatMessageEditedEventData: coreClient.CompositeMapper = {
       },
       metadata: {
         serializedName: "metadata",
-        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
@@ -10504,7 +10930,6 @@ export const AcsChatMessageEditedEventData: coreClient.CompositeMapper = {
       },
       editTime: {
         serializedName: "editTime",
-        required: true,
         type: {
           name: "String",
         },
@@ -10556,7 +10981,6 @@ export const AcsChatThreadCreatedWithUserEventData: coreClient.CompositeMapper =
         },
         metadata: {
           serializedName: "metadata",
-          required: true,
           type: {
             name: "Dictionary",
             value: { type: { name: "String" } },
@@ -10595,7 +11019,6 @@ export const AcsChatThreadWithUserDeletedEventData: coreClient.CompositeMapper =
         },
         deleteTime: {
           serializedName: "deleteTime",
-          required: true,
           type: {
             name: "String",
           },
@@ -10620,14 +11043,12 @@ export const AcsChatThreadPropertiesUpdatedPerUserEventData: coreClient.Composit
         },
         editTime: {
           serializedName: "editTime",
-          required: true,
           type: {
             name: "String",
           },
         },
         metadata: {
           serializedName: "metadata",
-          required: true,
           type: {
             name: "Dictionary",
             value: { type: { name: "String" } },
@@ -10711,6 +11132,56 @@ export const AcsChatParticipantRemovedFromThreadWithUserEventData: coreClient.Co
     },
   };
 
+export const AcsChatAzureBotCommandReceivedInThreadEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AcsChatAzureBotCommandReceivedInThreadEventData",
+      modelProperties: {
+        ...AcsChatMessageEventInThreadBase.type.modelProperties,
+        messageBody: {
+          serializedName: "messageBody",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        metadata: {
+          serializedName: "metadata",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
+export const AcsChatTypingIndicatorReceivedInThreadEventData: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AcsChatTypingIndicatorReceivedInThreadEventData",
+      modelProperties: {
+        ...AcsChatMessageEventInThreadBase.type.modelProperties,
+        messageBody: {
+          serializedName: "messageBody",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        metadata: {
+          serializedName: "metadata",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
 export const AcsChatMessageReceivedInThreadEventData: coreClient.CompositeMapper =
   {
     type: {
@@ -10727,7 +11198,6 @@ export const AcsChatMessageReceivedInThreadEventData: coreClient.CompositeMapper
         },
         metadata: {
           serializedName: "metadata",
-          required: true,
           type: {
             name: "Dictionary",
             value: { type: { name: "String" } },
@@ -10753,7 +11223,6 @@ export const AcsChatMessageEditedInThreadEventData: coreClient.CompositeMapper =
         },
         metadata: {
           serializedName: "metadata",
-          required: true,
           type: {
             name: "Dictionary",
             value: { type: { name: "String" } },
@@ -10761,7 +11230,6 @@ export const AcsChatMessageEditedInThreadEventData: coreClient.CompositeMapper =
         },
         editTime: {
           serializedName: "editTime",
-          required: true,
           type: {
             name: "String",
           },
@@ -10813,7 +11281,6 @@ export const AcsChatThreadCreatedEventData: coreClient.CompositeMapper = {
       },
       metadata: {
         serializedName: "metadata",
-        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
@@ -10851,7 +11318,6 @@ export const AcsChatThreadDeletedEventData: coreClient.CompositeMapper = {
       },
       deleteTime: {
         serializedName: "deleteTime",
-        required: true,
         type: {
           name: "String",
         },
