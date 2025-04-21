@@ -15,6 +15,12 @@ import type {
 } from "./models.js";
 
 import type {
+  AcsCallEndedEventData,
+  AcsCallStartedEventData,
+  AcsCallParticipantAddedEventData,
+  AcsCallParticipantRemovedEventData,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageDeletedEventData,
   AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
@@ -54,6 +60,7 @@ import type {
   ContainerRegistryImageDeletedEventData,
   ContainerRegistryImagePushedEventData,
   ContainerServiceNewKubernetesVersionAvailableEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   HealthcareDicomImageCreatedEventData,
   HealthcareDicomImageDeletedEventData,
@@ -231,6 +238,16 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseDeleted" event. */
   "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallEnded" event. */
+  "Microsoft.Communication.CallEnded": AcsCallEndedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallParticipantAdded" event. */
+  "Microsoft.Communication.CallParticipantAdded": AcsCallParticipantAddedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallParticipantRemoved" event. */
+  "Microsoft.Communication.CallParticipantRemoved": AcsCallParticipantRemovedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallStarted" event. */
+  "Microsoft.Communication.CallStarted": AcsCallStartedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatAzureBotCommandReceivedInThread" event. */
+  "Microsoft.Communication.ChatAzureBotCommandReceivedInThread": AcsChatAzureBotCommandReceivedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
   "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceivedInThread" event. */
@@ -247,6 +264,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */
   "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatTypingIndicatorReceivedInThread" event. */
+  "Microsoft.Communication.ChatTypingIndicatorReceivedInThread": AcsChatTypingIndicatorReceivedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" event. */
   "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadParticipantAdded" event. */
@@ -465,6 +484,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
   /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingFailed" event. */
   "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
+  /** An interface for the event data of a "Microsoft.Edge.SolutionVersionPublished" event. */
+  "Microsoft.Edge.SolutionVersionPublished": EdgeSolutionVersionPublishedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientCreatedOrUpdated" event. */
   "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientDeleted" event. */

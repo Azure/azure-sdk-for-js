@@ -2,6 +2,19 @@
 // Licensed under the MIT License.
 
 export {
+  KnownAcsCallEndedByKind,
+  AcsCallEndedByProperties,
+  AcsCallEndedByKind,
+  AcsCallEndedEventData,
+  AcsCallEndReasonProperties,
+  AcsCallGroupProperties,
+  AcsCallingEventProperties,
+  AcsCallParticipantAddedEventData,
+  AcsCallParticipantRemovedEventData,
+  AcsCallParticipantProperties,
+  AcsCallParticipantEventProperties,
+  AcsCallRoomProperties,
+  AcsCallStartedEventData,
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
   ApiCenterApiDefinitionUpdatedEventData,
@@ -63,6 +76,8 @@ export {
   MicrosoftTeamsAppIdentifierModel,
   AcsIncomingCallCustomContext,
   AcsUserDisconnectedEventData,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatEventBase,
   AcsChatEventInThreadBase,
   AcsChatMessageEventBase,

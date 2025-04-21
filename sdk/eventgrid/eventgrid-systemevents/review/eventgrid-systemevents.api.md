@@ -5,15 +5,92 @@
 ```ts
 
 // @public
+export type AcsCallEndedByKind = string;
+
+// @public
+export interface AcsCallEndedByProperties {
+    communicationIdentifier: CommunicationIdentifierModel;
+    name: string;
+    type: AcsCallEndedByKind;
+}
+
+// @public
+export interface AcsCallEndedEventData extends AcsCallingEventProperties {
+    callDurationInSeconds?: number;
+    endedBy?: AcsCallEndedByProperties;
+    reason?: AcsCallEndReasonProperties;
+}
+
+// @public
+export interface AcsCallEndReasonProperties {
+    code?: number;
+    phrase?: string;
+    subCode?: number;
+}
+
+// @public
+export interface AcsCallGroupProperties {
+    id?: string;
+}
+
+// @public
+export interface AcsCallingEventProperties {
+    correlationId: string;
+    group?: AcsCallGroupProperties;
+    isRoomsCall?: boolean;
+    isTwoParty?: boolean;
+    room?: AcsCallRoomProperties;
+    serverCallId: string;
+    startedBy: AcsCallParticipantProperties;
+}
+
+// @public
+export interface AcsCallParticipantAddedEventData extends AcsCallParticipantEventProperties {
+}
+
+// @public
+export interface AcsCallParticipantEventProperties extends AcsCallingEventProperties {
+    displayName?: string;
+    participantId?: string;
+    user?: AcsCallParticipantProperties;
+    userAgent?: string;
+}
+
+// @public
+export interface AcsCallParticipantProperties {
+    communicationIdentifier?: CommunicationIdentifierModel;
+    role?: string;
+}
+
+// @public
+export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEventProperties {
+}
+
+// @public
+export interface AcsCallRoomProperties {
+    id?: string;
+}
+
+// @public
+export interface AcsCallStartedEventData extends AcsCallingEventProperties {
+}
+
+// @public
+export interface AcsChatAzureBotCommandReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
+    messageBody: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
 export interface AcsChatEventBase {
     recipientCommunicationIdentifier: CommunicationIdentifierModel;
-    threadId?: string;
+    threadId: string;
     transactionId?: string;
 }
 
 // @public
 export interface AcsChatEventInThreadBase {
-    threadId?: string;
+    threadId: string;
     transactionId?: string;
 }
 
@@ -30,47 +107,47 @@ export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEv
 // @public
 export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
     editTime: Date;
-    messageBody?: string;
-    metadata: Record<string, string>;
+    messageBody: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
 export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
     editTime: Date;
-    messageBody?: string;
-    metadata: Record<string, string>;
+    messageBody: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
 export interface AcsChatMessageEventBase extends AcsChatEventBase {
     composeTime: Date;
-    messageId?: string;
+    messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
-    type?: string;
-    version?: number;
+    type: string;
+    version: number;
 }
 
 // @public
 export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBase {
     composeTime: Date;
-    messageId?: string;
+    messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
-    type?: string;
-    version?: number;
+    type: string;
+    version: number;
 }
 
 // @public
 export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase {
-    messageBody?: string;
-    metadata: Record<string, string>;
+    messageBody: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
 export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
-    messageBody?: string;
-    metadata: Record<string, string>;
+    messageBody: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -106,7 +183,7 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends Ac
 // @public
 export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    metadata: Record<string, string>;
+    metadata?: Record<string, string>;
     participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
 }
@@ -114,7 +191,7 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
 // @public
 export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    metadata: Record<string, string>;
+    metadata?: Record<string, string>;
     participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
 }
@@ -140,7 +217,7 @@ export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase
 // @public
 export interface AcsChatThreadParticipant {
     displayName?: string;
-    metadata: Record<string, string>;
+    metadata?: Record<string, string>;
     participantCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
@@ -156,7 +233,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
 export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: Date;
-    metadata: Record<string, string>;
+    metadata?: Record<string, string>;
     properties: Record<string, any>;
 }
 
@@ -164,6 +241,12 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
 export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEventBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
     deleteTime: Date;
+}
+
+// @public
+export interface AcsChatTypingIndicatorReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
+    messageBody: string;
+    metadata?: Record<string, string>;
 }
 
 // @public
@@ -351,7 +434,7 @@ export interface AcsRouterCommunicationError {
 export interface AcsRouterEventData {
     channelId?: string;
     channelReference?: string;
-    jobId?: string;
+    jobId: string;
 }
 
 // @public
@@ -407,7 +490,7 @@ export interface AcsRouterJobExceptionTriggeredEventData extends AcsRouterJobEve
 // @public
 export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
     attachedWorkerSelectors: AcsRouterWorkerSelector[];
-    priority?: number;
+    priority: number;
     requestedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
@@ -426,7 +509,7 @@ export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEvent
     expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
     expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
     failureReason?: string;
-    priority?: number;
+    priority: number;
     scheduledOn: Date;
 }
 
@@ -443,7 +526,7 @@ export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
 export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobEventData {
     expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
     expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
-    priority?: number;
+    priority: number;
     scheduledOn: Date;
     unavailableForMatching: boolean;
 }
@@ -560,30 +643,30 @@ export interface AcsRouterWorkerUpdatedEventData {
 
 // @public
 export interface AcsSmsDeliveryAttempt {
-    segmentsFailed?: number;
-    segmentsSucceeded?: number;
+    segmentsFailed: number;
+    segmentsSucceeded: number;
     timestamp: Date;
 }
 
 // @public
 export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
     deliveryAttempts: AcsSmsDeliveryAttempt[];
-    deliveryStatus?: string;
-    deliveryStatusDetails?: string;
+    deliveryStatus: string;
+    deliveryStatusDetails: string;
     receivedTimestamp: Date;
     tag?: string;
 }
 
 // @public
 export interface AcsSmsEventBase {
-    from?: string;
-    messageId?: string;
-    to?: string;
+    from: string;
+    messageId: string;
+    to: string;
 }
 
 // @public
 export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
-    message?: string;
+    message: string;
     receivedTimestamp: Date;
     segmentCount: number;
 }
@@ -890,11 +973,11 @@ export type CommunicationCloudEnvironmentModel = string;
 // @public
 export interface CommunicationIdentifierModel {
     communicationUser: CommunicationUserIdentifierModel;
-    kind: CommunicationIdentifierModelKind;
-    microsoftTeamsApp: MicrosoftTeamsAppIdentifierModel;
-    microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel;
-    phoneNumber: PhoneNumberIdentifierModel;
-    rawId?: string;
+    kind?: CommunicationIdentifierModelKind;
+    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
+    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+    phoneNumber?: PhoneNumberIdentifierModel;
+    rawId: string;
 }
 
 // @public
@@ -1382,6 +1465,12 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
     objectType?: string;
     vaultName?: string;
     version?: string;
+}
+
+// @public
+export enum KnownAcsCallEndedByKind {
+    MicrosoftInternal = "MicrosoftInternal",
+    Participant = "Participant"
 }
 
 // @public
@@ -2421,6 +2510,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
     "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
     "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
+    "Microsoft.Communication.CallEnded": AcsCallEndedEventData;
+    "Microsoft.Communication.CallParticipantAdded": AcsCallParticipantAddedEventData;
+    "Microsoft.Communication.CallParticipantRemoved": AcsCallParticipantRemovedEventData;
+    "Microsoft.Communication.CallStarted": AcsCallStartedEventData;
+    "Microsoft.Communication.ChatAzureBotCommandReceivedInThread": AcsChatAzureBotCommandReceivedInThreadEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2434,6 +2528,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.ChatTypingIndicatorReceivedInThread": AcsChatTypingIndicatorReceivedInThreadEventData;
     "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
     "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
     "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
@@ -2481,6 +2576,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
     "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
     "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    "Microsoft.Edge.SolutionVersionPublished": EdgeSolutionVersionPublishedEventData;
     "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
     "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
     "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;

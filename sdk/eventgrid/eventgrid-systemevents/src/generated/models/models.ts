@@ -893,17 +893,17 @@ export function acsIncomingCallEventDataDeserializer(
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
 export interface CommunicationIdentifierModel {
   /** The identifier kind. Only required in responses. */
-  kind: CommunicationIdentifierModelKind;
+  kind?: CommunicationIdentifierModelKind;
   /** Raw Id of the identifier. Optional in requests, required in responses. */
-  rawId?: string;
+  rawId: string;
   /** The communication user. */
   communicationUser: CommunicationUserIdentifierModel;
   /** The phone number. */
-  phoneNumber: PhoneNumberIdentifierModel;
+  phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
-  microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel;
+  microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
   /** The Microsoft Teams application. */
-  microsoftTeamsApp: MicrosoftTeamsAppIdentifierModel;
+  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 export function communicationIdentifierModelDeserializer(
@@ -915,13 +915,17 @@ export function communicationIdentifierModelDeserializer(
     communicationUser: communicationUserIdentifierModelDeserializer(
       item["communicationUser"],
     ),
-    phoneNumber: phoneNumberIdentifierModelDeserializer(item["phoneNumber"]),
-    microsoftTeamsUser: microsoftTeamsUserIdentifierModelDeserializer(
-      item["microsoftTeamsUser"],
-    ),
-    microsoftTeamsApp: microsoftTeamsAppIdentifierModelDeserializer(
-      item["microsoftTeamsApp"],
-    ),
+    phoneNumber: !item["phoneNumber"]
+      ? item["phoneNumber"]
+      : phoneNumberIdentifierModelDeserializer(item["phoneNumber"]),
+    microsoftTeamsUser: !item["microsoftTeamsUser"]
+      ? item["microsoftTeamsUser"]
+      : microsoftTeamsUserIdentifierModelDeserializer(
+          item["microsoftTeamsUser"],
+        ),
+    microsoftTeamsApp: !item["microsoftTeamsApp"]
+      ? item["microsoftTeamsApp"]
+      : microsoftTeamsAppIdentifierModelDeserializer(item["microsoftTeamsApp"]),
   };
 }
 
@@ -1068,6 +1072,300 @@ export function acsUserDisconnectedEventDataDeserializer(
   };
 }
 
+/** Schema of common properties of all calling events */
+export interface AcsCallingEventProperties {
+  /** The call participant who initiated the call. */
+  startedBy: AcsCallParticipantProperties;
+  /** The call id of the server */
+  serverCallId: string;
+  /** The group metadata */
+  group?: AcsCallGroupProperties;
+  /** The room metadata */
+  room?: AcsCallRoomProperties;
+  /** Is two-party in calling event. */
+  isTwoParty?: boolean;
+  /** The correlationId of calling event */
+  correlationId: string;
+  /** Is the calling event a room call. */
+  isRoomsCall?: boolean;
+}
+
+export function acsCallingEventPropertiesDeserializer(
+  item: any,
+): AcsCallingEventProperties {
+  return {
+    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    serverCallId: item["serverCallId"],
+    group: !item["group"]
+      ? item["group"]
+      : acsCallGroupPropertiesDeserializer(item["group"]),
+    room: !item["room"]
+      ? item["room"]
+      : acsCallRoomPropertiesDeserializer(item["room"]),
+    isTwoParty: item["isTwoParty"],
+    correlationId: item["correlationId"],
+    isRoomsCall: item["isRoomsCall"],
+  };
+}
+
+/** Schema of common properties of all participant event user */
+export interface AcsCallParticipantProperties {
+  /** The communication identifier of the participant user */
+  communicationIdentifier?: CommunicationIdentifierModel;
+  /** The role of the participant */
+  role?: string;
+}
+
+export function acsCallParticipantPropertiesDeserializer(
+  item: any,
+): AcsCallParticipantProperties {
+  return {
+    communicationIdentifier: !item["communicationIdentifier"]
+      ? item["communicationIdentifier"]
+      : communicationIdentifierModelDeserializer(
+          item["communicationIdentifier"],
+        ),
+    role: item["role"],
+  };
+}
+
+/** Schema of calling event group properties */
+export interface AcsCallGroupProperties {
+  /** Group Id. */
+  id?: string;
+}
+
+export function acsCallGroupPropertiesDeserializer(
+  item: any,
+): AcsCallGroupProperties {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Schema of calling event room properties */
+export interface AcsCallRoomProperties {
+  /** Room Id. */
+  id?: string;
+}
+
+export function acsCallRoomPropertiesDeserializer(
+  item: any,
+): AcsCallRoomProperties {
+  return {
+    id: item["id"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallStarted event. */
+export interface AcsCallStartedEventData extends AcsCallingEventProperties {}
+
+export function acsCallStartedEventDataDeserializer(
+  item: any,
+): AcsCallStartedEventData {
+  return {
+    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    serverCallId: item["serverCallId"],
+    group: !item["group"]
+      ? item["group"]
+      : acsCallGroupPropertiesDeserializer(item["group"]),
+    room: !item["room"]
+      ? item["room"]
+      : acsCallRoomPropertiesDeserializer(item["room"]),
+    isTwoParty: item["isTwoParty"],
+    correlationId: item["correlationId"],
+    isRoomsCall: item["isRoomsCall"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallEnded event. */
+export interface AcsCallEndedEventData extends AcsCallingEventProperties {
+  /** The communication identifier of the user who was disconnected */
+  endedBy?: AcsCallEndedByProperties;
+  /** The reason for ending the call. */
+  reason?: AcsCallEndReasonProperties;
+  /** Duration of the call in seconds. */
+  callDurationInSeconds?: number;
+}
+
+export function acsCallEndedEventDataDeserializer(
+  item: any,
+): AcsCallEndedEventData {
+  return {
+    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    serverCallId: item["serverCallId"],
+    group: !item["group"]
+      ? item["group"]
+      : acsCallGroupPropertiesDeserializer(item["group"]),
+    room: !item["room"]
+      ? item["room"]
+      : acsCallRoomPropertiesDeserializer(item["room"]),
+    isTwoParty: item["isTwoParty"],
+    correlationId: item["correlationId"],
+    isRoomsCall: item["isRoomsCall"],
+    endedBy: !item["endedBy"]
+      ? item["endedBy"]
+      : acsCallEndedByPropertiesDeserializer(item["endedBy"]),
+    reason: !item["reason"]
+      ? item["reason"]
+      : acsCallEndReasonPropertiesDeserializer(item["reason"]),
+    callDurationInSeconds: item["callDurationInSeconds"],
+  };
+}
+
+/** Schema of calling event endedby properties */
+export interface AcsCallEndedByProperties {
+  /** The communication identifier of the call ended by */
+  communicationIdentifier: CommunicationIdentifierModel;
+  /** The type of call ended by. */
+  type: AcsCallEndedByKind;
+  /** The name of the call ended by. */
+  name: string;
+}
+
+export function acsCallEndedByPropertiesDeserializer(
+  item: any,
+): AcsCallEndedByProperties {
+  return {
+    communicationIdentifier: communicationIdentifierModelDeserializer(
+      item["communicationIdentifier"],
+    ),
+    type: item["type"],
+    name: item["name"],
+  };
+}
+
+/** Call ended participant kind. */
+export enum KnownAcsCallEndedByKind {
+  /** Participant */
+  Participant = "Participant",
+  /** MicrosoftInternal */
+  MicrosoftInternal = "MicrosoftInternal",
+}
+
+/**
+ * Call ended participant kind. \
+ * {@link KnownAcsCallEndedByKind} can be used interchangeably with AcsCallEndedByKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Participant**: Participant \
+ * **MicrosoftInternal**: MicrosoftInternal
+ */
+export type AcsCallEndedByKind = string;
+
+/** Schema of calling event reason properties */
+export interface AcsCallEndReasonProperties {
+  /** Reason code for ending the call. */
+  code?: number;
+  /** Reason subcode for ending the call. */
+  subCode?: number;
+  /** Reason for the ending the call. */
+  phrase?: string;
+}
+
+export function acsCallEndReasonPropertiesDeserializer(
+  item: any,
+): AcsCallEndReasonProperties {
+  return {
+    code: item["code"],
+    subCode: item["subCode"],
+    phrase: item["phrase"],
+  };
+}
+
+/** Schema of common properties of all participant events */
+export interface AcsCallParticipantEventProperties
+  extends AcsCallingEventProperties {
+  /** The user of the call participant */
+  user?: AcsCallParticipantProperties;
+  /** The display name of the participant. */
+  displayName?: string;
+  /** The id of the participant. */
+  participantId?: string;
+  /** The user agent of the participant. */
+  userAgent?: string;
+}
+
+export function acsCallParticipantEventPropertiesDeserializer(
+  item: any,
+): AcsCallParticipantEventProperties {
+  return {
+    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    serverCallId: item["serverCallId"],
+    group: !item["group"]
+      ? item["group"]
+      : acsCallGroupPropertiesDeserializer(item["group"]),
+    room: !item["room"]
+      ? item["room"]
+      : acsCallRoomPropertiesDeserializer(item["room"]),
+    isTwoParty: item["isTwoParty"],
+    correlationId: item["correlationId"],
+    isRoomsCall: item["isRoomsCall"],
+    user: !item["user"]
+      ? item["user"]
+      : acsCallParticipantPropertiesDeserializer(item["user"]),
+    displayName: item["displayName"],
+    participantId: item["participantId"],
+    userAgent: item["userAgent"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallParticipantAdded event. */
+export interface AcsCallParticipantAddedEventData
+  extends AcsCallParticipantEventProperties {}
+
+export function acsCallParticipantAddedEventDataDeserializer(
+  item: any,
+): AcsCallParticipantAddedEventData {
+  return {
+    user: !item["user"]
+      ? item["user"]
+      : acsCallParticipantPropertiesDeserializer(item["user"]),
+    displayName: item["displayName"],
+    participantId: item["participantId"],
+    userAgent: item["userAgent"],
+    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    serverCallId: item["serverCallId"],
+    group: !item["group"]
+      ? item["group"]
+      : acsCallGroupPropertiesDeserializer(item["group"]),
+    room: !item["room"]
+      ? item["room"]
+      : acsCallRoomPropertiesDeserializer(item["room"]),
+    isTwoParty: item["isTwoParty"],
+    correlationId: item["correlationId"],
+    isRoomsCall: item["isRoomsCall"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallParticipantRemoved event. */
+export interface AcsCallParticipantRemovedEventData
+  extends AcsCallParticipantEventProperties {}
+
+export function acsCallParticipantRemovedEventDataDeserializer(
+  item: any,
+): AcsCallParticipantRemovedEventData {
+  return {
+    user: !item["user"]
+      ? item["user"]
+      : acsCallParticipantPropertiesDeserializer(item["user"]),
+    displayName: item["displayName"],
+    participantId: item["participantId"],
+    userAgent: item["userAgent"],
+    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    serverCallId: item["serverCallId"],
+    group: !item["group"]
+      ? item["group"]
+      : acsCallGroupPropertiesDeserializer(item["group"]),
+    room: !item["room"]
+      ? item["room"]
+      : acsCallRoomPropertiesDeserializer(item["room"]),
+    isTwoParty: item["isTwoParty"],
+    correlationId: item["correlationId"],
+    isRoomsCall: item["isRoomsCall"],
+  };
+}
+
 /** Schema of common properties of all chat events */
 export interface AcsChatEventBase {
   /** The communication identifier of the target user */
@@ -1075,7 +1373,7 @@ export interface AcsChatEventBase {
   /** The transaction id will be used as co-relation vector */
   transactionId?: string;
   /** The chat thread id */
-  threadId?: string;
+  threadId: string;
 }
 
 export function acsChatEventBaseDeserializer(item: any): AcsChatEventBase {
@@ -1093,7 +1391,7 @@ export interface AcsChatEventInThreadBase {
   /** The transaction id will be used as co-relation vector */
   transactionId?: string;
   /** The chat thread id */
-  threadId?: string;
+  threadId: string;
 }
 
 export function acsChatEventInThreadBaseDeserializer(
@@ -1108,7 +1406,7 @@ export function acsChatEventInThreadBaseDeserializer(
 /** Schema of common properties of all chat message events */
 export interface AcsChatMessageEventBase extends AcsChatEventBase {
   /** The chat message id */
-  messageId?: string;
+  messageId: string;
   /** The communication identifier of the sender */
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
@@ -1116,9 +1414,9 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
   /** The original compose time of the message */
   composeTime: Date;
   /** The type of the message */
-  type?: string;
+  type: string;
   /** The version of the message */
-  version?: number;
+  version: number;
 }
 
 export function acsChatMessageEventBaseDeserializer(
@@ -1145,9 +1443,9 @@ export function acsChatMessageEventBaseDeserializer(
 export interface AcsChatMessageReceivedEventData
   extends AcsChatMessageEventBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
 export function acsChatMessageReceivedEventDataDeserializer(
@@ -1176,7 +1474,7 @@ export function acsChatMessageReceivedEventDataDeserializer(
 export interface AcsChatMessageEventInThreadBase
   extends AcsChatEventInThreadBase {
   /** The chat message id */
-  messageId?: string;
+  messageId: string;
   /** The communication identifier of the sender */
   senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
@@ -1184,9 +1482,9 @@ export interface AcsChatMessageEventInThreadBase
   /** The original compose time of the message */
   composeTime: Date;
   /** The type of the message */
-  type?: string;
+  type: string;
   /** The version of the message */
-  version?: number;
+  version: number;
 }
 
 export function acsChatMessageEventInThreadBaseDeserializer(
@@ -1206,13 +1504,69 @@ export function acsChatMessageEventInThreadBaseDeserializer(
   };
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatAzureBotCommandReceivedInThread event. */
+export interface AcsChatAzureBotCommandReceivedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
+  /** The body of the chat message */
+  messageBody: string;
+  /** The chat message metadata */
+  metadata?: Record<string, string>;
+}
+
+export function acsChatAzureBotCommandReceivedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatAzureBotCommandReceivedInThreadEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatTypingIndicatorReceivedInThread event. */
+export interface AcsChatTypingIndicatorReceivedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
+  /** The body of the chat message */
+  messageBody: string;
+  /** The chat message metadata */
+  metadata?: Record<string, string>;
+}
+
+export function acsChatTypingIndicatorReceivedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatTypingIndicatorReceivedInThreadEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceivedInThread event. */
 export interface AcsChatMessageReceivedInThreadEventData
   extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
 export function acsChatMessageReceivedInThreadEventDataDeserializer(
@@ -1237,9 +1591,9 @@ export function acsChatMessageReceivedInThreadEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEdited event. */
 export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The time at which the message was edited */
   editTime: Date;
 }
@@ -1271,9 +1625,9 @@ export function acsChatMessageEditedEventDataDeserializer(
 export interface AcsChatMessageEditedInThreadEventData
   extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
-  messageBody?: string;
+  messageBody: string;
   /** The chat message metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The time at which the message was edited */
   editTime: Date;
 }
@@ -1381,7 +1735,7 @@ export interface AcsChatThreadCreatedWithUserEventData
   /** The thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 }
@@ -1423,7 +1777,7 @@ export interface AcsChatThreadParticipant {
   /** The communication identifier of the user */
   participantCommunicationIdentifier: CommunicationIdentifierModel;
   /** The metadata of the user */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
 }
 
 export function acsChatThreadParticipantDeserializer(
@@ -1467,7 +1821,7 @@ export interface AcsChatThreadCreatedEventData
   /** The thread properties */
   properties: Record<string, any>;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 }
@@ -1550,7 +1904,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData
   /** The time at which the properties of the thread were updated */
   editTime: Date;
   /** The thread metadata */
-  metadata: Record<string, string>;
+  metadata?: Record<string, string>;
   /** The updated thread properties */
   properties: Record<string, any>;
 }
@@ -1732,11 +2086,11 @@ export function acsChatParticipantRemovedFromThreadEventDataDeserializer(
 /** Schema of common properties of all SMS events */
 export interface AcsSmsEventBase {
   /** The identity of the SMS message */
-  messageId?: string;
+  messageId: string;
   /** The identity of SMS message sender */
-  from?: string;
+  from: string;
   /** The identity of SMS message receiver */
-  to?: string;
+  to: string;
 }
 
 export function acsSmsEventBaseDeserializer(item: any): AcsSmsEventBase {
@@ -1750,9 +2104,9 @@ export function acsSmsEventBaseDeserializer(item: any): AcsSmsEventBase {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSDeliveryReportReceived event. */
 export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
   /** Status of Delivery */
-  deliveryStatus?: string;
+  deliveryStatus: string;
   /** Details about Delivery Status */
-  deliveryStatusDetails?: string;
+  deliveryStatusDetails: string;
   /** List of details of delivery attempts made */
   deliveryAttempts: AcsSmsDeliveryAttempt[];
   /** The time at which the SMS delivery report was received */
@@ -1791,9 +2145,9 @@ export interface AcsSmsDeliveryAttempt {
   /** TimeStamp when delivery was attempted */
   timestamp: Date;
   /** Number of segments that were successfully delivered */
-  segmentsSucceeded?: number;
+  segmentsSucceeded: number;
   /** Number of segments whose delivery failed */
-  segmentsFailed?: number;
+  segmentsFailed: number;
 }
 
 export function acsSmsDeliveryAttemptDeserializer(
@@ -1809,7 +2163,7 @@ export function acsSmsDeliveryAttemptDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSReceived event. */
 export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
   /** The SMS content */
-  message?: string;
+  message: string;
   /** The time at which the SMS was received */
   receivedTimestamp: Date;
   /** Number of segments in the message */
@@ -2107,7 +2461,7 @@ export type AcsUserEngagement = string;
 /** Schema of common properties of all Router events */
 export interface AcsRouterEventData {
   /** Router Event Job ID */
-  jobId?: string;
+  jobId: string;
   /** Router Event Channel Reference */
   channelReference?: string;
   /** Router Event Channel ID */
@@ -2454,7 +2808,7 @@ export function acsRouterJobExceptionTriggeredEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobQueued event */
 export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
   /** Router Job Priority */
-  priority?: number;
+  priority: number;
   /** Router Job Queued Attached Worker Selector */
   attachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Queued Requested Worker Selector */
@@ -2570,7 +2924,7 @@ export type AcsRouterJobStatus = string;
 export interface AcsRouterJobSchedulingFailedEventData
   extends AcsRouterJobEventData {
   /** Router Job Priority */
-  priority?: number;
+  priority: number;
   /** Router Job Scheduling Failed Attached Worker Selector Expired */
   expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Scheduling Failed Requested Worker Selector Expired */
@@ -2630,7 +2984,7 @@ export function acsRouterJobUnassignedEventDataDeserializer(
 export interface AcsRouterJobWaitingForActivationEventData
   extends AcsRouterJobEventData {
   /** Router Job Waiting For Activation Priority */
-  priority?: number;
+  priority: number;
   /** Router Job Waiting For Activation Worker Selector Expired */
   expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Waiting For Activation Requested Worker Selector Expired */
