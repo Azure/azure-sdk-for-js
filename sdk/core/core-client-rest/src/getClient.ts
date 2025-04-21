@@ -3,7 +3,7 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
-import type { PipelineOptions } from "@azure/core-rest-pipeline";
+import { createPipelineFromOptions, type PipelineOptions } from "@azure/core-rest-pipeline";
 import { addCredentialPipelinePolicy } from "./clientHelpers.js";
 import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
 import {
@@ -56,6 +56,7 @@ export function getClient(
   }
 
   const tspClient = tspGetClient(endpoint, clientOptions as TspClientOptions) as Client;
+  tspClient.pipeline = createPipelineFromOptions(clientOptions);
   if (credentials) {
     addCredentialPipelinePolicy(tspClient.pipeline, endpoint, {
       clientOptions,
