@@ -2,22 +2,40 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to use basic agent operations using image url input for the
- * Azure Agents service.
- *
+ * @summary This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service.
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AIProjectsClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+const fs = require("fs");
 
 // Load environment variables
 const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING || "<connection-string>";
 const modelDeployment = process.env.MODEL_DEPLOYMENT_NAME || "<model-deployment-name>";
-const imageUrl =
-  "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
+const filePath = "./data/image_file.png";
 
-export async function main(): Promise<void> {
-  console.log("== AI Projects Agent with Image Input Sample ==");
+/**
+ * Convert an image file to a Base64-encoded data URL.
+ * @param imagePath - The path to the image file
+ * @param mimeType - The MIME type of the image (e.g., 'image/png', 'image/jpeg')
+ * @returns A data URL with the Base64-encoded image
+ */
+function imageToBase64DataUrl(imagePath, mimeType) {
+  try {
+    // Read the image file as binary
+    const imageBuffer = fs.readFileSync(imagePath);
+    // Convert to base64
+    const base64Data = imageBuffer.toString("base64");
+    // Format as a data URL
+    return `data:${mimeType};base64,${base64Data}`;
+  } catch (error) {
+    console.error(`Error reading image file at ${imagePath}:`, error);
+    throw error;
+  }
+}
+
+async function main() {
+  console.log("== AI Projects Agent with Base64 Image Input Sample ==");
 
   // Create the client
   const client = AIProjectsClient.fromConnectionString(
@@ -38,6 +56,10 @@ export async function main(): Promise<void> {
   const thread = await client.agents.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
+  // Create a message with text and image content using base64
+  console.log("Converting image to base64...");
+  const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
+
   // Create a message with both text and image content
   console.log("Creating message with image content...");
   const inputMessage = "Hello, what is in the image?";
@@ -49,11 +71,12 @@ export async function main(): Promise<void> {
     {
       type: "image_url",
       image_url: {
-        url: imageUrl,
+        url: imageDataUrl,
         detail: "high",
       },
     },
   ];
+
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
     content: content,
@@ -99,3 +122,5 @@ export async function main(): Promise<void> {
 main().catch((error) => {
   console.error("An error occurred:", error);
 });
+
+module.exports = { main };

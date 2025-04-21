@@ -2,21 +2,20 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to use basic agent operations using image url input for the
+ * @summary This sample demonstrates how to use basic agent operations using image file input for the
  * Azure Agents service.
- *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AIProjectsClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
+const fs = require("fs");
 
 // Load environment variables
 const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING || "<connection-string>";
 const modelDeployment = process.env.MODEL_DEPLOYMENT_NAME || "<model-deployment-name>";
-const imageUrl =
-  "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
+const imagePath = "./data/image_file.png";
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== AI Projects Agent with Image Input Sample ==");
 
   // Create the client
@@ -38,6 +37,14 @@ export async function main(): Promise<void> {
   const thread = await client.agents.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
+  // Upload an image file
+  console.log("Uploading image file...");
+  const fileStream = fs.createReadStream(imagePath);
+  const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
+    fileName: "image_file.png",
+  });
+  console.log(`Uploaded file, file ID: ${imageFile.id}`);
+
   // Create a message with both text and image content
   console.log("Creating message with image content...");
   const inputMessage = "Hello, what is in the image?";
@@ -47,9 +54,9 @@ export async function main(): Promise<void> {
       text: inputMessage,
     },
     {
-      type: "image_url",
-      image_url: {
-        url: imageUrl,
+      type: "image_file",
+      image_file: {
+        file_id: imageFile.id,
         detail: "high",
       },
     },
@@ -99,3 +106,5 @@ export async function main(): Promise<void> {
 main().catch((error) => {
   console.error("An error occurred:", error);
 });
+
+module.exports = { main };
