@@ -1463,15 +1463,15 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 201ff0d..248a49a 100644
+index 8136c63..0ff983d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.19.2";
-+export const SDK_VERSION: string = "0.2.1";
+-export const SDK_VERSION: string = "1.20.0";
++export const SDK_VERSION: string = "0.2.2";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
@@ -1514,7 +1514,7 @@ index fefe550..fb56a78 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index ad162e3..ae5349c 100644
+index 71a8bd6..e250048 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -1710,7 +1710,7 @@ index 92a7ee9..4990189 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index ae5513d..28b26c8 100644
+index bbc7e3a..babbfd7 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -1754,7 +1754,7 @@ index ae5513d..28b26c8 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -315,6 +317,21 @@ export type TransferProgressEvent = {
+@@ -327,6 +329,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
@@ -2302,7 +2302,7 @@ index 0000000..1002e6f
 +  return context.createClientLogger(namespace);
 +}
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 264a28e..2b974db 100644
+index a6328bf..8f1aaee 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -2315,7 +2315,7 @@ index 264a28e..2b974db 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 5947165..6c09a01 100644
+index 07081c9..81d925d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
 @@ -2,21 +2,17 @@
@@ -2383,7 +2383,7 @@ index 5947165..6c09a01 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -143,16 +121,14 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -155,16 +133,14 @@ class PipelineRequestImpl implements PipelineRequest {
    public formData?: FormDataMap;
    public streamResponseStatusCodes?: Set<number>;
    public enableBrowserStreams: boolean;
@@ -2399,10 +2399,10 @@ index 5947165..6c09a01 100644
    public onDownloadProgress?: (progress: TransferProgressEvent) => void;
 -  public agent?: Agent;
 -  public tlsSettings?: TlsSettings;
+   public requestOverrides?: Record<string, unknown>;
  
    constructor(options: PipelineRequestOptions) {
-     this.url = options.url;
-@@ -167,14 +143,11 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -180,14 +156,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
@@ -2414,9 +2414,9 @@ index 5947165..6c09a01 100644
      this.enableBrowserStreams = options.enableBrowserStreams ?? false;
 -    this.agent = options.agent;
 -    this.tlsSettings = options.tlsSettings;
+     this.requestOverrides = options.requestOverrides;
    }
  }
- 
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
 index 0000000..ea33138
