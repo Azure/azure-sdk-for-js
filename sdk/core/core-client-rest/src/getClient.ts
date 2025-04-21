@@ -56,7 +56,20 @@ export function getClient(
   }
 
   const tspClient = tspGetClient(endpoint, clientOptions as TspClientOptions) as Client;
+
+  // Overwrite the pipeline here to use the Azure one instead of the TypeSpec default pipeline
   tspClient.pipeline = createPipelineFromOptions(clientOptions);
+  if (clientOptions.additionalPolicies?.length) {
+    for (const { policy, position } of clientOptions.additionalPolicies) {
+      // Sign happens after Retry and is commonly needed to occur
+      // before policies that intercept post-retry.
+      const afterPhase = position === "perRetry" ? "Sign" : undefined;
+      tspClient.pipeline.addPolicy(policy, {
+        afterPhase,
+      });
+    }
+  }
+
   if (credentials) {
     addCredentialPipelinePolicy(tspClient.pipeline, endpoint, {
       clientOptions,
