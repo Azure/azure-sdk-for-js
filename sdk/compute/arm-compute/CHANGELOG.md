@@ -1,6 +1,6 @@
 # Release History
     
-## 23.0.0 (2025-04-18)
+## 23.0.0 (2025-04-21)
     
 ### Features Added
 
@@ -23,7 +23,6 @@
   - Added Interface DiskEncryptionSetsDeleteHeaders
   - Added Interface DiskEncryptionSetsUpdateHeaders
   - Added Interface DiskRestorePointGrantAccessHeaders
-  - Added Interface DiskRestorePointListResult
   - Added Interface DiskRestorePointRevokeAccessHeaders
   - Added Interface DisksCreateOrUpdateHeaders
   - Added Interface DisksDeleteHeaders
@@ -152,9 +151,7 @@
   - Interface SystemData has a new optional parameter createdByType
   - Interface SystemData has a new optional parameter lastModifiedBy
   - Interface SystemData has a new optional parameter lastModifiedByType
-  - Interface VirtualMachine has a new optional parameter eTag
   - Interface VirtualMachinesAttachDetachDataDisksHeaders has a new optional parameter retryAfter
-  - Interface VirtualMachineScaleSet has a new optional parameter eTag
   - Interface VirtualMachineScaleSetExtension has a new optional parameter vmName
   - Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
   - Interface VirtualMachineScaleSetsReapplyHeaders has a new optional parameter retryAfter
@@ -189,8 +186,6 @@
   - Interface PrivateEndpointConnection no longer has parameter type
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
-  - Interface VirtualMachine no longer has parameter etag
-  - Interface VirtualMachineScaleSet no longer has parameter etag
   - Interface VirtualMachineScaleSetExtension no longer has parameter name
   - Interface VirtualMachineScaleSetVMExtension no longer has parameter name
   - Parameter value of interface PrivateEndpointConnectionListResult is now required

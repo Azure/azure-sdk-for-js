@@ -3496,8 +3496,8 @@ export interface AccessUri {
   readonly securityDataAccessSAS?: string;
 }
 
-/** Paged collection of DiskRestorePoint items */
-export interface DiskRestorePointListResult {
+/** The List Disk Restore Points operation response. */
+export interface DiskRestorePointList {
   /** The DiskRestorePoint items on this page */
   value: DiskRestorePoint[];
   /** The link to the next page of items */
@@ -5161,40 +5161,6 @@ export interface OSFamilyListResult {
   nextLink?: string;
 }
 
-/** Describes the properties of a Compute Operation value. */
-export interface ComputeOperationValue {
-  /**
-   * The origin of the compute operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: string;
-  /**
-   * The name of the compute operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the compute operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The display name of the resource the operation applies to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The description of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * The resource provider for the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-}
-
 /** The Resource model definition with location property as optional. */
 export interface ResourceWithOptionalLocation {
   /** Resource location */
@@ -6390,10 +6356,10 @@ export interface VirtualMachineScaleSet extends TrackedResource {
   /** The extended location of the Virtual Machine Scale Set. */
   extendedLocation?: ExtendedLocation;
   /**
-   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * Etag is property returned in Create/Update/Get response of the VMSS, so that customer can supply it in the header to ensure optimistic updates
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly eTag?: string;
+  readonly etag?: string;
   /** The upgrade policy. */
   upgradePolicy?: UpgradePolicy;
   /** The ScheduledEventsPolicy. */
@@ -6505,10 +6471,10 @@ export interface VirtualMachine extends TrackedResource {
    */
   readonly managedBy?: string;
   /**
-   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * Etag is property returned in Create/Update/Get response of the VM, so that customer can supply it in the header to ensure optimistic updates.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly eTag?: string;
+  readonly etag?: string;
   /** Placement section specifies the user-defined constraints for virtual machine hardware placement. This property cannot be changed once VM is provisioned. Minimum api-version: 2024-11-01. */
   placement?: Placement;
   /** Specifies the hardware settings for the virtual machine. */
@@ -14024,8 +13990,7 @@ export interface DiskRestorePointListByRestorePointOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRestorePoint operation. */
-export type DiskRestorePointListByRestorePointResponse =
-  DiskRestorePointListResult;
+export type DiskRestorePointListByRestorePointResponse = DiskRestorePointList;
 
 /** Optional parameters. */
 export interface DiskRestorePointGetOptionalParams
@@ -14061,7 +14026,7 @@ export interface DiskRestorePointListByRestorePointNextOptionalParams
 
 /** Contains response data for the listByRestorePointNext operation. */
 export type DiskRestorePointListByRestorePointNextResponse =
-  DiskRestorePointListResult;
+  DiskRestorePointList;
 
 /** Optional parameters. */
 export interface ResourceSkusListOptionalParams

@@ -9353,10 +9353,10 @@ export const AccessUri: coreClient.CompositeMapper = {
   },
 };
 
-export const DiskRestorePointListResult: coreClient.CompositeMapper = {
+export const DiskRestorePointList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DiskRestorePointListResult",
+    className: "DiskRestorePointList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -13470,57 +13470,6 @@ export const OSFamilyListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const ComputeOperationValue: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ComputeOperationValue",
-    modelProperties: {
-      origin: {
-        serializedName: "origin",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      operation: {
-        serializedName: "display.operation",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      resource: {
-        serializedName: "display.resource",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "display.description",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provider: {
-        serializedName: "display.provider",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const ResourceWithOptionalLocation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16739,8 +16688,8 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
           className: "ExtendedLocation",
         },
       },
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         readOnly: true,
         type: {
           name: "String",
@@ -17057,8 +17006,8 @@ export const VirtualMachine: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         readOnly: true,
         type: {
           name: "String",

@@ -1314,16 +1314,6 @@ export interface ComputeManagementClientOptionalParams extends coreClient.Servic
 }
 
 // @public
-export interface ComputeOperationValue {
-    readonly description?: string;
-    readonly name?: string;
-    readonly operation?: string;
-    readonly origin?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
 export type ConfidentialVMEncryptionType = string;
 
 // @public
@@ -2203,24 +2193,24 @@ export interface DiskRestorePointInstanceView {
 }
 
 // @public
+export interface DiskRestorePointList {
+    nextLink?: string;
+    value: DiskRestorePoint[];
+}
+
+// @public
 export interface DiskRestorePointListByRestorePointNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointListResult;
+export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointList;
 
 // @public
 export interface DiskRestorePointListByRestorePointOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type DiskRestorePointListByRestorePointResponse = DiskRestorePointListResult;
-
-// @public
-export interface DiskRestorePointListResult {
-    nextLink?: string;
-    value: DiskRestorePoint[];
-}
+export type DiskRestorePointListByRestorePointResponse = DiskRestorePointList;
 
 // @public
 export interface DiskRestorePointOperations {
@@ -7015,7 +7005,7 @@ export interface VirtualMachine extends TrackedResource {
     billingProfile?: BillingProfile;
     capacityReservation?: CapacityReservationProfile;
     diagnosticsProfile?: DiagnosticsProfile;
-    readonly eTag?: string;
+    readonly etag?: string;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extendedLocation?: ExtendedLocation;
     extensionsTimeBudget?: string;
@@ -7791,7 +7781,7 @@ export interface VirtualMachineScaleSet extends TrackedResource {
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
     constrainedMaximumCapacity?: boolean;
     doNotRunExtensionsOnOverprovisionedVMs?: boolean;
-    readonly eTag?: string;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocation;
     hostGroup?: SubResource;
     identity?: VirtualMachineScaleSetIdentity;

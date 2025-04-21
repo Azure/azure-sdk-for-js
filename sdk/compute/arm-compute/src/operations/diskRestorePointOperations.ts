@@ -445,7 +445,7 @@ const listByRestorePointOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiskRestorePointListResult,
+      bodyMapper: Mappers.DiskRestorePointList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -548,7 +548,7 @@ const listByRestorePointNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiskRestorePointListResult,
+      bodyMapper: Mappers.DiskRestorePointList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
