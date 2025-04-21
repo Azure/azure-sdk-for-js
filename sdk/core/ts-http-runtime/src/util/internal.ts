@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-declare global {
-  interface Blob {}
-  interface File {}
-  interface ReadableStream<R = any> {}
-}
-
 export { calculateRetryDelay } from "./delay.js";
 export { getRandomIntegerInclusive } from "./random.js";
 export { isObject, type UnknownObject } from "./object.js";
