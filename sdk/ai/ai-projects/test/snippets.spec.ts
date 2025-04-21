@@ -17,18 +17,15 @@ import {
   MessageStreamEvent,
   RunStreamEvent,
   ThreadRunOutput,
+  MessageContentOutput,
+  isOutputOfType,
+  MessageTextContentOutput,
+  MessageImageFileContentOutput,
 } from "@azure/ai-projects";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
 import * as fs from "fs";
-import path from "node:path";
-import {
-  MessageContentOutput,
-  isOutputOfType,
-  MessageTextContentOutput,
-  MessageImageFileContentOutput,
-} from "../src/index.js";
 import { delay } from "@azure/core-util";
 import { trace } from "@opentelemetry/api";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
@@ -358,14 +355,14 @@ describe("snippets", function () {
   });
 
   it("listThreads", async function () {
-      const threads = await client.agents.listThreads();
-  console.log(`Threads for agent ${agent.id}:`);
-  for await (const t of (await threads).data) {
-    console.log(`Thread ID: ${t.id}`);
-    console.log(`Created at: ${t.createdAt}`);
-    console.log(`Metadata: ${t.metadata}`);
-    console.log(`---- `);
-  }
+    const threads = await client.agents.listThreads();
+    console.log(`Threads for agent ${agent.id}:`);
+    for await (const t of (await threads).data) {
+      console.log(`Thread ID: ${t.id}`);
+      console.log(`Created at: ${t.createdAt}`);
+      console.log(`Metadata: ${t.metadata}`);
+      console.log(`---- `);
+    }
   });
 
   it("createMessage", async function () {
