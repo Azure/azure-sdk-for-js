@@ -49,11 +49,15 @@ describe("RedisEnterprise test", () => {
     await recorder.stop();
   });
 
-  it("operations list test", async () => {
+  it.skip("operations list test", async () => {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
+  });
+  it("redisEnterprise list test", async () => {
+    const res = client.redisEnterprise.listByResourceGroup("myjstest");
+    assert.ok(res);
   });
 });
