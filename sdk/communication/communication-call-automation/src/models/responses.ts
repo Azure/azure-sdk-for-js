@@ -3,7 +3,7 @@
 
 import type { CallConnection } from "../callConnection.js";
 import type { CallConnectionProperties, CallParticipant } from "./models.js";
-import type { RecordingState } from "../generated/src/index.js";
+import { RecordingState, RecordingKind } from "../generated/src/index.js";
 
 /**
  * CreateCall result
@@ -77,7 +77,7 @@ export interface MuteParticipantResult {
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
   recordingId: string;
-  recordingKind: string;
+  recordingKind: RecordingKind;
   recordingState: RecordingState;
 }
 

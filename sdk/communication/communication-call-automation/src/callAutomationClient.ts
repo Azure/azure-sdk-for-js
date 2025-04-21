@@ -29,7 +29,11 @@ import type {
   RejectCallOptions,
 } from "./models/options.js";
 import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
-import type { CallConnectionProperties, CallInvite, CallLocator } from "./models/models.js";
+import type {
+  CallConnectionProperties,
+  CallInvite,
+  CallLocator,
+} from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -114,6 +118,7 @@ export class CallAutomationClient {
     this.endpoint = url;
 
     this.credential = credential;
+
 
     // create api client (using custom api endpoint if available)
     this.callAutomationApiClient = createCustomCallAutomationApiClient(

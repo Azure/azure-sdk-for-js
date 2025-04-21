@@ -57,8 +57,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
@@ -99,8 +97,6 @@ export enum VoiceKind {
 export interface PlaySource {
   /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
   playsourcacheid?: string;
-  /** Sets the play source cache id.*/
-  playSourceCacheId?: string;
 }
 
 /** The FileSource model. */
@@ -175,8 +171,6 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
