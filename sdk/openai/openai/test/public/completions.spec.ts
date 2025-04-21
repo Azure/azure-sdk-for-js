@@ -11,9 +11,7 @@ import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
 describe.concurrent.each(APIMatrix)("Legacy Completions [%s]", (apiVersion: APIVersion) => {
-  let clientsAndDeployments: ClientsAndDeploymentsInfo;
-
-  clientsAndDeployments = createClientsAndDeployments(
+  const clientsAndDeployments: ClientsAndDeploymentsInfo = createClientsAndDeployments(
     apiVersion,
     { completion: "true" },
     { clientOptions: { maxRetries: 0 }, deploymentsToSkip: ["computer-use-preview"] },
