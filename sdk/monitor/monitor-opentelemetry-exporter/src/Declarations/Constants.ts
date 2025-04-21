@@ -144,7 +144,7 @@ export enum PerformanceCounter {
 
   // CPU
   PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
-  PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  PROCESS_TIME_STANDARD = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
   PROCESS_TIME_NORMALIZED = "\\Process(??APP_WIN32_PROC??)\\% Processor Time Normalized",
 
   // Requests

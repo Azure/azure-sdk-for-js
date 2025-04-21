@@ -1118,7 +1118,12 @@ export interface SendDtmfTonesResult {
 export interface SipCustomHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "sipx";
+    // (undocumented)
+    sipHeaderPrefix?: SipHeaderPrefix;
 }
+
+// @public
+export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {

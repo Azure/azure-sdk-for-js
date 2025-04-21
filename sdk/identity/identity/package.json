@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.8.1",
+  "version": "4.9.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -103,6 +103,7 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
+    "assertion-error": "^2.0.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "jsonwebtoken": "^9.0.0",
@@ -123,6 +124,7 @@
       "commonjs"
     ],
     "esmDialects": [
+      "workerd",
       "browser"
     ],
     "selfLink": false
@@ -130,6 +132,10 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "workerd": {
+        "types": "./dist/workerd/index.d.ts",
+        "default": "./dist/workerd/index.js"
+      },
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"

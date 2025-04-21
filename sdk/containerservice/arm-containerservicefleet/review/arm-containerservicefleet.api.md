@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -27,6 +30,9 @@ export interface APIServerAccessProfile {
 }
 
 // @public
+export type AutoUpgradeLastTriggerStatus = string;
+
+// @public
 export interface AutoUpgradeNodeImageSelection {
     type: AutoUpgradeNodeImageSelectionType;
 }
@@ -36,123 +42,99 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
-    channel?: UpgradeChannel;
-    disabled?: boolean;
     readonly eTag?: string;
+    properties?: AutoUpgradeProfileProperties;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsOperations {
+    generateUpdateRun: (resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams) => PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
+}
+
+// @public
+export interface AutoUpgradeProfileProperties {
+    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
+    channel: UpgradeChannel;
+    disabled?: boolean;
     nodeImageSelection?: AutoUpgradeNodeImageSelection;
     readonly provisioningState?: AutoUpgradeProfileProvisioningState;
     updateStrategyId?: string;
 }
 
 // @public
-export interface AutoUpgradeProfileListResult {
-    nextLink?: string;
-    value: AutoUpgradeProfile[];
-}
-
-// @public
 export type AutoUpgradeProfileProvisioningState = string;
 
 // @public
-export interface AutoUpgradeProfiles {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfilesCreateOrUpdateResponse>, AutoUpgradeProfilesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams): Promise<AutoUpgradeProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfilesDeleteResponse>, AutoUpgradeProfilesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams): Promise<AutoUpgradeProfilesDeleteResponse>;
-    get(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesGetOptionalParams): Promise<AutoUpgradeProfilesGetResponse>;
-    listByFleet(resourceGroupName: string, fleetName: string, options?: AutoUpgradeProfilesListByFleetOptionalParams): PagedAsyncIterableIterator<AutoUpgradeProfile>;
-}
-
-// @public
-export interface AutoUpgradeProfilesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoUpgradeProfilesCreateOrUpdateResponse = AutoUpgradeProfile;
-
-// @public
-export interface AutoUpgradeProfilesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AutoUpgradeProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AutoUpgradeProfilesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AutoUpgradeProfilesDeleteResponse = AutoUpgradeProfilesDeleteHeaders;
-
-// @public
-export interface AutoUpgradeProfilesGetOptionalParams extends coreClient.OperationOptions {
+export interface AutoUpgradeProfilesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoUpgradeProfilesGetResponse = AutoUpgradeProfile;
-
-// @public
-export interface AutoUpgradeProfilesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+export interface AutoUpgradeProfilesListByFleetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AutoUpgradeProfilesListByFleetNextResponse = AutoUpgradeProfileListResult;
-
-// @public
-export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient.OperationOptions {
+export interface AutoUpgradeProfilesOperations {
+    createOrUpdate: (resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutoUpgradeProfile>, AutoUpgradeProfile>;
+    delete: (resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesGetOptionalParams) => Promise<AutoUpgradeProfile>;
+    listByFleet: (resourceGroupName: string, fleetName: string, options?: AutoUpgradeProfilesListByFleetOptionalParams) => PagedAsyncIterableIterator<AutoUpgradeProfile>;
 }
 
 // @public
-export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
+export interface AutoUpgradeProfileStatus {
+    readonly lastTriggeredAt?: Date;
+    readonly lastTriggerError?: ErrorDetail;
+    readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+    readonly lastTriggerUpgradeVersions?: string[];
+}
 
 // @public (undocumented)
-export class ContainerServiceFleetClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    autoUpgradeProfiles: AutoUpgradeProfiles;
-    // (undocumented)
-    fleetMembers: FleetMembers;
-    // (undocumented)
-    fleets: Fleets;
-    // (undocumented)
-    fleetUpdateStrategies: FleetUpdateStrategies;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    updateRuns: UpdateRuns;
+export class ContainerServiceFleetClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
+    readonly autoUpgradeProfileOperations: AutoUpgradeProfileOperationsOperations;
+    readonly autoUpgradeProfiles: AutoUpgradeProfilesOperations;
+    readonly fleetMembers: FleetMembersOperations;
+    readonly fleets: FleetsOperations;
+    readonly fleetUpdateStrategies: FleetUpdateStrategiesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly updateRuns: UpdateRunsOperations;
 }
 
 // @public
-export interface ContainerServiceFleetClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ContainerServiceFleetClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -173,9 +155,8 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
-    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
-    readonly provisioningState?: FleetProvisioningState;
+    properties?: FleetProperties;
 }
 
 // @public
@@ -200,305 +181,200 @@ export interface FleetHubProfile {
 }
 
 // @public
-export interface FleetListResult {
-    nextLink?: string;
-    value: Fleet[];
+export interface FleetMember extends ProxyResource {
+    readonly eTag?: string;
+    properties?: FleetMemberProperties;
 }
 
 // @public
-export interface FleetMember extends ProxyResource {
-    clusterResourceId?: string;
-    readonly eTag?: string;
+export interface FleetMemberProperties {
+    clusterResourceId: string;
     group?: string;
     readonly provisioningState?: FleetMemberProvisioningState;
-}
-
-// @public
-export interface FleetMemberListResult {
-    nextLink?: string;
-    value: FleetMember[];
+    readonly status?: FleetMemberStatus;
 }
 
 // @public
 export type FleetMemberProvisioningState = string;
 
 // @public
-export interface FleetMembers {
-    beginCreate(resourceGroupName: string, fleetName: string, fleetMemberName: string, resource: FleetMember, options?: FleetMembersCreateOptionalParams): Promise<SimplePollerLike<OperationState<FleetMembersCreateResponse>, FleetMembersCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, resource: FleetMember, options?: FleetMembersCreateOptionalParams): Promise<FleetMembersCreateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, fleetName: string, fleetMemberName: string, properties: FleetMemberUpdate, options?: FleetMembersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetMembersUpdateResponse>, FleetMembersUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, properties: FleetMemberUpdate, options?: FleetMembersUpdateOptionalParams): Promise<FleetMembersUpdateResponse>;
-    get(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersGetOptionalParams): Promise<FleetMembersGetResponse>;
-    listByFleet(resourceGroupName: string, fleetName: string, options?: FleetMembersListByFleetOptionalParams): PagedAsyncIterableIterator<FleetMember>;
-}
-
-// @public
-export interface FleetMembersCreateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetMembersCreateOptionalParams extends coreClient.OperationOptions {
+export interface FleetMembersCreateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FleetMembersCreateResponse = FleetMember;
-
-// @public
-export interface FleetMembersDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetMembersDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FleetMembersDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FleetMembersGetOptionalParams extends coreClient.OperationOptions {
+export interface FleetMembersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetMembersGetResponse = FleetMember;
-
-// @public
-export interface FleetMembersListByFleetNextOptionalParams extends coreClient.OperationOptions {
+export interface FleetMembersListByFleetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetMembersListByFleetNextResponse = FleetMemberListResult;
-
-// @public
-export interface FleetMembersListByFleetOptionalParams extends coreClient.OperationOptions {
+export interface FleetMembersOperations {
+    create: (resourceGroupName: string, fleetName: string, fleetMemberName: string, resource: FleetMember, options?: FleetMembersCreateOptionalParams) => PollerLike<OperationState<FleetMember>, FleetMember>;
+    delete: (resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersGetOptionalParams) => Promise<FleetMember>;
+    listByFleet: (resourceGroupName: string, fleetName: string, options?: FleetMembersListByFleetOptionalParams) => PagedAsyncIterableIterator<FleetMember>;
+    updateAsync: (resourceGroupName: string, fleetName: string, fleetMemberName: string, properties: FleetMemberUpdate, options?: FleetMembersUpdateAsyncOptionalParams) => PollerLike<OperationState<FleetMember>, FleetMember>;
 }
 
 // @public
-export type FleetMembersListByFleetResponse = FleetMemberListResult;
-
-// @public
-export interface FleetMembersUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface FleetMemberStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
 }
 
 // @public
-export interface FleetMembersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FleetMembersUpdateAsyncOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type FleetMembersUpdateResponse = FleetMember;
 
 // @public
 export interface FleetMemberUpdate {
+    properties?: FleetMemberUpdateProperties;
+}
+
+// @public
+export interface FleetMemberUpdateProperties {
     group?: string;
 }
 
 // @public
 export interface FleetPatch {
     identity?: ManagedServiceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface FleetProperties {
+    hubProfile?: FleetHubProfile;
+    readonly provisioningState?: FleetProvisioningState;
+    readonly status?: FleetStatus;
 }
 
 // @public
 export type FleetProvisioningState = string;
 
 // @public
-export interface Fleets {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetsCreateOrUpdateResponse>, FleetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<FleetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, fleetName: string, properties: FleetPatch, options?: FleetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetsUpdateResponse>, FleetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, fleetName: string, properties: FleetPatch, options?: FleetsUpdateOptionalParams): Promise<FleetsUpdateResponse>;
-    get(resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<FleetsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Fleet>;
-    listBySubscription(options?: FleetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Fleet>;
-    listCredentials(resourceGroupName: string, fleetName: string, options?: FleetsListCredentialsOptionalParams): Promise<FleetsListCredentialsResponse>;
-}
-
-// @public
-export interface FleetsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FleetsCreateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FleetsCreateOrUpdateResponse = Fleet;
-
-// @public
-export interface FleetsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FleetsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FleetsGetOptionalParams extends coreClient.OperationOptions {
+export interface FleetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetsGetResponse = Fleet;
-
-// @public
-export interface FleetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface FleetsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetsListByResourceGroupNextResponse = FleetListResult;
-
-// @public
-export interface FleetsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetsListByResourceGroupResponse = FleetListResult;
-
-// @public
-export interface FleetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface FleetsListCredentialsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetsListBySubscriptionNextResponse = FleetListResult;
-
-// @public
-export interface FleetsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface FleetsOperations {
+    create: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
+    delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) => Promise<Fleet>;
+    listByResourceGroup: (resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Fleet>;
+    listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Fleet>;
+    listCredentials: (resourceGroupName: string, fleetName: string, options?: FleetsListCredentialsOptionalParams) => Promise<FleetCredentialResults>;
+    updateAsync: (resourceGroupName: string, fleetName: string, properties: FleetPatch, options?: FleetsUpdateAsyncOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
 }
 
 // @public
-export type FleetsListBySubscriptionResponse = FleetListResult;
-
-// @public
-export interface FleetsListCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface FleetStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
 }
 
 // @public
-export type FleetsListCredentialsResponse = FleetCredentialResults;
-
-// @public
-export interface FleetsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FleetsUpdateAsyncOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FleetsUpdateResponse = Fleet;
-
-// @public
-export interface FleetUpdateStrategies {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>, FleetUpdateStrategiesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<FleetUpdateStrategiesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesGetOptionalParams): Promise<FleetUpdateStrategiesGetResponse>;
-    listByFleet(resourceGroupName: string, fleetName: string, options?: FleetUpdateStrategiesListByFleetOptionalParams): PagedAsyncIterableIterator<FleetUpdateStrategy>;
-}
-
-// @public
-export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FleetUpdateStrategiesCreateOrUpdateResponse = FleetUpdateStrategy;
-
-// @public
-export interface FleetUpdateStrategiesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FleetUpdateStrategiesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface FleetUpdateStrategiesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FleetUpdateStrategiesGetOptionalParams extends coreClient.OperationOptions {
+export interface FleetUpdateStrategiesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetUpdateStrategiesGetResponse = FleetUpdateStrategy;
-
-// @public
-export interface FleetUpdateStrategiesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+export interface FleetUpdateStrategiesListByFleetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
-
-// @public
-export interface FleetUpdateStrategiesListByFleetOptionalParams extends coreClient.OperationOptions {
+export interface FleetUpdateStrategiesOperations {
+    createOrUpdate: (resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FleetUpdateStrategy>, FleetUpdateStrategy>;
+    delete: (resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesGetOptionalParams) => Promise<FleetUpdateStrategy>;
+    listByFleet: (resourceGroupName: string, fleetName: string, options?: FleetUpdateStrategiesListByFleetOptionalParams) => PagedAsyncIterableIterator<FleetUpdateStrategy>;
 }
-
-// @public
-export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
 
 // @public
 export interface FleetUpdateStrategy extends ProxyResource {
     readonly eTag?: string;
-    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
-    strategy?: UpdateRunStrategy;
+    properties?: FleetUpdateStrategyProperties;
 }
 
 // @public
-export interface FleetUpdateStrategyListResult {
-    nextLink?: string;
-    value: FleetUpdateStrategy[];
+export interface FleetUpdateStrategyProperties {
+    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+    strategy: UpdateRunStrategy;
 }
 
 // @public
 export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GenerateResponse {
+    readonly id: string;
+}
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAutoUpgradeLastTriggerStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -559,8 +435,8 @@ export enum KnownManagedClusterUpgradeType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned, UserAssigned",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -612,6 +488,13 @@ export enum KnownUpgradeChannel {
 }
 
 // @public
+export enum KnownVersions {
+    V20231015 = "2023-10-15",
+    V20240401 = "2024-04-01",
+    V20250301 = "2025-03-01"
+}
+
+// @public
 export interface ManagedClusterUpdate {
     nodeImageSelection?: NodeImageSelection;
     upgrade: ManagedClusterUpgradeSpec;
@@ -631,9 +514,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -685,32 +566,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface ProxyResource extends Resource {
@@ -722,6 +599,16 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerServiceFleetClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -751,9 +638,7 @@ export type TargetType = string;
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -771,7 +656,13 @@ export interface UpdateGroupStatus {
 // @public
 export interface UpdateRun extends ProxyResource {
     readonly eTag?: string;
-    managedClusterUpdate?: ManagedClusterUpdate;
+    properties?: UpdateRunProperties;
+}
+
+// @public
+export interface UpdateRunProperties {
+    readonly autoUpgradeProfileId?: string;
+    managedClusterUpdate: ManagedClusterUpdate;
     readonly provisioningState?: UpdateRunProvisioningState;
     readonly status?: UpdateRunStatus;
     strategy?: UpdateRunStrategy;
@@ -779,127 +670,57 @@ export interface UpdateRun extends ProxyResource {
 }
 
 // @public
-export interface UpdateRunListResult {
-    nextLink?: string;
-    value: UpdateRun[];
-}
-
-// @public
 export type UpdateRunProvisioningState = string;
 
 // @public
-export interface UpdateRuns {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsCreateOrUpdateResponse>, UpdateRunsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams): Promise<UpdateRunsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<void>;
-    beginSkip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsSkipResponse>, UpdateRunsSkipResponse>>;
-    beginSkipAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
-    beginStart(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStartResponse>, UpdateRunsStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<UpdateRunsStartResponse>;
-    beginStop(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStopResponse>, UpdateRunsStopResponse>>;
-    beginStopAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<UpdateRunsStopResponse>;
-    get(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsGetOptionalParams): Promise<UpdateRunsGetResponse>;
-    listByFleet(resourceGroupName: string, fleetName: string, options?: UpdateRunsListByFleetOptionalParams): PagedAsyncIterableIterator<UpdateRun>;
-}
-
-// @public
-export interface UpdateRunsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface UpdateRunsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type UpdateRunsCreateOrUpdateResponse = UpdateRun;
-
-// @public
-export interface UpdateRunsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface UpdateRunsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface UpdateRunsGetOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UpdateRunsGetResponse = UpdateRun;
-
-// @public
-export interface UpdateRunsListByFleetNextOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UpdateRunsListByFleetNextResponse = UpdateRunListResult;
-
-// @public
-export interface UpdateRunsListByFleetOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsOperations {
+    createOrUpdate: (resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams) => PollerLike<OperationState<UpdateRun>, UpdateRun>;
+    delete: (resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsGetOptionalParams) => Promise<UpdateRun>;
+    listByFleet: (resourceGroupName: string, fleetName: string, options?: UpdateRunsListByFleetOptionalParams) => PagedAsyncIterableIterator<UpdateRun>;
+    skip: (resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams) => PollerLike<OperationState<UpdateRun>, UpdateRun>;
+    start: (resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams) => PollerLike<OperationState<UpdateRun>, UpdateRun>;
+    stop: (resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams) => PollerLike<OperationState<UpdateRun>, UpdateRun>;
 }
 
 // @public
-export type UpdateRunsListByFleetResponse = UpdateRunListResult;
-
-// @public
-export interface UpdateRunsSkipHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsSkipOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type UpdateRunsSkipResponse = UpdateRun;
-
-// @public
-export interface UpdateRunsStartHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface UpdateRunsStartOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsStartOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type UpdateRunsStartResponse = UpdateRun;
-
-// @public
-export interface UpdateRunsStopHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface UpdateRunsStopOptionalParams extends coreClient.OperationOptions {
+export interface UpdateRunsStopOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type UpdateRunsStopResponse = UpdateRun;
 
 // @public
 export interface UpdateRunStatus {

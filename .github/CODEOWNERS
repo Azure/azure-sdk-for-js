@@ -252,7 +252,7 @@
 # ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @mikhail @deyaaeldeen @minhanh-phan
+/sdk/openai/ @mikhail @trrwilson @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
 sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin

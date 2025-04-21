@@ -820,11 +820,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils",
-      "projectFolder": "sdk/test-utils/test-utils",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
