@@ -3,8 +3,8 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
-import { createPipelineFromOptions, type PipelineOptions } from "@azure/core-rest-pipeline";
-import { addCredentialPipelinePolicy } from "./clientHelpers.js";
+import { type PipelineOptions } from "@azure/core-rest-pipeline";
+import { createDefaultPipeline } from "./clientHelpers.js";
 import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
 import {
   getClient as tspGetClient,
@@ -15,13 +15,16 @@ import {
  * Function to wrap RequestParameters so that we get the legacy onResponse behavior in core-client-rest
  */
 function wrapRequestParameters(parameters: RequestParameters): RequestParameters {
-  const wrapped = { ...parameters };
   if (parameters.onResponse) {
-    wrapped.onResponse = function (rawResponse, error) {
-      parameters.onResponse!(rawResponse, error, error);
+    return {
+      ...parameters,
+      onResponse(rawResponse, error) {
+        parameters.onResponse?.(rawResponse, error, error);
+      },
     };
   }
-  return wrapped;
+
+  return parameters;
 }
 
 /**
@@ -55,27 +58,11 @@ export function getClient(
     }
   }
 
-  const tspClient = tspGetClient(endpoint, clientOptions as TspClientOptions) as Client;
-
-  // Overwrite the pipeline here to use the Azure one instead of the TypeSpec default pipeline
-  tspClient.pipeline = createPipelineFromOptions(clientOptions);
-  if (clientOptions.additionalPolicies?.length) {
-    for (const { policy, position } of clientOptions.additionalPolicies) {
-      // Sign happens after Retry and is commonly needed to occur
-      // before policies that intercept post-retry.
-      const afterPhase = position === "perRetry" ? "Sign" : undefined;
-      tspClient.pipeline.addPolicy(policy, {
-        afterPhase,
-      });
-    }
-  }
-
-  if (credentials) {
-    addCredentialPipelinePolicy(tspClient.pipeline, endpoint, {
-      clientOptions,
-      credential: credentials,
-    });
-  }
+  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+  const tspClient = tspGetClient(endpoint, {
+    ...clientOptions,
+    pipeline,
+  } as TspClientOptions) as Client;
 
   const client = (path: string, ...args: Array<any>) => {
     return {

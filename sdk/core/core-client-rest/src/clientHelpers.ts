@@ -5,11 +5,13 @@ import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
   createDefaultHttpClient,
+  createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import type { ClientOptions } from "./common.js";
+import { apiVersionPolicy } from "./apiVersionPolicy.js";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
@@ -57,6 +59,22 @@ export function addCredentialPipelinePolicy(
     );
     pipeline.addPolicy(keyPolicy);
   }
+}
+
+/**
+ * Creates a default rest pipeline to re-use accross Rest Level Clients
+ */
+export function createDefaultPipeline(
+  endpoint: string,
+  credential?: TokenCredential | KeyCredential,
+  options: ClientOptions = {},
+): Pipeline {
+  const pipeline = createPipelineFromOptions(options);
+
+  pipeline.addPolicy(apiVersionPolicy(options));
+
+  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
+  return pipeline;
 }
 
 function isKeyCredential(credential: any): credential is KeyCredential {

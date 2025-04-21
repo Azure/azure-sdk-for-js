@@ -865,46 +865,23 @@ index 8e846bb..0000000
 -  deleteValue(key: symbol): TracingContext;
 -}
 diff --git a/src/client/apiVersionPolicy.ts b/src/client/apiVersionPolicy.ts
-new file mode 100644
-index 0000000..da27584
---- /dev/null
+index 56cb7b8..da27584 100644
+--- a/src/client/apiVersionPolicy.ts
 +++ b/src/client/apiVersionPolicy.ts
-@@ -0,0 +1,30 @@
-+// Copyright (c) Microsoft Corporation.
-+// Licensed under the MIT License.
-+
+@@ -1,7 +1,7 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 +import type { PipelinePolicy } from "../pipeline.js";
-+import type { ClientOptions } from "./common.js";
-+
-+export const apiVersionPolicyName = "ApiVersionPolicy";
-+
-+/**
-+ * Creates a policy that sets the apiVersion as a query parameter on every request
-+ * @param options - Client options
-+ * @returns Pipeline policy that sets the apiVersion as a query parameter on every request
-+ */
-+export function apiVersionPolicy(options: ClientOptions): PipelinePolicy {
-+  return {
-+    name: apiVersionPolicyName,
-+    sendRequest: (req, next) => {
-+      // Use the apiVesion defined in request url directly
-+      // Append one if there is no apiVesion and we have one at client options
-+      const url = new URL(req.url);
-+      if (!url.searchParams.get("api-version") && options.apiVersion) {
-+        req.url = `${req.url}${
-+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-+        }api-version=${options.apiVersion}`;
-+      }
-+
-+      return next(req);
-+    },
-+  };
-+}
+ import type { ClientOptions } from "./common.js";
+ 
+ export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index 5057b52..d0a5cc1 100644
+index 30dac33..d0a5cc1 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
-@@ -1,66 +1,55 @@
+@@ -1,84 +1,55 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -912,6 +889,7 @@ index 5057b52..d0a5cc1 100644
 -import {
 -  bearerTokenAuthenticationPolicy,
 -  createDefaultHttpClient,
+-  createPipelineFromOptions,
 -} from "@azure/core-rest-pipeline";
 -import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 -import { isTokenCredential } from "@azure/core-auth";
@@ -921,8 +899,8 @@ index 5057b52..d0a5cc1 100644
 +import { createDefaultHttpClient } from "../defaultHttpClient.js";
 +import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
  import type { ClientOptions } from "./common.js";
+ import { apiVersionPolicy } from "./apiVersionPolicy.js";
 -import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
-+import { apiVersionPolicy } from "./apiVersionPolicy.js";
 +import {
 +  isApiKeyCredential,
 +  isBasicCredential,
@@ -936,7 +914,7 @@ index 5057b52..d0a5cc1 100644
  
  let cachedHttpClient: HttpClient | undefined;
  
- /**
+-/**
 - * Optional parameters for adding a credential policy to the pipeline.
 - */
 -export interface AddCredentialPipelinePolicyOptions {
@@ -946,13 +924,10 @@ index 5057b52..d0a5cc1 100644
 -  clientOptions?: ClientOptions;
 -  /**
 -   * The credential to use.
-+ * Creates a default rest pipeline to re-use accross Rest Level Clients
-  */
+-   */
 -  credential?: TokenCredential | KeyCredential;
 -}
-+export function createDefaultPipeline(options: ClientOptions = {}): Pipeline {
-+  const pipeline = createPipelineFromOptions(options);
- 
+-
 -/**
 - * Adds a credential policy to the pipeline if a credential is provided. If none is provided, no policy is added.
 - */
@@ -965,8 +940,7 @@ index 5057b52..d0a5cc1 100644
 -  if (!credential) {
 -    return;
 -  }
-+  pipeline.addPolicy(apiVersionPolicy(options));
- 
+-
 -  if (isTokenCredential(credential)) {
 -    const tokenPolicy = bearerTokenAuthenticationPolicy({
 -      credential,
@@ -980,6 +954,26 @@ index 5057b52..d0a5cc1 100644
 -    const keyPolicy = keyCredentialAuthenticationPolicy(
 -      credential,
 -      clientOptions?.credentials?.apiKeyHeaderName,
+-    );
+-    pipeline.addPolicy(keyPolicy);
+-  }
+-}
+-
+ /**
+  * Creates a default rest pipeline to re-use accross Rest Level Clients
+  */
+-export function createDefaultPipeline(
+-  endpoint: string,
+-  credential?: TokenCredential | KeyCredential,
+-  options: ClientOptions = {},
+-): Pipeline {
++export function createDefaultPipeline(options: ClientOptions = {}): Pipeline {
+   const pipeline = createPipelineFromOptions(options);
+ 
+   pipeline.addPolicy(apiVersionPolicy(options));
+ 
+-  addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
+-  return pipeline;
 +  const { credential, authSchemes, allowInsecureConnection } = options;
 +  if (credential) {
 +    if (isApiKeyCredential(credential)) {
@@ -997,9 +991,8 @@ index 5057b52..d0a5cc1 100644
 +    } else if (isOAuth2TokenCredential(credential)) {
 +      pipeline.addPolicy(
 +        oauth2AuthenticationPolicy({ authSchemes, credential, allowInsecureConnection }),
-       );
--    pipeline.addPolicy(keyPolicy);
-     }
++      );
++    }
    }
  
 -function isKeyCredential(credential: any): credential is KeyCredential {
@@ -1009,7 +1002,7 @@ index 5057b52..d0a5cc1 100644
  
  export function getCachedDefaultHttpsClient(): HttpClient {
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 58f6eba..2fd91b4 100644
+index 58f6eba..4937868 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
@@ -1138,13 +1131,13 @@ index 58f6eba..2fd91b4 100644
 -  credentials?: {
 -    /**
 -     * Authentication scopes for AAD
--     */
--    scopes?: string[];
--    /**
--     * Heder name for Client Secret authentication
 +   * List of authentication schemes supported by the client.
 +   * These schemes define how the client can authenticate requests.
     */
+-    scopes?: string[];
+-    /**
+-     * Heder name for Client Secret authentication
+-     */
 -    apiKeyHeaderName?: string;
 -  };
 +  authSchemes?: AuthScheme[];
@@ -1163,26 +1156,54 @@ index 58f6eba..2fd91b4 100644
    /**
     * Endpoint for the client
     */
+@@ -374,6 +340,12 @@ export type ClientOptions = PipelineOptions & {
+    * Options to configure request/response logging.
+    */
+   loggingOptions?: LogPolicyOptions;
++  /**
++   * Pipeline to use for the client. If not provided, a default pipeline will be created using the options provided.
++   * Use with caution -- when setting this option, all client options that are used in the creation of the default pipeline
++   * will be ignored.
++   */
++  pipeline?: Pipeline;
+ };
+ 
+ /**
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index 79593a9..e3f46d2 100644
+index af9b748..721f901 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
-@@ -1,107 +1,127 @@
+@@ -1,94 +1,127 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 -import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
--import { createPipelineFromOptions, type PipelineOptions } from "@azure/core-rest-pipeline";
--import { addCredentialPipelinePolicy } from "./clientHelpers.js";
+-import { type PipelineOptions } from "@azure/core-rest-pipeline";
++import type { HttpClient, HttpMethods } from "../interfaces.js";
++import type { Pipeline } from "../pipeline.js";
+ import { createDefaultPipeline } from "./clientHelpers.js";
 -import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
 -import {
 -  getClient as tspGetClient,
 -  type ClientOptions as TspClientOptions,
 -} from "@typespec/ts-http-runtime";
-+import type { HttpClient, HttpMethods } from "../interfaces.js";
-+import type { Pipeline } from "../pipeline.js";
-+import { createDefaultPipeline } from "./clientHelpers.js";
+-
+-/**
+- * Function to wrap RequestParameters so that we get the legacy onResponse behavior in core-client-rest
+- */
+-function wrapRequestParameters(parameters: RequestParameters): RequestParameters {
+-  if (parameters.onResponse) {
+-    return {
+-      ...parameters,
+-      onResponse(rawResponse, error) {
+-        parameters.onResponse?.(rawResponse, error, error);
+-      },
+-    };
+-  }
+-
+-  return parameters;
+-}
 +import type {
 +  Client,
 +  ClientOptions,
@@ -1196,19 +1217,6 @@ index 79593a9..e3f46d2 100644
 +import { buildRequestUrl } from "./urlHelpers.js";
 +import { isNodeLike } from "../util/checkEnvironment.js";
  
--/**
-- * Function to wrap RequestParameters so that we get the legacy onResponse behavior in core-client-rest
-- */
--function wrapRequestParameters(parameters: RequestParameters): RequestParameters {
--  const wrapped = { ...parameters };
--  if (parameters.onResponse) {
--    wrapped.onResponse = function (rawResponse, error) {
--      parameters.onResponse!(rawResponse, error, error);
--    };
--  }
--  return wrapped;
--}
--
 -/**
 - * Creates a client with a default pipeline
 - * @param endpoint - Base endpoint for the client
@@ -1237,33 +1245,24 @@ index 79593a9..e3f46d2 100644
 -      credentials = credentialsOrPipelineOptions;
 -    } else {
 -      clientOptions = credentialsOrPipelineOptions ?? {};
--    }
--  }
--
--  const tspClient = tspGetClient(endpoint, clientOptions as TspClientOptions) as Client;
--
--  // Overwrite the pipeline here to use the Azure one instead of the TypeSpec default pipeline
--  tspClient.pipeline = createPipelineFromOptions(clientOptions);
 +export function getClient(endpoint: string, clientOptions: ClientOptions = {}): Client {
-+  const pipeline = createDefaultPipeline(clientOptions);
-   if (clientOptions.additionalPolicies?.length) {
-     for (const { policy, position } of clientOptions.additionalPolicies) {
-       // Sign happens after Retry and is commonly needed to occur
-       // before policies that intercept post-retry.
-       const afterPhase = position === "perRetry" ? "Sign" : undefined;
--      tspClient.pipeline.addPolicy(policy, {
++  const pipeline = clientOptions.pipeline ?? createDefaultPipeline(clientOptions);
++  if (clientOptions.additionalPolicies?.length) {
++    for (const { policy, position } of clientOptions.additionalPolicies) {
++      // Sign happens after Retry and is commonly needed to occur
++      // before policies that intercept post-retry.
++      const afterPhase = position === "perRetry" ? "Sign" : undefined;
 +      pipeline.addPolicy(policy, {
-         afterPhase,
-       });
++        afterPhase,
++      });
      }
    }
  
--  if (credentials) {
--    addCredentialPipelinePolicy(tspClient.pipeline, endpoint, {
--      clientOptions,
--      credential: credentials,
--    });
--  }
+-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+-  const tspClient = tspGetClient(endpoint, {
+-    ...clientOptions,
+-    pipeline,
+-  } as TspClientOptions) as Client;
 +  const { allowInsecureConnection, httpClient } = clientOptions;
 +  const endpointUrl = clientOptions.endpoint ?? endpoint;
 +  const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
@@ -1362,7 +1361,7 @@ index 79593a9..e3f46d2 100644
        },
      };
    };
-@@ -109,12 +129,58 @@ export function getClient(
+@@ -96,12 +129,58 @@ export function getClient(
    return {
      path: client,
      pathUnchecked: client,
