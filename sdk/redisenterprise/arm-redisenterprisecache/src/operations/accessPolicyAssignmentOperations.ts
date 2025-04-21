@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AccessPolicyAssignmentOperations } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AccessPolicyAssignmentOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   AccessPolicyAssignment,
   AccessPolicyAssignmentListNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   AccessPolicyAssignmentDeleteOptionalParams,
   AccessPolicyAssignmentDeleteResponse,
   AccessPolicyAssignmentListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccessPolicyAssignmentOperations operations. */
@@ -51,7 +51,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Gets all access policy assignments..
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -144,7 +146,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Creates/Updates a particular access policy assignment for a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -229,7 +233,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Creates/Updates a particular access policy assignment for a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -258,7 +264,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Gets information about access policy assignment for database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -286,7 +294,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Deletes a single access policy assignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -368,7 +378,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Deletes a single access policy assignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param accessPolicyAssignmentName The name of the Redis Enterprise database access policy
    *                                   assignment.
@@ -394,7 +406,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * Gets all access policy assignments..
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -413,7 +427,9 @@ export class AccessPolicyAssignmentOperationsImpl
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

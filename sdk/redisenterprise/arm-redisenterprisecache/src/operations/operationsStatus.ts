@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationsStatus } from "../operationsInterfaces/index.js";
+import { OperationsStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { RedisEnterpriseManagementClient } from "../redisEnterpriseManagementClient";
 import {
   OperationsStatusGetOptionalParams,
   OperationsStatusGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing OperationsStatus operations. */
 export class OperationsStatusImpl implements OperationsStatus {

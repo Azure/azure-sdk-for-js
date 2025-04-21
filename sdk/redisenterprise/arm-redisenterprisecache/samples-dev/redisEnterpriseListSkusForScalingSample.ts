@@ -13,34 +13,32 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a single database
+ * This sample demonstrates how to Lists the available SKUs for scaling the Redis Enterprise cluster.
  *
- * @summary Deletes a single database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesDelete.json
+ * @summary Lists the available SKUs for scaling the Redis Enterprise cluster.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseListSkusForScaling.json
  */
-async function redisEnterpriseDatabasesDelete(): Promise<void> {
+async function redisEnterpriseListSkusForScaling(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
     "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName =
     process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
-  const databaseName = "db1";
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.databases.beginDeleteAndWait(
+  const result = await client.redisEnterprise.listSkusForScaling(
     resourceGroupName,
     clusterName,
-    databaseName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await redisEnterpriseDatabasesDelete();
+  await redisEnterpriseListSkusForScaling();
 }
 
 main().catch(console.error);
