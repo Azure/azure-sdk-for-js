@@ -14,10 +14,7 @@ async function operatorApiConnectionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "B976474B-99FA-4C25-A3BD-8B05C3C3D07A";
   const client = new ProgrammableConnectivityClient(credential, subscriptionId);
-  const result = await client.operatorApiConnections.get(
-    "rgopenapi",
-    "uetzqjrwqtkwgcirdqy",
-  );
+  const result = await client.operatorApiConnections.get("rgopenapi", "uetzqjrwqtkwgcirdqy");
   console.log(result);
 }
 

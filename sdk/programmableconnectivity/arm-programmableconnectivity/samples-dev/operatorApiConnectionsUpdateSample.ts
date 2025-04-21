@@ -14,32 +14,28 @@ async function operatorApiConnectionsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "B976474B-99FA-4C25-A3BD-8B05C3C3D07A";
   const client = new ProgrammableConnectivityClient(credential, subscriptionId);
-  const result = await client.operatorApiConnections.update(
-    "rgopenapi",
-    "syefewgf",
-    {
-      tags: { key3150: "sfcwbiogxulvyyvvqkumfxhussk" },
-      properties: {
-        operatorApiPlanId:
-          "/subscriptions/00000000-0000-0000-0000-00000000000/providers/Microsoft.ProgrammableConnectivity/operatorApiPlans/yhlygxdwvrzgazbfzyz",
-        saasProperties: {
-          saasSubscriptionId: "mgyusmqt",
-          saasResourceId: "pekejefyvfviabimdrmno",
-        },
-        configuredApplication: {
-          name: "idzqqen",
-          applicationDescription: "gjlwegnqvffvsc",
-          applicationType: "f",
-          legalName: "ar",
-          organizationDescription: "fcueqzlxxr",
-          taxNumber: "ngzv",
-          privacyContactEmailAddress: "l",
-        },
-        appId: "mkfcrn",
-        appSecret: "wtxnpes",
+  const result = await client.operatorApiConnections.update("rgopenapi", "syefewgf", {
+    tags: { key3150: "sfcwbiogxulvyyvvqkumfxhussk" },
+    properties: {
+      operatorApiPlanId:
+        "/subscriptions/00000000-0000-0000-0000-00000000000/providers/Microsoft.ProgrammableConnectivity/operatorApiPlans/yhlygxdwvrzgazbfzyz",
+      saasProperties: {
+        saasSubscriptionId: "mgyusmqt",
+        saasResourceId: "pekejefyvfviabimdrmno",
       },
+      configuredApplication: {
+        name: "idzqqen",
+        applicationDescription: "gjlwegnqvffvsc",
+        applicationType: "f",
+        legalName: "ar",
+        organizationDescription: "fcueqzlxxr",
+        taxNumber: "ngzv",
+        privacyContactEmailAddress: "l",
+      },
+      appId: "mkfcrn",
+      appSecret: "wtxnpes",
     },
-  );
+  });
   console.log(result);
 }
 

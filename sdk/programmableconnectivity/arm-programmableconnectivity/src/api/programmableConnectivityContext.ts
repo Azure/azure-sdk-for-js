@@ -16,8 +16,7 @@ export interface ProgrammableConnectivityContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface ProgrammableConnectivityClientOptionalParams
-  extends ClientOptions {
+export interface ProgrammableConnectivityClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,8 +28,7 @@ export function createProgrammableConnectivity(
   subscriptionId: string,
   options: ProgrammableConnectivityClientOptionalParams = {},
 ): ProgrammableConnectivityContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-programmableconnectivity/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

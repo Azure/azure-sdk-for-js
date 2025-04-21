@@ -4,34 +4,28 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface OperatorApiConnectionsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface OperatorApiConnectionsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface OperatorApiConnectionsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface OperatorApiConnectionsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface OperatorApiConnectionsDeleteOptionalParams
-  extends OperationOptions {
+export interface OperatorApiConnectionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OperatorApiConnectionsUpdateOptionalParams
-  extends OperationOptions {
+export interface OperatorApiConnectionsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OperatorApiConnectionsCreateOptionalParams
-  extends OperationOptions {
+export interface OperatorApiConnectionsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface OperatorApiConnectionsGetOptionalParams
-  extends OperationOptions {}
+export interface OperatorApiConnectionsGetOptionalParams extends OperationOptions {}

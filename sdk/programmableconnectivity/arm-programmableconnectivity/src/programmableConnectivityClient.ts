@@ -14,14 +14,8 @@ import {
   OperatorApiConnectionsOperations,
   _getOperatorApiConnectionsOperations,
 } from "./classic/operatorApiConnections/index.js";
-import {
-  GatewaysOperations,
-  _getGatewaysOperations,
-} from "./classic/gateways/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { GatewaysOperations, _getGatewaysOperations } from "./classic/gateways/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -48,9 +42,7 @@ export class ProgrammableConnectivityClient {
     });
     this.pipeline = this._client.pipeline;
     this.operatorApiPlans = _getOperatorApiPlansOperations(this._client);
-    this.operatorApiConnections = _getOperatorApiConnectionsOperations(
-      this._client,
-    );
+    this.operatorApiConnections = _getOperatorApiConnectionsOperations(this._client);
     this.gateways = _getGatewaysOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }

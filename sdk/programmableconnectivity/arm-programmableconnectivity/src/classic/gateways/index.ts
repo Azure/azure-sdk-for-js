@@ -90,19 +90,9 @@ function _getGateways(context: ProgrammableConnectivityContext) {
       gatewayName: string,
       resource: Gateway,
       options?: GatewaysCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        gatewayName,
-        resource,
-        options,
-      ),
-    get: (
-      resourceGroupName: string,
-      gatewayName: string,
-      options?: GatewaysGetOptionalParams,
-    ) => get(context, resourceGroupName, gatewayName, options),
+    ) => createOrUpdate(context, resourceGroupName, gatewayName, resource, options),
+    get: (resourceGroupName: string, gatewayName: string, options?: GatewaysGetOptionalParams) =>
+      get(context, resourceGroupName, gatewayName, options),
   };
 }
 

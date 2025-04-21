@@ -15,9 +15,7 @@ async function operatorApiConnectionsListByResourceGroup(): Promise<void> {
   const subscriptionId = "B976474B-99FA-4C25-A3BD-8B05C3C3D07A";
   const client = new ProgrammableConnectivityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.operatorApiConnections.listByResourceGroup(
-    "rgopenapi",
-  )) {
+  for await (const item of client.operatorApiConnections.listByResourceGroup("rgopenapi")) {
     resArray.push(item);
   }
 
