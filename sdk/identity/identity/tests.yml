@@ -13,7 +13,7 @@ extends:
           SubscriptionConfigurations:
             # Contains alternate tenant, AAD app and cert info for testing
             - $(sub-config-identity-test-resources)
-      AdditionalMatrixConfigs:
+      MatrixConfigs:
         - Name: Identity_msi_live_test_base
           Path: sdk/identity/identity/managed-identity-matrix.json
           Selection: sparse

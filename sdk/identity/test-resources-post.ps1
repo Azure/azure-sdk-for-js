@@ -42,7 +42,7 @@ $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 $userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
-
+$subscriptionIDfromDeployment = $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
 
@@ -54,7 +54,9 @@ Write-Host "Working directory: $workingFolder"
 if ($CI) {
   Write-Host "Logging in to service principal"
   az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
-  az account set --subscription $SubscriptionId
+  az account set --subscription $subscriptionIDfromDeployment
+  Write-Host "Subscription ID: $SubscriptionId"
+  Write-Host "Deployment output subscription ID $subscriptionIDfromDeployment"
 }
 
 # Azure Functions app deployment
