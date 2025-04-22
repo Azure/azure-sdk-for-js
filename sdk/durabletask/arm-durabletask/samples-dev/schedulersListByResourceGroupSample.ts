@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Schedulers by resource group
  *
  * @summary list Schedulers by resource group
- * x-ms-original-file: 2024-10-01-preview/Schedulers_ListByResourceGroup.json
+ * x-ms-original-file: 2025-04-01-preview/Schedulers_ListByResourceGroup.json
  */
 async function schedulersListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

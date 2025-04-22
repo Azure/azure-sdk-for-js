@@ -9,6 +9,7 @@ import type {
   AgentDeletionStatusOutput,
   AgentThreadOutput,
   ThreadDeletionStatusOutput,
+  OpenAIPageableListOfAgentThreadOutput,
   ThreadMessageOutput,
   OpenAIPageableListOfThreadMessageOutput,
   ThreadRunOutput,
@@ -186,6 +187,23 @@ export interface DeleteThreadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & DeleteThreadDefaultHeaders;
+}
+
+/** The requested list of threads. */
+export interface ListThreads200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfAgentThreadOutput;
+}
+
+export interface ListThreadsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListThreadsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & ListThreadsDefaultHeaders;
 }
 
 /** A representation of the new message. */
