@@ -191,9 +191,9 @@ async function insertPackageJson(
  * @returns {Promise<boolean>}- true or false
  */
 async function isPackageAUtility(pkg, repoRoot) {
-  let thisPackage = await getPackageFromRush(repoRoot, pkg);
+  let thisPackage = await getPackageFromPnpm(repoRoot, pkg);
   if (thisPackage && thisPackage.versionPolicyName === "utility") {
-    console.log(thisPackage.packageName + " utility");
+    console.log(`${thisPackage.packageName} utility`);
     return true;
   }
   return false;
@@ -255,9 +255,9 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, repoRoot, vers
 }
 
 async function getPackageVersion(repoRoot, pkg) {
-  let thisPackage = await getPackageFromRush(repoRoot, pkg);
+  let thisPackage = await getPackageFromPnpm(repoRoot, pkg);
   if (!thisPackage) {
-    throw new Error(`Package is not found in rush.json for artifact ${pkg}`);
+    throw new Error(`Package is not found in pnpm workspace for artifact ${pkg}`);
   }
   console.log(thisPackage);
   let thisPackagePath = path.join(repoRoot, thisPackage.projectFolder);
@@ -376,12 +376,46 @@ async function getVersions(packageName) {
   }
 }
 
-async function getPackageFromRush(repoRoot, packageName) {
-  const rushSpec = await getPackageSpec(repoRoot);
-  const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName == packageName,
-  );
-  return targetPackage;
+async function getPackageFromPnpm(repoRoot, packageName) {
+  const listPackagesCommandExec = new Promise(async (res, rej) => {
+    const pnpmProcess = crossSpawn("pnpm", ["list", "--recursive", "--json", "--depth=1"], {
+      stdout: "inherit",
+      cwd: repoRoot
+    });
+    let stdOut = "";
+    let stdErr = "";
+    pnpmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
+    pnpmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
+    pnpmProcess.on("close", (code) => {
+      console.log(`pnpm list --recursive --json --depth=1 process exit code: ${code}`);
+      if (code !== 0) {
+        rej(`Process exits with code ${code}`);
+        return;
+      }
+      res({ code, stdOut, stdErr });
+    });
+  });
+
+  const listPackagesCommand = await listPackagesCommandExec;
+  const pnpmPackages = JSON.parse(listPackagesCommand.stdOut);
+  const results = {
+    projects: [],
+  };
+
+  for (const pkg of pnpmPackages) {
+    if (pkg.path.startsWith(workspaceRoot)) {
+      const projectFolder = pkg.path.slice(workspaceRoot.length + 1);
+      const packageJsonPath = join(pkg.path, "package.json");
+      const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
+      results.projects.push({
+        packageName: pkg.name,
+        projectFolder,
+        versionPolicyName: packageJson["sdk-type"] || "unknown",
+      });
+    }
+  }
+
+  return results.projects.find((project) => project.packageName === packageName);
 }
 
 async function main(argv) {
@@ -396,9 +430,9 @@ async function main(argv) {
   if (!artifactName.startsWith("@")) {
     packageName = artifactName.replace(/"?([a-z]*)"?-/i, "@$1/");
   }
-  const targetPackage = await getPackageFromRush(repoRoot, packageName);
+  const targetPackage = await getPackageFromPnpm(repoRoot, packageName);
   if (!targetPackage) {
-    throw new Error(`Package is not found in rush.json for artifact ${artifactName}`);
+    throw new Error(`Package is not found in pnpm workspace for artifact ${artifactName}`);
   }
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
 
@@ -422,7 +456,6 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
 main(argv);
