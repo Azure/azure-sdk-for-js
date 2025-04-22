@@ -4,12 +4,13 @@
 import { AzurePipelinesCredential } from "../../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, expect } from "vitest";
+import { SecretClient } from "@azure/keyvault-secrets";
 
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
-  it("authenticates with a valid service connection", async function (ctx) {
+  it.only("authenticates with a valid service connection", async function (ctx) {
     if (!isLiveMode() || !process.env.AZURE_SERVICE_CONNECTION_ID) {
       ctx.skip();
     }
@@ -22,12 +23,19 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken,
+      systemAccessToken
     );
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
     assert.isDefined(token?.expiresOnTimestamp);
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
+    const client = new SecretClient("https://azuresdk-testsecrets2.vault.azure.net/", credential);
+    const secret = await client.getSecret("sub-config-identity-test-resources");
+    assert.equal(secret.value, "true");
+    if (secret.value) {
+      assert.equal(secret.value.includes("AZURE_IDENTITY_TEST_USERNAME"), true);
+      console.log("secret is as expected");
+    }
   });
 
   it("fails with invalid service connection", async function (ctx) {
@@ -41,7 +49,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken,
+      systemAccessToken
     );
     const regExp: RegExp =
       /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
@@ -59,7 +67,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "invalidSystemAccessToken",
+      "invalidSystemAccessToken"
     );
     const regExpHeader1: RegExp = /"x-vss-e2eid"/gm;
     const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
@@ -79,7 +87,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       "clientId",
       existingServiceConnectionId,
-      systemAccessToken,
+      systemAccessToken
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
@@ -96,7 +104,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "invalidSystemAccessToken",
+      "invalidSystemAccessToken"
     );
     await expect(credential.getToken(scope)).rejects.toThrow(/Status code: 401/);
   });
