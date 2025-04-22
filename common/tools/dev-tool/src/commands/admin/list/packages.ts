@@ -21,7 +21,7 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
     shortName: "s",
   },
 
-  // use --task option to provide code file to be excuted for each package. For example,
+  // use --task option to provide code file to be executed for each package. For example,
   // the following code adds missing "tsx" dev dependency whereever it is used.
   /*
 import * as path from "node:path";

@@ -2,7 +2,7 @@
   "name": "@azure-rest/communication-messages",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "2.1.0-beta.2",
+  "version": "2.2.0-beta.1",
   "description": "Azure client library for Azure Communication Messages services",
   "keywords": [
     "node",
@@ -59,11 +59,14 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.3.2",
     "@azure/communication-common": "^2.3.1",
+    "@azure/communication-signaling": "1.0.0-beta.31",
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
+    "events": "^3.0.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

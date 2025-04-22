@@ -12,10 +12,14 @@ declare global {
 export { AbortError } from "./abort-controller/AbortError.js";
 export {
   createClientLogger,
+  getLogLevel,
+  setLogLevel,
   TypeSpecRuntimeLogger,
-  type TypeSpecRuntimeClientLogger,
   type Debugger,
+  type TypeSpecRuntimeClientLogger,
+  type TypeSpecRuntimeLogLevel,
 } from "./logger/logger.js";
+
 export type {
   BodyPart,
   FormDataValue,
