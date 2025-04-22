@@ -87,6 +87,13 @@ You may also add pass in an options object to specify whether the delivery repor
 An array of `SmsSendResult` is returned. A `successful` flag is used to validate if each individual message was sent successfully.
 
 ```ts snippet:ReadmeSampleSendSms
+import { DefaultAzureCredential } from "@azure/identity";
+import { SmsClient } from "@azure/communication-sms";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new SmsClient(endpoint, credential);
+
 const sendResults = await client.send(
   {
     from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
@@ -113,9 +120,16 @@ for (const sendResult of sendResults) {
 To check if the recipients are in the Opt Out list, call the `check` function from the `SmsClient.optOuts` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutCheck
+import { DefaultAzureCredential } from "@azure/identity";
+import { SmsClient } from "@azure/communication-sms";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new SmsClient(endpoint, credential);
+
 const optOutCheckResults = await client.optOuts.check(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-  ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
+  ["<to-phone-number-1>", "<to-phone-number-2>"],
 );
 
 for (const optOutCheckResult of optOutCheckResults) {
@@ -132,12 +146,19 @@ for (const optOutCheckResult of optOutCheckResults) {
 
 ## Add a list of recipients to Opt Out list
 
-To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.pptOuts` with a list of recipient phone numbers.
+To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.optOuts` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutAdd
+import { DefaultAzureCredential } from "@azure/identity";
+import { SmsClient } from "@azure/communication-sms";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new SmsClient(endpoint, credential);
+
 const optOutAddResults = await client.optOuts.add(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-  ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
+  ["<to-phone-number-1>", "<to-phone-number-2>"],
 );
 
 for (const optOutAddResult of optOutAddResults) {
@@ -157,9 +178,16 @@ for (const optOutAddResult of optOutAddResults) {
 To remove the list of recipients to Opt Out list, call the `remove` function from the `SmsClient.optOuts.` with a list of recipient phone numbers.
 
 ```ts snippet:ReadmeSampleOptOutRemove
+import { DefaultAzureCredential } from "@azure/identity";
+import { SmsClient } from "@azure/communication-sms";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new SmsClient(endpoint, credential);
+
 const optOutRemoveResults = await client.optOuts.remove(
   "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-  ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
+  ["<to-phone-number-1>", "<to-phone-number-2>"],
 );
 
 for (const optOutRemoveResult of optOutRemoveResults) {
@@ -181,6 +209,13 @@ Exceptions will not be thrown if the error is caused by an individual message, o
 Please use the `successful` flag to validate each individual result to verify if the message was sent.
 
 ```ts snippet:ReadmeSampleSendSmsErrorHandling
+import { DefaultAzureCredential } from "@azure/identity";
+import { SmsClient } from "@azure/communication-sms";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new SmsClient(endpoint, credential);
+
 try {
   const sendResults = await client.send({
     from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS

@@ -104,13 +104,19 @@ describe("PerformanceCounterMetricsHandler", () => {
           (metrics[4].dataPoints[0].value as number) <= 100,
         `Wrong Processor Time value: ${metrics[4].dataPoints[0].value as number}`,
       );
-      assert.deepStrictEqual(metrics[5].descriptor.name, "Process_Time");
+      assert.deepStrictEqual(metrics[5].descriptor.name, "Process_Time_Standard");
       assert.ok(
         (metrics[5].dataPoints[0].value as number) >= 0 &&
           (metrics[5].dataPoints[0].value as number) <= 100,
         `Wrong Process Time value: ${metrics[5].dataPoints[0].value as number}`,
       );
       assert.deepStrictEqual(metrics[6].descriptor.name, "Process_Time_Normalized");
+      assert.ok(
+        (metrics[6].dataPoints[0].value as number) >= 0 &&
+          (metrics[6].dataPoints[0].value as number) <= 100,
+        `Wrong Process Time Normalized value: ${metrics[6].dataPoints[0].value as number}`,
+      );
+      assert.ok(!Number.isNaN(metrics[6].dataPoints[0].value), "Value should not be NaN");
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
     });
   });

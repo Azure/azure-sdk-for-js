@@ -22,6 +22,9 @@ import type {
   BundleOutput,
   JSRuntimeOptionsOutput,
   ModuleDefOutput,
+  PagedUserDefinedFunctionsOutput,
+  UserDefinedFunctionOutput,
+  UserDefinedFunctionExecutionResponseOutput,
   RoleOutput,
 } from "./outputModels.js";
 
@@ -300,6 +303,84 @@ export interface GetUserDefinedEndpointsModule200Response extends HttpResponse {
 
 /** It gets the module for the user defined endpoint. */
 export interface GetUserDefinedEndpointsModuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** User defined functions stored in the Confidential Ledger */
+export interface ListUserDefinedFunctions200Response extends HttpResponse {
+  status: "200";
+  body: PagedUserDefinedFunctionsOutput;
+}
+
+/** User defined functions stored in the Confidential Ledger */
+export interface ListUserDefinedFunctionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Deletes a user defined function from the Confidential Ledger. */
+export interface DeleteUserDefinedFunction204Response extends HttpResponse {
+  status: "204";
+}
+
+/** Deletes a user defined function from the Confidential Ledger. */
+export interface DeleteUserDefinedFunctionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Returns the user defined function in the Confidential Ledger */
+export interface GetUserDefinedFunction200Response extends HttpResponse {
+  status: "200";
+  body: UserDefinedFunctionOutput;
+}
+
+/** Returns the user defined function in the Confidential Ledger */
+export interface GetUserDefinedFunctionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+export interface CreateUserDefinedFunction200Headers {
+  /** The transaction id at which this write will become durable. */
+  "x-ms-ccf-transaction-id"?: string;
+}
+
+/** Creates the user defined function in the Confidential Ledger */
+export interface CreateUserDefinedFunction200Response extends HttpResponse {
+  status: "200";
+  body: UserDefinedFunctionOutput;
+  headers: RawHttpHeaders & CreateUserDefinedFunction200Headers;
+}
+
+export interface CreateUserDefinedFunction201Headers {
+  /** The transaction id at which this write will become durable. */
+  "x-ms-ccf-transaction-id"?: string;
+}
+
+/** Creates the user defined function in the Confidential Ledger */
+export interface CreateUserDefinedFunction201Response extends HttpResponse {
+  status: "201";
+  body: UserDefinedFunctionOutput;
+  headers: RawHttpHeaders & CreateUserDefinedFunction201Headers;
+}
+
+/** Creates the user defined function in the Confidential Ledger */
+export interface CreateUserDefinedFunctionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Executes the user defined function in the Confidential Ledger */
+export interface ExecuteUserDefinedFunction200Response extends HttpResponse {
+  status: "200";
+  body: UserDefinedFunctionExecutionResponseOutput;
+}
+
+/** Executes the user defined function in the Confidential Ledger */
+export interface ExecuteUserDefinedFunctionDefaultResponse
   extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
