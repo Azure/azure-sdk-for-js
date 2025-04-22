@@ -139,6 +139,7 @@ export interface AgentsOperations {
     listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listThreads: (options?: ListAgentThreadOptionalParams) => Promise<OpenAIPageableListOfAgentThreadOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
@@ -188,7 +189,7 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
-export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
+export type AzureAISearchQueryType = string;
 
 // @public
 export interface AzureAISearchResource {
@@ -258,6 +259,17 @@ export interface AzureFunctionToolDefinition extends ToolDefinitionParent {
 export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
     azureFunction: AzureFunctionDefinitionOutput;
     type: "azure_function";
+}
+
+// @public (undocumented)
+export interface AzureFunctionToolResource {
+    description: string;
+    // (undocumented)
+    inputQueue: AzureFunctionStorageQueue;
+    name: string;
+    // (undocumented)
+    outputQueue: AzureFunctionStorageQueue;
+    parameters: unknown;
 }
 
 // @public
@@ -331,7 +343,7 @@ export enum connectionToolType {
 }
 
 // @public
-export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
+export type ConnectionType = string;
 
 // @public
 export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
@@ -387,6 +399,9 @@ export interface CreateAzureAISearchToolOptions {
     queryType?: AzureAISearchQueryType;
     topK?: number;
 }
+
+// @public
+export type CreateMessageContent = string | Array<MessageContentBlockInput>;
 
 // @public
 export interface CreateMessageOptionalParams extends OperationOptions {
@@ -655,6 +670,9 @@ export interface GetWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
+export type ImageDetailLevel = string;
+
+// @public
 export type IncompleteDetailsReasonOutput = string;
 
 // @public
@@ -715,6 +733,10 @@ export interface ListAgentsOptionalParams extends ListQueryParameters, Operation
 }
 
 // @public
+export interface ListAgentThreadOptionalParams extends ListThreadsQueryParamProperties, OperationOptions {
+}
+
+// @public
 export interface ListConnectionsOptionalParams extends ListConnectionsQueryParamProperties, OperationOptions {
 }
 
@@ -766,6 +788,14 @@ export interface ListRunStepsOptionalParams extends ListQueryParameters, Operati
 // @public
 export type ListSortOrder = string;
 
+// @public (undocumented)
+export interface ListThreadsQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
 // @public
 export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
     filter?: VectorStoreFileStatusFilter;
@@ -798,6 +828,18 @@ export type MessageAttachmentToolDefinition = CodeInterpreterToolDefinition | Fi
 
 // @public
 export type MessageAttachmentToolDefinitionOutput = CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput;
+
+// @public
+export type MessageBlockType = string;
+
+// @public
+export type MessageContentBlockInput = MessageContentBlockInputParent | MessageTextBlockInput | MessageImageFileBlockInput | MessageImageUrlBlockInput;
+
+// @public
+export interface MessageContentBlockInputParent {
+    // (undocumented)
+    type: MessageBlockType;
+}
 
 // @public
 export type MessageContentOutput = MessageContentOutputParent | MessageTextContentOutput | MessageImageFileContentOutput;
@@ -898,6 +940,12 @@ export interface MessageDeltaTextUrlCitationDetails {
 }
 
 // @public
+export interface MessageImageFileBlockInput extends MessageContentBlockInputParent {
+    imageFile: MessageImageFileParam;
+    type: "image_file";
+}
+
+// @public
 export interface MessageImageFileContentOutput extends MessageContentOutputParent {
     imageFile: MessageImageFileDetailsOutput;
     type: "image_file";
@@ -906,6 +954,24 @@ export interface MessageImageFileContentOutput extends MessageContentOutputParen
 // @public
 export interface MessageImageFileDetailsOutput {
     fileId: string;
+}
+
+// @public
+export interface MessageImageFileParam {
+    detail?: ImageDetailLevel;
+    fileId: string;
+}
+
+// @public
+export interface MessageImageUrlBlockInput extends MessageContentBlockInputParent {
+    imageUrl: MessageImageUrlParam;
+    type: "image_url";
+}
+
+// @public
+export interface MessageImageUrlParam {
+    detail?: ImageDetailLevel;
+    url: string;
 }
 
 // @public
@@ -942,6 +1008,12 @@ export interface MessageTextAnnotationOutputParent {
     text: string;
     // (undocumented)
     type: string;
+}
+
+// @public
+export interface MessageTextBlockInput extends MessageContentBlockInputParent {
+    text: string;
+    type: "text";
 }
 
 // @public
@@ -1010,6 +1082,15 @@ export interface OpenAIFileOutput {
 // @public
 export interface OpenAIPageableListOfAgentOutput {
     data: Array<AgentOutput>;
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfAgentThreadOutput {
+    data: Array<AgentThreadOutput>;
     firstId: string;
     hasMore: boolean;
     lastId: string;
@@ -1120,7 +1201,9 @@ export interface OpenApiConnectionSecuritySchemeOutput {
 // @public
 export interface OpenApiFunctionDefinition {
     auth: OpenApiAuthDetails;
+    defaultParams?: string[];
     description?: string;
+    functions?: Array<FunctionDefinition>;
     name: string;
     spec: unknown;
 }
@@ -1567,6 +1650,17 @@ export interface SearchConfiguration {
 }
 
 // @public
+export interface SearchConfiguration {
+    connectionId: string;
+    instanceName: string;
+}
+
+// @public
+export interface SearchConfigurationList {
+    searchConfigurations: Array<SearchConfiguration>;
+}
+
+// @public
 export interface SearchConfigurationList {
     searchConfigurations: Array<SearchConfiguration>;
 }
@@ -1632,7 +1726,7 @@ export interface ThreadDeletionStatusOutput {
 // @public
 export interface ThreadMessageOptions {
     attachments?: Array<MessageAttachment> | null;
-    content: string;
+    content: CreateMessageContent;
     metadata?: Record<string, string> | null;
     role: MessageRole;
 }
@@ -1739,7 +1833,6 @@ export interface ToolOutput {
 // @public
 export interface ToolResources {
     azureAISearch?: AzureAISearchResource;
-    // Warning: (ae-forgotten-export) The symbol "AzureFunctionToolResource" needs to be exported by the entry point index.d.ts
     azureFunction?: AzureFunctionToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
