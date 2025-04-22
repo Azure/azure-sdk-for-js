@@ -2406,7 +2406,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appcontainers@file:projects/arm-appcontainers.tgz':
-    resolution: {integrity: sha512-GctBtHYD3IEFKbm8bgwnieApav/R/VPIK5753gZvfWG76YH2U4aimfvS8C0RJhah2rLuizRCcaSKDPhHsKh9cg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-A9dP4p+S9mBiBIcllGFYxwzk3zu6u3wHykGsrTeWlGlRZzbbm9a8ONJZSVYR1sxj7xRLMizx13Lib49nvJgF7A==, tarball: file:projects/arm-appcontainers.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz':
@@ -2726,7 +2726,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz':
-    resolution: {integrity: sha512-G5l6R+/M3LpP9pj7sYrwjkAfIuZWwSkxGksvNqtrHiviuIMkjEmVIMLZbfKHSQy8jWC9Sdq+jSy1w9B7i6aGSw==, tarball: file:projects/arm-durabletask.tgz}
+    resolution: {integrity: sha512-nO4z6X36MUvv0CXvP57PA3xFHFmog+vGCisb2C0wW3JBuIMJW7MVfZbiF2QXJT7SlVc9PmV4jyRW7q8cP5tPgQ==, tarball: file:projects/arm-durabletask.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
@@ -12275,7 +12275,7 @@ snapshots:
       eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'

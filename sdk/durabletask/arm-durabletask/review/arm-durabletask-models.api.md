@@ -62,6 +62,14 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPurgeableOrchestrationState {
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Failed = "Failed",
+    Terminated = "Terminated"
+}
+
+// @public
 export enum KnownRedundancyState {
     None = "None",
     Zone = "Zone"
@@ -69,7 +77,8 @@ export enum KnownRedundancyState {
 
 // @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview"
+    V20241001Preview = "2024-10-01-preview",
+    V20250401Preview = "2025-04-01-preview"
 }
 
 // @public
@@ -100,6 +109,9 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type PurgeableOrchestrationState = string;
+
+// @public
 export type RedundancyState = string;
 
 // @public
@@ -108,6 +120,23 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface RetentionPolicy extends ProxyResource {
+    properties?: RetentionPolicyProperties;
+}
+
+// @public
+export interface RetentionPolicyDetails {
+    orchestrationState?: PurgeableOrchestrationState;
+    retentionPeriodInDays: number;
+}
+
+// @public
+export interface RetentionPolicyProperties {
+    readonly provisioningState?: ProvisioningState;
+    retentionPolicies?: RetentionPolicyDetails[];
 }
 
 // @public

@@ -29,6 +29,7 @@ export class DurableTaskClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: DurableTaskClientOptionalParams);
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly retentionPolicies: RetentionPoliciesOperations;
     readonly schedulers: SchedulersOperations;
     readonly taskHubs: TaskHubsOperations;
 }
@@ -90,6 +91,14 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPurgeableOrchestrationState {
+    Canceled = "Canceled",
+    Completed = "Completed",
+    Failed = "Failed",
+    Terminated = "Terminated"
+}
+
+// @public
 export enum KnownRedundancyState {
     None = "None",
     Zone = "Zone"
@@ -97,7 +106,8 @@ export enum KnownRedundancyState {
 
 // @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview"
+    V20241001Preview = "2024-10-01-preview",
+    V20250401Preview = "2025-04-01-preview"
 }
 
 // @public
@@ -149,6 +159,9 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type PurgeableOrchestrationState = string;
+
+// @public
 export type RedundancyState = string;
 
 // @public
@@ -167,6 +180,55 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface RetentionPoliciesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RetentionPoliciesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RetentionPoliciesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RetentionPoliciesListBySchedulerOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RetentionPoliciesOperations {
+    createOrReplace: (resourceGroupName: string, schedulerName: string, resource: RetentionPolicy, options?: RetentionPoliciesCreateOrReplaceOptionalParams) => PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
+    delete: (resourceGroupName: string, schedulerName: string, options?: RetentionPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, schedulerName: string, options?: RetentionPoliciesGetOptionalParams) => Promise<RetentionPolicy>;
+    listByScheduler: (resourceGroupName: string, schedulerName: string, options?: RetentionPoliciesListBySchedulerOptionalParams) => PagedAsyncIterableIterator<RetentionPolicy>;
+    update: (resourceGroupName: string, schedulerName: string, properties: RetentionPolicy, options?: RetentionPoliciesUpdateOptionalParams) => PollerLike<OperationState<RetentionPolicy>, RetentionPolicy>;
+}
+
+// @public
+export interface RetentionPoliciesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RetentionPolicy extends ProxyResource {
+    properties?: RetentionPolicyProperties;
+}
+
+// @public
+export interface RetentionPolicyDetails {
+    orchestrationState?: PurgeableOrchestrationState;
+    retentionPeriodInDays: number;
+}
+
+// @public
+export interface RetentionPolicyProperties {
+    readonly provisioningState?: ProvisioningState;
+    retentionPolicies?: RetentionPolicyDetails[];
 }
 
 // @public
