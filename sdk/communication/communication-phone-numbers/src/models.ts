@@ -115,30 +115,25 @@ export interface BeginReservationPurchaseOptions
   extends PhoneNumbersPurchaseReservationOptionalParams {}
 
 /**
- * Additional options for creating a phone numbers reservation.
+ * Additional options for updating a phone numbers reservation.
  */
-export interface CreateReservationOptions
+export interface CreateOrUpdateReservationOptions
   extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+  
   /**
    * The id of the reservation.
    */
   reservationId?: string;
-}
 
-/**
- * Additional options for updating a phone numbers reservation.
- */
-export interface UpdateReservationOptions
-  extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
   /**
    * The phone numbers to be added or updated in the reservation.
    */
   add?: AvailablePhoneNumber[];
 
   /**
-   * The phone numbers to be removed from the reservation.
+   * The phone number ids to be removed from the reservation.
    */
-  remove?: AvailablePhoneNumber[];
+  remove?: string[];
 }
 
 /**

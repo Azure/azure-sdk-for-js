@@ -46,8 +46,7 @@ import type {
   SearchOperatorInformationOptions,
   BrowseAvailableNumbersResult,
   CreateOrUpdateReservationResult,
-  UpdateReservationOptions,
-  CreateReservationOptions,
+  CreateOrUpdateReservationOptions,
 } from "./models.js";
 import type {
   BeginPurchasePhoneNumbersOptions,
@@ -595,64 +594,6 @@ export class PhoneNumbersClient {
     );
   }
 
-  /**
-   * Creates a new reservation with a random Id and the given set of numbers. The response will be the
-   * created reservation. Phone numbers can be reserved by including them in the payload. If
-   * a number is already in the reservation, it will be ignored. This operation is idempotent.
-   *
-   * Example usage:
-   * ```ts snippet:PhoneNumbersClientCreateReservation
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import {
-   *   PhoneNumbersClient,
-   *   PhoneNumbersCreateOrUpdateReservationOptionalParams,
-   * } from "@azure/communication-phone-numbers";
-   *
-   * const credential = new DefaultAzureCredential();
-   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-   *
-   * const phoneNumbersList = [[phoneNumbers[0], phoneNumbers[1]];
-   * const reservationResponse = await client.createReservation(phoneNumbersList, options);
-   *
-   * console.log(`Reservation updated with status: ${reservationResponse.status}`);
-   * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
-   * ```
-   *
-   * Create or update a reservation.
-   * @param reservation - The list of phone numbers to be reserved.
-   * @param options - The options parameters.
-   */
-  public async createReservation(
-    phoneNumbers: AvailablePhoneNumber[],
-    options?: CreateReservationOptions,
-  ): Promise<CreateOrUpdateReservationResult> {
-    const reservationId = options?.reservationId ? options.reservationId : randomUUID();
-
-    const phoneNumbersReservation: { [propertyName: string]: AvailablePhoneNumber | null } = {};
-    this.addPhoneNumbersToReservation(phoneNumbersReservation, phoneNumbers);
-
-    const reservationOptionalParams: CreateReservationOptions = {
-      ...options,
-      phoneNumbers: phoneNumbersReservation,
-    };
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "PhoneNumbersClient-createReservation",
-      reservationOptionalParams,
-    );
-
-    try {
-      return this.client.phoneNumbers.createOrUpdateReservation(reservationId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
-
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
 
   /**
    * Adds and removes phone numbers from the reservation with the given ID. The response will be the
@@ -677,7 +618,7 @@ export class PhoneNumbersClient {
    *
    * const reservationId = "<reservation-id>";
    * const phoneNumbersList = [[phoneNumbers[0], phoneNumbers[1]];
-   * const reservationResponse = await client.updateReservation(reservationId, {addOrUpdate: phoneNumbersList}, options);
+   * const reservationResponse = await client.createOrUpdateReservation(reservationId, {addOrUpdate: phoneNumbersList}, options);
    *
    * console.log(`Reservation updated with status: ${reservationResponse.status}`);
    * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
@@ -689,13 +630,12 @@ export class PhoneNumbersClient {
    * ```
    *
    * Create or update a reservation.
-   * @param reservationId - The id of the reservation that will be updated.
    * @param options - The options parameters.
    */
-  public async updateReservation(
-    reservationId: string,
-    options?: UpdateReservationOptions,
+  public async createOrUpdateReservation(
+    options?: CreateOrUpdateReservationOptions,
   ): Promise<CreateOrUpdateReservationResult> {
+    const reservationId = options?.reservationId ? options.reservationId : randomUUID();
     const phoneNumbersReservation: { [propertyName: string]: AvailablePhoneNumber | null } = {};
 
     if (options?.add) {
@@ -706,7 +646,7 @@ export class PhoneNumbersClient {
       this.removePhoneNumbersFromReservation(phoneNumbersReservation, options.remove);
     }
 
-    const reservationOptionalParams: UpdateReservationOptions = {
+    const reservationOptionalParams: CreateOrUpdateReservationOptions = {
       ...options,
       phoneNumbers: phoneNumbersReservation,
     };
@@ -1041,13 +981,13 @@ export class PhoneNumbersClient {
 
   private removePhoneNumbersFromReservation(
     currentReservation: { [propertyName: string]: AvailablePhoneNumber | null },
-    phoneNumbers: AvailablePhoneNumber[],
+    phoneNumbers: string[],
   ): { [propertyName: string]: AvailablePhoneNumber | null } {
     const phoneNumbersReservation: { [propertyName: string]: AvailablePhoneNumber | null } =
       currentReservation;
     for (const phoneNumber of phoneNumbers) {
-      if (phoneNumber.id) {
-        phoneNumbersReservation[phoneNumber.id] = null;
+      if (phoneNumber) {
+        phoneNumbersReservation[phoneNumber] = null;
       }
     }
     return phoneNumbersReservation;
