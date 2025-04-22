@@ -77,10 +77,7 @@ export interface SAPApplicationServerInstancesOperations {
     applicationInstanceName: string,
     resource: SAPApplicationServerInstance,
     options?: SAPApplicationServerInstancesCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<SAPApplicationServerInstance>,
-    SAPApplicationServerInstance
-  >;
+  ) => PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance>;
   /** Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource. */
   get: (
     resourceGroupName: string,
@@ -97,27 +94,14 @@ function _getSAPApplicationServerInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       applicationInstanceName: string,
       options?: SAPApplicationServerInstancesStopOptionalParams,
-    ) =>
-      stop(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        applicationInstanceName,
-        options,
-      ),
+    ) => stop(context, resourceGroupName, sapVirtualInstanceName, applicationInstanceName, options),
     start: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       applicationInstanceName: string,
       options?: SAPApplicationServerInstancesStartOptionalParams,
     ) =>
-      start(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        applicationInstanceName,
-        options,
-      ),
+      start(context, resourceGroupName, sapVirtualInstanceName, applicationInstanceName, options),
     list: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
@@ -129,13 +113,7 @@ function _getSAPApplicationServerInstances(context: WorkloadsContext) {
       applicationInstanceName: string,
       options?: SAPApplicationServerInstancesDeleteOptionalParams,
     ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        applicationInstanceName,
-        options,
-      ),
+      $delete(context, resourceGroupName, sapVirtualInstanceName, applicationInstanceName, options),
     update: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
@@ -171,14 +149,7 @@ function _getSAPApplicationServerInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       applicationInstanceName: string,
       options?: SAPApplicationServerInstancesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        applicationInstanceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, sapVirtualInstanceName, applicationInstanceName, options),
   };
 }
 

@@ -14,12 +14,9 @@ async function startTheSAPCentralServicesInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapCentralServerInstances.start(
-    "test-rg",
-    "X00",
-    "centralServer",
-    { body: {} },
-  );
+  const result = await client.sapCentralServerInstances.start("test-rg", "X00", "centralServer", {
+    body: {},
+  });
   console.log(result);
 }
 
@@ -33,12 +30,9 @@ async function startTheVirtualMachineSAndTheSAPCentralServicesInstanceOnIt(): Pr
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapCentralServerInstances.start(
-    "test-rg",
-    "X00",
-    "centralServer",
-    { body: { startVm: true } },
-  );
+  const result = await client.sapCentralServerInstances.start("test-rg", "X00", "centralServer", {
+    body: { startVm: true },
+  });
   console.log(result);
 }
 

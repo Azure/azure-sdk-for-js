@@ -15,10 +15,7 @@ async function sapApplicationServerInstancesListBySAPVirtualInstance(): Promise<
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.sapApplicationServerInstances.list(
-    "test-rg",
-    "X00",
-  )) {
+  for await (const item of client.sapApplicationServerInstances.list("test-rg", "X00")) {
     resArray.push(item);
   }
 
