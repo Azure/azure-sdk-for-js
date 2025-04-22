@@ -10,6 +10,17 @@
  * - start time, end time
  * - start time, duration
  * - duration, end time
+ *
+ * The duration is an ISO8601 duration value in the format P[n]Y[n]M[n]DT[n]H[n]M[n]S
+ * where  P is the duration designator (for period) placed at the start of the duration representation.
+ *   Y is the year designator that follows the value for the number of years.
+ *   M is the month designator that follows the value for the number of months.
+ *   W is the week designator that follows the value for the number of weeks.
+ *   D is the day designator that follows the value for the number of days.
+ *   T is the time designator that precedes the time components of the representation.
+ *   H is the hour designator that follows the value for the number of hours.
+ *   M is the minute designator that follows the value for the number of minutes.
+ *   S is the second designator that follows the value for the number of seconds.
  */
 export type QueryTimeInterval =
   | {
