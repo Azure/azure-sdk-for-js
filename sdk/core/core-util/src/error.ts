@@ -1,20 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isObject } from "./object.js";
-
-/**
- * Typeguard for an error object shape (has name and message)
- * @param e - Something caught by a catch clause.
- */
-export function isError(e: unknown): e is Error {
-  if (isObject(e)) {
-    const hasName = typeof e.name === "string";
-    const hasMessage = typeof e.message === "string";
-    return hasName && hasMessage;
-  }
-  return false;
-}
+import { isError } from "@typespec/ts-http-runtime/internal/util";
 
 /**
  * Given what is thought to be an error object, return the message if possible.

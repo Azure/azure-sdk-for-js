@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
+import type { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath.js";
 /**
  * Represents the client encryption policy associated with a container.
  */

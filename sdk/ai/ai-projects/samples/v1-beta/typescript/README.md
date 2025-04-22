@@ -19,9 +19,14 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agents/agentsAzureAiSearch.ts][agents_agentsazureaisearch]                                 | demonstrates how to use agent operations with the Azure AI Search tool.                                                                                                                                |
 | [agents/agentsAzureFunctions.ts][agents_agentsazurefunctions]                               | demonstrates how to use azure function agent operations from the Azure Agents service                                                                                                                  |
 | [agents/agentsBasics.ts][agents_agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                                                                                                        |
+| [agents/agentsBingCustomSearch.ts][agents_agentsbingcustomsearch]                           | demonstrates how to use agent operations with the Bing Customer Search tool.                                                                                                                           |
 | [agents/agentsBingGrounding.ts][agents_agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                                                                                                     |
 | [agents/agentsBingGroundingWithStreaming.ts][agents_agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                                                                                                     |
 | [agents/agentsFabric.ts][agents_agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                                                                                               |
+| [agents/agentsImageInputWithBase64.ts][agents_agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service.                                                                             |
+| [agents/agentsImageInputWithFile.ts][agents_agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.                                                                                        |
+| [agents/agentsImageInputWithUrl.ts][agents_agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.                                                                                         |
+| [agents/agentsSharepoint.ts][agents_agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                                                                                                     |
 | [agents/agentsWithFunctionTool.ts][agents_agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                                                                                                    |
 | [agents/agentsWithOpenApi.ts][agents_agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                                                                                                         |
 | [agents/agentsWithToolset.ts][agents_agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                                                                                                 |
@@ -85,7 +90,7 @@ node dist/agents\codeInterpreterWithStreaming.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" node dist/agents\codeInterpreterWithStreaming.js
+npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/agents\codeInterpreterWithStreaming.js
 ```
 
 ## Next Steps
@@ -98,9 +103,14 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsAzureAiSearch.ts
 [agents_agentsazurefunctions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsAzureFunctions.ts
 [agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsBasics.ts
+[agents_agentsbingcustomsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsBingCustomSearch.ts
 [agents_agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsBingGrounding.ts
 [agents_agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsBingGroundingWithStreaming.ts
 [agents_agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsFabric.ts
+[agents_agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsImageInputWithBase64.ts
+[agents_agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsImageInputWithFile.ts
+[agents_agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsImageInputWithUrl.ts
+[agents_agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsSharepoint.ts
 [agents_agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsWithFunctionTool.ts
 [agents_agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsWithOpenApi.ts
 [agents_agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsWithToolset.ts

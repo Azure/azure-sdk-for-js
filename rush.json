@@ -1,7 +1,8 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */
+{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -366,11 +367,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-language-textauthoring",
-      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
@@ -560,9 +556,7 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": [
-        "@azure/identity"
-      ]
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -595,16 +589,14 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/mock-hub",
+      "packageName": "@azure-tools/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
     },
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -718,6 +710,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/storage-common",
+      "projectFolder": "sdk/storage/storage-common",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
       "versionPolicyName": "client"
@@ -823,11 +820,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils",
-      "projectFolder": "sdk/test-utils/test-utils",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
@@ -908,11 +900,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-authentication",
-      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -966,11 +953,6 @@
       "packageName": "@azure-tests/perf-schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
-    },
-    {
-      "packageName": "@azure/mixed-reality-remote-rendering",
-      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
-      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-network",
@@ -1550,11 +1532,6 @@
     {
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mixedreality",
-      "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
     },
     {

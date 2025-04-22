@@ -48,6 +48,9 @@ import type {
   RestHoldAudioPaused,
   RestHoldAudioResumed,
   RestHoldAudioCompleted,
+  CustomCallingContextInternal,
+  RestIncomingCall,
+  CommunicationIdentifierModel,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -95,7 +98,8 @@ export type CallAutomationEvent =
   | HoldAudioStarted
   | HoldAudioPaused
   | HoldAudioResumed
-  | HoldAudioCompleted;
+  | HoldAudioCompleted
+  | IncomingCall;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -203,6 +207,40 @@ export interface CallConnected
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CallConnected";
+}
+
+/** Event when call was initiated. */
+export interface IncomingCall
+  extends Omit<
+    RestIncomingCall,
+    | "to"
+    | "from"
+    | "customContext"
+    | "incomingCallContext"
+    | "onBehalfOfCallee"
+    | "correlationId"
+    | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** The communication identifier of the target user.*/
+  to?: CommunicationIdentifierModel;
+  /** The communication identifier of the user who initiated the call.*/
+  from?: CommunicationIdentifierModel;
+  /** Display name of caller.*/
+  callerDisplayName?: string;
+  /** Custom Context of Incoming Call */
+  customContext?: CustomCallingContextInternal;
+  /** Incoming call context.*/
+  incomingCallContext?: string;
+  /** The communication identifier of the user on behalf of whom the call is made.*/
+  onBehalfOfCallee?: CommunicationIdentifierModel;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "IncomingCall";
 }
 
 /** Event when all participants left and call was terminated. */

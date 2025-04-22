@@ -34,23 +34,23 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log";
-import type { StorageRetryOptions } from "../../storage-blob/src/StorageRetryPolicyFactory";
-import { StorageRetryPolicyFactory } from "../../storage-blob/src/StorageRetryPolicyFactory";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
+import { logger } from "./log.js";
+import type { StorageRetryOptions } from "@azure/storage-blob";
+import { StorageRetryPolicyFactory } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
 import {
   StorageOAuthScopes,
   StorageQueueLoggingAllowedHeaderNames,
   StorageQueueLoggingAllowedQueryParameters,
   SDK_VERSION,
-} from "./utils/constants";
-import { getCachedDefaultHttpClient } from "../../storage-blob/src/utils/cache";
-import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBrowserPolicyV2";
-import { storageRetryPolicy } from "../../storage-blob/src/policies/StorageRetryPolicyV2";
-import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
-import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
-import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy";
+} from "./utils/constants.js";
+import { getCachedDefaultHttpClient } from "@azure/storage-common";
+import { storageBrowserPolicy } from "@azure/storage-blob";
+import { storageRetryPolicy } from "@azure/storage-blob";
+import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
+import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
+import { storageCorrectContentLengthPolicy } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
