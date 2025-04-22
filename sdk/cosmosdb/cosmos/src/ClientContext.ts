@@ -468,7 +468,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      request.partitionKeyRangeId = partitionKeyRangeId;
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
 
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
@@ -631,7 +633,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
-      request.partitionKeyRangeId = partitionKeyRangeId;
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
       request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
