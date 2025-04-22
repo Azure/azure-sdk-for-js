@@ -12,6 +12,13 @@ catalogs:
     rhea-promise:
       specifier: ^3.0.0
       version: 3.0.3
+  arm:
+    '@azure/arm-cognitiveservices':
+      specifier: ^7.6.0
+      version: 7.6.0
+    '@azure/arm-storage':
+      specifier: ^18.0.0
+      version: 18.4.0
   corelrov2:
     '@azure/core-lro':
       specifier: ^2.0.0
@@ -2722,7 +2729,7 @@ importers:
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-storage':
-        specifier: ^18.3.0
+        specifier: catalog:arm
         version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
@@ -3282,6 +3289,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-cognitiveservices':
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -3355,6 +3365,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-cognitiveservices':
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -4034,12 +4047,18 @@ importers:
         specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:*
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
         specifier: workspace:*
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-communication':
+        specifier: ^4.1.0
+        version: 4.1.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -9180,6 +9199,9 @@ importers:
       '@azure/abort-controller':
         specifier: workspace:*
         version: link:../../core/abort-controller
+      '@azure/arm-cognitiveservices':
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -10175,7 +10197,7 @@ importers:
         specifier: ^32.2.0
         version: 32.2.0
       '@azure/arm-storage':
-        specifier: ^18.0.0
+        specifier: catalog:arm
         version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
@@ -11051,6 +11073,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -16124,7 +16149,7 @@ importers:
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-storage':
-        specifier: ^18.0.0
+        specifier: catalog:arm
         version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
@@ -16627,7 +16652,7 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
       '@azure/arm-storage':
-        specifier: ^18.0.0
+        specifier: catalog:arm
         version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
@@ -18187,7 +18212,7 @@ importers:
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
-        specifier: ^7.5.0
+        specifier: catalog:arm
         version: 7.6.0
       '@azure/arm-search':
         specifier: ^3.2.0
@@ -24894,6 +24919,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -25494,7 +25522,7 @@ importers:
         specifier: workspace:*
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: 7.6.0
+        specifier: catalog:arm
         version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:*
@@ -25722,6 +25750,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-cognitiveservices':
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -26640,6 +26671,10 @@ packages:
 
   '@azure/arm-cognitiveservices@7.6.0':
     resolution: {integrity: sha512-/NYRy9mM/b2I0EnstncAI9DpqcAJQWyBS8KYuAeIV6XPzoSeeRsOeiCTXVD3fBdMoO2D5sKtCTRYAP1NwlNoLA==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/arm-communication@4.1.0':
+    resolution: {integrity: sha512-EtSgQc2Ca7Hj3JF9NqObNWFXeD3Y3eczYjW3lH6mJoZ8M0Y+1F/z9yCJJ3Q9whg3Scg58ffXomgo+AgLD/6Q/g==}
     engines: {node: '>=18.0.0'}
 
   '@azure/arm-cosmosdb@16.0.0-beta.6':
@@ -31791,6 +31826,18 @@ snapshots:
   '@azure/arm-cognitiveservices@7.6.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-communication@4.1.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.3
       '@azure/core-lro': 2.7.2
