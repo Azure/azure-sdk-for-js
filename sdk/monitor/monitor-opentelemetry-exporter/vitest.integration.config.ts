@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -10,7 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       testTimeout: 600000,
-      include: ["test/internal/functional/**/*.test.ts"],
+      include: ["test/internal/functional/**/*.spec.ts"],
     },
   }),
 );
