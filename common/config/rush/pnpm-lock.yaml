@@ -2746,7 +2746,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-n77j2ag9WwfN1dAmlNCAmOU9K/XoKdKnL9M1tzPumMp/StB2atph07AlWJ+NKnm5NQ7YLjeNnNoZOpSna8MNbg==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-AoYPz/q8zeMsOIvSc/WmeOqPeYRkd/XBT1CPrxDl68Up/EZzi1BOA/9QAcYsy9C6De6Nj2PUmPJ3w72bZ/fWOA==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
