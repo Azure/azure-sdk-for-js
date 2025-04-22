@@ -11,7 +11,6 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
-  ENDPOINT: "Sanitized.azure.com",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
@@ -61,12 +60,6 @@ const recorderEnvSetup: RecorderStartOptions = {
         target: "/vaults/([-\\w\\._\\(\\)]+)",
         value: replaceableVariables.GENERIC_STRING,
         groupForReplace: "1",
-      },
-      {
-        regex: true,
-        target: "(azureml|http|https):\\/\\/([^\\/]+)",
-        value: replaceableVariables.ENDPOINT,
-        groupForReplace: "2",
       },
     ],
     bodyKeySanitizers: [
