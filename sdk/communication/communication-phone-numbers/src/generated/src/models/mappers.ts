@@ -387,12 +387,14 @@ export const AvailablePhoneNumberError: coreClient.CompositeMapper = {
     modelProperties: {
       code: {
         serializedName: "code",
+        required: true,
         type: {
           name: "String",
         },
       },
       message: {
         serializedName: "message",
+        required: true,
         type: {
           name: "String",
         },
@@ -571,14 +573,12 @@ export const PhoneNumbersReservation: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
-        readOnly: true,
         type: {
           name: "Uuid",
         },
       },
       expiresAt: {
         serializedName: "expiresAt",
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -594,7 +594,6 @@ export const PhoneNumbersReservation: coreClient.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        readOnly: true,
         type: {
           name: "String",
         },

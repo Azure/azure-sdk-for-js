@@ -198,8 +198,23 @@ export const contentType1: OperationParameter = {
   },
 };
 
+export const id: OperationParameter = {
+  parameterPath: ["options", "id"],
+  mapper: PhoneNumbersReservationMapper,
+};
+
+export const expiresAt: OperationParameter = {
+  parameterPath: ["options", "expiresAt"],
+  mapper: PhoneNumbersReservationMapper,
+};
+
 export const phoneNumbers: OperationParameter = {
   parameterPath: ["options", "phoneNumbers"],
+  mapper: PhoneNumbersReservationMapper,
+};
+
+export const status: OperationParameter = {
+  parameterPath: ["options", "status"],
   mapper: PhoneNumbersReservationMapper,
 };
 

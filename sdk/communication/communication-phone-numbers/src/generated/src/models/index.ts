@@ -138,9 +138,9 @@ export interface PhoneNumberCost {
 /** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
 export interface AvailablePhoneNumberError {
   /** The error code indicating the reason why the operation performed on the phone number failed. */
-  code?: string;
+  code: string;
   /** The error message describing the failure that occurred. */
-  message?: string;
+  message: string;
 }
 
 /** Represents a wrapper around a list of cities or towns. */
@@ -197,23 +197,14 @@ export interface PhoneNumbersReservations {
 
 /** Represents a reservation for phone numbers. A reservation is a temporary hold on phone numbers that can later be purchased. The reservation has a limited lifetime after which the phone numbers are released if not purchased. Reservations older than 1 month are automatically deleted. */
 export interface PhoneNumbersReservation {
-  /**
-   * The id of the reservation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The time at which the reservation will expire. If a reservation is not purchased before this time, all of the reserved phone numbers will be released and made available for others to purchase.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiresAt?: Date;
+  /** The id of the reservation. */
+  id?: string;
+  /** The time at which the reservation will expire. If a reservation is not purchased before this time, all of the reserved phone numbers will be released and made available for others to purchase. */
+  expiresAt?: Date;
   /** A dictionary containing the reservation phone numbers. The key is the ID of the phone number (digits only) and values are AvailablePhoneNumber objects. Not populated when retrieving PhoneNumbersReservation collections. */
   phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
-  /**
-   * Represents the status of the reservation. Possible values include: 'active', 'submitted', 'completed', 'expired'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ReservationStatus;
+  /** Represents the status of the reservation. Possible values include: 'active', 'submitted', 'completed', 'expired'. */
+  status?: ReservationStatus;
 }
 
 /** The phone number search purchase request. */
@@ -587,8 +578,14 @@ export type PhoneNumbersListReservationsResponse = PhoneNumbersReservations;
 /** Optional parameters. */
 export interface PhoneNumbersCreateOrUpdateReservationOptionalParams
   extends coreClient.OperationOptions {
+  /** The id of the reservation. */
+  id?: string;
+  /** The time at which the reservation will expire. If a reservation is not purchased before this time, all of the reserved phone numbers will be released and made available for others to purchase. */
+  expiresAt?: Date;
   /** A dictionary containing the reservation phone numbers. The key is the ID of the phone number (digits only) and values are AvailablePhoneNumber objects. Not populated when retrieving PhoneNumbersReservation collections. */
   phoneNumbers?: { [propertyName: string]: AvailablePhoneNumber | null };
+  /** Represents the status of the reservation. Possible values include: 'active', 'submitted', 'completed', 'expired'. */
+  status?: ReservationStatus;
 }
 
 /** Contains response data for the createOrUpdateReservation operation. */

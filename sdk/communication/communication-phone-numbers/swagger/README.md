@@ -98,9 +98,36 @@ directive:
 directive:
   - from: swagger-document
     where: $.definitions.AvailablePhoneNumberError
-    debug: true
     transform: >
       $["readOnly"] = false;
       $["properties"]["code"].readOnly = false;
       $["properties"]["message"].readOnly = false;
+```
+
+### Mark attributes from AvailablePhoneNumberError as required
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumberError
+    transform: >
+      if (!$.required) {
+        $.required = [];
+      }
+      if (!$.required.includes("code")) {
+        $.required.push("code");
+      }
+      if (!$.required.includes("message")) {
+        $.required.push("message");
+      }
+```
+
+### Remove readonly attributes from PhoneNumbersReservation properties
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PhoneNumbersReservation
+    transform: >
+      $["properties"]["expiresAt"].readOnly = false;
+      $["properties"]["id"].readOnly = false;
+      $["properties"]["status"].readOnly = false;
 ```

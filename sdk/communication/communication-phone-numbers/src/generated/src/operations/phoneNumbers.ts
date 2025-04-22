@@ -1547,7 +1547,12 @@ const createOrUpdateReservationOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: {
-    parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
+    parameterPath: {
+      id: ["options", "id"],
+      expiresAt: ["options", "expiresAt"],
+      phoneNumbers: ["options", "phoneNumbers"],
+      status: ["options", "status"],
+    },
     mapper: { ...Mappers.PhoneNumbersReservation, required: true },
   },
   queryParameters: [Parameters.apiVersion],
