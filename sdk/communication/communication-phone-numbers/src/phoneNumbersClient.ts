@@ -594,7 +594,6 @@ export class PhoneNumbersClient {
     );
   }
 
-
   /**
    * Adds and removes phone numbers from the reservation with the given ID. The response will be the
    * updated state of the reservation. Phone numbers can be reserved by including them in the payload. If
