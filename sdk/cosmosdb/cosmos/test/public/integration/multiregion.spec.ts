@@ -118,19 +118,6 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     const responses = [
       databaseAccountResponse,
       collectionResponse,
-      {
-        code: 200,
-        result: {
-          PartitionKeyRanges: [
-            {
-              minInclusive: "",
-              maxExclusive: "FF",
-            },
-          ],
-        },
-        headers: {},
-        diagnostics: getEmptyCosmosDiagnostics(),
-      },
       { code: 200, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
@@ -175,6 +162,19 @@ describe("Multi-region tests", { timeout: 30000 }, () => {
     const responses = [
       databaseAccountResponse,
       collectionResponse,
+      {
+        code: 200,
+        result: {
+          PartitionKeyRanges: [
+            {
+              minInclusive: "",
+              maxExclusive: "FF",
+            },
+          ],
+        },
+        headers: {},
+        diagnostics: getEmptyCosmosDiagnostics(),
+      },
       { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
