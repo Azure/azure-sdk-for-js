@@ -263,7 +263,7 @@ export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.ApiManagement.CircuitBreaker.Closed" event. */
   "Microsoft.ApiManagement.CircuitBreaker.Closed": ApiManagementCircuitBreakerClosedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.CircuitBreaker.Opened" event. */
-  "Microsoft.ApiManagement.CircuitBreaker.Opened": ApiManagementCircuitBreakerOpenedEventData
+  "Microsoft.ApiManagement.CircuitBreaker.Opened": ApiManagementCircuitBreakerOpenedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIDeleted" event. */
   "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseCreated" event. */
