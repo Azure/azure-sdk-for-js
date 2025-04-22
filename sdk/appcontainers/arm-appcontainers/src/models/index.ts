@@ -10,184 +10,9 @@ import * as coreClient from "@azure/core-client";
 
 export type JavaComponentPropertiesUnion =
   | JavaComponentProperties
-  | SpringCloudGatewayComponent
   | SpringBootAdminComponent
-  | NacosComponent
   | SpringCloudEurekaComponent
   | SpringCloudConfigComponent;
-
-/** Policy to set request timeouts */
-export interface TimeoutPolicy {
-  /** Timeout, in seconds, for a request to respond */
-  responseTimeoutInSeconds?: number;
-  /** Timeout, in seconds, for a request to initiate a connection */
-  connectionTimeoutInSeconds?: number;
-}
-
-/** Policy that defines http request retry conditions */
-export interface HttpRetryPolicy {
-  /** Maximum number of times a request will retry */
-  maxRetries?: number;
-  /** Headers that must be present for a request to be retried */
-  headers?: HeaderMatch[];
-  /** Additional http status codes that can trigger a retry */
-  httpStatusCodes?: number[];
-  /** Errors that can trigger a retry */
-  errors?: string[];
-  /** Initial delay, in milliseconds, before retrying a request */
-  initialDelayInMilliseconds?: number;
-  /** Maximum interval, in milliseconds, between retries */
-  maxIntervalInMilliseconds?: number;
-}
-
-/** Conditions required to match a header */
-export interface HeaderMatch {
-  /** Name of the header */
-  header?: string;
-  /** Exact value of the header */
-  exactMatch?: string;
-  /** Prefix value of the header */
-  prefixMatch?: string;
-  /** Suffix value of the header */
-  suffixMatch?: string;
-  /** Regex value of the header */
-  regexMatch?: string;
-}
-
-/** Policy that defines tcp request retry conditions */
-export interface TcpRetryPolicy {
-  /** Maximum number of attempts to connect to the tcp service */
-  maxConnectAttempts?: number;
-}
-
-/** Policy that defines circuit breaker conditions */
-export interface CircuitBreakerPolicy {
-  /** Number of consecutive errors before the circuit breaker opens */
-  consecutiveErrors?: number;
-  /** The time interval, in seconds, between endpoint checks. This can result in opening the circuit breaker if the check fails as well as closing the circuit breaker if the check succeeds. Defaults to 10s. */
-  intervalInSeconds?: number;
-  /** Maximum percentage of hosts that will be ejected after failure threshold has been met */
-  maxEjectionPercent?: number;
-}
-
-/** Defines parameters for http connection pooling */
-export interface HttpConnectionPool {
-  /** Maximum number of pending http1 requests allowed */
-  http1MaxPendingRequests?: number;
-  /** Maximum number of http2 requests allowed */
-  http2MaxRequests?: number;
-}
-
-/** Defines parameters for tcp connection pooling */
-export interface TcpConnectionPool {
-  /** Maximum number of tcp connections allowed */
-  maxConnections?: number;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** App Service error response. */
-export interface DefaultErrorResponse {
-  /**
-   * Error model.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: DefaultErrorResponseError;
-}
-
-/** Error model. */
-export interface DefaultErrorResponseError {
-  /**
-   * Standardized string to programmatically identify the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /** Details or the error */
-  details?: DefaultErrorResponseErrorDetailsItem[];
-  /**
-   * More information to debug error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innererror?: string;
-}
-
-/** Detailed errors. */
-export interface DefaultErrorResponseErrorDetailsItem {
-  /**
-   * Standardized string to programmatically identify the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-}
-
-/** Collection of AppResiliency policies */
-export interface AppResiliencyCollection {
-  /** Collection of resources. */
-  value: AppResiliency[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
 
 /** AuthConfig collection ARM resource. */
 export interface AuthConfigCollection {
@@ -613,6 +438,100 @@ export interface EncryptionSettings {
   containerAppAuthSigningSecretName?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** App Service error response. */
+export interface DefaultErrorResponse {
+  /**
+   * Error model.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: DefaultErrorResponseError;
+}
+
+/** Error model. */
+export interface DefaultErrorResponseError {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /** Details or the error */
+  details?: DefaultErrorResponseErrorDetailsItem[];
+  /**
+   * More information to debug error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innererror?: string;
+}
+
+/** Detailed errors. */
+export interface DefaultErrorResponseErrorDetailsItem {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+}
+
 /** Collection of available workload profiles in the location. */
 export interface AvailableWorkloadProfilesCollection {
   /** Collection of workload profiles. */
@@ -695,34 +614,6 @@ export interface BillingMeterCollection {
   value: BillingMeter[];
 }
 
-/** Billing meter. */
-export interface BillingMeter {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Region for the billing meter. */
-  location?: string;
-  /** Revision resource specific properties */
-  properties?: BillingMeterProperties;
-}
-
 /** Revision resource specific properties */
 export interface BillingMeterProperties {
   /** Used to categorize billing meters. */
@@ -731,136 +622,6 @@ export interface BillingMeterProperties {
   meterType?: string;
   /** The everyday name of the billing meter. */
   displayName?: string;
-}
-
-/** The response of a BuilderResource list operation. */
-export interface BuilderCollection {
-  /** The BuilderResource items on this page */
-  value: BuilderResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Model representing a mapping from a container registry to the identity used to connect to it. */
-export interface ContainerRegistry {
-  /** Login server of the container registry. */
-  containerRegistryServer: string;
-  /** Resource ID of the managed identity. */
-  identityResourceId: string;
-}
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** The type used for update operations of the BuilderResource. */
-export interface BuilderResourceUpdate {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Resource ID of the container apps environment that the builder is associated with. */
-  environmentId?: string;
-}
-
-/** The response of a BuildResource list operation. */
-export interface BuildCollection {
-  /** The BuildResource items on this page */
-  value: BuildResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Container registry that the final image will be uploaded to. */
-export interface ContainerRegistryWithCustomImage {
-  /** Login server of the container registry that the final image should be uploaded to. Builder resource needs to have this container registry defined along with an identity to use to access it. */
-  server: string;
-  /** Full name that the final image should be uploaded as, including both image name and tag. */
-  image?: string;
-}
-
-/** Configuration of the build. */
-export interface BuildConfiguration {
-  /** Base OS used to build and run the app. */
-  baseOs?: string;
-  /** Platform to be used to build and run the app. */
-  platform?: string;
-  /** Platform version to be used to build and run the app. */
-  platformVersion?: string;
-  /** List of environment variables to be passed to the build, secrets should not be used in environment variable. */
-  environmentVariables?: EnvironmentVariable[];
-  /** List of steps to perform before the build. */
-  preBuildSteps?: PreBuildStep[];
-}
-
-/** Model representing an environment variable. */
-export interface EnvironmentVariable {
-  /** Environment variable name. */
-  name: string;
-  /** Environment variable value. */
-  value: string;
-}
-
-/** Model representing a pre-build step. */
-export interface PreBuildStep {
-  /** Description of the pre-build step. */
-  description?: string;
-  /** List of custom commands to run. */
-  scripts?: string[];
-  /** Http get request to send before the build. */
-  httpGet?: HttpGet;
-}
-
-/** Model representing a http get request. */
-export interface HttpGet {
-  /** URL to make HTTP GET request against. */
-  url: string;
-  /** Name of the file that the request should be saved to. */
-  fileName?: string;
-  /** List of headers to send with the request. */
-  headers?: string[];
-}
-
-/** Build Auth Token. */
-export interface BuildToken {
-  /**
-   * Authentication token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly token?: string;
-  /**
-   * Token expiration date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expires?: Date;
 }
 
 /** Collection of connectedEnvironments */
@@ -1004,8 +765,6 @@ export interface CertificateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly publicKeyHash?: string;
-  /** The type of the certificate. Allowed values are `ServerSSLCertificate` and `ImagePullTrustedCA` */
-  certificateType?: CertificateType;
 }
 
 /** A certificate to update */
@@ -1047,24 +806,6 @@ export interface DaprMetadata {
   secretRef?: string;
 }
 
-/** Configuration to bind a Dapr Component to a dev ContainerApp Service */
-export interface DaprComponentServiceBinding {
-  /** Name of the service bind */
-  name?: string;
-  /** Resource id of the target service */
-  serviceId?: string;
-  /** Service bind metadata */
-  metadata?: DaprServiceBindMetadata;
-}
-
-/** Dapr component metadata. */
-export interface DaprServiceBindMetadata {
-  /** Service bind metadata property name. */
-  name?: string;
-  /** Service bind metadata property value. */
-  value?: string;
-}
-
 /** Dapr component Secrets Collection for ListSecrets Action. */
 export interface DaprSecretsCollection {
   /** Collection of secrets used by a Dapr component */
@@ -1095,8 +836,6 @@ export interface ConnectedEnvironmentStoragesCollection {
 export interface ConnectedEnvironmentStorageProperties {
   /** Azure file properties */
   azureFile?: AzureFileProperties;
-  /** SMB storage properties */
-  smb?: SmbStorage;
 }
 
 /** Azure File Properties. */
@@ -1111,22 +850,6 @@ export interface AzureFileProperties {
   shareName?: string;
 }
 
-/** SMB storage properties */
-export interface SmbStorage {
-  /** The host name or IP address of the SMB server. */
-  host?: string;
-  /** The path to the SMB shared folder. */
-  shareName?: string;
-  /** The user to log on to the SMB server. */
-  username?: string;
-  /** The domain name for the user. */
-  domain?: string;
-  /** The password for the user. */
-  password?: string;
-  /** Access mode for storage */
-  accessMode?: AccessMode;
-}
-
 /** Container App collection ARM resource. */
 export interface ContainerAppCollection {
   /** Collection of resources. */
@@ -1138,10 +861,36 @@ export interface ContainerAppCollection {
   readonly nextLink?: string;
 }
 
-/** Container App auto patch configuration. */
-export interface ContainerAppPropertiesPatchingConfiguration {
-  /** Patching mode for the container app. Null or default in this field will be interpreted as Automatic by RP. Automatic mode will automatically apply available patches. Manual mode will require the user to manually apply patches. Disabled mode will stop patch detection and auto patching. */
-  patchingMode?: PatchingMode;
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Non versioned Container App configuration properties that define the mutable settings of a Container app */
@@ -1200,8 +949,6 @@ export interface Ingress {
   corsPolicy?: CorsPolicy;
   /** Settings to expose additional ports on container app */
   additionalPortMappings?: IngressPortMapping[];
-  /** Whether an http app listens on http or https */
-  targetPortHttpScheme?: IngressTargetPortHttpScheme;
 }
 
 /** Traffic weight assigned to a revision */
@@ -1306,44 +1053,12 @@ export interface Dapr {
 export interface Runtime {
   /** Java app configuration */
   java?: RuntimeJava;
-  /** .NET app configuration */
-  dotnet?: RuntimeDotnet;
 }
 
 /** Java app configuration */
 export interface RuntimeJava {
   /** Enable jmx core metrics for the java app */
   enableMetrics?: boolean;
-  /** Diagnostic capabilities achieved by java agent */
-  javaAgent?: RuntimeJavaAgent;
-}
-
-/** Diagnostic capabilities achieved by java agent */
-export interface RuntimeJavaAgent {
-  /** Enable java agent injection for the java app. */
-  enabled?: boolean;
-  /** Capabilities on the java logging scenario. */
-  logging?: RuntimeJavaAgentLogging;
-}
-
-/** Capabilities on the java logging scenario. */
-export interface RuntimeJavaAgentLogging {
-  /** Settings of the logger for the java app. */
-  loggerSettings?: LoggerSetting[];
-}
-
-/** Logger settings for java workloads. */
-export interface LoggerSetting {
-  /** Logger name. */
-  logger: string;
-  /** The specified logger's log level. */
-  level: Level;
-}
-
-/** .NET app configuration */
-export interface RuntimeDotnet {
-  /** Auto configure the ASP.NET Core Data Protection feature */
-  autoConfigureDataProtection?: boolean;
 }
 
 /** Container App to be a dev service */
@@ -1386,8 +1101,6 @@ export interface Template {
 export interface BaseContainer {
   /** Container image tag. */
   image?: string;
-  /** The type of the image. Set to CloudBuild to let the system manages the image, where user will not be able to update image through image field. Set to ContainerImage for user provided image. */
-  imageType?: ImageType;
   /** Custom container name. */
   name?: string;
   /** Container start command. */
@@ -1493,9 +1206,9 @@ export interface Scale {
   minReplicas?: number;
   /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
   maxReplicas?: number;
-  /** Optional. KEDA Cooldown Period. Defaults to 300 seconds if not set. */
+  /** Optional. KEDA Cooldown Period in seconds. Defaults to 300 seconds if not set. */
   cooldownPeriod?: number;
-  /** Optional. KEDA Polling Interval. Defaults to 30 seconds if not set. */
+  /** Optional. KEDA Polling Interval in seconds. Defaults to 30 seconds if not set. */
   pollingInterval?: number;
   /** Scaling rules. */
   rules?: ScaleRule[];
@@ -1600,10 +1313,6 @@ export interface ServiceBind {
   serviceId?: string;
   /** Name of the service bind */
   name?: string;
-  /** Type of the client to be used to connect to the service */
-  clientType?: string;
-  /** Customized keys for customizing injected values to the app */
-  customizedKeys?: { [propertyName: string]: string };
 }
 
 /** Custom domain analysis. */
@@ -1725,151 +1434,6 @@ export interface ContainerAppSecret {
   readonly keyVaultUrl?: string;
 }
 
-/** The response of a Container Apps Build Resource list operation. */
-export interface ContainerAppsBuildCollection {
-  /** The Container Apps Build Resource items on this page */
-  value: ContainerAppsBuildResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Configuration of the build. */
-export interface ContainerAppsBuildConfiguration {
-  /**
-   * Base OS used to build and run the app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly baseOs?: string;
-  /**
-   * Platform to be used to build and run the app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly platform?: string;
-  /**
-   * Platform version to be used to build and run the app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly platformVersion?: string;
-  /**
-   * List of environment variables to be passed to the build, secrets should not be used in environment variable.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly environmentVariables?: EnvironmentVariable[];
-  /**
-   * List of steps to perform before the build.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly preBuildSteps?: PreBuildStep[];
-}
-
-/** Container App patch collection */
-export interface PatchCollection {
-  /** Collection of patch resources. */
-  value: ContainerAppsPatchResource[];
-  /** the link to the next page of items */
-  nextLink?: string;
-}
-
-/** Top level properties that describes current states of the patch resource */
-export interface PatchProperties {
-  /** The Azure resource id of the target environment for the patch. */
-  targetEnvironmentId?: string;
-  /** The Azure resource id of the target container app for the patch. */
-  targetContainerAppId?: string;
-  /** The Azure resource id of the target revision for the patch. */
-  targetRevisionId?: string;
-  /**
-   * The status of the patch operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly patchApplyStatus?: PatchApplyStatus;
-  /**
-   * The UTC timestamp that describes when the patch object was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-  /**
-   * The UTC timestamp that describes when the patch object was last updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedAt?: Date;
-  /**
-   * Detailed info describes the patch operation for the target container app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly patchDetails?: PatchDetails[];
-}
-
-/** The detailed info of patch operation performing when applying a patch. */
-export interface PatchDetails {
-  /**
-   * The name of the target container for the patch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetContainerName: string;
-  /**
-   * The name of the target image for the patch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetImage: string;
-  /**
-   * The UTC timestamp that describes the latest detection was done.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastDetectionTime: Date;
-  /**
-   * The status of the patch detection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly detectionStatus: DetectionStatus;
-  /**
-   * The name of the new image created by the patch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly newImageName?: string;
-  /**
-   * New layer update details in the target image.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly newLayer?: PatchDetailsNewLayer;
-  /**
-   * The old layer details in the target image.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly oldLayer?: PatchDetailsOldLayer;
-  /**
-   * The type for the patch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly patchType?: PatchType;
-}
-
-/** New layer update details in the target image. */
-export interface PatchDetailsNewLayer {
-  /** The details of the new layer for the target image. */
-  name?: string;
-  /** The framework and its version in the new run image for the target image. */
-  frameworkAndVersion?: string;
-  /** The OS name and its version in the new run image for the target image. */
-  osAndVersion?: string;
-}
-
-/** The old layer details in the target image. */
-export interface PatchDetailsOldLayer {
-  /** The details of the old layer for the target image. */
-  name?: string;
-  /** The framework and its version in the old run image for the target image. */
-  frameworkAndVersion?: string;
-  /** The OS name and its version in the old run image for the target image. */
-  osAndVersion?: string;
-}
-
-/** The configuration for patcher to skip a patch or not. */
-export interface PatchSkipConfig {
-  /** The flag to indicate whether to skip the patch or not. */
-  skip?: boolean;
-}
-
 /** Container App Revisions collection ARM resource. */
 export interface RevisionCollection {
   /** Collection of resources. */
@@ -1913,11 +1477,6 @@ export interface ReplicaContainer {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly execEndpoint?: string;
-  /**
-   * Container debug endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly debugEndpoint?: string;
 }
 
 /** Container App Revision Replicas collection ARM resource. */
@@ -2098,92 +1657,12 @@ export interface LogAnalyticsConfiguration {
   customerId?: string;
   /** Log analytics customer key */
   sharedKey?: string;
-  /** Boolean indicating whether to parse json string log into dynamic json columns */
-  dynamicJsonColumns?: boolean;
-}
-
-/** Configuration of Application Insights */
-export interface AppInsightsConfiguration {
-  /** Application Insights connection string */
-  connectionString?: string;
-}
-
-/** Configuration of Open Telemetry */
-export interface OpenTelemetryConfiguration {
-  /** Open telemetry destinations configuration */
-  destinationsConfiguration?: DestinationsConfiguration;
-  /** Open telemetry trace configuration */
-  tracesConfiguration?: TracesConfiguration;
-  /** Open telemetry logs configuration */
-  logsConfiguration?: LogsConfiguration;
-  /** Open telemetry metrics configuration */
-  metricsConfiguration?: MetricsConfiguration;
-}
-
-/** Configuration of Open Telemetry destinations */
-export interface DestinationsConfiguration {
-  /** Open telemetry datadog destination configuration */
-  dataDogConfiguration?: DataDogConfiguration;
-  /** Open telemetry otlp configurations */
-  otlpConfigurations?: OtlpConfiguration[];
-}
-
-/** Configuration of datadog */
-export interface DataDogConfiguration {
-  /** The data dog site */
-  site?: string;
-  /** The data dog api key */
-  key?: string;
-}
-
-/** Configuration of otlp */
-export interface OtlpConfiguration {
-  /** The name of otlp configuration */
-  name?: string;
-  /** The endpoint of otlp configuration */
-  endpoint?: string;
-  /** Boolean indicating if otlp configuration is insecure */
-  insecure?: boolean;
-  /** Headers of otlp configurations */
-  headers?: Header[];
-}
-
-/** Header of otlp configuration */
-export interface Header {
-  /** The key of otlp configuration header */
-  key?: string;
-  /** The value of otlp configuration header */
-  value?: string;
-}
-
-/** Configuration of Open Telemetry traces */
-export interface TracesConfiguration {
-  /** Boolean indicating if including dapr traces */
-  includeDapr?: boolean;
-  /** Open telemetry traces destinations */
-  destinations?: string[];
-}
-
-/** Configuration of Open Telemetry logs */
-export interface LogsConfiguration {
-  /** Open telemetry logs destinations */
-  destinations?: string[];
-}
-
-/** Configuration of Open Telemetry metrics */
-export interface MetricsConfiguration {
-  /** Boolean indicating if including keda metrics */
-  includeKeda?: boolean;
-  /** Open telemetry metrics destinations */
-  destinations?: string[];
 }
 
 /** Workload profile to scope container app execution. */
 export interface WorkloadProfile {
   /** Workload profile type for the workloads to run on. */
   name: string;
-  /** Whether to use a FIPS-enabled OS. Supported only for dedicated workload profiles. */
-  enableFips?: boolean;
   /** Workload profile type for the workloads to run on. */
   workloadProfileType: string;
   /** The minimum capacity. */
@@ -2232,25 +1711,6 @@ export interface ManagedEnvironmentPropertiesPeerTrafficConfiguration {
 export interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption {
   /** Boolean indicating whether the peer traffic encryption is enabled */
   enabled?: boolean;
-}
-
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
 }
 
 /** Non versioned Container Apps Job configuration properties */
@@ -2328,7 +1788,7 @@ export interface JobScaleRule {
   metadata?: Record<string, unknown>;
   /** Authentication secrets for the scale rule. */
   auth?: ScaleRuleAuth[];
-  /** The resource ID of a user-assigned managed identity that is assigned to the job, or 'system' for system-assigned identity. */
+  /** The resource ID of a user-assigned managed identity that is assigned to the Container App, or 'system' for system-assigned identity. */
   identity?: string;
 }
 
@@ -2340,33 +1800,6 @@ export interface JobTemplate {
   containers?: Container[];
   /** List of volume definitions for the Container App. */
   volumes?: Volume[];
-}
-
-/** .NET Components ARM resource. */
-export interface DotNetComponentsCollection {
-  /** Collection of resources. */
-  value: DotNetComponent[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Configuration properties for a .NET Component */
-export interface DotNetComponentConfigurationProperty {
-  /** The name of the property */
-  propertyName?: string;
-  /** The value of the property */
-  value?: string;
-}
-
-/** Configuration to bind a .NET Component to another .NET Component */
-export interface DotNetComponentServiceBind {
-  /** Name of the service bind */
-  name?: string;
-  /** Resource id of the target service */
-  serviceId?: string;
 }
 
 /** Available operations of the service */
@@ -2418,12 +1851,7 @@ export interface JavaComponentsCollection {
 /** Java Component common properties. */
 export interface JavaComponentProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  componentType:
-    | "SpringCloudGateway"
-    | "SpringBootAdmin"
-    | "Nacos"
-    | "SpringCloudEureka"
-    | "SpringCloudConfig";
+  componentType: "SpringBootAdmin" | "SpringCloudEureka" | "SpringCloudConfig";
   /**
    * Provisioning state of the Java Component.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2474,8 +1902,6 @@ export interface JobsCollection {
 
 /** Container Apps Job resource specific properties. */
 export interface JobPatchProperties {
-  /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
   /** Managed identities needed by a container app job to interact with other Azure services to not maintain any secrets or credentials in code. */
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
@@ -2558,124 +1984,12 @@ export interface JobExecution {
   endTime?: Date;
   /** Job's execution container. */
   template?: JobExecutionTemplate;
-  /** Detailed status of the job execution. */
-  detailedStatus?: ExecutionStatus;
-}
-
-/** Container Apps Job execution status. */
-export interface ExecutionStatus {
-  /** Replicas in the execution. */
-  replicas?: ReplicaExecutionStatus[];
-}
-
-/** Container Apps Job execution replica status. */
-export interface ReplicaExecutionStatus {
-  /** Replica Name. */
-  name?: string;
-  /** Containers in the execution replica */
-  containers?: ContainerExecutionStatus[];
-}
-
-/** Container Apps Job execution container status. Contains status code and reason */
-export interface ContainerExecutionStatus {
-  /** Container Name. */
-  name?: string;
-  /** Exit code */
-  code?: number;
-  /** Additional information for the container status */
-  additionalInformation?: string;
-  /** Status of the container */
-  status?: string;
 }
 
 /** Container Apps Job Secrets Collection ARM resource. */
 export interface JobSecretsCollection {
   /** Collection of resources. */
   value: Secret[];
-}
-
-/** Collection of workflow information elements. */
-export interface WorkflowEnvelopeCollection {
-  /** Collection of resources. */
-  value: WorkflowEnvelope[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Workflow properties definition. */
-export interface WorkflowEnvelope {
-  /**
-   * The resource id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets the resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets the resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The resource kind. */
-  kind?: string;
-  /** The resource location. */
-  location?: string;
-  /** Additional workflow properties. */
-  properties?: WorkflowEnvelopeProperties;
-}
-
-/** Additional workflow properties. */
-export interface WorkflowEnvelopeProperties {
-  /** Gets or sets the files. */
-  files?: Record<string, unknown>;
-  /** Gets or sets the state of the workflow. */
-  flowState?: WorkflowState;
-  /** Gets or sets workflow health. */
-  health?: WorkflowHealth;
-}
-
-/** Represents the workflow health. */
-export interface WorkflowHealth {
-  /** Gets or sets the workflow health state. */
-  state: WorkflowHealthState;
-  /** Gets or sets the workflow error. */
-  error?: ErrorEntity;
-}
-
-/** Body of the error response returned from the API. */
-export interface ErrorEntity {
-  /** Type of error. */
-  extendedCode?: string;
-  /** Message template. */
-  messageTemplate?: string;
-  /** Parameters for the template. */
-  parameters?: string[];
-  /** Inner errors. */
-  innerErrors?: ErrorEntity[];
-  /** Error Details. */
-  details?: ErrorEntity[];
-  /** The error target. */
-  target?: string;
-  /** Basic error code. */
-  code?: string;
-  /** Any details of the error. */
-  message?: string;
-}
-
-/** The workflow filter. */
-export interface WorkflowArtifacts {
-  /** Application settings of the workflow. */
-  appSettings?: Record<string, unknown>;
-  /** Files of the app. */
-  files?: Record<string, unknown>;
-  /** Files of the app to delete. */
-  filesToDelete?: string[];
 }
 
 /** Collection of Environments */
@@ -2750,118 +2064,6 @@ export interface WorkloadProfileStatesProperties {
   currentCount?: number;
 }
 
-/** List of private endpoint connection associated with the specified resource */
-export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnection[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResource[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Dapr Component Resiliency Policies ARM resource. */
-export interface DaprComponentResiliencyPoliciesCollection {
-  /** Collection of resources. */
-  value: DaprComponentResiliencyPolicy[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Dapr Component Resiliency Policy Configuration. */
-export interface DaprComponentResiliencyPolicyConfiguration {
-  /** The optional HTTP retry policy configuration */
-  httpRetryPolicy?: DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration;
-  /** The optional timeout policy configuration */
-  timeoutPolicy?: DaprComponentResiliencyPolicyTimeoutPolicyConfiguration;
-  /** The optional circuit breaker policy configuration */
-  circuitBreakerPolicy?: DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration;
-}
-
-/** Dapr Component Resiliency Policy HTTP Retry Policy Configuration. */
-export interface DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration {
-  /** The optional maximum number of retries */
-  maxRetries?: number;
-  /** The optional retry backoff configuration */
-  retryBackOff?: DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration;
-}
-
-/** Dapr Component Resiliency Policy HTTP Retry Backoff Configuration. */
-export interface DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration {
-  /** The optional initial delay in milliseconds before an operation is retried */
-  initialDelayInMilliseconds?: number;
-  /** The optional maximum time interval in milliseconds between retry attempts */
-  maxIntervalInMilliseconds?: number;
-}
-
-/** Dapr Component Resiliency Policy Timeout Policy Configuration. */
-export interface DaprComponentResiliencyPolicyTimeoutPolicyConfiguration {
-  /** The optional response timeout in seconds */
-  responseTimeoutInSeconds?: number;
-}
-
-/** Dapr Component Resiliency Policy Circuit Breaker Policy Configuration. */
-export interface DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration {
-  /** The number of consecutive errors before the circuit is opened. */
-  consecutiveErrors?: number;
-  /** The interval in seconds until a retry attempt is made after the circuit is opened. */
-  timeoutInSeconds?: number;
-  /** The optional interval in seconds after which the error count resets to 0. An interval of 0 will never reset. If not specified, the timeoutInSeconds value will be used. */
-  intervalInSeconds?: number;
-}
-
-/** Dapr Subscriptions ARM resource. */
-export interface DaprSubscriptionsCollection {
-  /** Collection of resources. */
-  value: DaprSubscription[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Dapr PubSub Event Subscription Routes configuration. */
-export interface DaprSubscriptionRoutes {
-  /** The list of Dapr PubSub Event Subscription Route Rules. */
-  rules?: DaprSubscriptionRouteRule[];
-  /** The default path to deliver events that do not match any of the rules. */
-  default?: string;
-}
-
-/** Dapr Pubsub Event Subscription Route Rule is used to specify the condition for sending a message to a specific path. */
-export interface DaprSubscriptionRouteRule {
-  /** The optional CEL expression used to match the event. If the match is not specified, then the route is considered the default. The rules are tested in the order specified, so they should be define from most-to-least specific. The default route should appear last in the list. */
-  match?: string;
-  /** The path for events that match this rule */
-  path?: string;
-}
-
-/** Dapr PubSub Bulk Subscription Options. */
-export interface DaprSubscriptionBulkSubscribeOptions {
-  /** Enable bulk subscription */
-  enabled?: boolean;
-  /** Maximum number of messages to deliver in a bulk message. */
-  maxMessagesCount?: number;
-  /** Maximum duration in milliseconds to wait before a bulk message is sent to the app. */
-  maxAwaitDurationMs?: number;
-}
-
 /** Collection of Storage for Environments */
 export interface ManagedEnvironmentStoragesCollection {
   /** Collection of storage resources. */
@@ -2878,7 +2080,7 @@ export interface ManagedEnvironmentStorageProperties {
 
 /** NFS Azure File Properties. */
 export interface NfsAzureFileProperties {
-  /** Server for NFS azure file. */
+  /** Server for NFS azure file. Specify the Azure storage account server address. */
   server?: string;
   /** Access mode for storage */
   accessMode?: AccessMode;
@@ -2915,10 +2117,18 @@ export interface SessionPoolSecret {
 
 /** Dynamic pool configuration. */
 export interface DynamicPoolConfiguration {
-  /** The execution type of the session pool. */
-  executionType?: ExecutionType;
-  /** The cooldown period of a session in seconds. */
+  /** The lifecycle configuration of a session in the dynamic session pool */
+  lifecycleConfiguration?: LifecycleConfiguration;
+}
+
+/** The lifecycle configuration properties of a session in the dynamic session pool */
+export interface LifecycleConfiguration {
+  /** The lifecycle type of the session pool. */
+  lifecycleType?: LifecycleType;
+  /** The cooldown period of a session in seconds when the lifecycle type is 'Timed'. */
   cooldownPeriodInSeconds?: number;
+  /** The maximum alive period of a session in seconds when the lifecycle type is 'OnContainerExit'. */
+  maxAlivePeriodInSeconds?: number;
 }
 
 /** Custom container configuration. */
@@ -2979,8 +2189,20 @@ export interface SessionNetworkConfiguration {
   status?: SessionNetworkStatus;
 }
 
+/** Optional settings for a Managed Identity that is assigned to the Session pool. */
+export interface ManagedIdentitySetting {
+  /** The resource ID of a user-assigned managed identity that is assigned to the Session Pool, or 'system' for system-assigned identity. */
+  identity: string;
+  /** Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. */
+  lifecycle?: IdentitySettingsLifeCycle;
+}
+
 /** Container App session pool updatable properties. */
 export interface SessionPoolUpdatableProperties {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Managed identities needed by a session pool to interact with other Azure services to not maintain any secrets or credentials in code. */
+  identity?: ManagedServiceIdentity;
   /** The scale configuration of the session pool. */
   scaleConfiguration?: ScaleConfiguration;
   /** The secrets of the session pool. */
@@ -3012,8 +2234,6 @@ export interface GithubActionConfiguration {
   azureCredentials?: AzureCredentials;
   /** Context path */
   contextPath?: string;
-  /** Dockerfile path */
-  dockerfilePath?: string;
   /** One time Github PAT to configure github environment */
   githubPersonalAccessToken?: string;
   /** Image name */
@@ -3026,8 +2246,6 @@ export interface GithubActionConfiguration {
   runtimeStack?: string;
   /** Runtime version */
   runtimeVersion?: string;
-  /** List of environment variables to be passed to the build. */
-  buildEnvironmentVariables?: EnvironmentVariable[];
 }
 
 /** Container App registry information. */
@@ -3081,20 +2299,6 @@ export interface UsageName {
   localizedValue?: string;
 }
 
-/** Spring Cloud Gateway route definition */
-export interface ScgRoute {
-  /** Id of the route */
-  id: string;
-  /** Uri of the route */
-  uri: string;
-  /** Predicates of the route */
-  predicates?: string[];
-  /** Filters of the route */
-  filters?: string[];
-  /** Order of the route */
-  order?: number;
-}
-
 /** Container App Ingress configuration. */
 export interface JavaComponentIngress {
   /**
@@ -3121,40 +2325,6 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection extends Resource {
-  /**
-   * The group ids for the private endpoint resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupIds?: string[];
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-/** A private link resource */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
 /** Container App init container definition */
 export interface InitContainer extends BaseContainer {}
 
@@ -3164,28 +2334,10 @@ export interface Container extends BaseContainer {
   probes?: ContainerAppProbe[];
 }
 
-/** Spring Cloud Gateway properties. */
-export interface SpringCloudGatewayComponent extends JavaComponentProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  componentType: "SpringCloudGateway";
-  /** Java Component Ingress configurations. */
-  ingress?: JavaComponentIngress;
-  /** Gateway route definition */
-  springCloudGatewayRoutes?: ScgRoute[];
-}
-
 /** Spring Boot Admin properties. */
 export interface SpringBootAdminComponent extends JavaComponentProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   componentType: "SpringBootAdmin";
-  /** Java Component Ingress configurations. */
-  ingress?: JavaComponentIngress;
-}
-
-/** Nacos properties. */
-export interface NacosComponent extends JavaComponentProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  componentType: "Nacos";
   /** Java Component Ingress configurations. */
   ingress?: JavaComponentIngress;
 }
@@ -3202,22 +2354,6 @@ export interface SpringCloudEurekaComponent extends JavaComponentProperties {
 export interface SpringCloudConfigComponent extends JavaComponentProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   componentType: "SpringCloudConfig";
-}
-
-/** Configuration to setup App Resiliency */
-export interface AppResiliency extends ProxyResource {
-  /** Policy to set request timeouts */
-  timeoutPolicy?: TimeoutPolicy;
-  /** Policy that defines http request retry conditions */
-  httpRetryPolicy?: HttpRetryPolicy;
-  /** Policy that defines tcp request retry conditions */
-  tcpRetryPolicy?: TcpRetryPolicy;
-  /** Policy that defines circuit breaker conditions */
-  circuitBreakerPolicy?: CircuitBreakerPolicy;
-  /** Defines parameters for http connection pooling */
-  httpConnectionPool?: HttpConnectionPool;
-  /** Defines parameters for tcp connection pooling */
-  tcpConnectionPool?: TcpConnectionPool;
 }
 
 /** Configuration settings for the Azure ContainerApp Service Authentication / Authorization feature. */
@@ -3244,37 +2380,12 @@ export interface AvailableWorkloadProfile extends ProxyResource {
   properties?: AvailableWorkloadProfileProperties;
 }
 
-/** Information pertaining to an individual build. */
-export interface BuildResource extends ProxyResource {
-  /**
-   * Build provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: BuildProvisioningState;
-  /**
-   * Status of the build once it has been provisioned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly buildStatus?: BuildStatus;
-  /** Container registry that the final image will be uploaded to. */
-  destinationContainerRegistry?: ContainerRegistryWithCustomImage;
-  /** Configuration of the build. */
-  configuration?: BuildConfiguration;
-  /**
-   * Endpoint to which the source code should be uploaded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uploadEndpoint?: string;
-  /**
-   * Endpoint from which the build logs can be streamed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logStreamEndpoint?: string;
-  /**
-   * Endpoint to use to retrieve an authentication token for log streaming and uploading source code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tokenEndpoint?: string;
+/** Billing meter. */
+export interface BillingMeter extends ProxyResource {
+  /** Region for the billing meter. */
+  location?: string;
+  /** Revision resource specific properties */
+  properties?: BillingMeterProperties;
 }
 
 /** Dapr Component. */
@@ -3295,52 +2406,12 @@ export interface DaprComponent extends ProxyResource {
   metadata?: DaprMetadata[];
   /** Names of container apps that can use this Dapr component */
   scopes?: string[];
-  /** List of container app services that are bound to the Dapr component */
-  serviceComponentBind?: DaprComponentServiceBinding[];
 }
 
 /** Storage resource for connectedEnvironment. */
 export interface ConnectedEnvironmentStorage extends ProxyResource {
   /** Storage properties */
   properties?: ConnectedEnvironmentStorageProperties;
-}
-
-/** Information pertaining to an individual build. */
-export interface ContainerAppsBuildResource extends ProxyResource {
-  /**
-   * Build provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: BuildProvisioningState;
-  /**
-   * Status of the build once it has been provisioned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly buildStatus?: BuildStatus;
-  /**
-   * Container registry that the final image will be uploaded to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly destinationContainerRegistry?: ContainerRegistryWithCustomImage;
-  /**
-   * Configuration of the build.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly configuration?: ContainerAppsBuildConfiguration;
-  /**
-   * Endpoint from which the build logs can be streamed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logStreamEndpoint?: string;
-}
-
-/** Container App Patch */
-export interface ContainerAppsPatchResource extends ProxyResource {
-  /**
-   * Properties that describes current states of the patch resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: PatchProperties;
 }
 
 /** Container App Revision. */
@@ -3434,63 +2505,16 @@ export interface Diagnostics extends ProxyResource {
   properties?: DiagnosticsProperties;
 }
 
-/** .NET Component. */
-export interface DotNetComponent extends ProxyResource {
-  /** Type of the .NET Component. */
-  componentType?: DotNetComponentType;
-  /**
-   * Provisioning state of the .NET Component.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: DotNetComponentProvisioningState;
-  /** List of .NET Components configuration properties */
-  configurations?: DotNetComponentConfigurationProperty[];
-  /** List of .NET Components that are bound to the .NET component */
-  serviceBinds?: DotNetComponentServiceBind[];
-}
-
 /** Java Component. */
 export interface JavaComponent extends ProxyResource {
   /** Java Component resource specific properties */
   properties?: JavaComponentPropertiesUnion;
 }
 
-/** A logic app extension resource */
-export interface LogicApp extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: Record<string, unknown>;
-}
-
 /** Collection of all the workload Profile States for a Managed Environment.. */
 export interface WorkloadProfileStates extends ProxyResource {
   /** Workload Profile resource specific properties. */
   properties?: WorkloadProfileStatesProperties;
-}
-
-/** Dapr Component Resiliency Policy. */
-export interface DaprComponentResiliencyPolicy extends ProxyResource {
-  /** The optional inbound component resiliency policy configuration */
-  inboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
-  /** The optional outbound component resiliency policy configuration */
-  outboundPolicy?: DaprComponentResiliencyPolicyConfiguration;
-}
-
-/** Dapr PubSub Event Subscription. */
-export interface DaprSubscription extends ProxyResource {
-  /** Dapr PubSub component name */
-  pubsubName?: string;
-  /** Topic name */
-  topic?: string;
-  /** Deadletter topic name */
-  deadLetterTopic?: string;
-  /** Subscription routes */
-  routes?: DaprSubscriptionRoutes;
-  /** Application scopes to restrict the subscription to specific apps. */
-  scopes?: string[];
-  /** Subscription metadata */
-  metadata?: { [propertyName: string]: string };
-  /** Bulk subscription options */
-  bulkSubscribe?: DaprSubscriptionBulkSubscribeOptions;
 }
 
 /** Storage resource for managedEnvironment. */
@@ -3516,21 +2540,6 @@ export interface SourceControl extends ProxyResource {
    * as they were at the creation time
    */
   githubActionConfiguration?: GithubActionConfiguration;
-}
-
-/** Information about the SourceToCloud builder resource. */
-export interface BuilderResource extends TrackedResource {
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * Provisioning state of a builder resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: BuilderProvisioningState;
-  /** Resource ID of the container apps environment that the builder is associated with. */
-  environmentId?: string;
-  /** List of mappings of container registries and the managed identity used to connect to it. */
-  containerRegistries?: ContainerRegistry[];
 }
 
 /** An environment for Kubernetes cluster specialized for web workloads by Azure App Service */
@@ -3574,26 +2583,22 @@ export interface ContainerApp extends TrackedResource {
   identity?: ManagedServiceIdentity;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
   managedBy?: string;
-  /** Metadata used to render different experiences for resources of the same type; e.g. WorkflowApp is a kind of Microsoft.App/ContainerApps type. If supported, the resource provider must validate and persist this value. */
-  kind?: Kind;
   /**
    * Provisioning state of the Container App.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ContainerAppProvisioningState;
   /**
-   * Any errors that occurred during deployment
+   * Running status of the Container App.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly deploymentErrors?: string;
+  readonly runningStatus?: ContainerAppRunningStatus;
   /** Deprecated. Resource ID of the Container App's environment. */
   managedEnvironmentId?: string;
   /** Resource ID of environment. */
   environmentId?: string;
   /** Workload profile name to pin for container app execution. */
   workloadProfileName?: string;
-  /** Container App auto patch configuration. */
-  patchingConfiguration?: ContainerAppPropertiesPatchingConfiguration;
   /**
    * Name of the latest revision of the Container App.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3676,16 +2681,8 @@ export interface ManagedEnvironment extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly staticIp?: string;
-  /**
-   * Cluster configuration which enables the log daemon to export
-   * app logs to a destination. Currently only "log-analytics" is
-   * supported
-   */
+  /** Cluster configuration which enables the log daemon to export app logs to configured destination. */
   appLogsConfiguration?: AppLogsConfiguration;
-  /** Environment level Application Insights configuration */
-  appInsightsConfiguration?: AppInsightsConfiguration;
-  /** Environment Open Telemetry configuration */
-  openTelemetryConfiguration?: OpenTelemetryConfiguration;
   /** Whether or not this Managed Environment is zone-redundant. */
   zoneRedundant?: boolean;
   /** Custom domain configuration for the environment */
@@ -3707,19 +2704,10 @@ export interface ManagedEnvironment extends TrackedResource {
   peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
   /** Peer traffic settings for the Managed Environment */
   peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
-  /**
-   * Private endpoint connections to the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Container App Job */
 export interface Job extends TrackedResource {
-  /** The complex type of the extended location. */
-  extendedLocation?: ExtendedLocation;
   /** Managed identities needed by a container app job to interact with other Azure services to not maintain any secrets or credentials in code. */
   identity?: ManagedServiceIdentity;
   /**
@@ -3727,11 +2715,6 @@ export interface Job extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: JobProvisioningState;
-  /**
-   * Current running state of the job
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runningState?: JobRunningState;
   /** Resource ID of environment. */
   environmentId?: string;
   /** Workload profile name to pin for container apps job execution. */
@@ -3774,6 +2757,8 @@ export interface EnvironmentAuthToken extends TrackedResource {
 
 /** Container App session pool. */
 export interface SessionPool extends TrackedResource {
+  /** Managed identities needed by a session pool to interact with other Azure services to not maintain any secrets or credentials in code. */
+  identity?: ManagedServiceIdentity;
   /** Resource ID of the session pool's environment. */
   environmentId?: string;
   /** The container type of the sessions. */
@@ -3805,31 +2790,8 @@ export interface SessionPool extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: SessionPoolProvisioningState;
-}
-
-/** Defines headers for Builders_createOrUpdate operation. */
-export interface BuildersCreateOrUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Builders_update operation. */
-export interface BuildersUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for Builders_delete operation. */
-export interface BuildersDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for Builds_createOrUpdate operation. */
-export interface BuildsCreateOrUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Builds_delete operation. */
-export interface BuildsDeleteHeaders {
-  location?: string;
+  /** Optional settings for a Managed Identity that is assigned to the Session pool. */
+  managedIdentitySettings?: ManagedIdentitySetting[];
 }
 
 /** Defines headers for ConnectedEnvironments_delete operation. */
@@ -3854,27 +2816,6 @@ export interface ContainerAppsStartHeaders {
 
 /** Defines headers for ContainerApps_stop operation. */
 export interface ContainerAppsStopHeaders {
-  location?: string;
-}
-
-/** Defines headers for ContainerAppsBuilds_delete operation. */
-export interface ContainerAppsBuildsDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for ContainerAppsPatches_delete operation. */
-export interface ContainerAppsPatchesDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for ContainerAppsPatches_skipConfigure operation. */
-export interface ContainerAppsPatchesSkipConfigureHeaders {
-  location?: string;
-}
-
-/** Defines headers for ContainerAppsPatches_apply operation. */
-export interface ContainerAppsPatchesApplyHeaders {
-  azureAsyncOperation?: string;
   location?: string;
 }
 
@@ -3903,28 +2844,6 @@ export interface JobsStopMultipleExecutionsHeaders {
   location?: string;
 }
 
-/** Defines headers for Jobs_resume operation. */
-export interface JobsResumeHeaders {
-  azureAsyncOperation?: string;
-  location?: string;
-}
-
-/** Defines headers for Jobs_suspend operation. */
-export interface JobsSuspendHeaders {
-  azureAsyncOperation?: string;
-  location?: string;
-}
-
-/** Defines headers for DotNetComponents_update operation. */
-export interface DotNetComponentsUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for DotNetComponents_delete operation. */
-export interface DotNetComponentsDeleteHeaders {
-  location?: string;
-}
-
 /** Defines headers for JavaComponents_update operation. */
 export interface JavaComponentsUpdateHeaders {
   location?: string;
@@ -3932,11 +2851,6 @@ export interface JavaComponentsUpdateHeaders {
 
 /** Defines headers for JavaComponents_delete operation. */
 export interface JavaComponentsDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for ManagedEnvironmentPrivateEndpointConnections_delete operation. */
-export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders {
   location?: string;
 }
 
@@ -3991,117 +2905,6 @@ export enum KnownApplicability {
  * **Custom**
  */
 export type Applicability = string;
-
-/** Known values of {@link BuilderProvisioningState} that the service accepts. */
-export enum KnownBuilderProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * Defines values for BuilderProvisioningState. \
- * {@link KnownBuilderProvisioningState} can be used interchangeably with BuilderProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Creating** \
- * **Updating** \
- * **Deleting**
- */
-export type BuilderProvisioningState = string;
-
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
-  /** None */
-  None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-}
-
-/**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
- */
-export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link BuildProvisioningState} that the service accepts. */
-export enum KnownBuildProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * Defines values for BuildProvisioningState. \
- * {@link KnownBuildProvisioningState} can be used interchangeably with BuildProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Creating** \
- * **Updating** \
- * **Deleting**
- */
-export type BuildProvisioningState = string;
-
-/** Known values of {@link BuildStatus} that the service accepts. */
-export enum KnownBuildStatus {
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * Defines values for BuildStatus. \
- * {@link KnownBuildStatus} can be used interchangeably with BuildStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotStarted** \
- * **InProgress** \
- * **Succeeded** \
- * **Canceled** \
- * **Failed**
- */
-export type BuildStatus = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
@@ -4199,24 +3002,6 @@ export enum KnownCertificateProvisioningState {
  */
 export type CertificateProvisioningState = string;
 
-/** Known values of {@link CertificateType} that the service accepts. */
-export enum KnownCertificateType {
-  /** ServerSSLCertificate */
-  ServerSSLCertificate = "ServerSSLCertificate",
-  /** ImagePullTrustedCA */
-  ImagePullTrustedCA = "ImagePullTrustedCA",
-}
-
-/**
- * Defines values for CertificateType. \
- * {@link KnownCertificateType} can be used interchangeably with CertificateType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ServerSSLCertificate** \
- * **ImagePullTrustedCA**
- */
-export type CertificateType = string;
-
 /** Known values of {@link AccessMode} that the service accepts. */
 export enum KnownAccessMode {
   /** ReadOnly */
@@ -4235,20 +3020,29 @@ export enum KnownAccessMode {
  */
 export type AccessMode = string;
 
-/** Known values of {@link Kind} that the service accepts. */
-export enum KnownKind {
-  /** Workflowapp */
-  Workflowapp = "workflowapp",
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
- * Defines values for Kind. \
- * {@link KnownKind} can be used interchangeably with Kind,
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **workflowapp**
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
  */
-export type Kind = string;
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ContainerAppProvisioningState} that the service accepts. */
 export enum KnownContainerAppProvisioningState {
@@ -4277,26 +3071,32 @@ export enum KnownContainerAppProvisioningState {
  */
 export type ContainerAppProvisioningState = string;
 
-/** Known values of {@link PatchingMode} that the service accepts. */
-export enum KnownPatchingMode {
-  /** Automatic */
-  Automatic = "Automatic",
-  /** Manual */
-  Manual = "Manual",
-  /** Disabled */
-  Disabled = "Disabled",
+/** Known values of {@link ContainerAppRunningStatus} that the service accepts. */
+export enum KnownContainerAppRunningStatus {
+  /** Container App is transitioning between Stopped and Running states. */
+  Progressing = "Progressing",
+  /** Container App is in Running state. */
+  Running = "Running",
+  /** Container App is in Stopped state. */
+  Stopped = "Stopped",
+  /** Container App Job is in Suspended state. */
+  Suspended = "Suspended",
+  /** Container App Job is in Ready state. */
+  Ready = "Ready",
 }
 
 /**
- * Defines values for PatchingMode. \
- * {@link KnownPatchingMode} can be used interchangeably with PatchingMode,
+ * Defines values for ContainerAppRunningStatus. \
+ * {@link KnownContainerAppRunningStatus} can be used interchangeably with ContainerAppRunningStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Automatic** \
- * **Manual** \
- * **Disabled**
+ * **Progressing**: Container App is transitioning between Stopped and Running states. \
+ * **Running**: Container App is in Running state. \
+ * **Stopped**: Container App is in Stopped state. \
+ * **Suspended**: Container App Job is in Suspended state. \
+ * **Ready**: Container App Job is in Ready state.
  */
-export type PatchingMode = string;
+export type ContainerAppRunningStatus = string;
 
 /** Known values of {@link ActiveRevisionsMode} that the service accepts. */
 export enum KnownActiveRevisionsMode {
@@ -4415,24 +3215,6 @@ export enum KnownIngressClientCertificateMode {
  */
 export type IngressClientCertificateMode = string;
 
-/** Known values of {@link IngressTargetPortHttpScheme} that the service accepts. */
-export enum KnownIngressTargetPortHttpScheme {
-  /** Http */
-  Http = "http",
-  /** Https */
-  Https = "https",
-}
-
-/**
- * Defines values for IngressTargetPortHttpScheme. \
- * {@link KnownIngressTargetPortHttpScheme} can be used interchangeably with IngressTargetPortHttpScheme,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **http** \
- * **https**
- */
-export type IngressTargetPortHttpScheme = string;
-
 /** Known values of {@link AppProtocol} that the service accepts. */
 export enum KnownAppProtocol {
   /** Http */
@@ -4475,36 +3257,6 @@ export enum KnownLogLevel {
  */
 export type LogLevel = string;
 
-/** Known values of {@link Level} that the service accepts. */
-export enum KnownLevel {
-  /** Off */
-  Off = "off",
-  /** Error */
-  Error = "error",
-  /** Info */
-  Info = "info",
-  /** Debug */
-  Debug = "debug",
-  /** Trace */
-  Trace = "trace",
-  /** Warn */
-  Warn = "warn",
-}
-
-/**
- * Defines values for Level. \
- * {@link KnownLevel} can be used interchangeably with Level,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **off** \
- * **error** \
- * **info** \
- * **debug** \
- * **trace** \
- * **warn**
- */
-export type Level = string;
-
 /** Known values of {@link IdentitySettingsLifeCycle} that the service accepts. */
 export enum KnownIdentitySettingsLifeCycle {
   /** Init */
@@ -4528,24 +3280,6 @@ export enum KnownIdentitySettingsLifeCycle {
  * **All**
  */
 export type IdentitySettingsLifeCycle = string;
-
-/** Known values of {@link ImageType} that the service accepts. */
-export enum KnownImageType {
-  /** CloudBuild */
-  CloudBuild = "CloudBuild",
-  /** ContainerImage */
-  ContainerImage = "ContainerImage",
-}
-
-/**
- * Defines values for ImageType. \
- * {@link KnownImageType} can be used interchangeably with ImageType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CloudBuild** \
- * **ContainerImage**
- */
-export type ImageType = string;
 
 /** Known values of {@link Scheme} that the service accepts. */
 export enum KnownScheme {
@@ -4596,8 +3330,6 @@ export enum KnownStorageType {
   Secret = "Secret",
   /** NfsAzureFile */
   NfsAzureFile = "NfsAzureFile",
-  /** Smb */
-  Smb = "Smb",
 }
 
 /**
@@ -4608,94 +3340,9 @@ export enum KnownStorageType {
  * **AzureFile** \
  * **EmptyDir** \
  * **Secret** \
- * **NfsAzureFile** \
- * **Smb**
+ * **NfsAzureFile**
  */
 export type StorageType = string;
-
-/** Known values of {@link PatchApplyStatus} that the service accepts. */
-export enum KnownPatchApplyStatus {
-  /** NotStarted */
-  NotStarted = "NotStarted",
-  /** RebaseInProgress */
-  RebaseInProgress = "RebaseInProgress",
-  /** CreatingRevision */
-  CreatingRevision = "CreatingRevision",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** RebaseFailed */
-  RebaseFailed = "RebaseFailed",
-  /** RevisionCreationFailed */
-  RevisionCreationFailed = "RevisionCreationFailed",
-  /** ImagePushPullFailed */
-  ImagePushPullFailed = "ImagePushPullFailed",
-  /** ManuallySkipped */
-  ManuallySkipped = "ManuallySkipped",
-}
-
-/**
- * Defines values for PatchApplyStatus. \
- * {@link KnownPatchApplyStatus} can be used interchangeably with PatchApplyStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotStarted** \
- * **RebaseInProgress** \
- * **CreatingRevision** \
- * **Succeeded** \
- * **Canceled** \
- * **RebaseFailed** \
- * **RevisionCreationFailed** \
- * **ImagePushPullFailed** \
- * **ManuallySkipped**
- */
-export type PatchApplyStatus = string;
-
-/** Known values of {@link DetectionStatus} that the service accepts. */
-export enum KnownDetectionStatus {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** RegistryLoginFailed */
-  RegistryLoginFailed = "RegistryLoginFailed",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * Defines values for DetectionStatus. \
- * {@link KnownDetectionStatus} can be used interchangeably with DetectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **RegistryLoginFailed** \
- * **Failed**
- */
-export type DetectionStatus = string;
-
-/** Known values of {@link PatchType} that the service accepts. */
-export enum KnownPatchType {
-  /** FrameworkSecurity */
-  FrameworkSecurity = "FrameworkSecurity",
-  /** OSSecurity */
-  OSSecurity = "OSSecurity",
-  /** FrameworkAndOSSecurity */
-  FrameworkAndOSSecurity = "FrameworkAndOSSecurity",
-  /** Other */
-  Other = "Other",
-}
-
-/**
- * Defines values for PatchType. \
- * {@link KnownPatchType} can be used interchangeably with PatchType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FrameworkSecurity** \
- * **OSSecurity** \
- * **FrameworkAndOSSecurity** \
- * **Other**
- */
-export type PatchType = string;
 
 /** Known values of {@link RevisionHealthState} that the service accepts. */
 export enum KnownRevisionHealthState {
@@ -4859,81 +3506,6 @@ export enum KnownEnvironmentProvisioningState {
  */
 export type EnvironmentProvisioningState = string;
 
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
-  Pending = "Pending",
-  /** Approved */
-  Approved = "Approved",
-  /** Rejected */
-  Rejected = "Rejected",
-  /** Disconnected */
-  Disconnected = "Disconnected",
-}
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected** \
- * **Disconnected**
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Waiting */
-  Waiting = "Waiting",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Pending */
-  Pending = "Pending",
-}
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState. \
- * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Waiting** \
- * **Updating** \
- * **Deleting** \
- * **Pending**
- */
-export type PrivateEndpointConnectionProvisioningState = string;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type PublicNetworkAccess = string;
-
 /** Known values of {@link JobProvisioningState} that the service accepts. */
 export enum KnownJobProvisioningState {
   /** InProgress */
@@ -4961,27 +3533,6 @@ export enum KnownJobProvisioningState {
  */
 export type JobProvisioningState = string;
 
-/** Known values of {@link JobRunningState} that the service accepts. */
-export enum KnownJobRunningState {
-  /** Ready */
-  Ready = "Ready",
-  /** Progressing */
-  Progressing = "Progressing",
-  /** Suspended */
-  Suspended = "Suspended",
-}
-
-/**
- * Defines values for JobRunningState. \
- * {@link KnownJobRunningState} can be used interchangeably with JobRunningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Ready** \
- * **Progressing** \
- * **Suspended**
- */
-export type JobRunningState = string;
-
 /** Known values of {@link TriggerType} that the service accepts. */
 export enum KnownTriggerType {
   /** Schedule */
@@ -5003,48 +3554,6 @@ export enum KnownTriggerType {
  */
 export type TriggerType = string;
 
-/** Known values of {@link DotNetComponentType} that the service accepts. */
-export enum KnownDotNetComponentType {
-  /** AspireDashboard */
-  AspireDashboard = "AspireDashboard",
-}
-
-/**
- * Defines values for DotNetComponentType. \
- * {@link KnownDotNetComponentType} can be used interchangeably with DotNetComponentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AspireDashboard**
- */
-export type DotNetComponentType = string;
-
-/** Known values of {@link DotNetComponentProvisioningState} that the service accepts. */
-export enum KnownDotNetComponentProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** InProgress */
-  InProgress = "InProgress",
-}
-
-/**
- * Defines values for DotNetComponentProvisioningState. \
- * {@link KnownDotNetComponentProvisioningState} can be used interchangeably with DotNetComponentProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **InProgress**
- */
-export type DotNetComponentProvisioningState = string;
-
 /** Known values of {@link JavaComponentType} that the service accepts. */
 export enum KnownJavaComponentType {
   /** SpringBootAdmin */
@@ -5053,10 +3562,6 @@ export enum KnownJavaComponentType {
   SpringCloudEureka = "SpringCloudEureka",
   /** SpringCloudConfig */
   SpringCloudConfig = "SpringCloudConfig",
-  /** SpringCloudGateway */
-  SpringCloudGateway = "SpringCloudGateway",
-  /** Nacos */
-  Nacos = "Nacos",
 }
 
 /**
@@ -5066,9 +3571,7 @@ export enum KnownJavaComponentType {
  * ### Known values supported by the service
  * **SpringBootAdmin** \
  * **SpringCloudEureka** \
- * **SpringCloudConfig** \
- * **SpringCloudGateway** \
- * **Nacos**
+ * **SpringCloudConfig**
  */
 export type JavaComponentType = string;
 
@@ -5132,54 +3635,6 @@ export enum KnownJobExecutionRunningState {
  */
 export type JobExecutionRunningState = string;
 
-/** Known values of {@link WorkflowState} that the service accepts. */
-export enum KnownWorkflowState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Completed */
-  Completed = "Completed",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Suspended */
-  Suspended = "Suspended",
-}
-
-/**
- * Defines values for WorkflowState. \
- * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Completed** \
- * **Enabled** \
- * **Disabled** \
- * **Deleted** \
- * **Suspended**
- */
-export type WorkflowState = string;
-
-/** Known values of {@link LogicAppsProxyMethod} that the service accepts. */
-export enum KnownLogicAppsProxyMethod {
-  /** GET */
-  GET = "GET",
-  /** Post */
-  Post = "POST",
-}
-
-/**
- * Defines values for LogicAppsProxyMethod. \
- * {@link KnownLogicAppsProxyMethod} can be used interchangeably with LogicAppsProxyMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GET** \
- * **POST**
- */
-export type LogicAppsProxyMethod = string;
-
 /** Known values of {@link ManagedCertificateDomainControlValidation} that the service accepts. */
 export enum KnownManagedCertificateDomainControlValidation {
   /** Cname */
@@ -5237,20 +3692,23 @@ export enum KnownPoolManagementType {
  */
 export type PoolManagementType = string;
 
-/** Known values of {@link ExecutionType} that the service accepts. */
-export enum KnownExecutionType {
+/** Known values of {@link LifecycleType} that the service accepts. */
+export enum KnownLifecycleType {
   /** Timed */
   Timed = "Timed",
+  /** OnContainerExit */
+  OnContainerExit = "OnContainerExit",
 }
 
 /**
- * Defines values for ExecutionType. \
- * {@link KnownExecutionType} can be used interchangeably with ExecutionType,
+ * Defines values for LifecycleType. \
+ * {@link KnownLifecycleType} can be used interchangeably with LifecycleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Timed**
+ * **Timed** \
+ * **OnContainerExit**
  */
-export type ExecutionType = string;
+export type LifecycleType = string;
 
 /** Known values of {@link SessionNetworkStatus} that the service accepts. */
 export enum KnownSessionNetworkStatus {
@@ -5334,51 +3792,6 @@ export type CookieExpirationConvention =
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 /** Defines values for DnsVerificationTestResult. */
 export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
-/** Defines values for WorkflowHealthState. */
-export type WorkflowHealthState =
-  | "NotSpecified"
-  | "Healthy"
-  | "Unhealthy"
-  | "Unknown";
-
-/** Optional parameters. */
-export interface AppResiliencyCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type AppResiliencyCreateOrUpdateResponse = AppResiliency;
-
-/** Optional parameters. */
-export interface AppResiliencyUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AppResiliencyUpdateResponse = AppResiliency;
-
-/** Optional parameters. */
-export interface AppResiliencyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AppResiliencyGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AppResiliencyGetResponse = AppResiliency;
-
-/** Optional parameters. */
-export interface AppResiliencyListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AppResiliencyListResponse = AppResiliencyCollection;
-
-/** Optional parameters. */
-export interface AppResiliencyListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AppResiliencyListNextResponse = AppResiliencyCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams
@@ -5436,128 +3849,6 @@ export interface BillingMetersGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type BillingMetersGetResponse = BillingMeterCollection;
-
-/** Optional parameters. */
-export interface BuildersListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type BuildersListBySubscriptionResponse = BuilderCollection;
-
-/** Optional parameters. */
-export interface BuildersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type BuildersListByResourceGroupResponse = BuilderCollection;
-
-/** Optional parameters. */
-export interface BuildersGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BuildersGetResponse = BuilderResource;
-
-/** Optional parameters. */
-export interface BuildersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type BuildersCreateOrUpdateResponse = BuilderResource;
-
-/** Optional parameters. */
-export interface BuildersUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type BuildersUpdateResponse = BuilderResource;
-
-/** Optional parameters. */
-export interface BuildersDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type BuildersDeleteResponse = BuildersDeleteHeaders;
-
-/** Optional parameters. */
-export interface BuildersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type BuildersListBySubscriptionNextResponse = BuilderCollection;
-
-/** Optional parameters. */
-export interface BuildersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type BuildersListByResourceGroupNextResponse = BuilderCollection;
-
-/** Optional parameters. */
-export interface BuildsByBuilderResourceListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type BuildsByBuilderResourceListResponse = BuildCollection;
-
-/** Optional parameters. */
-export interface BuildsByBuilderResourceListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type BuildsByBuilderResourceListNextResponse = BuildCollection;
-
-/** Optional parameters. */
-export interface BuildsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BuildsGetResponse = BuildResource;
-
-/** Optional parameters. */
-export interface BuildsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type BuildsCreateOrUpdateResponse = BuildResource;
-
-/** Optional parameters. */
-export interface BuildsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type BuildsDeleteResponse = BuildsDeleteHeaders;
-
-/** Optional parameters. */
-export interface BuildAuthTokenListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type BuildAuthTokenListResponse = BuildToken;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListBySubscriptionOptionalParams
@@ -5870,105 +4161,6 @@ export type ContainerAppsListByResourceGroupNextResponse =
   ContainerAppCollection;
 
 /** Optional parameters. */
-export interface ContainerAppsBuildsByContainerAppListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ContainerAppsBuildsByContainerAppListResponse =
-  ContainerAppsBuildCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsBuildsByContainerAppListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ContainerAppsBuildsByContainerAppListNextResponse =
-  ContainerAppsBuildCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsBuildsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContainerAppsBuildsGetResponse = ContainerAppsBuildResource;
-
-/** Optional parameters. */
-export interface ContainerAppsBuildsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ContainerAppsBuildsDeleteResponse =
-  ContainerAppsBuildsDeleteHeaders;
-
-/** Optional parameters. */
-export interface ContainerAppsPatchesListByContainerAppOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For example, $filter=properties/patchApplyStatus eq 'Succeeded' */
-  filter?: string;
-}
-
-/** Contains response data for the listByContainerApp operation. */
-export type ContainerAppsPatchesListByContainerAppResponse = PatchCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsPatchesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContainerAppsPatchesGetResponse = ContainerAppsPatchResource;
-
-/** Optional parameters. */
-export interface ContainerAppsPatchesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ContainerAppsPatchesDeleteResponse =
-  ContainerAppsPatchesDeleteHeaders;
-
-/** Optional parameters. */
-export interface ContainerAppsPatchesSkipConfigureOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the skipConfigure operation. */
-export type ContainerAppsPatchesSkipConfigureResponse =
-  ContainerAppsPatchesSkipConfigureHeaders;
-
-/** Optional parameters. */
-export interface ContainerAppsPatchesApplyOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the apply operation. */
-export type ContainerAppsPatchesApplyResponse = ContainerAppsPatchResource;
-
-/** Optional parameters. */
-export interface ContainerAppsPatchesListByContainerAppNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByContainerAppNext operation. */
-export type ContainerAppsPatchesListByContainerAppNextResponse =
-  PatchCollection;
-
-/** Optional parameters. */
 export interface ContainerAppsRevisionsListRevisionsOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation. */
@@ -6211,28 +4403,6 @@ export interface JobsListSecretsOptionalParams
 export type JobsListSecretsResponse = JobSecretsCollection;
 
 /** Optional parameters. */
-export interface JobsResumeOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the resume operation. */
-export type JobsResumeResponse = Job;
-
-/** Optional parameters. */
-export interface JobsSuspendOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the suspend operation. */
-export type JobsSuspendResponse = Job;
-
-/** Optional parameters. */
 export interface JobsListDetectorsNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -6252,73 +4422,6 @@ export interface JobsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type JobsListByResourceGroupNextResponse = JobsCollection;
-
-/** Optional parameters. */
-export interface DotNetComponentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DotNetComponentsListResponse = DotNetComponentsCollection;
-
-/** Optional parameters. */
-export interface DotNetComponentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DotNetComponentsGetResponse = DotNetComponent;
-
-/** Optional parameters. */
-export interface DotNetComponentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DotNetComponentsCreateOrUpdateResponse = DotNetComponent;
-
-/** Optional parameters. */
-export interface DotNetComponentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type DotNetComponentsUpdateResponse = DotNetComponent;
-
-/** Optional parameters. */
-export interface DotNetComponentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type DotNetComponentsDeleteResponse = DotNetComponentsDeleteHeaders;
-
-/** Optional parameters. */
-export interface DotNetComponentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DotNetComponentsListNextResponse = DotNetComponentsCollection;
-
-/** Optional parameters. */
-export interface FunctionsExtensionInvokeFunctionsHostOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the invokeFunctionsHost operation. */
-export type FunctionsExtensionInvokeFunctionsHostResponse = {
-  /** The parsed response body. */
-  body: string;
-};
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -6424,66 +4527,6 @@ export type GetCustomDomainVerificationIdResponse = {
   /** The parsed response body. */
   body: string;
 };
-
-/** Optional parameters. */
-export interface LogicAppsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type LogicAppsGetResponse = LogicApp;
-
-/** Optional parameters. */
-export interface LogicAppsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type LogicAppsCreateOrUpdateResponse = LogicApp;
-
-/** Optional parameters. */
-export interface LogicAppsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface LogicAppsListWorkflowsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listWorkflows operation. */
-export type LogicAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
-
-/** Optional parameters. */
-export interface LogicAppsGetWorkflowOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getWorkflow operation. */
-export type LogicAppsGetWorkflowResponse = WorkflowEnvelope;
-
-/** Optional parameters. */
-export interface LogicAppsDeployWorkflowArtifactsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Application settings and files of the workflow. */
-  workflowArtifacts?: WorkflowArtifacts;
-}
-
-/** Optional parameters. */
-export interface LogicAppsListWorkflowsConnectionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listWorkflowsConnections operation. */
-export type LogicAppsListWorkflowsConnectionsResponse = WorkflowEnvelope;
-
-/** Optional parameters. */
-export interface LogicAppsInvokeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the invoke operation. */
-export type LogicAppsInvokeResponse = Record<string, unknown>;
-
-/** Optional parameters. */
-export interface LogicAppsListWorkflowsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listWorkflowsNext operation. */
-export type LogicAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionOptionalParams
@@ -6677,108 +4720,6 @@ export type NamespacesCheckNameAvailabilityResponse =
   CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
-export interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ManagedEnvironmentPrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ManagedEnvironmentPrivateEndpointConnectionsGetResponse =
-  PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse =
-  ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentPrivateEndpointConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ManagedEnvironmentPrivateEndpointConnectionsListNextResponse =
-  PrivateEndpointConnectionListResult;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ManagedEnvironmentPrivateLinkResourcesListResponse =
-  PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentPrivateLinkResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ManagedEnvironmentPrivateLinkResourcesListNextResponse =
-  PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface DaprComponentResiliencyPoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DaprComponentResiliencyPoliciesListResponse =
-  DaprComponentResiliencyPoliciesCollection;
-
-/** Optional parameters. */
-export interface DaprComponentResiliencyPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DaprComponentResiliencyPoliciesGetResponse =
-  DaprComponentResiliencyPolicy;
-
-/** Optional parameters. */
-export interface DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DaprComponentResiliencyPoliciesCreateOrUpdateResponse =
-  DaprComponentResiliencyPolicy;
-
-/** Optional parameters. */
-export interface DaprComponentResiliencyPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DaprComponentResiliencyPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DaprComponentResiliencyPoliciesListNextResponse =
-  DaprComponentResiliencyPoliciesCollection;
-
-/** Optional parameters. */
 export interface DaprComponentsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -6816,38 +4757,6 @@ export interface DaprComponentsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type DaprComponentsListNextResponse = DaprComponentsCollection;
-
-/** Optional parameters. */
-export interface DaprSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DaprSubscriptionsListResponse = DaprSubscriptionsCollection;
-
-/** Optional parameters. */
-export interface DaprSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DaprSubscriptionsGetResponse = DaprSubscription;
-
-/** Optional parameters. */
-export interface DaprSubscriptionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DaprSubscriptionsCreateOrUpdateResponse = DaprSubscription;
-
-/** Optional parameters. */
-export interface DaprSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DaprSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DaprSubscriptionsListNextResponse = DaprSubscriptionsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsStoragesListOptionalParams
@@ -6970,8 +4879,6 @@ export type ContainerAppsSourceControlsGetResponse = SourceControl;
 /** Optional parameters. */
 export interface ContainerAppsSourceControlsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Github personal access token used for SourceControl. */
-  xMsGithubAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6984,12 +4891,6 @@ export type ContainerAppsSourceControlsCreateOrUpdateResponse = SourceControl;
 /** Optional parameters. */
 export interface ContainerAppsSourceControlsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** Github personal access token used for SourceControl. */
-  xMsGithubAuxiliary?: string;
-  /** Ignore Workflow Deletion Failure. */
-  ignoreWorkflowDeletionFailure?: boolean;
-  /** Delete workflow. */
-  deleteWorkflow?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

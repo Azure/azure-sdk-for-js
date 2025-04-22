@@ -19,7 +19,7 @@ extends:
         displayName: 'Partner Release'
         variables:
           - name: Artifacts
-            value: $(Pipeline.Workspace)/artifacts
+            value: $(Pipeline.Workspace)/packages
           - template: /eng/pipelines/templates/variables/image.yml
 
         jobs:
@@ -59,11 +59,12 @@ extends:
         - template: /eng/pipelines/templates/jobs/npm-release-task.yml
           parameters:
             Artifact:
-              name: Partner Drop
+              name: PartnerDrop
               path: $(Artifacts)
             Registry: "https://registry.npmjs.org/"
             PathToArtifacts: $(Artifacts)
             VarDependencies:
               Tag: "${{ parameters.Tag }}"
+            Environment: 'none'
             DependsOn:
-              - 'PublishArtifacts'
+              - PublishArtifacts

@@ -6,7 +6,7 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 ## Installation
 
-`dev-tool` runs using [tsx](https://tsx.is/), so it does not need to be built. It is ready-to-go after a `pnpm install`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can install it globally on your system by running `npm install -g` from this directory.
+`dev-tool` runs using [tsx](https://tsx.is/), so it does not need to be built. It is ready-to-go after a `pnpm install`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can run it from a service package using `npx dev-tool`, or you can install it globally on your system by running `npm install -g` from this directory.
 
 ## Usage
 
@@ -15,6 +15,17 @@ It provides a place to centralize scripts, resources, and processes for developm
 `dev-tool`
 
 - `about` (display command help and information)
+- `admin`	run administrative tasks for the repository
+  - `create-migration` scaffolds a new migration
+  - `stage-migrations` stage migration passes over the whole monorepo
+  - `migrate-package` migrates a package to ESM and vitest
+  - `migrate-snippets` migrates a package to the latest snippets standards
+  - `migrate-source` migrates a package to the latest source code standards
+  - `list` list monorepo elements
+    - `packages` list packages defined in the monorepo
+    - `service-folders`	list service folders in the monorepo
+    - `esm-migrations` list the status of the ESM migrations
+    - `snippets-migrations` list the status of the snippets migrations
 - `check` (run checks on the package). See [Checks](#checks), below, for more information.
   - `--tag=local` to run checks that should pass before pushing your code
   - `--tag=ci` to run checks that should pass as part of the CI pipeline
@@ -36,38 +47,15 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `restore` (restore the assets, referenced by assets.json, from git)
   - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
 - `run`
-
-  - `test:node-ts-input` (runs the node tests with TS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
-
-    - Mocha settings added by default
-
-      > `-r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`
-
-    - Example usage
-
-      ```bash
-      dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'
-      ```
-
-  - `test:node-js-input` (runs the node tests with JS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
-
-    - Mocha settings added by default
-
-      > `-r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`
-
-    - Also, calls mocha with `nyc` for code coverage
-
-    - Example usage
-
-      ```bash
-      dev-tool run test:node-js-input -- --timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"
-      ```
-
-  - `test:browser` (runs the browser tests using karma, and concurrently runs the proxy tool in record/playback modes if it is not already active)
-    - Example usage
-      ```bash
-      dev-tool run test:browser
-      ```
+  - `test:vitest`	runs tests using vitest with the default and the provided options; starts the proxy-tool in - record and playback modes
+  - `check-api`	ensure API features are compatible with minimum supported TypeScript version
+  - `extract-api`	Runs api-extractor multiple times for all exports.
+  - `build-test` build a package for testing
+  - `typecheck`	typecheck typescript code files that are not part of tshy build
+  - `start-browser-relay`	Start the browser credential relay, used for authenticating browser tests.
+  - `update-snippets`	find README and TSDoc snippets throughout the package and update their contents.
+  - `build-package`	build a package for production
+  - `vendored` run dev-tool's dependency commands
 
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
 
@@ -236,7 +224,6 @@ Each variant supports an optional `shortName` field that specifies a one-letter 
 
 - Using the `subCommand` and `leafCommand` helpers is not required. If a command module exports any function with the signature `(...args: string[]) => Promise<boolean>` as its default export, it will run when the command is invoked and will be given the arguments passed in the parameters. **However**, only `subCommand` and `leafCommand` provide automatic argument parsing and handling of `--help`. The functions used to provide this behavior are located in the `src/util/commandBuilder.ts` module.
 - Some additional helper modules can be found in `src/util` such as `resolveProject.ts` which walks up the directory hierarchy and finds the absolute path of the nearest SDK package directory (useful for commands like `samples` which always operate relative to the package directory)
-- The tool runs using the `transpileOnly` option in the `ts-node` configuration, meaning it does not perform run-time type-checking. The build step of the package will run type-checking using `tsc`, so to check the tool's code for type errors, simply use `pnpm build`.
 
 ## Checks
 

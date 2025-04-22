@@ -81,6 +81,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
+    "@typespec/ts-http-runtime": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {

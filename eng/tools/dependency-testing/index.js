@@ -422,14 +422,7 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await copyRepoFile(
-    repoRoot,
-    "common/tools",
-    "mocha-multi-reporter.js",
-    targetPackagePath,
-    testFolder,
-  );
-
+  await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
 main(argv);
