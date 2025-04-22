@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CarbonOptimizationManagementClient } = require("@azure/arm-carbonoptimization");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to aPI for Carbon Emissions Reports
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsLocationItemDetailsReport.json
  */
-async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
+async function queryCarbonEmissionLocationItemDetailsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -42,7 +42,7 @@ async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsMonthlySummaryReport.json
  */
-async function queryCarbonEmissionOverallMonthlySummaryReport(): Promise<void> {
+async function queryCarbonEmissionOverallMonthlySummaryReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -60,7 +60,7 @@ async function queryCarbonEmissionOverallMonthlySummaryReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsMonthlySummaryReportWithOtherOptionalFilter.json
  */
-async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList(): Promise<void> {
+async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -83,7 +83,7 @@ async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocation
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsOverallSummaryReport.json
  */
-async function queryCarbonEmissionOverallSummaryReport(): Promise<void> {
+async function queryCarbonEmissionOverallSummaryReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -101,7 +101,7 @@ async function queryCarbonEmissionOverallSummaryReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsOverallSummaryReportWithOtherOptionalFilter.json
  */
-async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList(): Promise<void> {
+async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -124,7 +124,7 @@ async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocation
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsResourceGroupItemDetailsReport.json
  */
-async function queryCarbonEmissionResourceGroupItemDetailsReport(): Promise<void> {
+async function queryCarbonEmissionResourceGroupItemDetailsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -156,7 +156,7 @@ async function queryCarbonEmissionResourceGroupItemDetailsReport(): Promise<void
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsResourceItemDetailsReport.json
  */
-async function queryCarbonEmissionResourceItemDetailsReport(): Promise<void> {
+async function queryCarbonEmissionResourceItemDetailsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -188,7 +188,7 @@ async function queryCarbonEmissionResourceItemDetailsReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsResourceItemDetailsReportWithPaginationToken.json
  */
-async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken(): Promise<void> {
+async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -221,7 +221,7 @@ async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken()
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsResourceTypeItemDetailsReport.json
  */
-async function queryCarbonEmissionResourceTypeItemDetailsReport(): Promise<void> {
+async function queryCarbonEmissionResourceTypeItemDetailsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -253,7 +253,7 @@ async function queryCarbonEmissionResourceTypeItemDetailsReport(): Promise<void>
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsSubscriptionItemDetailsReportReport.json
  */
-async function queryCarbonEmissionSubscriptionsItemDetailsReport(): Promise<void> {
+async function queryCarbonEmissionSubscriptionsItemDetailsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -285,7 +285,7 @@ async function queryCarbonEmissionSubscriptionsItemDetailsReport(): Promise<void
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNLocationItemsMonthlyReport.json
  */
-async function queryCarbonEmissionTopNLocationsMonthlyReport(): Promise<void> {
+async function queryCarbonEmissionTopNLocationsMonthlyReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -315,7 +315,7 @@ async function queryCarbonEmissionTopNLocationsMonthlyReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNLocationItemsReport.json
  */
-async function queryCarbonEmissionTopNLocationsReport(): Promise<void> {
+async function queryCarbonEmissionTopNLocationsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -345,7 +345,7 @@ async function queryCarbonEmissionTopNLocationsReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNResourceGroupItemsMonthlyReport.json
  */
-async function queryCarbonEmissionTopNResourceGroupMonthlyReport(): Promise<void> {
+async function queryCarbonEmissionTopNResourceGroupMonthlyReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -375,7 +375,7 @@ async function queryCarbonEmissionTopNResourceGroupMonthlyReport(): Promise<void
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNResourceGroupItemsReport.json
  */
-async function queryCarbonEmissionTopNResourceGroupReport(): Promise<void> {
+async function queryCarbonEmissionTopNResourceGroupReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -405,7 +405,7 @@ async function queryCarbonEmissionTopNResourceGroupReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNResourceItemsMonthlyReport.json
  */
-async function queryCarbonEmissionTopNResourceMonthlyReport(): Promise<void> {
+async function queryCarbonEmissionTopNResourceMonthlyReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -435,7 +435,7 @@ async function queryCarbonEmissionTopNResourceMonthlyReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNResourceItemsReport.json
  */
-async function queryCarbonEmissionTopNResourceReport(): Promise<void> {
+async function queryCarbonEmissionTopNResourceReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -465,7 +465,7 @@ async function queryCarbonEmissionTopNResourceReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNResourceTypeItemsMonthlyReport.json
  */
-async function queryCarbonEmissionTopNResourceTypeMonthlyReport(): Promise<void> {
+async function queryCarbonEmissionTopNResourceTypeMonthlyReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -495,7 +495,7 @@ async function queryCarbonEmissionTopNResourceTypeMonthlyReport(): Promise<void>
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNResourceTypeItemsReport.json
  */
-async function queryCarbonEmissionTopNResourceTypeReport(): Promise<void> {
+async function queryCarbonEmissionTopNResourceTypeReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -525,7 +525,7 @@ async function queryCarbonEmissionTopNResourceTypeReport(): Promise<void> {
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNSubscriptionItemsMonthlyReport.json
  */
-async function queryCarbonEmissionTopNSubscriptionsMonthlyReport(): Promise<void> {
+async function queryCarbonEmissionTopNSubscriptionsMonthlyReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -555,7 +555,7 @@ async function queryCarbonEmissionTopNSubscriptionsMonthlyReport(): Promise<void
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsTopNSubscriptionItemsReport.json
  */
-async function queryCarbonEmissionTopNSubscriptionsReport(): Promise<void> {
+async function queryCarbonEmissionTopNSubscriptionsReport() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionReports({
@@ -579,7 +579,7 @@ async function queryCarbonEmissionTopNSubscriptionsReport(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await queryCarbonEmissionLocationItemDetailsReport();
   await queryCarbonEmissionOverallMonthlySummaryReport();
   await queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocationListResourceTypeListResourceGroupUrlList();

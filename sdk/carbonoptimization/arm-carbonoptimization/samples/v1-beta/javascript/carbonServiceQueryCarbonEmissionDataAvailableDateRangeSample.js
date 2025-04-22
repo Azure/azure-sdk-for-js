@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CarbonOptimizationManagementClient } = require("@azure/arm-carbonoptimization");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to aPI for query carbon emission data available date range
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary aPI for query carbon emission data available date range
  * x-ms-original-file: 2025-04-01/carbonEmissionsDataAvailableDateRange.json
  */
-async function carbonServiceQueryCarbonEmissionDataAvailableDateRange(): Promise<void> {
+async function carbonServiceQueryCarbonEmissionDataAvailableDateRange() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const result = await client.carbonService.queryCarbonEmissionDataAvailableDateRange();
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await carbonServiceQueryCarbonEmissionDataAvailableDateRange();
 }
 

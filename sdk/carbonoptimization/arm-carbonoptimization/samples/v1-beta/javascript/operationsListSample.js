@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CarbonOptimizationManagementClient } = require("@azure/arm-carbonoptimization");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list the operations for the provider
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-04-01/listOperations.json
  */
-async function operationsList(): Promise<void> {
+async function operationsList() {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
   const resArray = new Array();
@@ -21,7 +21,7 @@ async function operationsList(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await operationsList();
 }
 

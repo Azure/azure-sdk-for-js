@@ -55,8 +55,7 @@ Using Node.js and Node-like environments, you can use the `DefaultAzureCredentia
 import { CarbonClient } from "@azure/arm-carbonoptimization";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new CarbonClient(new DefaultAzureCredential(), subscriptionId);
+const client = new CarbonClient(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -69,7 +68,7 @@ const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>"
  });
-const client = new CarbonClient(credential, subscriptionId);
+const client = new CarbonClient(credential);
 ```
 
 
