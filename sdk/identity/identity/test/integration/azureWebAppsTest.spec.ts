@@ -25,6 +25,7 @@ describe("AzureWebApps Integration test", function () {
 
 function baseUrl(): string {
   const webAppName = process.env.IDENTITY_WEBAPP_NAME;
+  console.log("webAppName set as", webAppName);
   if (!webAppName) {
     console.log("IDENTITY_WEBAPP_NAME is not set");
     throw new Error("IDENTITY_WEBAPP_NAME is not set");

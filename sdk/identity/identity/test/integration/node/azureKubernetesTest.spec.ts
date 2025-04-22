@@ -10,23 +10,25 @@ describe("Azure Kubernetes Integration test", function () {
     if (!isLiveMode()) {
       ctx.skip();
     }
+    let ifBlock = false;
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
-
+    console.log("Does token exist?", typeof process.env.ARM_OIDC_TOKEN);
     if (process.env.ARM_OIDC_TOKEN) {
       // Log in as service principal in CI
-      const clientId = requireEnvVar("AZURE_CLIENT_ID");
-      const tenantId = requireEnvVar("AZURE_TENANT_ID");
+      const clientId = requireEnvVar("ARM_CLIENT_ID");
+      const tenantId = requireEnvVar("ARM_TENANT_ID");
       const oidc = requireEnvVar("ARM_OIDC_TOKEN");
       console.log("Running login command with", subscriptionId, clientId, tenantId);
+      ifBlock = true;
       runCommand(
         "az",
         `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
       );
     }
-
+    console.log("If block is ran:", ifBlock);
     runCommand("az", `account set --subscription ${subscriptionId}`);
     runCommand(
       "az",
