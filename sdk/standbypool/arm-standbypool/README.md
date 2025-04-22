@@ -1,6 +1,6 @@
-# Azure StandbyPool client library for JavaScript
+# Azure StandbyPoolManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure StandbyPool client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure StandbyPoolManagement client.
 
 
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-standbypool` package
 
-Install the Azure StandbyPool client library for JavaScript with `npm`:
+Install the Azure StandbyPoolManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-standbypool
 ```
 
-### Create and authenticate a `StandbyPoolClient`
+### Create and authenticate a `StandbyPoolManagementClient`
 
-To create a client object to access the Azure StandbyPool API, you will need the `endpoint` of your Azure StandbyPool resource and a `credential`. The Azure StandbyPool client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure StandbyPool resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure StandbyPoolManagement API, you will need the `endpoint` of your Azure StandbyPoolManagement resource and a `credential`. The Azure StandbyPoolManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure StandbyPoolManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -52,24 +52,24 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { StandbyPoolClient } from "@azure/arm-standbypool";
+import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new StandbyPoolClient(new DefaultAzureCredential(), subscriptionId);
+const client = new StandbyPoolManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { StandbyPoolClient } from "@azure/arm-standbypool";
+import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>"
  });
-const client = new StandbyPoolClient(credential, subscriptionId);
+const client = new StandbyPoolManagementClient(credential, subscriptionId);
 ```
 
 
@@ -78,9 +78,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### StandbyPoolClient
+### StandbyPoolManagementClient
 
-`StandbyPoolClient` is the primary interface for developers using the Azure StandbyPool client library. Explore the methods on this client object to understand the different features of the Azure StandbyPool service that you can access.
+`StandbyPoolManagementClient` is the primary interface for developers using the Azure StandbyPoolManagement client library. Explore the methods on this client object to understand the different features of the Azure StandbyPoolManagement service that you can access.
 
 ## Troubleshooting
 
