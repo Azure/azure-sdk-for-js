@@ -8,6 +8,7 @@ import type {
   UpdateAgentParameters,
   DeleteAgentParameters,
   CreateThreadParameters,
+  ListThreadsParameters,
   GetThreadParameters,
   UpdateThreadParameters,
   DeleteThreadParameters,
@@ -69,6 +70,8 @@ import type {
   DeleteAgentDefaultResponse,
   CreateThread200Response,
   CreateThreadDefaultResponse,
+  ListThreads200Response,
+  ListThreadsDefaultResponse,
   GetThread200Response,
   GetThreadDefaultResponse,
   UpdateThread200Response,
@@ -197,6 +200,10 @@ export interface CreateThread {
   post(
     options: CreateThreadParameters,
   ): StreamableMethod<CreateThread200Response | CreateThreadDefaultResponse>;
+  /** Gets a list of threads that were previously created. */
+  get(
+    options?: ListThreadsParameters,
+  ): StreamableMethod<ListThreads200Response | ListThreadsDefaultResponse>;
 }
 
 export interface GetThread {
@@ -537,7 +544,7 @@ export interface Routes {
   (path: "/assistants"): CreateAgent;
   /** Resource for '/assistants/\{assistantId\}' has methods for the following verbs: get, post, delete */
   (path: "/assistants/{assistantId}", assistantId: string): GetAgent;
-  /** Resource for '/threads' has methods for the following verbs: post */
+  /** Resource for '/threads' has methods for the following verbs: post, get */
   (path: "/threads"): CreateThread;
   /** Resource for '/threads/\{threadId\}' has methods for the following verbs: get, post, delete */
   (path: "/threads/{threadId}", threadId: string): GetThread;
