@@ -55,3 +55,4 @@ output IDENTITY_AKS_CLUSTER_NAME string = deployMIResources? managedIdentityModu
 output IDENTITY_AKS_POD_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAksPodName : ''
 output IDENTITY_ACR_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAcrName : ''
 output IDENTITY_ACR_LOGIN_SERVER string = deployMIResources? managedIdentityModule.outputs.IdentityAcrLoginServer : ''
+output IDENTITY_SUBSCRIPTION_ID string = deployMIResources? managedIdentityModule.outputs.IdentitySubscriptionId : ''

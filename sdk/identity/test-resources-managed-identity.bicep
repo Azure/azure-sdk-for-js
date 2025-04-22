@@ -333,3 +333,4 @@ output IdentityAksClusterName string = kubernetesCluster.name
 output IdentityAksPodName string = 'javascript-test-app'
 output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer
+output IdentitySubscriptionId string = subscription().subscriptionId
