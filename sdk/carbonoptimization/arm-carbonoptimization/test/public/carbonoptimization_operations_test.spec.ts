@@ -24,7 +24,10 @@ describe("Carbon test", () => {
     recorder = await createRecorder(context);
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new CarbonOptimizationManagementClient(credential, recorder.configureClientOptions({}));
+    client = new CarbonOptimizationManagementClient(
+      credential,
+      recorder.configureClientOptions({}),
+    );
   });
 
   afterEach(async function () {

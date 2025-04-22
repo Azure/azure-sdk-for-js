@@ -8,9 +8,7 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new CarbonOptimizationManagementClient(
-      new DefaultAzureCredential(),
-    );
+    const client = new CarbonOptimizationManagementClient(new DefaultAzureCredential());
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
