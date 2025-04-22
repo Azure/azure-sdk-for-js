@@ -26,7 +26,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-carbonoptimization` package
 
-Install the Azure Carbon client library for JavaScript with `npm`:
+Install the Azure CarbonOptimizationManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-carbonoptimization
