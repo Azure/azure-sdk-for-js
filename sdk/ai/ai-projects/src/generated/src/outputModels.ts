@@ -129,6 +129,8 @@ export interface OpenApiFunctionDefinitionOutput {
   spec: any;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsOutput;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -197,6 +199,25 @@ export interface SearchConfigurationOutput {
   connection_id: string;
   /** Name of the custom configuration instance given to config. */
   instance_name: string;
+}
+
+/** The input definition information for a connected agent tool which defines a domain specific sub-agent */
+export interface ConnectedAgentToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'connected_agent'. */
+  type: "connected_agent";
+  /** The sub-agent to connect */
+  connected_agent: ConnectedAgentDetailsOutput;
+}
+
+/** Information for connecting one agent to another as a tool */
+export interface ConnectedAgentDetailsOutput {
+  /** The identifier of the child agent. */
+  id: string;
+  /** The name of the agent to be called. */
+  name: string;
+  /** A description of what the agent does, used by the model to choose when and how to call the agent. */
+  description: string;
 }
 
 /** The input definition information for a azure function tool as used to configure an agent. */
@@ -467,6 +488,20 @@ export interface ThreadDeletionStatusOutput {
   object: "thread.deleted";
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfAgentThreadOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<AgentThreadOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
 /** A single, existing message within an agent thread. */
 export interface ThreadMessageOutput {
   /** The identifier, which can be referenced in API endpoints. */
@@ -660,7 +695,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search", "connected_agent"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -1103,6 +1138,18 @@ export interface RunStepFunctionToolCallDetailsOutput {
   arguments: string;
   /** The output of the function, only populated for function calls that have already have had their outputs submitted. */
   output: string | null;
+}
+
+/**
+ * A record of a call to an OpenAPI tool, issued by the model in evaluation of a defined tool, that represents
+ * executed OpenAPI operations.
+ */
+export interface RunStepOpenAPIToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** Reserved for future use. */
+  openapi: Record<string, string>;
 }
 
 /** The error information associated with a failed run step. */
@@ -1562,7 +1609,7 @@ export interface TargetModelConfigOutputParent {
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AoaiModelConfigOutput extends TargetModelConfigOutputParent {
   readonly type: "AOAI";
-  /** Endpoint URL for AOAI model. */
+  /** Endpoint targetURI for AOAI model. */
   azureEndpoint: string;
   /** API Key for AOAI model. */
   apiKey: string;
@@ -1573,7 +1620,7 @@ export interface AoaiModelConfigOutput extends TargetModelConfigOutputParent {
 /** MaaS model configuration. The API version would be selected by the service for querying the model. */
 export interface MaasModelConfigOutput extends TargetModelConfigOutputParent {
   readonly type: "MAAS";
-  /** Endpoint URL for MAAS model. */
+  /** Endpoint targetURI for MAAS model. */
   azureEndpoint: string;
   /** API Key for MAAS model. */
   apiKey: string;
@@ -1692,6 +1739,7 @@ export type ToolDefinitionOutput =
   | AzureAISearchToolDefinitionOutput
   | OpenApiToolDefinitionOutput
   | BingCustomSearchToolDefinitionOutput
+  | ConnectedAgentToolDefinitionOutput
   | AzureFunctionToolDefinitionOutput;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetailsOutput =
@@ -1733,7 +1781,8 @@ export type RunStepToolCallOutput =
   | RunStepSharepointToolCallOutput
   | RunStepMicrosoftFabricToolCallOutput
   | RunStepCustomSearchToolCallOutput
-  | RunStepFunctionToolCallOutput;
+  | RunStepFunctionToolCallOutput
+  | RunStepOpenAPIToolCallOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
 export type RunStepCodeInterpreterToolCallOutputOutput =
   | RunStepCodeInterpreterToolCallOutputOutputParent

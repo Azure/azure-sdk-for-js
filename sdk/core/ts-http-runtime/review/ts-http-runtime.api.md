@@ -358,6 +358,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
@@ -380,6 +381,7 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;
