@@ -73,7 +73,7 @@ export interface BatchPoolUsageMetricsOutput {
  */
 export interface VirtualMachineConfigurationOutput {
   /** A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use. */
-  imageReference: ImageReferenceOutput;
+  imageReference: BatchImageReferenceOutput;
   /** The SKU of the Batch Compute Node agent to be provisioned on Compute Nodes in the Pool. The Batch Compute Node agent is a program that runs on each Compute Node in the Pool, and provides the command-and-control interface between the Compute Node and the Batch service. There are different implementations of the Compute Node agent, known as SKUs, for different operating systems. You must specify a Compute Node agent SKU which matches the selected Image reference. To get the list of supported Compute Node agent SKUs along with their list of verified Image references, see the 'List supported Compute Node agent SKUs' operation. */
   nodeAgentSKUId: string;
   /** Windows operating system settings on the virtual machine. This property must not be specified if the imageReference property specifies a Linux OS Image. */
@@ -93,7 +93,7 @@ export interface VirtualMachineConfigurationOutput {
    */
   licenseType?: string;
   /** The container configuration for the Pool. If specified, setup is performed on each Compute Node in the Pool to allow Tasks to run in containers. All regular Tasks and Job manager Tasks run on this Pool must specify the containerSettings property, and all other Tasks may specify it. */
-  containerConfiguration?: ContainerConfigurationOutput;
+  containerConfiguration?: BatchContainerConfigurationOutput;
   /** The disk encryption configuration for the pool. If specified, encryption is performed on each node in the pool during node provisioning. */
   diskEncryptionConfiguration?: DiskEncryptionConfigurationOutput;
   /** The node placement configuration for the pool. This configuration will specify rules on how nodes in the pool will be physically allocated. */
@@ -113,7 +113,7 @@ export interface VirtualMachineConfigurationOutput {
  * To get the list of all Azure Marketplace Image references verified by Azure Batch, see the
  * ' List Supported Images ' operation.
  */
-export interface ImageReferenceOutput {
+export interface BatchImageReferenceOutput {
   /** The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or MicrosoftWindowsServer. */
   publisher?: string;
   /** The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or WindowsServer. */
@@ -163,7 +163,7 @@ export interface DataDiskOutput {
 }
 
 /** The configuration for container-enabled Pools. */
-export interface ContainerConfigurationOutput {
+export interface BatchContainerConfigurationOutput {
   /**
    * The container technology to be used.
    *
@@ -595,7 +595,7 @@ export interface WindowsUserConfigurationOutput {
  * The Batch service does not assign any meaning to this metadata; it is solely
  * for the use of user code.
  */
-export interface MetadataItemOutput {
+export interface BatchMetadataItemOutput {
   /** The name of the metadata item. */
   name: string;
   /** The value of the metadata item. */
@@ -660,10 +660,10 @@ export interface CifsMountConfigurationOutput {
 export interface AzureFileShareConfigurationOutput {
   /** The Azure Storage account name. */
   accountName: string;
-  /** The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. */
-  azureFileUrl: string;
   /** The Azure Storage account key. */
   accountKey: string;
+  /** The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. */
+  azureFileUrl: string;
   /** The relative path on the compute node where the file system will be mounted. All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
   relativeMountPath: string;
   /** Additional command line options to pass to the mount command. These are 'net use' options in Windows and 'mount' options in Linux. */
@@ -800,7 +800,7 @@ export interface BatchPoolOutput {
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
   readonly userAccounts?: Array<UserAccountOutput>;
   /** A list of name-value pairs associated with the Pool as metadata. */
-  readonly metadata?: Array<MetadataItemOutput>;
+  readonly metadata?: Array<BatchMetadataItemOutput>;
   /** Utilization and resource usage statistics for the entire lifetime of the Pool. This property is populated only if the BatchPool was retrieved with an expand clause including the 'stats' attribute; otherwise it is null. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes. */
   readonly stats?: BatchPoolStatisticsOutput;
   /** A list of file systems to mount on each node in the pool. This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
@@ -924,11 +924,11 @@ export interface BatchPoolIdentityOutput {
    */
   type: BatchPoolIdentityTypeOutput;
   /** The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Array<UserAssignedIdentityOutput>;
+  userAssignedIdentities?: Array<BatchUserAssignedIdentityOutput>;
 }
 
 /** The user assigned Identity */
-export interface UserAssignedIdentityOutput {
+export interface BatchUserAssignedIdentityOutput {
   /** The ARM resource id of the user assigned identity. */
   resourceId: string;
   /** The client id of the user assigned identity. */
@@ -953,7 +953,7 @@ export interface BatchSupportedImageOutput {
   /** The ID of the Compute Node agent SKU which the Image supports. */
   nodeAgentSKUId: string;
   /** The reference to the Azure Virtual Machine's Marketplace Image. */
-  imageReference: ImageReferenceOutput;
+  imageReference: BatchImageReferenceOutput;
   /**
    * The type of operating system (e.g. Windows or Linux) of the Image.
    *
@@ -1083,17 +1083,17 @@ export interface BatchJobOutput {
    *
    * Possible values: "noaction", "terminatejob"
    */
-  onAllTasksComplete?: OnAllBatchTasksCompleteOutput;
+  onAllTasksComplete?: BatchAllTasksCompleteModeOutput;
   /**
    * The action the Batch service should take when any Task in the Job fails. A Task is considered to have failed if has a failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the Task, for example due to a resource file download error. The default is noaction.
    *
    * Possible values: "noaction", "performexitoptionsjobaction"
    */
-  readonly onTaskFailure?: OnBatchTaskFailureOutput;
+  readonly onTaskFailure?: BatchTaskFailureModeOutput;
   /** The network configuration for the Job. */
   readonly networkConfiguration?: BatchJobNetworkConfigurationOutput;
   /** A list of name-value pairs associated with the Job as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
   /** The execution information for the Job. */
   readonly executionInfo?: BatchJobExecutionInfoOutput;
   /** Resource usage statistics for the entire lifetime of the Job. This property is populated only if the BatchJob was retrieved with an expand clause including the 'stats' attribute; otherwise it is null. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes. */
@@ -1200,11 +1200,11 @@ export interface OutputFileBlobContainerDestinationOutput {
   /** The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl. The identity must have write access to the Azure Blob Storage container. */
   identityReference?: BatchNodeIdentityReferenceOutput;
   /** A list of name-value pairs for headers to be used in uploading output files. These headers will be specified when uploading files to Azure Storage. Official document on allowed headers when uploading blobs: https://learn.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types. */
-  uploadHeaders?: Array<HttpHeaderOutput>;
+  uploadHeaders?: Array<OutputFileUploadHeaderOutput>;
 }
 
 /** An HTTP header name-value pair */
-export interface HttpHeaderOutput {
+export interface OutputFileUploadHeaderOutput {
   /** The case-insensitive name of the header to be used while uploading output files. */
   name: string;
   /** The value of the header to be used while uploading output files. */
@@ -1240,7 +1240,7 @@ export interface BatchTaskConstraintsOutput {
  */
 export interface AuthenticationTokenSettingsOutput {
   /** The Batch resources to which the token grants access. The authentication token grants access to a limited set of Batch service operations. Currently the only supported value for the access property is 'job', which grants access to all operations related to the Job which contains the Task. */
-  access?: AccessScopeOutput[];
+  access?: BatchAccessScopeOutput[];
 }
 
 /**
@@ -1399,7 +1399,7 @@ export interface BatchPoolSpecificationOutput {
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
   userAccounts?: Array<UserAccountOutput>;
   /** A list of name-value pairs associated with the Pool as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
   /** A list of file systems to mount on each node in the pool. This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
   mountConfiguration?: Array<MountConfigurationOutput>;
   /**
@@ -1441,7 +1441,7 @@ export interface BatchJobSchedulingErrorOutput {
    *
    * Possible values: "usererror", "servererror"
    */
-  category: ErrorCategoryOutput;
+  category: BatchErrorSourceCategoryOutput;
   /** An identifier for the Job scheduling error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
   /** A message describing the Job scheduling error, intended to be suitable for display in a user interface. */
@@ -1569,7 +1569,7 @@ export interface BatchTaskFailureInfoOutput {
    *
    * Possible values: "usererror", "servererror"
    */
-  category: ErrorCategoryOutput;
+  category: BatchErrorSourceCategoryOutput;
   /** An identifier for the Task error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
   /** A message describing the Task error, intended to be suitable for display in a user interface. */
@@ -1748,7 +1748,7 @@ export interface BatchJobScheduleOutput {
   /** Information about Jobs that have been and will be run under this schedule. */
   readonly executionInfo?: BatchJobScheduleExecutionInfoOutput;
   /** A list of name-value pairs associated with the schedule as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
   /** The lifetime resource usage statistics for the Job Schedule. The statistics may not be immediately available. The Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes. */
   readonly stats?: BatchJobScheduleStatisticsOutput;
 }
@@ -1785,13 +1785,13 @@ export interface BatchJobSpecificationOutput {
    *
    * Possible values: "noaction", "terminatejob"
    */
-  onAllTasksComplete?: OnAllBatchTasksCompleteOutput;
+  onAllTasksComplete?: BatchAllTasksCompleteModeOutput;
   /**
    * The action the Batch service should take when any Task fails in a Job created under this schedule. A Task is considered to have failed if it have failed if has a failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the Task, for example due to a resource file download error. The default is noaction.
    *
    * Possible values: "noaction", "performexitoptionsjobaction"
    */
-  onTaskFailure?: OnBatchTaskFailureOutput;
+  onTaskFailure?: BatchTaskFailureModeOutput;
   /** The network configuration for the Job. */
   networkConfiguration?: BatchJobNetworkConfigurationOutput;
   /** The execution constraints for Jobs created under this schedule. */
@@ -1807,7 +1807,7 @@ export interface BatchJobSpecificationOutput {
   /** The Pool on which the Batch service runs the Tasks of Jobs created under this schedule. */
   poolInfo: BatchPoolInfoOutput;
   /** A list of name-value pairs associated with each Job created under this schedule as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
-  metadata?: Array<MetadataItemOutput>;
+  metadata?: Array<BatchMetadataItemOutput>;
 }
 
 /**
@@ -1903,7 +1903,7 @@ export interface ExitOptionsOutput {
    *
    * Possible values: "none", "disable", "terminate"
    */
-  jobAction?: BatchJobActionOutput;
+  jobAction?: BatchJobActionKindOutput;
   /**
    * An action that the Batch service performs on Tasks that depend on this Task. Possible values are 'satisfy' (allowing dependent tasks to progress) and 'block' (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks.
    *
@@ -1929,7 +1929,7 @@ export interface ExitCodeRangeMappingOutput {
  * A locality hint that can be used by the Batch service to select a Compute Node
  * on which to start a Task.
  */
-export interface AffinityInfoOutput {
+export interface BatchAffinityInfoOutput {
   /** An opaque string representing the location of a Compute Node or a Task that has run previously. You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere. */
   affinityId: string;
 }
@@ -2033,7 +2033,7 @@ export interface BatchTaskOutput {
   /** A list of environment variable settings for the Task. */
   readonly environmentSettings?: Array<EnvironmentSettingOutput>;
   /** A locality hint that can be used by the Batch service to select a Compute Node on which to start the new Task. */
-  readonly affinityInfo?: AffinityInfoOutput;
+  readonly affinityInfo?: BatchAffinityInfoOutput;
   /** The execution constraints that apply to this Task. */
   constraints?: BatchTaskConstraintsOutput;
   /** The number of scheduling slots that the Task requires to run. The default is 1. A Task can only be scheduled to run on a compute node if the node has enough free scheduling slots available. For multi-instance Tasks, this must be 1. */
@@ -2126,14 +2126,14 @@ export interface BatchTaskStatisticsOutput {
   waitTime: string;
 }
 
-/** The result of adding a collection of Tasks to a Job. */
-export interface BatchTaskAddCollectionResultOutput {
-  /** The results of the add Task collection operation. */
-  value?: Array<BatchTaskAddResultOutput>;
+/** The result of creating a collection of Tasks to a Job. */
+export interface BatchCreateTaskCollectionResultOutput {
+  /** The results of the create Task collection operation. */
+  value?: Array<BatchTaskCreateResultOutput>;
 }
 
-/** Result for a single Task added as part of an add Task collection operation. */
-export interface BatchTaskAddResultOutput {
+/** Result for a single Task created as part of an add Task collection operation. */
+export interface BatchTaskCreateResultOutput {
   /**
    * The status of the add Task request.
    *
@@ -2400,7 +2400,7 @@ export interface BatchNodeAgentInfoOutput {
 /** Info about the current state of the virtual machine. */
 export interface VirtualMachineInfoOutput {
   /** The reference to the Azure Virtual Machine's Marketplace Image. */
-  imageReference?: ImageReferenceOutput;
+  imageReference?: BatchImageReferenceOutput;
   /** The resource ID of the Compute Node's current Virtual Machine Scale Set VM. Only defined if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
   scaleSetVmResourceId?: string;
 }
@@ -2533,16 +2533,16 @@ export type ImageVerificationTypeOutput = string;
 export type BatchJobStateOutput = string;
 /** Alias for OutputFileUploadConditionOutput */
 export type OutputFileUploadConditionOutput = string;
-/** Alias for AccessScopeOutput */
-export type AccessScopeOutput = string;
+/** Alias for BatchAccessScopeOutput */
+export type BatchAccessScopeOutput = string;
 /** Alias for BatchPoolLifetimeOptionOutput */
 export type BatchPoolLifetimeOptionOutput = string;
-/** Alias for OnAllBatchTasksCompleteOutput */
-export type OnAllBatchTasksCompleteOutput = string;
-/** Alias for OnBatchTaskFailureOutput */
-export type OnBatchTaskFailureOutput = string;
-/** Alias for ErrorCategoryOutput */
-export type ErrorCategoryOutput = string;
+/** Alias for BatchAllTasksCompleteModeOutput */
+export type BatchAllTasksCompleteModeOutput = string;
+/** Alias for BatchTaskFailureModeOutput */
+export type BatchTaskFailureModeOutput = string;
+/** Alias for BatchErrorSourceCategoryOutput */
+export type BatchErrorSourceCategoryOutput = string;
 /** Alias for BatchJobPreparationTaskStateOutput */
 export type BatchJobPreparationTaskStateOutput = string;
 /** Alias for BatchTaskExecutionResultOutput */
@@ -2555,8 +2555,8 @@ export type BatchCertificateStateOutput = string;
 export type BatchCertificateFormatOutput = string;
 /** Alias for BatchJobScheduleStateOutput */
 export type BatchJobScheduleStateOutput = string;
-/** Alias for BatchJobActionOutput */
-export type BatchJobActionOutput = string;
+/** Alias for BatchJobActionKindOutput */
+export type BatchJobActionKindOutput = string;
 /** Alias for DependencyActionOutput */
 export type DependencyActionOutput = string;
 /** Alias for BatchTaskStateOutput */

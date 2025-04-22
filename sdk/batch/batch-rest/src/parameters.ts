@@ -4,32 +4,32 @@
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
-  BatchPoolCreateContent,
-  BatchPoolUpdateContent,
-  BatchPoolEnableAutoScaleContent,
-  BatchPoolEvaluateAutoScaleContent,
-  BatchPoolResizeContent,
-  BatchPoolReplaceContent,
-  BatchNodeRemoveContent,
-  BatchJobUpdateContent,
+  BatchPoolCreateOptions,
+  BatchPoolUpdateOptions,
+  BatchPoolEnableAutoScaleOptions,
+  BatchPoolEvaluateAutoScaleOptions,
+  BatchPoolResizeOptions,
+  BatchPoolReplaceOptions,
+  BatchNodeRemoveOptions,
+  BatchJobUpdateOptions,
   BatchJob,
-  BatchJobDisableContent,
-  BatchJobTerminateContent,
-  BatchJobCreateContent,
+  BatchJobDisableOptions,
+  BatchJobTerminateOptions,
+  BatchJobCreateOptions,
   BatchCertificate,
-  BatchJobScheduleUpdateContent,
+  BatchJobScheduleUpdateOptions,
   BatchJobSchedule,
-  BatchJobScheduleCreateContent,
-  BatchTaskCreateContent,
+  BatchJobScheduleCreateOptions,
+  BatchTaskCreateOptions,
   BatchTaskGroup,
   BatchTask,
-  BatchNodeUserCreateContent,
-  BatchNodeUserUpdateContent,
-  BatchNodeRebootContent,
-  BatchNodeDeallocateContent,
-  BatchNodeReimageContent,
-  BatchNodeDisableSchedulingContent,
-  UploadBatchServiceLogsContent,
+  BatchNodeUserCreateOptions,
+  BatchNodeUserUpdateOptions,
+  BatchNodeRebootKinds,
+  BatchNodeDeallocateOptions,
+  BatchNodeReimageOptions,
+  BatchNodeDisableSchedulingOptions,
+  UploadBatchServiceLogsOptions,
 } from "./models.js";
 
 export interface ListApplicationsHeaders {
@@ -176,7 +176,7 @@ export interface CreatePoolHeaders {
 
 export interface CreatePoolBodyParam {
   /** The Pool to be created. */
-  body: BatchPoolCreateContent;
+  body: BatchPoolCreateOptions;
 }
 
 export interface CreatePoolQueryParamProperties {
@@ -499,7 +499,7 @@ export interface UpdatePoolHeaders {
 
 export interface UpdatePoolBodyParam {
   /** The pool properties to update. */
-  body: BatchPoolUpdateContent;
+  body: BatchPoolUpdateOptions;
 }
 
 export interface UpdatePoolQueryParamProperties {
@@ -601,7 +601,7 @@ export interface EnablePoolAutoScaleHeaders {
 
 export interface EnablePoolAutoScaleBodyParam {
   /** The options to use for enabling automatic scaling. */
-  body: BatchPoolEnableAutoScaleContent;
+  body: BatchPoolEnableAutoScaleOptions;
 }
 
 export interface EnablePoolAutoScaleQueryParamProperties {
@@ -646,7 +646,7 @@ export interface EvaluatePoolAutoScaleHeaders {
 
 export interface EvaluatePoolAutoScaleBodyParam {
   /** The options to use for evaluating the automatic scaling formula. */
-  body: BatchPoolEvaluateAutoScaleContent;
+  body: BatchPoolEvaluateAutoScaleOptions;
 }
 
 export interface EvaluatePoolAutoScaleQueryParamProperties {
@@ -715,7 +715,7 @@ export interface ResizePoolHeaders {
 
 export interface ResizePoolBodyParam {
   /** The options to use for resizing the pool. */
-  body: BatchPoolResizeContent;
+  body: BatchPoolResizeOptions;
 }
 
 export interface ResizePoolQueryParamProperties {
@@ -817,7 +817,7 @@ export interface ReplacePoolPropertiesHeaders {
 
 export interface ReplacePoolPropertiesBodyParam {
   /** The options to use for replacing properties on the pool. */
-  body: BatchPoolReplaceContent;
+  body: BatchPoolReplaceOptions;
 }
 
 export interface ReplacePoolPropertiesQueryParamProperties {
@@ -886,7 +886,7 @@ export interface RemoveNodesHeaders {
 
 export interface RemoveNodesBodyParam {
   /** The options to use for removing the node. */
-  body: BatchNodeRemoveContent;
+  body: BatchNodeRemoveOptions;
 }
 
 export interface RemoveNodesQueryParamProperties {
@@ -1177,7 +1177,7 @@ export interface UpdateJobHeaders {
 
 export interface UpdateJobBodyParam {
   /** The options to use for updating the Job. */
-  body: BatchJobUpdateContent;
+  body: BatchJobUpdateOptions;
 }
 
 export interface UpdateJobQueryParamProperties {
@@ -1315,7 +1315,7 @@ export interface DisableJobHeaders {
 
 export interface DisableJobBodyParam {
   /** The options to use for disabling the Job. */
-  body: BatchJobDisableContent;
+  body: BatchJobDisableOptions;
 }
 
 export interface DisableJobQueryParamProperties {
@@ -1439,7 +1439,7 @@ export interface TerminateJobHeaders {
 
 export interface TerminateJobBodyParam {
   /** The options to use for terminating the Job. */
-  body?: BatchJobTerminateContent;
+  body?: BatchJobTerminateOptions;
 }
 
 export interface TerminateJobQueryParamProperties {
@@ -1486,7 +1486,7 @@ export interface CreateJobHeaders {
 
 export interface CreateJobBodyParam {
   /** The Job to be created. */
-  body: BatchJobCreateContent;
+  body: BatchJobCreateOptions;
 }
 
 export interface CreateJobQueryParamProperties {
@@ -2184,7 +2184,7 @@ export interface UpdateJobScheduleHeaders {
 
 export interface UpdateJobScheduleBodyParam {
   /** The options to use for updating the Job Schedule. */
-  body: BatchJobScheduleUpdateContent;
+  body: BatchJobScheduleUpdateOptions;
 }
 
 export interface UpdateJobScheduleQueryParamProperties {
@@ -2471,7 +2471,7 @@ export interface CreateJobScheduleHeaders {
 
 export interface CreateJobScheduleBodyParam {
   /** The Job Schedule to be created. */
-  body: BatchJobScheduleCreateContent;
+  body: BatchJobScheduleCreateOptions;
 }
 
 export interface CreateJobScheduleQueryParamProperties {
@@ -2583,7 +2583,7 @@ export interface CreateTaskHeaders {
 
 export interface CreateTaskBodyParam {
   /** The Task to be created. */
-  body: BatchTaskCreateContent;
+  body: BatchTaskCreateOptions;
 }
 
 export interface CreateTaskQueryParamProperties {
@@ -3283,7 +3283,7 @@ export interface CreateNodeUserHeaders {
 
 export interface CreateNodeUserBodyParam {
   /** The options to use for creating the user. */
-  body: BatchNodeUserCreateContent;
+  body: BatchNodeUserCreateOptions;
 }
 
 export interface CreateNodeUserQueryParamProperties {
@@ -3361,7 +3361,7 @@ export interface ReplaceNodeUserHeaders {
 
 export interface ReplaceNodeUserBodyParam {
   /** The options to use for updating the user. */
-  body: BatchNodeUserUpdateContent;
+  body: BatchNodeUserUpdateOptions;
 }
 
 export interface ReplaceNodeUserQueryParamProperties {
@@ -3449,7 +3449,7 @@ export interface RebootNodeHeaders {
 
 export interface RebootNodeBodyParam {
   /** The options to use for rebooting the Compute Node. */
-  body?: BatchNodeRebootContent;
+  body?: BatchNodeRebootKinds;
 }
 
 export interface RebootNodeQueryParamProperties {
@@ -3525,7 +3525,7 @@ export interface DeallocateNodeHeaders {
 
 export interface DeallocateNodeBodyParam {
   /** The options to use for deallocating the Compute Node. */
-  body?: BatchNodeDeallocateContent;
+  body?: BatchNodeDeallocateOptions;
 }
 
 export interface DeallocateNodeQueryParamProperties {
@@ -3570,7 +3570,7 @@ export interface ReimageNodeHeaders {
 
 export interface ReimageNodeBodyParam {
   /** The options to use for reimaging the Compute Node. */
-  body?: BatchNodeReimageContent;
+  body?: BatchNodeReimageOptions;
 }
 
 export interface ReimageNodeQueryParamProperties {
@@ -3615,7 +3615,7 @@ export interface DisableNodeSchedulingHeaders {
 
 export interface DisableNodeSchedulingBodyParam {
   /** The options to use for disabling scheduling on the Compute Node. */
-  body?: BatchNodeDisableSchedulingContent;
+  body?: BatchNodeDisableSchedulingOptions;
 }
 
 export interface DisableNodeSchedulingQueryParamProperties {
@@ -3726,7 +3726,7 @@ export interface UploadNodeLogsHeaders {
 
 export interface UploadNodeLogsBodyParam {
   /** The Azure Batch service log files upload options. */
-  body: UploadBatchServiceLogsContent;
+  body: UploadBatchServiceLogsOptions;
 }
 
 export interface UploadNodeLogsQueryParamProperties {
