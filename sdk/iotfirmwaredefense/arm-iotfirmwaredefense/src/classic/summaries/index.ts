@@ -36,35 +36,18 @@ function _getSummaries(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: SummariesListByFirmwareOptionalParams,
-    ) =>
-      listByFirmware(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        options,
-      ),
+    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
     get: (
       resourceGroupName: string,
       workspaceName: string,
       firmwareId: string,
       summaryType: SummaryType,
       options?: SummariesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        summaryType,
-        options,
-      ),
+    ) => get(context, resourceGroupName, workspaceName, firmwareId, summaryType, options),
   };
 }
 
-export function _getSummariesOperations(
-  context: IoTFirmwareDefenseContext,
-): SummariesOperations {
+export function _getSummariesOperations(context: IoTFirmwareDefenseContext): SummariesOperations {
   return {
     ..._getSummaries(context),
   };

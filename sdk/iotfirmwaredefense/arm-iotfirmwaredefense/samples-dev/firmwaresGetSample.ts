@@ -32,11 +32,7 @@ async function firmwaresGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "685C0C6F-9867-4B1C-A534-AA3A05B54BCE";
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
-  const result = await client.firmwares.get(
-    "rgworkspaces-firmwares",
-    "A7",
-    "umrkdttp",
-  );
+  const result = await client.firmwares.get("rgworkspaces-firmwares", "A7", "umrkdttp");
   console.log(result);
 }
 

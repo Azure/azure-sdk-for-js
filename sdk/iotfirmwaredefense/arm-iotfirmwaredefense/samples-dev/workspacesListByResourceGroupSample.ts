@@ -15,9 +15,7 @@ async function workspacesListByResourceGroupMaximumSetGenGeneratedByMaximumSetRu
   const subscriptionId = "5C707B5F-6130-4F71-819E-953A28942E88";
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.workspaces.listByResourceGroup(
-    "rgiotfirmwaredefense",
-  )) {
+  for await (const item of client.workspaces.listByResourceGroup("rgiotfirmwaredefense")) {
     resArray.push(item);
   }
 
@@ -35,9 +33,7 @@ async function workspacesListByResourceGroupMaximumSetGenGeneratedByMaximumSetRu
   const subscriptionId = "5C707B5F-6130-4F71-819E-953A28942E88";
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.workspaces.listByResourceGroup(
-    "rgiotfirmwaredefense",
-  )) {
+  for await (const item of client.workspaces.listByResourceGroup("rgiotfirmwaredefense")) {
     resArray.push(item);
   }
 

@@ -25,14 +25,7 @@ function _getPasswordHashes(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: PasswordHashesListByFirmwareOptionalParams,
-    ) =>
-      listByFirmware(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        options,
-      ),
+    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
   };
 }
 

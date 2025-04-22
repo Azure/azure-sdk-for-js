@@ -4,16 +4,13 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface WorkspacesGenerateUploadUrlOptionalParams
-  extends OperationOptions {}
+export interface WorkspacesGenerateUploadUrlOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspacesListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface WorkspacesListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspacesListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface WorkspacesListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspacesDeleteOptionalParams extends OperationOptions {}

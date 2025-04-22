@@ -25,14 +25,7 @@ function _getSbomComponents(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: SbomComponentsListByFirmwareOptionalParams,
-    ) =>
-      listByFirmware(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        options,
-      ),
+    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
   };
 }
 

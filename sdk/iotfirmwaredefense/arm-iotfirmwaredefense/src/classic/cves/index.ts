@@ -25,20 +25,11 @@ function _getCves(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: CvesListByFirmwareOptionalParams,
-    ) =>
-      listByFirmware(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        options,
-      ),
+    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
   };
 }
 
-export function _getCvesOperations(
-  context: IoTFirmwareDefenseContext,
-): CvesOperations {
+export function _getCvesOperations(context: IoTFirmwareDefenseContext): CvesOperations {
   return {
     ..._getCves(context),
   };

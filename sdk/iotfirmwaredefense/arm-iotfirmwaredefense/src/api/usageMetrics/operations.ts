@@ -43,15 +43,13 @@ export function _listByWorkspaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByWorkspaceDeserialize(
@@ -76,8 +74,7 @@ export function listByWorkspace(
 ): PagedAsyncIterableIterator<UsageMetric> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
+    () => _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
     _listByWorkspaceDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -104,20 +101,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<UsageMetric> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<UsageMetric> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -136,12 +129,6 @@ export async function get(
   name: string,
   options: UsageMetricsGetOptionalParams = { requestOptions: {} },
 ): Promise<UsageMetric> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    name,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, workspaceName, name, options);
   return _getDeserialize(result);
 }

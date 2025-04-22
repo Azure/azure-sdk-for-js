@@ -14,22 +14,18 @@ async function workspacesCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5C707B5F-6130-4F71-819E-953A28942E88";
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
-  const result = await client.workspaces.create(
-    "rgiotfirmwaredefense",
-    "exampleWorkspaceName",
-    {
-      properties: {},
-      tags: { key4630: "rov" },
-      location: "emiscxuo",
-      sku: {
-        name: "pb",
-        tier: "Free",
-        size: "unh",
-        family: "fwsu",
-        capacity: 22,
-      },
+  const result = await client.workspaces.create("rgiotfirmwaredefense", "exampleWorkspaceName", {
+    properties: {},
+    tags: { key4630: "rov" },
+    location: "emiscxuo",
+    sku: {
+      name: "pb",
+      tier: "Free",
+      size: "unh",
+      family: "fwsu",
+      capacity: 22,
     },
-  );
+  });
   console.log(result);
 }
 

@@ -10,10 +10,7 @@ import {
   UsageMetricsOperations,
   _getUsageMetricsOperations,
 } from "./classic/usageMetrics/index.js";
-import {
-  SummariesOperations,
-  _getSummariesOperations,
-} from "./classic/summaries/index.js";
+import { SummariesOperations, _getSummariesOperations } from "./classic/summaries/index.js";
 import {
   SbomComponentsOperations,
   _getSbomComponentsOperations,
@@ -23,10 +20,7 @@ import {
   _getPasswordHashesOperations,
 } from "./classic/passwordHashes/index.js";
 import { CvesOperations, _getCvesOperations } from "./classic/cves/index.js";
-import {
-  CryptoKeysOperations,
-  _getCryptoKeysOperations,
-} from "./classic/cryptoKeys/index.js";
+import { CryptoKeysOperations, _getCryptoKeysOperations } from "./classic/cryptoKeys/index.js";
 import {
   CryptoCertificatesOperations,
   _getCryptoCertificatesOperations,
@@ -35,18 +29,9 @@ import {
   BinaryHardeningOperations,
   _getBinaryHardeningOperations,
 } from "./classic/binaryHardening/index.js";
-import {
-  WorkspacesOperations,
-  _getWorkspacesOperations,
-} from "./classic/workspaces/index.js";
-import {
-  FirmwaresOperations,
-  _getFirmwaresOperations,
-} from "./classic/firmwares/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import { FirmwaresOperations, _getFirmwaresOperations } from "./classic/firmwares/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

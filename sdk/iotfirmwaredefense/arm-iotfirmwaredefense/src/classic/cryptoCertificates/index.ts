@@ -25,14 +25,7 @@ function _getCryptoCertificates(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: CryptoCertificatesListByFirmwareOptionalParams,
-    ) =>
-      listByFirmware(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        options,
-      ),
+    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
   };
 }
 

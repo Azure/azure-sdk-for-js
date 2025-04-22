@@ -25,20 +25,11 @@ function _getCryptoKeys(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: CryptoKeysListByFirmwareOptionalParams,
-    ) =>
-      listByFirmware(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        options,
-      ),
+    ) => listByFirmware(context, resourceGroupName, workspaceName, firmwareId, options),
   };
 }
 
-export function _getCryptoKeysOperations(
-  context: IoTFirmwareDefenseContext,
-): CryptoKeysOperations {
+export function _getCryptoKeysOperations(context: IoTFirmwareDefenseContext): CryptoKeysOperations {
   return {
     ..._getCryptoKeys(context),
   };

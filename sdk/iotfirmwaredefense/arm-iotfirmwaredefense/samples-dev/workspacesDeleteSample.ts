@@ -14,10 +14,7 @@ async function workspacesDeleteMaximumSetGenGeneratedByMaximumSetRule(): Promise
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5C707B5F-6130-4F71-819E-953A28942E88";
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
-  await client.workspaces.delete(
-    "rgiotfirmwaredefense",
-    "exampleWorkspaceName",
-  );
+  await client.workspaces.delete("rgiotfirmwaredefense", "exampleWorkspaceName");
 }
 
 /**

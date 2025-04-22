@@ -10,13 +10,7 @@ import {
   FirmwaresCreateOptionalParams,
   FirmwaresGetOptionalParams,
 } from "../../api/firmwares/options.js";
-import {
-  listByWorkspace,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/firmwares/operations.js";
+import { listByWorkspace, $delete, update, create, get } from "../../api/firmwares/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Firmwares operations. */
@@ -76,38 +70,21 @@ function _getFirmwares(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       firmwareId: string,
       options?: FirmwaresDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, workspaceName, firmwareId, options),
+    ) => $delete(context, resourceGroupName, workspaceName, firmwareId, options),
     update: (
       resourceGroupName: string,
       workspaceName: string,
       firmwareId: string,
       properties: FirmwareUpdateDefinition,
       options?: FirmwaresUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, workspaceName, firmwareId, properties, options),
     create: (
       resourceGroupName: string,
       workspaceName: string,
       firmwareId: string,
       resource: Firmware,
       options?: FirmwaresCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        workspaceName,
-        firmwareId,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, workspaceName, firmwareId, resource, options),
     get: (
       resourceGroupName: string,
       workspaceName: string,
@@ -117,9 +94,7 @@ function _getFirmwares(context: IoTFirmwareDefenseContext) {
   };
 }
 
-export function _getFirmwaresOperations(
-  context: IoTFirmwareDefenseContext,
-): FirmwaresOperations {
+export function _getFirmwaresOperations(context: IoTFirmwareDefenseContext): FirmwaresOperations {
   return {
     ..._getFirmwares(context),
   };

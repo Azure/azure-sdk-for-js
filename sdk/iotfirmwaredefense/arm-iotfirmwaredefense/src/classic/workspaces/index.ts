@@ -86,17 +86,9 @@ function _getWorkspaces(context: IoTFirmwareDefenseContext) {
       workspaceName: string,
       body: GenerateUploadUrlRequest,
       options?: WorkspacesGenerateUploadUrlOptionalParams,
-    ) =>
-      generateUploadUrl(
-        context,
-        resourceGroupName,
-        workspaceName,
-        body,
-        options,
-      ),
-    listBySubscription: (
-      options?: WorkspacesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    ) => generateUploadUrl(context, resourceGroupName, workspaceName, body, options),
+    listBySubscription: (options?: WorkspacesListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: WorkspacesListByResourceGroupOptionalParams,
@@ -126,9 +118,7 @@ function _getWorkspaces(context: IoTFirmwareDefenseContext) {
   };
 }
 
-export function _getWorkspacesOperations(
-  context: IoTFirmwareDefenseContext,
-): WorkspacesOperations {
+export function _getWorkspacesOperations(context: IoTFirmwareDefenseContext): WorkspacesOperations {
   return {
     ..._getWorkspaces(context),
   };

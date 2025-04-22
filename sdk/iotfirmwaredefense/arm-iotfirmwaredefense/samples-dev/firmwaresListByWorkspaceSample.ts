@@ -36,10 +36,7 @@ async function firmwaresListByWorkspaceMinimumSetGen(): Promise<void> {
   const subscriptionId = "685C0C6F-9867-4B1C-A534-AA3A05B54BCE";
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.firmwares.listByWorkspace(
-    "rgworkspaces-firmwares",
-    "A7",
-  )) {
+  for await (const item of client.firmwares.listByWorkspace("rgworkspaces-firmwares", "A7")) {
     resArray.push(item);
   }
 
