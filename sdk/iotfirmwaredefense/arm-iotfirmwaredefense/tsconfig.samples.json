@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-iotfirmwaredefense": ["./dist/esm"]
+      "@azure/arm-iotfirmwaredefense": [
+        "./dist/esm"
+      ]
     }
   }
 }
