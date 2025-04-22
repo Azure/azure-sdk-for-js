@@ -2,10 +2,18 @@
 // Licensed under the MIT License.
 
 import { DurableTaskClient } from "./durableTaskClient.js";
-import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/taskHubs/operations.js";
+import {
+  _$deleteDeserialize,
+  _updateDeserialize,
+  _createOrReplaceDeserialize,
+} from "./api/retentionPolicies/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeTaskHubs,
+  _createOrUpdateDeserialize,
+} from "./api/taskHubs/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeSchedulers,
-  _updateDeserialize,
+  _updateDeserialize as _updateDeserializeSchedulers,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeSchedulers,
 } from "./api/schedulers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
@@ -81,9 +89,21 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
     {
       deserializer: _$deleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/retentionPolicies/default":
+    {
+      deserializer: _createOrReplaceDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}":
+    {
+      deserializer: _$deleteDeserializeTaskHubs,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}/taskHubs/{taskHubName}":
@@ -97,7 +117,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    {
+      deserializer: _updateDeserializeSchedulers,
+      expectedStatuses: ["200", "202"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DurableTask/schedulers/{schedulerName}":
     {
       deserializer: _createOrUpdateDeserializeSchedulers,
