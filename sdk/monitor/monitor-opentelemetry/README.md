@@ -81,8 +81,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
-  enableTraceBasedSamplingForLogs: false,
-  enablePerformanceCounters: true,
 };
 useAzureMonitor(options);
 ```
@@ -391,10 +389,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import {
-      AzureMonitorOpenTelemetryOptions,
-      useAzureMonitor,
-    } from "@azure/monitor-opentelemetry";
+    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
@@ -427,25 +422,25 @@ You might use the following ways to filter out telemetry before it leaves your a
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
       ```ts snippet:ReadmeSampleCustomProcessor
-        import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
-        import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
-        class SpanEnrichingProcessor implements SpanProcessor {
-          async forceFlush(): Promise<void> {
-            // Force flush code here
-          }
-          onStart(_span: Span, _parentContext: Context): void {
-            // Normal code here
-          }
-          async shutdown(): Promise<void> {
-            // Shutdown code here
-          }
-          onEnd(span: ReadableSpan): void {
-            if (span.kind === SpanKind.INTERNAL) {
-              span.spanContext().traceFlags = TraceFlags.NONE;
-            }
+      class SpanEnrichingProcessor implements SpanProcessor {
+        async forceFlush(): Promise<void> {
+          // Force flush code here
+        }
+        onStart(_span: Span, _parentContext: Context): void {
+          // Normal code here
+        }
+        async shutdown(): Promise<void> {
+          // Shutdown code here
+        }
+        onEnd(span: ReadableSpan): void {
+          if (span.kind === SpanKind.INTERNAL) {
+            span.spanContext().traceFlags = TraceFlags.NONE;
           }
         }
+      }
       ```
 
 ## Custom telemetry

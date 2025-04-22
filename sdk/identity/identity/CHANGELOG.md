@@ -1,6 +1,6 @@
 # Release History
 
-## 4.9.1 (Unreleased)
+## 4.9.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.9.1 (2025-04-17)
+
+### Bugs Fixed
+
+- Update the order for conditional exports so that the most specific conditions are listed first. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
+- Fix a bug in which `self.location` is undefined in specific environment. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
 
 ## 4.9.0 (2025-04-16)
 
