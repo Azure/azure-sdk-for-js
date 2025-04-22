@@ -242,6 +242,18 @@ export interface PipelineRequest {
 
   /** Settings for configuring TLS authentication */
   tlsSettings?: TlsSettings;
+
+  /**
+   * Additional options to set on the request. This provides a way to override
+   * existing ones or provide request properties that are not declared.
+   *
+   * For possible valid properties, see
+   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *   - Browser RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
+   *
+   * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
+   */
+  requestOverrides?: Record<string, unknown>;
 }
 
 /**
