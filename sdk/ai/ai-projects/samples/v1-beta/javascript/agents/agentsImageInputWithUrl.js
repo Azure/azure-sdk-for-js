@@ -4,11 +4,10 @@
 /**
  * @summary This sample demonstrates how to use basic agent operations using image url input for the
  * Azure Agents service.
- *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AIProjectsClient } = require("@azure/ai-projects");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load environment variables
 const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING || "<connection-string>";
@@ -16,7 +15,7 @@ const modelDeployment = process.env.MODEL_DEPLOYMENT_NAME || "<model-deployment-
 const imageUrl =
   "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== AI Projects Agent with Image Input Sample ==");
 
   // Create the client
@@ -99,3 +98,5 @@ export async function main(): Promise<void> {
 main().catch((error) => {
   console.error("An error occurred:", error);
 });
+
+module.exports = { main };

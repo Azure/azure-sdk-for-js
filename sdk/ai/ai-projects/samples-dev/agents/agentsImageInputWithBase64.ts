@@ -4,7 +4,6 @@
 /**
  * @summary This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service.
  *
- * @azsdk-skip-javascript
  */
 
 import { AIProjectsClient } from "@azure/ai-projects";
