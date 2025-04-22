@@ -176,9 +176,19 @@ Findings communicated to Dr. Jane Smith.`,
     provideFocusedSentenceEvidence: true,
   };
 
+  const qualityMeasureOptions = {
+    measureTypes: ["mips364", "mips360", "mips436"],
+  }
+
+  const guidancOptions = {
+    showGuidanceInHistory: true,
+  };
+
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
     findingOptions: findingOptions,
+    GuidanceOptions: guidancOptions,
+    QualityMeasureOptions: qualityMeasureOptions,
   };
 
   // Create RI Configuration

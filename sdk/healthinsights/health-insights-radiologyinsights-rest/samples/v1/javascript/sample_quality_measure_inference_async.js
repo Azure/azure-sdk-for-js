@@ -4,16 +4,14 @@
 /**
  * @summary Displays the quality measure the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-  getLongRunningPoller,
-  isUnexpected
-} from "../src/index.js";
+const dotenv = require("dotenv");
+const AzureHealthInsightsClient = require("../src").default,
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
+
+dotenv.config();
+
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
@@ -22,17 +20,14 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
  * Print the quality measure inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
         patientResult.inferences.forEach(
           (inference: {
-            kind: string;
-            qualityMeasureDenominator: string;
-            complianceType: string;
-            qualityCriteria?: string[];
+            kind; qualityMeasureDenominator; complianceType; qualityCriteria?;
           }) => {
             if (inference.kind === "qualityMeasure") {
               console.log("Quality Measure Inference found:");
@@ -211,7 +206,7 @@ Findings communicated to Dr. Jane Smith.`,
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -233,9 +228,11 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {
   console.error("The quality measure encountered an error:", err);
 });
+
+module.exports = { main };

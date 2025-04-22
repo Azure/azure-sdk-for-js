@@ -2,8 +2,5 @@
   "extends": [
     "./tsconfig.src.json",
     "../../../tsconfig.test.base.json"
-  ],
-  "compilerOptions": {
-    "noEmit": false
-  }
+  ]
 }

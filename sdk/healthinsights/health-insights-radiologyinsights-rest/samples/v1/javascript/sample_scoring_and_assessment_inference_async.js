@@ -4,50 +4,52 @@
 /**
  * @summary Displays the quality measure the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
 
-import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-  getLongRunningPoller,
-  isUnexpected
-} from "../src/index.js";
+const dotenv = require("dotenv");
+const AzureHealthInsightsClient = require("../src").default,
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
+
+dotenv.config();
+
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the quality measure inference
+ * Print the scoring and assessment inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
         patientResult.inferences.forEach(
           (inference: {
-            kind: string;
-            qualityMeasureDenominator: string;
-            complianceType: string;
-            qualityCriteria?: string[];
+            kind; category; categoryDescription; singleValue?; rangeValue?
+
           }) => {
-            if (inference.kind === "qualityMeasure") {
-              console.log("Quality Measure Inference found:");
+            if (inference.kind === "scoringAndAssessment") {
+              console.log("Scoring and Assessment Inference found:");
 
-              if ("qualityMeasureDenominator" in inference) {
-                console.log("   Quality Measure Denominator: ", inference.qualityMeasureDenominator);
+              if ("category" in inference) {
+                console.log("   Category: ", inference.category);
               }
 
-              if ("complianceType" in inference) {
-                console.log("   Compliance Type: ", inference.complianceType);
+              if ("categoryDescription" in inference) {
+                console.log("   Category Description: ", inference.categoryDescription);
               }
 
-              inference.qualityCriteria?.forEach((criteria: any) => {
-                console.log("   Quality Criterium: ", criteria);
-              })
+              if ("singleValue" in inference) {
+                console.log("   Singe Value: ", inference.singleValue);
+              }
+
+              if ("rangeValue" in inference) {
+                console.log("   Range Value: ");
+                displayValueRange(inference.rangeValue);
+              }
+
 
             }
           })
@@ -59,14 +61,23 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       }
     }
   }
-
 }
+
+function displayValueRange(range: any): void {
+  if ("minimum" in range) {
+    console.log("     Min: ", range.minimum);
+  }
+  if ("maximum" in range) {
+    console.log("     Max: ", range.maximum);
+  }
+}
+
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "CTCHWO",
-    display: "CT CHEST WO CONTRAST",
+    code: "USTHY",
+    display: "US THYROID",
   };
 
   const code = {
@@ -104,27 +115,23 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `EXAM: CT CHEST WO CONTRAST
+    value: `Exam: US THYROID
 
-INDICATION: abnormal lung findings. History of emphysema.
+Clinical History: Thyroid nodules. 76 year old patient.
 
-TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique. 
+Comparison: none.
 
-COMPARISON: Chest CT dated 6/21/2022.
-Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
+Findings:
+Right lobe: 4.8 x 1.6 x 1.4 cm
+Left Lobe: 4.1 x 1.3 x 1.3 cm
 
-FINDINGS:
-Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
-Limited evaluation of the upper abdomen shows no concerning abnormality.
-Review of bone windows shows no aggressive appearing osseous lesions.
+Isthmus: 4 mm
 
+There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
 
-IMPRESSION:
-
-1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
-2. Severe emphysema.
-
-Findings communicated to Dr. Jane Smith.`,
+Impression:
+Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
   };
 
   const patientDocumentData = {
@@ -174,19 +181,9 @@ Findings communicated to Dr. Jane Smith.`,
     provideFocusedSentenceEvidence: true,
   };
 
-  const qualityMeasureOptions = {
-    measureTypes: ["mips364", "mips360", "mips436"],
-  }
-
-  const guidancOptions = {
-    showGuidanceInHistory: true,
-  };
-
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
     findingOptions: findingOptions,
-    GuidanceOptions: guidancOptions,
-    QualityMeasureOptions: qualityMeasureOptions,
   };
 
   // Create RI Configuration
@@ -211,7 +208,7 @@ Findings communicated to Dr. Jane Smith.`,
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -233,9 +230,11 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {
   console.error("The quality measure encountered an error:", err);
 });
+
+module.exports = { main };

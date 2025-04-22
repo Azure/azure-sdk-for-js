@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the finding of the Radiology Insights request.
+ * @summary Displays the clinical guidance of the Radiology Insights request.
  */
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const dotenv = require("dotenv");
-const AzureHealthInsightsClient = require("../src").default,
-  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
+const AzureHealthInsightsClient = require("../../../src").default,
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../../../src");
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the finding inference
+ * Print the complete order discrepancy inference
  */
 
 function printResults(radiologyInsightsResult) {
@@ -27,53 +27,105 @@ function printResults(radiologyInsightsResult) {
       results.patientResults.forEach((patientResult) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "finding") {
-              console.log("Finding Inference found: ");
-
-              let find = inference.finding;
-              if ("code" in find) {
-                let fcode = find.code;
-                console.log("   Code: ");
-                displayCodes(fcode);
-              }
-
-              find.interpretation?.forEach((inter) => {
-                console.log("   Interpretation: ");
-                displayCodes(inter);
-              });
-
-              inference.finding.component?.forEach((comp) => {
-                console.log("   Component code: ");
-                displayCodes(comp.code);
-                if ("valueCodeableConcept" in comp) {
-                  console.log("     Value component codeable concept: ");
-                  displayCodes(comp.valueCodeableConcept);
+            if (inference.kind === "guidance") {
+              console.log("Guidance Inference found: ");
+              if ("finding" in inference) {
+                const find = inference.finding;
+                if ("code" in find) {
+                  const fcode = find.code;
+                  console.log("   Finding Code: ");
+                  displayCodes(fcode);
                 }
-              });
-
-              if ("extension" in inference) {
-                displaySectionInfo(inference);
               }
+
+              if ("identifier" in inference) {
+                console.log("   Identifier: ", inference.identifier);
+                if ("code" in inference.identifier) {
+                  displayCodes(inference.identifier.code);
+                }
+              }
+
+              inference.presentGuidanceInformation?.forEach((presentInfo) => {
+                console.log("   Present Guidance Information: ");
+                displayPresentGuidanceInformation(presentInfo);
+              })
+
+              if ("ranking" in inference) {
+                console.log("   Ranking: ", inference.ranking);
+              }
+
+              if ("recommendationProposals" in inference) {
+                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+              }
+
+              inference.missingGuidanceInformation?.forEach((missingInfo) => {
+                console.log("   Missing Guidance Information: ", missingInfo);
+              })
+
             }
-          });
+          })
+        }
+      });
+    } else {
+      const error = radiologyInsightsResult.error;
+      if (error) {
+        console.log(error.code, ":", error.message);
+      }
+    }
+
+    function displayCodes(codeableConcept) {
+      codeableConcept.coding?.forEach((coding) => {
+        if ("code" in coding) {
+          if ("display" in coding && "system" in coding && "code" in coding) {
+            console.log(
+              "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+            );
+          }
         }
       });
     }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
+
+    function displayPresentGuidanceInformation(guidanceinfo) {
+      console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
+
+      guidanceinfo.presentGuidanceValues?.forEach((sizes) => {
+        console.log("     Present Guidance Value: ", sizes);
+      })
+
+      guidanceinfo.sizes?.forEach((sizes) => {
+        if ("valueQuantity" in sizes) {
+          console.log("     Size valueQuantity: ");
+          displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
+        }
+        if ("valueRange" in sizes) {
+          if ("low" in sizes.valueRange) {
+            console.log("     Size ValueRange: min", sizes.valueRange.low);
+          }
+          if ("high" in sizes.valueRange) {
+            console.log("     Size ValueRange: max", sizes.valueRange.high);
+          }
+        }
+      })
+
+      if ("maximumDiameterAsInText" in guidanceinfo) {
+        console.log("     Maximum Diameter As In Text: ");
+        displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
+      }
+
+      if ("extension" in guidanceinfo) {
+        console.log("     Extension: ");
+        displaySectionInfo(guidanceinfo.extension);
+      }
     }
   }
 
-  function displayCodes(codeableConcept) {
-    codeableConcept.coding?.forEach((coding) => {
-      if ("code" in coding) {
-        console.log(
-          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-        );
-      }
-    });
+  function displayQuantityOutput(quantity) {
+    if ("value" in quantity) {
+      console.log("     Value: ", quantity.value);
+    }
+    if ("unit" in quantity) {
+      console.log("     Unit: ", quantity.unit);
+    }
   }
 
   function displaySectionInfo(inference) {
@@ -94,8 +146,8 @@ function printResults(radiologyInsightsResult) {
 function createRequestBody() {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "ANG366",
-    display: "XA VENACAVA FILTER INSERTION",
+    code: "71250",
+    display: "CT CHEST WO CONTRAST",
   };
 
   const code = {
@@ -103,8 +155,8 @@ function createRequestBody() {
   };
 
   const patientInfo = {
-    sex: "male",
-    birthDate: new Date("1980-04-22T02:00:00+00:00"),
+    sex: "female",
+    birthDate: "1959-11-11T19:00:00+00:00",
   };
 
   const encounterData = {
@@ -123,7 +175,7 @@ function createRequestBody() {
 
   const orderedProceduresData = {
     code: code,
-    description: "XA VENACAVA FILTER INSERTION",
+    description: "CT CHEST WO CONTRAST",
   };
 
   const administrativeMetadata = {
@@ -133,16 +185,12 @@ function createRequestBody() {
 
   const content = {
     sourceType: "inline",
-    value: `FINDINGS:
-    1. Inferior vena cavagram using CO2 contrast shows the IVC is normal
-    in course and caliber without filling defects to indicate clot. It
-    measures 19.8 mm. in diameter infrarenally.
-
-
-
-
-    2. Successful placement of IVC filter in infrarenal location.`,
+    value: `History:
+    Left renal tumor with thin septations.
+    Findings:
+    There is a right kidney tumor with nodular calcification.`,
   };
+
   const patientDocumentData = {
     type: "note",
     clinicalType: "radiologyReport",
@@ -153,11 +201,11 @@ function createRequestBody() {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
+    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
   };
 
   const patientData = {
-    id: "Roberto Lewis",
+    id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData],
@@ -243,7 +291,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("The finding encountered an error:", err);
+  console.error("The complete order encountered an error:", err);
 });
 
 module.exports = { main };
