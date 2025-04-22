@@ -41,7 +41,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 
 import type { Tags, Properties, Measurements } from "../../src/types.js";
-import { MaxPropertyLengths } from "../../src/types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "../../src/types.js";
 import { Context, getInstance } from "../../src/platform/index.js";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils.js";
 import type {
@@ -139,6 +139,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: "test rpc system",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -148,6 +149,7 @@ describe("spanUtils.ts", () => {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
           [KnownContextTagKeys.AiOperationName]: "parent span",
+          [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
         };
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -290,6 +292,7 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: "test rpc system",
           [SEMATTRS_PEER_SERVICE]: "test peer service",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -298,6 +301,7 @@ describe("spanUtils.ts", () => {
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
         };
         const expectedProperties = {
           "extra.attribute": "foo",

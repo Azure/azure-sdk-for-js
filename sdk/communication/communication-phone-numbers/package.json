@@ -9,9 +9,8 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:clean": "rush update --recheck && rush rebuild && dev-tool run build",
-    "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle",
-    "bundle": "dev-tool run bundle",
+    "build:samples": "echo skipped.",
+    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",

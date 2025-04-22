@@ -130,7 +130,7 @@ export class PerformanceCounterMetrics {
       },
     );
     this.processTimeGauge = this.meter.createObservableGauge(
-      PerformanceCounterMetricNames.PROCESS_TIME,
+      PerformanceCounterMetricNames.PROCESS_TIME_STANDARD,
       {
         description: "Process CPU usage as a percentage",
         valueType: ValueType.DOUBLE,
@@ -336,7 +336,12 @@ export class PerformanceCounterMetrics {
       this.lastAppCpuUsage = appCpuUsage;
       this.lastHrtime = hrtime;
       const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-      const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+      let value = 0;
+      if (appCpuPercent !== undefined) {
+        value = appCpuPercent;
+      } else {
+        value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+      }
       observableResult.observe(value);
     }
     this.lastCpusProcess = cpus;
@@ -371,7 +376,12 @@ export class PerformanceCounterMetrics {
         this.lastAppCpuUsage = appCpuUsage;
         this.lastHrtime = hrtime;
         const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-        const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        let value = 0;
+        if (appCpuPercent !== undefined) {
+          value = appCpuPercent;
+        } else {
+          value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        }
         observableResult.observe(value);
       }
       this.lastCpusProcess = cpus;

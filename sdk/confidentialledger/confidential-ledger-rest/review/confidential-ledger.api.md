@@ -694,6 +694,30 @@ export interface ListLedgerEntriesQueryParamProperties {
 }
 
 // @public (undocumented)
+export interface ListUserDefinedFunctions {
+    get(options?: ListUserDefinedFunctionsParameters): StreamableMethod<ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse>;
+}
+
+// @public
+export interface ListUserDefinedFunctions200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedUserDefinedFunctionsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ListUserDefinedFunctionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListUserDefinedFunctionsParameters = RequestParameters;
+
+// @public (undocumented)
 export interface ListUsers {
     get(options?: ListUsersParameters): StreamableMethod<ListUsers200Response | ListUsersDefaultResponse>;
 }
@@ -770,6 +794,13 @@ export interface PagedLedgerEntriesOutput {
     entries: Array<LedgerEntryOutput>;
     nextLink?: string;
     state: "Loading" | "Ready";
+}
+
+// @public
+export interface PagedUserDefinedFunctionsOutput {
+    // (undocumented)
+    functions: Array<UserDefinedFunctionOutput>;
+    nextLink?: string;
 }
 
 // @public
@@ -867,6 +898,7 @@ export interface Routes {
     (path: "/app/users"): ListUsers;
     (path: "/app/users/{userId}", userId: string): DeleteUser;
     (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
+    (path: "/app/userDefinedFunctions"): ListUserDefinedFunctions;
 }
 
 // @public
@@ -882,6 +914,12 @@ export interface TransactionReceiptOutput {
 export interface TransactionStatusOutput {
     state: "Committed" | "Pending";
     transactionId: string;
+}
+
+// @public
+export interface UserDefinedFunctionOutput {
+    code: string;
+    readonly id?: string;
 }
 
 // (No @packageDocumentation comment for this package)

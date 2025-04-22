@@ -1156,16 +1156,6 @@ index 58f6eba..2fd91b4 100644
    /**
     * Endpoint for the client
     */
-diff --git a/src/client/dom.d.ts b/src/client/dom.d.ts
-deleted file mode 100644
-index eabe718..0000000
---- a/src/client/dom.d.ts
-+++ /dev/null
-@@ -1,4 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
--
--/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
 index 05bd395..e3f46d2 100644
 --- a/src/client/getClient.ts
@@ -1473,15 +1463,15 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 201ff0d..248a49a 100644
+index 8136c63..0ff983d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.19.2";
-+export const SDK_VERSION: string = "0.2.1";
+-export const SDK_VERSION: string = "1.20.0";
++export const SDK_VERSION: string = "0.2.2";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
@@ -1524,7 +1514,7 @@ index fefe550..fb56a78 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index ad162e3..ae5349c 100644
+index 71a8bd6..e250048 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -1537,10 +1527,10 @@ index ad162e3..ae5349c 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..e7d682b 100644
+index 92a7ee9..4990189 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,116 +9,74 @@ declare global {
+@@ -9,116 +9,78 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1548,10 +1538,14 @@ index 92a7ee9..e7d682b 100644
 +export { AbortError } from "./abort-controller/AbortError.js";
 +export {
 +  createClientLogger,
++  getLogLevel,
++  setLogLevel,
 +  TypeSpecRuntimeLogger,
-+  type TypeSpecRuntimeClientLogger,
 +  type Debugger,
++  type TypeSpecRuntimeClientLogger,
++  type TypeSpecRuntimeLogLevel,
 +} from "./logger/logger.js";
++
  export type {
 -  Agent,
    BodyPart,
@@ -1716,7 +1710,7 @@ index 92a7ee9..e7d682b 100644
 +export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 +export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index ae5513d..28b26c8 100644
+index bbc7e3a..babbfd7 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,7 @@
@@ -1760,7 +1754,7 @@ index ae5513d..28b26c8 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -315,6 +317,21 @@ export type TransferProgressEvent = {
+@@ -327,6 +329,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
@@ -1795,192 +1789,520 @@ index db967c2..32452a9 100644
 +import { createClientLogger } from "./logger/logger.js";
 +export const logger = createClientLogger("ts-http-runtime");
 diff --git a/src/logger/debug.ts b/src/logger/debug.ts
-index d29ccec..3ba9f34 100644
---- a/src/logger/debug.ts
+new file mode 100644
+index 0000000..3ba9f34
+--- /dev/null
 +++ b/src/logger/debug.ts
-@@ -19,9 +19,9 @@ export interface Debug {
-   /**
-    * Enables a particular set of namespaces.
-    * To enable multiple separate them with commas, e.g. "info,debug".
--   * Supports wildcards, e.g. "azure:*"
--   * Supports skip syntax, e.g. "azure:*,-azure:storage:*" will enable
--   * everything under azure except for things under azure:storage.
+@@ -0,0 +1,173 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { log } from "./log.js";
++
++/**
++ * A simple mechanism for enabling logging.
++ * Intended to mimic the publicly available `debug` package.
++ */
++export interface Debug {
++  /**
++   * Creates a new logger with the given namespace.
++   */
++  (namespace: string): Debugger;
++  /**
++   * The default log method (defaults to console)
++   */
++  log: (...args: any[]) => void;
++  /**
++   * Enables a particular set of namespaces.
++   * To enable multiple separate them with commas, e.g. "info,debug".
 +   * Supports wildcards, e.g. "typeSpecRuntime:*"
 +   * Supports skip syntax, e.g. "typeSpecRuntime:*,-typeSpecRuntime:storage:*" will enable
 +   * everything under typeSpecRuntime except for things under typeSpecRuntime:storage.
-    */
-   enable: (namespaces: string) => void;
-   /**
-diff --git a/src/logger/index.ts b/src/logger/logger.ts
-similarity index 52%
-rename from src/logger/index.ts
-rename to src/logger/logger.ts
-index 3e33a3b..3654566 100644
---- a/src/logger/index.ts
++   */
++  enable: (namespaces: string) => void;
++  /**
++   * Checks if a particular namespace is enabled.
++   */
++  enabled: (namespace: string) => boolean;
++  /**
++   * Disables all logging, returns what was previously enabled.
++   */
++  disable: () => string;
++}
++
++/**
++ * A log function that can be dynamically enabled and redirected.
++ */
++export interface Debugger {
++  /**
++   * Logs the given arguments to the `log` method.
++   */
++  (...args: any[]): void;
++  /**
++   * True if this logger is active and logging.
++   */
++  enabled: boolean;
++  /**
++   * Used to cleanup/remove this logger.
++   */
++  destroy: () => boolean;
++  /**
++   * The current log method. Can be overridden to redirect output.
++   */
++  log: (...args: any[]) => void;
++  /**
++   * The namespace of this logger.
++   */
++  namespace: string;
++  /**
++   * Extends this logger with a child namespace.
++   * Namespaces are separated with a ':' character.
++   */
++  extend: (namespace: string) => Debugger;
++}
++
++const debugEnvVariable =
++  (typeof process !== "undefined" && process.env && process.env.DEBUG) || undefined;
++
++let enabledString: string | undefined;
++let enabledNamespaces: RegExp[] = [];
++let skippedNamespaces: RegExp[] = [];
++const debuggers: Debugger[] = [];
++
++if (debugEnvVariable) {
++  enable(debugEnvVariable);
++}
++
++const debugObj: Debug = Object.assign(
++  (namespace: string): Debugger => {
++    return createDebugger(namespace);
++  },
++  {
++    enable,
++    enabled,
++    disable,
++    log,
++  },
++);
++
++function enable(namespaces: string): void {
++  enabledString = namespaces;
++  enabledNamespaces = [];
++  skippedNamespaces = [];
++  const wildcard = /\*/g;
++  const namespaceList = namespaces.split(",").map((ns) => ns.trim().replace(wildcard, ".*?"));
++  for (const ns of namespaceList) {
++    if (ns.startsWith("-")) {
++      skippedNamespaces.push(new RegExp(`^${ns.substr(1)}$`));
++    } else {
++      enabledNamespaces.push(new RegExp(`^${ns}$`));
++    }
++  }
++  for (const instance of debuggers) {
++    instance.enabled = enabled(instance.namespace);
++  }
++}
++
++function enabled(namespace: string): boolean {
++  if (namespace.endsWith("*")) {
++    return true;
++  }
++
++  for (const skipped of skippedNamespaces) {
++    if (skipped.test(namespace)) {
++      return false;
++    }
++  }
++  for (const enabledNamespace of enabledNamespaces) {
++    if (enabledNamespace.test(namespace)) {
++      return true;
++    }
++  }
++  return false;
++}
++
++function disable(): string {
++  const result = enabledString || "";
++  enable("");
++  return result;
++}
++
++function createDebugger(namespace: string): Debugger {
++  const newDebugger: Debugger = Object.assign(debug, {
++    enabled: enabled(namespace),
++    destroy,
++    log: debugObj.log,
++    namespace,
++    extend,
++  });
++
++  function debug(...args: any[]): void {
++    if (!newDebugger.enabled) {
++      return;
++    }
++    if (args.length > 0) {
++      args[0] = `${namespace} ${args[0]}`;
++    }
++    newDebugger.log(...args);
++  }
++
++  debuggers.push(newDebugger);
++
++  return newDebugger;
++}
++
++function destroy(this: Debugger): boolean {
++  const index = debuggers.indexOf(this);
++  if (index >= 0) {
++    debuggers.splice(index, 1);
++    return true;
++  }
++  return false;
++}
++
++function extend(this: Debugger, namespace: string): Debugger {
++  const newDebugger = createDebugger(`${this.namespace}:${namespace}`);
++  newDebugger.log = this.log;
++  return newDebugger;
++}
++
++export default debugObj;
+diff --git a/src/logger/internal.ts b/src/logger/internal.ts
+new file mode 100644
+index 0000000..6cdd9e5
+--- /dev/null
++++ b/src/logger/internal.ts
+@@ -0,0 +1,8 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export {
++  createLoggerContext,
++  type CreateLoggerContextOptions,
++  type LoggerContext,
++} from "./logger.js";
+diff --git a/src/logger/log-browser.mts b/src/logger/log-browser.mts
+new file mode 100644
+index 0000000..6cc3fc5
+--- /dev/null
++++ b/src/logger/log-browser.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export { log } from "./log.common.js";
+diff --git a/src/logger/log-react-native.mts b/src/logger/log-react-native.mts
+new file mode 100644
+index 0000000..6cc3fc5
+--- /dev/null
++++ b/src/logger/log-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export { log } from "./log.common.js";
+diff --git a/src/logger/log.common.ts b/src/logger/log.common.ts
+new file mode 100644
+index 0000000..bc90332
+--- /dev/null
++++ b/src/logger/log.common.ts
+@@ -0,0 +1,19 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export function log(...args: any[]): void {
++  if (args.length > 0) {
++    const firstArg = String(args[0]);
++    if (firstArg.includes(":error")) {
++      console.error(...args);
++    } else if (firstArg.includes(":warning")) {
++      console.warn(...args);
++    } else if (firstArg.includes(":info")) {
++      console.info(...args);
++    } else if (firstArg.includes(":verbose")) {
++      console.debug(...args);
++    } else {
++      console.debug(...args);
++    }
++  }
++}
+diff --git a/src/logger/log.ts b/src/logger/log.ts
+new file mode 100644
+index 0000000..c40a726
+--- /dev/null
++++ b/src/logger/log.ts
+@@ -0,0 +1,10 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { EOL } from "node:os";
++import util from "node:util";
++import * as process from "node:process";
++
++export function log(message: unknown, ...args: any[]): void {
++  process.stderr.write(`${util.format(message, ...args)}${EOL}`);
++}
+diff --git a/src/logger/logger.ts b/src/logger/logger.ts
+new file mode 100644
+index 0000000..1002e6f
+--- /dev/null
 +++ b/src/logger/logger.ts
-@@ -1,22 +1,24 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import debug, { type Debugger } from "./debug.js";
--export type { Debugger } from "./debug.js";
-+import type { Debugger } from "./debug.js";
+@@ -0,0 +1,253 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import debug from "./debug.js";
-+export { Debugger } from "./debug.js";
- 
--const registeredLoggers = new Set<AzureDebugger>();
-+const registeredLoggers = new Set<TypeSpecRuntimeDebugger>();
- const logLevelFromEnv =
--  (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
-+  (typeof process !== "undefined" && process.env && process.env.TYPESPEC_RUNTIME_LOG_LEVEL) ||
-+  undefined;
- 
--let azureLogLevel: AzureLogLevel | undefined;
-+let typeSpecRuntimeLogLevel: TypeSpecRuntimeLogLevel | undefined;
- 
- /**
-- * The AzureLogger provides a mechanism for overriding where logs are output to.
-+ * The TypeSpecRuntimeLogger provides a mechanism for overriding where logs are output to.
-  * By default, logs are sent to stderr.
-  * Override the `log` method to redirect logs to another location.
-  */
--export const AzureLogger: AzureClientLogger = debug("azure");
--AzureLogger.log = (...args) => {
-+export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger = debug("typeSpecRuntime");
-+TypeSpecRuntimeLogger.log = (...args) => {
-   debug.log(...args);
- };
- 
-@@ -28,23 +30,23 @@ AzureLogger.log = (...args) => {
-  * - warning
-  * - error
-  */
--export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
--const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
++
++import type { Debugger } from "./debug.js";
++export type { Debugger };
++
++/**
++ * The log levels supported by the logger.
++ * The log levels in order of most verbose to least verbose are:
++ * - verbose
++ * - info
++ * - warning
++ * - error
++ */
 +export type TypeSpecRuntimeLogLevel = "verbose" | "info" | "warning" | "error";
-+const TYPESPEC_RUNTIME_LOG_LEVELS = ["verbose", "info", "warning", "error"];
- 
--type AzureDebugger = Debugger & { level: AzureLogLevel };
-+type TypeSpecRuntimeDebugger = Debugger & { level: TypeSpecRuntimeLogLevel };
- 
- /**
-- * An AzureClientLogger is a function that can log to an appropriate severity level.
-+ * An TypeSpecRuntimeClientLogger is a function that can log to an appropriate severity level.
-  */
--export type AzureClientLogger = Debugger;
++
++/**
++ * A TypeSpecRuntimeClientLogger is a function that can log to an appropriate severity level.
++ */
 +export type TypeSpecRuntimeClientLogger = Debugger;
- 
- if (logLevelFromEnv) {
-   // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
--  if (isAzureLogLevel(logLevelFromEnv)) {
-+  if (isTypeSpecRuntimeLogLevel(logLevelFromEnv)) {
-     setLogLevel(logLevelFromEnv);
-   } else {
-     console.error(
--      `AZURE_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${AZURE_LOG_LEVELS.join(
-+      `TYPESPEC_RUNTIME_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(
-         ", ",
-       )}.`,
-     );
-@@ -60,13 +62,13 @@ if (logLevelFromEnv) {
-  * - warning
-  * - error
-  */
--export function setLogLevel(level?: AzureLogLevel): void {
--  if (level && !isAzureLogLevel(level)) {
-+export function setLogLevel(level?: TypeSpecRuntimeLogLevel): void {
-+  if (level && !isTypeSpecRuntimeLogLevel(level)) {
-     throw new Error(
--      `Unknown log level '${level}'. Acceptable values: ${AZURE_LOG_LEVELS.join(",")}`,
-+      `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
-     );
-   }
--  azureLogLevel = level;
-+  typeSpecRuntimeLogLevel = level;
- 
-   const enabledNamespaces = [];
-   for (const logger of registeredLoggers) {
-@@ -81,8 +83,8 @@ export function setLogLevel(level?: AzureLogLevel): void {
- /**
-  * Retrieves the currently specified log level.
-  */
--export function getLogLevel(): AzureLogLevel | undefined {
--  return azureLogLevel;
-+export function getLogLevel(): TypeSpecRuntimeLogLevel | undefined {
-+  return typeSpecRuntimeLogLevel;
- }
- 
- const levelMap = {
-@@ -96,7 +98,7 @@ const levelMap = {
-  * Defines the methods available on the SDK-facing logger.
-  */
- // eslint-disable-next-line @typescript-eslint/no-redeclare
--export interface AzureLogger {
++
++/**
++ * Defines the methods available on the SDK-facing logger.
++ */
 +export interface TypeSpecRuntimeLogger {
-   /**
-    * Used for failures the program is unlikely to recover from,
-    * such as Out of Memory.
-@@ -121,13 +123,13 @@ export interface AzureLogger {
- }
- 
- /**
-- * Creates a logger for use by the Azure SDKs that inherits from `AzureLogger`.
-+ * Creates a logger for use by the SDKs that inherits from `TypeSpecRuntimeLogger`.
-  * @param namespace - The name of the SDK package.
-  * @hidden
-  */
--export function createClientLogger(namespace: string): AzureLogger {
--  const clientRootLogger: AzureClientLogger = AzureLogger.extend(namespace);
--  patchLogMethod(AzureLogger, clientRootLogger);
-+export function createClientLogger(namespace: string): TypeSpecRuntimeLogger {
-+  const clientRootLogger: TypeSpecRuntimeClientLogger = TypeSpecRuntimeLogger.extend(namespace);
-+  patchLogMethod(TypeSpecRuntimeLogger, clientRootLogger);
-   return {
-     error: createLogger(clientRootLogger, "error"),
-     warning: createLogger(clientRootLogger, "warning"),
-@@ -136,14 +138,20 @@ export function createClientLogger(namespace: string): AzureLogger {
-   };
- }
- 
--function patchLogMethod(parent: AzureClientLogger, child: AzureClientLogger | AzureDebugger): void {
++  /**
++   * Used for failures the program is unlikely to recover from,
++   * such as Out of Memory.
++   */
++  error: Debugger;
++  /**
++   * Used when a function fails to perform its intended task.
++   * Usually this means the function will throw an exception.
++   * Not used for self-healing events (e.g. automatic retry)
++   */
++  warning: Debugger;
++  /**
++   * Used when a function operates normally.
++   */
++  info: Debugger;
++  /**
++   * Used for detailed troubleshooting scenarios. This is
++   * intended for use by developers / system administrators
++   * for diagnosing specific failures.
++   */
++  verbose: Debugger;
++}
++
++/**
++ * todo doc
++ */
++export interface LoggerContext {
++  /**
++   * Immediately enables logging at the specified log level. If no level is specified, logging is disabled.
++   * @param level - The log level to enable for logging.
++   * Options from most verbose to least verbose are:
++   * - verbose
++   * - info
++   * - warning
++   * - error
++   */
++  setLogLevel(logLevel?: TypeSpecRuntimeLogLevel): void;
++
++  /**
++   * Retrieves the currently specified log level.
++   */
++  getLogLevel(): TypeSpecRuntimeLogLevel | undefined;
++
++  /**
++   * Creates a logger for use by the SDKs that inherits from `TypeSpecRuntimeLogger`.
++   * @param namespace - The name of the SDK package.
++   * @hidden
++   */
++  createClientLogger(namespace: string): TypeSpecRuntimeLogger;
++
++  /**
++   * The TypeSpecRuntimeClientLogger provides a mechanism for overriding where logs are output to.
++   * By default, logs are sent to stderr.
++   * Override the `log` method to redirect logs to another location.
++   */
++  logger: TypeSpecRuntimeClientLogger;
++}
++
++/**
++ * Option for creating a TypeSpecRuntimeLoggerContext.
++ */
++export interface CreateLoggerContextOptions {
++  /**
++   * The name of the environment variable to check for the log level.
++   */
++  logLevelEnvVarName: string;
++
++  /**
++   * The namespace of the logger.
++   */
++  namespace: string;
++}
++
++const TYPESPEC_RUNTIME_LOG_LEVELS = ["verbose", "info", "warning", "error"];
++
++type DebuggerWithLogLevel = Debugger & { level: TypeSpecRuntimeLogLevel };
++
++const levelMap = {
++  verbose: 400,
++  info: 300,
++  warning: 200,
++  error: 100,
++};
++
 +function patchLogMethod(
 +  parent: TypeSpecRuntimeClientLogger,
-+  child: TypeSpecRuntimeClientLogger | TypeSpecRuntimeDebugger,
++  child: TypeSpecRuntimeClientLogger | DebuggerWithLogLevel,
 +): void {
-   child.log = (...args) => {
-     parent.log(...args);
-   };
- }
- 
--function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDebugger {
--  const logger: AzureDebugger = Object.assign(parent.extend(level), {
-+function createLogger(
-+  parent: TypeSpecRuntimeClientLogger,
-+  level: TypeSpecRuntimeLogLevel,
-+): TypeSpecRuntimeDebugger {
-+  const logger: TypeSpecRuntimeDebugger = Object.assign(parent.extend(level), {
-     level,
-   });
- 
-@@ -159,10 +167,12 @@ function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDeb
-   return logger;
- }
- 
--function shouldEnable(logger: AzureDebugger): boolean {
--  return Boolean(azureLogLevel && levelMap[logger.level] <= levelMap[azureLogLevel]);
-+function shouldEnable(logger: TypeSpecRuntimeDebugger): boolean {
-+  return Boolean(
-+    typeSpecRuntimeLogLevel && levelMap[logger.level] <= levelMap[typeSpecRuntimeLogLevel],
-+  );
- }
- 
--function isAzureLogLevel(logLevel: string): logLevel is AzureLogLevel {
--  return AZURE_LOG_LEVELS.includes(logLevel as any);
-+function isTypeSpecRuntimeLogLevel(logLevel: string): logLevel is TypeSpecRuntimeLogLevel {
-+  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
- }
++  child.log = (...args) => {
++    parent.log(...args);
++  };
++}
++
++function isTypeSpecRuntimeLogLevel(level: string): level is TypeSpecRuntimeLogLevel {
++  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(level as any);
++}
++
++/**
++ * Creates a logger context base on the provided options.
++ * @param options - The options for creating a logger context.
++ * @returns The logger context.
++ */
++export function createLoggerContext(options: CreateLoggerContextOptions): LoggerContext {
++  const registeredLoggers = new Set<DebuggerWithLogLevel>();
++  const logLevelFromEnv =
++    (typeof process !== "undefined" && process.env && process.env[options.logLevelEnvVarName]) ||
++    undefined;
++
++  let logLevel: TypeSpecRuntimeLogLevel | undefined;
++
++  const clientLogger: TypeSpecRuntimeClientLogger = debug(options.namespace);
++  clientLogger.log = (...args) => {
++    debug.log(...args);
++  };
++
++  if (logLevelFromEnv) {
++    // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
++    if (isTypeSpecRuntimeLogLevel(logLevelFromEnv)) {
++      setLogLevel(logLevelFromEnv);
++    } else {
++      console.error(
++        `${options.logLevelEnvVarName} set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(
++          ", ",
++        )}.`,
++      );
++    }
++  }
++
++  function shouldEnable(logger: DebuggerWithLogLevel): boolean {
++    return Boolean(logLevel && levelMap[logger.level] <= levelMap[logLevel]);
++  }
++
++  function createLogger(
++    parent: TypeSpecRuntimeClientLogger,
++    level: TypeSpecRuntimeLogLevel,
++  ): DebuggerWithLogLevel {
++    const logger: DebuggerWithLogLevel = Object.assign(parent.extend(level), {
++      level,
++    });
++
++    patchLogMethod(parent, logger);
++
++    if (shouldEnable(logger)) {
++      const enabledNamespaces = debug.disable();
++      debug.enable(enabledNamespaces + "," + logger.namespace);
++    }
++
++    registeredLoggers.add(logger);
++
++    return logger;
++  }
++
++  return {
++    setLogLevel(level?: TypeSpecRuntimeLogLevel): void {
++      if (level && !isTypeSpecRuntimeLogLevel(level)) {
++        throw new Error(
++          `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
++        );
++      }
++      logLevel = level;
++
++      const enabledNamespaces = [];
++      for (const logger of registeredLoggers) {
++        if (shouldEnable(logger)) {
++          enabledNamespaces.push(logger.namespace);
++        }
++      }
++
++      debug.enable(enabledNamespaces.join(","));
++    },
++    getLogLevel(): TypeSpecRuntimeLogLevel | undefined {
++      return logLevel;
++    },
++    createClientLogger(namespace: string): TypeSpecRuntimeLogger {
++      const clientRootLogger: TypeSpecRuntimeClientLogger = clientLogger.extend(namespace);
++      patchLogMethod(clientLogger, clientRootLogger);
++      return {
++        error: createLogger(clientRootLogger, "error"),
++        warning: createLogger(clientRootLogger, "warning"),
++        info: createLogger(clientRootLogger, "info"),
++        verbose: createLogger(clientRootLogger, "verbose"),
++      };
++    },
++    logger: clientLogger,
++  };
++}
++
++const context = createLoggerContext({
++  logLevelEnvVarName: "TYPESPEC_RUNTIME_LOG_LEVEL",
++  namespace: "typeSpecRuntime",
++});
++
++/**
++ * Immediately enables logging at the specified log level. If no level is specified, logging is disabled.
++ * @param level - The log level to enable for logging.
++ * Options from most verbose to least verbose are:
++ * - verbose
++ * - info
++ * - warning
++ * - error
++ */
++// eslint-disable-next-line @typescript-eslint/no-redeclare
++export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger = context.logger;
++
++/**
++ * Retrieves the currently specified log level.
++ */
++export function setLogLevel(logLevel?: TypeSpecRuntimeLogLevel): void {
++  context.setLogLevel(logLevel);
++}
++
++/**
++ * Retrieves the currently specified log level.
++ */
++export function getLogLevel(): TypeSpecRuntimeLogLevel | undefined {
++  return context.getLogLevel();
++}
++
++/**
++ * Creates a logger for use by the SDKs that inherits from `TypeSpecRuntimeLogger`.
++ * @param namespace - The name of the SDK package.
++ * @hidden
++ */
++export function createClientLogger(namespace: string): TypeSpecRuntimeLogger {
++  return context.createClientLogger(namespace);
++}
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 264a28e..2b974db 100644
+index a6328bf..8f1aaee 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -1993,7 +2315,7 @@ index 264a28e..2b974db 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 5947165..6c09a01 100644
+index 07081c9..81d925d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
 @@ -2,21 +2,17 @@
@@ -2061,7 +2383,7 @@ index 5947165..6c09a01 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -143,16 +121,14 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -155,16 +133,14 @@ class PipelineRequestImpl implements PipelineRequest {
    public formData?: FormDataMap;
    public streamResponseStatusCodes?: Set<number>;
    public enableBrowserStreams: boolean;
@@ -2077,10 +2399,10 @@ index 5947165..6c09a01 100644
    public onDownloadProgress?: (progress: TransferProgressEvent) => void;
 -  public agent?: Agent;
 -  public tlsSettings?: TlsSettings;
+   public requestOverrides?: Record<string, unknown>;
  
    constructor(options: PipelineRequestOptions) {
-     this.url = options.url;
-@@ -167,14 +143,11 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -180,14 +156,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
@@ -2092,9 +2414,9 @@ index 5947165..6c09a01 100644
      this.enableBrowserStreams = options.enableBrowserStreams ?? false;
 -    this.agent = options.agent;
 -    this.tlsSettings = options.tlsSettings;
+     this.requestOverrides = options.requestOverrides;
    }
  }
- 
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
 index 0000000..ea33138
@@ -4047,45 +4369,336 @@ index 84999ab..0000000
 -  namespace?: string;
 -}
 diff --git a/src/util/aborterUtils.ts b/src/util/aborterUtils.ts
-index ce29be9..7affd69 100644
+deleted file mode 100644
+index ce29be9..0000000
 --- a/src/util/aborterUtils.ts
-+++ b/src/util/aborterUtils.ts
-@@ -1,8 +1,6 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,47 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import type { AbortSignalLike } from "@azure/abort-controller";
 -
- /**
-  * Options related to abort controller.
-  */
-@@ -10,7 +8,7 @@ export interface AbortOptions {
-   /**
-    * The abortSignal associated with containing operation.
-    */
+-/**
+- * Options related to abort controller.
+- */
+-export interface AbortOptions {
+-  /**
+-   * The abortSignal associated with containing operation.
+-   */
 -  abortSignal?: AbortSignalLike;
-+  abortSignal?: AbortSignal;
-   /**
-    * The abort error message associated with containing operation.
-    */
-@@ -21,7 +19,7 @@ export interface AbortOptions {
-  * Represents a function that returns a promise that can be aborted.
-  */
- export type AbortablePromiseBuilder<T> = (abortOptions: {
+-  /**
+-   * The abort error message associated with containing operation.
+-   */
+-  abortErrorMsg?: string;
+-}
+-
+-/**
+- * Represents a function that returns a promise that can be aborted.
+- */
+-export type AbortablePromiseBuilder<T> = (abortOptions: {
 -  abortSignal?: AbortSignalLike;
-+  abortSignal?: AbortSignal;
- }) => Promise<T>;
- 
- /**
-@@ -29,7 +27,7 @@ export type AbortablePromiseBuilder<T> = (abortOptions: {
-  */
- export async function cancelablePromiseRace<T extends unknown[]>(
-   abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[],
+-}) => Promise<T>;
+-
+-/**
+- * promise.race() wrapper that aborts rest of promises as soon as the first promise settles.
+- */
+-export async function cancelablePromiseRace<T extends unknown[]>(
+-  abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[],
 -  options?: { abortSignal?: AbortSignalLike },
-+  options?: { abortSignal?: AbortSignal },
- ): Promise<T[number]> {
-   const aborter = new AbortController();
-   function abortHandler(): void {
+-): Promise<T[number]> {
+-  const aborter = new AbortController();
+-  function abortHandler(): void {
+-    aborter.abort();
+-  }
+-  options?.abortSignal?.addEventListener("abort", abortHandler);
+-  try {
+-    return await Promise.race(
+-      abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal })),
+-    );
+-  } finally {
+-    aborter.abort();
+-    options?.abortSignal?.removeEventListener("abort", abortHandler);
+-  }
+-}
+diff --git a/src/util/bytesEncoding-browser.mts b/src/util/bytesEncoding-browser.mts
+new file mode 100644
+index 0000000..b01f15e
+--- /dev/null
++++ b/src/util/bytesEncoding-browser.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./bytesEncoding.common.js";
+diff --git a/src/util/bytesEncoding-react-native.mts b/src/util/bytesEncoding-react-native.mts
+new file mode 100644
+index 0000000..b01f15e
+--- /dev/null
++++ b/src/util/bytesEncoding-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./bytesEncoding.common.js";
+diff --git a/src/util/bytesEncoding.common.ts b/src/util/bytesEncoding.common.ts
+new file mode 100644
+index 0000000..2f8191a
+--- /dev/null
++++ b/src/util/bytesEncoding.common.ts
+@@ -0,0 +1,131 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++declare global {
++  // stub these out for the browser
++  function btoa(input: string): string;
++  function atob(input: string): string;
++}
++
++/** The supported character encoding type */
++export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
++
++/**
++ * The helper that transforms bytes with specific character encoding into string
++ * @param bytes - the uint8array bytes
++ * @param format - the format we use to encode the byte
++ * @returns a string of the encoded string
++ */
++export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
++  switch (format) {
++    case "utf-8":
++      return uint8ArrayToUtf8String(bytes);
++    case "base64":
++      return uint8ArrayToBase64(bytes);
++    case "base64url":
++      return uint8ArrayToBase64Url(bytes);
++    case "hex":
++      return uint8ArrayToHexString(bytes);
++  }
++}
++
++/**
++ * The helper that transforms string to specific character encoded bytes array.
++ * @param value - the string to be converted
++ * @param format - the format we use to decode the value
++ * @returns a uint8array
++ */
++export function stringToUint8Array(value: string, format: EncodingType): Uint8Array {
++  switch (format) {
++    case "utf-8":
++      return utf8StringToUint8Array(value);
++    case "base64":
++      return base64ToUint8Array(value);
++    case "base64url":
++      return base64UrlToUint8Array(value);
++    case "hex":
++      return hexStringToUint8Array(value);
++  }
++}
++
++/**
++ * Decodes a Uint8Array into a Base64 string.
++ * @internal
++ */
++export function uint8ArrayToBase64(bytes: Uint8Array): string {
++  return btoa([...bytes].map((x) => String.fromCharCode(x)).join(""));
++}
++
++/**
++ * Decodes a Uint8Array into a Base64Url string.
++ * @internal
++ */
++export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
++  return uint8ArrayToBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
++}
++
++/**
++ * Decodes a Uint8Array into a javascript string.
++ * @internal
++ */
++export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
++  const decoder = new TextDecoder();
++  const dataString = decoder.decode(bytes);
++  return dataString;
++}
++
++/**
++ * Decodes a Uint8Array into a hex string
++ * @internal
++ */
++export function uint8ArrayToHexString(bytes: Uint8Array): string {
++  return [...bytes].map((x) => x.toString(16).padStart(2, "0")).join("");
++}
++
++/**
++ * Encodes a JavaScript string into a Uint8Array.
++ * @internal
++ */
++export function utf8StringToUint8Array(value: string): Uint8Array {
++  return new TextEncoder().encode(value);
++}
++
++/**
++ * Encodes a Base64 string into a Uint8Array.
++ * @internal
++ */
++export function base64ToUint8Array(value: string): Uint8Array {
++  return new Uint8Array([...atob(value)].map((x) => x.charCodeAt(0)));
++}
++
++/**
++ * Encodes a Base64Url string into a Uint8Array.
++ * @internal
++ */
++export function base64UrlToUint8Array(value: string): Uint8Array {
++  const base64String = value.replace(/-/g, "+").replace(/_/g, "/");
++  return base64ToUint8Array(base64String);
++}
++
++const hexDigits = new Set("0123456789abcdefABCDEF");
++
++/**
++ * Encodes a hex string into a Uint8Array
++ * @internal
++ */
++export function hexStringToUint8Array(value: string): Uint8Array {
++  // If value has odd length, the last character will be ignored, consistent with NodeJS Buffer behavior
++  const bytes = new Uint8Array(value.length / 2);
++  for (let i = 0; i < value.length / 2; ++i) {
++    const highNibble = value[2 * i];
++    const lowNibble = value[2 * i + 1];
++    if (!hexDigits.has(highNibble) || !hexDigits.has(lowNibble)) {
++      // Replicate Node Buffer behavior by exiting early when we encounter an invalid byte
++      return bytes.slice(0, i);
++    }
++
++    bytes[i] = parseInt(`${highNibble}${lowNibble}`, 16);
++  }
++
++  return bytes;
++}
+diff --git a/src/util/bytesEncoding.ts b/src/util/bytesEncoding.ts
+new file mode 100644
+index 0000000..b6507af
+--- /dev/null
++++ b/src/util/bytesEncoding.ts
+@@ -0,0 +1,25 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/** The supported character encoding type */
++export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
++
++/**
++ * The helper that transforms bytes with specific character encoding into string
++ * @param bytes - the uint8array bytes
++ * @param format - the format we use to encode the byte
++ * @returns a string of the encoded string
++ */
++export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
++  return Buffer.from(bytes).toString(format);
++}
++
++/**
++ * The helper that transforms string to specific character encoded bytes array.
++ * @param value - the string to be converted
++ * @param format - the format we use to decode the value
++ * @returns a uint8array
++ */
++export function stringToUint8Array(value: string, format: EncodingType): Uint8Array {
++  return Buffer.from(value, format);
++}
+diff --git a/src/util/checkEnvironment.ts b/src/util/checkEnvironment.ts
+new file mode 100644
+index 0000000..bc38b5d
+--- /dev/null
++++ b/src/util/checkEnvironment.ts
+@@ -0,0 +1,84 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++interface Window {
++  document: unknown;
++}
++
++interface DedicatedWorkerGlobalScope {
++  constructor: {
++    name: string;
++  };
++
++  importScripts: (...paths: string[]) => void;
++}
++
++interface Navigator {
++  product: string;
++}
++
++interface DenoGlobal {
++  version: {
++    deno: string;
++  };
++}
++
++interface BunGlobal {
++  version: string;
++}
++
++// eslint-disable-next-line @azure/azure-sdk/ts-no-window
++declare const window: Window;
++declare const self: DedicatedWorkerGlobalScope;
++declare const Deno: DenoGlobal;
++declare const Bun: BunGlobal;
++declare const navigator: Navigator;
++
++/**
++ * A constant that indicates whether the environment the code is running is a Web Browser.
++ */
++// eslint-disable-next-line @azure/azure-sdk/ts-no-window
++export const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
++
++/**
++ * A constant that indicates whether the environment the code is running is a Web Worker.
++ */
++export const isWebWorker =
++  typeof self === "object" &&
++  typeof self?.importScripts === "function" &&
++  (self.constructor?.name === "DedicatedWorkerGlobalScope" ||
++    self.constructor?.name === "ServiceWorkerGlobalScope" ||
++    self.constructor?.name === "SharedWorkerGlobalScope");
++
++/**
++ * A constant that indicates whether the environment the code is running is Deno.
++ */
++export const isDeno =
++  typeof Deno !== "undefined" &&
++  typeof Deno.version !== "undefined" &&
++  typeof Deno.version.deno !== "undefined";
++
++/**
++ * A constant that indicates whether the environment the code is running is Bun.sh.
++ */
++export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
++
++/**
++ * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
++ */
++export const isNodeLike =
++  typeof globalThis.process !== "undefined" &&
++  Boolean(globalThis.process.version) &&
++  Boolean(globalThis.process.versions?.node);
++
++/**
++ * A constant that indicates whether the environment the code is running is Node.JS.
++ */
++export const isNodeRuntime = isNodeLike && !isBun && !isDeno;
++
++/**
++ * A constant that indicates whether the environment the code is running is in React-Native.
++ */
++// https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/Core/setUpNavigator.js
++export const isReactNative =
++  typeof navigator !== "undefined" && navigator?.product === "ReactNative";
 diff --git a/src/util/concat.ts b/src/util/concat.ts
 index 457bc22..cbadccf 100644
 --- a/src/util/concat.ts
@@ -4102,18 +4715,156 @@ index 457bc22..cbadccf 100644
  import { getRawContent } from "./file.js";
  
 diff --git a/src/util/createAbortablePromise.ts b/src/util/createAbortablePromise.ts
-index 25cf55a..685eaed 100644
+deleted file mode 100644
+index 25cf55a..0000000
 --- a/src/util/createAbortablePromise.ts
-+++ b/src/util/createAbortablePromise.ts
-@@ -1,7 +1,7 @@
++++ /dev/null
+@@ -1,60 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import { AbortError } from "@azure/abort-controller";
+-import type { AbortOptions } from "./aborterUtils.js";
+-
+-/**
+- * Options for the createAbortablePromise function.
+- */
+-export interface CreateAbortablePromiseOptions extends AbortOptions {
+-  /** A function to be called if the promise was aborted */
+-  cleanupBeforeAbort?: () => void;
+-}
+-
+-/**
+- * Creates an abortable promise.
+- * @param buildPromise - A function that takes the resolve and reject functions as parameters.
+- * @param options - The options for the abortable promise.
+- * @returns A promise that can be aborted.
+- */
+-export function createAbortablePromise<T>(
+-  buildPromise: (
+-    resolve: (value: T | PromiseLike<T>) => void,
+-    reject: (reason?: any) => void,
+-  ) => void,
+-  options?: CreateAbortablePromiseOptions,
+-): Promise<T> {
+-  const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
+-  return new Promise((resolve, reject) => {
+-    function rejectOnAbort(): void {
+-      reject(new AbortError(abortErrorMsg ?? "The operation was aborted."));
+-    }
+-    function removeListeners(): void {
+-      abortSignal?.removeEventListener("abort", onAbort);
+-    }
+-    function onAbort(): void {
+-      cleanupBeforeAbort?.();
+-      removeListeners();
+-      rejectOnAbort();
+-    }
+-    if (abortSignal?.aborted) {
+-      return rejectOnAbort();
+-    }
+-    try {
+-      buildPromise(
+-        (x) => {
+-          removeListeners();
+-          resolve(x);
+-        },
+-        (x) => {
+-          removeListeners();
+-          reject(x);
+-        },
+-      );
+-    } catch (err) {
+-      reject(err);
+-    }
+-    abortSignal?.addEventListener("abort", onAbort);
+-  });
+-}
+diff --git a/src/util/delay.ts b/src/util/delay.ts
+index ab8ae56..1003a96 100644
+--- a/src/util/delay.ts
++++ b/src/util/delay.ts
+@@ -1,37 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { AbortError } from "@azure/abort-controller";
-+import { AbortError } from "../abort-controller/AbortError.js";
- import type { AbortOptions } from "./aborterUtils.js";
+-import type { AbortOptions } from "./aborterUtils.js";
+-import { createAbortablePromise } from "./createAbortablePromise.js";
+-import { getRandomIntegerInclusive } from "@typespec/ts-http-runtime/internal/util";
+-
+-const StandardAbortMessage = "The delay was aborted.";
+-
+-/**
+- * Options for support abort functionality for the delay method
+- */
+-export interface DelayOptions extends AbortOptions {}
+-
+-/**
+- * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
+- * @param timeInMs - The number of milliseconds to be delayed.
+- * @param options - The options for delay - currently abort options
+- * @returns Promise that is resolved after timeInMs
+- */
+-export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
+-  let token: ReturnType<typeof setTimeout>;
+-  const { abortSignal, abortErrorMsg } = options ?? {};
+-  return createAbortablePromise(
+-    (resolve) => {
+-      token = setTimeout(resolve, timeInMs);
+-    },
+-    {
+-      cleanupBeforeAbort: () => clearTimeout(token),
+-      abortSignal,
+-      abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
+-    },
+-  );
+-}
++import { getRandomIntegerInclusive } from "./random.js";
  
  /**
+  * Calculates the delay interval for retry attempts using exponential delay with jitter.
+diff --git a/src/util/error.ts b/src/util/error.ts
+index 508e2d5..34ec31c 100644
+--- a/src/util/error.ts
++++ b/src/util/error.ts
+@@ -1,28 +1,17 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import { isError } from "@typespec/ts-http-runtime/internal/util";
++import { isObject } from "./object.js";
+ 
+ /**
+- * Given what is thought to be an error object, return the message if possible.
+- * If the message is missing, returns a stringified version of the input.
+- * @param e - Something thrown from a try block
+- * @returns The error message or a string of the input
++ * Typeguard for an error object shape (has name and message)
++ * @param e - Something caught by a catch clause.
+  */
+-export function getErrorMessage(e: unknown): string {
+-  if (isError(e)) {
+-    return e.message;
+-  } else {
+-    let stringified: string;
+-    try {
+-      if (typeof e === "object" && e) {
+-        stringified = JSON.stringify(e);
+-      } else {
+-        stringified = String(e);
+-      }
+-    } catch (err: any) {
+-      stringified = "[unable to stringify input]";
+-    }
+-    return `Unknown error ${stringified}`;
++export function isError(e: unknown): e is Error {
++  if (isObject(e)) {
++    const hasName = typeof e.name === "string";
++    const hasMessage = typeof e.message === "string";
++    return hasName && hasMessage;
+   }
++  return false;
+ }
 diff --git a/src/util/file.ts b/src/util/file.ts
 index 48d09e6..65c0e25 100644
 --- a/src/util/file.ts
@@ -4149,18 +4900,121 @@ index f6819e8..a5b7c9d 100644
      abortErrorMsg?: string;
    },
  ): Promise<T | void> {
-diff --git a/src/util/httpMethods.ts b/src/util/httpMethods.ts
+diff --git a/src/util/index.ts b/src/util/index.ts
 deleted file mode 100644
-index 2748031..0000000
---- a/src/util/httpMethods.ts
+index abfafb3..0000000
+--- a/src/util/index.ts
 +++ /dev/null
-@@ -1,16 +0,0 @@
+@@ -1,186 +0,0 @@
 -// Copyright (c) Microsoft Corporation.
 -// Licensed under the MIT License.
 -
+-import * as tspRuntime from "@typespec/ts-http-runtime/internal/util";
+-
+-export {
+-  type AbortOptions,
+-  type AbortablePromiseBuilder,
+-  cancelablePromiseRace,
+-} from "./aborterUtils.js";
+-export {
+-  type CreateAbortablePromiseOptions,
+-  createAbortablePromise,
+-} from "./createAbortablePromise.js";
+-export { type DelayOptions, delay } from "./delay.js";
+-export { getErrorMessage } from "./error.js";
+-export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
+-
 -/**
-- * @public
+- * Calculates the delay interval for retry attempts using exponential delay with jitter.
+- *
+- * @param retryAttempt - The current retry attempt number.
+- *
+- * @param config - The exponential retry configuration.
+- *
+- * @returns An object containing the calculated retry delay.
+- */
+-export function calculateRetryDelay(
+-  retryAttempt: number,
+-  config: {
+-    retryDelayInMs: number;
+-    maxRetryDelayInMs: number;
+-  },
+-): {
+-  retryAfterInMs: number;
+-} {
+-  return tspRuntime.calculateRetryDelay(retryAttempt, config);
+-}
+-
+-/**
+- * Generates a SHA-256 hash.
+- *
+- * @param content - The data to be included in the hash.
+- *
+- * @param encoding - The textual encoding to use for the returned hash.
+- */
+-export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string> {
+-  return tspRuntime.computeSha256Hash(content, encoding);
+-}
+-
+-/**
+- * Generates a SHA-256 HMAC signature.
+- *
+- * @param key - The HMAC key represented as a base64 string, used to generate the cryptographic HMAC hash.
+- *
+- * @param stringToSign - The data to be signed.
+- *
+- * @param encoding - The textual encoding to use for the returned HMAC digest.
+- */
+-export function computeSha256Hmac(
+-  key: string,
+-  stringToSign: string,
+-  encoding: "base64" | "hex",
+-): Promise<string> {
+-  return tspRuntime.computeSha256Hmac(key, stringToSign, encoding);
+-}
+-
+-/**
+- * Returns a random integer value between a lower and upper bound, inclusive of both bounds. Note that this uses Math.random and isn't secure. If you need to use this for any kind of security purpose, find a better source of random.
+- *
+- * @param min - The smallest integer value allowed.
+- *
+- * @param max - The largest integer value allowed.
+- */
+-export function getRandomIntegerInclusive(min: number, max: number): number {
+-  return tspRuntime.getRandomIntegerInclusive(min, max);
+-}
+-
+-/**
+- * Typeguard for an error object shape (has name and message)
+- *
+- * @param e - Something caught by a catch clause.
+- */
+-export function isError(e: unknown): e is Error {
+-  return tspRuntime.isError(e);
+-}
+-
+-/**
+- * Helper to determine when an input is a generic JS object.
+- *
+- * @returns true when input is an object type that is not null, Array, RegExp, or Date.
+- */
+-export function isObject(input: unknown): input is UnknownObject {
+-  return tspRuntime.isObject(input);
+-}
+-
+-/**
+- * Generated Universally Unique Identifier
+- *
+- * @returns RFC4122 v4 UUID.
+- */
+-export function randomUUID(): string {
+-  return tspRuntime.randomUUID();
+-}
+-
+-/**
 - * Supported HTTP methods to use when making requests.
+- *
+- * @public
 - */
 -export type HttpMethods =
 -  | "GET"
@@ -4171,43 +5025,152 @@ index 2748031..0000000
 -  | "HEAD"
 -  | "OPTIONS"
 -  | "TRACE";
-diff --git a/src/util/index.ts b/src/util/index.ts
-deleted file mode 100644
-index e0af55f..0000000
---- a/src/util/index.ts
-+++ /dev/null
-@@ -1,31 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
 -
--export { delay, type DelayOptions, calculateRetryDelay } from "./delay.js";
--export {
--  type AbortOptions,
--  cancelablePromiseRace,
--  type AbortablePromiseBuilder,
--} from "./aborterUtils.js";
--export {
--  createAbortablePromise,
--  type CreateAbortablePromiseOptions,
--} from "./createAbortablePromise.js";
--export { getRandomIntegerInclusive } from "./random.js";
--export { isObject, type UnknownObject } from "./object.js";
--export { isError, getErrorMessage } from "./error.js";
--export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
--export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
--export { randomUUID } from "./uuidUtils.js";
--export { HttpMethods } from "./httpMethods.js";
--export {
--  isBrowser,
--  isBun,
--  isNode,
--  isNodeLike,
--  isNodeRuntime,
--  isDeno,
--  isReactNative,
--  isWebWorker,
--} from "./checkEnvironment.js";
--export { uint8ArrayToString, stringToUint8Array, type EncodingType } from "./bytesEncoding.js";
+-/**
+- * A generic shape for a plain JS object.
+- */
+-export type UnknownObject = {
+-  [s: string]: unknown;
+-};
+-
+-/**
+- * A constant that indicates whether the environment the code is running is a Web Browser.
+- */
+-export const isBrowser: boolean = tspRuntime.isBrowser;
+-/**
+- * A constant that indicates whether the environment the code is running is Bun.sh.
+- */
+-export const isBun: boolean = tspRuntime.isBun;
+-/**
+- * A constant that indicates whether the environment the code is running is Deno.
+- */
+-export const isDeno: boolean = tspRuntime.isDeno;
+-/**
+- * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
+- *
+- * @deprecated
+- *
+- * Use `isNodeLike` instead.
+- */
+-export const isNode: boolean = tspRuntime.isNodeLike;
+-/**
+- * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
+- */
+-export const isNodeLike: boolean = tspRuntime.isNodeLike;
+-/**
+- * A constant that indicates whether the environment the code is running is Node.JS.
+- */
+-export const isNodeRuntime: boolean = tspRuntime.isNodeRuntime;
+-/**
+- * A constant that indicates whether the environment the code is running is in React-Native.
+- */
+-export const isReactNative: boolean = tspRuntime.isReactNative;
+-/**
+- * A constant that indicates whether the environment the code is running is a Web Worker.
+- */
+-export const isWebWorker: boolean = tspRuntime.isWebWorker;
+-
+-/** The supported character encoding type */
+-export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
+-
+-/**
+- * The helper that transforms bytes with specific character encoding into string
+- * @param bytes - the uint8array bytes
+- * @param format - the format we use to encode the byte
+- * @returns a string of the encoded string
+- */
+-export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
+-  return tspRuntime.uint8ArrayToString(bytes, format);
+-}
+-
+-/**
+- * The helper that transforms string to specific character encoded bytes array.
+- * @param value - the string to be converted
+- * @param format - the format we use to decode the value
+- * @returns a uint8array
+- */
+-export function stringToUint8Array(value: string, format: EncodingType): Uint8Array {
+-  return tspRuntime.stringToUint8Array(value, format);
+-}
+diff --git a/src/util/internal.ts b/src/util/internal.ts
+new file mode 100644
+index 0000000..4bae54a
+--- /dev/null
++++ b/src/util/internal.ts
+@@ -0,0 +1,19 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export { calculateRetryDelay } from "./delay.js";
++export { getRandomIntegerInclusive } from "./random.js";
++export { isObject, type UnknownObject } from "./object.js";
++export { isError } from "./error.js";
++export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
++export { randomUUID } from "./uuidUtils.js";
++export {
++  isBrowser,
++  isBun,
++  isNodeLike,
++  isNodeRuntime,
++  isDeno,
++  isReactNative,
++  isWebWorker,
++} from "./checkEnvironment.js";
++export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./bytesEncoding.js";
+diff --git a/src/util/object.ts b/src/util/object.ts
+new file mode 100644
+index 0000000..bbc8d69
+--- /dev/null
++++ b/src/util/object.ts
+@@ -0,0 +1,21 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/**
++ * A generic shape for a plain JS object.
++ */
++export type UnknownObject = { [s: string]: unknown };
++
++/**
++ * Helper to determine when an input is a generic JS object.
++ * @returns true when input is an object type that is not null, Array, RegExp, or Date.
++ */
++export function isObject(input: unknown): input is UnknownObject {
++  return (
++    typeof input === "object" &&
++    input !== null &&
++    !Array.isArray(input) &&
++    !(input instanceof RegExp) &&
++    !(input instanceof Date)
++  );
++}
+diff --git a/src/util/random.ts b/src/util/random.ts
+new file mode 100644
+index 0000000..5130ca6
+--- /dev/null
++++ b/src/util/random.ts
+@@ -0,0 +1,21 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/**
++ * Returns a random integer value between a lower and upper bound,
++ * inclusive of both bounds.
++ * Note that this uses Math.random and isn't secure. If you need to use
++ * this for any kind of security purpose, find a better source of random.
++ * @param min - The smallest integer value allowed.
++ * @param max - The largest integer value allowed.
++ */
++export function getRandomIntegerInclusive(min: number, max: number): number {
++  // Make sure inputs are integers.
++  min = Math.ceil(min);
++  max = Math.floor(max);
++  // Pick a random offset from zero to the size of the range.
++  // Since Math.random() can never return 1, we have to make the range one larger
++  // in order to be inclusive of the maximum value after we take the floor.
++  const offset = Math.floor(Math.random() * (max - min + 1));
++  return offset + min;
++}
 diff --git a/src/util/sanitizer.ts b/src/util/sanitizer.ts
 index 46654b9..be4f21e 100644
 --- a/src/util/sanitizer.ts
@@ -4221,19 +5184,191 @@ index 46654b9..be4f21e 100644
  
  /**
   * @internal
-diff --git a/src/util/sha256.ts b/src/util/sha256.ts
-index 80a1a23..794d26a 100644
---- a/src/util/sha256.ts
-+++ b/src/util/sha256.ts
-@@ -1,7 +1,7 @@
+diff --git a/src/client/dom.d.ts b/src/util/sha256-browser.mts
+similarity index 67%
+rename from src/client/dom.d.ts
+rename to src/util/sha256-browser.mts
+index eabe718..b24713e 100644
+--- a/src/client/dom.d.ts
++++ b/src/util/sha256-browser.mts
+@@ -1,4 +1,4 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { createHash, createHmac } from "crypto";
+-/// <reference lib="dom" />
++export * from "./sha256.common.js";
+diff --git a/src/util/sha256-react-native.mts b/src/util/sha256-react-native.mts
+new file mode 100644
+index 0000000..b24713e
+--- /dev/null
++++ b/src/util/sha256-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./sha256.common.js";
+diff --git a/src/util/sha256.common.ts b/src/util/sha256.common.ts
+new file mode 100644
+index 0000000..38429e2
+--- /dev/null
++++ b/src/util/sha256.common.ts
+@@ -0,0 +1,118 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { stringToUint8Array, uint8ArrayToString } from "./bytesEncoding.js";
++
++// stubs for browser self.crypto
++interface JsonWebKey {}
++interface CryptoKey {}
++type KeyUsage =
++  | "decrypt"
++  | "deriveBits"
++  | "deriveKey"
++  | "encrypt"
++  | "sign"
++  | "unwrapKey"
++  | "verify"
++  | "wrapKey";
++interface Algorithm {
++  name: string;
++}
++interface SubtleCrypto {
++  importKey(
++    format: string,
++    keyData: JsonWebKey,
++    algorithm: HmacImportParams,
++    extractable: boolean,
++    usage: KeyUsage[],
++  ): Promise<CryptoKey>;
++  sign(
++    algorithm: HmacImportParams,
++    key: CryptoKey,
++    data: ArrayBufferView | ArrayBuffer,
++  ): Promise<ArrayBuffer>;
++  digest(algorithm: Algorithm, data: ArrayBufferView | ArrayBuffer): Promise<ArrayBuffer>;
++}
++interface Crypto {
++  readonly subtle: SubtleCrypto;
++  getRandomValues<T extends ArrayBufferView | null>(array: T): T;
++}
++declare const self: {
++  crypto: Crypto;
++};
++interface HmacImportParams {
++  name: string;
++  hash: Algorithm;
++  length?: number;
++}
++
++let subtleCrypto: SubtleCrypto | undefined;
++
++/**
++ * Returns a cached reference to the Web API crypto.subtle object.
++ * @internal
++ */
++function getCrypto(): SubtleCrypto {
++  if (subtleCrypto) {
++    return subtleCrypto;
++  }
++
++  if (!self.crypto || !self.crypto.subtle) {
++    throw new Error("Your browser environment does not support cryptography functions.");
++  }
++
++  subtleCrypto = self.crypto.subtle;
++  return subtleCrypto;
++}
++
++/**
++ * Generates a SHA-256 HMAC signature.
++ * @param key - The HMAC key represented as a base64 string, used to generate the cryptographic HMAC hash.
++ * @param stringToSign - The data to be signed.
++ * @param encoding - The textual encoding to use for the returned HMAC digest.
++ */
++export async function computeSha256Hmac(
++  key: string,
++  stringToSign: string,
++  encoding: "base64" | "hex",
++): Promise<string> {
++  const crypto = getCrypto();
++  const keyBytes = stringToUint8Array(key, "base64");
++  const stringToSignBytes = stringToUint8Array(stringToSign, "utf-8");
++
++  const cryptoKey = await crypto.importKey(
++    "raw",
++    keyBytes,
++    {
++      name: "HMAC",
++      hash: { name: "SHA-256" },
++    },
++    false,
++    ["sign"],
++  );
++  const signature = await crypto.sign(
++    {
++      name: "HMAC",
++      hash: { name: "SHA-256" },
++    },
++    cryptoKey,
++    stringToSignBytes,
++  );
++
++  return uint8ArrayToString(new Uint8Array(signature), encoding);
++}
++
++/**
++ * Generates a SHA-256 hash.
++ * @param content - The data to be included in the hash.
++ * @param encoding - The textual encoding to use for the returned hash.
++ */
++export async function computeSha256Hash(
++  content: string,
++  encoding: "base64" | "hex",
++): Promise<string> {
++  const contentBytes = stringToUint8Array(content, "utf-8");
++  const digest = await getCrypto().digest({ name: "SHA-256" }, contentBytes);
++
++  return uint8ArrayToString(new Uint8Array(digest), encoding);
++}
+diff --git a/src/util/sha256.ts b/src/util/sha256.ts
+new file mode 100644
+index 0000000..794d26a
+--- /dev/null
++++ b/src/util/sha256.ts
+@@ -0,0 +1,32 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import { createHash, createHmac } from "node:crypto";
- 
- /**
-  * Generates a SHA-256 HMAC signature.
++
++/**
++ * Generates a SHA-256 HMAC signature.
++ * @param key - The HMAC key represented as a base64 string, used to generate the cryptographic HMAC hash.
++ * @param stringToSign - The data to be signed.
++ * @param encoding - The textual encoding to use for the returned HMAC digest.
++ */
++export async function computeSha256Hmac(
++  key: string,
++  stringToSign: string,
++  encoding: "base64" | "hex",
++): Promise<string> {
++  const decodedKey = Buffer.from(key, "base64");
++
++  return createHmac("sha256", decodedKey).update(stringToSign).digest(encoding);
++}
++
++/**
++ * Generates a SHA-256 hash.
++ * @param content - The data to be included in the hash.
++ * @param encoding - The textual encoding to use for the returned hash.
++ */
++export async function computeSha256Hash(
++  content: string,
++  encoding: "base64" | "hex",
++): Promise<string> {
++  return createHash("sha256").update(content).digest(encoding);
++}
 diff --git a/src/util/tokenCycler.ts b/src/util/tokenCycler.ts
 deleted file mode 100644
 index 32e2343..0000000
@@ -4473,26 +5608,46 @@ index 32e2343..0000000
 -  };
 -}
 diff --git a/src/util/typeGuards.ts b/src/util/typeGuards.ts
-index 22a9cac..2b3f295 100644
+index 22a9cac..265ded3 100644
 --- a/src/util/typeGuards.ts
 +++ b/src/util/typeGuards.ts
-@@ -44,3 +44,41 @@ export function objectHasProperty<Thing, PropertyName extends string>(
-     isDefined(thing) && typeof thing === "object" && property in (thing as Record<string, unknown>)
-   );
- }
-+
+@@ -1,46 +1,40 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-/**
+- * Helper TypeGuard that checks if something is defined or not.
+- * @param thing - Anything
+- */
+-export function isDefined<T>(thing: T | undefined | null): thing is T {
+-  return typeof thing !== "undefined" && thing !== null;
 +export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
 +  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
-+}
-+
+ }
+ 
+-/**
+- * Helper TypeGuard that checks if the input is an object with the specified properties.
+- * @param thing - Anything.
+- * @param properties - The name of the properties that should appear in the object.
+- */
+-export function isObjectWithProperties<Thing, PropertyName extends string>(
+-  thing: Thing,
+-  properties: PropertyName[],
+-): thing is Thing & Record<PropertyName, unknown> {
+-  if (!isDefined(thing) || typeof thing !== "object") {
+-    return false;
 +export function isWebReadableStream(x: unknown): x is ReadableStream {
 +  return Boolean(
 +    x &&
 +      typeof (x as ReadableStream).getReader === "function" &&
 +      typeof (x as ReadableStream).tee === "function",
 +  );
-+}
-+
+ }
+ 
+-  for (const property of properties) {
+-    if (!objectHasProperty(thing, property)) {
+-      return false;
+-    }
 +export function isBinaryBody(
 +  body: unknown,
 +): body is
@@ -4509,15 +5664,28 @@ index 22a9cac..2b3f295 100644
 +      typeof body === "function" ||
 +      body instanceof Blob)
 +  );
-+}
-+
+ }
+ 
+-  return true;
 +export function isReadableStream(x: unknown): x is ReadableStream | NodeJS.ReadableStream {
 +  return isNodeReadableStream(x) || isWebReadableStream(x);
-+}
-+
+ }
+ 
+-/**
+- * Helper TypeGuard that checks if the input is an object with the specified property.
+- * @param thing - Any object.
+- * @param property - The name of the property that should appear in the object.
+- */
+-export function objectHasProperty<Thing, PropertyName extends string>(
+-  thing: Thing,
+-  property: PropertyName,
+-): thing is Thing & Record<PropertyName, unknown> {
+-  return (
+-    isDefined(thing) && typeof thing === "object" && property in (thing as Record<string, unknown>)
+-  );
 +export function isBlob(x: unknown): x is Blob {
 +  return typeof (x as Blob).stream === "function";
-+}
+ }
 diff --git a/src/util/userAgent.ts b/src/util/userAgent.ts
 index b8950b5..3ef33c8 100644
 --- a/src/util/userAgent.ts
@@ -4531,19 +5699,127 @@ index b8950b5..3ef33c8 100644
    await setPlatformSpecificData(runtimeInfo);
    const defaultAgent = getUserAgentString(runtimeInfo);
    const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;
+diff --git a/src/util/uuidUtils-browser.mts b/src/util/uuidUtils-browser.mts
+new file mode 100644
+index 0000000..0e8d3c7
+--- /dev/null
++++ b/src/util/uuidUtils-browser.mts
+@@ -0,0 +1,27 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { generateUUID } from "./uuidUtils.common.js";
++
++interface Crypto {
++  randomUUID(): string;
++}
++
++declare const globalThis: {
++  crypto: Crypto;
++};
++
++// NOTE: This could be undefined if not used in a secure context
++const uuidFunction =
++  typeof globalThis?.crypto?.randomUUID === "function"
++    ? globalThis.crypto.randomUUID.bind(globalThis.crypto)
++    : generateUUID;
++
++/**
++ * Generated Universally Unique Identifier
++ *
++ * @returns RFC4122 v4 UUID.
++ */
++export function randomUUID(): string {
++  return uuidFunction();
++}
+diff --git a/src/util/uuidUtils-react-native.mts b/src/util/uuidUtils-react-native.mts
+new file mode 100644
+index 0000000..cc49ba6
+--- /dev/null
++++ b/src/util/uuidUtils-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export { randomUUID } from "./uuidUtils.common.js";
+diff --git a/src/util/uuidUtils.common.ts b/src/util/uuidUtils.common.ts
+new file mode 100644
+index 0000000..1fa8b8f
+--- /dev/null
++++ b/src/util/uuidUtils.common.ts
+@@ -0,0 +1,39 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/**
++ * Generated Universally Unique Identifier
++ *
++ * @returns RFC4122 v4 UUID.
++ */
++export function generateUUID(): string {
++  let uuid = "";
++  for (let i = 0; i < 32; i++) {
++    // Generate a random number between 0 and 15
++    const randomNumber = Math.floor(Math.random() * 16);
++    // Set the UUID version to 4 in the 13th position
++    if (i === 12) {
++      uuid += "4";
++    } else if (i === 16) {
++      // Set the UUID variant to "10" in the 17th position
++      uuid += (randomNumber & 0x3) | 0x8;
++    } else {
++      // Add a random hexadecimal digit to the UUID string
++      uuid += randomNumber.toString(16);
++    }
++    // Add hyphens to the UUID string at the appropriate positions
++    if (i === 7 || i === 11 || i === 15 || i === 19) {
++      uuid += "-";
++    }
++  }
++  return uuid;
++}
++
++/**
++ * Generated Universally Unique Identifier
++ *
++ * @returns RFC4122 v4 UUID.
++ */
++export function randomUUID(): string {
++  return generateUUID();
++}
 diff --git a/src/util/uuidUtils.ts b/src/util/uuidUtils.ts
-index bd11d61..3f6a12b 100644
---- a/src/util/uuidUtils.ts
+new file mode 100644
+index 0000000..3f6a12b
+--- /dev/null
 +++ b/src/util/uuidUtils.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import { randomUUID as v4RandomUUID } from "crypto";
+@@ -0,0 +1,27 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import { randomUUID as v4RandomUUID } from "node:crypto";
- 
- interface Crypto {
-   randomUUID(): string;
++
++interface Crypto {
++  randomUUID(): string;
++}
++
++declare const globalThis: {
++  crypto: Crypto;
++};
++
++// NOTE: This is a workaround until we can use `globalThis.crypto.randomUUID` in Node.js 19+.
++const uuidFunction =
++  typeof globalThis?.crypto?.randomUUID === "function"
++    ? globalThis.crypto.randomUUID.bind(globalThis.crypto)
++    : v4RandomUUID;
++
++/**
++ * Generated Universally Unique Identifier
++ *
++ * @returns RFC4122 v4 UUID.
++ */
++export function randomUUID(): string {
++  return uuidFunction();
++}
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
 index 4a0acaa..2a8f850 100644
 --- a/src/xhrHttpClient.ts
