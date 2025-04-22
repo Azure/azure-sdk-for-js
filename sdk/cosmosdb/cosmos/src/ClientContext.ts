@@ -462,13 +462,14 @@ export class ClientContext {
         body,
         options,
         partitionKey,
-        partitionKeyRangeId,
       };
       diagnosticNode.addData({
         operationType: OperationType.Create,
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
+
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
@@ -624,13 +625,13 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
-        partitionKeyRangeId,
       };
       diagnosticNode.addData({
         operationType: OperationType.Upsert,
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
