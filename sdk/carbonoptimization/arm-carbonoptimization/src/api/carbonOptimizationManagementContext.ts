@@ -7,27 +7,29 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** Carbon Report Resource Provider query API. */
-export interface CarbonContext extends Client {
+export interface CarbonOptimizationManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
 }
 
 /** Optional parameters for the client. */
-export interface CarbonClientOptionalParams extends ClientOptions {
+export interface CarbonOptimizationManagementClientOptionalParams
+  extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Carbon Report Resource Provider query API. */
-export function createCarbon(
+export function createCarbonOptimizationManagement(
   credential: TokenCredential,
-  options: CarbonClientOptionalParams = {},
-): CarbonContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  options: CarbonOptimizationManagementClientOptionalParams = {},
+): CarbonOptimizationManagementContext {
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-carbonoptimization/1.0.0-beta.1 `;
+  const userAgentInfo = `azsdk-js-arm-carbonoptimization/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -57,5 +59,8 @@ export function createCarbon(
       return next(req);
     },
   });
-  return { ...clientContext, apiVersion } as CarbonContext;
+  return {
+    ...clientContext,
+    apiVersion,
+  } as CarbonOptimizationManagementContext;
 }

@@ -1,4 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createCarbon, CarbonContext, CarbonClientOptionalParams } from "./carbonContext.js";
+export {
+  createCarbonOptimizationManagement,
+  CarbonOptimizationManagementContext,
+  CarbonOptimizationManagementClientOptionalParams,
+} from "./carbonOptimizationManagementContext.js";
