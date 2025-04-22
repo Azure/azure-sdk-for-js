@@ -23,7 +23,7 @@ import type {
   BatchJobScheduleOutput,
   BatchJobScheduleListResultOutput,
   BatchTaskListResultOutput,
-  BatchTaskAddCollectionResultOutput,
+  BatchCreateTaskCollectionResultOutput,
   BatchTaskOutput,
   BatchTaskListSubtasksResultOutput,
   BatchNodeFileListResultOutput,
@@ -1159,7 +1159,7 @@ export interface CreateTaskCollection200Headers {
 /** The request has succeeded. */
 export interface CreateTaskCollection200Response extends HttpResponse {
   status: "200";
-  body: BatchTaskAddCollectionResultOutput;
+  body: BatchCreateTaskCollectionResultOutput;
   headers: RawHttpHeaders & CreateTaskCollection200Headers;
 }
 
