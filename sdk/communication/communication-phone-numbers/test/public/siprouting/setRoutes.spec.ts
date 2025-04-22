@@ -48,14 +48,13 @@ matrix([[true, false]], async (useAad) => {
 
       const routes: SipTrunkRoute[] = [
         {
-          callerIdOverride: undefined,
+          callerIdOverride: "+1234568790",
           name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          callerIdOverride: undefined,
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
@@ -64,31 +63,22 @@ matrix([[true, false]], async (useAad) => {
       ];
 
       const setRoutes = await client.setRoutes(routes);
-      setRoutes[0].callerIdOverride =
-        setRoutes[0].callerIdOverride === null ? undefined : setRoutes[0].callerIdOverride;
-      setRoutes[1].callerIdOverride =
-        setRoutes[1].callerIdOverride === null ? undefined : setRoutes[1].callerIdOverride;
       assert.deepEqual(setRoutes, routes);
 
       const storedRoutes = await listAllRoutes(client);
-      storedRoutes[0].callerIdOverride =
-        storedRoutes[0].callerIdOverride === null ? undefined : storedRoutes[0].callerIdOverride;
-      storedRoutes[1].callerIdOverride =
-        storedRoutes[1].callerIdOverride === null ? undefined : storedRoutes[1].callerIdOverride;
       assert.deepEqual(storedRoutes, routes);
     });
 
     it("can set multiple new and existing routes", async () => {
       const routes: SipTrunkRoute[] = [
         {
-          callerIdOverride: undefined,
           name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          callerIdOverride: undefined,
+          callerIdOverride: "+1234568790",
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
@@ -99,8 +89,8 @@ matrix([[true, false]], async (useAad) => {
       const expectedRoutes = [...routes];
       expectedRoutes[0].numberPattern = "^.*$";
       expectedRoutes[1].description = "ALTERED mySecondRoute's description";
+      expectedRoutes[1].callerIdOverride = "+9876543120";
       expectedRoutes.push({
-        callerIdOverride: undefined,
         name: "myThirdRoute",
         description: "desc",
         numberPattern: "^+[1-9][0-9]{3,23}$",
@@ -108,22 +98,9 @@ matrix([[true, false]], async (useAad) => {
       });
 
       const setRoutes = await client.setRoutes(expectedRoutes);
-      setRoutes[0].callerIdOverride =
-        setRoutes[0].callerIdOverride === null ? undefined : setRoutes[0].callerIdOverride;
-      setRoutes[1].callerIdOverride =
-        setRoutes[1].callerIdOverride === null ? undefined : setRoutes[1].callerIdOverride;
-      setRoutes[2].callerIdOverride =
-        setRoutes[2].callerIdOverride === null ? undefined : setRoutes[2].callerIdOverride;
       assert.deepEqual(setRoutes, expectedRoutes);
 
       const storedRoutes = await listAllRoutes(client);
-
-      storedRoutes[0].callerIdOverride =
-        storedRoutes[0].callerIdOverride === null ? undefined : storedRoutes[0].callerIdOverride;
-      storedRoutes[1].callerIdOverride =
-        storedRoutes[1].callerIdOverride === null ? undefined : storedRoutes[1].callerIdOverride;
-      storedRoutes[2].callerIdOverride =
-        storedRoutes[2].callerIdOverride === null ? undefined : storedRoutes[2].callerIdOverride;
       assert.deepEqual(storedRoutes, expectedRoutes);
     });
 
@@ -139,7 +116,6 @@ matrix([[true, false]], async (useAad) => {
       await client.setTrunk(trunk);
 
       const route: SipTrunkRoute = {
-        callerIdOverride: undefined,
         name: "myFirstRoute",
         description: "myFirstRoute's description",
         numberPattern: "^+[1-9][0-9]{3,23}$",
@@ -148,10 +124,6 @@ matrix([[true, false]], async (useAad) => {
 
       const routes = await client.setRoutes([route]);
       const routeList = await listAllRoutes(client);
-      routes[0].callerIdOverride =
-        routes[0].callerIdOverride === null ? undefined : routes[0].callerIdOverride;
-      routeList[0].callerIdOverride =
-        routeList[0].callerIdOverride === null ? undefined : routeList[0].callerIdOverride;
       assert.deepEqual(routes, [route]);
       assert.deepEqual(routeList, [route]);
     });
@@ -319,14 +291,12 @@ matrix([[true, false]], async (useAad) => {
 
       const routes: SipTrunkRoute[] = [
         {
-          callerIdOverride: undefined,
           name: "myFirstRoute",
           description: "myFirstRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
           trunks: [],
         },
         {
-          callerIdOverride: undefined,
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
@@ -335,10 +305,6 @@ matrix([[true, false]], async (useAad) => {
       ];
       await client.setRoutes(routes);
       const routeList = await listAllRoutes(client);
-      routeList[0].callerIdOverride =
-        routeList[0].callerIdOverride === null ? undefined : routeList[0].callerIdOverride;
-      routeList[1].callerIdOverride =
-        routeList[1].callerIdOverride === null ? undefined : routeList[1].callerIdOverride;
       assert.deepEqual(await listAllTrunks(client), trunks);
       assert.deepEqual(routeList, routes);
     });

@@ -15,7 +15,6 @@ import {
 } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
-import { H } from "vitest/dist/chunks/reporters.DTtkbAtP.js";
 
 matrix([[true, false]], async (useAad) => {
   describe(`SipRoutingClient - get trunks${useAad ? " [AAD]" : ""}`, () => {
@@ -94,11 +93,11 @@ matrix([[true, false]], async (useAad) => {
         {
           fqdn: secondFqdn,
           sipSignalingPort: 2348,
-          directTransfer: false,
+          directTransfer: true,
           health: undefined,
           enabled: false,
-          privacyHeader: "id",
-          ipAddressVersion: "ipv4",
+          privacyHeader: "none",
+          ipAddressVersion: "ipv6",
         },
         {
           fqdn: thirdFqdn,

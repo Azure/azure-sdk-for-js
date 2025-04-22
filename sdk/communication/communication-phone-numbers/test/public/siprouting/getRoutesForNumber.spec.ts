@@ -13,7 +13,7 @@ import {
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 matrix([[true, false]], async (useAad) => {
-  describe(`SipRoutingClient - test routes with number${useAad ? " [AAD]" : ""}`, () => {
+  describe(`SipRoutingClient - get routes for number${useAad ? " [AAD]" : ""}`, () => {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
@@ -33,11 +33,16 @@ matrix([[true, false]], async (useAad) => {
       await recorder.stop();
     });
 
-    it("can test routes with numbers", async () => {
-      const testRoutesWithNumber = await client.testRoutesWithNumber("+11234567890", []);
-      assert.isNotNull(testRoutesWithNumber);
-      assert.isArray(testRoutesWithNumber.matchingRoutes);
-      assert.equal(testRoutesWithNumber.matchingRoutes?.length, 0);
+    it("can get routes for number", async () => {
+      const routes = [
+        { name: "route1", numberPattern: "^.123.*" },
+        { name: "route2", numberPattern: "^.987.*" },
+        { name: "route3", numberPattern: "^.*" },
+      ];
+      const routesForNumber = await client.getRoutesForNumber("+1234567890", routes);
+      assert.isNotNull(routesForNumber);
+      assert.isArray(routesForNumber);
+      assert.equal(routesForNumber?.length, 2);
     });
   });
 });

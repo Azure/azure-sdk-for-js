@@ -9,10 +9,11 @@ import type {
   PhoneNumberType,
 } from "./generated/src/models/index.js";
 import type {
-  TrunkHealth,
-  SipTrunkRoute,
+  TlsHealth,
+  PingHealth,
   IpAddressVersion,
   PrivacyHeader,
+  HealthStatusReason,
 } from "./generated/src/siprouting/models/index.js";
 
 /**
@@ -92,22 +93,7 @@ export interface ListSipDomainsOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to list SIP trunks.
  */
-export interface ListSipTrunksOptions extends OperationOptions {
-  /**
-   * Include SIP trunk health in response.
-   */
-  includeHealth?: boolean;
-}
-
-/**
- * Additional options that can be passed to get SIP trunks.
- */
-export interface GetSipTrunksOptions extends OperationOptions {
-  /**
-   * Include SIP trunk health in response.
-   */
-  includeHealth?: boolean;
-}
+export interface ListSipTrunksOptions extends OperationOptions {}
 
 /**
  * Additional options that can be passed to get SIP domains.
@@ -148,14 +134,11 @@ export {
 export {
   SipRoutingError,
   SipTrunkRoute,
-  TrunkHealth,
   TlsHealth,
   PingHealth,
-  OverallHealth,
   TlsStatus,
   PingStatus,
-  OverallHealthStatus,
-  UnhealthyStatusReason,
+  HealthStatusReason,
   PrivacyHeader,
   IpAddressVersion,
 } from "./generated/src/siprouting/models/index.js";
@@ -194,6 +177,16 @@ export interface SipTrunk {
   ipAddressVersion?: IpAddressVersion;
 }
 
+/** Represents health state of a SIP trunk for routing calls. */
+export interface TrunkHealth {
+  /** The status of the TLS connections of the Trunk. */
+  tls: TlsHealth;
+  /** The status of SIP OPTIONS message sent by Trunk. */
+  ping: PingHealth;
+  /** The overall health status of Trunk. */
+  overall: OverallHealth;
+}
+
 /**
  * Represents a DNS domain for SIP trunk.
  */
@@ -205,15 +198,10 @@ export interface SipDomain {
   /**
    * Enabled flag
    */
-  enabled?: boolean;
+  enabled: boolean;
 }
 
-/**
- * Test Routes with number operation result.
- */
-export interface TestRoutesWithNumberResult {
-  /**
-   * The list of routes whose number patterns are matched by the target number. The routes are displayed and applied in the same order as in SipConfiguration.
-   */
-  matchingRoutes?: SipTrunkRoute[]
-}
+// This assumes that _only_ inactive status has a reason and that _every_ inactive status has a reason
+export type OverallHealth =
+  | { status: "unknown" | "active" }
+  | { status: "inactive"; reason: HealthStatusReason };

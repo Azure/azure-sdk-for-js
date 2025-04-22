@@ -84,7 +84,7 @@ export interface OverallHealth {
   /** The overall health status of Trunk. */
   status: OverallHealthStatus;
   /** The reason overall status of Trunk is inactive. */
-  reason?: UnhealthyStatusReason;
+  reason?: HealthStatusReason;
 }
 
 /** Represents a trunk route for routing calls. */
@@ -211,8 +211,8 @@ export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 export type PingStatus = "unknown" | "ok" | "expired" | "error";
 /** Defines values for OverallHealthStatus. */
 export type OverallHealthStatus = "unknown" | "active" | "inactive";
-/** Defines values for UnhealthyStatusReason. */
-export type UnhealthyStatusReason =
+/** Defines values for HealthStatusReason. */
+export type HealthStatusReason =
   | "noRecentCalls"
   | "noRecentPings"
   | "noRecentCallsAndPings";

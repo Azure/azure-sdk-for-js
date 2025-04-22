@@ -37,9 +37,7 @@ export interface GetSipDomainsOptions extends OperationOptions {
 }
 
 // @public
-export interface GetSipTrunksOptions extends OperationOptions {
-    includeHealth?: boolean;
-}
+export type HealthStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // @public
 export type IpAddressVersion = "ipv4" | "ipv6";
@@ -80,7 +78,6 @@ export interface ListSipRoutesOptions extends OperationOptions {
 
 // @public
 export interface ListSipTrunksOptions extends OperationOptions {
-    includeHealth?: boolean;
 }
 
 // @public
@@ -117,14 +114,13 @@ export interface OperatorInformationResult {
 // @public
 export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
 
-// @public
-export interface OverallHealth {
-    reason?: UnhealthyStatusReason;
-    status: OverallHealthStatus;
-}
-
-// @public
-export type OverallHealthStatus = "unknown" | "active" | "inactive";
+// @public (undocumented)
+export type OverallHealth = {
+    status: "unknown" | "active";
+} | {
+    status: "inactive";
+    reason: HealthStatusReason;
+};
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -283,7 +279,7 @@ export interface SearchOperatorInformationOptions extends OperationOptions {
 
 // @public
 export interface SipDomain {
-    enabled?: boolean;
+    enabled: boolean;
     fqdn: string;
 }
 
@@ -295,7 +291,8 @@ export class SipRoutingClient {
     deleteDomain(fqdn: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
     getDomain(fqdn: string, options?: GetSipDomainsOptions): Promise<SipDomain>;
-    getTrunk(fqdn: string, options?: GetSipTrunksOptions): Promise<SipTrunk>;
+    getRoutesForNumber(targetPhoneNumber: string, routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
+    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
     listDomains(options?: ListSipDomainsOptions): PagedAsyncIterableIterator<SipDomain>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
@@ -304,7 +301,6 @@ export class SipRoutingClient {
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
-    testRoutesWithNumber(targetPhoneNumber: string, routes: SipTrunkRoute[], options?: OperationOptions): Promise<TestRoutesWithNumberResult>;
 }
 
 // @public
@@ -341,11 +337,6 @@ export interface SipTrunkRoute {
 }
 
 // @public
-export interface TestRoutesWithNumberResult {
-    matchingRoutes?: SipTrunkRoute[];
-}
-
-// @public
 export interface TlsHealth {
     status: TlsStatus;
 }
@@ -359,9 +350,6 @@ export interface TrunkHealth {
     ping: PingHealth;
     tls: TlsHealth;
 }
-
-// @public
-export type UnhealthyStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // (No @packageDocumentation comment for this package)
 
