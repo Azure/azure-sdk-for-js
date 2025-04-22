@@ -142,22 +142,22 @@ export class BulkBatcher {
         ) {
           const shouldRetry = await operation.operationContext.retryPolicy.shouldRetry(
             bulkOperationResult,
-            diagnosticNode,
+            operation.operationContext.diagnosticNode,
           );
           if (shouldRetry) {
-            await this.retrier(operation, diagnosticNode);
+            await this.retrier(operation, operation.operationContext.diagnosticNode);
             continue;
           }
         }
         try {
           if (this.encryptionEnabled && bulkOperationResult.resourceBody) {
-            diagnosticNode.beginEncryptionDiagnostics(
+            operation.operationContext.diagnosticNode.beginEncryptionDiagnostics(
               Constants.Encryption.DiagnosticsDecryptOperation,
             );
             const { body: decryptedBody, propertiesDecryptedCount } =
               await this.encryptionProcessor.decrypt(bulkOperationResult.resourceBody);
             bulkOperationResult.resourceBody = decryptedBody;
-            diagnosticNode.endEncryptionDiagnostics(
+            operation.operationContext.diagnosticNode.endEncryptionDiagnostics(
               Constants.Encryption.DiagnosticsDecryptOperation,
               propertiesDecryptedCount,
             );

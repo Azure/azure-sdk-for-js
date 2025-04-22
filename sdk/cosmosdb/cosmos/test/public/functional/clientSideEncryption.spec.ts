@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { EncryptionAlgorithm } from "../../../src/index.js";
+import { Constants, EncryptionAlgorithm } from "../../../src/index.js";
 import type {
   Database,
   Container,
@@ -458,6 +458,9 @@ describe("ClientSideEncryption", () => {
 
     const { resource: docToDelete } = await testCreateItem(encryptionContainer);
 
+    const { resource: docToPatch } = await testCreateItem(encryptionContainer);
+    docToPatch.sensitive_StringFormat = randomUUID();
+
     const clientWithBulk = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -468,7 +471,15 @@ describe("ClientSideEncryption", () => {
 
     const databaseWithBulk = clientWithBulk.database(database.id);
     const encryptionContainerWithBulk = databaseWithBulk.container(encryptionContainer.id);
-
+    const patchOperation = {
+      operations: [
+        {
+          op: PatchOperationType.replace,
+          path: "/sensitive_StringFormat",
+          value: docToPatch.sensitive_StringFormat,
+        },
+      ],
+    };
     const operations = [
       {
         operationType: BulkOperationType.Create,
@@ -496,20 +507,114 @@ describe("ClientSideEncryption", () => {
         id: docToDelete.id,
         partitionKey: docToDelete.PK,
       },
+      {
+        operationType: BulkOperationType.Patch,
+        partitionKey: docToPatch.PK,
+        id: docToPatch.id,
+        resourceBody: patchOperation,
+      },
     ];
 
     const result = await encryptionContainerWithBulk.items.executeBulkOperations(operations);
-
+    result.forEach((r) => {
+      assert.isNotNull(r.response.diagnostics);
+      assert.isNotNull(r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics);
+      const encryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.encryptContent;
+      const decryptContent =
+        r.response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics.decryptContent;
+      assert.isNotNull(encryptContent);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount]);
+      assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsDuration]);
+      assert.isNotNull(decryptContent);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount]);
+      assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsDuration]);
+    });
+    // Create
     assert.equal(StatusCodes.Created, result[0].response.statusCode);
     verifyExpectedDocResponse(docToCreate, result[0].response.resourceBody);
+    // 12 encrypted field + 1 partition key for create and upsert encryption
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[0].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Upsert new item
     assert.equal(StatusCodes.Created, result[1].response.statusCode);
     verifyExpectedDocResponse(docToUpsert2, result[1].response.resourceBody);
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[1].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Replace
     assert.equal(StatusCodes.Ok, result[2].response.statusCode);
     verifyExpectedDocResponse(new TestDoc(docToReplace), result[2].response.resourceBody);
+    // 12 encrypted field + 1 partition key + 1 id for replace encryption
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      14,
+    );
+    assert.equal(
+      result[2].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Upsert existing item
     assert.equal(StatusCodes.Ok, result[3].response.statusCode);
     verifyExpectedDocResponse(new TestDoc(docToUpsert), result[3].response.resourceBody);
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      13,
+    );
+    assert.equal(
+      result[3].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
+    // Delete
     assert.equal(StatusCodes.NoContent, result[4].response.statusCode);
     assert.isNotObject(result[4].response.resourceBody);
+    // 1 partition key + 1 id for delete encryption
+    assert.equal(
+      result[4].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      2,
+    );
+
+    // Patch
+    assert.equal(StatusCodes.Ok, result[5].response.statusCode);
+    verifyExpectedDocResponse(new TestDoc(docToPatch), result[5].response.resourceBody);
+    // 1 partition key + 1 id + 1 field to patch for patch encryption
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+      3,
+    );
+    assert.equal(
+      result[5].response.diagnostics.clientSideRequestStatistics.encryptionDiagnostics
+        .decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+      12,
+    );
+
     clientWithBulk.dispose();
   });
 

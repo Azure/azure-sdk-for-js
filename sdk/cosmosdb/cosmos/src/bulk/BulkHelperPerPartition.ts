@@ -31,8 +31,7 @@ export class BulkHelperPerPartition {
   private readonly encryptionProcessor: EncryptionProcessor;
   private readonly clientConfigDiagnostics: ClientConfigDiagnostic;
   private readonly congestionControlAlgorithm: BulkCongestionAlgorithm;
-  private queuedBatches: BulkBatcher[] = [];
-  private readonly dispatchLimiter: LimiterQueue;
+  private readonly dispatchLimiterQueue: LimiterQueue;
   private initialConcurrency: number = 1;
   private processedOperationCountRef: { count: number };
 
@@ -55,13 +54,13 @@ export class BulkHelperPerPartition {
     this.partitionMetric = new BulkPartitionMetric();
     this.processedOperationCountRef = processedOperationCountRef;
     this.lock = semaphore(1);
-    this.dispatchLimiter = new LimiterQueue(
+    this.dispatchLimiterQueue = new LimiterQueue(
       this.initialConcurrency,
       this.partitionMetric,
       this.retrier,
     );
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
-      this.dispatchLimiter,
+      this.dispatchLimiterQueue,
       this.partitionMetric,
       this.oldPartitionMetric,
     );
@@ -81,7 +80,7 @@ export class BulkHelperPerPartition {
           while (!this.currentBatcher.tryAdd(operation)) {
             const fullBatch = this.getBatchToQueueAndCreate();
             if (fullBatch) {
-              this.dispatchLimiter.push(fullBatch);
+              this.dispatchLimiterQueue.push(fullBatch);
             }
           }
           // At this point the operation was added.
@@ -113,13 +112,12 @@ export class BulkHelperPerPartition {
     if (this.currentBatcher.isEmpty()) return null;
     const previousBatcher = this.currentBatcher;
     this.currentBatcher = this.createBulkBatcher();
-    this.queuedBatches.push(previousBatcher);
     return previousBatcher;
   }
 
   /**
    * In case there are leftover operations that did not fill a full batch,
-   * addRemainingBatch will add those operations as a batch in the dispatch queue.
+   * dispatchUnfilledBatch will add those operations as a batch in the dispatch queue.
    */
   dispatchUnfilledBatch(): void {
     this.lock.take(() => {
@@ -127,7 +125,7 @@ export class BulkHelperPerPartition {
         if (!this.currentBatcher.isEmpty()) {
           const batch = this.currentBatcher;
           this.currentBatcher = this.createBulkBatcher();
-          this.dispatchLimiter.push(batch);
+          this.dispatchLimiterQueue.push(batch);
         }
       } finally {
         this.lock.leave();
@@ -137,7 +135,7 @@ export class BulkHelperPerPartition {
 
   private createBulkBatcher(): BulkBatcher {
     return new BulkBatcher(
-      this.dispatchLimiter,
+      this.dispatchLimiterQueue,
       this.executor,
       this.retrier,
       this.diagnosticLevel,
@@ -160,7 +158,7 @@ export class BulkHelperPerPartition {
    * This is used in case of stale container Rid detected for encryption operations
    */
   public async dispose(): Promise<void> {
-    await this.dispatchLimiter.pauseAndClear(null);
+    await this.dispatchLimiterQueue.pauseAndClear(null);
     this.currentBatcher = undefined;
   }
 }
