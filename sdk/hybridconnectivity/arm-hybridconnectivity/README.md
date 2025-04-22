@@ -52,24 +52,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { HybridConnectivityClient } from "@azure/arm-hybridconnectivity";
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new HybridConnectivityClient(new DefaultAzureCredential(), subscriptionId);
+const client = new HybridConnectivityManagementAPI(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { HybridConnectivityClient } from "@azure/arm-hybridconnectivity";
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
-const client = new HybridConnectivityClient(credential, subscriptionId);
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
 ```
 
 

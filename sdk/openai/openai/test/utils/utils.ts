@@ -156,9 +156,9 @@ export async function testWithDeployments<T>({
 
   test.concurrent.for(modelFlatMap)(
     "$model.name ($model.version)",
-    async ({ model, client, deploymentName }: ModelFlatMap, done: TestContext) => {
+    async ({ model, client, deploymentName }: ModelFlatMap, context: TestContext) => {
       if (modelsListToSkip && isModelInList(model, modelsListToSkip)) {
-        done.skip(`Skipping ${model.name} : ${model.version}`);
+        context.skip(`Skipping ${model.name} : ${model.version}`);
       }
 
       let result;
@@ -167,10 +167,10 @@ export async function testWithDeployments<T>({
       } catch (e) {
         const error = e as any;
         if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
-          done.skip(`Skipping due to acceptable error: ${error}`);
+          context.skip(`Skipping due to acceptable error: ${error}`);
         }
         if (GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))) {
-          done.skip(`Skipping due to global acceptable error: ${error}`);
+          context.skip(`Skipping due to global acceptable error: ${error}`);
         }
         throw e;
       }
