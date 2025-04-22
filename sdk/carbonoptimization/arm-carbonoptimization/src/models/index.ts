@@ -29,6 +29,7 @@ export {
   OrderByColumnEnum,
   KnownSortDirectionEnum,
   SortDirectionEnum,
+  CarbonEmissionDataListResult,
   CarbonEmissionData,
   CarbonEmissionDataUnion,
   KnownResponseDataTypeEnum,

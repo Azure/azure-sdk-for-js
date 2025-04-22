@@ -1,12 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createCarbon, CarbonContext, CarbonClientOptionalParams } from "./api/index.js";
+import {
+  createCarbon,
+  CarbonContext,
+  CarbonClientOptionalParams,
+} from "./api/index.js";
 import {
   CarbonServiceOperations,
   _getCarbonServiceOperations,
 } from "./classic/carbonService/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -18,7 +25,10 @@ export class CarbonClient {
   public readonly pipeline: Pipeline;
 
   /** Carbon Report Resource Provider query API. */
-  constructor(credential: TokenCredential, options: CarbonClientOptionalParams = {}) {
+  constructor(
+    credential: TokenCredential,
+    options: CarbonClientOptionalParams = {},
+  ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`

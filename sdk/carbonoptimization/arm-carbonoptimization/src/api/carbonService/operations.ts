@@ -6,9 +6,8 @@ import {
   errorResponseDeserializer,
   queryFilterUnionSerializer,
   QueryFilterUnion,
-  _CarbonEmissionDataListResult,
-  _carbonEmissionDataListResultDeserializer,
-  CarbonEmissionDataUnion,
+  CarbonEmissionDataListResult,
+  carbonEmissionDataListResultDeserializer,
   CarbonEmissionDataAvailableDateRange,
   carbonEmissionDataAvailableDateRangeDeserializer,
 } from "../../models/models.js";
@@ -16,10 +15,6 @@ import {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -43,13 +38,15 @@ export function _queryCarbonEmissionDataAvailableDateRangeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _queryCarbonEmissionDataAvailableDateRangeDeserialize(
@@ -72,7 +69,10 @@ export async function queryCarbonEmissionDataAvailableDateRange(
     requestOptions: {},
   },
 ): Promise<CarbonEmissionDataAvailableDateRange> {
-  const result = await _queryCarbonEmissionDataAvailableDateRangeSend(context, options);
+  const result = await _queryCarbonEmissionDataAvailableDateRangeSend(
+    context,
+    options,
+  );
   return _queryCarbonEmissionDataAvailableDateRangeDeserialize(result);
 }
 
@@ -92,20 +92,22 @@ export function _queryCarbonEmissionReportsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: queryFilterUnionSerializer(queryParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: queryFilterUnionSerializer(queryParameters),
+    });
 }
 
 export async function _queryCarbonEmissionReportsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_CarbonEmissionDataListResult> {
+): Promise<CarbonEmissionDataListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -113,22 +115,21 @@ export async function _queryCarbonEmissionReportsDeserialize(
     throw error;
   }
 
-  return _carbonEmissionDataListResultDeserializer(result.body);
+  return carbonEmissionDataListResultDeserializer(result.body);
 }
 
 /** API for Carbon Emissions Reports */
-export function queryCarbonEmissionReports(
+export async function queryCarbonEmissionReports(
   context: Client,
   queryParameters: QueryFilterUnion,
   options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<CarbonEmissionDataUnion> {
-  return buildPagedAsyncIterator(
+): Promise<CarbonEmissionDataListResult> {
+  const result = await _queryCarbonEmissionReportsSend(
     context,
-    () => _queryCarbonEmissionReportsSend(context, queryParameters, options),
-    _queryCarbonEmissionReportsDeserialize,
-    ["200"],
-    { itemName: "value" },
+    queryParameters,
+    options,
   );
+  return _queryCarbonEmissionReportsDeserialize(result);
 }

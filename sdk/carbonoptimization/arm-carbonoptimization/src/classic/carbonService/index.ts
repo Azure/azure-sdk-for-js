@@ -4,7 +4,7 @@
 import { CarbonContext } from "../../api/carbonContext.js";
 import {
   QueryFilterUnion,
-  CarbonEmissionDataUnion,
+  CarbonEmissionDataListResult,
   CarbonEmissionDataAvailableDateRange,
 } from "../../models/models.js";
 import {
@@ -15,7 +15,6 @@ import {
   queryCarbonEmissionDataAvailableDateRange,
   queryCarbonEmissionReports,
 } from "../../api/carbonService/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CarbonService operations. */
 export interface CarbonServiceOperations {
@@ -27,7 +26,7 @@ export interface CarbonServiceOperations {
   queryCarbonEmissionReports: (
     queryParameters: QueryFilterUnion,
     options?: CarbonServiceQueryCarbonEmissionReportsOptionalParams,
-  ) => PagedAsyncIterableIterator<CarbonEmissionDataUnion>;
+  ) => Promise<CarbonEmissionDataListResult>;
 }
 
 function _getCarbonService(context: CarbonContext) {
@@ -42,7 +41,9 @@ function _getCarbonService(context: CarbonContext) {
   };
 }
 
-export function _getCarbonServiceOperations(context: CarbonContext): CarbonServiceOperations {
+export function _getCarbonServiceOperations(
+  context: CarbonContext,
+): CarbonServiceOperations {
   return {
     ..._getCarbonService(context),
   };
