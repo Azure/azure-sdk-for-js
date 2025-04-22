@@ -57,8 +57,7 @@ steps:
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
-  # Retry for 30 seconds, since this command may fail with error "Another rush command is already
-  # running in this repository" if the previous rush command was killed.
+  # Retry for 30 seconds.
   - pwsh: |
       for ($i=0; $i -lt 30; $i++) {
         pnpm run purge

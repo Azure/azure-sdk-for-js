@@ -65,7 +65,7 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
     for (const [depName, depVersionRange] of Object.entries(dependencySection)) {
       console.log(`checking ${depName}:${depVersionRange}...`);
 
-      // If the dependency isn't part of the Rush workspace, skip it
+      // If the dependency isn't part of the workspace, skip it
       if (!repoPackages[depName]) {
         continue;
       }
@@ -140,7 +140,7 @@ function makeDependencySectionConsistentForPackage(
 
     console.log(`checking ${depName}:${depVersionRange}...`);
 
-    // If the dependency isn't part of the Rush workspace, skip it
+    // If the dependency isn't part of the workspace, skip it
     if (!repoPackages[depName]) {
       return repoPackages;
     }

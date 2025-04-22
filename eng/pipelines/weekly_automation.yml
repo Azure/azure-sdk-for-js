@@ -54,7 +54,7 @@ jobs:
   - script: |
       pnpm run purge
       git clean -xdf
-    displayName: "Rush Unlink"
+    displayName: "Reset workspace"
 
   - task: PowerShell@2
     displayName: 'Check Dependency Warnings and File GitHub Issues'

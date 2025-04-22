@@ -33,7 +33,11 @@ jobs:
       - template: /eng/pipelines/templates/steps/common.yml
 
       - script: |
-          node common/scripts/install-run-rush.js install
+          npm install -g pnpm
+        displayName: "Install Pnpm"
+
+      - script: |
+          pnpm install
         displayName: "Install library dependencies"
 
       - script: |
