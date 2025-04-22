@@ -64,8 +64,5 @@ export {
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./api/carbonService/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  CarbonServiceOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { CarbonServiceOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -10,10 +10,7 @@ import {
   CarbonServiceOperations,
   _getCarbonServiceOperations,
 } from "./classic/carbonService/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
