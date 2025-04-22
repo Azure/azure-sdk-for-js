@@ -1,8 +1,8 @@
-# Azure Carbon client library for JavaScript
+# Azure CarbonOptimizationManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Carbon client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure CarbonOptimizationManagement client.
 
-Carbon Report Resource Provider query API.
+CarbonOptimizationManagement Report Resource Provider query API.
 
 Key links:
 
@@ -32,10 +32,10 @@ Install the Azure Carbon client library for JavaScript with `npm`:
 npm install @azure/arm-carbonoptimization
 ```
 
-### Create and authenticate a `CarbonClient`
+### Create and authenticate a `CarbonOptimizationManagementClient`
 
-To create a client object to access the Azure Carbon API, you will need the `endpoint` of your Azure Carbon resource and a `credential`. The Azure Carbon client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure Carbon resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure CarbonOptimizationManagement API, you will need the `endpoint` of your Azure CarbonOptimizationManagement resource and a `credential`. The Azure CarbonOptimizationManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure CarbonOptimizationManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -52,23 +52,23 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { CarbonClient } from "@azure/arm-carbonoptimization";
+import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new CarbonClient(new DefaultAzureCredential());
+const client = new CarbonOptimizationManagementClient(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { CarbonClient } from "@azure/arm-carbonoptimization";
+import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>"
  });
-const client = new CarbonClient(credential);
+const client = new CarbonOptimizationManagementClient(credential);
 ```
 
 
@@ -77,9 +77,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### CarbonClient
+### CarbonOptimizationManagementClient
 
-`CarbonClient` is the primary interface for developers using the Azure Carbon client library. Explore the methods on this client object to understand the different features of the Azure Carbon service that you can access.
+`CarbonOptimizationManagementClient` is the primary interface for developers using the Azure CarbonOptimizationManagement client library. Explore the methods on this client object to understand the different features of the Azure CarbonOptimizationManagement service that you can access.
 
 ## Troubleshooting
 
