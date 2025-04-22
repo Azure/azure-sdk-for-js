@@ -525,11 +525,14 @@ export class Items {
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
 
-        const partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
-          partitionKey,
-          partitionKeyDefinition,
-          diagnosticNode,
-        );
+        let partitionKeyRangeId: string;
+        if (partitionKey) {
+          partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
+            partitionKey,
+            partitionKeyDefinition,
+            diagnosticNode,
+          );
+        }
 
         response = await this.clientContext.create<T>({
           body,
@@ -687,11 +690,14 @@ export class Items {
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
 
-        const partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
-          partitionKey,
-          partitionKeyDefinition,
-          diagnosticNode,
-        );
+        let partitionKeyRangeId: string;
+        if (partitionKey) {
+          partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
+            partitionKey,
+            partitionKeyDefinition,
+            diagnosticNode,
+          );
+        }
 
         response = await this.clientContext.upsert<T>({
           body,
