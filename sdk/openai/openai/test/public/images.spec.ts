@@ -7,7 +7,9 @@ import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIMatrix, type APIVersion, testWithDeployments } from "../utils/utils.js";
 
 describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
-  const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, { imageGenerations: "true" });
+  const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, {
+    imageGenerations: "true",
+  });
 
   describe("images.generate", () => {
     const prompt = "a flower vase on a table";
@@ -29,7 +31,13 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
         run: (client, deploymentName) =>
-          client.images.generate({ model: deploymentName, prompt, n, size, response_format: "b64_json" }),
+          client.images.generate({
+            model: deploymentName,
+            prompt,
+            n,
+            size,
+            response_format: "b64_json",
+          }),
         validate: (item) => assertImagesWithJSON(item, height, width),
       });
     });
