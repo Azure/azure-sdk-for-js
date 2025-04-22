@@ -441,6 +441,20 @@ export interface ThreadDeletionStatusOutput {
   object: "thread.deleted";
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfAgentThreadOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<AgentThreadOutput>;
+  /** The first ID represented in this list. */
+  firstId: string;
+  /** The last ID represented in this list. */
+  lastId: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  hasMore: boolean;
+}
+
 /** A single, existing message within an agent thread. */
 export interface ThreadMessageOutput {
   /** The identifier, which can be referenced in API endpoints. */

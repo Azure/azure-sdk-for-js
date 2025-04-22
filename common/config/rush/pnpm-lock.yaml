@@ -3290,7 +3290,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
-    resolution: {integrity: sha512-j4ar8TKBDSjGd8Je6XzNCCf8NdFthVMM0uJ54tkeFaWgGr0cz1yOZmjQyr5YMnOgT0Gp9Ig2VwvLyG5bl05CbQ==, tarball: file:projects/arm-storageactions.tgz}
+    resolution: {integrity: sha512-pdQVLjMy8YvTf5IbFMnfQQLSpErK7uSYlQxojzF5D/WoBgG+QWvopDlvrEGXA1OvzxfyCPUWRVo4+s1XiTWTWA==, tarball: file:projects/arm-storageactions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
