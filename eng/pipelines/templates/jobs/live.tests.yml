@@ -221,6 +221,7 @@ jobs:
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
+            ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
             SERVICE_VERSION: $(ServiceVersion)
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
