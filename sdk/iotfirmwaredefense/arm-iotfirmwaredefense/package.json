@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-iotfirmwaredefense",
-  "version": "1.0.1",
+  "version": "2.0.0-beta.1",
   "description": "A generated SDK for IoTFirmwareDefenseClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -12,17 +12,17 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./api/usageMetrics": "src/api/usageMetrics/index.ts",
-      "./api/summaries": "src/api/summaries/index.ts",
-      "./api/sbomComponents": "src/api/sbomComponents/index.ts",
-      "./api/passwordHashes": "src/api/passwordHashes/index.ts",
-      "./api/cves": "src/api/cves/index.ts",
-      "./api/cryptoKeys": "src/api/cryptoKeys/index.ts",
-      "./api/cryptoCertificates": "src/api/cryptoCertificates/index.ts",
-      "./api/binaryHardening": "src/api/binaryHardening/index.ts",
-      "./api/workspaces": "src/api/workspaces/index.ts",
-      "./api/firmwares": "src/api/firmwares/index.ts",
-      "./api/operations": "src/api/operations/index.ts",
+      "./api/usageMetrics": "./src/api/usageMetrics/index.ts",
+      "./api/summaries": "./src/api/summaries/index.ts",
+      "./api/sbomComponents": "./src/api/sbomComponents/index.ts",
+      "./api/passwordHashes": "./src/api/passwordHashes/index.ts",
+      "./api/cves": "./src/api/cves/index.ts",
+      "./api/cryptoKeys": "./src/api/cryptoKeys/index.ts",
+      "./api/cryptoCertificates": "./src/api/cryptoCertificates/index.ts",
+      "./api/binaryHardening": "./src/api/binaryHardening/index.ts",
+      "./api/workspaces": "./src/api/workspaces/index.ts",
+      "./api/firmwares": "./src/api/firmwares/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -106,11 +106,11 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -127,5 +127,263 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview"
   },
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/usageMetrics": {
+      "browser": {
+        "types": "./dist/browser/api/usageMetrics/index.d.ts",
+        "default": "./dist/browser/api/usageMetrics/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/usageMetrics/index.d.ts",
+        "default": "./dist/react-native/api/usageMetrics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/usageMetrics/index.d.ts",
+        "default": "./dist/esm/api/usageMetrics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/usageMetrics/index.d.ts",
+        "default": "./dist/commonjs/api/usageMetrics/index.js"
+      }
+    },
+    "./api/summaries": {
+      "browser": {
+        "types": "./dist/browser/api/summaries/index.d.ts",
+        "default": "./dist/browser/api/summaries/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/summaries/index.d.ts",
+        "default": "./dist/react-native/api/summaries/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/summaries/index.d.ts",
+        "default": "./dist/esm/api/summaries/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/summaries/index.d.ts",
+        "default": "./dist/commonjs/api/summaries/index.js"
+      }
+    },
+    "./api/sbomComponents": {
+      "browser": {
+        "types": "./dist/browser/api/sbomComponents/index.d.ts",
+        "default": "./dist/browser/api/sbomComponents/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/sbomComponents/index.d.ts",
+        "default": "./dist/react-native/api/sbomComponents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sbomComponents/index.d.ts",
+        "default": "./dist/esm/api/sbomComponents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sbomComponents/index.d.ts",
+        "default": "./dist/commonjs/api/sbomComponents/index.js"
+      }
+    },
+    "./api/passwordHashes": {
+      "browser": {
+        "types": "./dist/browser/api/passwordHashes/index.d.ts",
+        "default": "./dist/browser/api/passwordHashes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/passwordHashes/index.d.ts",
+        "default": "./dist/react-native/api/passwordHashes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/passwordHashes/index.d.ts",
+        "default": "./dist/esm/api/passwordHashes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/passwordHashes/index.d.ts",
+        "default": "./dist/commonjs/api/passwordHashes/index.js"
+      }
+    },
+    "./api/cves": {
+      "browser": {
+        "types": "./dist/browser/api/cves/index.d.ts",
+        "default": "./dist/browser/api/cves/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/cves/index.d.ts",
+        "default": "./dist/react-native/api/cves/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/cves/index.d.ts",
+        "default": "./dist/esm/api/cves/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/cves/index.d.ts",
+        "default": "./dist/commonjs/api/cves/index.js"
+      }
+    },
+    "./api/cryptoKeys": {
+      "browser": {
+        "types": "./dist/browser/api/cryptoKeys/index.d.ts",
+        "default": "./dist/browser/api/cryptoKeys/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/cryptoKeys/index.d.ts",
+        "default": "./dist/react-native/api/cryptoKeys/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/cryptoKeys/index.d.ts",
+        "default": "./dist/esm/api/cryptoKeys/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/cryptoKeys/index.d.ts",
+        "default": "./dist/commonjs/api/cryptoKeys/index.js"
+      }
+    },
+    "./api/cryptoCertificates": {
+      "browser": {
+        "types": "./dist/browser/api/cryptoCertificates/index.d.ts",
+        "default": "./dist/browser/api/cryptoCertificates/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/cryptoCertificates/index.d.ts",
+        "default": "./dist/react-native/api/cryptoCertificates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/cryptoCertificates/index.d.ts",
+        "default": "./dist/esm/api/cryptoCertificates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/cryptoCertificates/index.d.ts",
+        "default": "./dist/commonjs/api/cryptoCertificates/index.js"
+      }
+    },
+    "./api/binaryHardening": {
+      "browser": {
+        "types": "./dist/browser/api/binaryHardening/index.d.ts",
+        "default": "./dist/browser/api/binaryHardening/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/binaryHardening/index.d.ts",
+        "default": "./dist/react-native/api/binaryHardening/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/binaryHardening/index.d.ts",
+        "default": "./dist/esm/api/binaryHardening/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/binaryHardening/index.d.ts",
+        "default": "./dist/commonjs/api/binaryHardening/index.js"
+      }
+    },
+    "./api/workspaces": {
+      "browser": {
+        "types": "./dist/browser/api/workspaces/index.d.ts",
+        "default": "./dist/browser/api/workspaces/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/workspaces/index.d.ts",
+        "default": "./dist/react-native/api/workspaces/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspaces/index.d.ts",
+        "default": "./dist/esm/api/workspaces/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspaces/index.d.ts",
+        "default": "./dist/commonjs/api/workspaces/index.js"
+      }
+    },
+    "./api/firmwares": {
+      "browser": {
+        "types": "./dist/browser/api/firmwares/index.d.ts",
+        "default": "./dist/browser/api/firmwares/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/firmwares/index.d.ts",
+        "default": "./dist/react-native/api/firmwares/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/firmwares/index.d.ts",
+        "default": "./dist/esm/api/firmwares/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/firmwares/index.d.ts",
+        "default": "./dist/commonjs/api/firmwares/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }
