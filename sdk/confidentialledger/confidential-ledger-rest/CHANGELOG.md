@@ -1,6 +1,11 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.1-beta.1 (Unreleased)
+
+### Features Added
+- User defined functions support on ledger API
+
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +13,7 @@
 - User defined endpoint runtimeoptions
 - User defined endpoint modules
 - User defined roles 
-- 
+
 ## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added
