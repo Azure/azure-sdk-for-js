@@ -14,10 +14,11 @@ async function sapAvailabilityZoneDetailsInEastUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapVirtualInstances.getAvailabilityZoneDetails(
-    "eastus",
-    { appLocation: "eastus", sapProduct: "S4HANA", databaseType: "HANA" },
-  );
+  const result = await client.sapVirtualInstances.getAvailabilityZoneDetails("eastus", {
+    appLocation: "eastus",
+    sapProduct: "S4HANA",
+    databaseType: "HANA",
+  });
   console.log(result);
 }
 
@@ -31,10 +32,11 @@ async function sapAvailabilityZoneDetailsInNorthEurope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapVirtualInstances.getAvailabilityZoneDetails(
-    "northeurope",
-    { appLocation: "northeurope", sapProduct: "S4HANA", databaseType: "HANA" },
-  );
+  const result = await client.sapVirtualInstances.getAvailabilityZoneDetails("northeurope", {
+    appLocation: "northeurope",
+    sapProduct: "S4HANA",
+    databaseType: "HANA",
+  });
   console.log(result);
 }
 
