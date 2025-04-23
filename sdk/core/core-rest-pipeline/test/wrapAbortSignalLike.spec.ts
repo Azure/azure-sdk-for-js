@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { wrapAbortSignalLike } from "../src/util/wrapAbortSignal.js";
 
