@@ -2305,6 +2305,11 @@
       "versionPolicyName": "client"
     },
     {
+       "packageName": "@azure/ai-agents",
+       "projectFolder": "sdk/ai/ai-agents",
+       "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-impactreporting",
       "projectFolder": "sdk/impactreporting/arm-impactreporting",
       "versionPolicyName": "management"
