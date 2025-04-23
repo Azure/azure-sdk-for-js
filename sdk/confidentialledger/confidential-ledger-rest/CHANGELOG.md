@@ -1,11 +1,11 @@
 # Release History
 
-## 1.1.1-beta.1 (Unreleased)
+## 1.1.2-beta.1 (Unreleased)
 
 ### Features Added
 - User defined functions support on ledger API
 
-## 1.1.1 (Unreleased)
+## 1.1.2 (Unreleased)
 
 ### Features Added
 
