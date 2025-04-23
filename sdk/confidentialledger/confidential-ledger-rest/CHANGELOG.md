@@ -9,18 +9,7 @@
 - User defined endpoint modules
 - User defined roles 
 - User defined functions support on ledger API
-
-## 1.1.0-beta.1 (Unreleased)
-
-### Features Added
-
 - User List endpoint
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0 (2022-07-18)
 
