@@ -11,7 +11,7 @@ import {
   ReplicationEligibilityResultsListResponse,
   ReplicationEligibilityResultsGetOptionalParams,
   ReplicationEligibilityResultsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ReplicationEligibilityResultsOperations. */
 export interface ReplicationEligibilityResultsOperations {
