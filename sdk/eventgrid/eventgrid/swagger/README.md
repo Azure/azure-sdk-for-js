@@ -7,7 +7,7 @@
 ```yaml
 require: "https://github.com/Azure/azure-rest-api-specs/blob/2737fdb8c444c5f7f131b5319c3a3ab88affdfd5/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
-package-version: "5.11.1"
+package-version: "5.12.0"
 title: GeneratedClient
 description: EventGrid Client
 generate-metadata: false
