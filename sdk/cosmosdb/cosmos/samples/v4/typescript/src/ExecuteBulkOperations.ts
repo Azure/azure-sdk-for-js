@@ -107,7 +107,7 @@ async function run(): Promise<void> {
   logStep(
     `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`,
   );
-  logStep("Bulk Operations Input to 'container.items.bulk(operations):'");
+  logStep("Bulk Operations Input to 'container.items.executeBulkOperations(operations):'");
   console.log(operations);
   const response = await container.items.executeBulkOperations(operations);
   logStep("Bulk response:");
