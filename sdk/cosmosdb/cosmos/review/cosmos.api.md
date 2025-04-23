@@ -761,11 +761,10 @@ export class Containers {
     readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource>;
 }
 
-// @public (undocumented)
+// @public
 export interface CosmosBulkOperationResult {
     error?: ErrorResponse;
     operationInput: OperationInput;
-    // Warning: (ae-forgotten-export) The symbol "ExtendedOperationResponse" needs to be exported by the entry point index.d.ts
     response?: ExtendedOperationResponse;
 }
 
@@ -1167,6 +1166,14 @@ export type ExistingKeyOperation = {
 };
 
 // @public
+export interface ExtendedOperationResponse extends OperationResponse {
+    activityId?: string;
+    diagnostics: CosmosDiagnostics;
+    headers?: CosmosHeaders;
+    sessionToken?: string;
+}
+
+// @public
 export interface FailedRequestAttemptDiagnostic {
     // (undocumented)
     activityId: string;
@@ -1428,7 +1435,6 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    // (undocumented)
     executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<CosmosBulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;

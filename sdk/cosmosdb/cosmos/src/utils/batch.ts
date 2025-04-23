@@ -44,6 +44,9 @@ export interface Batch {
 
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
 
+/**
+ * represents response for an operation in bulk with executeBulkOperations API
+ */
 export interface CosmosBulkOperationResult {
   /** the original operation input passed */
   operationInput: OperationInput;
@@ -54,7 +57,7 @@ export interface CosmosBulkOperationResult {
 }
 
 /**
- * response for a specific operation in streamed bulk operation
+ * response for a successful operation in bulk with executeBulkOperations API
  */
 export interface ExtendedOperationResponse extends OperationResponse {
   /** activity id related to the operation */

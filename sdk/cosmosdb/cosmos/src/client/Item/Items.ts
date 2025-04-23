@@ -731,6 +731,39 @@ export class Items {
     }, this.clientContext);
   }
 
+  /**
+   * Execute bulk operations on items.
+   * @param operations - List of operations
+   * @param options - used for modifying the request
+   * @returns list of operation results corresponding to the operations
+   *
+   * @example
+   * ```ts snippet:ItemsExecuteBulkOperations
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const operations: OperationInput[] = [
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     partitionKey: "A",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
+   *
+   * await container.items.executeBulkOperations(operations);
+   * ```
+   */
   public async executeBulkOperations(
     operations: OperationInput[],
     options: RequestOptions = {},

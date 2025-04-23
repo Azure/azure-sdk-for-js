@@ -1086,6 +1086,30 @@ describe("snippets", () => {
     await container.items.bulk(operations);
   });
 
+  it("ItemsExecuteBulkOperations", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "doc1", name: "sample", key: "A" },
+      },
+      {
+        operationType: "Upsert",
+        partitionKey: "A",
+        resourceBody: { id: "doc2", name: "other", key: "A" },
+      },
+    ];
+    // @ts-preserve-whitespace
+    await container.items.executeBulkOperations(operations);
+  });
+
   it("ItemsBatch", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
