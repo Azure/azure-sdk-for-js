@@ -13,14 +13,10 @@ export interface SubmitDeallocateRequest {
   correlationId: string;
 }
 
-export function submitDeallocateRequestSerializer(
-  item: SubmitDeallocateRequest,
-): any {
+export function submitDeallocateRequestSerializer(item: SubmitDeallocateRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
-    executionParameters: executionParametersSerializer(
-      item["executionParameters"],
-    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationId"],
   };
@@ -170,9 +166,7 @@ export function deallocateResourceOperationResponseDeserializer(
   };
 }
 
-export function resourceOperationArrayDeserializer(
-  result: Array<ResourceOperation>,
-): any[] {
+export function resourceOperationArrayDeserializer(result: Array<ResourceOperation>): any[] {
   return result.map((item) => {
     return resourceOperationDeserializer(item);
   });
@@ -229,9 +223,7 @@ export interface ResourceOperationDetails {
   retryPolicy?: RetryPolicy;
 }
 
-export function resourceOperationDetailsDeserializer(
-  item: any,
-): ResourceOperationDetails {
+export function resourceOperationDetailsDeserializer(item: any): ResourceOperationDetails {
   return {
     operationId: item["operationId"],
     resourceId: item["resourceId"],
@@ -323,9 +315,7 @@ export interface ResourceOperationError {
   errorDetails: string;
 }
 
-export function resourceOperationErrorDeserializer(
-  item: any,
-): ResourceOperationError {
+export function resourceOperationErrorDeserializer(item: any): ResourceOperationError {
   return {
     errorCode: item["errorCode"],
     errorDetails: item["errorDetails"],
@@ -340,9 +330,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -365,26 +353,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -398,23 +380,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -430,14 +406,10 @@ export interface SubmitHibernateRequest {
   correlationId: string;
 }
 
-export function submitHibernateRequestSerializer(
-  item: SubmitHibernateRequest,
-): any {
+export function submitHibernateRequestSerializer(item: SubmitHibernateRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
-    executionParameters: executionParametersSerializer(
-      item["executionParameters"],
-    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationId"],
   };
@@ -483,9 +455,7 @@ export interface SubmitStartRequest {
 export function submitStartRequestSerializer(item: SubmitStartRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
-    executionParameters: executionParametersSerializer(
-      item["executionParameters"],
-    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationId"],
   };
@@ -526,13 +496,9 @@ export interface ExecuteDeallocateRequest {
   correlationId: string;
 }
 
-export function executeDeallocateRequestSerializer(
-  item: ExecuteDeallocateRequest,
-): any {
+export function executeDeallocateRequestSerializer(item: ExecuteDeallocateRequest): any {
   return {
-    executionParameters: executionParametersSerializer(
-      item["executionParameters"],
-    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationId"],
   };
@@ -548,13 +514,9 @@ export interface ExecuteHibernateRequest {
   correlationId: string;
 }
 
-export function executeHibernateRequestSerializer(
-  item: ExecuteHibernateRequest,
-): any {
+export function executeHibernateRequestSerializer(item: ExecuteHibernateRequest): any {
   return {
-    executionParameters: executionParametersSerializer(
-      item["executionParameters"],
-    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationId"],
   };
@@ -572,9 +534,7 @@ export interface ExecuteStartRequest {
 
 export function executeStartRequestSerializer(item: ExecuteStartRequest): any {
   return {
-    executionParameters: executionParametersSerializer(
-      item["executionParameters"],
-    ),
+    executionParameters: executionParametersSerializer(item["executionParameters"]),
     resources: resourcesSerializer(item["resources"]),
     correlationid: item["correlationId"],
   };
@@ -588,9 +548,7 @@ export interface GetOperationStatusRequest {
   correlationId: string;
 }
 
-export function getOperationStatusRequestSerializer(
-  item: GetOperationStatusRequest,
-): any {
+export function getOperationStatusRequestSerializer(item: GetOperationStatusRequest): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -605,9 +563,7 @@ export interface GetOperationStatusResponse {
   results: ResourceOperation[];
 }
 
-export function getOperationStatusResponseDeserializer(
-  item: any,
-): GetOperationStatusResponse {
+export function getOperationStatusResponseDeserializer(item: any): GetOperationStatusResponse {
   return {
     results: resourceOperationArrayDeserializer(item["results"]),
   };
@@ -621,9 +577,7 @@ export interface CancelOperationsRequest {
   correlationId: string;
 }
 
-export function cancelOperationsRequestSerializer(
-  item: CancelOperationsRequest,
-): any {
+export function cancelOperationsRequestSerializer(item: CancelOperationsRequest): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -638,9 +592,7 @@ export interface CancelOperationsResponse {
   results: ResourceOperation[];
 }
 
-export function cancelOperationsResponseDeserializer(
-  item: any,
-): CancelOperationsResponse {
+export function cancelOperationsResponseDeserializer(item: any): CancelOperationsResponse {
   return {
     results: resourceOperationArrayDeserializer(item["results"]),
   };
@@ -652,9 +604,7 @@ export interface GetOperationErrorsRequest {
   operationIds: string[];
 }
 
-export function getOperationErrorsRequestSerializer(
-  item: GetOperationErrorsRequest,
-): any {
+export function getOperationErrorsRequestSerializer(item: GetOperationErrorsRequest): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -668,9 +618,7 @@ export interface GetOperationErrorsResponse {
   results: OperationErrorsResult[];
 }
 
-export function getOperationErrorsResponseDeserializer(
-  item: any,
-): GetOperationErrorsResponse {
+export function getOperationErrorsResponseDeserializer(item: any): GetOperationErrorsResponse {
   return {
     results: operationErrorsResultArrayDeserializer(item["results"]),
   };
@@ -702,9 +650,7 @@ export interface OperationErrorsResult {
   requestErrorDetails?: string;
 }
 
-export function operationErrorsResultDeserializer(
-  item: any,
-): OperationErrorsResult {
+export function operationErrorsResultDeserializer(item: any): OperationErrorsResult {
   return {
     operationId: item["operationId"],
     creationTime: item["creationTime"],
@@ -742,9 +688,7 @@ export interface OperationErrorDetails {
   crpOperationId?: string;
 }
 
-export function operationErrorDetailsDeserializer(
-  item: any,
-): OperationErrorDetails {
+export function operationErrorDetailsDeserializer(item: any): OperationErrorDetails {
   return {
     errorCode: item["errorCode"],
     errorDetails: item["errorDetails"],
@@ -763,9 +707,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -796,9 +738,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

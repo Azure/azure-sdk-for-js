@@ -73,17 +73,15 @@ export function _virtualMachinesGetOperationErrorsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: getOperationErrorsRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: getOperationErrorsRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesGetOperationErrorsDeserialize(
@@ -136,17 +134,15 @@ export function _virtualMachinesCancelOperationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: cancelOperationsRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: cancelOperationsRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesCancelOperationsDeserialize(
@@ -199,17 +195,15 @@ export function _virtualMachinesGetOperationStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: getOperationStatusRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: getOperationStatusRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesGetOperationStatusDeserialize(
@@ -262,17 +256,15 @@ export function _virtualMachinesExecuteStartSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: executeStartRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: executeStartRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesExecuteStartDeserialize(
@@ -325,17 +317,15 @@ export function _virtualMachinesExecuteHibernateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: executeHibernateRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: executeHibernateRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesExecuteHibernateDeserialize(
@@ -388,17 +378,15 @@ export function _virtualMachinesExecuteDeallocateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: executeDeallocateRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: executeDeallocateRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesExecuteDeallocateDeserialize(
@@ -451,17 +439,15 @@ export function _virtualMachinesSubmitStartSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: submitStartRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: submitStartRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesSubmitStartDeserialize(
@@ -514,17 +500,15 @@ export function _virtualMachinesSubmitHibernateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: submitHibernateRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: submitHibernateRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesSubmitHibernateDeserialize(
@@ -577,17 +561,15 @@ export function _virtualMachinesSubmitDeallocateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: submitDeallocateRequestSerializer(requestBody),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: submitDeallocateRequestSerializer(requestBody),
+  });
 }
 
 export async function _virtualMachinesSubmitDeallocateDeserialize(

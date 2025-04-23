@@ -106,101 +106,47 @@ function _getScheduledActions(context: ComputeScheduleContext) {
       locationparameter: string,
       requestBody: GetOperationErrorsRequest,
       options?: ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-    ) =>
-      virtualMachinesGetOperationErrors(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesGetOperationErrors(context, locationparameter, requestBody, options),
     virtualMachinesCancelOperations: (
       locationparameter: string,
       requestBody: CancelOperationsRequest,
       options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
-    ) =>
-      virtualMachinesCancelOperations(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesCancelOperations(context, locationparameter, requestBody, options),
     virtualMachinesGetOperationStatus: (
       locationparameter: string,
       requestBody: GetOperationStatusRequest,
       options?: ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-    ) =>
-      virtualMachinesGetOperationStatus(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesGetOperationStatus(context, locationparameter, requestBody, options),
     virtualMachinesExecuteStart: (
       locationparameter: string,
       requestBody: ExecuteStartRequest,
       options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-    ) =>
-      virtualMachinesExecuteStart(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesExecuteStart(context, locationparameter, requestBody, options),
     virtualMachinesExecuteHibernate: (
       locationparameter: string,
       requestBody: ExecuteHibernateRequest,
       options?: ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
-    ) =>
-      virtualMachinesExecuteHibernate(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesExecuteHibernate(context, locationparameter, requestBody, options),
     virtualMachinesExecuteDeallocate: (
       locationparameter: string,
       requestBody: ExecuteDeallocateRequest,
       options?: ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
-    ) =>
-      virtualMachinesExecuteDeallocate(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesExecuteDeallocate(context, locationparameter, requestBody, options),
     virtualMachinesSubmitStart: (
       locationparameter: string,
       requestBody: SubmitStartRequest,
       options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
-    ) =>
-      virtualMachinesSubmitStart(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesSubmitStart(context, locationparameter, requestBody, options),
     virtualMachinesSubmitHibernate: (
       locationparameter: string,
       requestBody: SubmitHibernateRequest,
       options?: ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-    ) =>
-      virtualMachinesSubmitHibernate(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesSubmitHibernate(context, locationparameter, requestBody, options),
     virtualMachinesSubmitDeallocate: (
       locationparameter: string,
       requestBody: SubmitDeallocateRequest,
       options?: ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-    ) =>
-      virtualMachinesSubmitDeallocate(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+    ) => virtualMachinesSubmitDeallocate(context, locationparameter, requestBody, options),
   };
 }
 

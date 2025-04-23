@@ -5,10 +5,7 @@ import {
   _getScheduledActionsOperations,
   ScheduledActionsOperations,
 } from "./classic/scheduledActions/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createComputeSchedule,
   ComputeScheduleContext,
