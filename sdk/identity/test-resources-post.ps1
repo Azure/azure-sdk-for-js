@@ -64,13 +64,11 @@ $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 
 # Azure Functions app deployment
 Write-Host "starting azure functions deployment"
-$image = "$loginServer/identity-functions-test-image"
-docker build --no-cache -t $image "$workingFolder/azure-functions"
+$image = "$loginServer/identity-azure-functions-image"
+docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureFunctions/RunTest"
 docker push $image
 az functionapp config container set -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] -i $image -r $loginServer -p $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query "passwords[0].value" -o tsv) -u $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query username -o tsv)
-Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 Write-Host "Deployed function app"
-
 
 # Azure Functions app deployment
 Write-Host "Deploying Identity Web App"
