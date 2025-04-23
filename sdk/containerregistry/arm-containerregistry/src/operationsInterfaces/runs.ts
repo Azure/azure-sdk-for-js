@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Run,
   RunsListOptionalParams,
@@ -56,24 +55,7 @@ export interface Runs {
    * @param runUpdateParameters The run update properties.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>
-  >;
-  /**
-   * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param runUpdateParameters The run update properties.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     registryName: string,
     runId: string,
@@ -100,20 +82,7 @@ export interface Runs {
    * @param runId The run ID.
    * @param options The options parameters.
    */
-  beginCancel(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    options?: RunsCancelOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param options The options parameters.
-   */
-  beginCancelAndWait(
+  cancel(
     resourceGroupName: string,
     registryName: string,
     runId: string,
