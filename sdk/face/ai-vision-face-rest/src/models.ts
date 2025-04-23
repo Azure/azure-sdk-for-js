@@ -99,12 +99,7 @@ export interface CreateLivenessWithVerifySessionContentVerifyConfidenceThreshold
 
 export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
   name: "verifyImage";
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
 }
