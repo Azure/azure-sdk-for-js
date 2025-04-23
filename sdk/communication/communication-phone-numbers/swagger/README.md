@@ -33,6 +33,12 @@ module-kind: esm
 
 ## Customizations
 
+### Set remove-empty-child-schemas
+```yaml
+modelerfour:
+    remove-empty-child-schemas: true
+```
+
 ### Disable extensible enums
 
 ```yaml
