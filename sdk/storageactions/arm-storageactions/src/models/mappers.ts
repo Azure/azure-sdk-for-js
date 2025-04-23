@@ -317,16 +317,7 @@ export const StorageTaskProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "ValidateSubscriptionQuotaBegin",
-            "ValidateSubscriptionQuotaEnd",
-            "Creating",
-            "Succeeded",
-            "Deleting",
-            "Canceled",
-            "Failed",
-          ],
+          name: "String",
         },
       },
       creationTimeInUtc: {
@@ -412,16 +403,12 @@ export const StorageTaskOperation: coreClient.CompositeMapper = {
         },
       },
       onSuccess: {
-        defaultValue: "continue",
-        isConstant: true,
         serializedName: "onSuccess",
         type: {
           name: "String",
         },
       },
       onFailure: {
-        defaultValue: "break",
-        isConstant: true,
         serializedName: "onFailure",
         type: {
           name: "String",

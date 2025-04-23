@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Secures delete ResourceGuardProxy operations.
  *
  * @summary Secures delete ResourceGuardProxy operations.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
  */
 async function unlockDeleteResourceGuardProxy(): Promise<void> {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function unlockDeleteResourceGuardProxy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  unlockDeleteResourceGuardProxy();
+  await unlockDeleteResourceGuardProxy();
 }
 
 main().catch(console.error);
