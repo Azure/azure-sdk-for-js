@@ -14,11 +14,11 @@ async function mapsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";
   const client = new DependencyMapClient(credential, subscriptionId);
-  const result = await client.maps.createOrUpdate(
-    "rgdependencyMap",
-    "mapsTest1",
-    { properties: {}, tags: {}, location: "wjtzelgfcmswfeflfltwxqveo" },
-  );
+  const result = await client.maps.createOrUpdate("rgdependencyMap", "mapsTest1", {
+    properties: {},
+    tags: {},
+    location: "wjtzelgfcmswfeflfltwxqveo",
+  });
   console.log(result);
 }
 

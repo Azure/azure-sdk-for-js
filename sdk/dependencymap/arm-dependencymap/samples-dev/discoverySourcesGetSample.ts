@@ -14,11 +14,7 @@ async function discoverySourcesGetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";
   const client = new DependencyMapClient(credential, subscriptionId);
-  const result = await client.discoverySources.get(
-    "rgdependencyMap",
-    "mapsTest1",
-    "sourceTest1",
-  );
+  const result = await client.discoverySources.get("rgdependencyMap", "mapsTest1", "sourceTest1");
   console.log(result);
 }
 
