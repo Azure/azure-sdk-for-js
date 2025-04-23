@@ -7,6 +7,7 @@ import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
+import { SubStatusCodes } from "../../../src/common/statusCodes.js";
 
 const endpoint = "https://ppaf.documents.azure.com/";
 
@@ -163,8 +164,23 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
       { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
       readPartitionKeyRangesResponse,
       { code: 503, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
-      readPartitionKeyRangesResponse,
       { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
+      // readPartitionKeyRangesResponse,
+      // {
+      //   code: 403,
+      //   SubStatusCodes: 3,
+      //   result: {},
+      //   headers: {},
+      //   diagnostics: getEmptyCosmosDiagnostics(),
+      // },
+      // {
+      //   code: 403,
+      //   SubStatusCodes: 3,
+      //   result: {},
+      //   headers: {},
+      //   diagnostics: getEmptyCosmosDiagnostics(),
+      // },
+      // { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
     ];
     const options: CosmosClientOptions = {
       endpoint,
@@ -199,8 +215,17 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
     const writeEndpoint = await client.getWriteEndpoint();
     assert.equal(writeEndpoint, "https://ppaf-eastus.documents.azure.com:443/");
     await client.database("foo").container("foo").items.upsert({ id: "foo", name: "sample1" });
+
     await client.database("foo").container("foo").items.upsert({ id: "bar", name: "sample2" });
     assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
+
+    // await client.database("foo").container("foo").items.upsert({ id: "bar1", name: "sample2" });
+    // assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
+
+    // await client.database("foo").container("foo").items.upsert({ id: "bar2", name: "sample2" });
+    // assert.equal(lastEndpointCalled, "https://ppaf-westus.documents.azure.com:443/");
+    // assert.equal(lastEndpointCalled, "https://ppaf-eastus.documents.azure.com:443/");
+
     client.dispose();
   });
 });
