@@ -106,7 +106,7 @@
       "EntraAuth.ts",
       "AlterQueryThroughput.ts",
       "Bulk.ts",
-      "BulkStreamer.ts",
+      "ExecuteBulkOperations.ts",
       "BulkUpdateWithSproc.ts",
       "ChangeFeed.ts",
       "ContainerManagement.ts",
