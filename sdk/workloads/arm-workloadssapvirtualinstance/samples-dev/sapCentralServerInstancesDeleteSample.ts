@@ -14,11 +14,7 @@ async function sapCentralServerInstancesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
-  await client.sapCentralServerInstances.delete(
-    "test-rg",
-    "X00",
-    "centralServer",
-  );
+  await client.sapCentralServerInstances.delete("test-rg", "X00", "centralServer");
 }
 
 async function main(): Promise<void> {

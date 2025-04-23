@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -257,48 +239,32 @@ export interface SAPVirtualInstanceProperties {
   readonly errors?: SAPVirtualInstanceError;
 }
 
-export function sapVirtualInstancePropertiesSerializer(
-  item: SAPVirtualInstanceProperties,
-): any {
+export function sapVirtualInstancePropertiesSerializer(item: SAPVirtualInstanceProperties): any {
   return {
     environment: item["environment"],
     sapProduct: item["sapProduct"],
-    managedResourcesNetworkAccessType:
-      item["managedResourcesNetworkAccessType"],
+    managedResourcesNetworkAccessType: item["managedResourcesNetworkAccessType"],
     configuration: sapConfigurationUnionSerializer(item["configuration"]),
-    managedResourceGroupConfiguration: !item[
-      "managedResourceGroupConfiguration"
-    ]
+    managedResourceGroupConfiguration: !item["managedResourceGroupConfiguration"]
       ? item["managedResourceGroupConfiguration"]
-      : managedRGConfigurationSerializer(
-          item["managedResourceGroupConfiguration"],
-        ),
+      : managedRGConfigurationSerializer(item["managedResourceGroupConfiguration"]),
   };
 }
 
-export function sapVirtualInstancePropertiesDeserializer(
-  item: any,
-): SAPVirtualInstanceProperties {
+export function sapVirtualInstancePropertiesDeserializer(item: any): SAPVirtualInstanceProperties {
   return {
     environment: item["environment"],
     sapProduct: item["sapProduct"],
-    managedResourcesNetworkAccessType:
-      item["managedResourcesNetworkAccessType"],
+    managedResourcesNetworkAccessType: item["managedResourcesNetworkAccessType"],
     configuration: sapConfigurationUnionDeserializer(item["configuration"]),
-    managedResourceGroupConfiguration: !item[
-      "managedResourceGroupConfiguration"
-    ]
+    managedResourceGroupConfiguration: !item["managedResourceGroupConfiguration"]
       ? item["managedResourceGroupConfiguration"]
-      : managedRGConfigurationDeserializer(
-          item["managedResourceGroupConfiguration"],
-        ),
+      : managedRGConfigurationDeserializer(item["managedResourceGroupConfiguration"]),
     status: item["status"],
     health: item["health"],
     state: item["state"],
     provisioningState: item["provisioningState"],
-    errors: !item["errors"]
-      ? item["errors"]
-      : sapVirtualInstanceErrorDeserializer(item["errors"]),
+    errors: !item["errors"] ? item["errors"] : sapVirtualInstanceErrorDeserializer(item["errors"]),
   };
 }
 
@@ -383,9 +349,7 @@ export type SAPConfigurationUnion =
   | DeploymentWithOSConfiguration
   | SAPConfiguration;
 
-export function sapConfigurationUnionSerializer(
-  item: SAPConfigurationUnion,
-): any {
+export function sapConfigurationUnionSerializer(item: SAPConfigurationUnion): any {
   switch (item.configurationType) {
     case "Discovery":
       return discoveryConfigurationSerializer(item as DiscoveryConfiguration);
@@ -394,31 +358,23 @@ export function sapConfigurationUnionSerializer(
       return deploymentConfigurationSerializer(item as DeploymentConfiguration);
 
     case "DeploymentWithOSConfig":
-      return deploymentWithOSConfigurationSerializer(
-        item as DeploymentWithOSConfiguration,
-      );
+      return deploymentWithOSConfigurationSerializer(item as DeploymentWithOSConfiguration);
 
     default:
       return sapConfigurationSerializer(item);
   }
 }
 
-export function sapConfigurationUnionDeserializer(
-  item: any,
-): SAPConfigurationUnion {
+export function sapConfigurationUnionDeserializer(item: any): SAPConfigurationUnion {
   switch (item.configurationType) {
     case "Discovery":
       return discoveryConfigurationDeserializer(item as DiscoveryConfiguration);
 
     case "Deployment":
-      return deploymentConfigurationDeserializer(
-        item as DeploymentConfiguration,
-      );
+      return deploymentConfigurationDeserializer(item as DeploymentConfiguration);
 
     case "DeploymentWithOSConfig":
-      return deploymentWithOSConfigurationDeserializer(
-        item as DeploymentWithOSConfiguration,
-      );
+      return deploymentWithOSConfigurationDeserializer(item as DeploymentWithOSConfiguration);
 
     default:
       return sapConfigurationDeserializer(item);
@@ -458,9 +414,7 @@ export interface DiscoveryConfiguration extends SAPConfiguration {
   configurationType: "Discovery";
 }
 
-export function discoveryConfigurationSerializer(
-  item: DiscoveryConfiguration,
-): any {
+export function discoveryConfigurationSerializer(item: DiscoveryConfiguration): any {
   return {
     configurationType: item["configurationType"],
     centralServerVmId: item["centralServerVmId"],
@@ -468,9 +422,7 @@ export function discoveryConfigurationSerializer(
   };
 }
 
-export function discoveryConfigurationDeserializer(
-  item: any,
-): DiscoveryConfiguration {
+export function discoveryConfigurationDeserializer(item: any): DiscoveryConfiguration {
   return {
     configurationType: item["configurationType"],
     centralServerVmId: item["centralServerVmId"],
@@ -491,34 +443,26 @@ export interface DeploymentConfiguration extends SAPConfiguration {
   configurationType: "Deployment";
 }
 
-export function deploymentConfigurationSerializer(
-  item: DeploymentConfiguration,
-): any {
+export function deploymentConfigurationSerializer(item: DeploymentConfiguration): any {
   return {
     configurationType: item["configurationType"],
     appLocation: item["appLocation"],
     infrastructureConfiguration: !item["infrastructureConfiguration"]
       ? item["infrastructureConfiguration"]
-      : infrastructureConfigurationUnionSerializer(
-          item["infrastructureConfiguration"],
-        ),
+      : infrastructureConfigurationUnionSerializer(item["infrastructureConfiguration"]),
     softwareConfiguration: !item["softwareConfiguration"]
       ? item["softwareConfiguration"]
       : softwareConfigurationUnionSerializer(item["softwareConfiguration"]),
   };
 }
 
-export function deploymentConfigurationDeserializer(
-  item: any,
-): DeploymentConfiguration {
+export function deploymentConfigurationDeserializer(item: any): DeploymentConfiguration {
   return {
     configurationType: item["configurationType"],
     appLocation: item["appLocation"],
     infrastructureConfiguration: !item["infrastructureConfiguration"]
       ? item["infrastructureConfiguration"]
-      : infrastructureConfigurationUnionDeserializer(
-          item["infrastructureConfiguration"],
-        ),
+      : infrastructureConfigurationUnionDeserializer(item["infrastructureConfiguration"]),
     softwareConfiguration: !item["softwareConfiguration"]
       ? item["softwareConfiguration"]
       : softwareConfigurationUnionDeserializer(item["softwareConfiguration"]),
@@ -534,18 +478,14 @@ export interface InfrastructureConfiguration {
   deploymentType: SAPDeploymentType;
 }
 
-export function infrastructureConfigurationSerializer(
-  item: InfrastructureConfiguration,
-): any {
+export function infrastructureConfigurationSerializer(item: InfrastructureConfiguration): any {
   return {
     appResourceGroup: item["appResourceGroup"],
     deploymentType: item["deploymentType"],
   };
 }
 
-export function infrastructureConfigurationDeserializer(
-  item: any,
-): InfrastructureConfiguration {
+export function infrastructureConfigurationDeserializer(item: any): InfrastructureConfiguration {
   return {
     appResourceGroup: item["appResourceGroup"],
     deploymentType: item["deploymentType"],
@@ -563,9 +503,7 @@ export function infrastructureConfigurationUnionSerializer(
 ): any {
   switch (item.deploymentType) {
     case "SingleServer":
-      return singleServerConfigurationSerializer(
-        item as SingleServerConfiguration,
-      );
+      return singleServerConfigurationSerializer(item as SingleServerConfiguration);
 
     case "ThreeTier":
       return threeTierConfigurationSerializer(item as ThreeTierConfiguration);
@@ -580,9 +518,7 @@ export function infrastructureConfigurationUnionDeserializer(
 ): InfrastructureConfigurationUnion {
   switch (item.deploymentType) {
     case "SingleServer":
-      return singleServerConfigurationDeserializer(
-        item as SingleServerConfiguration,
-      );
+      return singleServerConfigurationDeserializer(item as SingleServerConfiguration);
 
     case "ThreeTier":
       return threeTierConfigurationDeserializer(item as ThreeTierConfiguration);
@@ -628,9 +564,7 @@ export interface SingleServerConfiguration extends InfrastructureConfiguration {
   deploymentType: "SingleServer";
 }
 
-export function singleServerConfigurationSerializer(
-  item: SingleServerConfiguration,
-): any {
+export function singleServerConfigurationSerializer(item: SingleServerConfiguration): any {
   return {
     appResourceGroup: item["appResourceGroup"],
     deploymentType: item["deploymentType"],
@@ -647,15 +581,11 @@ export function singleServerConfigurationSerializer(
       : diskConfigurationSerializer(item["dbDiskConfiguration"]),
     customResourceNames: !item["customResourceNames"]
       ? item["customResourceNames"]
-      : singleServerCustomResourceNamesUnionSerializer(
-          item["customResourceNames"],
-        ),
+      : singleServerCustomResourceNamesUnionSerializer(item["customResourceNames"]),
   };
 }
 
-export function singleServerConfigurationDeserializer(
-  item: any,
-): SingleServerConfiguration {
+export function singleServerConfigurationDeserializer(item: any): SingleServerConfiguration {
   return {
     appResourceGroup: item["appResourceGroup"],
     deploymentType: item["deploymentType"],
@@ -672,9 +602,7 @@ export function singleServerConfigurationDeserializer(
       : diskConfigurationDeserializer(item["dbDiskConfiguration"]),
     customResourceNames: !item["customResourceNames"]
       ? item["customResourceNames"]
-      : singleServerCustomResourceNamesUnionDeserializer(
-          item["customResourceNames"],
-        ),
+      : singleServerCustomResourceNamesUnionDeserializer(item["customResourceNames"]),
   };
 }
 
@@ -684,15 +612,11 @@ export interface NetworkConfiguration {
   isSecondaryIpEnabled?: boolean;
 }
 
-export function networkConfigurationSerializer(
-  item: NetworkConfiguration,
-): any {
+export function networkConfigurationSerializer(item: NetworkConfiguration): any {
   return { isSecondaryIpEnabled: item["isSecondaryIpEnabled"] };
 }
 
-export function networkConfigurationDeserializer(
-  item: any,
-): NetworkConfiguration {
+export function networkConfigurationDeserializer(item: any): NetworkConfiguration {
   return {
     isSecondaryIpEnabled: item["isSecondaryIpEnabled"],
   };
@@ -726,9 +650,7 @@ export interface VirtualMachineConfiguration {
   osProfile: OSProfile;
 }
 
-export function virtualMachineConfigurationSerializer(
-  item: VirtualMachineConfiguration,
-): any {
+export function virtualMachineConfigurationSerializer(item: VirtualMachineConfiguration): any {
   return {
     vmSize: item["vmSize"],
     imageReference: imageReferenceSerializer(item["imageReference"]),
@@ -736,9 +658,7 @@ export function virtualMachineConfigurationSerializer(
   };
 }
 
-export function virtualMachineConfigurationDeserializer(
-  item: any,
-): VirtualMachineConfiguration {
+export function virtualMachineConfigurationDeserializer(item: any): VirtualMachineConfiguration {
   return {
     vmSize: item["vmSize"],
     imageReference: imageReferenceDeserializer(item["imageReference"]),
@@ -828,14 +748,9 @@ export function osConfigurationDeserializer(item: any): OSConfiguration {
 }
 
 /** Alias for OSConfigurationUnion */
-export type OSConfigurationUnion =
-  | WindowsConfiguration
-  | LinuxConfiguration
-  | OSConfiguration;
+export type OSConfigurationUnion = WindowsConfiguration | LinuxConfiguration | OSConfiguration;
 
-export function osConfigurationUnionSerializer(
-  item: OSConfigurationUnion,
-): any {
+export function osConfigurationUnionSerializer(item: OSConfigurationUnion): any {
   switch (item.osType) {
     case "Windows":
       return windowsConfigurationSerializer(item as WindowsConfiguration);
@@ -848,9 +763,7 @@ export function osConfigurationUnionSerializer(
   }
 }
 
-export function osConfigurationUnionDeserializer(
-  item: any,
-): OSConfigurationUnion {
+export function osConfigurationUnionDeserializer(item: any): OSConfigurationUnion {
   switch (item.osType) {
     case "Windows":
       return windowsConfigurationDeserializer(item as WindowsConfiguration);
@@ -887,15 +800,11 @@ export interface WindowsConfiguration extends OSConfiguration {
   osType: "Windows";
 }
 
-export function windowsConfigurationSerializer(
-  item: WindowsConfiguration,
-): any {
+export function windowsConfigurationSerializer(item: WindowsConfiguration): any {
   return { osType: item["osType"] };
 }
 
-export function windowsConfigurationDeserializer(
-  item: any,
-): WindowsConfiguration {
+export function windowsConfigurationDeserializer(item: any): WindowsConfiguration {
   return {
     osType: item["osType"],
   };
@@ -918,9 +827,7 @@ export function linuxConfigurationSerializer(item: LinuxConfiguration): any {
     osType: item["osType"],
     disablePasswordAuthentication: item["disablePasswordAuthentication"],
     ssh: !item["ssh"] ? item["ssh"] : sshConfigurationSerializer(item["ssh"]),
-    sshKeyPair: !item["sshKeyPair"]
-      ? item["sshKeyPair"]
-      : sshKeyPairSerializer(item["sshKeyPair"]),
+    sshKeyPair: !item["sshKeyPair"] ? item["sshKeyPair"] : sshKeyPairSerializer(item["sshKeyPair"]),
   };
 }
 
@@ -957,17 +864,13 @@ export function sshConfigurationDeserializer(item: any): SshConfiguration {
   };
 }
 
-export function sshPublicKeyArraySerializer(
-  result: Array<SshPublicKey>,
-): any[] {
+export function sshPublicKeyArraySerializer(result: Array<SshPublicKey>): any[] {
   return result.map((item) => {
     return sshPublicKeySerializer(item);
   });
 }
 
-export function sshPublicKeyArrayDeserializer(
-  result: Array<SshPublicKey>,
-): any[] {
+export function sshPublicKeyArrayDeserializer(result: Array<SshPublicKey>): any[] {
   return result.map((item) => {
     return sshPublicKeyDeserializer(item);
   });
@@ -1018,9 +921,7 @@ export function diskConfigurationSerializer(item: DiskConfiguration): any {
   return {
     diskVolumeConfigurations: !item["diskVolumeConfigurations"]
       ? item["diskVolumeConfigurations"]
-      : diskVolumeConfigurationRecordSerializer(
-          item["diskVolumeConfigurations"],
-        ),
+      : diskVolumeConfigurationRecordSerializer(item["diskVolumeConfigurations"]),
   };
 }
 
@@ -1028,9 +929,7 @@ export function diskConfigurationDeserializer(item: any): DiskConfiguration {
   return {
     diskVolumeConfigurations: !item["diskVolumeConfigurations"]
       ? item["diskVolumeConfigurations"]
-      : diskVolumeConfigurationRecordDeserializer(
-          item["diskVolumeConfigurations"],
-        ),
+      : diskVolumeConfigurationRecordDeserializer(item["diskVolumeConfigurations"]),
   };
 }
 
@@ -1039,9 +938,7 @@ export function diskVolumeConfigurationRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : diskVolumeConfigurationSerializer(item[key]);
+    result[key] = !item[key] ? item[key] : diskVolumeConfigurationSerializer(item[key]);
   });
   return result;
 }
@@ -1051,9 +948,7 @@ export function diskVolumeConfigurationRecordDeserializer(
 ): Record<string, DiskVolumeConfiguration> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : diskVolumeConfigurationDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : diskVolumeConfigurationDeserializer(item[key]);
   });
   return result;
 }
@@ -1068,9 +963,7 @@ export interface DiskVolumeConfiguration {
   sku?: DiskSku;
 }
 
-export function diskVolumeConfigurationSerializer(
-  item: DiskVolumeConfiguration,
-): any {
+export function diskVolumeConfigurationSerializer(item: DiskVolumeConfiguration): any {
   return {
     count: item["count"],
     sizeGB: item["sizeGB"],
@@ -1078,9 +971,7 @@ export function diskVolumeConfigurationSerializer(
   };
 }
 
-export function diskVolumeConfigurationDeserializer(
-  item: any,
-): DiskVolumeConfiguration {
+export function diskVolumeConfigurationDeserializer(item: any): DiskVolumeConfiguration {
   return {
     count: item["count"],
     sizeGB: item["sizeGB"],
@@ -1168,9 +1059,7 @@ export function singleServerCustomResourceNamesUnionSerializer(
 ): any {
   switch (item.namingPatternType) {
     case "FullResourceName":
-      return singleServerFullResourceNamesSerializer(
-        item as SingleServerFullResourceNames,
-      );
+      return singleServerFullResourceNamesSerializer(item as SingleServerFullResourceNames);
 
     default:
       return singleServerCustomResourceNamesSerializer(item);
@@ -1182,9 +1071,7 @@ export function singleServerCustomResourceNamesUnionDeserializer(
 ): SingleServerCustomResourceNamesUnion {
   switch (item.namingPatternType) {
     case "FullResourceName":
-      return singleServerFullResourceNamesDeserializer(
-        item as SingleServerFullResourceNames,
-      );
+      return singleServerFullResourceNamesDeserializer(item as SingleServerFullResourceNames);
 
     default:
       return singleServerCustomResourceNamesDeserializer(item);
@@ -1207,17 +1094,14 @@ export enum KnownNamingPatternType {
 export type NamingPatternType = string;
 
 /** The resource name object where the specified values will be full resource names of the corresponding resources in a single server SAP system. */
-export interface SingleServerFullResourceNames
-  extends SingleServerCustomResourceNames {
+export interface SingleServerFullResourceNames extends SingleServerCustomResourceNames {
   /** The resource names object for virtual machine and related resources. */
   virtualMachine?: VirtualMachineResourceNames;
   /** The pattern type to be used for resource naming. */
   namingPatternType: "FullResourceName";
 }
 
-export function singleServerFullResourceNamesSerializer(
-  item: SingleServerFullResourceNames,
-): any {
+export function singleServerFullResourceNamesSerializer(item: SingleServerFullResourceNames): any {
   return {
     namingPatternType: item["namingPatternType"],
     virtualMachine: !item["virtualMachine"]
@@ -1251,9 +1135,7 @@ export interface VirtualMachineResourceNames {
   dataDiskNames?: Record<string, string[]>;
 }
 
-export function virtualMachineResourceNamesSerializer(
-  item: VirtualMachineResourceNames,
-): any {
+export function virtualMachineResourceNamesSerializer(item: VirtualMachineResourceNames): any {
   return {
     vmName: item["vmName"],
     hostName: item["hostName"],
@@ -1265,17 +1147,13 @@ export function virtualMachineResourceNamesSerializer(
   };
 }
 
-export function virtualMachineResourceNamesDeserializer(
-  item: any,
-): VirtualMachineResourceNames {
+export function virtualMachineResourceNamesDeserializer(item: any): VirtualMachineResourceNames {
   return {
     vmName: item["vmName"],
     hostName: item["hostName"],
     networkInterfaces: !item["networkInterfaces"]
       ? item["networkInterfaces"]
-      : networkInterfaceResourceNamesArrayDeserializer(
-          item["networkInterfaces"],
-        ),
+      : networkInterfaceResourceNamesArrayDeserializer(item["networkInterfaces"]),
     osDiskName: item["osDiskName"],
     dataDiskNames: item["dataDiskNames"],
   };
@@ -1303,9 +1181,7 @@ export interface NetworkInterfaceResourceNames {
   networkInterfaceName?: string;
 }
 
-export function networkInterfaceResourceNamesSerializer(
-  item: NetworkInterfaceResourceNames,
-): any {
+export function networkInterfaceResourceNamesSerializer(item: NetworkInterfaceResourceNames): any {
   return { networkInterfaceName: item["networkInterfaceName"] };
 }
 
@@ -1337,9 +1213,7 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   deploymentType: "ThreeTier";
 }
 
-export function threeTierConfigurationSerializer(
-  item: ThreeTierConfiguration,
-): any {
+export function threeTierConfigurationSerializer(item: ThreeTierConfiguration): any {
   return {
     appResourceGroup: item["appResourceGroup"],
     deploymentType: item["deploymentType"],
@@ -1347,9 +1221,7 @@ export function threeTierConfigurationSerializer(
       ? item["networkConfiguration"]
       : networkConfigurationSerializer(item["networkConfiguration"]),
     centralServer: centralServerConfigurationSerializer(item["centralServer"]),
-    applicationServer: applicationServerConfigurationSerializer(
-      item["applicationServer"],
-    ),
+    applicationServer: applicationServerConfigurationSerializer(item["applicationServer"]),
     databaseServer: databaseConfigurationSerializer(item["databaseServer"]),
     highAvailabilityConfig: !item["highAvailabilityConfig"]
       ? item["highAvailabilityConfig"]
@@ -1359,41 +1231,29 @@ export function threeTierConfigurationSerializer(
       : storageConfigurationSerializer(item["storageConfiguration"]),
     customResourceNames: !item["customResourceNames"]
       ? item["customResourceNames"]
-      : threeTierCustomResourceNamesUnionSerializer(
-          item["customResourceNames"],
-        ),
+      : threeTierCustomResourceNamesUnionSerializer(item["customResourceNames"]),
   };
 }
 
-export function threeTierConfigurationDeserializer(
-  item: any,
-): ThreeTierConfiguration {
+export function threeTierConfigurationDeserializer(item: any): ThreeTierConfiguration {
   return {
     appResourceGroup: item["appResourceGroup"],
     deploymentType: item["deploymentType"],
     networkConfiguration: !item["networkConfiguration"]
       ? item["networkConfiguration"]
       : networkConfigurationDeserializer(item["networkConfiguration"]),
-    centralServer: centralServerConfigurationDeserializer(
-      item["centralServer"],
-    ),
-    applicationServer: applicationServerConfigurationDeserializer(
-      item["applicationServer"],
-    ),
+    centralServer: centralServerConfigurationDeserializer(item["centralServer"]),
+    applicationServer: applicationServerConfigurationDeserializer(item["applicationServer"]),
     databaseServer: databaseConfigurationDeserializer(item["databaseServer"]),
     highAvailabilityConfig: !item["highAvailabilityConfig"]
       ? item["highAvailabilityConfig"]
-      : highAvailabilityConfigurationDeserializer(
-          item["highAvailabilityConfig"],
-        ),
+      : highAvailabilityConfigurationDeserializer(item["highAvailabilityConfig"]),
     storageConfiguration: !item["storageConfiguration"]
       ? item["storageConfiguration"]
       : storageConfigurationDeserializer(item["storageConfiguration"]),
     customResourceNames: !item["customResourceNames"]
       ? item["customResourceNames"]
-      : threeTierCustomResourceNamesUnionDeserializer(
-          item["customResourceNames"],
-        ),
+      : threeTierCustomResourceNamesUnionDeserializer(item["customResourceNames"]),
   };
 }
 
@@ -1407,9 +1267,7 @@ export interface CentralServerConfiguration {
   instanceCount: number;
 }
 
-export function centralServerConfigurationSerializer(
-  item: CentralServerConfiguration,
-): any {
+export function centralServerConfigurationSerializer(item: CentralServerConfiguration): any {
   return {
     subnetId: item["subnetId"],
     virtualMachineConfiguration: virtualMachineConfigurationSerializer(
@@ -1419,9 +1277,7 @@ export function centralServerConfigurationSerializer(
   };
 }
 
-export function centralServerConfigurationDeserializer(
-  item: any,
-): CentralServerConfiguration {
+export function centralServerConfigurationDeserializer(item: any): CentralServerConfiguration {
   return {
     subnetId: item["subnetId"],
     virtualMachineConfiguration: virtualMachineConfigurationDeserializer(
@@ -1479,9 +1335,7 @@ export interface DatabaseConfiguration {
   diskConfiguration?: DiskConfiguration;
 }
 
-export function databaseConfigurationSerializer(
-  item: DatabaseConfiguration,
-): any {
+export function databaseConfigurationSerializer(item: DatabaseConfiguration): any {
   return {
     databaseType: item["databaseType"],
     subnetId: item["subnetId"],
@@ -1495,9 +1349,7 @@ export function databaseConfigurationSerializer(
   };
 }
 
-export function databaseConfigurationDeserializer(
-  item: any,
-): DatabaseConfiguration {
+export function databaseConfigurationDeserializer(item: any): DatabaseConfiguration {
   return {
     databaseType: item["databaseType"],
     subnetId: item["subnetId"],
@@ -1517,9 +1369,7 @@ export interface HighAvailabilityConfiguration {
   highAvailabilityType: SAPHighAvailabilityType;
 }
 
-export function highAvailabilityConfigurationSerializer(
-  item: HighAvailabilityConfiguration,
-): any {
+export function highAvailabilityConfigurationSerializer(item: HighAvailabilityConfiguration): any {
   return { highAvailabilityType: item["highAvailabilityType"] };
 }
 
@@ -1555,27 +1405,19 @@ export interface StorageConfiguration {
   transportFileShareConfiguration?: FileShareConfigurationUnion;
 }
 
-export function storageConfigurationSerializer(
-  item: StorageConfiguration,
-): any {
+export function storageConfigurationSerializer(item: StorageConfiguration): any {
   return {
     transportFileShareConfiguration: !item["transportFileShareConfiguration"]
       ? item["transportFileShareConfiguration"]
-      : fileShareConfigurationUnionSerializer(
-          item["transportFileShareConfiguration"],
-        ),
+      : fileShareConfigurationUnionSerializer(item["transportFileShareConfiguration"]),
   };
 }
 
-export function storageConfigurationDeserializer(
-  item: any,
-): StorageConfiguration {
+export function storageConfigurationDeserializer(item: any): StorageConfiguration {
   return {
     transportFileShareConfiguration: !item["transportFileShareConfiguration"]
       ? item["transportFileShareConfiguration"]
-      : fileShareConfigurationUnionDeserializer(
-          item["transportFileShareConfiguration"],
-        ),
+      : fileShareConfigurationUnionDeserializer(item["transportFileShareConfiguration"]),
   };
 }
 
@@ -1586,15 +1428,11 @@ export interface FileShareConfiguration {
   configurationType: FileShareConfigurationType;
 }
 
-export function fileShareConfigurationSerializer(
-  item: FileShareConfiguration,
-): any {
+export function fileShareConfigurationSerializer(item: FileShareConfiguration): any {
   return { configurationType: item["configurationType"] };
 }
 
-export function fileShareConfigurationDeserializer(
-  item: any,
-): FileShareConfiguration {
+export function fileShareConfigurationDeserializer(item: any): FileShareConfiguration {
   return {
     configurationType: item["configurationType"],
   };
@@ -1607,14 +1445,10 @@ export type FileShareConfigurationUnion =
   | MountFileShareConfiguration
   | FileShareConfiguration;
 
-export function fileShareConfigurationUnionSerializer(
-  item: FileShareConfigurationUnion,
-): any {
+export function fileShareConfigurationUnionSerializer(item: FileShareConfigurationUnion): any {
   switch (item.configurationType) {
     case "Skip":
-      return skipFileShareConfigurationSerializer(
-        item as SkipFileShareConfiguration,
-      );
+      return skipFileShareConfigurationSerializer(item as SkipFileShareConfiguration);
 
     case "CreateAndMount":
       return createAndMountFileShareConfigurationSerializer(
@@ -1622,23 +1456,17 @@ export function fileShareConfigurationUnionSerializer(
       );
 
     case "Mount":
-      return mountFileShareConfigurationSerializer(
-        item as MountFileShareConfiguration,
-      );
+      return mountFileShareConfigurationSerializer(item as MountFileShareConfiguration);
 
     default:
       return fileShareConfigurationSerializer(item);
   }
 }
 
-export function fileShareConfigurationUnionDeserializer(
-  item: any,
-): FileShareConfigurationUnion {
+export function fileShareConfigurationUnionDeserializer(item: any): FileShareConfigurationUnion {
   switch (item.configurationType) {
     case "Skip":
-      return skipFileShareConfigurationDeserializer(
-        item as SkipFileShareConfiguration,
-      );
+      return skipFileShareConfigurationDeserializer(item as SkipFileShareConfiguration);
 
     case "CreateAndMount":
       return createAndMountFileShareConfigurationDeserializer(
@@ -1646,9 +1474,7 @@ export function fileShareConfigurationUnionDeserializer(
       );
 
     case "Mount":
-      return mountFileShareConfigurationDeserializer(
-        item as MountFileShareConfiguration,
-      );
+      return mountFileShareConfigurationDeserializer(item as MountFileShareConfiguration);
 
     default:
       return fileShareConfigurationDeserializer(item);
@@ -1682,23 +1508,18 @@ export interface SkipFileShareConfiguration extends FileShareConfiguration {
   configurationType: "Skip";
 }
 
-export function skipFileShareConfigurationSerializer(
-  item: SkipFileShareConfiguration,
-): any {
+export function skipFileShareConfigurationSerializer(item: SkipFileShareConfiguration): any {
   return { configurationType: item["configurationType"] };
 }
 
-export function skipFileShareConfigurationDeserializer(
-  item: any,
-): SkipFileShareConfiguration {
+export function skipFileShareConfigurationDeserializer(item: any): SkipFileShareConfiguration {
   return {
     configurationType: item["configurationType"],
   };
 }
 
 /** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn't need to be pre-created. */
-export interface CreateAndMountFileShareConfiguration
-  extends FileShareConfiguration {
+export interface CreateAndMountFileShareConfiguration extends FileShareConfiguration {
   /** The name of transport file share resource group. This should be pre created by the customer. The app rg is used in case of missing input. */
   resourceGroup?: string;
   /** The name of file share storage account name . A custom name is used in case of missing input. */
@@ -1737,9 +1558,7 @@ export interface MountFileShareConfiguration extends FileShareConfiguration {
   configurationType: "Mount";
 }
 
-export function mountFileShareConfigurationSerializer(
-  item: MountFileShareConfiguration,
-): any {
+export function mountFileShareConfigurationSerializer(item: MountFileShareConfiguration): any {
   return {
     configurationType: item["configurationType"],
     id: item["id"],
@@ -1747,9 +1566,7 @@ export function mountFileShareConfigurationSerializer(
   };
 }
 
-export function mountFileShareConfigurationDeserializer(
-  item: any,
-): MountFileShareConfiguration {
+export function mountFileShareConfigurationDeserializer(item: any): MountFileShareConfiguration {
   return {
     configurationType: item["configurationType"],
     id: item["id"],
@@ -1764,15 +1581,11 @@ export interface ThreeTierCustomResourceNames {
   namingPatternType: NamingPatternType;
 }
 
-export function threeTierCustomResourceNamesSerializer(
-  item: ThreeTierCustomResourceNames,
-): any {
+export function threeTierCustomResourceNamesSerializer(item: ThreeTierCustomResourceNames): any {
   return { namingPatternType: item["namingPatternType"] };
 }
 
-export function threeTierCustomResourceNamesDeserializer(
-  item: any,
-): ThreeTierCustomResourceNames {
+export function threeTierCustomResourceNamesDeserializer(item: any): ThreeTierCustomResourceNames {
   return {
     namingPatternType: item["namingPatternType"],
   };
@@ -1788,9 +1601,7 @@ export function threeTierCustomResourceNamesUnionSerializer(
 ): any {
   switch (item.namingPatternType) {
     case "FullResourceName":
-      return threeTierFullResourceNamesSerializer(
-        item as ThreeTierFullResourceNames,
-      );
+      return threeTierFullResourceNamesSerializer(item as ThreeTierFullResourceNames);
 
     default:
       return threeTierCustomResourceNamesSerializer(item);
@@ -1802,9 +1613,7 @@ export function threeTierCustomResourceNamesUnionDeserializer(
 ): ThreeTierCustomResourceNamesUnion {
   switch (item.namingPatternType) {
     case "FullResourceName":
-      return threeTierFullResourceNamesDeserializer(
-        item as ThreeTierFullResourceNames,
-      );
+      return threeTierFullResourceNamesDeserializer(item as ThreeTierFullResourceNames);
 
     default:
       return threeTierCustomResourceNamesDeserializer(item);
@@ -1812,8 +1621,7 @@ export function threeTierCustomResourceNamesUnionDeserializer(
 }
 
 /** The resource name object where the specified values will be full resource names of the corresponding resources in a three tier SAP system. */
-export interface ThreeTierFullResourceNames
-  extends ThreeTierCustomResourceNames {
+export interface ThreeTierFullResourceNames extends ThreeTierCustomResourceNames {
   /** The full resource names object for central server layer resources. */
   centralServer?: CentralServerFullResourceNames;
   /** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
@@ -1826,9 +1634,7 @@ export interface ThreeTierFullResourceNames
   namingPatternType: "FullResourceName";
 }
 
-export function threeTierFullResourceNamesSerializer(
-  item: ThreeTierFullResourceNames,
-): any {
+export function threeTierFullResourceNamesSerializer(item: ThreeTierFullResourceNames): any {
   return {
     namingPatternType: item["namingPatternType"],
     centralServer: !item["centralServer"]
@@ -1846,9 +1652,7 @@ export function threeTierFullResourceNamesSerializer(
   };
 }
 
-export function threeTierFullResourceNamesDeserializer(
-  item: any,
-): ThreeTierFullResourceNames {
+export function threeTierFullResourceNamesDeserializer(item: any): ThreeTierFullResourceNames {
   return {
     namingPatternType: item["namingPatternType"],
     centralServer: !item["centralServer"]
@@ -1856,9 +1660,7 @@ export function threeTierFullResourceNamesDeserializer(
       : centralServerFullResourceNamesDeserializer(item["centralServer"]),
     applicationServer: !item["applicationServer"]
       ? item["applicationServer"]
-      : applicationServerFullResourceNamesDeserializer(
-          item["applicationServer"],
-        ),
+      : applicationServerFullResourceNamesDeserializer(item["applicationServer"]),
     databaseServer: !item["databaseServer"]
       ? item["databaseServer"]
       : databaseServerFullResourceNamesDeserializer(item["databaseServer"]),
@@ -1934,9 +1736,7 @@ export interface LoadBalancerResourceNames {
   healthProbeNames?: string[];
 }
 
-export function loadBalancerResourceNamesSerializer(
-  item: LoadBalancerResourceNames,
-): any {
+export function loadBalancerResourceNamesSerializer(item: LoadBalancerResourceNames): any {
   return {
     loadBalancerName: item["loadBalancerName"],
     frontendIpConfigurationNames: !item["frontendIpConfigurationNames"]
@@ -1957,9 +1757,7 @@ export function loadBalancerResourceNamesSerializer(
   };
 }
 
-export function loadBalancerResourceNamesDeserializer(
-  item: any,
-): LoadBalancerResourceNames {
+export function loadBalancerResourceNamesDeserializer(item: any): LoadBalancerResourceNames {
   return {
     loadBalancerName: item["loadBalancerName"],
     frontendIpConfigurationNames: !item["frontendIpConfigurationNames"]
@@ -2056,23 +1854,17 @@ export interface SharedStorageResourceNames {
   sharedStorageAccountPrivateEndPointName?: string;
 }
 
-export function sharedStorageResourceNamesSerializer(
-  item: SharedStorageResourceNames,
-): any {
+export function sharedStorageResourceNamesSerializer(item: SharedStorageResourceNames): any {
   return {
     sharedStorageAccountName: item["sharedStorageAccountName"],
-    sharedStorageAccountPrivateEndPointName:
-      item["sharedStorageAccountPrivateEndPointName"],
+    sharedStorageAccountPrivateEndPointName: item["sharedStorageAccountPrivateEndPointName"],
   };
 }
 
-export function sharedStorageResourceNamesDeserializer(
-  item: any,
-): SharedStorageResourceNames {
+export function sharedStorageResourceNamesDeserializer(item: any): SharedStorageResourceNames {
   return {
     sharedStorageAccountName: item["sharedStorageAccountName"],
-    sharedStorageAccountPrivateEndPointName:
-      item["sharedStorageAccountPrivateEndPointName"],
+    sharedStorageAccountPrivateEndPointName: item["sharedStorageAccountPrivateEndPointName"],
   };
 }
 
@@ -2083,15 +1875,11 @@ export interface SoftwareConfiguration {
   softwareInstallationType: SAPSoftwareInstallationType;
 }
 
-export function softwareConfigurationSerializer(
-  item: SoftwareConfiguration,
-): any {
+export function softwareConfigurationSerializer(item: SoftwareConfiguration): any {
   return { softwareInstallationType: item["softwareInstallationType"] };
 }
 
-export function softwareConfigurationDeserializer(
-  item: any,
-): SoftwareConfiguration {
+export function softwareConfigurationDeserializer(item: any): SoftwareConfiguration {
   return {
     softwareInstallationType: item["softwareInstallationType"],
   };
@@ -2104,9 +1892,7 @@ export type SoftwareConfigurationUnion =
   | ExternalInstallationSoftwareConfiguration
   | SoftwareConfiguration;
 
-export function softwareConfigurationUnionSerializer(
-  item: SoftwareConfigurationUnion,
-): any {
+export function softwareConfigurationUnionSerializer(item: SoftwareConfigurationUnion): any {
   switch (item.softwareInstallationType) {
     case "ServiceInitiated":
       return serviceInitiatedSoftwareConfigurationSerializer(
@@ -2128,9 +1914,7 @@ export function softwareConfigurationUnionSerializer(
   }
 }
 
-export function softwareConfigurationUnionDeserializer(
-  item: any,
-): SoftwareConfigurationUnion {
+export function softwareConfigurationUnionDeserializer(item: any): SoftwareConfigurationUnion {
   switch (item.softwareInstallationType) {
     case "ServiceInitiated":
       return serviceInitiatedSoftwareConfigurationDeserializer(
@@ -2174,8 +1958,7 @@ export enum KnownSAPSoftwareInstallationType {
 export type SAPSoftwareInstallationType = string;
 
 /** The SAP Software configuration Input when the software is to be installed by service. */
-export interface ServiceInitiatedSoftwareConfiguration
-  extends SoftwareConfiguration {
+export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfiguration {
   /** The URL to the SAP Build of Materials(BOM) file. */
   bomUrl: string;
   /** The software version to install. */
@@ -2202,9 +1985,7 @@ export function serviceInitiatedSoftwareConfigurationSerializer(
     sapBitsStorageAccountId: item["sapBitsStorageAccountId"],
     sapFqdn: item["sapFqdn"],
     sshPrivateKey: item["sshPrivateKey"],
-    highAvailabilitySoftwareConfiguration: !item[
-      "highAvailabilitySoftwareConfiguration"
-    ]
+    highAvailabilitySoftwareConfiguration: !item["highAvailabilitySoftwareConfiguration"]
       ? item["highAvailabilitySoftwareConfiguration"]
       : highAvailabilitySoftwareConfigurationSerializer(
           item["highAvailabilitySoftwareConfiguration"],
@@ -2222,9 +2003,7 @@ export function serviceInitiatedSoftwareConfigurationDeserializer(
     sapBitsStorageAccountId: item["sapBitsStorageAccountId"],
     sapFqdn: item["sapFqdn"],
     sshPrivateKey: item["sshPrivateKey"],
-    highAvailabilitySoftwareConfiguration: !item[
-      "highAvailabilitySoftwareConfiguration"
-    ]
+    highAvailabilitySoftwareConfiguration: !item["highAvailabilitySoftwareConfiguration"]
       ? item["highAvailabilitySoftwareConfiguration"]
       : highAvailabilitySoftwareConfigurationDeserializer(
           item["highAvailabilitySoftwareConfiguration"],
@@ -2259,8 +2038,7 @@ export function highAvailabilitySoftwareConfigurationDeserializer(
 }
 
 /** The SAP Software configuration Input when the software is to be installed by service without OS Configurations */
-export interface SAPInstallWithoutOSConfigSoftwareConfiguration
-  extends SoftwareConfiguration {
+export interface SAPInstallWithoutOSConfigSoftwareConfiguration extends SoftwareConfiguration {
   /** The URL to the SAP Build of Materials(BOM) file. */
   bomUrl: string;
   /** The SAP bits storage account id. */
@@ -2281,9 +2059,7 @@ export function sapInstallWithoutOSConfigSoftwareConfigurationSerializer(
     bomUrl: item["bomUrl"],
     sapBitsStorageAccountId: item["sapBitsStorageAccountId"],
     softwareVersion: item["softwareVersion"],
-    highAvailabilitySoftwareConfiguration: !item[
-      "highAvailabilitySoftwareConfiguration"
-    ]
+    highAvailabilitySoftwareConfiguration: !item["highAvailabilitySoftwareConfiguration"]
       ? item["highAvailabilitySoftwareConfiguration"]
       : highAvailabilitySoftwareConfigurationSerializer(
           item["highAvailabilitySoftwareConfiguration"],
@@ -2299,9 +2075,7 @@ export function sapInstallWithoutOSConfigSoftwareConfigurationDeserializer(
     bomUrl: item["bomUrl"],
     sapBitsStorageAccountId: item["sapBitsStorageAccountId"],
     softwareVersion: item["softwareVersion"],
-    highAvailabilitySoftwareConfiguration: !item[
-      "highAvailabilitySoftwareConfiguration"
-    ]
+    highAvailabilitySoftwareConfiguration: !item["highAvailabilitySoftwareConfiguration"]
       ? item["highAvailabilitySoftwareConfiguration"]
       : highAvailabilitySoftwareConfigurationDeserializer(
           item["highAvailabilitySoftwareConfiguration"],
@@ -2310,8 +2084,7 @@ export function sapInstallWithoutOSConfigSoftwareConfigurationDeserializer(
 }
 
 /** The SAP Software configuration Input when the software is installed externally outside the service. */
-export interface ExternalInstallationSoftwareConfiguration
-  extends SoftwareConfiguration {
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
   /** The resource ID of the virtual machine containing the central server instance. */
   centralServerVmId?: string;
   /** The SAP software installation Type. */
@@ -2350,17 +2123,13 @@ export interface DeploymentWithOSConfiguration extends SAPConfiguration {
   configurationType: "DeploymentWithOSConfig";
 }
 
-export function deploymentWithOSConfigurationSerializer(
-  item: DeploymentWithOSConfiguration,
-): any {
+export function deploymentWithOSConfigurationSerializer(item: DeploymentWithOSConfiguration): any {
   return {
     configurationType: item["configurationType"],
     appLocation: item["appLocation"],
     infrastructureConfiguration: !item["infrastructureConfiguration"]
       ? item["infrastructureConfiguration"]
-      : infrastructureConfigurationUnionSerializer(
-          item["infrastructureConfiguration"],
-        ),
+      : infrastructureConfigurationUnionSerializer(item["infrastructureConfiguration"]),
     softwareConfiguration: !item["softwareConfiguration"]
       ? item["softwareConfiguration"]
       : softwareConfigurationUnionSerializer(item["softwareConfiguration"]),
@@ -2378,9 +2147,7 @@ export function deploymentWithOSConfigurationDeserializer(
     appLocation: item["appLocation"],
     infrastructureConfiguration: !item["infrastructureConfiguration"]
       ? item["infrastructureConfiguration"]
-      : infrastructureConfigurationUnionDeserializer(
-          item["infrastructureConfiguration"],
-        ),
+      : infrastructureConfigurationUnionDeserializer(item["infrastructureConfiguration"]),
     softwareConfiguration: !item["softwareConfiguration"]
       ? item["softwareConfiguration"]
       : softwareConfigurationUnionDeserializer(item["softwareConfiguration"]),
@@ -2441,15 +2208,11 @@ export interface ManagedRGConfiguration {
   name?: string;
 }
 
-export function managedRGConfigurationSerializer(
-  item: ManagedRGConfiguration,
-): any {
+export function managedRGConfigurationSerializer(item: ManagedRGConfiguration): any {
   return { name: item["name"] };
 }
 
-export function managedRGConfigurationDeserializer(
-  item: any,
-): ManagedRGConfiguration {
+export function managedRGConfigurationDeserializer(item: any): ManagedRGConfiguration {
   return {
     name: item["name"],
   };
@@ -2599,9 +2362,7 @@ export interface SAPVirtualInstanceError {
   properties?: ErrorDefinition;
 }
 
-export function sapVirtualInstanceErrorDeserializer(
-  item: any,
-): SAPVirtualInstanceError {
+export function sapVirtualInstanceErrorDeserializer(item: any): SAPVirtualInstanceError {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -2623,15 +2384,11 @@ export function errorDefinitionDeserializer(item: any): ErrorDefinition {
   return {
     code: item["code"],
     message: item["message"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDefinitionArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDefinitionArrayDeserializer(item["details"]),
   };
 }
 
-export function errorDefinitionArrayDeserializer(
-  result: Array<ErrorDefinition>,
-): any[] {
+export function errorDefinitionArrayDeserializer(result: Array<ErrorDefinition>): any[] {
   return result.map((item) => {
     return errorDefinitionDeserializer(item);
   });
@@ -2645,18 +2402,14 @@ export interface SAPVirtualInstanceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function sapVirtualInstanceIdentitySerializer(
-  item: SAPVirtualInstanceIdentity,
-): any {
+export function sapVirtualInstanceIdentitySerializer(item: SAPVirtualInstanceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function sapVirtualInstanceIdentityDeserializer(
-  item: any,
-): SAPVirtualInstanceIdentity {
+export function sapVirtualInstanceIdentityDeserializer(item: any): SAPVirtualInstanceIdentity {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
@@ -2689,15 +2442,11 @@ export interface UserAssignedIdentity {
   readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     clientId: item["clientId"],
     principalId: item["principalId"],
@@ -2776,9 +2525,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -2845,8 +2592,7 @@ export function updateSAPVirtualInstancePropertiesSerializer(
   item: UpdateSAPVirtualInstanceProperties,
 ): any {
   return {
-    managedResourcesNetworkAccessType:
-      item["managedResourcesNetworkAccessType"],
+    managedResourcesNetworkAccessType: item["managedResourcesNetworkAccessType"],
   };
 }
 
@@ -2867,17 +2613,13 @@ export function _sapVirtualInstanceListResultDeserializer(
   };
 }
 
-export function sapVirtualInstanceArraySerializer(
-  result: Array<SAPVirtualInstance>,
-): any[] {
+export function sapVirtualInstanceArraySerializer(result: Array<SAPVirtualInstance>): any[] {
   return result.map((item) => {
     return sapVirtualInstanceSerializer(item);
   });
 }
 
-export function sapVirtualInstanceArrayDeserializer(
-  result: Array<SAPVirtualInstance>,
-): any[] {
+export function sapVirtualInstanceArrayDeserializer(result: Array<SAPVirtualInstance>): any[] {
   return result.map((item) => {
     return sapVirtualInstanceDeserializer(item);
   });
@@ -2915,24 +2657,18 @@ export interface OperationStatusResult {
   readonly resourceId?: string;
 }
 
-export function operationStatusResultDeserializer(
-  item: any,
-): OperationStatusResult {
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
   return {
     id: item["id"],
     name: item["name"],
     status: item["status"],
     percentComplete: item["percentComplete"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     operations: !item["operations"]
       ? item["operations"]
       : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     resourceId: item["resourceId"],
   };
 }
@@ -3039,14 +2775,10 @@ export function sapSizingRecommendationResultUnionDeserializer(
 ): SAPSizingRecommendationResultUnion {
   switch (item.deploymentType) {
     case "SingleServer":
-      return singleServerRecommendationResultDeserializer(
-        item as SingleServerRecommendationResult,
-      );
+      return singleServerRecommendationResultDeserializer(item as SingleServerRecommendationResult);
 
     case "ThreeTier":
-      return threeTierRecommendationResultDeserializer(
-        item as ThreeTierRecommendationResult,
-      );
+      return threeTierRecommendationResultDeserializer(item as ThreeTierRecommendationResult);
 
     default:
       return sapSizingRecommendationResultDeserializer(item);
@@ -3054,8 +2786,7 @@ export function sapSizingRecommendationResultUnionDeserializer(
 }
 
 /** The recommended configuration for a single server SAP system. */
-export interface SingleServerRecommendationResult
-  extends SAPSizingRecommendationResult {
+export interface SingleServerRecommendationResult extends SAPSizingRecommendationResult {
   /** The recommended VM SKU for single server. */
   vmSku?: string;
   /** The single server SAP deployment type. */
@@ -3072,8 +2803,7 @@ export function singleServerRecommendationResultDeserializer(
 }
 
 /** The recommended configuration for a three tier SAP system. */
-export interface ThreeTierRecommendationResult
-  extends SAPSizingRecommendationResult {
+export interface ThreeTierRecommendationResult extends SAPSizingRecommendationResult {
   /** The database VM SKU. */
   dbVmSku?: string;
   /** The database server instance count. */
@@ -3120,9 +2850,7 @@ export interface SAPSupportedSkusRequest {
   highAvailabilityType?: SAPHighAvailabilityType;
 }
 
-export function sapSupportedSkusRequestSerializer(
-  item: SAPSupportedSkusRequest,
-): any {
+export function sapSupportedSkusRequestSerializer(item: SAPSupportedSkusRequest): any {
   return {
     appLocation: item["appLocation"],
     environment: item["environment"],
@@ -3149,9 +2877,7 @@ export function sapSupportedResourceSkusResultDeserializer(
   };
 }
 
-export function sapSupportedSkuArrayDeserializer(
-  result: Array<SAPSupportedSku>,
-): any[] {
+export function sapSupportedSkuArrayDeserializer(result: Array<SAPSupportedSku>): any[] {
   return result.map((item) => {
     return sapSupportedSkuDeserializer(item);
   });
@@ -3191,9 +2917,7 @@ export interface SAPDiskConfigurationsRequest {
   dbVmSku: string;
 }
 
-export function sapDiskConfigurationsRequestSerializer(
-  item: SAPDiskConfigurationsRequest,
-): any {
+export function sapDiskConfigurationsRequestSerializer(item: SAPDiskConfigurationsRequest): any {
   return {
     appLocation: item["appLocation"],
     environment: item["environment"],
@@ -3210,9 +2934,7 @@ export interface SAPDiskConfigurationsResult {
   volumeConfigurations?: Record<string, SAPDiskConfiguration>;
 }
 
-export function sapDiskConfigurationsResultDeserializer(
-  item: any,
-): SAPDiskConfigurationsResult {
+export function sapDiskConfigurationsResultDeserializer(item: any): SAPDiskConfigurationsResult {
   return {
     volumeConfigurations: !item["volumeConfigurations"]
       ? item["volumeConfigurations"]
@@ -3225,9 +2947,7 @@ export function sapDiskConfigurationRecordDeserializer(
 ): Record<string, SAPDiskConfiguration> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : sapDiskConfigurationDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : sapDiskConfigurationDeserializer(item[key]);
   });
   return result;
 }
@@ -3240,9 +2960,7 @@ export interface SAPDiskConfiguration {
   supportedConfigurations?: DiskDetails[];
 }
 
-export function sapDiskConfigurationDeserializer(
-  item: any,
-): SAPDiskConfiguration {
+export function sapDiskConfigurationDeserializer(item: any): SAPDiskConfiguration {
   return {
     recommendedConfiguration: !item["recommendedConfiguration"]
       ? item["recommendedConfiguration"]
@@ -3253,9 +2971,7 @@ export function sapDiskConfigurationDeserializer(
   };
 }
 
-export function diskDetailsArrayDeserializer(
-  result: Array<DiskDetails>,
-): any[] {
+export function diskDetailsArrayDeserializer(result: Array<DiskDetails>): any[] {
   return result.map((item) => {
     return diskDetailsDeserializer(item);
   });
@@ -3343,9 +3059,7 @@ export interface SAPAvailabilityZonePair {
   zoneB?: number;
 }
 
-export function sapAvailabilityZonePairDeserializer(
-  item: any,
-): SAPAvailabilityZonePair {
+export function sapAvailabilityZonePairDeserializer(item: any): SAPAvailabilityZonePair {
   return {
     zoneA: item["zoneA"],
     zoneB: item["zoneB"],
@@ -3358,9 +3072,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
   properties?: SAPCentralServerProperties;
 }
 
-export function sapCentralServerInstanceSerializer(
-  item: SAPCentralServerInstance,
-): any {
+export function sapCentralServerInstanceSerializer(item: SAPCentralServerInstance): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -3370,9 +3082,7 @@ export function sapCentralServerInstanceSerializer(
   };
 }
 
-export function sapCentralServerInstanceDeserializer(
-  item: any,
-): SAPCentralServerInstance {
+export function sapCentralServerInstanceDeserializer(item: any): SAPCentralServerInstance {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -3420,9 +3130,7 @@ export interface SAPCentralServerProperties {
   readonly errors?: SAPVirtualInstanceError;
 }
 
-export function sapCentralServerPropertiesSerializer(
-  item: SAPCentralServerProperties,
-): any {
+export function sapCentralServerPropertiesSerializer(item: SAPCentralServerProperties): any {
   return {
     messageServerProperties: !item["messageServerProperties"]
       ? item["messageServerProperties"]
@@ -3433,19 +3141,13 @@ export function sapCentralServerPropertiesSerializer(
     gatewayServerProperties: !item["gatewayServerProperties"]
       ? item["gatewayServerProperties"]
       : gatewayServerPropertiesSerializer(item["gatewayServerProperties"]),
-    enqueueReplicationServerProperties: !item[
-      "enqueueReplicationServerProperties"
-    ]
+    enqueueReplicationServerProperties: !item["enqueueReplicationServerProperties"]
       ? item["enqueueReplicationServerProperties"]
-      : enqueueReplicationServerPropertiesSerializer(
-          item["enqueueReplicationServerProperties"],
-        ),
+      : enqueueReplicationServerPropertiesSerializer(item["enqueueReplicationServerProperties"]),
   };
 }
 
-export function sapCentralServerPropertiesDeserializer(
-  item: any,
-): SAPCentralServerProperties {
+export function sapCentralServerPropertiesDeserializer(item: any): SAPCentralServerProperties {
   return {
     instanceNo: item["instanceNo"],
     subnet: item["subnet"],
@@ -3458,13 +3160,9 @@ export function sapCentralServerPropertiesDeserializer(
     gatewayServerProperties: !item["gatewayServerProperties"]
       ? item["gatewayServerProperties"]
       : gatewayServerPropertiesDeserializer(item["gatewayServerProperties"]),
-    enqueueReplicationServerProperties: !item[
-      "enqueueReplicationServerProperties"
-    ]
+    enqueueReplicationServerProperties: !item["enqueueReplicationServerProperties"]
       ? item["enqueueReplicationServerProperties"]
-      : enqueueReplicationServerPropertiesDeserializer(
-          item["enqueueReplicationServerProperties"],
-        ),
+      : enqueueReplicationServerPropertiesDeserializer(item["enqueueReplicationServerProperties"]),
     kernelVersion: item["kernelVersion"],
     kernelPatch: item["kernelPatch"],
     loadBalancerDetails: !item["loadBalancerDetails"]
@@ -3476,9 +3174,7 @@ export function sapCentralServerPropertiesDeserializer(
     status: item["status"],
     health: item["health"],
     provisioningState: item["provisioningState"],
-    errors: !item["errors"]
-      ? item["errors"]
-      : sapVirtualInstanceErrorDeserializer(item["errors"]),
+    errors: !item["errors"] ? item["errors"] : sapVirtualInstanceErrorDeserializer(item["errors"]),
   };
 }
 
@@ -3500,15 +3196,11 @@ export interface MessageServerProperties {
   readonly health?: SAPHealthState;
 }
 
-export function messageServerPropertiesSerializer(
-  item: MessageServerProperties,
-): any {
+export function messageServerPropertiesSerializer(item: MessageServerProperties): any {
   return item;
 }
 
-export function messageServerPropertiesDeserializer(
-  item: any,
-): MessageServerProperties {
+export function messageServerPropertiesDeserializer(item: any): MessageServerProperties {
   return {
     msPort: item["msPort"],
     internalMsPort: item["internalMsPort"],
@@ -3532,15 +3224,11 @@ export interface EnqueueServerProperties {
   readonly health?: SAPHealthState;
 }
 
-export function enqueueServerPropertiesSerializer(
-  item: EnqueueServerProperties,
-): any {
+export function enqueueServerPropertiesSerializer(item: EnqueueServerProperties): any {
   return item;
 }
 
-export function enqueueServerPropertiesDeserializer(
-  item: any,
-): EnqueueServerProperties {
+export function enqueueServerPropertiesDeserializer(item: any): EnqueueServerProperties {
   return {
     hostname: item["hostname"],
     ipAddress: item["ipAddress"],
@@ -3557,15 +3245,11 @@ export interface GatewayServerProperties {
   readonly health?: SAPHealthState;
 }
 
-export function gatewayServerPropertiesSerializer(
-  item: GatewayServerProperties,
-): any {
+export function gatewayServerPropertiesSerializer(item: GatewayServerProperties): any {
   return item;
 }
 
-export function gatewayServerPropertiesDeserializer(
-  item: any,
-): GatewayServerProperties {
+export function gatewayServerPropertiesDeserializer(item: any): GatewayServerProperties {
   return {
     port: item["port"],
     health: item["health"],
@@ -3634,9 +3318,7 @@ export interface LoadBalancerDetails {
   readonly id?: string;
 }
 
-export function loadBalancerDetailsDeserializer(
-  item: any,
-): LoadBalancerDetails {
+export function loadBalancerDetailsDeserializer(item: any): LoadBalancerDetails {
   return {
     id: item["id"],
   };
@@ -3660,9 +3342,7 @@ export interface CentralServerVmDetails {
   readonly storageDetails?: StorageInformation[];
 }
 
-export function centralServerVmDetailsDeserializer(
-  item: any,
-): CentralServerVmDetails {
+export function centralServerVmDetailsDeserializer(item: any): CentralServerVmDetails {
   return {
     type: item["type"],
     virtualMachineId: item["virtualMachineId"],
@@ -3705,9 +3385,7 @@ export enum KnownCentralServerVirtualMachineType {
  */
 export type CentralServerVirtualMachineType = string;
 
-export function storageInformationArrayDeserializer(
-  result: Array<StorageInformation>,
-): any[] {
+export function storageInformationArrayDeserializer(result: Array<StorageInformation>): any[] {
   return result.map((item) => {
     return storageInformationDeserializer(item);
   });
@@ -3786,9 +3464,7 @@ export function sapDatabaseInstanceSerializer(item: SAPDatabaseInstance): any {
   };
 }
 
-export function sapDatabaseInstanceDeserializer(
-  item: any,
-): SAPDatabaseInstance {
+export function sapDatabaseInstanceDeserializer(item: any): SAPDatabaseInstance {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -3826,15 +3502,11 @@ export interface SAPDatabaseProperties {
   readonly errors?: SAPVirtualInstanceError;
 }
 
-export function sapDatabasePropertiesSerializer(
-  item: SAPDatabaseProperties,
-): any {
+export function sapDatabasePropertiesSerializer(item: SAPDatabaseProperties): any {
   return item;
 }
 
-export function sapDatabasePropertiesDeserializer(
-  item: any,
-): SAPDatabaseProperties {
+export function sapDatabasePropertiesDeserializer(item: any): SAPDatabaseProperties {
   return {
     subnet: item["subnet"],
     databaseSid: item["databaseSid"],
@@ -3848,15 +3520,11 @@ export function sapDatabasePropertiesDeserializer(
       : databaseVmDetailsArrayDeserializer(item["vmDetails"]),
     status: item["status"],
     provisioningState: item["provisioningState"],
-    errors: !item["errors"]
-      ? item["errors"]
-      : sapVirtualInstanceErrorDeserializer(item["errors"]),
+    errors: !item["errors"] ? item["errors"] : sapVirtualInstanceErrorDeserializer(item["errors"]),
   };
 }
 
-export function databaseVmDetailsArrayDeserializer(
-  result: Array<DatabaseVmDetails>,
-): any[] {
+export function databaseVmDetailsArrayDeserializer(result: Array<DatabaseVmDetails>): any[] {
   return result.map((item) => {
     return databaseVmDetailsDeserializer(item);
   });
@@ -3911,17 +3579,13 @@ export function _sapDatabaseInstanceListResultDeserializer(
   };
 }
 
-export function sapDatabaseInstanceArraySerializer(
-  result: Array<SAPDatabaseInstance>,
-): any[] {
+export function sapDatabaseInstanceArraySerializer(result: Array<SAPDatabaseInstance>): any[] {
   return result.map((item) => {
     return sapDatabaseInstanceSerializer(item);
   });
 }
 
-export function sapDatabaseInstanceArrayDeserializer(
-  result: Array<SAPDatabaseInstance>,
-): any[] {
+export function sapDatabaseInstanceArrayDeserializer(result: Array<SAPDatabaseInstance>): any[] {
   return result.map((item) => {
     return sapDatabaseInstanceDeserializer(item);
   });
@@ -3933,9 +3597,7 @@ export interface SAPApplicationServerInstance extends TrackedResource {
   properties?: SAPApplicationServerProperties;
 }
 
-export function sapApplicationServerInstanceSerializer(
-  item: SAPApplicationServerInstance,
-): any {
+export function sapApplicationServerInstanceSerializer(item: SAPApplicationServerInstance): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -3945,9 +3607,7 @@ export function sapApplicationServerInstanceSerializer(
   };
 }
 
-export function sapApplicationServerInstanceDeserializer(
-  item: any,
-): SAPApplicationServerInstance {
+export function sapApplicationServerInstanceDeserializer(item: any): SAPApplicationServerInstance {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -4028,9 +3688,7 @@ export function sapApplicationServerPropertiesDeserializer(
     status: item["status"],
     health: item["health"],
     provisioningState: item["provisioningState"],
-    errors: !item["errors"]
-      ? item["errors"]
-      : sapVirtualInstanceErrorDeserializer(item["errors"]),
+    errors: !item["errors"] ? item["errors"] : sapVirtualInstanceErrorDeserializer(item["errors"]),
   };
 }
 
@@ -4052,9 +3710,7 @@ export interface ApplicationServerVmDetails {
   readonly storageDetails?: StorageInformation[];
 }
 
-export function applicationServerVmDetailsDeserializer(
-  item: any,
-): ApplicationServerVmDetails {
+export function applicationServerVmDetailsDeserializer(item: any): ApplicationServerVmDetails {
   return {
     type: item["type"],
     virtualMachineId: item["virtualMachineId"],

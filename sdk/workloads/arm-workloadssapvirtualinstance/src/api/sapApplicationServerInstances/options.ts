@@ -5,8 +5,7 @@ import { StartRequest, StopRequest } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesStopOptionalParams
-  extends OperationOptions {
+export interface SAPApplicationServerInstancesStopOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** SAP Application server instance stop request body. */
@@ -14,8 +13,7 @@ export interface SAPApplicationServerInstancesStopOptionalParams
 }
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesStartOptionalParams
-  extends OperationOptions {
+export interface SAPApplicationServerInstancesStartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** SAP Application server instance start request body. */
@@ -23,27 +21,22 @@ export interface SAPApplicationServerInstancesStartOptionalParams
 }
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesListOptionalParams
-  extends OperationOptions {}
+export interface SAPApplicationServerInstancesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesDeleteOptionalParams
-  extends OperationOptions {
+export interface SAPApplicationServerInstancesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesUpdateOptionalParams
-  extends OperationOptions {}
+export interface SAPApplicationServerInstancesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesCreateOptionalParams
-  extends OperationOptions {
+export interface SAPApplicationServerInstancesCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SAPApplicationServerInstancesGetOptionalParams
-  extends OperationOptions {}
+export interface SAPApplicationServerInstancesGetOptionalParams extends OperationOptions {}
