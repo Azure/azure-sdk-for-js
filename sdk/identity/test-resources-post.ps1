@@ -58,33 +58,29 @@ if ($CI) {
   Write-Host "Subscription ID: $SubscriptionId"
   Write-Host "Deployment output subscription ID $subscriptionIDfromDeployment"
 }
+# Login for
+az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
+$loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 
 # Azure Functions app deployment
-Write-Host "Building the code for functions app"
-Push-Location "$webappRoot/AzureFunctions/RunTest"
-npm install
-npm run build
-Pop-Location
 Write-Host "starting azure functions deployment"
-Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+$image = "$loginServer/identity-functions-test-image"
+docker build --no-cache -t $image "$workingFolder/azure-functions"
+docker push $image
+az functionapp config container set -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] -i $image -r $loginServer -p $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query "passwords[0].value" -o tsv) -u $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query username -o tsv)
 Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 Write-Host "Deployed function app"
 
+
+# Azure Functions app deployment
 Write-Host "Deploying Identity Web App"
-Push-Location "$webappRoot/AzureWebApps"
-npm install
-npm run build
-Pop-Location
 Write-Host "starting deployment"
 Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
-az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip"
+az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true
 Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 Write-Host "Deployed Identity Web App"
 
 Write-Host "Deploying Identity Docker image to ACR"
-az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
-$loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
 $image = "$loginServer/identity-aks-test-image"
 docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image
