@@ -59,7 +59,10 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
-export interface BrowseAvailableNumbersOptions extends PhoneNumbersBrowseAvailableNumbersOptionalParams {
+export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptions {
+    assignmentType?: PhoneNumberAssignmentType;
+    capabilities?: PhoneNumberCapabilitiesRequest;
+    phoneNumberPrefixes?: string[];
 }
 
 // @public (undocumented)

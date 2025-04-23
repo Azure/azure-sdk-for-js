@@ -314,21 +314,23 @@ export class PhoneNumbersClient {
    */
   public browseAvailablePhoneNumbers(
     request: BrowseAvailableNumbersRequest,
-    options?: BrowseAvailableNumbersOptions
+    options?: BrowseAvailableNumbersOptions,
   ): Promise<AvailablePhoneNumber[]> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-browseAvailableNumbers",
-      options
+      options,
     );
 
     try {
       const { countryCode, phoneNumberType, ...rest } = request;
-      return this.client.phoneNumbers.browseAvailableNumbers(countryCode, phoneNumberType, {
-        ...updatedOptions,
-        ...rest,
-      }).then((response: BrowseAvailableNumbersResult) => {
-        return response.phoneNumbers
-      });
+      return this.client.phoneNumbers
+        .browseAvailableNumbers(countryCode, phoneNumberType, {
+          ...updatedOptions,
+          ...rest,
+        })
+        .then((response: BrowseAvailableNumbersResult) => {
+          return response.phoneNumbers;
+        });
     } catch (e: any) {
       span.setStatus({
         status: "error",
