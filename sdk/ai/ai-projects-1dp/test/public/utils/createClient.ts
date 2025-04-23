@@ -11,7 +11,8 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
-  ENDPOINT: "Sanitized.services.ai.azure.com",
+  ENDPOINT: "Sanitized.azure.com",
+  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
@@ -97,7 +98,7 @@ export function createProjectsClient(
   options?: ClientOptions,
 ): AIProjectClient {
   const credential = createTestCredential();
-  const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "";
+  const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
   return AIProjectClient.fromEndpoint(
     endpoint,
     credential,
