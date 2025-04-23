@@ -9247,9 +9247,6 @@ importers:
       '@azure-rest/core-client':
         specifier: workspace:*
         version: link:../../core/core-client-rest
-      '@azure-tools/test-recorder':
-        specifier: ^3.0.0
-        version: 3.5.2
       '@azure/abort-controller':
         specifier: workspace:*
         version: link:../../core/abort-controller
@@ -9272,6 +9269,9 @@ importers:
       '@azure-tools/test-credential':
         specifier: workspace:*
         version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:*
+        version: link:../../test-utils/recorder
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
@@ -12474,6 +12474,9 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 3.1.1(vitest@3.1.1)
+      assertion-error:
+        specifier: ^2.0.1
+        version: 2.0.1
       dotenv:
         specifier: catalog:testing
         version: 16.4.7
@@ -26666,10 +26669,6 @@ packages:
     resolution: {integrity: sha512-AQXtD5VqsoOswDmxQR0YyVkYa1tZ0HyfC/fsqfntYZ7EEgaimfCGN2nAfiN3KXy1F4TfcoByhmtX2bVOO2vAEQ==}
     engines: {node: '>=18.0.0'}
 
-  '@azure-tools/test-recorder@3.5.2':
-    resolution: {integrity: sha512-81vTGIiF7enEu4ekVrcLPlDPP9oQHL725pX87EIaVhmh1C3Sky4GE19adBiTcGXoahwB70xtHQ7i4HuFXDlhGg==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/abort-controller@1.1.0':
     resolution: {integrity: sha512-TrRLIoSQVzfAJX9H1JeFjzAoDGcoK1IYX1UImfceTZpsyYfWr09Ss1aHW1y5TrrR3iq6RZLBwJ3E24uwPhwahw==}
     engines: {node: '>=12.0.0'}
@@ -31824,15 +31823,6 @@ snapshots:
       '@azure/core-tracing': 1.2.0
       '@azure/core-util': 1.11.0
       tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure-tools/test-recorder@3.5.2':
-    dependencies:
-      '@azure/core-auth': 1.9.0
-      '@azure/core-rest-pipeline': 1.19.1
-      '@azure/core-util': 1.11.0
-      '@azure/logger': 1.1.4
     transitivePeerDependencies:
       - supports-color
 

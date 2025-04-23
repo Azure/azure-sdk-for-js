@@ -82,7 +82,6 @@
   "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "workspace:*",
-    "@azure-tools/test-recorder": "^3.0.0",
     "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-lro": "workspace:*",
