@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2-beta.1 (Unreleased)
+## 1.1.2-beta.1 (2025-04-23)
 
 ### Features Added
 - User defined functions support on ledger API
