@@ -21,7 +21,7 @@ parameters.
  *
  * @summary Provides a pageable list of workload item of a specific container according to the query filter and the pagination
 parameters.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/BackupWorkloadItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/BackupWorkloadItems_List.json
  */
 async function listWorkloadItemsInContainer(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function listWorkloadItemsInContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupWorkloadItems.list(
+  for await (const item of client.backupWorkloadItems.list(
     vaultName,
     resourceGroupName,
     fabricName,
@@ -50,7 +50,7 @@ async function listWorkloadItemsInContainer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWorkloadItemsInContainer();
+  await listWorkloadItemsInContainer();
 }
 
 main().catch(console.error);

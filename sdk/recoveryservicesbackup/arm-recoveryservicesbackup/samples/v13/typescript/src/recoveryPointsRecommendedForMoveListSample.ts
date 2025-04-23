@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the recovery points recommended for move to another tier
  *
  * @summary Lists the recovery points recommended for move to another tier
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
  */
 async function getProtectedAzureVMRecoveryPointsRecommendedForMove(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove(): Promise<vo
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recoveryPointsRecommendedForMove.list(
+  for await (const item of client.recoveryPointsRecommendedForMove.list(
     vaultName,
     resourceGroupName,
     fabricName,
@@ -53,7 +53,7 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  getProtectedAzureVMRecoveryPointsRecommendedForMove();
+  await getProtectedAzureVMRecoveryPointsRecommendedForMove();
 }
 
 main().catch(console.error);
