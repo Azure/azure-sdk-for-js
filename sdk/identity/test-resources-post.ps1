@@ -42,7 +42,7 @@ $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 $userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
-$subscriptionIDfromDeployment = $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
 
@@ -55,30 +55,25 @@ if ($CI) {
   Write-Host "Logging in to service principal"
   az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
   az account set --subscription $subscriptionIDfromDeployment
-  Write-Host "Subscription ID: $SubscriptionId"
-  Write-Host "Deployment output subscription ID $subscriptionIDfromDeployment"
 }
-# Login for
-az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
-$loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 
 # Azure Functions app deployment
 Write-Host "starting azure functions deployment"
-$image = "$loginServer/identity-azure-functions-image"
-docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureFunctions/RunTest"
-docker push $image
-az functionapp config container set -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] -i $image -r $loginServer -p $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query "passwords[0].value" -o tsv) -u $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query username -o tsv)
+Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 Write-Host "Deployed function app"
 
 # Azure Functions app deployment
 Write-Host "Deploying Identity Web App"
-Write-Host "starting deployment"
 Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
 az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true
 Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 Write-Host "Deployed Identity Web App"
 
 Write-Host "Deploying Identity Docker image to ACR"
+az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
+$loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
 docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image
