@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Scheduler
  *
  * @summary get a Scheduler
- * x-ms-original-file: 2024-10-01-preview/Schedulers_Get.json
+ * x-ms-original-file: 2025-04-01-preview/Schedulers_Get.json
  */
 async function schedulersGet() {
   const credential = new DefaultAzureCredential();

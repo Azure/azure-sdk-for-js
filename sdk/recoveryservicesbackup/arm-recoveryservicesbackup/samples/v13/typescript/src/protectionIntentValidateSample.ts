@@ -25,7 +25,7 @@ import "dotenv/config";
 1. Vault capacity
 2. VM is already protected
 3. Any VM related configuration passed in properties.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
  */
 async function validateEnableProtectionOnAzureVM(): Promise<void> {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function validateEnableProtectionOnAzureVM(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateEnableProtectionOnAzureVM();
+  await validateEnableProtectionOnAzureVM();
 }
 
 main().catch(console.error);
