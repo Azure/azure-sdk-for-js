@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 import type {
   AvailablePhoneNumber,
   PhoneNumberAssignmentType,
-  PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumberCapabilitiesRequest,
   PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumbersCreateOrUpdateReservationOptionalParams,
   PhoneNumbersCreateOrUpdateReservationResponse,
@@ -155,8 +156,14 @@ export interface ListReservationOptions extends PhoneNumbersListReservationsOpti
 /**
  * Additional options for browse available phone numbers request.
  */
-export interface BrowseAvailableNumbersOptions
-  extends PhoneNumbersBrowseAvailableNumbersOptionalParams {}
+export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptions{
+  /** The minimum desired capabilities for the browse operation request. */
+    capabilities?: PhoneNumberCapabilitiesRequest;
+    /** Represents the assignment type of the offering. Also known as the use case. */
+    assignmentType?: PhoneNumberAssignmentType;
+    /** The phone number prefix to match. If specified, the search will be limited to phone numbers that start with the any of the given prefixes. */
+    phoneNumberPrefixes?: string[];
+}
 
 /**
  * The result of the phone numbers browse operation.

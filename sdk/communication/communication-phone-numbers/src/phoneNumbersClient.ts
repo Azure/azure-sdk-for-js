@@ -315,7 +315,7 @@ export class PhoneNumbersClient {
   public browseAvailablePhoneNumbers(
     request: BrowseAvailableNumbersRequest,
     options?: BrowseAvailableNumbersOptions
-  ): Promise<BrowseAvailableNumbersResult> {
+  ): Promise<AvailablePhoneNumber[]> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-browseAvailableNumbers",
       options
@@ -326,6 +326,8 @@ export class PhoneNumbersClient {
       return this.client.phoneNumbers.browseAvailableNumbers(countryCode, phoneNumberType, {
         ...updatedOptions,
         ...rest,
+      }).then((response: BrowseAvailableNumbersResult) => {
+        return response.phoneNumbers
       });
     } catch (e: any) {
       span.setStatus({

@@ -265,7 +265,7 @@ export class PhoneNumbersClient {
     beginReservationPurchase(reservationId: string, options?: BeginReservationPurchaseOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
-    browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest, options?: BrowseAvailableNumbersOptions): Promise<BrowseAvailableNumbersResult>;
+    browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest, options?: BrowseAvailableNumbersOptions): Promise<AvailablePhoneNumber[]>;
     createOrUpdateReservation(options?: CreateOrUpdateReservationOptions): Promise<CreateOrUpdateReservationResult>;
     deleteReservation(reservationId: string, options?: DeleteReservationOptions): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
