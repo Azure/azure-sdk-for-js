@@ -3,23 +3,26 @@
 
 import { ServiceNetworkingManagementClient } from "./serviceNetworkingManagementClient.js";
 import {
-  _trafficControllerInterfaceDeleteDeserialize,
-  _trafficControllerInterfaceCreateOrUpdateDeserialize,
-} from "./api/trafficControllerInterface/index.js";
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/trafficControllerInterface/operations.js";
 import {
-  _securityPoliciesInterfaceDeleteDeserialize,
-  _securityPoliciesInterfaceCreateOrUpdateDeserialize,
-} from "./api/securityPoliciesInterface/index.js";
+  _$deleteDeserialize as _$deleteDeserializeSecurityPoliciesInterface,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSecurityPoliciesInterface,
+} from "./api/securityPoliciesInterface/operations.js";
 import {
-  _frontendsInterfaceDeleteDeserialize,
-  _frontendsInterfaceCreateOrUpdateDeserialize,
-} from "./api/frontendsInterface/index.js";
+  _$deleteDeserialize as _$deleteDeserializeFrontendsInterface,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeFrontendsInterface,
+} from "./api/frontendsInterface/operations.js";
 import {
-  _associationsInterfaceDeleteDeserialize,
-  _associationsInterfaceCreateOrUpdateDeserialize,
-} from "./api/associationsInterface/index.js";
+  _$deleteDeserialize as _$deleteDeserializeAssociationsInterface,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAssociationsInterface,
+} from "./api/associationsInterface/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -50,7 +53,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: ServiceNetworkingManagementClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -93,42 +98,42 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}":
     {
-      deserializer: _trafficControllerInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}":
     {
-      deserializer: _trafficControllerInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}":
     {
-      deserializer: _securityPoliciesInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserializeSecurityPoliciesInterface,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/securityPolicies/{securityPolicyName}":
     {
-      deserializer: _securityPoliciesInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeSecurityPoliciesInterface,
       expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}":
     {
-      deserializer: _frontendsInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserializeFrontendsInterface,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/frontends/{frontendName}":
     {
-      deserializer: _frontendsInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeFrontendsInterface,
       expectedStatuses: ["200", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}":
     {
-      deserializer: _associationsInterfaceDeleteDeserialize,
+      deserializer: _$deleteDeserializeAssociationsInterface,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}":
     {
-      deserializer: _associationsInterfaceCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserializeAssociationsInterface,
       expectedStatuses: ["200", "201"],
     },
 };
@@ -159,17 +164,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

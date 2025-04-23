@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  associationsInterfaceListByTrafficController,
-  associationsInterfaceDelete,
-  associationsInterfaceUpdate,
-  associationsInterfaceCreateOrUpdate,
-  associationsInterfaceGet,
-} from "../../api/associationsInterface/index.js";
 import { Association, AssociationUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   AssociationsInterfaceListByTrafficControllerOptionalParams,
   AssociationsInterfaceDeleteOptionalParams,
   AssociationsInterfaceUpdateOptionalParams,
   AssociationsInterfaceCreateOrUpdateOptionalParams,
   AssociationsInterfaceGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/associationsInterface/options.js";
+import {
+  listByTrafficController,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/associationsInterface/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AssociationsInterface operations. */
 export interface AssociationsInterfaceOperations {
@@ -29,6 +29,11 @@ export interface AssociationsInterfaceOperations {
     options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
   ) => PagedAsyncIterableIterator<Association>;
   /** Delete a Association */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,
@@ -60,14 +65,16 @@ export interface AssociationsInterfaceOperations {
   ) => Promise<Association>;
 }
 
-function _getAssociationsInterface(context: ServiceNetworkingManagementContext) {
+function _getAssociationsInterface(
+  context: ServiceNetworkingManagementContext,
+) {
   return {
     listByTrafficController: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
     ) =>
-      associationsInterfaceListByTrafficController(
+      listByTrafficController(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -79,7 +86,7 @@ function _getAssociationsInterface(context: ServiceNetworkingManagementContext) 
       associationName: string,
       options?: AssociationsInterfaceDeleteOptionalParams,
     ) =>
-      associationsInterfaceDelete(
+      $delete(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -93,7 +100,7 @@ function _getAssociationsInterface(context: ServiceNetworkingManagementContext) 
       properties: AssociationUpdate,
       options?: AssociationsInterfaceUpdateOptionalParams,
     ) =>
-      associationsInterfaceUpdate(
+      update(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -108,7 +115,7 @@ function _getAssociationsInterface(context: ServiceNetworkingManagementContext) 
       resource: Association,
       options?: AssociationsInterfaceCreateOrUpdateOptionalParams,
     ) =>
-      associationsInterfaceCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -122,7 +129,7 @@ function _getAssociationsInterface(context: ServiceNetworkingManagementContext) 
       associationName: string,
       options?: AssociationsInterfaceGetOptionalParams,
     ) =>
-      associationsInterfaceGet(
+      get(
         context,
         resourceGroupName,
         trafficControllerName,

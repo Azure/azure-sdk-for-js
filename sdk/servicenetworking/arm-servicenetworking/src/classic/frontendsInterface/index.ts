@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  frontendsInterfaceListByTrafficController,
-  frontendsInterfaceDelete,
-  frontendsInterfaceUpdate,
-  frontendsInterfaceCreateOrUpdate,
-  frontendsInterfaceGet,
-} from "../../api/frontendsInterface/index.js";
 import { Frontend, FrontendUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FrontendsInterfaceListByTrafficControllerOptionalParams,
   FrontendsInterfaceDeleteOptionalParams,
   FrontendsInterfaceUpdateOptionalParams,
   FrontendsInterfaceCreateOrUpdateOptionalParams,
   FrontendsInterfaceGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/frontendsInterface/options.js";
+import {
+  listByTrafficController,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/frontendsInterface/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FrontendsInterface operations. */
 export interface FrontendsInterfaceOperations {
@@ -29,6 +29,11 @@ export interface FrontendsInterfaceOperations {
     options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
   ) => PagedAsyncIterableIterator<Frontend>;
   /** Delete a Frontend */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,
@@ -67,7 +72,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       trafficControllerName: string,
       options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
     ) =>
-      frontendsInterfaceListByTrafficController(
+      listByTrafficController(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -79,7 +84,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       frontendName: string,
       options?: FrontendsInterfaceDeleteOptionalParams,
     ) =>
-      frontendsInterfaceDelete(
+      $delete(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -93,7 +98,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       properties: FrontendUpdate,
       options?: FrontendsInterfaceUpdateOptionalParams,
     ) =>
-      frontendsInterfaceUpdate(
+      update(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -108,7 +113,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       resource: Frontend,
       options?: FrontendsInterfaceCreateOrUpdateOptionalParams,
     ) =>
-      frontendsInterfaceCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -122,7 +127,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       frontendName: string,
       options?: FrontendsInterfaceGetOptionalParams,
     ) =>
-      frontendsInterfaceGet(
+      get(
         context,
         resourceGroupName,
         trafficControllerName,

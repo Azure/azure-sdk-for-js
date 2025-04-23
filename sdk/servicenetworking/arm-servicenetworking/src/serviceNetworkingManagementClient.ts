@@ -1,28 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import {
-  _getTrafficControllerInterfaceOperations,
-  TrafficControllerInterfaceOperations,
-} from "./classic/trafficControllerInterface/index.js";
-import {
-  _getSecurityPoliciesInterfaceOperations,
-  SecurityPoliciesInterfaceOperations,
-} from "./classic/securityPoliciesInterface/index.js";
-import {
-  _getFrontendsInterfaceOperations,
-  FrontendsInterfaceOperations,
-} from "./classic/frontendsInterface/index.js";
-import {
-  _getAssociationsInterfaceOperations,
-  AssociationsInterfaceOperations,
-} from "./classic/associationsInterface/index.js";
 import {
   createServiceNetworkingManagement,
   ServiceNetworkingManagementContext,
   ServiceNetworkingManagementClientOptionalParams,
 } from "./api/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  TrafficControllerInterfaceOperations,
+  _getTrafficControllerInterfaceOperations,
+} from "./classic/trafficControllerInterface/index.js";
+import {
+  SecurityPoliciesInterfaceOperations,
+  _getSecurityPoliciesInterfaceOperations,
+} from "./classic/securityPoliciesInterface/index.js";
+import {
+  FrontendsInterfaceOperations,
+  _getFrontendsInterfaceOperations,
+} from "./classic/frontendsInterface/index.js";
+import {
+  AssociationsInterfaceOperations,
+  _getAssociationsInterfaceOperations,
+} from "./classic/associationsInterface/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -43,16 +46,23 @@ export class ServiceNetworkingManagementClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createServiceNetworkingManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createServiceNetworkingManagement(
+      credential,
+      subscriptionId,
+      { ...options, userAgentOptions: { userAgentPrefix } },
+    );
     this.pipeline = this._client.pipeline;
     this.operations = _getOperationsOperations(this._client);
-    this.trafficControllerInterface = _getTrafficControllerInterfaceOperations(this._client);
-    this.securityPoliciesInterface = _getSecurityPoliciesInterfaceOperations(this._client);
+    this.trafficControllerInterface = _getTrafficControllerInterfaceOperations(
+      this._client,
+    );
+    this.securityPoliciesInterface = _getSecurityPoliciesInterfaceOperations(
+      this._client,
+    );
     this.frontendsInterface = _getFrontendsInterfaceOperations(this._client);
-    this.associationsInterface = _getAssociationsInterfaceOperations(this._client);
+    this.associationsInterface = _getAssociationsInterfaceOperations(
+      this._client,
+    );
   }
 
   /** The operation groups for operations */

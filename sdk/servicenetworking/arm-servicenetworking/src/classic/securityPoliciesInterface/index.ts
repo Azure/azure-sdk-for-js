@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  securityPoliciesInterfaceListByTrafficController,
-  securityPoliciesInterfaceDelete,
-  securityPoliciesInterfaceUpdate,
-  securityPoliciesInterfaceCreateOrUpdate,
-  securityPoliciesInterfaceGet,
-} from "../../api/securityPoliciesInterface/index.js";
 import { SecurityPolicy, SecurityPolicyUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   SecurityPoliciesInterfaceDeleteOptionalParams,
   SecurityPoliciesInterfaceUpdateOptionalParams,
   SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
   SecurityPoliciesInterfaceGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/securityPoliciesInterface/options.js";
+import {
+  listByTrafficController,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/securityPoliciesInterface/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SecurityPoliciesInterface operations. */
 export interface SecurityPoliciesInterfaceOperations {
@@ -29,6 +29,11 @@ export interface SecurityPoliciesInterfaceOperations {
     options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   ) => PagedAsyncIterableIterator<SecurityPolicy>;
   /** Delete a SecurityPolicy */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,
@@ -60,14 +65,16 @@ export interface SecurityPoliciesInterfaceOperations {
   ) => Promise<SecurityPolicy>;
 }
 
-function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementContext) {
+function _getSecurityPoliciesInterface(
+  context: ServiceNetworkingManagementContext,
+) {
   return {
     listByTrafficController: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
     ) =>
-      securityPoliciesInterfaceListByTrafficController(
+      listByTrafficController(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -79,7 +86,7 @@ function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementConte
       securityPolicyName: string,
       options?: SecurityPoliciesInterfaceDeleteOptionalParams,
     ) =>
-      securityPoliciesInterfaceDelete(
+      $delete(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -93,7 +100,7 @@ function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementConte
       properties: SecurityPolicyUpdate,
       options?: SecurityPoliciesInterfaceUpdateOptionalParams,
     ) =>
-      securityPoliciesInterfaceUpdate(
+      update(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -108,7 +115,7 @@ function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementConte
       resource: SecurityPolicy,
       options?: SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
     ) =>
-      securityPoliciesInterfaceCreateOrUpdate(
+      createOrUpdate(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -122,7 +129,7 @@ function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementConte
       securityPolicyName: string,
       options?: SecurityPoliciesInterfaceGetOptionalParams,
     ) =>
-      securityPoliciesInterfaceGet(
+      get(
         context,
         resourceGroupName,
         trafficControllerName,
