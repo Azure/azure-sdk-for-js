@@ -40,23 +40,23 @@ export class ReplicationProtectableItemsImpl
 
   /**
    * Lists the protectable items in a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   public listByReplicationProtectionContainers(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ProtectableItem> {
     const iter = this.listByReplicationProtectionContainersPagingAll(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       options,
@@ -73,8 +73,8 @@ export class ReplicationProtectableItemsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByReplicationProtectionContainersPagingPage(
-          resourceName,
           resourceGroupName,
+          resourceName,
           fabricName,
           protectionContainerName,
           options,
@@ -85,8 +85,8 @@ export class ReplicationProtectableItemsImpl
   }
 
   private async *listByReplicationProtectionContainersPagingPage(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
@@ -96,8 +96,8 @@ export class ReplicationProtectableItemsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByReplicationProtectionContainers(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         options,
@@ -109,8 +109,8 @@ export class ReplicationProtectableItemsImpl
     }
     while (continuationToken) {
       result = await this._listByReplicationProtectionContainersNext(
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         continuationToken,
@@ -124,15 +124,15 @@ export class ReplicationProtectableItemsImpl
   }
 
   private async *listByReplicationProtectionContainersPagingAll(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ): AsyncIterableIterator<ProtectableItem> {
     for await (const page of this.listByReplicationProtectionContainersPagingPage(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       options,
@@ -143,24 +143,24 @@ export class ReplicationProtectableItemsImpl
 
   /**
    * Lists the protectable items in a protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   private _listByReplicationProtectionContainers(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams,
   ): Promise<ReplicationProtectableItemsListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         options,
@@ -171,17 +171,17 @@ export class ReplicationProtectableItemsImpl
 
   /**
    * The operation to get the details of a protectable item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param protectableItemName Protectable item name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     protectableItemName: string,
@@ -189,8 +189,8 @@ export class ReplicationProtectableItemsImpl
   ): Promise<ReplicationProtectableItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         protectableItemName,
@@ -202,9 +202,9 @@ export class ReplicationProtectableItemsImpl
 
   /**
    * ListByReplicationProtectionContainersNext
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param nextLink The nextLink from the previous successful call to the
@@ -212,8 +212,8 @@ export class ReplicationProtectableItemsImpl
    * @param options The options parameters.
    */
   private _listByReplicationProtectionContainersNext(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     nextLink: string,
@@ -221,8 +221,8 @@ export class ReplicationProtectableItemsImpl
   ): Promise<ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceName,
         resourceGroupName,
+        resourceName,
         fabricName,
         protectionContainerName,
         nextLink,
