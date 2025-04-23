@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 import {
-  getScheduledActionsOperations,
+  _getScheduledActionsOperations,
   ScheduledActionsOperations,
 } from "./classic/scheduledActions/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  _getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   createComputeSchedule,
   ComputeScheduleContext,
@@ -36,8 +39,8 @@ export class ComputeScheduleClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.scheduledActions = getScheduledActionsOperations(this._client);
-    this.operations = getOperationsOperations(this._client);
+    this.scheduledActions = _getScheduledActionsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
   /** The operation groups for scheduledActions */

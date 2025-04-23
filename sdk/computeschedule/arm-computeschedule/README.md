@@ -59,22 +59,21 @@ const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new ComputeScheduleClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
-or browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new ComputeScheduleClient(credential, subscriptionId);
 ```
 
-### JavaScript Bundle
 
+### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts

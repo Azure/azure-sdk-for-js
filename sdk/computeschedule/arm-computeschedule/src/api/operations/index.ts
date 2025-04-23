@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
+  ComputeScheduleContext as Client,
+  OperationsListOptionalParams,
+} from "../index.js";
+import {
+  errorResponseDeserializer,
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
@@ -11,6 +15,7 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -22,14 +27,24 @@ export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context.path("/providers/Microsoft.ComputeSchedule/operations").get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.ComputeSchedule/operations{?api-version}",
+    {
+      "api-version": context.apiVersion,
     },
-    queryParameters: { "api-version": context.apiVersion },
-  });
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listDeserialize(
@@ -37,7 +52,9 @@ export async function _listDeserialize(
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _operationListResultDeserializer(result.body);
