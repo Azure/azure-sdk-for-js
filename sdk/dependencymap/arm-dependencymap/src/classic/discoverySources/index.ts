@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { DependencyMapContext } from "../../api/dependencyMapContext.js";
-import {
-  DiscoverySourceResource,
-  DiscoverySourceResourceTagsUpdate,
-} from "../../models/models.js";
+import { DiscoverySourceResource, DiscoverySourceResourceTagsUpdate } from "../../models/models.js";
 import {
   DiscoverySourcesListByMapsResourceOptionalParams,
   DiscoverySourcesDeleteOptionalParams,
@@ -50,10 +47,7 @@ export interface DiscoverySourcesOperations {
     sourceName: string,
     properties: DiscoverySourceResourceTagsUpdate,
     options?: DiscoverySourcesUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<DiscoverySourceResource>,
-    DiscoverySourceResource
-  >;
+  ) => PollerLike<OperationState<DiscoverySourceResource>, DiscoverySourceResource>;
   /** Create a DiscoverySourceResource */
   createOrUpdate: (
     resourceGroupName: string,
@@ -61,10 +55,7 @@ export interface DiscoverySourcesOperations {
     sourceName: string,
     resource: DiscoverySourceResource,
     options?: DiscoverySourcesCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<DiscoverySourceResource>,
-    DiscoverySourceResource
-  >;
+  ) => PollerLike<OperationState<DiscoverySourceResource>, DiscoverySourceResource>;
   /** Get a DiscoverySourceResource */
   get: (
     resourceGroupName: string,
@@ -93,30 +84,14 @@ function _getDiscoverySources(context: DependencyMapContext) {
       sourceName: string,
       properties: DiscoverySourceResourceTagsUpdate,
       options?: DiscoverySourcesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        mapName,
-        sourceName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, mapName, sourceName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       mapName: string,
       sourceName: string,
       resource: DiscoverySourceResource,
       options?: DiscoverySourcesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        mapName,
-        sourceName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, mapName, sourceName, resource, options),
     get: (
       resourceGroupName: string,
       mapName: string,

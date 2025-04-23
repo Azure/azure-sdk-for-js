@@ -24,19 +24,16 @@ export interface MapsGetConnectionsWithConnectedMachineForFocusedMachineOptional
 }
 
 /** Optional parameters. */
-export interface MapsGetDependencyViewForFocusedMachineOptionalParams
-  extends OperationOptions {
+export interface MapsGetDependencyViewForFocusedMachineOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface MapsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface MapsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface MapsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface MapsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface MapsDeleteOptionalParams extends OperationOptions {
