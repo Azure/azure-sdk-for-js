@@ -6502,12 +6502,6 @@ importers:
       '@azure/logger':
         specifier: workspace:*
         version: link:../logger
-      http-proxy-agent:
-        specifier: ^7.0.0
-        version: 7.0.2
-      https-proxy-agent:
-        specifier: ^7.0.0
-        version: 7.0.6
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -19126,6 +19120,64 @@ importers:
         specifier: catalog:testing
         version: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.1.1)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
+  sdk/portalservices/arm-portalservicescopilot:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client-rest
+      '@azure/core-auth':
+        specifier: workspace:*
+        version: link:../../core/core-auth
+      '@azure/core-rest-pipeline':
+        specifier: workspace:*
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: workspace:*
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: workspace:*
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:*
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:*
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:*
+        version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.8.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 18.19.81
+      '@vitest/browser':
+        specifier: catalog:testing
+        version: 3.1.1(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(playwright@1.51.1)(vite@6.2.2(@types/node@18.19.81)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.1.1)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 3.1.1(vitest@3.1.1)
+      dotenv:
+        specifier: catalog:testing
+        version: 16.4.7
+      playwright:
+        specifier: catalog:testing
+        version: 1.51.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.8.2
+      vitest:
+        specifier: catalog:testing
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@18.19.81)(@vitest/browser@3.1.1)(jsdom@16.7.0)(msw@2.7.3(@types/node@18.19.81)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+
   sdk/postgresql/arm-postgresql:
     dependencies:
       '@azure/abort-controller':
@@ -26875,10 +26927,6 @@ packages:
     resolution: {integrity: sha512-z7kJlMW3IAETyq82LDKJqr++IeOvU728q9lkuTFjEIPUWxnB1OlmuPCF32fYurxOnOnJeFEZxjbEzq8xyP0aag==}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-common@15.2.1':
-    resolution: {integrity: sha512-eZHtYE5OHDN0o2NahCENkczQ6ffGc0MoUSAI3hpwGpZBHJXaEQMMZPWtIx86da2L9w7uT+Tr/xgJbGwIkvTZTQ==}
-    engines: {node: '>=0.8.0'}
-
   '@azure/msal-common@15.3.0':
     resolution: {integrity: sha512-lh+eZfibGwtQxFnx+mj6cYWn0pwA8tDnn8CBs9P21nC7Uw5YWRwfXaXdVQSMENZ5ojRqR+NzRaucEo4qUvs3pA==}
     engines: {node: '>=0.8.0'}
@@ -26897,10 +26945,6 @@ packages:
 
   '@azure/msal-node-runtime@0.18.1':
     resolution: {integrity: sha512-vaUkpSiXD33/iDyZt1VZDEyOxvlNMT5o9D4ruIqkUmULyKgUik0y86DK2dsqZql/LU04T5siuq1AMTus+15SvA==}
-
-  '@azure/msal-node@3.3.0':
-    resolution: {integrity: sha512-ulsT3EHF1RQ29X55cxBLgKsIKWni9JdbUqG7sipGVP4uhWcBpmm/vhKOMH340+27Acm9+kHGnN/5XmQ5LrIDgA==}
-    engines: {node: '>=16'}
 
   '@azure/msal-node@3.5.1':
     resolution: {integrity: sha512-dkgMYM5B6tI88r/oqf5bYd93WkenQpaWwiszJDk7avVjso8cmuKRTW97dA1RMi6RhihZFLtY1VtWxU9+sW2T5g==}
@@ -32297,7 +32341,7 @@ snapshots:
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
       '@azure/msal-browser': 4.8.0
-      '@azure/msal-node': 3.3.0
+      '@azure/msal-node': 3.5.1
       events: 3.3.0
       jws: 4.0.0
       open: 10.1.0
@@ -32417,8 +32461,6 @@ snapshots:
     dependencies:
       '@azure/msal-common': 15.3.0
 
-  '@azure/msal-common@15.2.1': {}
-
   '@azure/msal-common@15.3.0': {}
 
   '@azure/msal-common@15.4.0': {}
@@ -32432,12 +32474,6 @@ snapshots:
       keytar: 7.9.0
 
   '@azure/msal-node-runtime@0.18.1': {}
-
-  '@azure/msal-node@3.3.0':
-    dependencies:
-      '@azure/msal-common': 15.2.1
-      jsonwebtoken: 9.0.2
-      uuid: 8.3.2
 
   '@azure/msal-node@3.5.1':
     dependencies:
@@ -33896,7 +33932,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.81
+      '@types/node': 22.14.0
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
