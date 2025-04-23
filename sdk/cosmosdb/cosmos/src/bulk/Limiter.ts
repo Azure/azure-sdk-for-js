@@ -5,6 +5,7 @@ import { StatusCodes } from "../common/statusCodes.js";
 import type { RetryCallback } from "../utils/batch.js";
 import type { BulkBatcher } from "./BulkBatcher.js";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
+import type { ItemBulkOperation } from "./ItemBulkOperation.js";
 
 export type Task<T = any> = () => Promise<T>;
 
@@ -134,16 +135,18 @@ export class LimiterQueue {
   public async pauseAndClear<T = any>(customValue: T): Promise<void> {
     this.terminated = true;
     this.terminatedValue = customValue;
+    const operationsList: ItemBulkOperation[] = [];
     while (!this.tasks.isEmpty()) {
       const queueItem = this.tasks.shift();
       if (!queueItem) break;
       if (customValue === StatusCodes.Gone) {
         const operations = queueItem.batcher.getOperations();
-        for (const operation of operations) {
-          await this.retrier(operation, operation.operationContext.diagnosticNode);
-        }
+        operationsList.push(...operations);
       }
       queueItem.resolve(customValue);
+    }
+    for (const operation of operationsList) {
+      await this.retrier(operation, operation.operationContext.diagnosticNode);
     }
   }
 

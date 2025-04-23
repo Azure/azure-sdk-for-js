@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../client/index.js";
 import { sleep } from "../common/helper.js";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ErrorResponse } from "../index.js";
-import type { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
 
 /**
@@ -19,17 +17,9 @@ export class BulkExecutionRetryPolicy implements RetryPolicy {
   private readonly MaxRetriesOn410 = 10;
   private readonly SubstatusCodeBatchResponseSizeExceeded = 3402;
   nextRetryPolicy: RetryPolicy;
-  private container: Container;
-  private partitionKeyRangeCache: PartitionKeyRangeCache;
 
-  constructor(
-    container: Container,
-    nextRetryPolicy: RetryPolicy,
-    partitionKeyRangeCache: PartitionKeyRangeCache,
-  ) {
-    this.container = container;
+  constructor(nextRetryPolicy: RetryPolicy) {
     this.nextRetryPolicy = nextRetryPolicy;
-    this.partitionKeyRangeCache = partitionKeyRangeCache;
     this.retriesOn410 = 0;
   }
 
@@ -51,11 +41,6 @@ export class BulkExecutionRetryPolicy implements RetryPolicy {
         err.substatus === SubStatusCodes.CompletingSplit ||
         err.substatus === SubStatusCodes.CompletingPartitionMigration
       ) {
-        await this.partitionKeyRangeCache.onCollectionRoutingMap(
-          this.container.url,
-          diagnosticNode,
-          true,
-        );
         return true;
       }
       if (err.substatus === SubStatusCodes.NameCacheIsStale) {

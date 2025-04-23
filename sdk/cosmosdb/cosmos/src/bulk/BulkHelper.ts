@@ -67,6 +67,7 @@ export class BulkHelper {
     this.options = options;
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
+    this.refreshPartitionKeyRangeCache = this.refreshPartitionKeyRangeCache.bind(this);
     this.isCancelled = false;
     this.runCongestionControlTimer();
   }
@@ -253,11 +254,7 @@ export class BulkHelper {
 
   private getRetryPolicy(): RetryPolicy {
     const nextRetryPolicy = new ResourceThrottleRetryPolicy(this.clientContext.getRetryOptions());
-    return new BulkExecutionRetryPolicy(
-      this.container,
-      nextRetryPolicy,
-      this.partitionKeyRangeCache,
-    );
+    return new BulkExecutionRetryPolicy(nextRetryPolicy);
   }
 
   private async executeRequest(
@@ -346,6 +343,7 @@ export class BulkHelper {
     const newHelper = new BulkHelperPerPartition(
       this.executeRequest,
       this.reBatchOperation,
+      this.refreshPartitionKeyRangeCache,
       this.clientContext.diagnosticLevel,
       this.clientContext.enableEncryption,
       this.clientContext.getClientConfig(),
@@ -362,5 +360,15 @@ export class BulkHelper {
         helper.runCongestionAlgorithm();
       });
     }, this.congestionControlDelayInMs);
+  }
+
+  private async refreshPartitionKeyRangeCache(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<void> {
+    await this.partitionKeyRangeCache.onCollectionRoutingMap(
+      this.container.url,
+      diagnosticNode,
+      true,
+    );
   }
 }

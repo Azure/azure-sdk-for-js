@@ -5,7 +5,7 @@ import semaphore from "semaphore";
 import { StatusCodes } from "../common/statusCodes.js";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
-import type { ClientConfigDiagnostic } from "../index.js";
+import type { ClientConfigDiagnostic, DiagnosticNodeInternal } from "../index.js";
 import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
 import { BulkBatcher } from "./BulkBatcher.js";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm.js";
@@ -34,10 +34,14 @@ export class BulkHelperPerPartition {
   private readonly dispatchLimiterQueue: LimiterQueue;
   private initialConcurrency: number = 1;
   private processedOperationCountRef: { count: number };
+  private readonly refreshpartitionKeyRangeCache: (
+    diagnosticNode: DiagnosticNodeInternal,
+  ) => Promise<void>;
 
   constructor(
     executor: ExecuteCallback,
     retrier: RetryCallback,
+    refreshpartitionKeyRangeCache: (diagnosticNode: DiagnosticNodeInternal) => Promise<void>,
     diagnosticLevel: CosmosDbDiagnosticLevel,
     encryptionEnabled: boolean,
     clientConfig: ClientConfigDiagnostic,
@@ -46,6 +50,7 @@ export class BulkHelperPerPartition {
   ) {
     this.executor = executor;
     this.retrier = retrier;
+    this.refreshpartitionKeyRangeCache = refreshpartitionKeyRangeCache;
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
@@ -138,6 +143,7 @@ export class BulkHelperPerPartition {
       this.dispatchLimiterQueue,
       this.executor,
       this.retrier,
+      this.refreshpartitionKeyRangeCache,
       this.diagnosticLevel,
       this.encryptionEnabled,
       this.clientConfigDiagnostics,

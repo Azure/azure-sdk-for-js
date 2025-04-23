@@ -3,30 +3,16 @@
 
 import { assert, beforeEach, describe, it } from "vitest";
 import { SubStatusCodes } from "../../../../src/common/statusCodes.js";
-import type { Container, RetryOptions } from "../../../../src/index.js";
+import type { RetryOptions } from "../../../../src/index.js";
 import { ErrorResponse, StatusCodes } from "../../../../src/index.js";
 import { BulkExecutionRetryPolicy } from "../../../../src/retry/bulkExecutionRetryPolicy.js";
 import { ResourceThrottleRetryPolicy } from "../../../../src/retry/resourceThrottleRetryPolicy.js";
-import type { PartitionKeyRangeCache } from "../../../../src/routing/partitionKeyRangeCache.js";
 
 describe("BulkExecutionRetryPolicy", () => {
   let retryPolicy: BulkExecutionRetryPolicy;
-  let mockPartitionKeyRangeCache: PartitionKeyRangeCache;
-  let mockContainer: Container;
-  let calledPartitionkeyRefresh: boolean;
 
   beforeEach(() => {
-    mockContainer = {} as Container;
-    mockPartitionKeyRangeCache = {
-      onCollectionRoutingMap: async () => {
-        calledPartitionkeyRefresh = true;
-      },
-    } as unknown as PartitionKeyRangeCache;
-    retryPolicy = new BulkExecutionRetryPolicy(
-      mockContainer,
-      new ResourceThrottleRetryPolicy({}),
-      mockPartitionKeyRangeCache,
-    );
+    retryPolicy = new BulkExecutionRetryPolicy(new ResourceThrottleRetryPolicy({}));
   });
   it("shouldRetry returns false if no error is provided", async () => {
     const shouldRetryResult = await retryPolicy.shouldRetry(null, {} as any);
@@ -38,14 +24,10 @@ describe("BulkExecutionRetryPolicy", () => {
     err.substatus = SubStatusCodes.PartitionKeyRangeGone;
     // MaxRetriesOn410 is 10
     for (let i = 0; i < 10; i++) {
-      calledPartitionkeyRefresh = false;
       const shouldRetryResult = await retryPolicy.shouldRetry(err, {} as any);
-      assert.strictEqual(calledPartitionkeyRefresh, true);
       assert.strictEqual(shouldRetryResult, true);
     }
-    calledPartitionkeyRefresh = false;
     const shouldRetryResult = await retryPolicy.shouldRetry(err, {} as any);
-    assert.strictEqual(calledPartitionkeyRefresh, false);
     assert.strictEqual(shouldRetryResult, false);
   });
 
