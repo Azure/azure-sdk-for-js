@@ -9,7 +9,7 @@
 import {
   ClusterRecoveryPointGetOptionalParams,
   ClusterRecoveryPointGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ClusterRecoveryPointOperations. */
 export interface ClusterRecoveryPointOperations {

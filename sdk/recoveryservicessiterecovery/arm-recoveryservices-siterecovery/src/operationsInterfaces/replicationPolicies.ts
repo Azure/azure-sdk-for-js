@@ -20,7 +20,7 @@ import {
   UpdatePolicyInput,
   ReplicationPoliciesUpdateOptionalParams,
   ReplicationPoliciesUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationPolicies. */

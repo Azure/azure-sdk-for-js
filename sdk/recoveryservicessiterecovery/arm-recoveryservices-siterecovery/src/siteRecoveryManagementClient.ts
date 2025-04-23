@@ -46,7 +46,7 @@ import {
   SupportedOperatingSystemsOperationsImpl,
   ReplicationVaultHealthImpl,
   ReplicationVaultSettingImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   ReplicationAlertSettings,
@@ -79,8 +79,8 @@ import {
   SupportedOperatingSystemsOperations,
   ReplicationVaultHealth,
   ReplicationVaultSetting,
-} from "./operationsInterfaces";
-import { SiteRecoveryManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SiteRecoveryManagementClientOptionalParams } from "./models/index.js";
 
 export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   $host: string;

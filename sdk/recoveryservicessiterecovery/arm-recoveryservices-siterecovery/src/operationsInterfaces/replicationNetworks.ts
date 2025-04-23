@@ -13,7 +13,7 @@ import {
   ReplicationNetworksListOptionalParams,
   ReplicationNetworksGetOptionalParams,
   ReplicationNetworksGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationNetworks. */
