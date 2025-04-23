@@ -33,7 +33,8 @@ export class GlobalPartitionEndpointManager {
     if (this.preferredLocationsCount <= 0) {
       return false;
     }
-    if (this.globalEndpointManager.getReadEndpoints.length <= 1) {
+    const readEndPoints = await this.globalEndpointManager.getReadEndpoints();
+    if (readEndPoints.length <= 1) {
       return false;
     }
     if (
@@ -43,7 +44,11 @@ export class GlobalPartitionEndpointManager {
       // Disable for multimaster because it currently
       // depends on 403.3 to signal the primary region is backup
       // and to fail back over
-      if (!this.globalEndpointManager.canUseMultipleWriteLocations(resourceType, operationType)) {
+      const canUseMultipleWriteLocations = this.globalEndpointManager.canUseMultipleWriteLocations(
+        resourceType,
+        operationType,
+      );
+      if (!canUseMultipleWriteLocations) {
         return true;
       }
     }
@@ -63,15 +68,15 @@ export class GlobalPartitionEndpointManager {
     if (requestContext.operationType && isReadRequest(requestContext.operationType)) {
       return false;
     }
-    if (
-      requestContext.operationType &&
-      requestContext.resourceType &&
-      !this.CanUsePartitionLevelFailoverLocations(
-        requestContext.operationType,
-        requestContext.resourceType,
-      )
-    ) {
-      return false;
+    if (requestContext.operationType && requestContext.resourceType) {
+      const canUsePartitionLevelFailoverLocations =
+        await this.CanUsePartitionLevelFailoverLocations(
+          requestContext.operationType,
+          requestContext.resourceType,
+        );
+      if (!canUsePartitionLevelFailoverLocations) {
+        return false;
+      }
     }
 
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
@@ -113,15 +118,15 @@ export class GlobalPartitionEndpointManager {
     if (requestContext.operationType && isReadRequest(requestContext.operationType)) {
       return false;
     }
-    if (
-      requestContext.operationType &&
-      requestContext.resourceType &&
-      !this.CanUsePartitionLevelFailoverLocations(
-        requestContext.operationType,
-        requestContext.resourceType,
-      )
-    ) {
-      return false;
+    if (requestContext.operationType && requestContext.resourceType) {
+      const canUsePartitionLevelFailoverLocations =
+        await this.CanUsePartitionLevelFailoverLocations(
+          requestContext.operationType,
+          requestContext.resourceType,
+        );
+      if (!canUsePartitionLevelFailoverLocations) {
+        return false;
+      }
     }
 
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;

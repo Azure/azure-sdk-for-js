@@ -109,11 +109,12 @@ export async function execute({
         requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
 
       const overridePresent =
-        requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+        await requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
           requestContext,
         );
-      if (overridePresent) {
-        const newUrl = (overridePresent as any)[1];
+
+      if (overridePresent && typeof overridePresent === "object") {
+        const newUrl = overridePresent[1];
         if (newUrl !== undefined) {
           requestContext.endpoint = newUrl;
         }
