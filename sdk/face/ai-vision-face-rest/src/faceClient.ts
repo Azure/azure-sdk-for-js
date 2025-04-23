@@ -26,10 +26,7 @@ export default function createClient(
   credentials: TokenCredential | KeyCredential,
   { apiVersion = "v1.2", ...options }: FaceClientOptions = {},
 ): FaceClient {
-  const endpointUrl =
-    options.endpoint ??
-    options.baseUrl ??
-    `${endpointParam}/face/${apiVersion}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/face/${apiVersion}`;
   const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -44,11 +41,8 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://cognitiveservices.azure.com/.default",
-      ],
-      apiKeyHeaderName:
-        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
   const client = getClient(endpointUrl, credentials, options) as FaceClient;
