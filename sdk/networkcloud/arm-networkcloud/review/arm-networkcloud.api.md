@@ -187,6 +187,12 @@ export interface AgentPoolUpgradeSettings {
 }
 
 // @public
+export interface AnalyticsOutputSettings {
+    analyticsWorkspaceId?: string;
+    associatedIdentity?: IdentitySelector;
+}
+
+// @public
 export interface AttachedNetworkConfiguration {
     l2Networks?: L2NetworkAttachmentConfiguration[];
     l3Networks?: L3NetworkAttachmentConfiguration[];
@@ -984,6 +990,7 @@ export type CloudServicesNetworksUpdateResponse = CloudServicesNetwork;
 // @public
 export interface Cluster extends TrackedResource {
     aggregatorOrSingleRackDefinition: RackDefinition;
+    analyticsOutputSettings?: AnalyticsOutputSettings;
     analyticsWorkspaceId?: string;
     readonly availableUpgradeVersions?: ClusterAvailableUpgradeVersion[];
     readonly clusterCapacity?: ClusterCapacity;
@@ -1009,8 +1016,10 @@ export interface Cluster extends TrackedResource {
     readonly provisioningState?: ClusterProvisioningState;
     runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
     secretArchive?: ClusterSecretArchive;
+    secretArchiveSettings?: SecretArchiveSettings;
     readonly supportExpiryDate?: string;
     updateStrategy?: ClusterUpdateStrategy;
+    vulnerabilityScanningSettings?: VulnerabilityScanningSettings;
     readonly workloadResourceIds?: string[];
 }
 
@@ -1223,6 +1232,7 @@ export type ClusterMetricsConfigurationProvisioningState = string;
 // @public
 export interface ClusterPatchParameters {
     aggregatorOrSingleRackDefinition?: RackDefinition;
+    analyticsOutputSettings?: AnalyticsOutputSettings;
     clusterLocation?: string;
     clusterServicePrincipal?: ServicePrincipalInformation;
     commandOutputSettings?: CommandOutputSettings;
@@ -1231,10 +1241,12 @@ export interface ClusterPatchParameters {
     identity?: ManagedServiceIdentity;
     runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
     secretArchive?: ClusterSecretArchive;
+    secretArchiveSettings?: SecretArchiveSettings;
     tags?: {
         [propertyName: string]: string;
     };
     updateStrategy?: ClusterUpdateStrategy;
+    vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
 }
 
 // @public
@@ -2257,7 +2269,8 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownOsDiskCreateOption {
-    Ephemeral = "Ephemeral"
+    Ephemeral = "Ephemeral",
+    Persistent = "Persistent"
 }
 
 // @public
@@ -2326,6 +2339,7 @@ export enum KnownSkipShutdown {
 // @public
 export enum KnownStorageApplianceDetailedStatus {
     Available = "Available",
+    Degraded = "Degraded",
     Error = "Error",
     Provisioning = "Provisioning"
 }
@@ -2388,7 +2402,8 @@ export enum KnownVirtualMachineDetailedStatus {
 // @public
 export enum KnownVirtualMachineDeviceModelType {
     T1 = "T1",
-    T2 = "T2"
+    T2 = "T2",
+    T3 = "T3"
 }
 
 // @public
@@ -2458,6 +2473,12 @@ export enum KnownVolumeProvisioningState {
     Failed = "Failed",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownVulnerabilityScanningSettingsContainerScan {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3576,6 +3597,12 @@ export interface SecretArchiveReference {
 }
 
 // @public
+export interface SecretArchiveSettings {
+    associatedIdentity?: IdentitySelector;
+    vaultUri?: string;
+}
+
+// @public
 export interface SecretRotationStatus {
     readonly expirePeriodDays?: number;
     readonly lastRotationTime?: Date;
@@ -3990,6 +4017,7 @@ export interface VirtualMachine extends TrackedResource {
     bootMethod?: VirtualMachineBootMethod;
     cloudServicesNetworkAttachment: NetworkAttachment;
     readonly clusterId?: string;
+    consoleExtendedLocation?: ExtendedLocation;
     cpuCores: number;
     readonly detailedStatus?: VirtualMachineDetailedStatus;
     readonly detailedStatusMessage?: string;
@@ -4340,6 +4368,19 @@ export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type VolumesUpdateResponse = Volume;
+
+// @public
+export interface VulnerabilityScanningSettings {
+    containerScan?: VulnerabilityScanningSettingsContainerScan;
+}
+
+// @public
+export type VulnerabilityScanningSettingsContainerScan = string;
+
+// @public
+export interface VulnerabilityScanningSettingsPatch {
+    containerScan?: VulnerabilityScanningSettingsContainerScan;
+}
 
 // @public
 export type WorkloadImpact = string;

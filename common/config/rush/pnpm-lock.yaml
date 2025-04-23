@@ -3025,7 +3025,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-GFeHzcklp3zlV4RzxPPcPd8/gUC5KAn5Yn/xdXUGgeQDPcMz1eLlNWmYIjafQileW5OJz0QVTJofr3eHBurw1w==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-7Sm1dca13RBssRKOYeUXJgEfv8XZPiZjCUR3dY8G0951fVz7DwE7FyvDgMKvAaJvjoeGFIbxzlpXkhqVb1kVpA==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
@@ -14856,7 +14856,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
