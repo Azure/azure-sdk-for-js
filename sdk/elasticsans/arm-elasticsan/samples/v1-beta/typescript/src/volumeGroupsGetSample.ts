@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get an VolumeGroups.
  *
  * @summary Get an VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Get_MaximumSet_Gen.json
  */
 async function volumeGroupsGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function volumeGroupsGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Get an VolumeGroups.
  *
  * @summary Get an VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Get_MinimumSet_Gen.json
  */
 async function volumeGroupsGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -59,8 +59,8 @@ async function volumeGroupsGetMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumeGroupsGetMaximumSetGen();
-  volumeGroupsGetMinimumSetGen();
+  await volumeGroupsGetMaximumSetGen();
+  await volumeGroupsGetMinimumSetGen();
 }
 
 main().catch(console.error);
