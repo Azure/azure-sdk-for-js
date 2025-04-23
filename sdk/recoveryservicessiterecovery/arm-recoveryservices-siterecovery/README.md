@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservices-siterecovery) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,6 +63,7 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>"

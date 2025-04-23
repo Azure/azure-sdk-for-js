@@ -114,7 +114,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
