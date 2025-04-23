@@ -19,6 +19,9 @@ catalogs:
     '@azure/arm-storage':
       specifier: ^18.0.0
       version: 18.4.0
+    '@azure/arm-webpubsub':
+      specifier: ^1.2.0
+      version: 1.2.0
   corelrov2:
     '@azure/core-lro':
       specifier: ^2.0.0
@@ -40,6 +43,9 @@ catalogs:
     '@azure/msal-browser':
       specifier: ^4.8.0
       version: 4.8.0
+    '@azure/msal-node':
+      specifier: ^3.5.0
+      version: 3.5.1
     '@azure/msal-node-extensions':
       specifier: ^1.5.8
       version: 1.5.9
@@ -200,9 +206,6 @@ catalogs:
     vitest:
       specifier: ^3.1.1
       version: 3.1.1
-
-overrides:
-  '@azure/msal-node': 3.3.0
 
 importers:
 
@@ -3258,6 +3261,9 @@ importers:
 
   sdk/cognitivelanguage/ai-language-conversations:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: workspace:*
         version: link:../../core/abort-controller
@@ -4151,8 +4157,8 @@ importers:
         specifier: catalog:internal
         version: 4.8.0
       '@azure/msal-node':
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: catalog:identity
+        version: 3.5.1
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.81
@@ -12426,8 +12432,8 @@ importers:
         specifier: catalog:identity
         version: 4.8.0
       '@azure/msal-node':
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: catalog:identity
+        version: 3.5.1
       open:
         specifier: ^10.1.0
         version: 10.1.0
@@ -12499,8 +12505,8 @@ importers:
         specifier: workspace:*
         version: link:../identity
       '@azure/msal-node':
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: catalog:identity
+        version: 3.5.1
       '@azure/msal-node-extensions':
         specifier: catalog:identity
         version: 1.5.9
@@ -12566,8 +12572,8 @@ importers:
         specifier: workspace:*
         version: link:../identity
       '@azure/msal-node':
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: catalog:identity
+        version: 3.5.1
       '@azure/msal-node-extensions':
         specifier: catalog:identity
         version: 1.5.9
@@ -26274,6 +26280,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-webpubsub':
+        specifier: catalog:arm
+        version: 1.2.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -26725,6 +26734,10 @@ packages:
     resolution: {integrity: sha512-3FOjh1FAL0FTWlNjmwOZFOiNJbu68cFRU4x7sKmSx+kze8/mkqAlJ+TLyYHv7+W/UigHOjrmn7DGKpDWyXkWgQ==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/arm-webpubsub@1.2.0':
+    resolution: {integrity: sha512-FZMMUv6EFy5GTURJShQxMyZ/oH6qoD8uclv280qrR1d/NSXsgfOs6mnQ4pbG2iZJaG1hzM5dwwl/QTVEphpwvA==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/communication-common@2.3.1':
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -26875,6 +26888,10 @@ packages:
     resolution: {integrity: sha512-reeIUDXt6Xc+FpCBDEbUFQWvJ6SjE0JwsGYIfa3ZCR6Tpzjc9J1v+/InQgfCeJzfTRd7PDJVxI6TSzOmOd7+Ag==}
     engines: {node: '>=0.8.0'}
 
+  '@azure/msal-common@15.5.1':
+    resolution: {integrity: sha512-oxK0khbc4Bg1bKQnqDr7ikULhVL2OHgSrIq0Vlh4b6+hm4r0lr6zPMQE8ZvmacJuh+ZZGKBM5iIObhF1q1QimQ==}
+    engines: {node: '>=0.8.0'}
+
   '@azure/msal-node-extensions@1.5.9':
     resolution: {integrity: sha512-q9uWwdJxQTOtVQQHO1KHUaGxRasrv9aDEE4WxVe4eQu+AdhfpyyPiBLwn7M5I8zaW7rkTgeIYgyq70WnuuD09w==}
     engines: {node: '>=16'}
@@ -26884,6 +26901,10 @@ packages:
 
   '@azure/msal-node@3.3.0':
     resolution: {integrity: sha512-ulsT3EHF1RQ29X55cxBLgKsIKWni9JdbUqG7sipGVP4uhWcBpmm/vhKOMH340+27Acm9+kHGnN/5XmQ5LrIDgA==}
+    engines: {node: '>=16'}
+
+  '@azure/msal-node@3.5.1':
+    resolution: {integrity: sha512-dkgMYM5B6tI88r/oqf5bYd93WkenQpaWwiszJDk7avVjso8cmuKRTW97dA1RMi6RhihZFLtY1VtWxU9+sW2T5g==}
     engines: {node: '>=16'}
 
   '@azure/openai@1.0.0-beta.12':
@@ -31991,6 +32012,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/arm-webpubsub@1.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/communication-common@2.3.1':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -32293,7 +32326,7 @@ snapshots:
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
       '@azure/msal-browser': 4.8.0
-      '@azure/msal-node': 3.3.0
+      '@azure/msal-node': 3.5.1
       open: 10.1.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -32400,6 +32433,8 @@ snapshots:
 
   '@azure/msal-common@15.4.0': {}
 
+  '@azure/msal-common@15.5.1': {}
+
   '@azure/msal-node-extensions@1.5.9':
     dependencies:
       '@azure/msal-common': 15.4.0
@@ -32411,6 +32446,12 @@ snapshots:
   '@azure/msal-node@3.3.0':
     dependencies:
       '@azure/msal-common': 15.2.1
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
+
+  '@azure/msal-node@3.5.1':
+    dependencies:
+      '@azure/msal-common': 15.5.1
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
 

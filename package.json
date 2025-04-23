@@ -41,7 +41,6 @@
   },
   "pnpm": {
     "overrides": {
-      "@azure/msal-node": "3.3.0"
     }
   }
 }
