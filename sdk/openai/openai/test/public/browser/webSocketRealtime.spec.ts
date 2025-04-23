@@ -12,7 +12,6 @@ import {
 } from "../../utils/asserts.js";
 import type { AzureOpenAI } from "openai";
 
-
 describe.each(APIMatrix)("Realtime [%s]", (apiVersion: APIVersion) => {
   const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, { realtime: "true" });
 

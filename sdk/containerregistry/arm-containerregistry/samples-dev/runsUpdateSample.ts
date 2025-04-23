@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   RunUpdateParameters,
   ContainerRegistryManagementClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch the run properties.
  *
  * @summary Patch the run properties.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RunsUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RunsUpdate.json
  */
 async function runsUpdate(): Promise<void> {
   const subscriptionId =
@@ -33,7 +35,7 @@ async function runsUpdate(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.runs.beginUpdateAndWait(
+  const result = await client.runs.update(
     resourceGroupName,
     registryName,
     runId,

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   SubvolumePatchRequest,
   NetAppManagementClient,
@@ -17,12 +19,12 @@ import "dotenv/config";
  * This sample demonstrates how to Patch a subvolume
  *
  * @summary Patch a subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-09-01/examples/Subvolumes_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Subvolumes_Update.json
  */
 async function subvolumesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const poolName = "pool1";

@@ -196,11 +196,14 @@ export interface Backup extends ProxyResource {
     readonly backupId?: string;
     readonly backupPolicyResourceId?: string;
     readonly backupType?: BackupType;
+    readonly completionDate?: Date;
     readonly creationDate?: Date;
     readonly failureReason?: string;
+    readonly isLargeVolume?: boolean;
     label?: string;
     readonly provisioningState?: string;
     readonly size?: number;
+    readonly snapshotCreationDate?: Date;
     snapshotName?: string;
     useExistingSnapshot?: boolean;
     volumeResourceId: string;
@@ -678,6 +681,14 @@ export interface DailySchedule {
 }
 
 // @public
+export interface DestinationReplication {
+    region?: string;
+    replicationType?: ReplicationType;
+    resourceId?: string;
+    zone?: string;
+}
+
+// @public
 export interface Dimension {
     displayName?: string;
     name?: string;
@@ -688,6 +699,7 @@ export type EnableSubvolumes = string;
 
 // @public
 export interface EncryptionIdentity {
+    federatedClientId?: string;
     readonly principalId?: string;
     userAssignedIdentity?: string;
 }
@@ -950,6 +962,12 @@ export enum KnownMirrorState {
 }
 
 // @public
+export enum KnownMultiAdStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownNetworkFeatures {
     Basic = "Basic",
     BasicStandard = "Basic_Standard",
@@ -996,6 +1014,12 @@ export enum KnownReplicationSchedule {
     "10Minutely" = "_10minutely",
     Daily = "daily",
     Hourly = "hourly"
+}
+
+// @public
+export enum KnownReplicationType {
+    CrossRegionReplication = "CrossRegionReplication",
+    CrossZoneReplication = "CrossZoneReplication"
 }
 
 // @public
@@ -1130,12 +1154,17 @@ export interface MountTargetProperties {
 }
 
 // @public
+export type MultiAdStatus = string;
+
+// @public
 export interface NetAppAccount extends TrackedResource {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
+    readonly multiAdStatus?: MultiAdStatus;
+    nfsV4IDDomain?: string;
     readonly provisioningState?: string;
 }
 
@@ -1153,7 +1182,9 @@ export interface NetAppAccountPatch {
     readonly id?: string;
     identity?: ManagedServiceIdentity;
     location?: string;
+    readonly multiAdStatus?: MultiAdStatus;
     readonly name?: string;
+    nfsV4IDDomain?: string;
     readonly provisioningState?: string;
     tags?: {
         [propertyName: string]: string;
@@ -1188,6 +1219,8 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     netAppResourceQuotaLimits: NetAppResourceQuotaLimits;
     // (undocumented)
     netAppResourceRegionInfos: NetAppResourceRegionInfos;
+    // (undocumented)
+    netAppResourceUsages: NetAppResourceUsages;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -1325,6 +1358,33 @@ export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams extends cor
 export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 // @public
+export interface NetAppResourceUsages {
+    get(location: string, usageType: string, options?: NetAppResourceUsagesGetOptionalParams): Promise<NetAppResourceUsagesGetResponse>;
+    list(location: string, options?: NetAppResourceUsagesListOptionalParams): PagedAsyncIterableIterator<UsageResult>;
+}
+
+// @public
+export interface NetAppResourceUsagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesGetResponse = UsageResult;
+
+// @public
+export interface NetAppResourceUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesListNextResponse = UsagesListResult;
+
+// @public
+export interface NetAppResourceUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesListResponse = UsagesListResult;
+
+// @public
 export type NetworkFeatures = string;
 
 // @public
@@ -1364,6 +1424,7 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationListResult {
+    readonly nextLink?: string;
     value?: Operation[];
 }
 
@@ -1371,6 +1432,13 @@ export interface OperationListResult {
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
@@ -1533,6 +1601,7 @@ export interface Replication {
 
 // @public
 export interface ReplicationObject {
+    readonly destinationReplications?: DestinationReplication[];
     endpointType?: EndpointType;
     remotePath?: RemotePath;
     remoteVolumeRegion?: string;
@@ -1552,6 +1621,9 @@ export interface ReplicationStatus {
     relationshipStatus?: RelationshipStatus;
     totalProgress?: string;
 }
+
+// @public
+export type ReplicationType = string;
 
 // @public
 export interface Resource {
@@ -1941,6 +2013,27 @@ export interface UpdateNetworkSiblingSetRequest {
 }
 
 // @public
+export interface UsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface UsageResult {
+    readonly currentValue?: number;
+    readonly id?: string;
+    readonly limit?: number;
+    readonly name?: UsageName;
+    readonly unit?: string;
+}
+
+// @public
+export interface UsagesListResult {
+    nextLink?: string;
+    value?: UsageResult[];
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -1974,7 +2067,7 @@ export interface Volume extends TrackedResource {
     readonly fileSystemId?: string;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
-    isRestoring?: boolean;
+    readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;
@@ -2125,7 +2218,7 @@ export interface VolumeGroupVolumeProperties {
     readonly id?: string;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
-    isRestoring?: boolean;
+    readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;

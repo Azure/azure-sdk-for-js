@@ -21,12 +21,11 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:*",
@@ -43,7 +42,10 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -69,7 +71,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
-    "minify": "echo skipped",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "prepack": "npm run build",
     "test": "npm run integration-test",

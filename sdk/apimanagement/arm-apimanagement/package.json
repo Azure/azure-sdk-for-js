@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ApiManagementClient.",
-  "version": "9.2.1",
+  "version": "10.0.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -21,8 +21,7 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
@@ -40,7 +39,10 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -66,7 +68,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
-    "minify": "echo skipped",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "prepack": "npm run build",
     "test": "npm run integration-test",
@@ -107,11 +109,25 @@
       "esm",
       "commonjs"
     ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
     "selfLink": false
   },
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"

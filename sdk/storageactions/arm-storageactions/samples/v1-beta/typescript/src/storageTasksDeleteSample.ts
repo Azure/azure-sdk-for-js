@@ -35,7 +35,7 @@ async function deleteStorageTask(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteStorageTask();
+  await deleteStorageTask();
 }
 
 main().catch(console.error);

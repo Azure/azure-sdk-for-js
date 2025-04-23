@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for DataFactoryManagementClient.",
-  "version": "18.0.0",
+  "version": "19.0.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -21,8 +21,7 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
@@ -43,7 +42,10 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

@@ -97,8 +97,6 @@
     "@azure/core-tracing": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/logger": "workspace:*",
-    "http-proxy-agent": "^7.0.0",
-    "https-proxy-agent": "^7.0.0",
     "tslib": "catalog:"
   },
   "devDependencies": {

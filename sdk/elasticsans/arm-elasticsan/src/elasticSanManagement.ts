@@ -15,6 +15,12 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "./lroImpl.js";
+import {
   OperationsImpl,
   SkusImpl,
   ElasticSansImpl,
@@ -34,7 +40,13 @@ import {
   PrivateLinkResources,
   VolumeSnapshots,
 } from "./operationsInterfaces/index.js";
-import { ElasticSanManagementOptionalParams } from "./models/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import {
+  ElasticSanManagementOptionalParams,
+  RestoreVolumeOptionalParams,
+  RestoreVolumeResponse,
+} from "./models/index.js";
 
 export class ElasticSanManagement extends coreClient.ServiceClient {
   $host: string;
@@ -122,7 +134,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2024-07-01-preview";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.elasticSans = new ElasticSansImpl(this);
@@ -162,6 +174,114 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Restore Soft Deleted Volumes. The volume name is obtained by using the API to list soft deleted
+   * volumes by volume group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param volumeName The name of the Volume.
+   * @param options The options parameters.
+   */
+  async beginRestoreVolume(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    volumeName: string,
+    options?: RestoreVolumeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RestoreVolumeResponse>,
+      RestoreVolumeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<RestoreVolumeResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        elasticSanName,
+        volumeGroupName,
+        volumeName,
+        options,
+      },
+      spec: restoreVolumeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      RestoreVolumeResponse,
+      OperationState<RestoreVolumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restore Soft Deleted Volumes. The volume name is obtained by using the API to list soft deleted
+   * volumes by volume group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param volumeName The name of the Volume.
+   * @param options The options parameters.
+   */
+  async beginRestoreVolumeAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    volumeName: string,
+    options?: RestoreVolumeOptionalParams,
+  ): Promise<RestoreVolumeResponse> {
+    const poller = await this.beginRestoreVolume(
+      resourceGroupName,
+      elasticSanName,
+      volumeGroupName,
+      volumeName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
   operations: Operations;
   skus: Skus;
   elasticSans: ElasticSans;
@@ -171,3 +291,38 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   volumeSnapshots: VolumeSnapshots;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const restoreVolumeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}/restore",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Volume,
+    },
+    201: {
+      bodyMapper: Mappers.Volume,
+    },
+    202: {
+      bodyMapper: Mappers.Volume,
+    },
+    204: {
+      bodyMapper: Mappers.Volume,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.elasticSanName,
+    Parameters.volumeGroupName,
+    Parameters.volumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

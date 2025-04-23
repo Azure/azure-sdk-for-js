@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update an VolumeGroup.
  *
  * @summary Update an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Update_MaximumSet_Gen.json
  */
 async function volumeGroupsUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -26,26 +26,25 @@ async function volumeGroupsUpdateMaximumSetGen(): Promise<void> {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const parameters: VolumeGroupUpdate = {
-    identity: { type: "None", userAssignedIdentities: { key1006: {} } },
+    identity: { type: "None", userAssignedIdentities: { key2350: {} } },
     properties: {
+      deleteRetentionPolicy: {
+        policyState: "Enabled",
+        retentionPeriodDays: 14,
+      },
       encryption: "EncryptionAtRestWithPlatformKey",
       encryptionProperties: {
-        encryptionIdentity: {
-          encryptionUserAssignedIdentity: "gfhkfbozahmmwluqndfgxunssafa",
-        },
+        encryptionIdentity: { encryptionUserAssignedIdentity: "vgbeephfgecgg" },
         keyVaultProperties: {
-          keyName: "lunpapamzeimppgobraxjt",
-          keyVaultUri: "https://microsoft.com/a",
-          keyVersion: "oemygbnfmqhijmonkqfqmy",
+          keyName: "rommjwp",
+          keyVaultUri: "https://microsoft.com/at",
+          keyVersion: "ulmxxgzgsuhalwesmhfslq",
         },
       },
       enforceDataIntegrityCheckForIscsi: true,
       networkAcls: {
         virtualNetworkRules: [
-          {
-            action: "Allow",
-            virtualNetworkResourceId: "bkhwaiqvvaguymsmnzzbzz",
-          },
+          { action: "Allow", virtualNetworkResourceId: "fhhawhc" },
         ],
       },
       protocolType: "Iscsi",
@@ -66,7 +65,7 @@ async function volumeGroupsUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Update an VolumeGroup.
  *
  * @summary Update an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Update_MinimumSet_Gen.json
  */
 async function volumeGroupsUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -88,8 +87,8 @@ async function volumeGroupsUpdateMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumeGroupsUpdateMaximumSetGen();
-  volumeGroupsUpdateMinimumSetGen();
+  await volumeGroupsUpdateMaximumSetGen();
+  await volumeGroupsUpdateMinimumSetGen();
 }
 
 main().catch(console.error);
