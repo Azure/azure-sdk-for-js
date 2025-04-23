@@ -47,6 +47,7 @@ import type {
   BrowseAvailableNumbersResult,
   CreateOrUpdateReservationResult,
   CreateOrUpdateReservationOptions,
+  BrowseAvailableNumbersOptions,
 } from "./models.js";
 import type {
   BeginPurchasePhoneNumbersOptions,
@@ -309,12 +310,15 @@ export class PhoneNumbersClient {
    * ```
    * Browse available phone numbers
    * @param request - The request parameters for browsing available phone numbers.
+   * @param options - Additional request options.
    */
   public browseAvailablePhoneNumbers(
     request: BrowseAvailableNumbersRequest,
+    options?: BrowseAvailableNumbersOptions
   ): Promise<BrowseAvailableNumbersResult> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-browseAvailableNumbers",
+      options
     );
 
     try {
