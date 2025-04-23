@@ -997,6 +997,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/portal/arm-portal/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/portalservices/arm-portalservicescopilot/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/loadtesting/arm-loadtesting/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to It will validate followings
@@ -22,7 +22,7 @@ require("dotenv").config();
 1. Vault capacity
 2. VM is already protected
 3. Any VM related configuration passed in properties.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionIntent_Validate.json
  */
 async function validateEnableProtectionOnAzureVM() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function validateEnableProtectionOnAzureVM() {
 }
 
 async function main() {
-  validateEnableProtectionOnAzureVM();
+  await validateEnableProtectionOnAzureVM();
 }
 
 main().catch(console.error);

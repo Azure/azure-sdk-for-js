@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates a webhook for a container registry with the specified parameters.
  *
  * @summary Creates a webhook for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/WebhookCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/WebhookCreate.json
  */
 async function webhookCreate() {
   const subscriptionId =
