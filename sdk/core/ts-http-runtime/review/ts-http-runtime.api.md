@@ -119,6 +119,12 @@ export type ClientOptions = PipelineOptions & {
 export function createClientLogger(namespace: string): TypeSpecRuntimeLogger;
 
 // @public
+export function createDefaultHttpClient(): HttpClient;
+
+// @public
+export function createEmptyPipeline(): Pipeline;
+
+// @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
 
 // @public
