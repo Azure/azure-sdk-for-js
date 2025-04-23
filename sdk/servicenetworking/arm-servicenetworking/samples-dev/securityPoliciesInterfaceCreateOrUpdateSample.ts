@@ -13,19 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function putIpAccessRulesSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.securityPoliciesInterface.createOrUpdate(
-    "rg1",
-    "tc1",
-    "sp1",
-    {
-      location: "NorthCentralUS",
-      properties: { ipAccessRulesPolicy: { rules: [] } },
-    },
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  const result = await client.securityPoliciesInterface.createOrUpdate("rg1", "tc1", "sp1", {
+    location: "NorthCentralUS",
+    properties: { ipAccessRulesPolicy: { rules: [] } },
+  });
   console.log(result);
 }
 
@@ -38,23 +30,15 @@ async function putIpAccessRulesSecurityPolicy(): Promise<void> {
 async function putWAFSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.securityPoliciesInterface.createOrUpdate(
-    "rg1",
-    "tc1",
-    "sp1",
-    {
-      location: "NorthCentralUS",
-      properties: {
-        wafPolicy: {
-          id: "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Networking/applicationGatewayWebApplicationFirewallPolicies/wp-0",
-        },
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  const result = await client.securityPoliciesInterface.createOrUpdate("rg1", "tc1", "sp1", {
+    location: "NorthCentralUS",
+    properties: {
+      wafPolicy: {
+        id: "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Networking/applicationGatewayWebApplicationFirewallPolicies/wp-0",
       },
     },
-  );
+  });
   console.log(result);
 }
 

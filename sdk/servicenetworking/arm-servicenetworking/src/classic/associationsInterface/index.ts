@@ -65,34 +65,19 @@ export interface AssociationsInterfaceOperations {
   ) => Promise<Association>;
 }
 
-function _getAssociationsInterface(
-  context: ServiceNetworkingManagementContext,
-) {
+function _getAssociationsInterface(context: ServiceNetworkingManagementContext) {
   return {
     listByTrafficController: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
-    ) =>
-      listByTrafficController(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        options,
-      ),
+    ) => listByTrafficController(context, resourceGroupName, trafficControllerName, options),
     delete: (
       resourceGroupName: string,
       trafficControllerName: string,
       associationName: string,
       options?: AssociationsInterfaceDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        associationName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, trafficControllerName, associationName, options),
     update: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -128,14 +113,7 @@ function _getAssociationsInterface(
       trafficControllerName: string,
       associationName: string,
       options?: AssociationsInterfaceGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        associationName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, trafficControllerName, associationName, options),
   };
 }
 

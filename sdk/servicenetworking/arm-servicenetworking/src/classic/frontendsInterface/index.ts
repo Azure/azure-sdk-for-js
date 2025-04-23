@@ -71,26 +71,13 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       resourceGroupName: string,
       trafficControllerName: string,
       options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
-    ) =>
-      listByTrafficController(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        options,
-      ),
+    ) => listByTrafficController(context, resourceGroupName, trafficControllerName, options),
     delete: (
       resourceGroupName: string,
       trafficControllerName: string,
       frontendName: string,
       options?: FrontendsInterfaceDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        frontendName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, trafficControllerName, frontendName, options),
     update: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -98,14 +85,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       properties: FrontendUpdate,
       options?: FrontendsInterfaceUpdateOptionalParams,
     ) =>
-      update(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        frontendName,
-        properties,
-        options,
-      ),
+      update(context, resourceGroupName, trafficControllerName, frontendName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -126,14 +106,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       trafficControllerName: string,
       frontendName: string,
       options?: FrontendsInterfaceGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        frontendName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, trafficControllerName, frontendName, options),
   };
 }
 

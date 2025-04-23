@@ -13,16 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.frontendsInterface.update(
-    "rg1",
-    "tc1",
-    "fe1",
-    {},
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  const result = await client.frontendsInterface.update("rg1", "tc1", "fe1", {});
   console.log(result);
 }
 

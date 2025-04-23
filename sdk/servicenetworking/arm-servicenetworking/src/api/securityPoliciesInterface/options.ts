@@ -8,23 +8,19 @@ export interface SecurityPoliciesInterfaceListByTrafficControllerOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceDeleteOptionalParams
-  extends OperationOptions {
+export interface SecurityPoliciesInterfaceDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceUpdateOptionalParams
-  extends OperationOptions {}
+export interface SecurityPoliciesInterfaceUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface SecurityPoliciesInterfaceCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceGetOptionalParams
-  extends OperationOptions {}
+export interface SecurityPoliciesInterfaceGetOptionalParams extends OperationOptions {}

@@ -13,10 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const result = await client.trafficControllerInterface.get("rg1", "tc1");
   console.log(result);
 }

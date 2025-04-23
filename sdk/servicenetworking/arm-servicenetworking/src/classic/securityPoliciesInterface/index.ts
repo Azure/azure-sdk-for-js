@@ -65,34 +65,19 @@ export interface SecurityPoliciesInterfaceOperations {
   ) => Promise<SecurityPolicy>;
 }
 
-function _getSecurityPoliciesInterface(
-  context: ServiceNetworkingManagementContext,
-) {
+function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementContext) {
   return {
     listByTrafficController: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
-    ) =>
-      listByTrafficController(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        options,
-      ),
+    ) => listByTrafficController(context, resourceGroupName, trafficControllerName, options),
     delete: (
       resourceGroupName: string,
       trafficControllerName: string,
       securityPolicyName: string,
       options?: SecurityPoliciesInterfaceDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        securityPolicyName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, trafficControllerName, securityPolicyName, options),
     update: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -128,14 +113,7 @@ function _getSecurityPoliciesInterface(
       trafficControllerName: string,
       securityPolicyName: string,
       options?: SecurityPoliciesInterfaceGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        securityPolicyName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, trafficControllerName, securityPolicyName, options),
   };
 }
 

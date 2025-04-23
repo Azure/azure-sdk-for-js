@@ -12,23 +12,19 @@ export interface TrafficControllerInterfaceListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceDeleteOptionalParams
-  extends OperationOptions {
+export interface TrafficControllerInterfaceDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceUpdateOptionalParams
-  extends OperationOptions {}
+export interface TrafficControllerInterfaceUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface TrafficControllerInterfaceCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceGetOptionalParams
-  extends OperationOptions {}
+export interface TrafficControllerInterfaceGetOptionalParams extends OperationOptions {}

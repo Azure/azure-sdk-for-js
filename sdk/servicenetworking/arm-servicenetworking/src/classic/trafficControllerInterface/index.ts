@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import {
-  TrafficController,
-  TrafficControllerUpdate,
-} from "../../models/models.js";
+import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
 import {
   TrafficControllerInterfaceListBySubscriptionOptionalParams,
   TrafficControllerInterfaceListByResourceGroupOptionalParams,
@@ -69,13 +66,10 @@ export interface TrafficControllerInterfaceOperations {
   ) => Promise<TrafficController>;
 }
 
-function _getTrafficControllerInterface(
-  context: ServiceNetworkingManagementContext,
-) {
+function _getTrafficControllerInterface(context: ServiceNetworkingManagementContext) {
   return {
-    listBySubscription: (
-      options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: TrafficControllerInterfaceListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
@@ -90,27 +84,13 @@ function _getTrafficControllerInterface(
       trafficControllerName: string,
       properties: TrafficControllerUpdate,
       options?: TrafficControllerInterfaceUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, trafficControllerName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       trafficControllerName: string,
       resource: TrafficController,
       options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, trafficControllerName, resource, options),
     get: (
       resourceGroupName: string,
       trafficControllerName: string,
