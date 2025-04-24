@@ -20,6 +20,8 @@ describe("Azure Kubernetes Integration test", function () {
     const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
     const oidc = requireEnvVar("ARM_OIDC_TOKEN");
     console.log("Running login command with", subscriptionId, clientId, tenantId);
+    console.log("OIDC token lenth", oidc.length);
+    
     runCommand(
       "az",
       `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
