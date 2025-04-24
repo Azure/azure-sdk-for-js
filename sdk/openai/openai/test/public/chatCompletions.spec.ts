@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe } from "vitest";
 import {
   createClientsAndDeployments,
   filterClientsAndDeployments,
@@ -21,10 +21,10 @@ import {
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import { 
-  functionCallModelsToSkip, 
-  systemRoleModelsToSkip, 
-  toolsModelsToSkip 
+import {
+  functionCallModelsToSkip,
+  systemRoleModelsToSkip,
+  toolsModelsToSkip,
 } from "../utils/models.js";
 import "../../src/types/index.js";
 import { assertMathResponseOutput, type MathResponse } from "../utils/structuredOutputUtils.js";

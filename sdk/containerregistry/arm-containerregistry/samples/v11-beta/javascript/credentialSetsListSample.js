@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists all credential set resources for the specified container registry.
  *
  * @summary Lists all credential set resources for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/CredentialSetList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/CredentialSetList.json
  */
 async function credentialSetList() {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function credentialSetList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.credentialSets.list(resourceGroupName, registryName)) {
+  for await (const item of client.credentialSets.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);

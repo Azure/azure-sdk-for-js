@@ -88,6 +88,7 @@ export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
     objectType: "AzureFileShareRecoveryPoint";
     recoveryPointProperties?: RecoveryPointProperties;
     recoveryPointSizeInGB?: number;
+    recoveryPointTierDetails?: RecoveryPointTierInformation[];
     recoveryPointTime?: Date;
     recoveryPointType?: string;
 }
@@ -209,6 +210,7 @@ export interface AzureIaaSVMProtectedItem extends ProtectedItem {
     };
     lastBackupStatus?: string;
     readonly lastBackupTime?: Date;
+    readonly policyType?: string;
     readonly protectedItemDataId?: string;
     protectedItemType: "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
     protectionState?: ProtectionState;
@@ -296,6 +298,7 @@ export interface AzureSqlProtectionPolicy extends ProtectionPolicy {
 export interface AzureStorageContainer extends ProtectionContainer {
     acquireStorageAccountLock?: AcquireStorageAccountLock;
     containerType: "StorageContainer";
+    operationType?: OperationType;
     protectedItemCount?: number;
     resourceGroup?: string;
     sourceResourceId?: string;
@@ -384,14 +387,14 @@ export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem 
     parentName?: string;
     parentUniqueName?: string;
     prebackupvalidation?: PreBackupValidation;
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseDatabaseProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 // @public
 export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
@@ -435,6 +438,11 @@ export interface AzureVmWorkloadProtectionPolicy extends ProtectionPolicy {
     settings?: Settings;
     subProtectionPolicy?: SubProtectionPolicy[];
     workLoadType?: WorkloadType;
+}
+
+// @public
+export interface AzureVmWorkloadSAPAseDatabaseProtectableItem extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "SAPAseDatabase";
 }
 
 // @public
@@ -606,12 +614,12 @@ export interface AzureWorkloadJobTaskDetails {
 
 // @public
 export interface AzureWorkloadPointInTimeRecoveryPoint extends AzureWorkloadRecoveryPoint {
-    objectType: "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
+    objectType: "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPAsePointInTimeRecoveryPoint";
     timeRanges?: PointInTimeRange[];
 }
 
 // @public (undocumented)
-export type AzureWorkloadPointInTimeRecoveryPointUnion = AzureWorkloadPointInTimeRecoveryPoint | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
+export type AzureWorkloadPointInTimeRecoveryPointUnion = AzureWorkloadPointInTimeRecoveryPoint | AzureWorkloadSAPHanaPointInTimeRecoveryPoint | AzureWorkloadSAPAsePointInTimeRecoveryPoint;
 
 // @public
 export interface AzureWorkloadPointInTimeRestoreRequest extends AzureWorkloadRestoreRequest {
@@ -621,7 +629,7 @@ export interface AzureWorkloadPointInTimeRestoreRequest extends AzureWorkloadRes
 
 // @public
 export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
-    objectType: "AzureWorkloadRecoveryPoint" | "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaRecoveryPoint" | "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint";
+    objectType: "AzureWorkloadRecoveryPoint" | "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaRecoveryPoint" | "AzureWorkloadSAPAsePointInTimeRecoveryPoint" | "AzureWorkloadSAPAseRecoveryPoint" | "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint";
     recoveryPointMoveReadinessInfo?: {
         [propertyName: string]: RecoveryPointMoveReadinessInfo;
     };
@@ -632,11 +640,11 @@ export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
 }
 
 // @public (undocumented)
-export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | AzureWorkloadPointInTimeRecoveryPointUnion | AzureWorkloadSAPHanaRecoveryPoint | AzureWorkloadSQLRecoveryPointUnion;
+export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | AzureWorkloadPointInTimeRecoveryPointUnion | AzureWorkloadSAPHanaRecoveryPoint | AzureWorkloadSAPAseRecoveryPoint | AzureWorkloadSQLRecoveryPointUnion;
 
 // @public
 export interface AzureWorkloadRestoreRequest extends RestoreRequest {
-    objectType: "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest";
+    objectType: "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPAseRestoreRequest" | "AzureWorkloadSAPAsePointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest";
     propertyBag?: {
         [propertyName: string]: string;
     };
@@ -651,7 +659,31 @@ export interface AzureWorkloadRestoreRequest extends RestoreRequest {
 }
 
 // @public (undocumented)
-export type AzureWorkloadRestoreRequestUnion = AzureWorkloadRestoreRequest | AzureWorkloadPointInTimeRestoreRequest | AzureWorkloadSAPHanaRestoreRequestUnion | AzureWorkloadSQLRestoreRequestUnion;
+export type AzureWorkloadRestoreRequestUnion = AzureWorkloadRestoreRequest | AzureWorkloadPointInTimeRestoreRequest | AzureWorkloadSAPHanaRestoreRequestUnion | AzureWorkloadSAPAseRestoreRequestUnion | AzureWorkloadSQLRestoreRequestUnion;
+
+// @public
+export interface AzureWorkloadSAPAsePointInTimeRecoveryPoint extends AzureWorkloadPointInTimeRecoveryPoint {
+    objectType: "AzureWorkloadSAPAsePointInTimeRecoveryPoint";
+}
+
+// @public
+export interface AzureWorkloadSAPAsePointInTimeRestoreRequest extends AzureWorkloadSAPAseRestoreRequest {
+    objectType: "AzureWorkloadSAPAsePointInTimeRestoreRequest";
+    pointInTime?: Date;
+}
+
+// @public
+export interface AzureWorkloadSAPAseRecoveryPoint extends AzureWorkloadRecoveryPoint {
+    objectType: "AzureWorkloadSAPAseRecoveryPoint";
+}
+
+// @public
+export interface AzureWorkloadSAPAseRestoreRequest extends AzureWorkloadRestoreRequest {
+    objectType: "AzureWorkloadSAPAseRestoreRequest" | "AzureWorkloadSAPAsePointInTimeRestoreRequest";
+}
+
+// @public (undocumented)
+export type AzureWorkloadSAPAseRestoreRequestUnion = AzureWorkloadSAPAseRestoreRequest | AzureWorkloadSAPAsePointInTimeRestoreRequest;
 
 // @public
 export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint extends AzureWorkloadPointInTimeRecoveryPoint {
@@ -775,6 +807,7 @@ export interface BackupEngineBaseResource extends Resource {
 
 // @public
 export interface BackupEngineBaseResourceList extends ResourceList {
+    nextLink?: string;
     value?: BackupEngineBaseResource[];
 }
 
@@ -2039,6 +2072,7 @@ export interface JobResource extends Resource {
 
 // @public
 export interface JobResourceList extends ResourceList {
+    nextLink?: string;
     value?: JobResource[];
 }
 
@@ -2357,6 +2391,7 @@ export enum KnownOperationStatusValues {
 export enum KnownOperationType {
     Invalid = "Invalid",
     Register = "Register",
+    Rehydrate = "Rehydrate",
     Reregister = "Reregister"
 }
 
@@ -3088,6 +3123,7 @@ export interface ProtectableContainerResource extends Resource {
 
 // @public
 export interface ProtectableContainerResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectableContainerResource[];
 }
 
@@ -3187,6 +3223,7 @@ export interface ProtectedItemResource extends Resource {
 
 // @public
 export interface ProtectedItemResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectedItemResource[];
 }
 
@@ -3262,6 +3299,7 @@ export interface ProtectionContainerResource extends Resource {
 
 // @public
 export interface ProtectionContainerResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectionContainerResource[];
 }
 
@@ -3362,6 +3400,7 @@ export interface ProtectionIntentResource extends Resource {
 
 // @public
 export interface ProtectionIntentResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectionIntentResource[];
 }
 
@@ -3450,6 +3489,7 @@ export interface ProtectionPolicyResource extends Resource {
 
 // @public
 export interface ProtectionPolicyResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectionPolicyResource[];
 }
 
@@ -3470,7 +3510,7 @@ export type RecoveryMode = string;
 
 // @public
 export interface RecoveryPoint {
-    objectType: "AzureFileShareRecoveryPoint" | "AzureWorkloadRecoveryPoint" | "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaRecoveryPoint" | "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint" | "GenericRecoveryPoint" | "IaasVMRecoveryPoint";
+    objectType: "AzureFileShareRecoveryPoint" | "AzureWorkloadRecoveryPoint" | "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaRecoveryPoint" | "AzureWorkloadSAPAsePointInTimeRecoveryPoint" | "AzureWorkloadSAPAseRecoveryPoint" | "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint" | "GenericRecoveryPoint" | "IaasVMRecoveryPoint";
 }
 
 // @public
@@ -3509,6 +3549,7 @@ export interface RecoveryPointResource extends Resource {
 
 // @public
 export interface RecoveryPointResourceList extends ResourceList {
+    nextLink?: string;
     value?: RecoveryPointResource[];
 }
 
@@ -3782,6 +3823,7 @@ export interface ResourceGuardProxyBaseResource extends Resource {
 
 // @public
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
+    nextLink?: string;
     value?: ResourceGuardProxyBaseResource[];
 }
 
@@ -3841,7 +3883,7 @@ export type RestorePointType = string;
 
 // @public
 export interface RestoreRequest {
-    objectType: "AzureFileShareRestoreRequest" | "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "IaasVMRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" | "IaasVMRestoreWithRehydrationRequest";
+    objectType: "AzureFileShareRestoreRequest" | "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPAseRestoreRequest" | "AzureWorkloadSAPAsePointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "IaasVMRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" | "IaasVMRestoreWithRehydrationRequest";
     resourceGuardOperationRequests?: string[];
 }
 
@@ -4298,6 +4340,7 @@ export interface WorkloadItemResource extends Resource {
 
 // @public
 export interface WorkloadItemResourceList extends ResourceList {
+    nextLink?: string;
     value?: WorkloadItemResource[];
 }
 
@@ -4311,7 +4354,7 @@ export type WorkloadItemUnion = WorkloadItem | AzureVmWorkloadItemUnion;
 export interface WorkloadProtectableItem {
     backupManagementType?: string;
     friendlyName?: string;
-    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     protectionState?: ProtectionStatus;
     workloadType?: string;
 }
@@ -4323,6 +4366,7 @@ export interface WorkloadProtectableItemResource extends Resource {
 
 // @public
 export interface WorkloadProtectableItemResourceList extends ResourceList {
+    nextLink?: string;
     value?: WorkloadProtectableItemResource[];
 }
 

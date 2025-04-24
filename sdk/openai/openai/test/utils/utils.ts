@@ -36,13 +36,14 @@ const GlobalSkippableErrors: SkippableErrors = {
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
-  Preview = "2025-03-01-preview",
-  Stable = "2024-10-21",
+  v2025_03_01_preview = "2025-03-01-preview",
+  v2024_10_31 = "2024-10-31",
+  Stable = v2024_10_31,
   OpenAI = "OpenAI",
-  "2024_10_01_preview" = "2024-10-01-preview",
+  v2024_10_01_preview = "2024-10-01-preview",
 }
 
-export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
+export const APIMatrix = [APIVersion.v2025_03_01_preview, APIVersion.v2024_10_31];
 
 function toString(error: any): string {
   return error.error ? JSON.stringify(error.error) : JSON.stringify(error);

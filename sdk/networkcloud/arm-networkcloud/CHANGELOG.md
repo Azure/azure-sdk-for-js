@@ -1,15 +1,28 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 1.2.0-beta.1 (2025-04-18)
+Compared with version 1.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AnalyticsOutputSettings
+  - Added Interface SecretArchiveSettings
+  - Added Interface VulnerabilityScanningSettings
+  - Added Interface VulnerabilityScanningSettingsPatch
+  - Added Type Alias VulnerabilityScanningSettingsContainerScan
+  - Interface Cluster has a new optional parameter analyticsOutputSettings
+  - Interface Cluster has a new optional parameter secretArchiveSettings
+  - Interface Cluster has a new optional parameter vulnerabilityScanningSettings
+  - Interface ClusterPatchParameters has a new optional parameter analyticsOutputSettings
+  - Interface ClusterPatchParameters has a new optional parameter secretArchiveSettings
+  - Interface ClusterPatchParameters has a new optional parameter vulnerabilityScanningSettings
+  - Interface VirtualMachine has a new optional parameter consoleExtendedLocation
+  - Added Enum KnownVulnerabilityScanningSettingsContainerScan
+  - Enum KnownOsDiskCreateOption has a new value Persistent
+  - Enum KnownStorageApplianceDetailedStatus has a new value Degraded
+  - Enum KnownVirtualMachineDeviceModelType has a new value T3
+    
+    
 ## 1.1.0 (2025-02-20)
     
 ### Features Added
