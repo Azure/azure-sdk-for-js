@@ -51,7 +51,7 @@ export function getSendCertificateChain(): boolean {
 }
 
 /**
- * Enables authentication to Microsoft Entra ID using a client secret or certificate.
+ * Enables authentication to Microsoft Entra ID using a client secret or certificate. The username and password authentication is deprecated. See https://aka.ms/azsdk/identity/mfa for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
