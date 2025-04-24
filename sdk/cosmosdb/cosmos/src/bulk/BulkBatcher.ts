@@ -40,15 +40,11 @@ export class BulkBatcher {
   private readonly clientConfigDiagnostics: ClientConfigDiagnostic;
   private readonly limiter: LimiterQueue;
   private processedOperationCountRef: { count: number };
-  private readonly refreshpartitionKeyRangeCache: (
-    diagnosticNode: DiagnosticNodeInternal,
-  ) => Promise<void>;
 
   constructor(
     limiter: LimiterQueue,
     executor: ExecuteCallback,
     retrier: RetryCallback,
-    refreshpartitionKeyRangeCache: (diagnosticNode: DiagnosticNodeInternal) => Promise<void>,
     diagnosticLevel: CosmosDbDiagnosticLevel,
     encryptionEnabled: boolean,
     clientConfig: ClientConfigDiagnostic,
@@ -59,7 +55,6 @@ export class BulkBatcher {
     this.batchOperationsList = [];
     this.executor = executor;
     this.retrier = retrier;
-    this.refreshpartitionKeyRangeCache = refreshpartitionKeyRangeCache;
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
@@ -131,8 +126,7 @@ export class BulkBatcher {
         ? true
         : false;
       if (splitOrMerge) {
-        await this.refreshpartitionKeyRangeCache(diagnosticNode);
-        await this.limiter.pauseAndClear(StatusCodes.Gone);
+        await this.limiter.pauseAndClear(StatusCodes.Gone, diagnosticNode);
       }
       partitionMetric.add(
         this.batchOperationsList.length,

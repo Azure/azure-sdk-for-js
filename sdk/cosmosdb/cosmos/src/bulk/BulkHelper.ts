@@ -78,22 +78,25 @@ export class BulkHelper {
    */
   async execute(operationInput: OperationInput[]): Promise<CosmosBulkOperationResult[]> {
     const addOperationPromises: Promise<void>[] = [];
-    for (let i = 0; i < operationInput.length; i++) {
-      if (i % 100 === 0) {
-        await sleep(0);
+    try {
+      for (let i = 0; i < operationInput.length; i++) {
+        if (i % 100 === 0) {
+          await sleep(0);
+        }
+        addOperationPromises.push(this.addOperation(operationInput[i], i));
       }
-      addOperationPromises.push(this.addOperation(operationInput[i], i));
-    }
-    await Promise.allSettled(addOperationPromises);
-    while (this.processedOperationCountRef.count < operationInput.length) {
-      // wait for all operations to be fulfilled
-      this.helpersByPartitionKeyRangeId.forEach((helper) => {
-        helper.dispatchUnfilledBatch();
-      });
-      await sleep(1000);
-    }
-    if (this.congestionControlTimer) {
-      clearInterval(this.congestionControlTimer);
+      await Promise.allSettled(addOperationPromises);
+      while (this.processedOperationCountRef.count < operationInput.length) {
+        // wait for all operations to be fulfilled
+        this.helpersByPartitionKeyRangeId.forEach((helper) => {
+          helper.addPartialBatchToQueue();
+        });
+        await sleep(100);
+      }
+    } finally {
+      if (this.congestionControlTimer) {
+        clearInterval(this.congestionControlTimer);
+      }
     }
     const operationResults = await Promise.allSettled(this.operationPromisesList);
     if (this.isCancelled && this.staleRidError) {
@@ -138,7 +141,7 @@ export class BulkHelper {
         return;
       }
     } else {
-      if (operation.partitionKey === undefined || operation.partitionKey === null) {
+      if (operation.partitionKey === undefined) {
         this.operationPromisesList[idx] = Promise.resolve({
           operationInput: operation,
           error: Object.assign(
@@ -323,7 +326,7 @@ export class BulkHelper {
     );
     operation.operationContext.updatePKRangeId(partitionKeyRangeId);
     const helper = this.getHelperForPKRange(partitionKeyRangeId);
-    helper.add(operation);
+    await helper.add(operation);
   }
 
   private async cancelExecution(error: ErrorResponse): Promise<void> {

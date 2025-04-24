@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { StatusCodes } from "../common/statusCodes.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { RetryCallback } from "../utils/batch.js";
 import type { BulkBatcher } from "./BulkBatcher.js";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
@@ -104,14 +105,22 @@ export class LimiterQueue {
   private retrier: RetryCallback;
   // partiton metric for collecting metrics for the requests
   private partitionMetric: BulkPartitionMetric;
+  // callback used to refresh the partition key range cache in case of split/merge error
+  private readonly refreshPartitionKeyRangeCache: (diagnosticNode: any) => Promise<void>;
 
   /**
    * Creates a new HighPerformanceQueue.
    */
-  constructor(concurrency: number, partitionMetric: BulkPartitionMetric, retrier: RetryCallback) {
+  constructor(
+    concurrency: number,
+    partitionMetric: BulkPartitionMetric,
+    retrier: RetryCallback,
+    refreshPartitionKeyRangeCache: (diagnosticNode: any) => Promise<void>,
+  ) {
     this.concurrency = concurrency;
     this.partitionMetric = partitionMetric;
     this.retrier = retrier;
+    this.refreshPartitionKeyRangeCache = refreshPartitionKeyRangeCache;
   }
 
   /**
@@ -132,7 +141,10 @@ export class LimiterQueue {
    * Permanently pauses processing and clears the queue.
    * All queued tasks and subsequent push() calls will immediately resolve with the provided custom value.
    */
-  public async pauseAndClear<T = any>(customValue: T): Promise<void> {
+  public async pauseAndClear<T = any>(
+    customValue: T,
+    diagnosticNode?: DiagnosticNodeInternal,
+  ): Promise<void> {
     this.terminated = true;
     this.terminatedValue = customValue;
     const operationsList: ItemBulkOperation[] = [];
@@ -145,8 +157,11 @@ export class LimiterQueue {
       }
       queueItem.resolve(customValue);
     }
-    for (const operation of operationsList) {
-      await this.retrier(operation, operation.operationContext.diagnosticNode);
+    if (customValue === StatusCodes.Gone) {
+      await this.refreshPartitionKeyRangeCache(diagnosticNode);
+      for (const operation of operationsList) {
+        await this.retrier(operation, operation.operationContext.diagnosticNode);
+      }
     }
   }
 

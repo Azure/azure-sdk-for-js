@@ -34,9 +34,6 @@ export class BulkHelperPerPartition {
   private readonly dispatchLimiterQueue: LimiterQueue;
   private initialConcurrency: number = 1;
   private processedOperationCountRef: { count: number };
-  private readonly refreshpartitionKeyRangeCache: (
-    diagnosticNode: DiagnosticNodeInternal,
-  ) => Promise<void>;
 
   constructor(
     executor: ExecuteCallback,
@@ -50,7 +47,6 @@ export class BulkHelperPerPartition {
   ) {
     this.executor = executor;
     this.retrier = retrier;
-    this.refreshpartitionKeyRangeCache = refreshpartitionKeyRangeCache;
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
@@ -63,6 +59,7 @@ export class BulkHelperPerPartition {
       this.initialConcurrency,
       this.partitionMetric,
       this.retrier,
+      refreshpartitionKeyRangeCache,
     );
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
       this.dispatchLimiterQueue,
@@ -77,7 +74,7 @@ export class BulkHelperPerPartition {
    * If the operation does not fit because the batch is full, the full batch is enqueued in the dispatch queue
    * and a new batch is created. The promise resolves when the operation has been successfully added.
    */
-  add(operation: ItemBulkOperation): Promise<void> {
+  async add(operation: ItemBulkOperation): Promise<void> {
     return new Promise((resolve, reject) => {
       this.lock.take(() => {
         try {
@@ -124,7 +121,7 @@ export class BulkHelperPerPartition {
    * In case there are leftover operations that did not fill a full batch,
    * dispatchUnfilledBatch will add those operations as a batch in the dispatch queue.
    */
-  dispatchUnfilledBatch(): void {
+  addPartialBatchToQueue(): void {
     this.lock.take(() => {
       try {
         if (!this.currentBatcher.isEmpty()) {
@@ -143,7 +140,6 @@ export class BulkHelperPerPartition {
       this.dispatchLimiterQueue,
       this.executor,
       this.retrier,
-      this.refreshpartitionKeyRangeCache,
       this.diagnosticLevel,
       this.encryptionEnabled,
       this.clientConfigDiagnostics,
