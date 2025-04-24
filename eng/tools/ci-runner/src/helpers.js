@@ -170,7 +170,10 @@ export const getServicePackages = (serviceDirs, artifactNames) => {
     }
   }
 
-  return { packageNames, packageDirs };
+  return {
+    packageNames: Array.from(new Set(packageNames)),
+    packageDirs: Array.from(new Set(packageDirs)),
+  };
 };
 
 /**
