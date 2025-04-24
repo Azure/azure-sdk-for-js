@@ -20,10 +20,9 @@ const fastify = Fastify({
   bodyLimit: MAX_FILE_SIZE,
 });
 
-// Register a content type parser for application/octet-stream
 fastify.addContentTypeParser(
   "application/octet-stream",
-  { parseAs: "buffer", bodyLimit: MAX_FILE_SIZE }, // 50MB
+  { parseAs: "buffer", bodyLimit: MAX_FILE_SIZE },
   (_req, body, done) => {
     done(null, body);
   },
@@ -48,10 +47,12 @@ const blobServiceClient = new BlobServiceClient(
 );
 const containerClient = blobServiceClient.getContainerClient(azureStorageContainerName);
 
+// GET /v8/artifacts/status
 fastify.get("/v8/artifacts/status", async (_request, reply) => {
   return reply.send({ status: "enabled", version: packageVersion });
 });
 
+// GET /v8/artifacts/:key
 fastify.get("/v8/artifacts/:key", async (request, reply) => {
   const { key } = request.params as { key: string };
   const { teamId, team, slug } = request.query as {
@@ -88,6 +89,7 @@ fastify.get("/v8/artifacts/:key", async (request, reply) => {
   }
 });
 
+// PUT /v8/artifacts/:key
 fastify.put("/v8/artifacts/:key", async (request, reply) => {
   const { key } = request.params as { key: string };
   const { teamId, team, slug } = request.query as {
@@ -116,6 +118,7 @@ fastify.put("/v8/artifacts/:key", async (request, reply) => {
   reply.send({ urls: [`${team}/${key}`] });
 });
 
+// HEAD /v8/artifacts/:key
 fastify.head("/v8/artifacts/:key", async (request, reply) => {
   const { key } = request.params as { key: string };
   const { teamId, team, slug } = request.query as {
