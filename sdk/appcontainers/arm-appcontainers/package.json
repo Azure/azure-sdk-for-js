@@ -21,11 +21,12 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
-  "module": "./dist-esm/src/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:*",
@@ -42,10 +43,7 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

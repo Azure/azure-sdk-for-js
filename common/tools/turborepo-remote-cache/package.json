@@ -27,16 +27,15 @@
   "dependencies": {
     "@azure/identity": "^4.9.0",
     "@azure/storage-blob": "^12.27.0",
+    "@fastify/multipart": "^9.0.3",
+    "@hapi/boom": "^10.0.1",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "safe-json-stringify": "^1.2.0",
+    "fastify": "^5.3.2",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
-    "@types/express": "^5.0.1",
     "@types/node": "^22.14.0",
-    "@types/safe-json-stringify": "^1.1.5",
     "@vitest/coverage-istanbul": "^3.1.1",
     "eslint": "^9.24.0",
     "prettier": "^3.5.3",
