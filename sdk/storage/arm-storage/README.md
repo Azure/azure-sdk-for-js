@@ -47,12 +47,8 @@ You will also need to **register a new AAD application and grant access to Azure
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
-
-For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
-
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
- 
+
 ```ts snippet:ReadmeSampleCreateClient_Node
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -60,9 +56,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new StorageManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
- 
+
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
- 
+
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { StorageManagementClient } from "@azure/arm-storage";
@@ -70,13 +66,12 @@ import { StorageManagementClient } from "@azure/arm-storage";
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new StorageManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts

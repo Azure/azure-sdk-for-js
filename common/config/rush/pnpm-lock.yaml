@@ -3293,7 +3293,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-qNYrsf5lRQ4w6NbFDa0R16ygHuz5dNqPq3pyy/ltgZxLPKwB/+Mhr3JkryILTgcoFDbNyPr7TLQg5blPCNk0ZQ==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-RHcBz081EArG51ohmWXpUWTgmxmSaT5w2OTi1nqerJXUFijdl3wxiYMuwtTvS0f2hkFGYZgqGTwgq0nrzeWZkw==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
@@ -17193,7 +17193,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
