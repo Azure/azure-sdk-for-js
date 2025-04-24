@@ -15,7 +15,7 @@ describe("Azure Kubernetes Integration test", function () {
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
 
-    if (process.env.IDENTITY_CLIENT_SECRET) {
+    if (process.env.ARM_OIDC_TOKEN) {
       // Log in as service principal in CI
       const clientId = requireEnvVar("ARM_CLIENT_ID");
       const tenantId = requireEnvVar("ARM_TENANT_ID");

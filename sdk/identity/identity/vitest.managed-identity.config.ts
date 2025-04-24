@@ -26,7 +26,11 @@ const config = {
     ],
     typecheck: {
       ...mergedConfig.typecheck,
-      include: ["test/integration/**/*.ts", "test/integration/**/*.mts", "test/integration/**/*.cts"],
+      include: [
+        "test/integration/**/*.ts", 
+        "test/integration/**/*.mts", 
+        "test/integration/**/*.cts"
+      ],
     },
   },
 };
