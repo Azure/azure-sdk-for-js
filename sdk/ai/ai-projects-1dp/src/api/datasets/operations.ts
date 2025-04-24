@@ -51,11 +51,11 @@ export function _getCredentialsSend(
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}/credentials{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}/credentials{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,11 +105,11 @@ export function _startPendingUploadVersionSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}/startPendingUpload{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}/startPendingUpload{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -344,11 +344,11 @@ export function _createVersionSend(
   options: DatasetsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -395,11 +395,11 @@ export function _deleteVersionSend(
   options: DatasetsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -441,11 +441,11 @@ export function _getVersionSend(
   options: DatasetsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions/{version}{?api%2Dversion}",
+    "/datasets/{name}/versions/{version}{?api-version}",
     {
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -487,9 +487,9 @@ export function _listLatestSend(
   options: DatasetsListLatestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets{?api%2Dversion,top,skip,tags,listViewType}",
+    "/datasets{?api-version,top,skip,tags,listViewType}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       top: options?.top,
       skip: options?.skip,
       tags: options?.tags,
@@ -539,10 +539,10 @@ export function _listVersionsSend(
   options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions{?api%2Dversion,top,skip,tags,listViewType}",
+    "/datasets/{name}/versions{?api-version,top,skip,tags,listViewType}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       top: options?.top,
       skip: options?.skip,
       tags: options?.tags,

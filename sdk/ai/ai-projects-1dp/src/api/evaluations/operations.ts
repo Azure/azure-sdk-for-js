@@ -32,9 +32,9 @@ export function _createRunSend(
   options: EvaluationsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs:run{?api%2Dversion}",
+    "/evaluations/runs:run{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,9 +75,9 @@ export function _listSend(
   options: EvaluationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs{?api%2Dversion,top,skip,maxpagesize}",
+    "/evaluations/runs{?api-version,top,skip,maxpagesize}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       top: options?.top,
       skip: options?.skip,
       maxpagesize: options?.maxpagesize,
@@ -127,10 +127,10 @@ export function _getSend(
   options: EvaluationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs/{name}{?api%2Dversion}",
+    "/evaluations/runs/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -12,6 +12,7 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
+  DEPLOYMENT_NAME: "DeepSeek-V3",
   AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
