@@ -418,7 +418,7 @@ export enum KnownSummaryType {
 
 // @public
 export enum KnownVersions {
-    V20240807 = "2025-04-01-preview"
+    V20250401Preview = "2025-04-01-preview"
 }
 
 // @public

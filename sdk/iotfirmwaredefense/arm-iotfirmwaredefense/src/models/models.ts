@@ -1734,5 +1734,5 @@ export function usageMetricArrayDeserializer(result: Array<UsageMetric>): any[] 
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-04-01 API version. */
-  V20240807 = "2025-04-01-preview",
+  V20250401Preview = "2025-04-01-preview",
 }

@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0-beta.1 (2025-04-22)
+## 2.0.0-beta.1 (2025-04-24)
 Compared with version 1.0.0
     
 ### Features Added
@@ -79,13 +79,6 @@ Compared with version 1.0.0
   - Enum KnownProvisioningState has a new value Extracting
   - Enum KnownProvisioningState has a new value Pending
   - Enum KnownSummaryType has a new value CommonVulnerabilitiesAndExposures
-  - Type of parameter keyType of interface CryptoKey_2 is changed from string to CryptoKeyType
-  - Type of parameter summaryType of interface CveSummary is changed from "CVE" to "CommonVulnerabilitiesAndExposures"
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
-  - Type of parameter summaryType of interface SummaryResourceProperties is changed from "Firmware" | "CVE" | "BinaryHardening" | "CryptoCertificate" | "CryptoKey" to SummaryType
-  - Type of parameter tags of interface TrackedResource is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
 
 ### Breaking Changes
 
@@ -135,6 +128,13 @@ Compared with version 1.0.0
   - Interface IoTFirmwareDefenseClientOptionalParams no longer has parameter $host
   - Interface IoTFirmwareDefenseClientOptionalParams no longer has parameter endpoint
   - Interface PairedKey no longer has parameter id
+  - Type of parameter keyType of interface CryptoKey_2 is changed from string to CryptoKeyType
+  - Type of parameter summaryType of interface CveSummary is changed from "CVE" to "CommonVulnerabilitiesAndExposures"
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Type of parameter summaryType of interface SummaryResourceProperties is changed from "Firmware" | "CVE" | "BinaryHardening" | "CryptoCertificate" | "CryptoKey" to SummaryType
+  - Type of parameter tags of interface TrackedResource is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
   - Class IoTFirmwareDefenseClient no longer has parameter $host
   - Class IoTFirmwareDefenseClient no longer has parameter apiVersion
   - Class IoTFirmwareDefenseClient no longer has parameter subscriptionId
