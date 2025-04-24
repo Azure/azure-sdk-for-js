@@ -98,6 +98,7 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-rest/core-client": "workspace:*",
     "@azure-tools/test-credential": "workspace:*",
     "@azure-tools/test-recorder": "workspace:*",
     "@azure-tools/test-utils-vitest": "workspace:*",
