@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import type { MaintenanceConfigurations } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { MaintenanceConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerServiceClient } from "../containerServiceClient";
+import {
   MaintenanceConfiguration,
   MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
   MaintenanceConfigurationsListByManagedClusterOptionalParams,
@@ -24,7 +24,7 @@ import type {
   MaintenanceConfigurationsCreateOrUpdateResponse,
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsListByManagedClusterNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MaintenanceConfigurations operations. */
@@ -92,7 +92,7 @@ export class MaintenanceConfigurationsImpl
         resourceName,
         options,
       );
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -105,7 +105,7 @@ export class MaintenanceConfigurationsImpl
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }

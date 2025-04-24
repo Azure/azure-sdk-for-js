@@ -6,21 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import type { LoadBalancers } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { LoadBalancers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
+  SimplePollerLike,
+  OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
-import type {
+import { createLroSpec } from "../lroImpl";
+import {
   LoadBalancer,
   LoadBalancersListByManagedClusterNextOptionalParams,
   LoadBalancersListByManagedClusterOptionalParams,
@@ -32,7 +31,7 @@ import type {
   LoadBalancersDeleteOptionalParams,
   LoadBalancersDeleteResponse,
   LoadBalancersListByManagedClusterNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancers operations. */
@@ -98,7 +97,7 @@ export class LoadBalancersImpl implements LoadBalancers {
         resourceName,
         options,
       );
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -111,7 +110,7 @@ export class LoadBalancersImpl implements LoadBalancers {
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -367,7 +366,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

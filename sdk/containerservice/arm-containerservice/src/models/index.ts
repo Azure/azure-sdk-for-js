@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type * as coreClient from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 
 /** The List Operation response. */
 export interface OperationListResult {
@@ -519,34 +519,16 @@ export interface VirtualMachinesProfile {
 export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
-  /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. Currently, at most one AutoScaleProfile is allowed. */
-  autoscale?: AutoScaleProfile[];
+  /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. */
+  autoscale?: Record<string, unknown>;
 }
 
 /** Specifications on number of machines. */
 export interface ManualScaleProfile {
-  /** The list of allowed vm sizes e.g. ['Standard_E4s_v3', 'Standard_E16s_v3', 'Standard_D16s_v5']. AKS will use the first available one when scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will use the next size. */
-  sizes?: string[];
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
   /** Number of nodes. */
   count?: number;
-  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
-  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType;
-}
-
-/** Specifications on auto-scaling. */
-export interface AutoScaleProfile {
-  /** The list of allowed vm sizes e.g. ['Standard_E4s_v3', 'Standard_E16s_v3', 'Standard_D16s_v5']. AKS will use the first available one when auto scaling. If a VM size is unavailable (e.g. due to quota or regional capacity reasons), AKS will use the next size. */
-  sizes?: string[];
-  /** The minimum number of nodes of the specified sizes. */
-  minCount?: number;
-  /** The maximum number of nodes of the specified sizes. */
-  maxCount?: number;
-  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
-  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType;
 }
 
 /** Current status on a group of nodes of the same vm size. */
@@ -874,7 +856,7 @@ export interface AdvancedNetworking {
   enabled?: boolean;
   /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
   observability?: AdvancedNetworkingObservability;
-  /** Security profile to enable security features on cilium based cluster. */
+  /** Security profile to enable security features on cilium-based cluster. */
   security?: AdvancedNetworkingSecurity;
 }
 
@@ -884,10 +866,14 @@ export interface AdvancedNetworkingObservability {
   enabled?: boolean;
 }
 
-/** Security profile to enable security features on cilium based cluster. */
+/** Security profile to enable security features on cilium-based cluster. */
 export interface AdvancedNetworkingSecurity {
-  /** This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false. */
+  /** Configure Advanced Networking Security features on Cilium clusters. See individual fields for their default values. */
   enabled?: boolean;
+  /** This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true. */
+  advancedNetworkPolicies?: AdvancedNetworkPolicies;
+  /** This can be enabled only on Cilium-based clusters. If not specified, the default value is None. */
+  transitEncryption?: TransitEncryption;
 }
 
 /** For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
@@ -1640,6 +1626,104 @@ export interface SubResource {
   readonly type?: string;
 }
 
+/** The result of a request to list namespaces in a managed cluster. */
+export interface NamespaceListResult {
+  /** The list of namespaces. */
+  value?: Namespace[];
+  /** The URI to fetch the next page of results, if any. */
+  nextLink?: string;
+}
+
+/** Properties of a namespace managed by ARM */
+export interface NamespaceProperties {
+  /**
+   * The current provisioning state of the namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NamespaceProvisioningState;
+  /** The labels of managed namespace. */
+  labels?: { [propertyName: string]: string };
+  /** The annotations of managed namespace. */
+  annotations?: { [propertyName: string]: string };
+  /** The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced. */
+  defaultResourceQuota?: ResourceQuota;
+  /** The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced. */
+  defaultNetworkPolicy?: NetworkPolicies;
+  /** Action if Kubernetes namespace with same name already exists. */
+  adoptionPolicy?: AdoptionPolicy;
+  /** Delete options of a namespace. */
+  deletePolicy?: DeletePolicy;
+}
+
+/** Resource quota for the namespace. */
+export interface ResourceQuota {
+  /** CPU request of the namespace in one-thousandth CPU form. See [CPU resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu) for more details. */
+  cpuRequest?: string;
+  /** CPU limit of the namespace in one-thousandth CPU form. See [CPU resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu) for more details. */
+  cpuLimit?: string;
+  /** Memory request of the namespace in the power-of-two equivalents form: Ei, Pi, Ti, Gi, Mi, Ki. See [Memory resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory) for more details. */
+  memoryRequest?: string;
+  /** Memory limit of the namespace in the power-of-two equivalents form: Ei, Pi, Ti, Gi, Mi, Ki. See [Memory resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory) for more details. */
+  memoryLimit?: string;
+}
+
+/** Default network policy of the namespace, specifying ingress and egress rules. */
+export interface NetworkPolicies {
+  /** Ingress policy for the network. */
+  ingress?: PolicyRule;
+  /** Egress policy for the network. */
+  egress?: PolicyRule;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** The response from the List Agent Pools operation. */
 export interface AgentPoolListResult {
   /** The list of agent pools. */
@@ -1693,55 +1777,6 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 export interface AgentPoolDeleteMachinesParameter {
   /** The agent pool machine names. */
   machineNames: string[];
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** The response from the List Machines operation. */
@@ -2251,6 +2286,16 @@ export interface RebalanceLoadBalancersRequestBody {
   loadBalancerNames?: string[];
 }
 
+/** Specifications on auto-scaling. */
+export interface AutoScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** The minimum number of nodes of the specified sizes. */
+  minCount?: number;
+  /** The maximum number of nodes of the specified sizes. */
+  maxCount?: number;
+}
+
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -2311,6 +2356,26 @@ export interface MaintenanceConfiguration extends SubResource {
   notAllowedTime?: TimeSpan[];
   /** Maintenance window for the maintenance configuration. */
   maintenanceWindow?: MaintenanceWindow;
+}
+
+/** Namespace managed by ARM. */
+export interface Namespace extends SubResource {
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The tags to be persisted on the managed cluster namespace. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /** The location of the namespace. */
+  location?: string;
+  /** Properties of a namespace. */
+  properties?: NamespaceProperties;
 }
 
 /** Agent Pool. */
@@ -2744,6 +2809,12 @@ export interface ManagedClustersGetCommandResultHeaders {
 
 /** Defines headers for ManagedClusters_rebalanceLoadBalancers operation. */
 export interface ManagedClustersRebalanceLoadBalancersHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for Namespaces_delete operation. */
+export interface NamespacesDeleteHeaders {
   /** URL to query for status of the operation. */
   location?: string;
 }
@@ -3530,6 +3601,45 @@ export enum KnownIpvsScheduler {
  */
 export type IpvsScheduler = string;
 
+/** Known values of {@link AdvancedNetworkPolicies} that the service accepts. */
+export enum KnownAdvancedNetworkPolicies {
+  /** Enable Layer7 network policies (FQDN, HTTP\/S, Kafka). This option is a superset of the FQDN option. */
+  L7 = "L7",
+  /** Enable FQDN based network policies */
+  Fqdn = "FQDN",
+  /** Disable Layer 7 network policies (FQDN, HTTP\/S, Kafka) */
+  None = "None",
+}
+
+/**
+ * Defines values for AdvancedNetworkPolicies. \
+ * {@link KnownAdvancedNetworkPolicies} can be used interchangeably with AdvancedNetworkPolicies,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **L7**: Enable Layer7 network policies (FQDN, HTTP\/S, Kafka). This option is a superset of the FQDN option. \
+ * **FQDN**: Enable FQDN based network policies \
+ * **None**: Disable Layer 7 network policies (FQDN, HTTP\/S, Kafka)
+ */
+export type AdvancedNetworkPolicies = string;
+
+/** Known values of {@link TransitEncryption} that the service accepts. */
+export enum KnownTransitEncryption {
+  /** Enable WireGuard encryption for cluster traffic */
+  WireGuard = "WireGuard",
+  /** Disable WireGuard encryption for cluster traffic */
+  None = "None",
+}
+
+/**
+ * Defines values for TransitEncryption. \
+ * {@link KnownTransitEncryption} can be used interchangeably with TransitEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WireGuard**: Enable WireGuard encryption for cluster traffic \
+ * **None**: Disable WireGuard encryption for cluster traffic
+ */
+export type TransitEncryption = string;
+
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
   /** Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. */
@@ -3880,6 +3990,96 @@ export enum KnownType {
  * **Last**: Last.
  */
 export type Type = string;
+
+/** Known values of {@link NamespaceProvisioningState} that the service accepts. */
+export enum KnownNamespaceProvisioningState {
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Creating */
+  Creating = "Creating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for NamespaceProvisioningState. \
+ * {@link KnownNamespaceProvisioningState} can be used interchangeably with NamespaceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Updating** \
+ * **Deleting** \
+ * **Creating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type NamespaceProvisioningState = string;
+
+/** Known values of {@link PolicyRule} that the service accepts. */
+export enum KnownPolicyRule {
+  /** Deny all network traffic. */
+  DenyAll = "DenyAll",
+  /** Allow all network traffic. */
+  AllowAll = "AllowAll",
+  /** Allow traffic within the same namespace. */
+  AllowSameNamespace = "AllowSameNamespace",
+}
+
+/**
+ * Defines values for PolicyRule. \
+ * {@link KnownPolicyRule} can be used interchangeably with PolicyRule,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DenyAll**: Deny all network traffic. \
+ * **AllowAll**: Allow all network traffic. \
+ * **AllowSameNamespace**: Allow traffic within the same namespace.
+ */
+export type PolicyRule = string;
+
+/** Known values of {@link AdoptionPolicy} that the service accepts. */
+export enum KnownAdoptionPolicy {
+  /** If the namespace already exists in Kubernetes, attempts to create that same namespace in ARM will fail. */
+  Never = "Never",
+  /** Take over the existing namespace to be managed by ARM, if there is no difference. */
+  IfIdentical = "IfIdentical",
+  /** Always take over the existing namespace to be managed by ARM, some fields might be overwritten. */
+  Always = "Always",
+}
+
+/**
+ * Defines values for AdoptionPolicy. \
+ * {@link KnownAdoptionPolicy} can be used interchangeably with AdoptionPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Never**: If the namespace already exists in Kubernetes, attempts to create that same namespace in ARM will fail. \
+ * **IfIdentical**: Take over the existing namespace to be managed by ARM, if there is no difference. \
+ * **Always**: Always take over the existing namespace to be managed by ARM, some fields might be overwritten.
+ */
+export type AdoptionPolicy = string;
+
+/** Known values of {@link DeletePolicy} that the service accepts. */
+export enum KnownDeletePolicy {
+  /** Only delete the ARM resource, keep the Kubernetes namespace. Also delete the ManagedByARM label. */
+  Keep = "Keep",
+  /** Delete both the ARM resource and the Kubernetes namespace together. */
+  Delete = "Delete",
+}
+
+/**
+ * Defines values for DeletePolicy. \
+ * {@link KnownDeletePolicy} can be used interchangeably with DeletePolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Keep**: Only delete the ARM resource, keep the Kubernetes namespace. Also delete the ManagedByARM label. \
+ * **Delete**: Delete both the ARM resource and the Kubernetes namespace together.
+ */
+export type DeletePolicy = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
@@ -4461,6 +4661,65 @@ export interface MaintenanceConfigurationsListByManagedClusterNextOptionalParams
 /** Contains response data for the listByManagedClusterNext operation. */
 export type MaintenanceConfigurationsListByManagedClusterNextResponse =
   MaintenanceConfigurationListResult;
+
+/** Optional parameters. */
+export interface NamespacesListByManagedClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedCluster operation. */
+export type NamespacesListByManagedClusterResponse = NamespaceListResult;
+
+/** Optional parameters. */
+export interface NamespacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NamespacesGetResponse = Namespace;
+
+/** Optional parameters. */
+export interface NamespacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NamespacesCreateOrUpdateResponse = Namespace;
+
+/** Optional parameters. */
+export interface NamespacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type NamespacesDeleteResponse = NamespacesDeleteHeaders;
+
+/** Optional parameters. */
+export interface NamespacesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type NamespacesUpdateResponse = Namespace;
+
+/** Optional parameters. */
+export interface NamespacesListCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCredential operation. */
+export type NamespacesListCredentialResponse = CredentialResults;
+
+/** Optional parameters. */
+export interface NamespacesListByManagedClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedClusterNext operation. */
+export type NamespacesListByManagedClusterNextResponse = NamespaceListResult;
 
 /** Optional parameters. */
 export interface AgentPoolsAbortLatestOperationOptionalParams
