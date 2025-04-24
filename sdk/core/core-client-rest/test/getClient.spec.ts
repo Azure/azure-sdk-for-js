@@ -4,7 +4,7 @@
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
 import { getClient } from "../src/getClient.js";
-import { isNodeLike } from "@azure/core-util";
+import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
   HttpClient,
   PipelinePolicy,
