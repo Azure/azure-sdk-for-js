@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Namespaces } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Namespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerServiceClient } from "../containerServiceClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerServiceClient } from "../containerServiceClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Namespace,
   NamespacesListByManagedClusterNextOptionalParams,
@@ -36,7 +36,7 @@ import {
   NamespacesListCredentialOptionalParams,
   NamespacesListCredentialResponse,
   NamespacesListByManagedClusterNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Namespaces operations. */

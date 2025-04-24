@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ManagedClusterSnapshots } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ManagedClusterSnapshots } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerServiceClient } from "../containerServiceClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerServiceClient } from "../containerServiceClient.js";
 import {
   ManagedClusterSnapshot,
   ManagedClusterSnapshotsListNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   ManagedClusterSnapshotsDeleteOptionalParams,
   ManagedClusterSnapshotsListNextResponse,
   ManagedClusterSnapshotsListByResourceGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedClusterSnapshots operations. */
