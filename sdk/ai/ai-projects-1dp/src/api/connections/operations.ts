@@ -30,9 +30,9 @@ export function _listSend(
   options: ConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections{?api%2Dversion,connectionType,defaultConnection,top,skip,maxpagesize}",
+    "/connections{?api-version,connectionType,defaultConnection,top,skip,maxpagesize}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       connectionType: options?.connectionType,
       defaultConnection: options?.defaultConnection,
       top: options?.top,
@@ -84,10 +84,10 @@ export function _getWithCredentialsSend(
   options: ConnectionsGetWithCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections/{name}/withCredentials{?api%2Dversion}",
+    "/connections/{name}/withCredentials{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,10 +132,10 @@ export function _getSend(
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections/{name}{?api%2Dversion}",
+    "/connections/{name}{?api-version}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
