@@ -41,17 +41,17 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build -t @azure/dev-tool
+          pnpm --filter @azure/dev-tool... build
         displayName: "Build dev-tool"
 
       - script: |
-          node common/scripts/install-run-rush.js check-format -t @azure/dev-tool
+          pnpm --filter @azure/dev-tool... check-format
         displayName: "Check format for dev-tool"
 
       - script: |
-          node common/scripts/install-run-rush.js lint -t @azure/dev-tool
-        displayName: "linting dev-tool"
+          pnpm --filter @azure/dev-tool... lint
+        displayName: "Lint dev-tool"
 
       - script: |
-          node common/scripts/install-run-rush.js unit-test:node -t @azure/dev-tool
-        displayName: "running dev-tool unit tests"
+          pnpm --filter @azure/dev-tool... unit-test
+        displayName: "Run dev-tool unit tests"
