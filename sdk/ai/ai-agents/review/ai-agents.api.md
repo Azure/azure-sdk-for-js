@@ -1444,6 +1444,9 @@ export class ToolSet {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
+    addBingGroundingTool(connectionId: string): {
+        definition: BingGroundingToolDefinition;
+    };
     addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
@@ -1471,12 +1474,15 @@ export class ToolUtility {
     static createBingCustomSearchTool(searchConfigurations: SearchConfiguration[]): {
         definition: ToolDefinitionUnion;
     };
+    static createBingGroundingTool(connectionId: string): {
+        definition: BingGroundingToolDefinition;
+    };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
         definition: CodeInterpreterToolDefinition;
         resources: ToolResources;
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
-        definition: ToolDefinition;
+        definition: ToolDefinitionUnion;
     };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;

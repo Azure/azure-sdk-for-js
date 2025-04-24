@@ -19,7 +19,7 @@ const replaceableVariables: Record<string, string> = {
   TENANT_ID: "00000000-0000-0000-0000-000000000000",
   USER_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
-  AZURE_AI_PROJECTS_CONNECTION_STRING: `Sanitized.azure.com;00000000-0000-0000-0000-000000000000;00000;00000`,
+  PROJECT_ENDPOINT: `Sanitized.azure.com;00000000-0000-0000-0000-000000000000;00000;00000`,
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -94,7 +94,7 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 
 export function createProjectsClient(recorder?: Recorder, options?: ClientOptions): AgentsClient {
   const credential = createTestCredential();
-  const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
+  const connectionString = process.env["PROJECT_ENDPOINT"] || "";
   return new AgentsClient(
     connectionString,
     credential,
@@ -122,6 +122,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
+  const connectionString = process.env["PROJECT_ENDPOINT"] || "";
   return new AgentsClient(connectionString, credential, options);
 }

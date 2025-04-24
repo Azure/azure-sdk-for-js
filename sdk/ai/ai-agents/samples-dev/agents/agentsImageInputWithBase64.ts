@@ -11,7 +11,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
 // Load environment variables
-const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING || "<connection-string>";
+const connectionString = process.env.PROJECT_ENDPOINT || "<connection-string>";
 const modelDeployment = process.env.MODEL_DEPLOYMENT_NAME || "<model-deployment-name>";
 const filePath = "./data/image_file.png";
 

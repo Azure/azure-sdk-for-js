@@ -19,6 +19,7 @@ import type {
   VectorStoreDataSource,
   OpenApiFunctionDefinition,
   AISearchIndexResource,
+  BingGroundingToolDefinition,
 } from "./index.js";
 
 /**
@@ -72,12 +73,37 @@ export class ToolUtility {
   static createConnectionTool(
     toolType: connectionToolType,
     connectionIds: string[],
-  ): { definition: ToolDefinition } {
+  ): { definition: ToolDefinitionUnion } {
     return {
       definition: {
         type: toolType,
         [toolMap[toolType]]: {
           connections: connectionIds.map((connectionId) => ({ connectionId: connectionId })),
+        },
+      },
+    };
+  }
+
+  /**
+   * Creates a bing grounding search tool
+   * 
+   * @param connectionId - The ID of the bing search connection.
+   * 
+   * @returns An object containing the definition and resources for the bing grounding search tool
+   * 
+   */
+  static createBingGroundingTool(
+    connectionId: string,
+  ): { definition: BingGroundingToolDefinition } {
+    return {
+      definition: {
+        type: "bing_grounding",
+        bingGrounding: {
+          connectionList: [
+            {
+              connectionId: connectionId,
+            },
+          ],
         },
       },
     };
@@ -310,6 +336,21 @@ export class ToolSet {
     definition: OpenApiToolDefinition;
   } {
     const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds a bing grounding search tool to the tool set.
+   * 
+   * @param connectionId - The ID of the bing search connection.
+   * 
+   * @returns An object containing the definition and resources for the bing grounding search tool
+   */
+  addBingGroundingTool(
+    connectionId: string,
+  ): { definition: BingGroundingToolDefinition } {
+    const tool = ToolUtility.createBingGroundingTool(connectionId);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }

@@ -2,19 +2,17 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+import type { AgentsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
-describe("Agents - threads", () => {
+describe("projectsClient - threads", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
-  let agents: AgentsOperations;
+  let projectsClient: AgentsClient;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    agents = projectsClient.agents;
   });
 
   afterEach(async function () {
@@ -23,45 +21,44 @@ describe("Agents - threads", () => {
 
   it("client and agents operations are accessible", async function () {
     assert.isNotNull(projectsClient);
-    assert.isNotNull(agents);
   });
 
   it("should create thread", async function () {
     // Create thread
-    const thread = await agents.createThread();
+    const thread = await projectsClient.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
 
     // Delete thread
-    await agents.deleteThread(thread.id);
+    await projectsClient.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should retrieve thread", async function () {
     // Create thread
-    const thread = await agents.createThread();
+    const thread = await projectsClient.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Retrieve thread
-    const _thread = await agents.getThread(thread.id);
+    const _thread = await projectsClient.getThread(thread.id);
     assert.isNotEmpty(_thread);
     assert.equal(_thread.id, thread.id);
     console.log(`Retrieved thread, thread ID: ${_thread.id}`);
 
     // Delete thread
-    await agents.deleteThread(thread.id);
+    await projectsClient.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should update thread", async function () {
     // Create thread
-    const thread = await agents.createThread();
+    const thread = await projectsClient.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Update thread
-    await agents.updateThread(thread.id, { metadata: { key: "value" } });
-    const _thread = await agents.getThread(thread.id);
+    await projectsClient.updateThread(thread.id, { metadata: { key: "value" } });
+    const _thread = await projectsClient.getThread(thread.id);
     assert.equal(_thread.id, thread.id);
     assert.isNotEmpty(_thread.metadata);
     assert.equal(_thread.metadata?.key, "value");
@@ -70,17 +67,17 @@ describe("Agents - threads", () => {
     );
 
     // Delete thread
-    await agents.deleteThread(thread.id);
+    await projectsClient.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should delete thread", async function () {
     // Create thread
-    const thread = await agents.createThread();
+    const thread = await projectsClient.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Delete thread
-    const deleted = await agents.deleteThread(thread.id);
+    const deleted = await projectsClient.deleteThread(thread.id);
     assert.isNotNull(deleted);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });

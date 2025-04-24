@@ -10,49 +10,45 @@
  */
 
 import type {
-  MessageContentOutput,
-  MessageDeltaChunk,
+  MessageContent,
   MessageDeltaTextContent,
-  MessageTextContentOutput,
-  ThreadRunOutput,
-} from "@azure/ai-projects";
+  MessageTextContent,
+  MessageDeltaTextUrlCitationAnnotation
+} from "@azure/ai-agents";
 import {
-  AIProjectsClient,
+  AgentsClient,
   DoneEvent,
   ErrorEvent,
   MessageStreamEvent,
+  AgentStreamEvent,
   RunStreamEvent,
   ToolUtility,
   connectionToolType,
   isOutputOfType,
-} from "@azure/ai-projects";
+  MessageDeltaChunk,
+  ThreadRun,
+  RunStepDeltaChunk,
+  ThreadMessage,
+  RunStep,
+} from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
-  // At the moment, it should be in the format "<HostName>;<AzureSubscriptionId>;<ResourceGroup>;<HubName>"
-  // Customer needs to login to Azure subscription via Azure CLI and set the environment variables
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
-  const bingConnection = await client.connections.getConnection(
-    process.env["BING_CONNECTION_NAME"] || "<connection-name>",
-  );
-  const connectionId = bingConnection.id;
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
-  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
-    connectionId,
-  ]);
+  // Initialize agent bing tool with the connection id
+  const bingTool = ToolUtility.createBingGroundingTool(connectionId);
 
   // Create agent with the bing tool and process assistant run
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [bingTool.definition],
@@ -60,25 +56,22 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "How does wikipedia explain Euler's Identity?",
-  });
-  console.log(`Created message, message ID: ${message.id}`);
+  const message = await client.createMessage(thread.id, "user", "How does wikipedia explain Euler's Identity?");
+  console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools
-  const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.createRun(thread.id, agent.id);
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+      case "thread.run.created":
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
-      case MessageStreamEvent.ThreadMessageDelta:
+      case "thread.message.delta":
         {
           const messageDelta = eventMessage.data as MessageDeltaChunk;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -91,28 +84,28 @@ export async function main(): Promise<void> {
         }
         break;
 
-      case RunStreamEvent.ThreadRunCompleted:
+      case "thread.run.completed":
         console.log("Thread Run Completed");
         break;
-      case ErrorEvent.Error:
+      case "error":
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case DoneEvent.Done:
+      case "done":
         console.log("Stream completed.");
         break;
     }
   }
 
   // Delete the assistant when done
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.agents.listMessages(thread.id);
+  const messages = await client.listMessages(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContentOutput = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContentOutput;
+  const agentMessage: MessageContent = messages.data[0].content[0];
+  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+    const textContent = agentMessage as MessageTextContent;
     console.log(`Text Message Content - ${textContent.text.value}`);
   }
 }

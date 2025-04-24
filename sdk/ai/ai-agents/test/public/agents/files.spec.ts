@@ -2,32 +2,29 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+import type { AgentsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 describe("Agents - files", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
-  let agents: AgentsOperations;
+  let projectsClient: AgentsClient;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    agents = projectsClient.agents;
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and projectsClient operations are accessible", async function () {
     assert.isNotNull(projectsClient);
-    assert.isNotNull(agents);
   });
 
   it("should list files", async function () {
-    const files = await agents.listFiles();
+    const files = await projectsClient.listFiles();
     assert.isNotEmpty(files);
   });
 
@@ -38,7 +35,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
+    const file = await projectsClient.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     assert.isNotEmpty(file);
   });
 
@@ -49,7 +46,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const filePoller = agents.uploadFileAndPoll(fileContent, "assistants", {
+    const filePoller = projectsClient.uploadFileAndPoll(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     const initialState = filePoller.poll();
@@ -66,7 +63,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const filePoller = agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
+    const filePoller = projectsClient.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     const initialState = filePoller.poll();
     assert.isNotNull(initialState);
     const file = await filePoller.pollUntilDone();
@@ -81,8 +78,8 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
-    const deleted = await agents.deleteFile(file.id);
+    const file = await projectsClient.uploadFile(fileContent, "assistants", "filename.txt");
+    const deleted = await projectsClient.deleteFile(file.id);
     assert.isNotNull(deleted);
   });
 
@@ -93,10 +90,10 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
-    const _file = await agents.getFile(file.id);
+    const file = await projectsClient.uploadFile(fileContent, "assistants", "filename.txt");
+    const _file = await projectsClient.getFile(file.id);
     assert.isNotEmpty(_file);
     assert.equal(_file.id, file.id);
-    await agents.deleteFile(file.id);
+    await projectsClient.deleteFile(file.id);
   });
 });

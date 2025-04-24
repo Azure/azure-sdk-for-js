@@ -13,7 +13,6 @@ import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
 import {
   AgentsClient,
   ToolUtility,
-  connectionToolType,
   isOutputOfType,
 } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
@@ -32,9 +31,7 @@ export async function main(): Promise<void> {
   const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
-    connectionId,
-  ]);
+  const bingTool = ToolUtility.createBingGroundingTool(connectionId);
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {
@@ -59,7 +56,7 @@ export async function main(): Promise<void> {
     run = await client.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-    console.log(`Run failed: ${run.lastError}`);
+    console.log(`Run failed: ${run.lastError?.message}`);
   }
   console.log(`Run finished with status: ${run.status}`);
 

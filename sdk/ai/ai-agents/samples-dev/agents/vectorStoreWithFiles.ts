@@ -14,7 +14,7 @@ import { Readable } from "stream";
 import "dotenv/config";
 
 const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
