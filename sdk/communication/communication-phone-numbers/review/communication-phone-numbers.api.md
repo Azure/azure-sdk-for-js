@@ -188,12 +188,6 @@ export interface PhoneNumberAreaCode {
 export type PhoneNumberAssignmentType = "person" | "application";
 
 // @public
-export interface PhoneNumberBrowseCapabilitiesRequest {
-    calling?: PhoneNumberCapabilityType;
-    sms?: PhoneNumberCapabilityType;
-}
-
-// @public
 export interface PhoneNumberCapabilities {
     calling: PhoneNumberCapabilityType;
     sms: PhoneNumberCapabilityType;
@@ -236,22 +230,7 @@ export interface PhoneNumberOffering {
 }
 
 // @public
-export interface PhoneNumbersBrowseAvailableNumbersOptionalParams extends coreClient.OperationOptions {
-    assignmentType?: PhoneNumberAssignmentType;
-    capabilities?: PhoneNumberBrowseCapabilitiesRequest;
-    phoneNumberPrefixes?: string[];
-}
-
-// @public
 export type PhoneNumbersBrowseAvailableNumbersResponse = PhoneNumbersBrowseResult;
-
-// @public
-export interface PhoneNumbersBrowseRequest {
-    assignmentType?: PhoneNumberAssignmentType;
-    capabilities?: PhoneNumberBrowseCapabilitiesRequest;
-    phoneNumberPrefixes?: string[];
-    phoneNumberType: PhoneNumberType;
-}
 
 // @public
 export interface PhoneNumbersBrowseResult {
