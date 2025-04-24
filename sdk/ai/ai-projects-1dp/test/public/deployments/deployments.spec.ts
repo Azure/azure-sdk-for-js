@@ -4,7 +4,11 @@
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { AIProjectClient, DeploymentsOperations, ModelDeployment } from "../../../src/index.js";
+import type {
+  AIProjectClient,
+  DeploymentsOperations,
+  ModelDeployment,
+} from "../../../src/index.js";
 
 describe("datasets - basic", () => {
   let recorder: Recorder;
@@ -16,7 +20,7 @@ describe("datasets - basic", () => {
     projectsClient = createProjectsClient(recorder);
     deployments = projectsClient.deployments;
   });
-  
+
   afterEach(async function () {
     await recorder.stop();
   });
@@ -58,13 +62,13 @@ describe("datasets - basic", () => {
     // List deployments with a specific publisher
     const deploymentsListIterator = deployments.list({
       modelPublisher,
-    })
+    });
     const deploymentsList: ModelDeployment[] = [];
     for await (const deployment of deploymentsListIterator) {
       deploymentsList.push(deployment as ModelDeployment);
       console.log(`Deployment name: ${deployment.name}`);
     }
-    
+
     assert.isNotNull(deploymentsList);
     console.log(`Retrieved ${deploymentsList.length} deployments with publisher ${modelPublisher}`);
   });
