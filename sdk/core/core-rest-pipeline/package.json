@@ -97,6 +97,7 @@
     "@azure/core-tracing": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/logger": "workspace:*",
+    "@typespec/ts-http-runtime": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {

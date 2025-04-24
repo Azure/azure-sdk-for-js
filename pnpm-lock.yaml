@@ -6502,6 +6502,9 @@ importers:
       '@azure/logger':
         specifier: workspace:*
         version: link:../logger
+      '@typespec/ts-http-runtime':
+        specifier: workspace:*
+        version: link:../ts-http-runtime
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
