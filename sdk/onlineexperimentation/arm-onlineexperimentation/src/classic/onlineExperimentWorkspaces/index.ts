@@ -50,20 +50,14 @@ export interface OnlineExperimentWorkspacesOperations {
     workspaceName: string,
     properties: OnlineExperimentWorkspace,
     options?: OnlineExperimentWorkspacesUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<OnlineExperimentWorkspace>,
-    OnlineExperimentWorkspace
-  >;
+  ) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
   /** Create an experiment workspace, or update an existing workspace */
   createOrUpdate: (
     resourceGroupName: string,
     workspaceName: string,
     resource: OnlineExperimentWorkspace,
     options?: OnlineExperimentWorkspacesCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<OnlineExperimentWorkspace>,
-    OnlineExperimentWorkspace
-  >;
+  ) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
   /** Gets an experiment workspace */
   get: (
     resourceGroupName: string,
@@ -74,9 +68,8 @@ export interface OnlineExperimentWorkspacesOperations {
 
 function _getOnlineExperimentWorkspaces(context: OnlineExperimentationContext) {
   return {
-    listBySubscription: (
-      options?: OnlineExperimentWorkspacesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OnlineExperimentWorkspacesListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OnlineExperimentWorkspacesListByResourceGroupOptionalParams,
@@ -97,14 +90,7 @@ function _getOnlineExperimentWorkspaces(context: OnlineExperimentationContext) {
       workspaceName: string,
       resource: OnlineExperimentWorkspace,
       options?: OnlineExperimentWorkspacesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        workspaceName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, workspaceName, resource, options),
     get: (
       resourceGroupName: string,
       workspaceName: string,

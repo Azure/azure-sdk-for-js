@@ -15,9 +15,7 @@ async function listOnlineExperimentWorkspacesInAResourceGroup(): Promise<void> {
   const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.onlineExperimentWorkspaces.listByResourceGroup(
-    "res9871",
-  )) {
+  for await (const item of client.onlineExperimentWorkspaces.listByResourceGroup("res9871")) {
     resArray.push(item);
   }
 

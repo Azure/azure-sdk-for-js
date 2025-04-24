@@ -14,22 +14,18 @@ async function updateAnOnlineExperimentWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
-  const result = await client.onlineExperimentWorkspaces.update(
-    "res9871",
-    "expworkspace3",
-    {
-      tags: { newKey: "newVal" },
-      identity: {
-        type: "UserAssigned",
-        userAssignedIdentities: {
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
-            {},
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2":
-            {},
-        },
+  const result = await client.onlineExperimentWorkspaces.update("res9871", "expworkspace3", {
+    tags: { newKey: "newVal" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
+          {},
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2":
+          {},
       },
     },
-  );
+  });
   console.log(result);
 }
 
@@ -43,39 +39,34 @@ async function updateAnOnlineExperimentWorkspaceWithCustomerManagedEncryptionKey
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fa5fc227-a624-475e-b696-cdd604c735bc";
   const client = new OnlineExperimentationClient(credential, subscriptionId);
-  const result = await client.onlineExperimentWorkspaces.update(
-    "res9871",
-    "expworkspace3",
-    {
-      tags: { newKey: "newVal" },
-      identity: {
-        type: "UserAssigned",
-        userAssignedIdentities: {
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
-            {},
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2":
-            {},
-        },
+  const result = await client.onlineExperimentWorkspaces.update("res9871", "expworkspace3", {
+    tags: { newKey: "newVal" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1":
+          {},
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2":
+          {},
       },
-      properties: {
-        logAnalyticsWorkspaceResourceId:
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.OperationalInsights/workspaces/log9871",
-        logsExporterStorageAccountResourceId:
-          "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto9871",
-        encryption: {
-          customerManagedKeyEncryption: {
-            keyEncryptionKeyIdentity: {
-              identityType: "UserAssignedIdentity",
-              userAssignedIdentityResourceId:
-                "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
-            },
-            keyEncryptionKeyUrl:
-              "https://contosovault.vault.azure.net/keys/contosokek",
+    },
+    properties: {
+      logAnalyticsWorkspaceResourceId:
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.OperationalInsights/workspaces/log9871",
+      logsExporterStorageAccountResourceId:
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto9871",
+      encryption: {
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: {
+            identityType: "UserAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
           },
+          keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
         },
       },
     },
-  );
+  });
   console.log(result);
 }
 

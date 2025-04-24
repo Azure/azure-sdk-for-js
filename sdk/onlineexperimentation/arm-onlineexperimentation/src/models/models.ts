@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -203,9 +185,7 @@ export interface OnlineExperimentWorkspace extends TrackedResource {
   sku?: OnlineExperimentationWorkspaceSku;
 }
 
-export function onlineExperimentWorkspaceSerializer(
-  item: OnlineExperimentWorkspace,
-): any {
+export function onlineExperimentWorkspaceSerializer(item: OnlineExperimentWorkspace): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -215,15 +195,11 @@ export function onlineExperimentWorkspaceSerializer(
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
-    sku: !item["sku"]
-      ? item["sku"]
-      : onlineExperimentationWorkspaceSkuSerializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : onlineExperimentationWorkspaceSkuSerializer(item["sku"]),
   };
 }
 
-export function onlineExperimentWorkspaceDeserializer(
-  item: any,
-): OnlineExperimentWorkspace {
+export function onlineExperimentWorkspaceDeserializer(item: any): OnlineExperimentWorkspace {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -239,9 +215,7 @@ export function onlineExperimentWorkspaceDeserializer(
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
-    sku: !item["sku"]
-      ? item["sku"]
-      : onlineExperimentationWorkspaceSkuDeserializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : onlineExperimentationWorkspaceSkuDeserializer(item["sku"]),
   };
 }
 
@@ -268,8 +242,7 @@ export function onlineExperimentWorkspacePropertiesSerializer(
 ): any {
   return {
     logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
-    logsExporterStorageAccountResourceId:
-      item["logsExporterStorageAccountResourceId"],
+    logsExporterStorageAccountResourceId: item["logsExporterStorageAccountResourceId"],
     appConfigurationResourceId: item["appConfigurationResourceId"],
     encryption: !item["encryption"]
       ? item["encryption"]
@@ -284,8 +257,7 @@ export function onlineExperimentWorkspacePropertiesDeserializer(
     workspaceId: item["workspaceId"],
     provisioningState: item["provisioningState"],
     logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
-    logsExporterStorageAccountResourceId:
-      item["logsExporterStorageAccountResourceId"],
+    logsExporterStorageAccountResourceId: item["logsExporterStorageAccountResourceId"],
     appConfigurationResourceId: item["appConfigurationResourceId"],
     encryption: !item["encryption"]
       ? item["encryption"]
@@ -327,9 +299,7 @@ export function resourceEncryptionConfigurationSerializer(
   return {
     customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
       ? item["customerManagedKeyEncryption"]
-      : customerManagedKeyEncryptionSerializer(
-          item["customerManagedKeyEncryption"],
-        ),
+      : customerManagedKeyEncryptionSerializer(item["customerManagedKeyEncryption"]),
   };
 }
 
@@ -339,9 +309,7 @@ export function resourceEncryptionConfigurationDeserializer(
   return {
     customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
       ? item["customerManagedKeyEncryption"]
-      : customerManagedKeyEncryptionDeserializer(
-          item["customerManagedKeyEncryption"],
-        ),
+      : customerManagedKeyEncryptionDeserializer(item["customerManagedKeyEncryption"]),
   };
 }
 
@@ -353,9 +321,7 @@ export interface CustomerManagedKeyEncryption {
   keyEncryptionKeyUrl?: string;
 }
 
-export function customerManagedKeyEncryptionSerializer(
-  item: CustomerManagedKeyEncryption,
-): any {
+export function customerManagedKeyEncryptionSerializer(item: CustomerManagedKeyEncryption): any {
   return {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
@@ -364,9 +330,7 @@ export function customerManagedKeyEncryptionSerializer(
   };
 }
 
-export function customerManagedKeyEncryptionDeserializer(
-  item: any,
-): CustomerManagedKeyEncryption {
+export function customerManagedKeyEncryptionDeserializer(item: any): CustomerManagedKeyEncryption {
   return {
     keyEncryptionKeyIdentity: !item["keyEncryptionKeyIdentity"]
       ? item["keyEncryptionKeyIdentity"]
@@ -385,9 +349,7 @@ export interface KeyEncryptionKeyIdentity {
   federatedClientId?: string;
 }
 
-export function keyEncryptionKeyIdentitySerializer(
-  item: KeyEncryptionKeyIdentity,
-): any {
+export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
   return {
     identityType: item["identityType"],
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
@@ -395,9 +357,7 @@ export function keyEncryptionKeyIdentitySerializer(
   };
 }
 
-export function keyEncryptionKeyIdentityDeserializer(
-  item: any,
-): KeyEncryptionKeyIdentity {
+export function keyEncryptionKeyIdentityDeserializer(item: any): KeyEncryptionKeyIdentity {
   return {
     identityType: item["identityType"],
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
@@ -435,18 +395,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -487,15 +443,11 @@ export interface UserAssignedIdentity {
   readonly principalId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     clientId: item["clientId"],
     principalId: item["principalId"],
@@ -645,9 +597,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
