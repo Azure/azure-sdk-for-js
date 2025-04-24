@@ -22,6 +22,25 @@
 
 ### Bugs Fixed
 
+- For `AcsChatMessageEditedEventData`, `AcsChatMessageEditedInThreadEventData`, and `AcsChatThreadPropertiesUpdatedPerUserEventData`
+  - Made `editTime` and `metadata` optional
+- For `AcsChatMessageEventBase`
+  - Made `composeTime`, `senderCommunicationIdentifier`, `senderDisplayName`, and `version` optional
+- For `AcsChatMessageEventInThreadBase`
+  - Made `composeTime`, `senderDisplayName`, and `version` optional
+- For `AcsChatMessageReceivedInThreadEventData` and `AcsChatThreadCreatedWithUserEventData`
+  - Made `metadata` optional
+- For `AcsChatParticipantAddedToThreadEventData` and `AcsChatParticipantRemovedFromThreadEventData`
+  - Made `time` and `version` optional
+- For `AcsChatThreadParticipant`
+  - Made `displayName` and `metadata` optional
+- For `AcsChatThreadDeletedEventData` and `AcsChatThreadWithUserDeletedEventData`
+  - Made `deleteTime` optional
+- For `AcsSmsDeliveryReportReceivedEventData`
+  - Made `receivedTimestamp` and `tag` optional
+- For `AcsSmsReceivedEventData`
+  - Made `message` required
+
 ### Other Changes
 
 ## 5.11.0 (2025-02-21)
