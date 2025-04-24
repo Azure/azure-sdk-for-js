@@ -91,7 +91,7 @@ export class BulkHelper {
         this.helpersByPartitionKeyRangeId.forEach((helper) => {
           helper.addPartialBatchToQueue();
         });
-        await sleep(100);
+        await sleep(1000);
       }
     } finally {
       if (this.congestionControlTimer) {
