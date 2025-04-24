@@ -9,12 +9,7 @@ import {
   InsightsListBySubscriptionOptionalParams,
   InsightsGetOptionalParams,
 } from "../../api/insights/options.js";
-import {
-  $delete,
-  create,
-  listBySubscription,
-  get,
-} from "../../api/insights/operations.js";
+import { $delete, create, listBySubscription, get } from "../../api/insights/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Insights operations. */
@@ -67,17 +62,12 @@ function _getInsights(context: ImpactContext) {
       workloadImpactName: string,
       options?: InsightsListBySubscriptionOptionalParams,
     ) => listBySubscription(context, workloadImpactName, options),
-    get: (
-      workloadImpactName: string,
-      insightName: string,
-      options?: InsightsGetOptionalParams,
-    ) => get(context, workloadImpactName, insightName, options),
+    get: (workloadImpactName: string, insightName: string, options?: InsightsGetOptionalParams) =>
+      get(context, workloadImpactName, insightName, options),
   };
 }
 
-export function _getInsightsOperations(
-  context: ImpactContext,
-): InsightsOperations {
+export function _getInsightsOperations(context: ImpactContext): InsightsOperations {
   return {
     ..._getInsights(context),
   };

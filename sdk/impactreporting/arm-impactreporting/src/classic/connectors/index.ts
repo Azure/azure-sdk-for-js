@@ -32,10 +32,7 @@ export interface ConnectorsOperations {
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete: (
-    connectorName: string,
-    options?: ConnectorsDeleteOptionalParams,
-  ) => Promise<void>;
+  delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) => Promise<void>;
   /** Update a Connector */
   update: (
     connectorName: string,
@@ -49,17 +46,13 @@ export interface ConnectorsOperations {
     options?: ConnectorsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Connector>, Connector>;
   /** Get a Connector */
-  get: (
-    connectorName: string,
-    options?: ConnectorsGetOptionalParams,
-  ) => Promise<Connector>;
+  get: (connectorName: string, options?: ConnectorsGetOptionalParams) => Promise<Connector>;
 }
 
 function _getConnectors(context: ImpactContext) {
   return {
-    listBySubscription: (
-      options?: ConnectorsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: ConnectorsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) =>
       $delete(context, connectorName, options),
     update: (
@@ -77,9 +70,7 @@ function _getConnectors(context: ImpactContext) {
   };
 }
 
-export function _getConnectorsOperations(
-  context: ImpactContext,
-): ConnectorsOperations {
+export function _getConnectorsOperations(context: ImpactContext): ConnectorsOperations {
   return {
     ..._getConnectors(context),
   };

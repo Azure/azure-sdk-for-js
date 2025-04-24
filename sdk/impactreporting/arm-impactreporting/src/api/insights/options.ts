@@ -10,8 +10,7 @@ export interface InsightsDeleteOptionalParams extends OperationOptions {}
 export interface InsightsCreateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface InsightsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface InsightsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface InsightsGetOptionalParams extends OperationOptions {}

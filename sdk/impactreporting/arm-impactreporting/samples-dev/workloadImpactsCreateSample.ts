@@ -116,9 +116,7 @@ async function reportingPerformanceRelatedImpact(): Promise<void> {
       impactDescription: "high cpu utilization",
       impactCategory: "Resource.Performance",
       workload: { context: "webapp/scenario1", toolset: "Other" },
-      performance: [
-        { metricName: "CPU", actual: 90, expected: 60, unit: "garbage" },
-      ],
+      performance: [{ metricName: "CPU", actual: 90, expected: 60, unit: "garbage" }],
       clientIncidentDetails: {
         clientIncidentId: "AA123",
         clientIncidentSource: "Jira",

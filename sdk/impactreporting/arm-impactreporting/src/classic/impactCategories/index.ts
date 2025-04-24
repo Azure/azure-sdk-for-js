@@ -7,10 +7,7 @@ import {
   ImpactCategoriesListBySubscriptionOptionalParams,
   ImpactCategoriesGetOptionalParams,
 } from "../../api/impactCategories/options.js";
-import {
-  listBySubscription,
-  get,
-} from "../../api/impactCategories/operations.js";
+import { listBySubscription, get } from "../../api/impactCategories/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ImpactCategories operations. */
@@ -33,16 +30,12 @@ function _getImpactCategories(context: ImpactContext) {
       resourceType: string,
       options?: ImpactCategoriesListBySubscriptionOptionalParams,
     ) => listBySubscription(context, resourceType, options),
-    get: (
-      impactCategoryName: string,
-      options?: ImpactCategoriesGetOptionalParams,
-    ) => get(context, impactCategoryName, options),
+    get: (impactCategoryName: string, options?: ImpactCategoriesGetOptionalParams) =>
+      get(context, impactCategoryName, options),
   };
 }
 
-export function _getImpactCategoriesOperations(
-  context: ImpactContext,
-): ImpactCategoriesOperations {
+export function _getImpactCategoriesOperations(context: ImpactContext): ImpactCategoriesOperations {
   return {
     ..._getImpactCategories(context),
   };

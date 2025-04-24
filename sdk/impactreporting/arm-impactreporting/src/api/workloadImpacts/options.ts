@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface WorkloadImpactsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface WorkloadImpactsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkloadImpactsDeleteOptionalParams extends OperationOptions {}

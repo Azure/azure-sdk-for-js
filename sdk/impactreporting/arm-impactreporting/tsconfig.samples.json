@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-impactreporting": [
-        "./dist/esm"
-      ]
+      "@azure/arm-impactreporting": ["./dist/esm"]
     }
   }
 }
