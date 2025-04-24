@@ -47,6 +47,7 @@ export {
   ApiManagementCircuitBreaker,
   ApiManagementCircuitBreakerOpenedEventData,
   ApiManagementCircuitBreakerClosedEventData,
+  ApiManagementExpiredGatewayToken,
   ApiManagementGateway,
   ApiManagementGatewayTokenExpiredEventData,
   ApiManagementGatewayTokenNearExpiry,

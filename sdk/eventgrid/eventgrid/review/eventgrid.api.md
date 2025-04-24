@@ -821,6 +821,11 @@ export interface ApiManagementCircuitBreakerOpenedEventData {
 }
 
 // @public
+export interface ApiManagementExpiredGatewayToken {
+    expiresOn: string;
+}
+
+// @public
 export interface ApiManagementGateway {
     gatewayId: string;
     instanceId: string;
@@ -879,7 +884,6 @@ export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
 // @public
 export interface ApiManagementGatewayTokenExpiredEventData {
     gateway: ApiManagementGateway;
-    // Warning: (ae-forgotten-export) The symbol "ApiManagementExpiredGatewayToken" needs to be exported by the entry point index.d.ts
     token: ApiManagementExpiredGatewayToken;
 }
 
