@@ -526,7 +526,7 @@ export class Items {
         const id = getIdFromLink(this.container.url);
 
         let partitionKeyRangeId: string;
-        if (partitionKey.length > 0) {
+        if (partitionKey && partitionKey.length > 0) {
           partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
@@ -691,7 +691,7 @@ export class Items {
         const id = getIdFromLink(this.container.url);
 
         let partitionKeyRangeId: string;
-        if (partitionKey.length > 0) {
+        if (partitionKey && partitionKey.length > 0) {
           partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
