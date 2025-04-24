@@ -64,10 +64,10 @@
     ]
   },
   "dependencies": {
+    "@azure-rest/core-client": "workspace:*",
     "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
-    "@azure/core-client": "workspace:*",
-    "@azure/core-lro": "catalog:corelrov2",
+    "@azure/core-lro": "workspace:*",
     "@azure/core-paging": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "tslib": "catalog:"

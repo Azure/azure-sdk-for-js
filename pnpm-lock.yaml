@@ -11076,6 +11076,9 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:*
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-cognitiveservices':
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/arm-storage':
         specifier: catalog:arm
         version: 18.4.0
@@ -26776,18 +26779,18 @@ importers:
 
   sdk/workloads/arm-workloadssapvirtualinstance:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: workspace:*
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: workspace:*
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: catalog:corelrov2
-        version: 2.7.2
+        specifier: workspace:*
+        version: link:../../core/core-lro
       '@azure/core-paging':
         specifier: workspace:*
         version: link:../../core/core-paging
@@ -28422,8 +28425,8 @@ packages:
   '@types/chai-as-promised@8.0.2':
     resolution: {integrity: sha512-meQ1wDr1K5KRCSvG2lX7n7/5wf70BeptTKst0axGvnN6zqaVpRqegoIbugiAPSqOW9K9aL8gDVrm7a2LXOtn2Q==}
 
-  '@types/chai@4.3.20':
-    resolution: {integrity: sha512-/pC9HAB5I/xMlc5FP77qjCnI16ChlJfW0tGa0IUcFn38VJrTV6DeZ60NU5KZBtaOZqjdpwTWohz5HU1RrhiYxQ==}
+  '@types/chai@5.2.1':
+    resolution: {integrity: sha512-iu1JLYmGmITRzUgNiLMZD3WCoFzpYtueuyAgHTXqgwSRAMIlFTnZqG6/xenkpUGRJEzSfklUTI4GNSzks/dc0w==}
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -28433,6 +28436,9 @@ packages:
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
+
+  '@types/deep-eql@4.0.2':
+    resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
   '@types/eslint-config-prettier@6.11.3':
     resolution: {integrity: sha512-3wXCiM8croUnhg9LdtZUJQwNcQYGWxxdOWDjPe1ykCqJFPVpzAKfs/2dgSoCtAvdPeaponcWPI7mPcGGp9dkKQ==}
@@ -34012,7 +34018,7 @@ snapshots:
 
   '@rollup/pluginutils@5.1.4(rollup@4.36.0)':
     dependencies:
-      '@types/estree': 1.0.6
+      '@types/estree': 1.0.7
       estree-walker: 2.0.2
       picomatch: 4.0.2
     optionalDependencies:
@@ -34020,7 +34026,7 @@ snapshots:
 
   '@rollup/pluginutils@5.1.4(rollup@4.40.0)':
     dependencies:
-      '@types/estree': 1.0.6
+      '@types/estree': 1.0.7
       estree-walker: 2.0.2
       picomatch: 4.0.2
     optionalDependencies:
@@ -34222,9 +34228,11 @@ snapshots:
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.2.1
 
-  '@types/chai@4.3.20': {}
+  '@types/chai@5.2.1':
+    dependencies:
+      '@types/deep-eql': 4.0.2
 
   '@types/connect@3.4.38':
     dependencies:
@@ -34236,6 +34244,8 @@ snapshots:
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 2.1.0
+
+  '@types/deep-eql@4.0.2': {}
 
   '@types/eslint-config-prettier@6.11.3': {}
 
