@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
  */
 async function getProtectedContainersUsagesSummary(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getProtectedContainersUsagesSummary(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupUsageSummaries.list(
+  for await (const item of client.backupUsageSummaries.list(
     vaultName,
     resourceGroupName,
     options,
@@ -47,7 +47,7 @@ async function getProtectedContainersUsagesSummary(): Promise<void> {
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupProtectedItem_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupProtectedItem_UsageSummary_Get.json
  */
 async function getProtectedItemsUsagesSummary(): Promise<void> {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function getProtectedItemsUsagesSummary(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupUsageSummaries.list(
+  for await (const item of client.backupUsageSummaries.list(
     vaultName,
     resourceGroupName,
     options,
@@ -72,8 +72,8 @@ async function getProtectedItemsUsagesSummary(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getProtectedContainersUsagesSummary();
-  getProtectedItemsUsagesSummary();
+  await getProtectedContainersUsagesSummary();
+  await getProtectedItemsUsagesSummary();
 }
 
 main().catch(console.error);

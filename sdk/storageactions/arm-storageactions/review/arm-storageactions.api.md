@@ -79,10 +79,32 @@ export enum KnownMatchedBlockName {
 }
 
 // @public
+export enum KnownOnFailure {
+    Break = "break"
+}
+
+// @public
+export enum KnownOnSuccess {
+    Continue = "continue"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    ValidateSubscriptionQuotaBegin = "ValidateSubscriptionQuotaBegin",
+    ValidateSubscriptionQuotaEnd = "ValidateSubscriptionQuotaEnd"
 }
 
 // @public
@@ -123,6 +145,12 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export type MatchedBlockName = string;
+
+// @public
+export type OnFailure = string;
+
+// @public
+export type OnSuccess = string;
 
 // @public
 export interface Operation {
@@ -170,7 +198,7 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
-export type ProvisioningState = "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Creating" | "Succeeded" | "Deleting" | "Canceled" | "Failed";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -218,8 +246,8 @@ export interface StorageActionsManagementClientOptionalParams extends coreClient
 
 // @public
 export interface StorageTask extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
+    identity: ManagedServiceIdentity;
+    properties: StorageTaskProperties;
 }
 
 // @public
@@ -242,7 +270,7 @@ export type StorageTaskAssignmentListNextResponse = StorageTaskAssignmentsListRe
 
 // @public
 export interface StorageTaskAssignmentListOptionalParams extends coreClient.OperationOptions {
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public
@@ -262,8 +290,8 @@ export interface StorageTaskAssignmentsListResult {
 // @public
 export interface StorageTaskOperation {
     name: StorageTaskOperationName;
-    onFailure?: "break";
-    onSuccess?: "continue";
+    onFailure?: OnFailure;
+    onSuccess?: OnSuccess;
     parameters?: {
         [propertyName: string]: string;
     };
@@ -462,7 +490,7 @@ export type StorageTasksReportListNextResponse = StorageTaskReportSummary;
 // @public
 export interface StorageTasksReportListOptionalParams extends coreClient.OperationOptions {
     filter?: string;
-    maxpagesize?: string;
+    maxpagesize?: number;
 }
 
 // @public

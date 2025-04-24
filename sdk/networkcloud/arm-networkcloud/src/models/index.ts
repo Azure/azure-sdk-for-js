@@ -483,7 +483,7 @@ export interface BareMetalMachineConfigurationData {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly bmcConnectionString?: string;
-  /** The credentials of the baseboard management controller on this bare metal machine. */
+  /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
   bmcCredentials: AdministrativeCredentials;
   /** The MAC address of the BMC for this machine. */
   bmcMacAddress: string;
@@ -504,7 +504,7 @@ export interface BareMetalMachineConfigurationData {
 
 /** StorageApplianceConfigurationData represents configuration for the storage application. */
 export interface StorageApplianceConfigurationData {
-  /** The credentials of the administrative interface on this storage appliance. */
+  /** The credentials of the administrative interface on this storage appliance. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
   adminCredentials: AdministrativeCredentials;
   /** The slot that storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
@@ -512,6 +512,22 @@ export interface StorageApplianceConfigurationData {
   serialNumber: string;
   /** The user-provided name for the storage appliance that will be created from this specification. */
   storageApplianceName?: string;
+}
+
+/** AnalyticsOutputSettings represents the settings for the log analytics workspace used for output of logs from this cluster. */
+export interface AnalyticsOutputSettings {
+  /** The resource ID of the analytics workspace that is to be used by the specified identity. */
+  analyticsWorkspaceId?: string;
+  /** The selection of the managed identity to use with this analytics workspace. The identity type must be either system assigned or user assigned. */
+  associatedIdentity?: IdentitySelector;
+}
+
+/** IdentitySelector represents the selection of a managed identity for use. */
+export interface IdentitySelector {
+  /** The type of managed identity that is being selected. */
+  identityType?: ManagedServiceIdentitySelectorType;
+  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
+  userAssignedIdentityResourceId?: string;
 }
 
 /** ClusterAvailableUpgradeVersion represents the various cluster upgrade parameters. */
@@ -588,14 +604,6 @@ export interface CommandOutputSettings {
   containerUrl?: string;
 }
 
-/** IdentitySelector represents the selection of a managed identity for use. */
-export interface IdentitySelector {
-  /** The type of managed identity that is being selected. */
-  identityType?: ManagedServiceIdentitySelectorType;
-  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
-  userAssignedIdentityResourceId?: string;
-}
-
 /** ValidationThreshold indicates allowed machine and node hardware and deployment failures. */
 export interface ValidationThreshold {
   /** Selection of how the type evaluation is applied to the cluster calculation. */
@@ -620,6 +628,14 @@ export interface ClusterSecretArchive {
   useKeyVault?: ClusterSecretArchiveEnabled;
 }
 
+/** SecretArchiveSettings represents the settings for the secret archive used to hold credentials for the cluster. */
+export interface SecretArchiveSettings {
+  /** The selection of the managed identity to use with this vault URI. The identity type must be either system assigned or user assigned. */
+  associatedIdentity?: IdentitySelector;
+  /** The URI for the key vault used as the secret archive. */
+  vaultUri?: string;
+}
+
 /** ClusterUpdateStrategy represents the strategy for updating the cluster. */
 export interface ClusterUpdateStrategy {
   /**
@@ -635,6 +651,12 @@ export interface ClusterUpdateStrategy {
   thresholdValue: number;
   /** The time to wait between the increments of update defined by the strategy. */
   waitTimeMinutes?: number;
+}
+
+/** VulnerabilityScanningSettings represents the settings for how security vulnerability scanning is applied to the cluster. */
+export interface VulnerabilityScanningSettings {
+  /** The mode selection for container vulnerability scanning. */
+  containerScan?: VulnerabilityScanningSettingsContainerScan;
 }
 
 /** KubernetesClusterList represents a list of Kubernetes clusters. */
@@ -1373,7 +1395,7 @@ export interface BareMetalMachinePowerOffParameters {
 
 /** BareMetalMachineReplaceParameters represents the body of the request to physically swap a bare metal machine for another. */
 export interface BareMetalMachineReplaceParameters {
-  /** The credentials of the baseboard management controller on this bare metal machine. */
+  /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
   bmcCredentials?: AdministrativeCredentials;
   /** The MAC address of the BMC device. */
   bmcMacAddress?: string;
@@ -1454,6 +1476,8 @@ export interface ClusterPatchParameters {
   tags?: { [propertyName: string]: string };
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
   aggregatorOrSingleRackDefinition?: RackDefinition;
+  /** The settings for the log analytics workspace used for output of logs from this cluster. */
+  analyticsOutputSettings?: AnalyticsOutputSettings;
   /** The customer-provided location information to identify where the cluster resides. */
   clusterLocation?: string;
   /** The service principal to be used by the cluster during Arc Appliance installation. */
@@ -1471,8 +1495,18 @@ export interface ClusterPatchParameters {
   runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
   secretArchive?: ClusterSecretArchive;
+  /** The settings for the secret archive used to hold credentials for the cluster. */
+  secretArchiveSettings?: SecretArchiveSettings;
   /** The strategy for updating the cluster. */
   updateStrategy?: ClusterUpdateStrategy;
+  /** The settings for how security vulnerability scanning is applied to the cluster. */
+  vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
+}
+
+/** VulnerabilityScanningSettingsPatch represents the settings for how security vulnerability scanning is applied to the cluster. */
+export interface VulnerabilityScanningSettingsPatch {
+  /** The mode selection for container vulnerability scanning. */
+  containerScan?: VulnerabilityScanningSettingsContainerScan;
 }
 
 /** BareMetalMachineKeySetList represents a list of bare metal machine key sets. */
@@ -2074,7 +2108,9 @@ export interface Cluster extends TrackedResource {
   identity?: ManagedServiceIdentity;
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
   aggregatorOrSingleRackDefinition: RackDefinition;
-  /** The resource ID of the Log Analytics Workspace that will be used for storing relevant logs. */
+  /** The settings for the log analytics workspace used for output of logs from this cluster. */
+  analyticsOutputSettings?: AnalyticsOutputSettings;
+  /** Field Deprecated. The resource ID of the Log Analytics Workspace that will be used for storing relevant logs. */
   analyticsWorkspaceId?: string;
   /**
    * The list of cluster runtime version upgrades available for this cluster.
@@ -2156,6 +2192,8 @@ export interface Cluster extends TrackedResource {
   runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
   secretArchive?: ClusterSecretArchive;
+  /** The settings for the secret archive used to hold credentials for the cluster. */
+  secretArchiveSettings?: SecretArchiveSettings;
   /**
    * The support end date of the runtime version of the cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2163,6 +2201,8 @@ export interface Cluster extends TrackedResource {
   readonly supportExpiryDate?: string;
   /** The strategy for updating the cluster. */
   updateStrategy?: ClusterUpdateStrategy;
+  /** The settings for how security vulnerability scanning is applied to the cluster. */
+  vulnerabilityScanningSettings?: VulnerabilityScanningSettings;
   /**
    * The list of workload resource IDs that are hosted within this cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2391,7 +2431,7 @@ export interface StorageAppliance extends TrackedResource {
   /** The credentials of the administrative interface on this storage appliance. */
   administratorCredentials: AdministrativeCredentials;
   /**
-   * The total capacity of the storage appliance.
+   * The total capacity of the storage appliance. Measured in GiB.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly capacity?: number;
@@ -2401,7 +2441,7 @@ export interface StorageAppliance extends TrackedResource {
    */
   readonly capacityUsed?: number;
   /**
-   * The resource ID of the cluster this storage appliance is associated with.
+   * The resource ID of the cluster this storage appliance is associated with. Measured in GiB.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterId?: string;
@@ -2539,6 +2579,8 @@ export interface VirtualMachine extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterId?: string;
+  /** The extended location to use for creation of a VM console resource. */
+  consoleExtendedLocation?: ExtendedLocation;
   /** The number of CPU cores in the virtual machine. */
   cpuCores: number;
   /**
@@ -3641,6 +3683,24 @@ export enum KnownClusterManagerProvisioningState {
  */
 export type ClusterManagerProvisioningState = string;
 
+/** Known values of {@link ManagedServiceIdentitySelectorType} that the service accepts. */
+export enum KnownManagedServiceIdentitySelectorType {
+  /** SystemAssignedIdentity */
+  SystemAssignedIdentity = "SystemAssignedIdentity",
+  /** UserAssignedIdentity */
+  UserAssignedIdentity = "UserAssignedIdentity",
+}
+
+/**
+ * Defines values for ManagedServiceIdentitySelectorType. \
+ * {@link KnownManagedServiceIdentitySelectorType} can be used interchangeably with ManagedServiceIdentitySelectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssignedIdentity** \
+ * **UserAssignedIdentity**
+ */
+export type ManagedServiceIdentitySelectorType = string;
+
 /** Known values of {@link ControlImpact} that the service accepts. */
 export enum KnownControlImpact {
   /** True */
@@ -3736,24 +3796,6 @@ export enum KnownClusterType {
  * **MultiRack**
  */
 export type ClusterType = string;
-
-/** Known values of {@link ManagedServiceIdentitySelectorType} that the service accepts. */
-export enum KnownManagedServiceIdentitySelectorType {
-  /** SystemAssignedIdentity */
-  SystemAssignedIdentity = "SystemAssignedIdentity",
-  /** UserAssignedIdentity */
-  UserAssignedIdentity = "UserAssignedIdentity",
-}
-
-/**
- * Defines values for ManagedServiceIdentitySelectorType. \
- * {@link KnownManagedServiceIdentitySelectorType} can be used interchangeably with ManagedServiceIdentitySelectorType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssignedIdentity** \
- * **UserAssignedIdentity**
- */
-export type ManagedServiceIdentitySelectorType = string;
 
 /** Known values of {@link ValidationThresholdGrouping} that the service accepts. */
 export enum KnownValidationThresholdGrouping {
@@ -3922,6 +3964,24 @@ export enum KnownClusterUpdateStrategyType {
  * **PauseAfterRack**
  */
 export type ClusterUpdateStrategyType = string;
+
+/** Known values of {@link VulnerabilityScanningSettingsContainerScan} that the service accepts. */
+export enum KnownVulnerabilityScanningSettingsContainerScan {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for VulnerabilityScanningSettingsContainerScan. \
+ * {@link KnownVulnerabilityScanningSettingsContainerScan} can be used interchangeably with VulnerabilityScanningSettingsContainerScan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type VulnerabilityScanningSettingsContainerScan = string;
 
 /** Known values of {@link AvailabilityLifecycle} that the service accepts. */
 export enum KnownAvailabilityLifecycle {
@@ -4609,10 +4669,12 @@ export type RackProvisioningState = string;
 
 /** Known values of {@link StorageApplianceDetailedStatus} that the service accepts. */
 export enum KnownStorageApplianceDetailedStatus {
-  /** Error */
-  Error = "Error",
   /** Available */
   Available = "Available",
+  /** Degraded */
+  Degraded = "Degraded",
+  /** Error */
+  Error = "Error",
   /** Provisioning */
   Provisioning = "Provisioning",
 }
@@ -4622,8 +4684,9 @@ export enum KnownStorageApplianceDetailedStatus {
  * {@link KnownStorageApplianceDetailedStatus} can be used interchangeably with StorageApplianceDetailedStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Error** \
  * **Available** \
+ * **Degraded** \
+ * **Error** \
  * **Provisioning**
  */
 export type StorageApplianceDetailedStatus = string;
@@ -4918,8 +4981,10 @@ export type VirtualMachineProvisioningState = string;
 
 /** Known values of {@link OsDiskCreateOption} that the service accepts. */
 export enum KnownOsDiskCreateOption {
-  /** Ephemeral */
+  /** Utilize the local storage of the host machine. */
   Ephemeral = "Ephemeral",
+  /** Utilize a storage appliance backed volume to host the disk. */
+  Persistent = "Persistent",
 }
 
 /**
@@ -4927,7 +4992,8 @@ export enum KnownOsDiskCreateOption {
  * {@link KnownOsDiskCreateOption} can be used interchangeably with OsDiskCreateOption,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Ephemeral**
+ * **Ephemeral**: Utilize the local storage of the host machine. \
+ * **Persistent**: Utilize a storage appliance backed volume to host the disk.
  */
 export type OsDiskCreateOption = string;
 
@@ -4966,10 +5032,12 @@ export type VirtualMachineVirtioInterfaceType = string;
 
 /** Known values of {@link VirtualMachineDeviceModelType} that the service accepts. */
 export enum KnownVirtualMachineDeviceModelType {
-  /** T1 */
+  /** Traditional and most compatible device virtualization interface. */
   T1 = "T1",
-  /** T2 */
+  /** Modern and enhanced device virtualization interface. */
   T2 = "T2",
+  /** Improved security and functionality (including TPM and secure boot support). */
+  T3 = "T3",
 }
 
 /**
@@ -4977,8 +5045,9 @@ export enum KnownVirtualMachineDeviceModelType {
  * {@link KnownVirtualMachineDeviceModelType} can be used interchangeably with VirtualMachineDeviceModelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **T1** \
- * **T2**
+ * **T1**: Traditional and most compatible device virtualization interface. \
+ * **T2**: Modern and enhanced device virtualization interface. \
+ * **T3**: Improved security and functionality (including TPM and secure boot support).
  */
 export type VirtualMachineDeviceModelType = string;
 

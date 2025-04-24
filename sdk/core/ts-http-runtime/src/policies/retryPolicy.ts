@@ -11,7 +11,7 @@ import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { createClientLogger } from "../logger/logger.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 
-const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
+const retryPolicyLogger = createClientLogger("ts-http-runtime retryPolicy");
 
 /**
  * The programmatic identifier of the retryPolicy.
@@ -92,7 +92,7 @@ export function retryPolicy(
         logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);
 
         strategiesLoop: for (const strategy of strategies) {
-          const strategyLogger = strategy.logger || retryPolicyLogger;
+          const strategyLogger = strategy.logger || logger;
           strategyLogger.info(`Retry ${retryCount}: Processing retry strategy ${strategy.name}.`);
 
           const modifiers = strategy.retry({
