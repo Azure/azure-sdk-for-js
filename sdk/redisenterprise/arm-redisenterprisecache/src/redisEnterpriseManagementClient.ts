@@ -22,7 +22,7 @@ import {
   AccessPolicyAssignmentOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Operations,
   OperationsStatus,
@@ -31,8 +31,8 @@ import {
   AccessPolicyAssignmentOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
-} from "./operationsInterfaces/index.js";
-import { RedisEnterpriseManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { RedisEnterpriseManagementClientOptionalParams } from "./models";
 
 export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -66,7 +66,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-redisenterprisecache/4.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-redisenterprisecache/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

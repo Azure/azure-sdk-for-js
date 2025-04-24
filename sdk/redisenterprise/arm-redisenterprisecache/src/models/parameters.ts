@@ -24,7 +24,7 @@ import {
   FlushParameters as FlushParametersMapper,
   AccessPolicyAssignment as AccessPolicyAssignmentMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

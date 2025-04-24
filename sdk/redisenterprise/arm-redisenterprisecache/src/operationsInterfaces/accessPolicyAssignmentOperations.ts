@@ -17,7 +17,7 @@ import {
   AccessPolicyAssignmentGetResponse,
   AccessPolicyAssignmentDeleteOptionalParams,
   AccessPolicyAssignmentDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AccessPolicyAssignmentOperations. */
