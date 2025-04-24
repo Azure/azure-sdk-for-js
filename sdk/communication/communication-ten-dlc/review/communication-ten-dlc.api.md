@@ -40,6 +40,7 @@ export interface BrandDetails {
     stockSymbol?: string;
     taxNumber?: string;
     taxNumberIssuingCountry?: string;
+    termsAndConditionsAccepted?: boolean;
     url?: string;
 }
 
@@ -64,6 +65,9 @@ export type CompanyVertical = "Agriculture" | "Communication" | "Construction" |
 // @public
 export interface ContactInformation {
     email?: string;
+    emailForVerification?: string;
+    firstName?: string;
+    lastName?: string;
     phone?: string;
 }
 

@@ -79,14 +79,22 @@ export interface BrandDetails {
   taxNumberIssuingCountry?: string;
   /** URL */
   url?: string;
+  /** Whether the terms and conditions have been accepted */
+  termsAndConditionsAccepted?: boolean;
 }
 
 /** Represent contact information for the brand. */
 export interface ContactInformation {
+  /** Contact first name. */
+  firstName?: string;
+  /** Contact last name. */
+  lastName?: string;
   /** Contact phone number for the authorized user for the customer. Use E164 format. e.g. +14086111111 */
   phone?: string;
-  /** Contact email address number for the authorized user for the customer */
+  /** Contact email for the authorized user for the customer */
   email?: string;
+  /** Email used for two factor authentication. */
+  emailForVerification?: string;
 }
 
 /** Represents postal address. */
@@ -413,6 +421,13 @@ export interface TenDlcCancelUSBrandOptionalParams
 
 /** Contains response data for the cancelUSBrand operation. */
 export type TenDlcCancelUSBrandResponse = USBrand;
+
+/** Optional parameters. */
+export interface TenDlcSubmitUSBrandForVettingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the submitUSBrandForVetting operation. */
+export type TenDlcSubmitUSBrandForVettingResponse = USBrand;
 
 /** Optional parameters. */
 export interface TenDlcUpsertUSCampaignOptionalParams

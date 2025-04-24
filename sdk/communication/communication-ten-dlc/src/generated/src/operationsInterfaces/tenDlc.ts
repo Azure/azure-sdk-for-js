@@ -23,6 +23,8 @@ import {
   TenDlcSubmitUSBrandResponse,
   TenDlcCancelUSBrandOptionalParams,
   TenDlcCancelUSBrandResponse,
+  TenDlcSubmitUSBrandForVettingOptionalParams,
+  TenDlcSubmitUSBrandForVettingResponse,
   TenDlcUpsertUSCampaignOptionalParams,
   TenDlcUpsertUSCampaignResponse,
   TenDlcDeleteUSCampaignOptionalParams,
@@ -94,6 +96,14 @@ export interface TenDlc {
     brandId: string,
     options?: TenDlcCancelUSBrandOptionalParams,
   ): Promise<TenDlcCancelUSBrandResponse>;
+  /**
+   * @param brandId
+   * @param options The options parameters.
+   */
+  submitUSBrandForVetting(
+    brandId: string,
+    options?: TenDlcSubmitUSBrandForVettingOptionalParams,
+  ): Promise<TenDlcSubmitUSBrandForVettingResponse>;
   /**
    * @param campaignId
    * @param id Unique identifier that corresponds to a campaign
