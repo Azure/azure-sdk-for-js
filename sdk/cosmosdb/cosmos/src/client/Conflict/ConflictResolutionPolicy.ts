@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ConflictResolutionMode } from "./ConflictResolutionMode";
+import type { ConflictResolutionMode } from "./ConflictResolutionMode.js";
 
 /**
  * Represents the conflict resolution policy configuration for specifying how to resolve conflicts
@@ -19,7 +19,7 @@ export interface ConflictResolutionPolicy {
    *
    * This value should only be set when using {@link ConflictResolutionMode.LastWriterWins}.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * conflictResolutionPolicy.ConflictResolutionPath = "/name/first";
    * ```
    *
@@ -32,7 +32,7 @@ export interface ConflictResolutionPolicy {
    * 1. This value should only be set when using {@link ConflictResolutionMode.Custom}.
    * 2. In case the stored procedure fails or throws an exception, the conflict resolution will default to registering conflicts in the conflicts feed.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * conflictResolutionPolicy.ConflictResolutionProcedure = "resolveConflict"
    * ```
    */

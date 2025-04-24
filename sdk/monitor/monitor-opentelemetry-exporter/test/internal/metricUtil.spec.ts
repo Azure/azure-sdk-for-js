@@ -376,7 +376,7 @@ describe("metricUtil.ts", () => {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
-        name: BreezePerformanceCounterNames.PROCESS_TIME,
+        name: BreezePerformanceCounterNames.PROCESS_TIME_STANDARD,
         value: 1,
         dataPointType: "Aggregation",
         count: 1,
@@ -396,7 +396,7 @@ describe("metricUtil.ts", () => {
       provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
-      const counter = meter.createCounter(OTelPerformanceCounterNames.PROCESS_TIME);
+      const counter = meter.createCounter(OTelPerformanceCounterNames.PROCESS_TIME_STANDARD);
       counter.add(1);
       provider.forceFlush();
       await new Promise((resolve) => setTimeout(resolve, 800));

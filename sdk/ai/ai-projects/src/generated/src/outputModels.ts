@@ -70,7 +70,7 @@ export interface BingGroundingToolDefinitionOutput
   bing_grounding: ToolConnectionListOutput;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionListOutput {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -88,10 +88,10 @@ export interface ToolConnectionOutput {
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinitionOutput
   extends ToolDefinitionOutputParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
-  fabric_aiskill: ToolConnectionListOutput;
+  fabric_dataagent: ToolConnectionListOutput;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -129,6 +129,8 @@ export interface OpenApiFunctionDefinitionOutput {
   spec: any;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsOutput;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  default_params?: string[];
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -171,6 +173,51 @@ export interface OpenApiManagedAuthDetailsOutput
 export interface OpenApiManagedSecuritySchemeOutput {
   /** Authentication scope for managed_identity auth type */
   audience: string;
+}
+
+/** The input definition information for a Bing custom search tool as used to configure an agent. */
+export interface BingCustomSearchToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of search configurations used by the bing custom search tool. */
+  bing_custom_search: SearchConfigurationListOutput;
+}
+
+/** A list of search configurations currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationListOutput {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  search_configurations: Array<SearchConfigurationOutput>;
+}
+
+/** A custom search configuration. */
+export interface SearchConfigurationOutput {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connection_id: string;
+  /** Name of the custom configuration instance given to config. */
+  instance_name: string;
+}
+
+/** The input definition information for a connected agent tool which defines a domain specific sub-agent */
+export interface ConnectedAgentToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'connected_agent'. */
+  type: "connected_agent";
+  /** The sub-agent to connect */
+  connected_agent: ConnectedAgentDetailsOutput;
+}
+
+/** Information for connecting one agent to another as a tool */
+export interface ConnectedAgentDetailsOutput {
+  /** The identifier of the child agent. */
+  id: string;
+  /** The name of the agent to be called. */
+  name: string;
+  /** A description of what the agent does, used by the model to choose when and how to call the agent. */
+  description: string;
 }
 
 /** The input definition information for a azure function tool as used to configure an agent. */
@@ -286,15 +333,25 @@ export interface AzureAISearchResourceOutput {
    * The indices attached to this agent. There can be a maximum of 1 index
    * resource attached to the agent.
    */
-  indexes?: Array<IndexResourceOutput>;
+  indexes?: Array<AISearchIndexResourceOutput>;
 }
 
-/** A Index resource. */
-export interface IndexResourceOutput {
+/** A AI Search Index resource. */
+export interface AISearchIndexResourceOutput {
   /** An index connection id in an IndexResource attached to this agent. */
   index_connection_id: string;
   /** The name of an index in an IndexResource attached to this agent. */
   index_name: string;
+  /**
+   * Type of query in an AIIndexResource attached to this agent.
+   *
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
+   */
+  query_type?: AzureAISearchQueryTypeOutput;
+  /** Number of documents to retrieve from search and present to the model. */
+  top_k?: number;
+  /** Odata filter string for search resource. */
+  filter?: string;
 }
 
 /**
@@ -400,7 +457,7 @@ export interface MessageAttachmentOutput {
   /** Azure asset ID. */
   data_source?: VectorStoreDataSourceOutput;
   /** The tools to add to this file. */
-  tools: MessageAttachmentToolDefinitionOutput[];
+  tools: Array<MessageAttachmentToolDefinitionOutput>;
 }
 
 /** Information about a single thread associated with an agent. */
@@ -429,6 +486,20 @@ export interface ThreadDeletionStatusOutput {
   deleted: boolean;
   /** The object type, which is always 'thread.deleted'. */
   object: "thread.deleted";
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfAgentThreadOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<AgentThreadOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** A single, existing message within an agent thread. */
@@ -507,6 +578,27 @@ export interface MessageTextAnnotationOutputParent {
   /** The textual content associated with this text annotation item. */
   text: string;
   type: string;
+}
+
+/** A citation within the message that points to a specific URL associated with the message. Generated when the agent uses tools such as 'bing_grounding' to search the Internet. */
+export interface MessageTextUrlCitationAnnotationOutput
+  extends MessageTextAnnotationOutputParent {
+  /** The object type, which is always 'url_citation'. */
+  type: "url_citation";
+  /** The details of the URL citation. */
+  url_citation: MessageTextUrlCitationDetailsOutput;
+  /** The first text index associated with this text annotation. */
+  start_index?: number;
+  /** The last text index associated with this text annotation. */
+  end_index?: number;
+}
+
+/** A representation of a URL citation, as used in text thread message content. */
+export interface MessageTextUrlCitationDetailsOutput {
+  /** The URL associated with this citation. */
+  url: string;
+  /** The title of the URL. */
+  title?: string;
 }
 
 /** A citation within the message that points to a specific quote from a specific File associated with the agent or the message. Generated when the agent uses the 'file_search' tool to search files. */
@@ -603,7 +695,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search", "bing_custom_search", "connected_agent"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -1008,10 +1100,22 @@ export interface RunStepSharepointToolCallOutput
  */
 export interface RunStepMicrosoftFabricToolCallOutput
   extends RunStepToolCallOutputParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** Reserved for future use. */
-  fabric_aiskill: Record<string, string>;
+  fabric_dataagent: Record<string, string>;
+}
+
+/**
+ * A record of a call to a bing custom search tool, issued by the model in evaluation of a defined tool, that represents
+ * executed search with bing custom search.
+ */
+export interface RunStepCustomSearchToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** Reserved for future use. */
+  bing_custom_search: Record<string, string>;
 }
 
 /**
@@ -1034,6 +1138,18 @@ export interface RunStepFunctionToolCallDetailsOutput {
   arguments: string;
   /** The output of the function, only populated for function calls that have already have had their outputs submitted. */
   output: string | null;
+}
+
+/**
+ * A record of a call to an OpenAPI tool, issued by the model in evaluation of a defined tool, that represents
+ * executed OpenAPI operations.
+ */
+export interface RunStepOpenAPIToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'openapi'. */
+  type: "openapi";
+  /** Reserved for future use. */
+  openapi: Record<string, string>;
 }
 
 /** The error information associated with a failed run step. */
@@ -1347,7 +1463,11 @@ export interface GetConnectionResponseOutput {
 
 /** Connection properties */
 export interface InternalConnectionPropertiesOutputParent {
-  /** Category of the connection */
+  /**
+   * Category of the connection
+   *
+   * Possible values: "AzureOpenAI", "Serverless", "AzureBlob", "AIServices", "CognitiveSearch", "ApiKey", "CustomKeys", "CognitiveService"
+   */
   category: ConnectionTypeOutput;
   /** The connection URL to be used for this service */
   target: string;
@@ -1376,6 +1496,13 @@ export interface InternalConnectionPropertiesAADAuthOutput
   authType: "AAD";
 }
 
+/** Connection properties for connections with Custom authentication */
+export interface InternalConnectionPropertiesCustomAuthOutput
+  extends InternalConnectionPropertiesOutputParent {
+  /** Authentication type of the connection target */
+  authType: "CustomKeys";
+}
+
 /** Connection properties for connections with SAS authentication */
 export interface InternalConnectionPropertiesSASAuthOutput
   extends InternalConnectionPropertiesOutputParent {
@@ -1389,6 +1516,13 @@ export interface InternalConnectionPropertiesSASAuthOutput
 export interface CredentialsSASAuthOutput {
   /** The Shared Access Signatures (SAS) token */
   SAS: string;
+}
+
+/** Connection properties for connections with no authentication */
+export interface InternalConnectionPropertiesNoAuthOutput
+  extends InternalConnectionPropertiesOutputParent {
+  /** Authentication type of the connection target */
+  authType: "None";
 }
 
 /** Response from getting properties of the Application Insights resource */
@@ -1413,6 +1547,8 @@ export interface EvaluationOutput {
   readonly id: string;
   /** Data for evaluation. */
   data: InputDataOutput;
+  /** Evaluation target specifying the model config and parameters */
+  target?: EvaluationTargetOutput;
   /** Display Name for evaluation. It helps to find the evaluation easily in AI Foundry. It does not need to be unique. */
   displayName?: string;
   /** Description of the evaluation. It can be used to store additional information about the evaluation and is mutable. */
@@ -1443,7 +1579,7 @@ export interface ApplicationInsightsConfigurationOutput
   /** Query to fetch the data. */
   query: string;
   /** Service name. */
-  serviceName: string;
+  serviceName?: string;
   /** Connection String to connect to ApplicationInsights. */
   connectionString?: string;
 }
@@ -1453,6 +1589,41 @@ export interface DatasetOutput extends InputDataOutputParent {
   readonly type: "dataset";
   /** Evaluation input data */
   id: string;
+}
+
+/** Target for the evaluation process. */
+export interface EvaluationTargetOutput {
+  /** System message related to the evaluation target. */
+  systemMessage: string;
+  /** Model configuration for the evaluation. */
+  modelConfig: TargetModelConfigOutput;
+  /** A dictionary of parameters for the model. */
+  modelParams?: Record<string, any>;
+}
+
+/** Abstract class for model configuration. */
+export interface TargetModelConfigOutputParent {
+  type: string;
+}
+
+/** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
+export interface AoaiModelConfigOutput extends TargetModelConfigOutputParent {
+  readonly type: "AOAI";
+  /** Endpoint targetURI for AOAI model. */
+  azureEndpoint: string;
+  /** API Key for AOAI model. */
+  apiKey: string;
+  /** Deployment name for AOAI model. */
+  azureDeployment: string;
+}
+
+/** MaaS model configuration. The API version would be selected by the service for querying the model. */
+export interface MaasModelConfigOutput extends TargetModelConfigOutputParent {
+  readonly type: "MAAS";
+  /** Endpoint targetURI for MAAS model. */
+  azureEndpoint: string;
+  /** API Key for MAAS model. */
+  apiKey: string;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -1567,6 +1738,8 @@ export type ToolDefinitionOutput =
   | SharepointToolDefinitionOutput
   | AzureAISearchToolDefinitionOutput
   | OpenApiToolDefinitionOutput
+  | BingCustomSearchToolDefinitionOutput
+  | ConnectedAgentToolDefinitionOutput
   | AzureFunctionToolDefinitionOutput;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetailsOutput =
@@ -1582,6 +1755,7 @@ export type MessageContentOutput =
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotationOutput =
   | MessageTextAnnotationOutputParent
+  | MessageTextUrlCitationAnnotationOutput
   | MessageTextFileCitationAnnotationOutput
   | MessageTextFilePathAnnotationOutput;
 /** An abstract representation of a required action for an agent thread run to continue. */
@@ -1606,7 +1780,9 @@ export type RunStepToolCallOutput =
   | RunStepAzureAISearchToolCallOutput
   | RunStepSharepointToolCallOutput
   | RunStepMicrosoftFabricToolCallOutput
-  | RunStepFunctionToolCallOutput;
+  | RunStepCustomSearchToolCallOutput
+  | RunStepFunctionToolCallOutput
+  | RunStepOpenAPIToolCallOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
 export type RunStepCodeInterpreterToolCallOutputOutput =
   | RunStepCodeInterpreterToolCallOutputOutputParent
@@ -1622,12 +1798,19 @@ export type InternalConnectionPropertiesOutput =
   | InternalConnectionPropertiesOutputParent
   | InternalConnectionPropertiesApiKeyAuthOutput
   | InternalConnectionPropertiesAADAuthOutput
-  | InternalConnectionPropertiesSASAuthOutput;
+  | InternalConnectionPropertiesCustomAuthOutput
+  | InternalConnectionPropertiesSASAuthOutput
+  | InternalConnectionPropertiesNoAuthOutput;
 /** Abstract data class for input data configuration. */
 export type InputDataOutput =
   | InputDataOutputParent
   | ApplicationInsightsConfigurationOutput
   | DatasetOutput;
+/** Abstract class for model configuration. */
+export type TargetModelConfigOutput =
+  | TargetModelConfigOutputParent
+  | AoaiModelConfigOutput
+  | MaasModelConfigOutput;
 /** Abstract data class for input data configuration. */
 export type TriggerOutput =
   | TriggerOutputParent
@@ -1637,6 +1820,8 @@ export type TriggerOutput =
 export type OpenApiAuthTypeOutput = string;
 /** Alias for VectorStoreDataSourceAssetTypeOutput */
 export type VectorStoreDataSourceAssetTypeOutput = string;
+/** Alias for AzureAISearchQueryTypeOutput */
+export type AzureAISearchQueryTypeOutput = string;
 /** Alias for AgentsApiResponseFormatModeOutput */
 export type AgentsApiResponseFormatModeOutput = string;
 /** Alias for ResponseFormatOutput */
@@ -1694,15 +1879,15 @@ export type VectorStoreFileErrorCodeOutput = string;
 export type VectorStoreChunkingStrategyResponseTypeOutput = string;
 /** Alias for VectorStoreFileBatchStatusOutput */
 export type VectorStoreFileBatchStatusOutput = string;
-/** The Type (or category) of the connection */
-export type ConnectionTypeOutput =
-  | "AzureOpenAI"
-  | "Serverless"
-  | "AzureBlob"
-  | "AIServices"
-  | "CognitiveSearch";
+/** Alias for ConnectionTypeOutput */
+export type ConnectionTypeOutput = string;
 /** Authentication type used by Azure AI service to connect to another service */
-export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
+export type AuthenticationTypeOutput =
+  | "ApiKey"
+  | "AAD"
+  | "SAS"
+  | "CustomKeys"
+  | "None";
 /** Alias for FrequencyOutput */
 export type FrequencyOutput = string;
 /** Alias for WeekDaysOutput */

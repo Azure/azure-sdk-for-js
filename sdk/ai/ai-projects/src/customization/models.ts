@@ -101,7 +101,31 @@ export interface BingGroundingToolDefinition extends ToolDefinitionParent {
   bingGrounding: ToolConnectionList;
 }
 
-/** A set of connection resources currently used by either the `bing_grounding`, `fabric_aiskill`, or `sharepoint_grounding` tools. */
+/**
+ * The input definition information for a bing custom search tool as used to configure an agent.
+ */
+export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** The list of connections used by the bing custom search tool. */
+  bingCustomSearch?: SearchConfigurationList;
+}
+
+/** The array of search configurations used by the bing custom search tool. */
+export interface SearchConfigurationList {
+  /** The list of connections used by the bing custom search tool. */
+  searchConfigurations: Array<SearchConfiguration>;
+}
+
+/** The input definition information for a search configuration. */
+export interface SearchConfiguration {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connectionId: string;
+  /** Name of the custom configuration instance given to config. */
+  instanceName: string;
+}
+
+/** A set of connection resources currently used by either the `bing_grounding`, `fabric_dataagent`, or `sharepoint_grounding` tools. */
 export interface ToolConnectionList {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
@@ -118,10 +142,10 @@ export interface ToolConnection {
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-  /** The object type, which is always 'fabric_aiskill'. */
-  type: "fabric_aiskill";
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
   /** The list of connections used by the Microsoft Fabric tool. */
-  fabricAISkill: ToolConnectionList;
+  fabricDataAgent: ToolConnectionList;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
@@ -156,6 +180,10 @@ export interface OpenApiFunctionDefinition {
   spec: unknown;
   /** Open API authentication details */
   auth: OpenApiAuthDetails;
+  /** List of OpenAPI spec parameters that will use user-provided defaults */
+  defaultParams?: string[];
+  /** List of functions returned in response */
+  functions?: Array<FunctionDefinition>;
 }
 
 /** authentication details for OpenApiFunctionDefinition */
@@ -195,6 +223,23 @@ export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
 export interface OpenApiManagedSecurityScheme {
   /** Authentication scope for managed_identity auth type */
   audience: string;
+}
+
+/** A list of search configurations currently used by the `bing_custom_search` tool. */
+export interface SearchConfigurationList {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  searchConfigurations: Array<SearchConfiguration>;
+}
+
+/** A custom search configuration. */
+export interface SearchConfiguration {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connectionId: string;
+  /** Name of the custom configuration instance given to config. */
+  instanceName: string;
 }
 
 /** The input definition information for a azure function tool as used to configure an agent. */
@@ -325,12 +370,32 @@ export interface AzureAISearchResource {
   indexes?: Array<IndexResource>;
 }
 
+/** the optional parameters for the Azure AI Search tool */
+export interface CreateAzureAISearchToolOptions {
+  /** the query type of azure ai search. */
+  queryType?: AzureAISearchQueryType;
+  /** the topK number of documents to retrieve from azure ai search. */
+  topK?: number;
+  /** the filter used for azure ai search. */
+  filter?: string;
+}
+
 /** A Index resource. */
 export interface IndexResource {
   /** An index connection id in an IndexResource attached to this agent. */
   indexConnectionId: string;
   /** The name of an index in an IndexResource attached to this agent. */
   indexName: string;
+  /**
+   * Type of query in an AIIndexResource attached to this agent.
+   *
+   * Possible values: "simple", "semantic", "vector", "vector_simple_hybrid", "vector_semantic_hybrid"
+   */
+  queryType?: AzureAISearchQueryType;
+  /** Number of documents to retrieve from search and present to the model. */
+  topK?: number;
+  /** Odata filter string for search resource. */
+  filter?: string;
 }
 
 /**
@@ -430,11 +495,64 @@ export interface ThreadMessageOptions {
    * The textual content of the initial message. Currently, robust input including images and annotated text may only be provided via
    * a separate call to the create message API.
    */
-  content: string;
+  content: CreateMessageContent;
   /** A list of files attached to the message, and the tools they should be added to. */
   attachments?: Array<MessageAttachment> | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string> | null;
+}
+
+/** Defines a single content block when creating a message. The 'type' field determines whether it is text, an image file, or an external image URL, etc. */
+export interface MessageContentBlockInputParent {
+  type: MessageBlockType;
+}
+
+/** Creation-time text block. */
+export interface MessageTextBlockInput extends MessageContentBlockInputParent {
+  /** Always 'text'. */
+  type: "text";
+  /** The text content. */
+  text: string;
+}
+
+/** Creation-time image-file block. */
+export interface MessageImageFileBlockInput extends MessageContentBlockInputParent {
+  /** Always 'image_file'. */
+  type: "image_file";
+  /** References an uploaded image by file ID. */
+  imageFile: MessageImageFileParam;
+}
+
+/** Parameter for an image file (by ID) at creation time. */
+export interface MessageImageFileParam {
+  /** File ID for the uploaded image. */
+  fileId: string;
+  /**
+   * Specifies the requested detail level for the image.
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: ImageDetailLevel;
+}
+
+/** Creation-time image-URL block. */
+export interface MessageImageUrlBlockInput extends MessageContentBlockInputParent {
+  /** Always 'image_url'. */
+  type: "image_url";
+  /** References an external image by URL. */
+  imageUrl: MessageImageUrlParam;
+}
+
+/** Parameter for an external image URL at creation time. */
+export interface MessageImageUrlParam {
+  /** The externally accessible image URL. */
+  url: string;
+  /**
+   * Specifies the requested detail level for the image. Default is 'auto'.
+   *
+   * Possible values: "auto", "low", "high"
+   */
+  detail?: ImageDetailLevel;
 }
 
 /** This describes to which tools a file has been attached. */
@@ -540,7 +658,7 @@ export interface AgentsNamedToolChoice {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_aiskill", "sharepoint_grounding", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "fabric_dataagent", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceType;
   /** The name of the function to call */
@@ -757,6 +875,39 @@ export interface Dataset extends InputDataParent {
   id: string;
 }
 
+/** Target for the evaluation process. */
+export interface EvaluationTarget {
+  /** System message related to the evaluation target. */
+  systemMessage: string;
+  /** Model configuration for the evaluation. */
+  modelConfig: TargetModelConfig;
+  /** A dictionary of parameters for the model. */
+  modelParams?: Record<string, unknown>;
+}
+
+/** Abstract class for model configuration. */
+export interface TargetModelConfigParent {
+  type: string;
+}
+
+/** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
+export interface AoaiModelConfig extends TargetModelConfigParent {
+  /** Endpoint targetURI for AOAI model. */
+  azureEndpoint: string;
+  /** API Key for AOAI model. */
+  apiKey: string;
+  /** Deployment name for AOAI model. */
+  azureDeployment: string;
+}
+
+/** MaaS model configuration. The API version would be selected by the service for querying the model. */
+export interface MaasModelConfig extends TargetModelConfigParent {
+  /** Endpoint targetURI for MAAS model. */
+  azureEndpoint: string;
+  /** API Key for MAAS model. */
+  apiKey: string;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {}
 
@@ -834,6 +985,7 @@ export type ToolDefinition =
   | SharepointToolDefinition
   | AzureAISearchToolDefinition
   | OpenApiToolDefinition
+  | BingCustomSearchToolDefinition
   | AzureFunctionToolDefinition;
 /** authentication details for OpenApiFunctionDefinition */
 export type OpenApiAuthDetails =
@@ -841,6 +993,12 @@ export type OpenApiAuthDetails =
   | OpenApiAnonymousAuthDetails
   | OpenApiConnectionAuthDetails
   | OpenApiManagedAuthDetails;
+/** Defines a single content block when creating a message. The 'type' field determines whether it is text, an image file, or an external image URL, etc. */
+export type MessageContentBlockInput =
+  | MessageContentBlockInputParent
+  | MessageTextBlockInput
+  | MessageImageFileBlockInput
+  | MessageImageUrlBlockInput;
 /** An abstract representation of a vector store chunking strategy configuration. */
 export type VectorStoreChunkingStrategyRequest =
   | VectorStoreChunkingStrategyRequestParent
@@ -848,12 +1006,16 @@ export type VectorStoreChunkingStrategyRequest =
   | VectorStoreStaticChunkingStrategyRequest;
 /** Abstract data class for input data configuration. */
 export type InputData = InputDataParent | ApplicationInsightsConfiguration | Dataset;
+/** Abstract class for model configuration. */
+export type TargetModelConfig = TargetModelConfigParent | AoaiModelConfig | MaasModelConfig;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
 /** Alias for OpenApiAuthType */
 export type OpenApiAuthType = string;
 /** Alias for VectorStoreDataSourceAssetType */
 export type VectorStoreDataSourceAssetType = string;
+/** Alias for AzureAISearchQueryType */
+export type AzureAISearchQueryType = string;
 /** Alias for AgentsApiResponseFormatMode */
 export type AgentsApiResponseFormatMode = string;
 /** Alias for ResponseFormat */
@@ -868,10 +1030,18 @@ export type AgentsApiResponseFormatOption =
 export type ListSortOrder = string;
 /** Alias for MessageRole */
 export type MessageRole = string;
+/** Alias for MessageBlockType */
+export type MessageBlockType = string;
+/** Alias for ImageDetailLevel */
+export type ImageDetailLevel = string;
+/** Alias for CreateMessageContent */
+export type CreateMessageContent = string | Array<MessageContentBlockInput>;
 /** Alias for MessageAttachmentToolDefinition */
 export type MessageAttachmentToolDefinition =
   | CodeInterpreterToolDefinition
   | FileSearchToolDefinition;
+/** Alias for RunAdditionalFieldList */
+export type RunAdditionalFieldList = string;
 /** Alias for TruncationStrategy */
 export type TruncationStrategy = string;
 /** Alias for AgentsApiToolChoiceOptionMode */
@@ -891,13 +1061,8 @@ export type VectorStoreExpirationPolicyAnchor = string;
 export type VectorStoreChunkingStrategyRequestType = string;
 /** Alias for VectorStoreFileStatusFilter */
 export type VectorStoreFileStatusFilter = string;
-/** The Type (or category) of the connection */
-export type ConnectionType =
-  | "AzureOpenAI"
-  | "Serverless"
-  | "AzureBlob"
-  | "AIServices"
-  | "CognitiveSearch";
+/** Alias for ConnectionType */
+export type ConnectionType = string;
 /** Alias for Frequency */
 export type Frequency = string;
 /** Alias for WeekDays */

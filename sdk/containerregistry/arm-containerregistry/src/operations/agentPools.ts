@@ -29,6 +29,7 @@ import {
   AgentPoolsCreateOptionalParams,
   AgentPoolsCreateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolUpdateParameters,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
@@ -220,6 +221,7 @@ export class AgentPoolsImpl implements AgentPools {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -262,11 +264,16 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<AgentPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -306,9 +313,13 @@ export class AgentPoolsImpl implements AgentPools {
       args: { resourceGroupName, registryName, agentPoolName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AgentPoolsDeleteResponse,
+      OperationState<AgentPoolsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -326,7 +337,7 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
@@ -411,6 +422,7 @@ export class AgentPoolsImpl implements AgentPools {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -507,10 +519,10 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -538,11 +550,11 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.agentPool,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -558,15 +570,23 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -594,11 +614,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.updateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -618,10 +638,10 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -639,10 +659,10 @@ const getQueueStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPoolQueueStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -661,7 +681,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AgentPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

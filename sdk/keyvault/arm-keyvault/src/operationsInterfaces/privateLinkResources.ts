@@ -8,7 +8,7 @@
 
 import {
   PrivateLinkResourcesListByVaultOptionalParams,
-  PrivateLinkResourcesListByVaultResponse
+  PrivateLinkResourcesListByVaultResponse,
 } from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
@@ -22,6 +22,6 @@ export interface PrivateLinkResources {
   listByVault(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateLinkResourcesListByVaultOptionalParams
+    options?: PrivateLinkResourcesListByVaultOptionalParams,
   ): Promise<PrivateLinkResourcesListByVaultResponse>;
 }

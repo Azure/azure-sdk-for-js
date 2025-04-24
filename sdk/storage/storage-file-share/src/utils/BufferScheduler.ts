@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { EventEmitter } from "events";
-import type { Readable } from "stream";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -46,7 +45,7 @@ export class BufferScheduler {
   /**
    * A Node.js Readable stream.
    */
-  private readonly readable: Readable;
+  private readonly readable: NodeJS.ReadableStream;
 
   /**
    * OutgoingHandler is an async function triggered by BufferScheduler when there
@@ -131,7 +130,7 @@ export class BufferScheduler {
    * @param encoding - [Optional] Encoding of Readable stream when it's a string stream
    */
   constructor(
-    readable: Readable,
+    readable: NodeJS.ReadableStream,
     bufferSize: number,
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
@@ -215,7 +214,7 @@ export class BufferScheduler {
    *
    * @param data -
    */
-  private appendUnresolvedData(data: Buffer) {
+  private appendUnresolvedData(data: Buffer): void {
     this.unresolvedDataArray.push(data);
     this.unresolvedLength += data.length;
   }
@@ -285,7 +284,7 @@ export class BufferScheduler {
    * Try to trigger a outgoing handler for every buffer in outgoing. Stop when
    * concurrency reaches.
    */
-  private async triggerOutgoingHandlers() {
+  private async triggerOutgoingHandlers(): Promise<void> {
     let buffer: Buffer | undefined;
     do {
       if (this.executingOutgoingHandlers >= this.concurrency) {
@@ -327,7 +326,7 @@ export class BufferScheduler {
    *
    * @param buffer -
    */
-  private reuseBuffer(buffer: Buffer) {
+  private reuseBuffer(buffer: Buffer): void {
     this.incoming.push(buffer);
     if (!this.isError && this.resolveData() && !this.isStreamEnd) {
       this.readable.resume();

@@ -80,19 +80,15 @@ More information about `@azure/identity` can be found [here](https://github.com/
 To authenticate with a resource in a [Sovereign Cloud](https://learn.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to set the `audience` in the `AppConfigurationClient` constructor options.
 
 ```ts snippet:AuthenticatingWithAzureSovereignCloud
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { AppConfigurationClient, KnownAppConfigAudience } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // The endpoint for your App Configuration resource
 const endpoint = "https://example.azconfig.azure.cn";
 // Create an AppConfigurationClient that will authenticate through AAD in the China cloud
-const client = new AppConfigurationClient(
-  endpoint,
-  new DefaultAzureCredential(),
-  {
-    audience: KnownAppConfigurationAudience.AzureChina
-  }
-);
+const client = new AppConfigurationClient(endpoint, new DefaultAzureCredential(), {
+  audience: KnownAppConfigAudience.AzureChina,
+});
 ```
 
 Note: When `audience` property is not defined, the SDK will default to Azure Public Cloud.

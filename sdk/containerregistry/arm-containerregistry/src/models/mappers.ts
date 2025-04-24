@@ -2242,6 +2242,12 @@ export const RegistryUpdateParameters: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      roleAssignmentMode: {
+        serializedName: "properties.roleAssignmentMode",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3237,92 +3243,6 @@ export const CallbackConfig: coreClient.CompositeMapper = {
   },
 };
 
-export const ErrorResponseForContainerRegistry: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponseForContainerRegistry",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorResponseBody",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorResponseBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponseBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String",
-        },
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "InnerErrorDescription",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const InnerErrorDescription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InnerErrorDescription",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const AgentPoolUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4131,6 +4051,12 @@ export const SourceRegistryCredentials: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SourceRegistryCredentials",
     modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String",
+        },
+      },
       loginMode: {
         serializedName: "loginMode",
         type: {
@@ -5714,6 +5640,12 @@ export const Registry: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      roleAssignmentMode: {
+        serializedName: "properties.roleAssignmentMode",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -7096,6 +7028,81 @@ export const WebhooksUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebhooksUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsCreateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TaskRunsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TaskRunsCreateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TaskRunsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TaskRunsUpdateHeaders",
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",

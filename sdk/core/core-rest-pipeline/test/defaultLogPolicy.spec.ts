@@ -32,6 +32,7 @@ describe("defaultLogPolicy", function () {
 
     const expectedOrderedPolicies = isNodeLike ? ["proxyPolicy", "decompressResponsePolicy"] : [];
     expectedOrderedPolicies.push(
+      "wrapAbortSignalLikePolicy",
       "formDataPolicy",
       "userAgentPolicy",
       "setClientRequestIdPolicy",

@@ -12,10 +12,11 @@ import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
-import  "dotenv/config";
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -35,13 +36,14 @@ export async function main(): Promise<void> {
     auth: {
       type: "anonymous",
     },
+    default_params: ["format"], // optional
   };
 
   // Create OpenApi tool
   const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
 
   // Create agent with OpenApi tool
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "myAgent",
     instructions: "You are a helpful agent",
     tools: [openApiTool.definition],

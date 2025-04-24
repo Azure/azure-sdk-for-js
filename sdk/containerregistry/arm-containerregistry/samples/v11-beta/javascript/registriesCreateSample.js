@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreate.json
  */
 async function registryCreate() {
   const subscriptionId =
@@ -43,7 +43,34 @@ async function registryCreate() {
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryCreateDomainNameLabelScope.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreateAbac.json
+ */
+async function registryCreateAbac() {
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+  const registryName = "myRegistry";
+  const registry = {
+    location: "westus",
+    roleAssignmentMode: "AbacRepositoryPermissions",
+    sku: { name: "Standard" },
+    tags: { key: "value" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.registries.beginCreateAndWait(
+    resourceGroupName,
+    registryName,
+    registry,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a container registry with the specified parameters.
+ *
+ * @summary Creates a container registry with the specified parameters.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreateDomainNameLabelScope.json
  */
 async function registryCreateDomainNameLabelScope() {
   const subscriptionId =
@@ -70,7 +97,7 @@ async function registryCreateDomainNameLabelScope() {
  * This sample demonstrates how to Creates a container registry with the specified parameters.
  *
  * @summary Creates a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryCreateZoneRedundant.json
  */
 async function registryCreateZoneRedundant() {
   const subscriptionId =
@@ -95,6 +122,7 @@ async function registryCreateZoneRedundant() {
 
 async function main() {
   await registryCreate();
+  await registryCreateAbac();
   await registryCreateDomainNameLabelScope();
   await registryCreateZoneRedundant();
 }

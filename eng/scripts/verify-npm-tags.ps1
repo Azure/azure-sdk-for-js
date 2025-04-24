@@ -25,6 +25,11 @@ Write-Host "Original dist-tag: $parsedOriginalDistTags"
 Write-Host "Current dist-tag: $packageDistTags"
 Write-Host "Intend to add tag $intendedTag to version $intendedTagVersion"
 
+if (!$intendedTag) {
+  Write-Host "No tags were specified, defaulting to latest tag."
+  $intendedTag = "latest"
+}
+
 if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
   Write-Warning "Tag not correctly set, current $intendedTag tag is version $($packageDistTags."$intendedTag") instead of $intendedTagVersion."
   $correctDistTags = $parsedOriginalDistTags

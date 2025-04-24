@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientEncryptionPolicy } from "../ClientEncryptionPolicy";
-import { EncryptionSettings } from "../EncryptionSettings";
-import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty";
+import type { ClientEncryptionPolicy } from "../ClientEncryptionPolicy.js";
+import { EncryptionSettings } from "../EncryptionSettings.js";
+import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty.js";
 /**
  * The cache used to store encryption settings for a container.
  * see {@link EncryptionSettings}

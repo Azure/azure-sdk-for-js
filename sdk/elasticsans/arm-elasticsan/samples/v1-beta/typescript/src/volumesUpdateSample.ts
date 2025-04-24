@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update an Volume.
  *
  * @summary Update an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Update_MaximumSet_Gen.json
  */
 async function volumesUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -26,7 +26,12 @@ async function volumesUpdateMaximumSetGen(): Promise<void> {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const volumeName = "volumename";
-  const parameters: VolumeUpdate = { properties: { sizeGiB: 11 } };
+  const parameters: VolumeUpdate = {
+    properties: {
+      managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" },
+      sizeGiB: 7,
+    },
+  };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumes.beginUpdateAndWait(
@@ -43,7 +48,7 @@ async function volumesUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Update an Volume.
  *
  * @summary Update an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Update_MinimumSet_Gen.json
  */
 async function volumesUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -67,8 +72,8 @@ async function volumesUpdateMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumesUpdateMaximumSetGen();
-  volumesUpdateMinimumSetGen();
+  await volumesUpdateMaximumSetGen();
+  await volumesUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -1,6 +1,6 @@
 {
   "name": "@typespec/ts-http-runtime",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -26,6 +26,60 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./internal/util": {
+      "browser": {
+        "types": "./dist/browser/util/internal.d.ts",
+        "default": "./dist/browser/util/internal.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/util/internal.d.ts",
+        "default": "./dist/react-native/util/internal.js"
+      },
+      "import": {
+        "types": "./dist/esm/util/internal.d.ts",
+        "default": "./dist/esm/util/internal.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/util/internal.d.ts",
+        "default": "./dist/commonjs/util/internal.js"
+      }
+    },
+    "./internal/logger": {
+      "browser": {
+        "types": "./dist/browser/logger/internal.d.ts",
+        "default": "./dist/browser/logger/internal.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/logger/internal.d.ts",
+        "default": "./dist/react-native/logger/internal.js"
+      },
+      "import": {
+        "types": "./dist/esm/logger/internal.d.ts",
+        "default": "./dist/esm/logger/internal.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/logger/internal.d.ts",
+        "default": "./dist/commonjs/logger/internal.js"
+      }
+    },
+    "./internal/policies": {
+      "browser": {
+        "types": "./dist/browser/policies/internal.d.ts",
+        "default": "./dist/browser/policies/internal.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/policies/internal.d.ts",
+        "default": "./dist/react-native/policies/internal.js"
+      },
+      "import": {
+        "types": "./dist/esm/policies/internal.d.ts",
+        "default": "./dist/esm/policies/internal.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/policies/internal.d.ts",
+        "default": "./dist/commonjs/policies/internal.js"
       }
     }
   },
@@ -66,7 +120,7 @@
     "lint": "tsx scripts/azure-diff.ts && eslint README.md package.json api-extractor.json src test",
     "lint:fix": "tsx scripts/azure-diff.ts --update && eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -112,7 +166,10 @@
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./internal/util": "./src/util/internal.ts",
+      "./internal/logger": "./src/logger/internal.ts",
+      "./internal/policies": "./src/policies/internal.ts"
     },
     "dialects": [
       "esm",

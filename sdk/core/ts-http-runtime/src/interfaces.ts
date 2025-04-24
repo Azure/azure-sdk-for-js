@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+import type { AuthScheme } from "./auth/schemes.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -134,6 +134,15 @@ export interface Agent {
  */
 export interface PipelineRequest {
   /**
+   * List of authentication schemes used for this specific request.
+   * These schemes define how the request will be authenticated.
+   * If provided, these schemes override the client level authentication schemes.
+   *
+   * If no auth schemes are provided at client or request level, defaults to no auth.
+   */
+  authSchemes?: AuthScheme[];
+
+  /**
    * The URL to make the request to.
    */
   url: string;
@@ -200,7 +209,7 @@ export interface PipelineRequest {
   /**
    * Used to abort the request later.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * Callback which fires upon upload progress.
@@ -233,6 +242,18 @@ export interface PipelineRequest {
 
   /** Settings for configuring TLS authentication */
   tlsSettings?: TlsSettings;
+
+  /**
+   * Additional options to set on the request. This provides a way to override
+   * existing ones or provide request properties that are not declared.
+   *
+   * For possible valid properties, see
+   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *   - Browser RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
+   *
+   * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
+   */
+  requestOverrides?: Record<string, unknown>;
 }
 
 /**

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CreateAgentParameters,
   ListAgentsParameters,
   GetAgentParameters,
   UpdateAgentParameters,
   DeleteAgentParameters,
   CreateThreadParameters,
+  ListThreadsParameters,
   GetThreadParameters,
   UpdateThreadParameters,
   DeleteThreadParameters,
@@ -56,7 +57,7 @@ import {
   ListScheduleParameters,
   DisableScheduleParameters,
 } from "./parameters.js";
-import {
+import type {
   CreateAgent200Response,
   CreateAgentDefaultResponse,
   ListAgents200Response,
@@ -69,6 +70,8 @@ import {
   DeleteAgentDefaultResponse,
   CreateThread200Response,
   CreateThreadDefaultResponse,
+  ListThreads200Response,
+  ListThreadsDefaultResponse,
   GetThread200Response,
   GetThreadDefaultResponse,
   UpdateThread200Response,
@@ -164,7 +167,7 @@ import {
   DisableSchedule204Response,
   DisableScheduleDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface CreateAgent {
   /** Creates a new agent. */
@@ -197,6 +200,10 @@ export interface CreateThread {
   post(
     options: CreateThreadParameters,
   ): StreamableMethod<CreateThread200Response | CreateThreadDefaultResponse>;
+  /** Gets a list of threads that were previously created. */
+  get(
+    options?: ListThreadsParameters,
+  ): StreamableMethod<ListThreads200Response | ListThreadsDefaultResponse>;
 }
 
 export interface GetThread {
@@ -537,7 +544,7 @@ export interface Routes {
   (path: "/assistants"): CreateAgent;
   /** Resource for '/assistants/\{assistantId\}' has methods for the following verbs: get, post, delete */
   (path: "/assistants/{assistantId}", assistantId: string): GetAgent;
-  /** Resource for '/threads' has methods for the following verbs: post */
+  /** Resource for '/threads' has methods for the following verbs: post, get */
   (path: "/threads"): CreateThread;
   /** Resource for '/threads/\{threadId\}' has methods for the following verbs: get, post, delete */
   (path: "/threads/{threadId}", threadId: string): GetThread;

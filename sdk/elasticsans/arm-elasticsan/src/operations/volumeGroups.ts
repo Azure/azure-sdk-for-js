@@ -507,7 +507,10 @@ const listByElasticSanOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.elasticSanName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsAccessSoftDeletedResources,
+  ],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
@@ -639,6 +642,9 @@ const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
     Parameters.elasticSanName,
     Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsAccessSoftDeletedResources,
+  ],
   serializer,
 };

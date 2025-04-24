@@ -6,12 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { VirtualMachineImages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
+  VirtualMachineImage,
+  VirtualMachineImagesListWithPropertiesNextOptionalParams,
+  Expand,
+  VirtualMachineImagesListWithPropertiesOptionalParams,
+  VirtualMachineImagesListWithPropertiesResponse,
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesGetResponse,
   VirtualMachineImagesListOptionalParams,
@@ -24,8 +31,10 @@ import {
   VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
   VirtualMachineImagesListByEdgeZoneResponse,
+  VirtualMachineImagesListWithPropertiesNextResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachineImages operations. */
 export class VirtualMachineImagesImpl implements VirtualMachineImages {
   private readonly client: ComputeManagementClient;
@@ -36,6 +45,115 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param expand The expand expression to apply on the operation.
+   * @param options The options parameters.
+   */
+  public listWithProperties(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    expand: Expand,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualMachineImage> {
+    const iter = this.listWithPropertiesPagingAll(
+      location,
+      publisherName,
+      offer,
+      skus,
+      expand,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listWithPropertiesPagingPage(
+          location,
+          publisherName,
+          offer,
+          skus,
+          expand,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listWithPropertiesPagingPage(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    expand: Expand,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<VirtualMachineImage[]> {
+    let result: VirtualMachineImagesListWithPropertiesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listWithProperties(
+        location,
+        publisherName,
+        offer,
+        skus,
+        expand,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listWithPropertiesNext(
+        location,
+        publisherName,
+        offer,
+        skus,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listWithPropertiesPagingAll(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    expand: Expand,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): AsyncIterableIterator<VirtualMachineImage> {
+    for await (const page of this.listWithPropertiesPagingPage(
+      location,
+      publisherName,
+      offer,
+      skus,
+      expand,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -148,6 +266,51 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
     return this.client.sendOperationRequest(
       { location, edgeZone, options },
       listByEdgeZoneOperationSpec,
+    );
+  }
+
+  /**
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param expand The expand expression to apply on the operation.
+   * @param options The options parameters.
+   */
+  private _listWithProperties(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    expand: Expand,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): Promise<VirtualMachineImagesListWithPropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { location, publisherName, offer, skus, expand, options },
+      listWithPropertiesOperationSpec,
+    );
+  }
+
+  /**
+   * ListWithPropertiesNext
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param nextLink The nextLink from the previous successful call to the ListWithProperties method.
+   * @param options The options parameters.
+   */
+  private _listWithPropertiesNext(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    nextLink: string,
+    options?: VirtualMachineImagesListWithPropertiesNextOptionalParams,
+  ): Promise<VirtualMachineImagesListWithPropertiesNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, publisherName, offer, skus, nextLink, options },
+      listWithPropertiesNextOperationSpec,
     );
   }
 }
@@ -326,6 +489,57 @@ const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location1,
     Parameters.edgeZone,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listWithPropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineImagesWithPropertiesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.orderby,
+    Parameters.expand5,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+    Parameters.publisherName,
+    Parameters.offer,
+    Parameters.skus,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listWithPropertiesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineImagesWithPropertiesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.location1,
+    Parameters.publisherName,
+    Parameters.offer,
+    Parameters.skus,
   ],
   headerParameters: [Parameters.accept],
   serializer,

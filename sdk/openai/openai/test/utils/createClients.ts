@@ -25,22 +25,23 @@ export function createClientsAndDeployments(
   const credential = createLiveCredential();
   const azureADTokenProvider = getBearerTokenProvider(credential, scope);
   switch (apiVersion) {
-    case APIVersion["2024_10_01_preview"]:
-    case APIVersion.Preview:
-    case APIVersion.Stable: {
+    case APIVersion["v2024_10_01_preview"]:
+    case APIVersion.v2025_03_01_preview:
+    case APIVersion.v2024_10_21: {
       const { resourcesInfo: filtered, count } = filterDeployments(resourcesInfo, {
         capabilities,
         sku,
         deploymentsToSkip,
         modelsToSkip,
       });
-      const clientsAndDeployments = filtered.map(({ deployments, endpoint }) => ({
+      const clientsAndDeployments = filtered.map(({ deployments, nickname, endpoint }) => ({
         client: new AzureOpenAI({
           azureADTokenProvider,
           apiVersion,
           endpoint,
           ...clientOptions,
         }),
+        resourceNickname: nickname,
         deployments,
       }));
       return { clientsAndDeployments, count };

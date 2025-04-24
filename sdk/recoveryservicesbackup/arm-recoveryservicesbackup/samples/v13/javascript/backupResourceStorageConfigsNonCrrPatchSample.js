@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates vault storage model type.
  *
  * @summary Updates vault storage model type.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupStorageConfig_Patch.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupStorageConfig_Patch.json
  */
 async function updateVaultStorageConfiguration() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function updateVaultStorageConfiguration() {
 }
 
 async function main() {
-  updateVaultStorageConfiguration();
+  await updateVaultStorageConfiguration();
 }
 
 main().catch(console.error);

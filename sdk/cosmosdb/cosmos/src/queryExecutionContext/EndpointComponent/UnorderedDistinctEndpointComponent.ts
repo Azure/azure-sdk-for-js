@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Response } from "../../request";
-import type { ExecutionContext } from "../ExecutionContext";
-import { hashObject } from "../../utils/hashObject";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
+import { hashObject } from "../../utils/hashObject.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
