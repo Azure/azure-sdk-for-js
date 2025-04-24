@@ -17,8 +17,8 @@ describe("Azure Kubernetes Integration test", function () {
 
     if (process.env.ARM_OIDC_TOKEN) {
       // Log in as service principal in CI
-      const clientId = requireEnvVar("ARM_CLIENT_ID");
-      const tenantId = requireEnvVar("ARM_TENANT_ID");
+      const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
+      const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
       const oidc = requireEnvVar("ARM_OIDC_TOKEN");
       runCommand(
         "az",
