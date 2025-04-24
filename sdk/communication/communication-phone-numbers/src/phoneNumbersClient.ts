@@ -39,13 +39,10 @@ import type {
   ListPurchasedPhoneNumbersOptions,
   ListReservationOptions,
   ListTollFreeAreaCodesOptions,
-  GetReservationResult,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
-  BrowseAvailableNumbersResult,
-  CreateOrUpdateReservationResult,
   CreateOrUpdateReservationOptions,
   BrowseAvailableNumbersOptions,
 } from "./models.js";
@@ -226,7 +223,7 @@ export class PhoneNumbersClient {
   public getReservation(
     reservationId: string,
     options: GetReservationOptions = {},
-  ): Promise<GetReservationResult> {
+  ): Promise<PhoneNumbersReservation> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-getReservation",
       options,
@@ -328,7 +325,7 @@ export class PhoneNumbersClient {
           ...updatedOptions,
           ...rest,
         })
-        .then((response: BrowseAvailableNumbersResult) => {
+        .then((response) => {
           return response.phoneNumbers;
         });
     } catch (e: any) {
@@ -641,7 +638,7 @@ export class PhoneNumbersClient {
    */
   public async createOrUpdateReservation(
     options?: CreateOrUpdateReservationOptions,
-  ): Promise<CreateOrUpdateReservationResult> {
+  ): Promise<PhoneNumbersReservation> {
     const reservationId = options?.reservationId ? options.reservationId : randomUUID();
     const phoneNumbersReservation: { [propertyName: string]: AvailablePhoneNumber | null } = {};
 
@@ -653,12 +650,12 @@ export class PhoneNumbersClient {
       this.removePhoneNumbersFromReservation(phoneNumbersReservation, options.remove);
     }
 
-    const reservationOptionalParams: CreateOrUpdateReservationOptions = {
+    const reservationOptionalParams = {
       ...options,
       phoneNumbers: phoneNumbersReservation,
     };
     const { span, updatedOptions } = tracingClient.startSpan(
-      "PhoneNumbersClient-updateReservation",
+      "PhoneNumbersClient-createOrUpdateReservation",
       reservationOptionalParams,
     );
 

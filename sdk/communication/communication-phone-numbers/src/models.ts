@@ -7,17 +7,9 @@ import type {
   AvailablePhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilitiesRequest,
-  PhoneNumbersBrowseAvailableNumbersResponse,
-  PhoneNumbersCreateOrUpdateReservationOptionalParams,
-  PhoneNumbersCreateOrUpdateReservationResponse,
-  PhoneNumbersDeleteReservationOptionalParams,
   PhoneNumberSearchRequest,
-  PhoneNumbersGetReservationOptionalParams,
-  PhoneNumbersGetReservationResponse,
   PhoneNumbersListAreaCodesOptionalParams,
-  PhoneNumbersListReservationsOptionalParams,
-  PhoneNumbersPurchaseReservationOptionalParams,
-  PhoneNumbersPurchaseReservationResponse,
+  PhoneNumbersPurchaseReservationHeaders,
   PhoneNumberType,
 } from "./generated/src/models/index.js";
 
@@ -113,14 +105,20 @@ export interface ListOfferingsOptions extends OperationOptions {
 /**
  * Additional options that can be passed to the begin purchase reservation request.
  */
-export interface BeginReservationPurchaseOptions
-  extends PhoneNumbersPurchaseReservationOptionalParams {}
+export interface BeginReservationPurchaseOptions extends OperationOptions {
+  /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
+  agreeToNotResell?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /**
  * Additional options for updating a phone numbers reservation.
  */
 export interface CreateOrUpdateReservationOptions
-  extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+  extends OperationOptions {
   /**
    * The id of the reservation.
    */
@@ -140,17 +138,17 @@ export interface CreateOrUpdateReservationOptions
 /**
  * Additional options for deleting a phone numbers reservation.
  */
-export interface DeleteReservationOptions extends PhoneNumbersDeleteReservationOptionalParams {}
+export interface DeleteReservationOptions extends OperationOptions {}
 
 /**
  * Additional options for getting a phone numbers reservation.
  */
-export interface GetReservationOptions extends PhoneNumbersGetReservationOptionalParams {}
+export interface GetReservationOptions extends OperationOptions {}
 
 /**
  * Additional options for listing all phone numbers reservations.
  */
-export interface ListReservationOptions extends PhoneNumbersListReservationsOptionalParams {}
+export interface ListReservationOptions extends OperationOptions {}
 
 /**
  * Additional options for browse available phone numbers request.
@@ -165,25 +163,9 @@ export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptio
 }
 
 /**
- * The result of the phone numbers browse operation.
- */
-export interface BrowseAvailableNumbersResult extends PhoneNumbersBrowseAvailableNumbersResponse {}
-
-/**
- * The result of create or update reservation operation.
- */
-export interface CreateOrUpdateReservationResult
-  extends PhoneNumbersCreateOrUpdateReservationResponse {}
-
-/**
  * The result of the purchase reservation operation.
  */
-export interface PurchaseReservationResult extends PhoneNumbersPurchaseReservationResponse {}
-
-/**
- * The result of the get reservation operation.
- */
-export interface GetReservationResult extends PhoneNumbersGetReservationResponse {}
+export type PurchaseReservationResult = PhoneNumbersPurchaseReservationHeaders;
 
 export {
   AvailablePhoneNumber,
@@ -192,20 +174,12 @@ export {
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
-  PhoneNumbersBrowseAvailableNumbersResponse,
-  PhoneNumbersBrowseResult,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
-  PhoneNumbersCreateOrUpdateReservationOptionalParams,
-  PhoneNumbersCreateOrUpdateReservationResponse,
   PhoneNumberCost,
   PhoneNumberCountry,
-  PhoneNumbersDeleteReservationOptionalParams,
-  PhoneNumbersGetReservationOptionalParams,
-  PhoneNumbersGetReservationResponse,
   PhoneNumbersListAreaCodesOptionalParams,
-  PhoneNumbersListReservationsOptionalParams,
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchRequest,

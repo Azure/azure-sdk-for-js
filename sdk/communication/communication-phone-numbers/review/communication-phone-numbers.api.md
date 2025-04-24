@@ -47,7 +47,10 @@ export interface BeginReleasePhoneNumberOptions extends OperationOptions {
 }
 
 // @public
-export interface BeginReservationPurchaseOptions extends PhoneNumbersPurchaseReservationOptionalParams {
+export interface BeginReservationPurchaseOptions extends OperationOptions {
+    agreeToNotResell?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -72,33 +75,21 @@ export interface BrowseAvailableNumbersRequest {
 }
 
 // @public
-export interface BrowseAvailableNumbersResult extends PhoneNumbersBrowseAvailableNumbersResponse {
-}
-
-// @public
-export interface CreateOrUpdateReservationOptions extends PhoneNumbersCreateOrUpdateReservationOptionalParams {
+export interface CreateOrUpdateReservationOptions extends OperationOptions {
     add?: AvailablePhoneNumber[];
     remove?: string[];
     reservationId?: string;
 }
 
 // @public
-export interface CreateOrUpdateReservationResult extends PhoneNumbersCreateOrUpdateReservationResponse {
-}
-
-// @public
-export interface DeleteReservationOptions extends PhoneNumbersDeleteReservationOptionalParams {
+export interface DeleteReservationOptions extends OperationOptions {
 }
 
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
-export interface GetReservationOptions extends PhoneNumbersGetReservationOptionalParams {
-}
-
-// @public
-export interface GetReservationResult extends PhoneNumbersGetReservationResponse {
+export interface GetReservationOptions extends OperationOptions {
 }
 
 // @public
@@ -128,7 +119,7 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
-export interface ListReservationOptions extends PhoneNumbersListReservationsOptionalParams {
+export interface ListReservationOptions extends OperationOptions {
 }
 
 // @public
@@ -230,14 +221,6 @@ export interface PhoneNumberOffering {
 }
 
 // @public
-export type PhoneNumbersBrowseAvailableNumbersResponse = PhoneNumbersBrowseResult;
-
-// @public
-export interface PhoneNumbersBrowseResult {
-    phoneNumbers: AvailablePhoneNumber[];
-}
-
-// @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
@@ -248,10 +231,10 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest, options?: BrowseAvailableNumbersOptions): Promise<AvailablePhoneNumber[]>;
-    createOrUpdateReservation(options?: CreateOrUpdateReservationOptions): Promise<CreateOrUpdateReservationResult>;
+    createOrUpdateReservation(options?: CreateOrUpdateReservationOptions): Promise<PhoneNumbersReservation>;
     deleteReservation(reservationId: string, options?: DeleteReservationOptions): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
-    getReservation(reservationId: string, options?: GetReservationOptions): Promise<GetReservationResult>;
+    getReservation(reservationId: string, options?: GetReservationOptions): Promise<PhoneNumbersReservation>;
     listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
     listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listAvailableLocalities(countryCode: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
@@ -265,23 +248,6 @@ export class PhoneNumbersClient {
 // @public
 export interface PhoneNumbersClientOptions extends CommonClientOptions {
     acceptLanguage?: string;
-}
-
-// @public
-export interface PhoneNumbersCreateOrUpdateReservationOptionalParams extends coreClient.OperationOptions {
-    expiresAt?: Date;
-    id?: string;
-    phoneNumbers?: {
-        [propertyName: string]: AvailablePhoneNumber | null;
-    };
-    status?: ReservationStatus;
-}
-
-// @public
-export type PhoneNumbersCreateOrUpdateReservationResponse = PhoneNumbersReservation;
-
-// @public
-export interface PhoneNumbersDeleteReservationOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -311,13 +277,6 @@ export interface PhoneNumberSearchResult {
 export type PhoneNumberSearchResultError = "NoError" | "UnknownErrorCode" | "OutOfStock" | "AuthorizationDenied" | "MissingAddress" | "InvalidAddress" | "InvalidOfferModel" | "NotEnoughLicenses" | "NoWallet" | "NotEnoughCredit" | "NumbersPartiallyAcquired" | "AllNumbersNotAcquired" | "ReservationExpired" | "PurchaseFailed" | "BillingUnavailable" | "ProvisioningFailed" | "UnknownSearchError";
 
 // @public
-export interface PhoneNumbersGetReservationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
-
-// @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
     acceptLanguage?: string;
     administrativeDivision?: string;
@@ -325,11 +284,6 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
     locality?: string;
     maxPageSize?: number;
     skip?: number;
-}
-
-// @public
-export interface PhoneNumbersListReservationsOptionalParams extends coreClient.OperationOptions {
-    maxPageSize?: number;
 }
 
 // @public
@@ -379,8 +333,7 @@ export interface PurchasePhoneNumbersResult {
 }
 
 // @public
-export interface PurchaseReservationResult extends PhoneNumbersPurchaseReservationResponse {
-}
+export type PurchaseReservationResult = PhoneNumbersPurchaseReservationHeaders;
 
 // @public
 export interface ReleasePhoneNumberResult {
