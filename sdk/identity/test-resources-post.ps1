@@ -69,13 +69,14 @@ az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESO
 Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 Write-Host "Deployed function app"
 
-Write-Host "Deplying Identity Web App"
-Push-Location "$webappRoot/AzureWebApps"
-npm install
-npm run build
-az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
-Pop-Location
-Write-Host "Deployed Identity Web App"
+# TODO: The deployment step runs into 504 Gateway Timeout error
+# Write-Host "Deplying Identity Web App"
+# Push-Location "$webappRoot/AzureWebApps"
+# npm install
+# npm run build
+# az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
+# Pop-Location
+# Write-Host "Deployed Identity Web App"
 
 Write-Host "Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
