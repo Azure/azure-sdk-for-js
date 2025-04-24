@@ -10,9 +10,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** List the operations for the provider */
-  list: (
-    options?: OperationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Operation>;
+  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 function _getOperations(context: WorkloadsContext) {
@@ -21,9 +19,7 @@ function _getOperations(context: WorkloadsContext) {
   };
 }
 
-export function _getOperationsOperations(
-  context: WorkloadsContext,
-): OperationsOperations {
+export function _getOperationsOperations(context: WorkloadsContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

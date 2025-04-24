@@ -158,9 +158,8 @@ function _getSAPVirtualInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       options?: SAPVirtualInstancesStartOptionalParams,
     ) => start(context, resourceGroupName, sapVirtualInstanceName, options),
-    listBySubscription: (
-      options?: SAPVirtualInstancesListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: SAPVirtualInstancesListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: SAPVirtualInstancesListByResourceGroupOptionalParams,
@@ -175,27 +174,13 @@ function _getSAPVirtualInstances(context: WorkloadsContext) {
       sapVirtualInstanceName: string,
       properties: UpdateSAPVirtualInstanceRequest,
       options?: SAPVirtualInstancesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, sapVirtualInstanceName, properties, options),
     create: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       resource: SAPVirtualInstance,
       options?: SAPVirtualInstancesCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        sapVirtualInstanceName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, sapVirtualInstanceName, resource, options),
     get: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,

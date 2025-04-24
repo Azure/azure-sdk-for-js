@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  stop,
-  start,
-  list,
-  $delete,
-  update,
-  create,
-  get,
-} from "./operations.js";
+export { stop, start, list, $delete, update, create, get } from "./operations.js";
 export {
   SAPDatabaseInstancesStopOptionalParams,
   SAPDatabaseInstancesStartOptionalParams,

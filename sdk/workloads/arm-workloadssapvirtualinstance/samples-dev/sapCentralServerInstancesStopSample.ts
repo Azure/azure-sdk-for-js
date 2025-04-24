@@ -14,12 +14,9 @@ async function stopTheSAPCentralServicesInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapCentralServerInstances.stop(
-    "test-rg",
-    "X00",
-    "centralServer",
-    { body: { softStopTimeoutSeconds: 1200 } },
-  );
+  const result = await client.sapCentralServerInstances.stop("test-rg", "X00", "centralServer", {
+    body: { softStopTimeoutSeconds: 1200 },
+  });
   console.log(result);
 }
 
@@ -33,12 +30,9 @@ async function stopTheSAPCentralServicesInstanceAndItsUnderlyingVirtualMachineS(
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sapCentralServerInstances.stop(
-    "test-rg",
-    "X00",
-    "centralServer",
-    { body: { deallocateVm: true } },
-  );
+  const result = await client.sapCentralServerInstances.stop("test-rg", "X00", "centralServer", {
+    body: { deallocateVm: true },
+  });
   console.log(result);
 }
 
