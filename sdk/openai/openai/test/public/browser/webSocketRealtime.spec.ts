@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, assert } from "vitest";
-import { testWithDeployments, APIMatrix, APIVersion } from "../../utils/utils.js";
+import { testWithDeployments, APIMatrix, type APIVersion } from "../../utils/utils.js";
 import { OpenAIRealtimeWebSocket } from "openai/beta/realtime/websocket";
 import { createClientsAndDeployments } from "../../utils/createClients.js";
 import {
