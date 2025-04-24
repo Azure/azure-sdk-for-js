@@ -1,85 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, expect, vi } from "vitest";
-import { authenticateToken, authenticateTeamId } from "../src/auth.js";
-import type { Request, Response } from "express";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import Fastify from "fastify";
+import { authenticateToken } from "../src/auth.js";
 
-describe("authenticateToken", () => {
-  it("should return 401 if the token is missing", () => {
-    const req = { headers: {} } as unknown as Request;
-    const res = { status: vi.fn().mockReturnThis(), send: vi.fn() } as unknown as Response;
-    const next = vi.fn();
+describe("authenticateToken plugin", () => {
+  let fastify: ReturnType<typeof Fastify>;
+  const validToken = "testtoken123";
+  const invalidToken = "invalidtoken";
 
-    authenticateToken(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.send).toHaveBeenCalledWith("Access token is missing or invalid.");
-    expect(next).not.toHaveBeenCalled();
+  beforeEach(async () => {
+    // Set up environment variable for each test
+    process.env.TURBO_TOKEN = validToken;
+    fastify = Fastify();
+    fastify.register(authenticateToken);
+    // Add a test route
+    fastify.get("/test", async () => ({ ok: true }));
+    await fastify.ready();
   });
 
-  it("should return 500 if no tokens are configured in the environment", () => {
-    const req = { headers: { authorization: "Bearer test-token" } } as unknown as Request;
-    const res = { status: vi.fn().mockReturnThis(), send: vi.fn() } as unknown as Response;
-    const next = vi.fn();
-
-    delete process.env.TURBO_TOKEN; // No tokens configured
-    authenticateToken(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.send).toHaveBeenCalledWith("No tokens configured in the environment.");
-    expect(next).not.toHaveBeenCalled();
+  afterEach(async () => {
+    await fastify.close();
+    delete process.env.TURBO_TOKEN;
   });
 
-  it("should return 403 if the token is invalid", () => {
-    const req = { headers: { authorization: "Bearer invalid-token" } } as unknown as Request;
-    const res = { status: vi.fn().mockReturnThis(), send: vi.fn() } as unknown as Response;
-    const next = vi.fn();
-
-    process.env.TURBO_TOKEN = "valid-token";
-    authenticateToken(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(403);
-    expect(res.send).toHaveBeenCalledWith("Invalid or unauthorized token.");
-    expect(next).not.toHaveBeenCalled();
+  it("should allow requests with a valid token", async () => {
+    const response = await fastify.inject({
+      method: "GET",
+      url: "/test",
+      headers: {
+        authorization: `Bearer ${validToken}`,
+      },
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual({ ok: true });
   });
 
-  it("should call next if the token is valid", () => {
-    const req = { headers: { authorization: "Bearer valid-token" } } as unknown as Request;
-    const res = { status: vi.fn(), send: vi.fn() } as unknown as Response;
-    const next = vi.fn();
-
-    process.env.TURBO_TOKEN = "valid-token";
-    authenticateToken(req, res, next);
-
-    expect(res.status).not.toHaveBeenCalled();
-    expect(res.send).not.toHaveBeenCalled();
-    expect(next).toHaveBeenCalled();
-  });
-});
-
-describe("authenticateTeamId", () => {
-  it("should return 401 if team ID or slug is missing", () => {
-    const req = { query: {} } as unknown as Request;
-    const res = { status: vi.fn().mockReturnThis(), send: vi.fn() } as unknown as Response;
-    const next = vi.fn();
-
-    authenticateTeamId(req, res, next);
-
-    expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.send).toHaveBeenCalledWith("Missing team ID or slug.");
-    expect(next).not.toHaveBeenCalled();
+  it("should reject requests with an invalid token", async () => {
+    const response = await fastify.inject({
+      method: "GET",
+      url: "/test",
+      headers: {
+        authorization: `Bearer ${invalidToken}`,
+      },
+    });
+    expect(response.statusCode).toBe(403);
+    expect(response.body).toContain("Invalid or unauthorized token");
   });
 
-  it("should call next if team ID or slug is present", () => {
-    const req = { query: { teamId: "team123" } } as unknown as Request;
-    const res = { status: vi.fn(), send: vi.fn() } as unknown as Response;
-    const next = vi.fn();
+  it("should reject requests with no token", async () => {
+    const response = await fastify.inject({
+      method: "GET",
+      url: "/test",
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toContain("Access token is missing or invalid");
+  });
 
-    authenticateTeamId(req, res, next);
+  it("should return 500 if no tokens are configured", async () => {
+    delete process.env.TURBO_TOKEN;
+    // Recreate fastify instance to pick up new env
+    await fastify.close();
+    fastify = Fastify();
+    fastify.register(authenticateToken);
+    fastify.get("/test", async () => ({ ok: true }));
+    await fastify.ready();
 
-    expect(res.status).not.toHaveBeenCalled();
-    expect(res.send).not.toHaveBeenCalled();
-    expect(next).toHaveBeenCalled();
+    const response = await fastify.inject({
+      method: "GET",
+      url: "/test",
+      headers: {
+        authorization: `Bearer ${validToken}`,
+      },
+    });
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toContain("No tokens configured in the environment");
   });
 });

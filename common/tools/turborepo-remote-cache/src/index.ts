@@ -2,156 +2,191 @@
 // Licensed under the MIT License.
 
 import "dotenv/config";
-import express from "express";
-import process from "node:process";
-import { Readable } from "node:stream";
-import { createAzureStorageClient } from "./storage.js";
-import { performance } from "node:perf_hooks";
-import { authenticateTeamId, authenticateToken } from "./auth.js";
-import { createClientLogger } from "./util/logger.js";
+import Fastify from "fastify";
+import { badRequest, notFound } from "@hapi/boom";
+import { DefaultAzureCredential } from "@azure/identity";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { join } from "node:path";
+import { PassThrough, Readable } from "node:stream";
+import { authenticateToken, authenticateTeamId } from "./auth.js";
 
-const logger = createClientLogger("turbo-cache");
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
-const app = express();
-app.use(express.json({ limit: "50mb" }));
-app.use(express.raw({ type: "*/*", limit: "50mb" }));
-app.use("/v8/artifacts", authenticateToken);
-app.use("/v8/artifacts", authenticateTeamId);
+const fastify = Fastify({
+  logger: {
+    level: process.env.LOG_LEVEL || "info",
+  },
+  exposeHeadRoutes: false,
+  bodyLimit: MAX_FILE_SIZE,
+});
 
-const port = process.env.AZURE_CACHE_PORT || 3000;
+// Register a content type parser for application/octet-stream
+fastify.addContentTypeParser(
+  "application/octet-stream",
+  { parseAs: "buffer", bodyLimit: MAX_FILE_SIZE }, // 50MB
+  (_req, body, done) => {
+    done(null, body);
+  },
+);
+
+fastify.register(authenticateToken);
+fastify.register(authenticateTeamId);
+
+const port = (process.env.AZURE_CACHE_PORT || 3000) as number;
 const azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT;
 const azureStorageContainerName = process.env.AZURE_STORAGE_CONTAINER_NAME;
 const packageVersion = process.env.PACKAGE_VERSION || "1.0.0";
 
 if (!azureStorageAccount || !azureStorageContainerName) {
-  logger.error("Missing Azure Storage account or container name.");
+  fastify.log.error("Missing Azure Storage account or container name.");
   process.exit(1);
 }
-const azureStorageClient = await createAzureStorageClient({
-  containerName: azureStorageContainerName,
-  account: azureStorageAccount,
+
+const blobServiceClient = new BlobServiceClient(
+  `https://${azureStorageAccount}.blob.core.windows.net`,
+  new DefaultAzureCredential(),
+);
+const containerClient = blobServiceClient.getContainerClient(azureStorageContainerName);
+
+fastify.get("/v8/artifacts/status", async (_request, reply) => {
+  return reply.send({ status: "enabled", version: packageVersion });
+});
+
+fastify.get("/v8/artifacts/:key", async (request, reply) => {
+  const { key } = request.params as { key: string };
+  const { teamId, team, slug } = request.query as {
+    teamId?: string;
+    team?: string;
+    slug?: string;
+  };
+  const teamPath = teamId ?? team ?? slug;
+
+  if (!teamPath) {
+    throw badRequest("No team identifier provided");
+  }
+
+  const blobName = join(teamPath, key);
+  const blobClient = containerClient.getBlobClient(blobName);
+  const exists = await blobClient.exists();
+  if (!exists) {
+    fastify.log.error(`Blob not found: ${blobName}`);
+    return reply.status(404).send(`Blob not found: ${blobName}`);
+  }
+
+  try {
+    const stream = new PassThrough();
+    const response = await blobClient.download();
+    if (response.readableStreamBody) {
+      response.readableStreamBody.pipe(stream);
+    }
+
+    reply.header("Content-Type", "application/octet-stream");
+    reply.send(stream);
+  } catch (error) {
+    fastify.log.error(`Error downloading blob: ${error}`);
+    throw notFound(`Blob not found: ${blobName}`);
+  }
+});
+
+fastify.put("/v8/artifacts/:key", async (request, reply) => {
+  const { key } = request.params as { key: string };
+  const { teamId, team, slug } = request.query as {
+    teamId?: string;
+    team?: string;
+    slug?: string;
+  };
+  const teamPath = teamId ?? team ?? slug;
+
+  if (!teamPath) {
+    throw badRequest("No team identifier provided");
+  }
+
+  // If the request is raw, request.body is a Buffer
+  if (!request.body || !(request.body instanceof Buffer)) {
+    throw badRequest("No file uploaded or invalid content type");
+  }
+  const readableStream = Readable.from(request.body);
+
+  const blobPath = join(teamPath, key);
+  const blobClient = containerClient.getBlockBlobClient(blobPath);
+  await blobClient.uploadStream(readableStream, request.body.length);
+
+  fastify.log.info(`Uploaded blob: ${blobPath}`);
+
+  reply.send({ urls: [`${team}/${key}`] });
+});
+
+fastify.head("/v8/artifacts/:key", async (request, reply) => {
+  const { key } = request.params as { key: string };
+  const { teamId, team, slug } = request.query as {
+    teamId?: string;
+    team?: string;
+    slug?: string;
+  };
+  const teamPath = teamId ?? team ?? slug;
+
+  if (!teamPath) {
+    throw badRequest("No team identifier provided");
+  }
+
+  const blobPath = join(teamPath, key);
+  const blobClient = containerClient.getBlobClient(blobPath);
+  const exists = await blobClient.exists();
+
+  if (!exists) {
+    fastify.log.info(`Artifact with hash ${key} not found.`);
+    throw notFound(`Artifact with hash ${key} not found.`);
+  }
+
+  reply.send();
 });
 
 // POST /v8/artifacts/events
-app.post("/v8/artifacts/events", (req, res) => {
-  const events = req.body;
+fastify.post("/v8/artifacts/events", async (request, reply) => {
+  const { body } = request as { body: unknown[] };
+  const events = body;
 
   if (!Array.isArray(events)) {
-    const errorMessage = "Invalid request body. Expected an array of events.";
-    logger.error(errorMessage);
-    res.status(400).send(errorMessage);
-    return;
+    throw badRequest("Invalid request body. Expected an array of events.");
   }
 
   // Process events (e.g., log them or store them in a database)
-  logger.info("Received events:", events);
+  fastify.log.info("Received events:", events);
 
-  res.status(200).send({});
-});
-
-// GET /v8/artifacts/status
-app.get("/v8/artifacts/status", (_req, res) => {
-  res.status(200).json({ status: "enabled", version: packageVersion });
-});
-
-// PUT /v8/artifacts/:hash
-app.put("/v8/artifacts/:hash", async (req, res) => {
-  const { hash } = req.params;
-  const team = req.query.teamId ?? req.query.team ?? req.query.slug;
-
-  logger.info(`Uploading artifact with hash: ${hash}`);
-
-  if (!req.body) {
-    logger.warning("No body found in the request.");
-    res.status(202).json({
-      urls: [[`${team}/${hash}`]],
-    });
-    return;
-  }
-
-  const bodyStream = Readable.from(req.body);
-  const writeStream = await azureStorageClient.createWriteStream(team as string, hash);
-  bodyStream.pipe(writeStream);
-  writeStream.on("error", (err) => {
-    logger.error("Error writing artifact:", err);
-    res.status(500).send("Error writing artifact.");
-  });
-  writeStream.on("finish", () => {
-    logger.info(`Artifact uploaded with hash: ${hash}`);
-    res.status(202).json({
-      urls: [[`${team}/${hash}`]],
-    });
-  });
-  writeStream.on("close", () => {
-    logger.info(`Artifact upload completed with hash: ${hash}`);
-  });
-});
-
-// GET /v8/artifacts/:hash
-app.get("/v8/artifacts/:hash", async (req, res) => {
-  const { hash } = req.params;
-  const team = req.query.teamId ?? req.query.team ?? req.query.slug;
-
-  // Check if the artifact exists
-  logger.info(`Checking existence of artifact with hash: ${hash}`);
-
-  const exists = await azureStorageClient.exists(team as string, hash);
-  if (!exists) {
-    logger.info(`Artifact with hash ${hash} not found.`);
-    res.status(404).send("Artifact not found.");
-    return;
-  }
-  const stream = await azureStorageClient.createReadStream(team as string, hash);
-
-  // Set headers for binary stream
-  res.setHeader("Content-Type", "application/octet-stream");
-
-  stream.on("error", (err) => {
-    logger.error("Error streaming artifact:", err);
-    res.status(500).send("Error streaming artifact.");
-  });
-
-  stream.pipe(res);
-});
-
-// HEAD /v8/artifacts/:hash
-app.head("/v8/artifacts/:hash", async (req, res) => {
-  const { hash } = req.params;
-  const team = req.query.teamId ?? req.query.team ?? req.query.slug;
-
-  // Check if the artifact exists
-  logger.info(`Checking existence of artifact with hash: ${hash}`);
-  const exists = await azureStorageClient.exists(team as string, hash);
-  if (!exists) {
-    logger.info(`Artifact with hash ${hash} not found.`);
-    res.status(404).send("Artifact not found.");
-    return;
-  }
-
-  res.status(200).end();
+  reply.code(200).send({});
 });
 
 // POST /v8/artifacts
-app.post("/v8/artifacts", async (req, res) => {
-  const { hashes } = req.body;
-  const team = req.query.teamId ?? req.query.team ?? req.query.slug;
+fastify.post("/v8/artifacts", async (request, reply) => {
+  const { teamId, team, slug } = request.query as {
+    teamId?: string;
+    team?: string;
+    slug?: string;
+  };
+  const teamPath = teamId ?? team ?? slug;
+  const { hashes } = request.body as { hashes: string[] };
+
+  if (!teamPath) {
+    throw badRequest("No team identifier provided");
+  }
 
   if (!Array.isArray(hashes)) {
-    logger.error("Invalid request body. Expected an array of hashes.");
-    res.status(400).send("Invalid request body. Expected an array of hashes.");
-    return;
+    throw badRequest("Invalid request body. Expected an array of hashes.");
   }
 
   // Query information about the artifacts
-  logger.info("Querying artifacts:", hashes);
+  fastify.log.info(`Querying artifacts: ${hashes}.join(", ")}`);
 
   const jsonResponse: Record<string, { size: number; taskDurationMs: number }> = {};
   for (const hash of hashes) {
     const startTime = performance.now();
 
-    const exists = await azureStorageClient.exists(team as string, hash);
+    const blobPath = join(teamPath, hash);
+    const blobClient = containerClient.getBlobClient(blobPath);
+    const exists = await blobClient.exists();
     if (exists) {
-      const size = (await azureStorageClient.contentLength(team as string, hash)) ?? 0;
+      const properties = await blobClient.getProperties();
+      const size = properties.contentLength ?? 0;
       const endTime = performance.now();
       const taskDurationMs = endTime - startTime;
       jsonResponse[hash] = { size, taskDurationMs };
@@ -162,9 +197,21 @@ app.post("/v8/artifacts", async (req, res) => {
     }
   }
 
-  res.status(200).json(jsonResponse);
+  reply.send(jsonResponse);
 });
 
-app.listen(port, () => {
-  logger.info(`Express is listening on ${port}`);
+const start = async () => {
+  await containerClient.createIfNotExists();
+  fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
+    if (err) {
+      fastify.log.error(err);
+      return;
+    }
+    fastify.log.info(`Server listening at ${address}`);
+  });
+};
+
+start().catch((err) => {
+  fastify.log.error(err);
+  process.exit(1);
 });
