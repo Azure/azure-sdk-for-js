@@ -2346,6 +2346,11 @@
       "packageName": "@azure/arm-portalservicescopilot",
       "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
+      "versionPolicyName": "management"
     }
   ]
 }
