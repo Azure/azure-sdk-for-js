@@ -87,7 +87,7 @@ importers:
         version: file:projects/arm-apicenter.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
       '@rush-temp/arm-apimanagement':
         specifier: file:./projects/arm-apimanagement.tgz
-        version: file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+        version: file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-appcomplianceautomation':
         specifier: file:./projects/arm-appcomplianceautomation.tgz
         version: file:projects/arm-appcomplianceautomation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -613,6 +613,9 @@ importers:
       '@rush-temp/arm-portal':
         specifier: file:./projects/arm-portal.tgz
         version: file:projects/arm-portal.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/arm-portalservicescopilot':
+        specifier: file:./projects/arm-portalservicescopilot.tgz
+        version: file:projects/arm-portalservicescopilot.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-postgresql':
         specifier: file:./projects/arm-postgresql.tgz
         version: file:projects/arm-postgresql.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -1378,8 +1381,8 @@ packages:
     resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/identity@4.9.1':
-    resolution: {integrity: sha512-986D7Cf1AOwYqSDtO/FnMAyk/Jc8qpftkGsxuehoh4F85MhQ4fICBGX/44+X1y78lN4Sqib3Bsoaoh/FvOGgmg==}
+  '@azure/identity@4.9.0':
+    resolution: {integrity: sha512-dz2ZvKxDFoTUmJgmkCBVcyuKckgqE1qVxrRPzUhyKN7FyvUbtNPUrGzqSllOAf1OL9TMGgYqZWbIyD0b/AE15g==}
     engines: {node: '>=18.0.0'}
 
   '@azure/keyvault-certificates@4.9.0':
@@ -1725,8 +1728,8 @@ packages:
     resolution: {integrity: sha512-gtF186CXhIl1p4pJNGZw8Yc6RlshoePRvE0X91oPGb3vZ8pM3qOS9W9NGPat9LziaBV7XrJWGylNQXkGcnM3IQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/js@9.25.1':
-    resolution: {integrity: sha512-dEIwmjntEx8u3Uvv+kr3PDeeArL8Hw07H9kyYxCjnM9pBjfEhk6uLXSchxxzgiwtRhhzVzqmUSDFBOi1TuZ7qg==}
+  '@eslint/js@9.25.0':
+    resolution: {integrity: sha512-iWhsUS8Wgxz9AXNfvfOPFSW4VfMXdVhp1hjkZVhXCrpgh/aLcc45rX6MPu+tIVUWDw0HfNwth7O28M1xDxNf9w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.6':
@@ -1835,8 +1838,8 @@ packages:
   '@microsoft/api-extractor-model@7.30.5':
     resolution: {integrity: sha512-0ic4rcbcDZHz833RaTZWTGu+NpNgrxVNjVaor0ZDUymfDFzjA/Uuk8hYziIUIOEOSTfmIQqyzVwlzxZxPe7tOA==}
 
-  '@microsoft/api-extractor@7.52.5':
-    resolution: {integrity: sha512-6WWgjjg6FkoDWpF/O3sjB05OkszpI5wtKJqd8fUIR/JJUv8IqNCGr1lJUZJnc1HegcT9gAvyf98KfH0wFncU0w==}
+  '@microsoft/api-extractor@7.52.4':
+    resolution: {integrity: sha512-mIEcqgx877CFwNrTuCdPnlIGak8FjlayZb8sSBwWXX+i4gxkZRpMsb5BQcFW3v1puuJB3jYMqQ08kyAc4Vldhw==}
     hasBin: true
 
   '@microsoft/applicationinsights-web-snippet@1.2.1':
@@ -2397,7 +2400,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz':
-    resolution: {integrity: sha512-foP1d8jboDRGuSlc+8ZY2c9E8Vj63koTpqYxSZ52jW2ICAHuOKWYzUUfOQl/cSUmiP3jfBG/N65ino8NzmLoEw==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-HsyZVoTmHvtuA9mbwPZOAq4k57FcYni+pLrXFLL0PO4ZwUOYvFXkWrNARQ3gFCCSi0vR/o5w/mpdt2PM67/esA==, tarball: file:projects/arm-apimanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz':
@@ -2409,7 +2412,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appcontainers@file:projects/arm-appcontainers.tgz':
-    resolution: {integrity: sha512-GctBtHYD3IEFKbm8bgwnieApav/R/VPIK5753gZvfWG76YH2U4aimfvS8C0RJhah2rLuizRCcaSKDPhHsKh9cg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-A9dP4p+S9mBiBIcllGFYxwzk3zu6u3wHykGsrTeWlGlRZzbbm9a8ONJZSVYR1sxj7xRLMizx13Lib49nvJgF7A==, tarball: file:projects/arm-appcontainers.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz':
@@ -2581,11 +2584,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerregistry@file:projects/arm-containerregistry.tgz':
-    resolution: {integrity: sha512-aepMD8MXHQEP25w8zkbnk34sRbh+iAnq3B5E+0ot3gZpvermqiIcX6rGkFfi0X+uenAibBRQRK8A/w0J0rTzvg==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-JUngv8xhQz/NW+/uz1I181od+Hv7FP+h6RqOWzA02UCVisaNxjt4qsZz+JebVbb5DvT/kG56Oj64lPWlKuyB2Q==, tarball: file:projects/arm-containerregistry.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-FlSeF1C6UFKLra6uIpTfbc0Ml87kiVyZvOF10BVL+qIk5HRYXfxktNUvadVjdNHyzTZd8TVJBT7B1W4mWZUBFA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-H2yKeU6oHswQCWvTfwFbGFv75Wv2+8ebxqToOogIUvk/K4Qi8hZD6wYpeB79DZEfxdRbbVdd5Asn2qT5tOzInw==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -2649,7 +2652,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-HgJz2N5jNNuxb/8qZqKooHInHrwELAro6z3Q/Fp/nxbwMlV/Q/xfBqPcrSOtvfMwHjfFWen+zcWNdXQV/Q+XHA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-+FbZqAqRiHtUnpbraqYZ1l8yva7qiMku9/ACtkVXVWmEbjB95Lo6PydfEWISN8Qlat1NW8AuEGq0mLvYWJXWsw==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -2733,7 +2736,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-durabletask@file:projects/arm-durabletask.tgz':
-    resolution: {integrity: sha512-G5l6R+/M3LpP9pj7sYrwjkAfIuZWwSkxGksvNqtrHiviuIMkjEmVIMLZbfKHSQy8jWC9Sdq+jSy1w9B7i6aGSw==, tarball: file:projects/arm-durabletask.tgz}
+    resolution: {integrity: sha512-nO4z6X36MUvv0CXvP57PA3xFHFmog+vGCisb2C0wW3JBuIMJW7MVfZbiF2QXJT7SlVc9PmV4jyRW7q8cP5tPgQ==, tarball: file:projects/arm-durabletask.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
@@ -2753,7 +2756,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-AoYPz/q8zeMsOIvSc/WmeOqPeYRkd/XBT1CPrxDl68Up/EZzi1BOA/9QAcYsy9C6De6Nj2PUmPJ3w72bZ/fWOA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-n77j2ag9WwfN1dAmlNCAmOU9K/XoKdKnL9M1tzPumMp/StB2atph07AlWJ+NKnm5NQ7YLjeNnNoZOpSna8MNbg==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
@@ -3009,11 +3012,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-neonpostgres@file:projects/arm-neonpostgres.tgz':
-    resolution: {integrity: sha512-OtXXTb+uPR318DgtfGcJtyHzGZZ5oQX90KyjNacOYuhEWuIJIUcsLn04uv95PuGyPRHgfxab6KQuvbbQP01bZg==, tarball: file:projects/arm-neonpostgres.tgz}
+    resolution: {integrity: sha512-L8Ds78VicqhwuDixYIPondccS799PPo+Pi9QJX/2pyFxe0X/XR2IyGugTKfSYKpw+0IgzRPHkm4gD7vHdwaMGA==, tarball: file:projects/arm-neonpostgres.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
-    resolution: {integrity: sha512-h0Q0jvMhrayv+MywyX5cLZKrUHOraAqfgMbqzBByyrXYVxIrA71n1Tn5io2RQCJm6v9dszM3fxeGRaZM9FOeHA==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-VQ3oC4w2rlbHjd6qhGzklqFtW7RVkCJjyZ2R56ibsyam9QU17t4dQNhlfnT8hXdAr5s7WxFGV0nuT1XwOzv4nw==, tarball: file:projects/arm-netapp.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
@@ -3029,7 +3032,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-GFeHzcklp3zlV4RzxPPcPd8/gUC5KAn5Yn/xdXUGgeQDPcMz1eLlNWmYIjafQileW5OJz0QVTJofr3eHBurw1w==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-7Sm1dca13RBssRKOYeUXJgEfv8XZPiZjCUR3dY8G0951fVz7DwE7FyvDgMKvAaJvjoeGFIbxzlpXkhqVb1kVpA==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
@@ -3100,6 +3103,10 @@ packages:
     resolution: {integrity: sha512-ZGEJYNYul971ULIFuYuDGHIrLiFWJLYoYK7w0O/NjFCfpZnSK7+5nfAju74ToetdIo1Gx0m9Obq/XVsWTZeBnQ==, tarball: file:projects/arm-portal.tgz}
     version: 0.0.0
 
+  '@rush-temp/arm-portalservicescopilot@file:projects/arm-portalservicescopilot.tgz':
+    resolution: {integrity: sha512-Lc+JhIjPtxa9Kmkf7UCVtrTDGrOwr/1z/nxC9uXbilMDpGeZp+y9aAKWxSiNDAIF1fxejwzv75L9v+oSYGGxYw==, tarball: file:projects/arm-portalservicescopilot.tgz}
+    version: 0.0.0
+
   '@rush-temp/arm-postgresql-flexible@file:projects/arm-postgresql-flexible.tgz':
     resolution: {integrity: sha512-jK04jwsgoZoGPZ6hKhGPGBizdL8UWv6ePE4P3ef9j0L80D5zwUv+kaeEBeVKXMbe243/EV83GHfvRTPb34aPQQ==, tarball: file:projects/arm-postgresql-flexible.tgz}
     version: 0.0.0
@@ -3137,7 +3144,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices-siterecovery@file:projects/arm-recoveryservices-siterecovery.tgz':
-    resolution: {integrity: sha512-yuiXweX2sBiEpJF4JLopkGBUSfKAfsJdpMqoMtj+C8dNoqGR4UbZdn9fMzBM+t7SEIEBAn4JahwSlQyJTEzIRA==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-ptLLhNGMrQ7hsihhxNHl0O8UpelAQwze2C3l5qiGKJZ70LSwfc9oogaTIlAC8kK8HkumXZSngDC5g/n03xiMlg==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices@file:projects/arm-recoveryservices.tgz':
@@ -3145,7 +3152,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesbackup@file:projects/arm-recoveryservicesbackup.tgz':
-    resolution: {integrity: sha512-48C5ap1qR3K5IRIbSib39hq3SaVWxw1Nt+HpSXK8aXYjtkbwL6XbvG3Z2d8d4dYg1LvpSnpQ0U9WPHREHqyuUA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-bnjG6pAxWmiS+sMUH+5xiLWx8hZDj3UX81NxECEkKwBTSQlARrANtW5oxVoHswkRjHBJjHGglaYjA0VWYoqpQw==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesdatareplication@file:projects/arm-recoveryservicesdatareplication.tgz':
@@ -3161,7 +3168,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-redisenterprisecache@file:projects/arm-redisenterprisecache.tgz':
-    resolution: {integrity: sha512-KR6Gd1LYBClcyEA1OtCVuA4y8XozkHK0SgsYuQbteUXIahN01Y7cwRWzyh+w4z/ohuP5YR0CLprinymGtcQeRA==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-9aXROvz6zVwXo+MsMyqzWcxh7dLawgmrWaY1b7J8DHlztxS+isPbTFvxYf4myM1pIKgMAUTLESyXQRfs8TfNLQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-relay@file:projects/arm-relay.tgz':
@@ -3293,11 +3300,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-qNYrsf5lRQ4w6NbFDa0R16ygHuz5dNqPq3pyy/ltgZxLPKwB/+Mhr3JkryILTgcoFDbNyPr7TLQg5blPCNk0ZQ==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-RHcBz081EArG51ohmWXpUWTgmxmSaT5w2OTi1nqerJXUFijdl3wxiYMuwtTvS0f2hkFGYZgqGTwgq0nrzeWZkw==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
-    resolution: {integrity: sha512-pdQVLjMy8YvTf5IbFMnfQQLSpErK7uSYlQxojzF5D/WoBgG+QWvopDlvrEGXA1OvzxfyCPUWRVo4+s1XiTWTWA==, tarball: file:projects/arm-storageactions.tgz}
+    resolution: {integrity: sha512-j4ar8TKBDSjGd8Je6XzNCCf8NdFthVMM0uJ54tkeFaWgGr0cz1yOZmjQyr5YMnOgT0Gp9Ig2VwvLyG5bl05CbQ==, tarball: file:projects/arm-storageactions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
@@ -3393,7 +3400,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-workloadssapvirtualinstance@file:projects/arm-workloadssapvirtualinstance.tgz':
-    resolution: {integrity: sha512-o3lZF0cY8fQG02LgXkZaFR2eLpRgKb7fJHt18dmrCV+fA/SK/EmkH3iEGRc5hEfgFLv9NUax5RCL78KC0483aQ==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-mF+/PA4G+AuNhRlU8tjAr/4iEHmKve/CYJug8HHxI0FNDn0rJloTuancni28vgk29t9QvSq/gd3yyBtWS7l6hg==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workspaces@file:projects/arm-workspaces.tgz':
@@ -3505,7 +3512,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-rest-pipeline@file:projects/core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-242BXDtIZnwH2MaP1G1xDcmb3DvPK7aPd+Yv67AWt/voOSjV+w9RHE2S7ptwTLGnT032CgQE/iH0ea6eVcF6gA==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-AuCkJRE2Jx9zn6Jh4FLfHPaYFept58JlTR4PWW/Y91xbmnwpC/PXhPEQHAYNvgRcVdPYzm8lQdUf/EYdPvx0fA==, tarball: file:projects/core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/core-sse@file:projects/core-sse.tgz':
@@ -3517,7 +3524,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-lR66vzUOf7ap31GfD1cm5aUIJo8HL+kD3rUYZdjr3x8cuiH1iMCYVhJK8hesmqCP7fqll/aIFj06qbObHRrnhQ==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-uKyN1o+eaBqZAzT8W+i929TpLtLGNn6q/QbnNsc1yX6puh+tjPzLGlOmC07DFGqWvxXNTrXR4Oj78Sx1ejgW7g==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
@@ -3649,7 +3656,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/logger@file:projects/logger.tgz':
-    resolution: {integrity: sha512-/rGXEMjZBho/TTCakfBw91SeGKCnH7aaYyKl7ys3Nj2GasLTNybtmO8u2fsyK69JZhYv79vhABPevzgX2W+e1Q==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-paZdjDITtbfqMEQDpY4OsWHx7GrG/7ukWXo0XPj30y6xCfFyRHQjHuJVYGxCWv0XDb8szIiNWpOEHEM9d6kFjg==, tarball: file:projects/logger.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-common@file:projects/maps-common.tgz':
@@ -3971,8 +3978,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@rushstack/ts-command-line@5.0.0':
-    resolution: {integrity: sha512-SW6nqZVxH26Rxz25+lJQRlnXI/YCrNH7NfDEWPPm9i0rwkSE6Rgtmzw96cuZgQjacOh0sw77d6V4SvgarAfr8g==}
+  '@rushstack/ts-command-line@4.23.7':
+    resolution: {integrity: sha512-Gr9cB7DGe6uz5vq2wdr89WbVDKz0UeuFEn5H2CfWDe7JvjFFaiV15gi6mqDBTbHhHCWS7w8mF1h3BnIfUndqdA==}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -4828,8 +4835,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.140:
-    resolution: {integrity: sha512-o82Rj+ONp4Ip7Cl1r7lrqx/pXhbp/lh9DpKcMNscFJdh8ebyRofnc7Sh01B4jx403RI0oqTBvlZ7OBIZLMr2+Q==}
+  electron-to-chromium@1.5.139:
+    resolution: {integrity: sha512-GGnRYOTdN5LYpwbIr0rwP/ZHOQSvAF6TG0LSzp28uCBb9JiXHJGmaaKw29qjNJc5bGnnp6kXJqRnGMQoELwi5w==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -4969,8 +4976,8 @@ packages:
     resolution: {integrity: sha512-UyLnSehNt62FFhSwjZlHmeokpRK59rcz29j+F1/aDgbkbRTk7wIc9XzdoasMUbRNKDM0qQt/+BJ4BrpFeABemw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint@9.25.1:
-    resolution: {integrity: sha512-E6Mtz9oGQWDCpV12319d59n4tx9zOTXSTmc8BLVxBx+G/0RdM5MvEEJLU9c0+aleoePYYgVTOsRblx433qmhWQ==}
+  eslint@9.25.0:
+    resolution: {integrity: sha512-MsBdObhM4cEwkzCiraDv7A6txFXEqtNXOb877TsSp2FCkBNl8JfVQrmiuDqC1IkejT6JLPzYBXx/xAiYhyzgGA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     hasBin: true
     peerDependencies:
@@ -7437,7 +7444,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/identity@4.9.1':
+  '@azure/identity@4.9.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
@@ -7821,16 +7828,16 @@ snapshots:
   '@esbuild/win32-x64@0.25.2':
     optional: true
 
-  '@eslint-community/eslint-utils@4.6.1(eslint@9.25.1)':
+  '@eslint-community/eslint-utils@4.6.1(eslint@9.25.0)':
     dependencies:
-      eslint: 9.25.1
+      eslint: 9.25.0
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.1': {}
 
-  '@eslint/compat@1.2.8(eslint@9.25.1)':
+  '@eslint/compat@1.2.8(eslint@9.25.0)':
     optionalDependencies:
-      eslint: 9.25.1
+      eslint: 9.25.0
 
   '@eslint/config-array@0.20.0':
     dependencies:
@@ -7860,7 +7867,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@eslint/js@9.25.1': {}
+  '@eslint/js@9.25.0': {}
 
   '@eslint/object-schema@2.1.6': {}
 
@@ -7964,7 +7971,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.52.5(@types/node@18.19.86)':
+  '@microsoft/api-extractor@7.52.4(@types/node@18.19.86)':
     dependencies:
       '@microsoft/api-extractor-model': 7.30.5(@types/node@18.19.86)
       '@microsoft/tsdoc': 0.15.1
@@ -7972,7 +7979,7 @@ snapshots:
       '@rushstack/node-core-library': 5.13.0(@types/node@18.19.86)
       '@rushstack/rig-package': 0.5.3
       '@rushstack/terminal': 0.15.2(@types/node@18.19.86)
-      '@rushstack/ts-command-line': 5.0.0(@types/node@18.19.86)
+      '@rushstack/ts-command-line': 4.23.7(@types/node@18.19.86)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.10
@@ -8505,7 +8512,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8541,7 +8548,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8579,7 +8586,7 @@ snapshots:
       autorest: 3.7.1
       csv-parse: 5.6.0
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8615,7 +8622,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       rollup-plugin-copy: 3.5.0
       tslib: 2.8.1
@@ -8651,7 +8658,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8686,7 +8693,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8723,7 +8730,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       magic-string: 0.30.17
       playwright: 1.52.0
       prettier: 3.5.3
@@ -8767,7 +8774,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8803,7 +8810,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8841,7 +8848,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       chai-exclude: 3.0.1(chai@5.2.0)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8879,7 +8886,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8917,7 +8924,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       prettier: 3.5.3
       tslib: 2.8.1
@@ -8954,7 +8961,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -8990,7 +8997,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -9026,7 +9033,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -9061,7 +9068,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       prettier: 3.5.3
       tslib: 2.8.1
@@ -9098,7 +9105,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -9137,7 +9144,7 @@ snapshots:
       '@types/yargs-parser': 21.0.3
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       chalk: 4.1.2
-      eslint: 9.25.1
+      eslint: 9.25.0
       glob: 10.4.5
       inquirer: 9.3.7
       magic-string: 0.30.17
@@ -9175,7 +9182,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       mime: 4.0.7
       playwright: 1.52.0
       tslib: 2.8.1
@@ -9213,7 +9220,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       nock: 13.5.6
       playwright: 1.52.0
       tslib: 2.8.1
@@ -9283,7 +9290,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -9397,26 +9404,29 @@ snapshots:
       - tsx
       - yaml
 
-  '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)':
+  '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
+      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
+      playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
-      - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
+      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -9424,6 +9434,9 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
@@ -9677,7 +9690,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -9712,7 +9725,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -10645,7 +10658,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -10680,7 +10693,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -10715,7 +10728,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -10820,7 +10833,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -10959,7 +10972,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -10997,7 +11010,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -11032,7 +11045,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -11066,7 +11079,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -11101,7 +11114,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -11310,7 +11323,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -11760,7 +11773,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -11967,7 +11980,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -12037,7 +12050,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -12314,10 +12327,10 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -12384,7 +12397,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -12664,7 +12677,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       prettier: 3.5.3
       tslib: 2.8.1
@@ -13082,7 +13095,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -13152,7 +13165,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -13327,7 +13340,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -13535,7 +13548,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -14502,7 +14515,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       prettier: 3.5.3
       tslib: 2.8.1
@@ -14711,7 +14724,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -14749,7 +14762,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -14853,7 +14866,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -14891,7 +14904,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -15303,7 +15316,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -15338,7 +15351,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -15476,6 +15489,41 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-portalservicescopilot@file:projects/arm-portalservicescopilot.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.86
+      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
+      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      dotenv: 16.5.0
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -16730,7 +16778,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -16903,7 +16951,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -17113,7 +17161,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       prettier: 3.5.3
       tslib: 2.8.1
@@ -17187,7 +17235,7 @@ snapshots:
       dotenv: 16.5.0
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17666,7 +17714,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -17770,7 +17818,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -17978,7 +18026,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -18044,11 +18092,11 @@ snapshots:
 
   '@rush-temp/arm-workloadssapvirtualinstance@file:projects/arm-workloadssapvirtualinstance.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18117,7 +18165,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       buffer: 6.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       jsrsasign: 11.1.0
       playwright: 1.52.0
       safe-buffer: 5.2.1
@@ -18154,7 +18202,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       moment: 2.30.1
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18192,7 +18240,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18228,7 +18276,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       inherits: 2.0.4
       playwright: 1.52.0
@@ -18267,7 +18315,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18303,7 +18351,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       jwt-decode: 4.0.0
       mockdate: 3.0.5
@@ -18344,7 +18392,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18382,7 +18430,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18420,7 +18468,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18458,7 +18506,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       karma-source-map-support: 1.4.0
       playwright: 1.52.0
@@ -18497,7 +18545,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18535,7 +18583,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18572,7 +18620,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18609,7 +18657,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18646,7 +18694,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18684,7 +18732,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -18722,7 +18770,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18756,7 +18804,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -18786,7 +18834,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18825,7 +18873,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       buffer: 6.0.3
       debug: 4.4.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       process: 0.11.10
@@ -18865,7 +18913,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18899,7 +18947,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18933,7 +18981,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -18967,7 +19015,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -19000,7 +19048,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19034,7 +19082,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19068,9 +19116,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19106,7 +19152,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       express: 4.21.2
       playwright: 1.52.0
       tslib: 2.8.1
@@ -19141,7 +19187,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19175,7 +19221,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19210,7 +19256,7 @@ snapshots:
       '@types/trusted-types': 2.0.7
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       fast-xml-parser: 5.2.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -19251,7 +19297,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       assertion-error: 2.0.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       fast-json-stable-stringify: 2.1.0
       nock: 13.5.6
       playwright: 1.52.0
@@ -19288,7 +19334,7 @@ snapshots:
       '@types/node': 20.17.30
       '@types/prompts': 2.4.9
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       prompts: 2.4.2
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19319,7 +19365,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19354,7 +19400,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19388,9 +19434,9 @@ snapshots:
       '@_ts/max': typescript@5.8.3
       '@_ts/min': typescript@4.2.4
       '@arethetypeswrong/cli': 0.17.4
-      '@azure/identity': 4.9.1
-      '@eslint/js': 9.25.1
-      '@microsoft/api-extractor': 7.52.5(@types/node@18.19.86)
+      '@azure/identity': 4.9.0
+      '@eslint/js': 9.25.0
+      '@microsoft/api-extractor': 7.52.4(@types/node@18.19.86)
       '@microsoft/api-extractor-model': 7.30.5(@types/node@18.19.86)
       '@types/archiver': 6.0.3
       '@types/express': 5.0.1
@@ -19407,7 +19453,7 @@ snapshots:
       concurrently: 8.2.2
       cross-env: 7.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       express: 5.1.0
       fs-extra: 11.3.0
       memfs: 4.17.0
@@ -19425,7 +19471,7 @@ snapshots:
       tslib: 2.8.1
       tsx: 4.19.3
       typescript: 5.8.3
-      typescript-eslint: 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      typescript-eslint: 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       unzipper: 0.12.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
       yaml: 2.7.1
@@ -19455,7 +19501,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19490,7 +19536,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19521,26 +19567,26 @@ snapshots:
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@eslint/compat': 1.2.8(eslint@9.25.1)
+      '@eslint/compat': 1.2.8(eslint@9.25.0)
       '@eslint/eslintrc': 3.3.1
-      '@eslint/js': 9.25.1
+      '@eslint/js': 9.25.0
       '@types/eslint': 9.6.1
       '@types/eslint-config-prettier': 6.11.3
       '@types/estree': 1.0.7
       '@types/node': 18.19.86
-      '@typescript-eslint/eslint-plugin': 8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)(typescript@5.8.3)
-      '@typescript-eslint/parser': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
-      '@typescript-eslint/rule-tester': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.25.0)(typescript@5.8.3))(eslint@9.25.0)(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
+      '@typescript-eslint/rule-tester': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       '@typescript-eslint/typescript-estree': 8.26.1(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
-      eslint-config-prettier: 10.1.2(eslint@9.25.1)
-      eslint-plugin-markdown: 5.1.0(eslint@9.25.1)
-      eslint-plugin-n: 17.17.0(eslint@9.25.1)
+      eslint: 9.25.0
+      eslint-config-prettier: 10.1.2(eslint@9.25.0)
+      eslint-plugin-markdown: 5.1.0(eslint@9.25.0)
+      eslint-plugin-n: 17.17.0(eslint@9.25.0)
       eslint-plugin-no-only-tests: 3.3.0
-      eslint-plugin-promise: 7.2.1(eslint@9.25.1)
+      eslint-plugin-promise: 7.2.1(eslint@9.25.0)
       eslint-plugin-tsdoc: 0.4.0
       glob: 10.4.5
       playwright: 1.52.0
@@ -19549,7 +19595,7 @@ snapshots:
       tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.8.3
-      typescript-eslint: 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      typescript-eslint: 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -19592,7 +19638,7 @@ snapshots:
       copyfiles: 2.4.1
       debug: 4.4.0
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       https-proxy-agent: 7.0.6
       is-buffer: 2.0.5
       playwright: 1.52.0
@@ -19634,7 +19680,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       buffer: 6.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19668,7 +19714,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19703,7 +19749,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19745,7 +19791,7 @@ snapshots:
       chai-as-promised: 8.0.1(chai@5.2.0)
       debug: 4.4.0
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       process: 0.11.10
       stream: 0.0.3
@@ -19789,7 +19835,7 @@ snapshots:
       chai-as-promised: 8.0.1(chai@5.2.0)
       debug: 4.4.0
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       process: 0.11.10
       stream: 0.0.3
@@ -19827,7 +19873,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19862,7 +19908,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       loupe: 3.1.3
       playwright: 1.52.0
       tslib: 2.8.1
@@ -19900,7 +19946,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19937,7 +19983,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -19974,7 +20020,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20011,7 +20057,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20048,7 +20094,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       keytar: 7.9.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -20084,7 +20130,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       keytar: 7.9.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -20126,7 +20172,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       assertion-error: 2.0.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       jsonwebtoken: 9.0.2
       ms: 2.1.3
       open: 10.1.1
@@ -20164,7 +20210,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20198,7 +20244,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -20235,7 +20281,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20272,7 +20318,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20306,7 +20352,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20342,7 +20388,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20377,7 +20423,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20410,7 +20456,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20445,7 +20491,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20480,7 +20526,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20517,7 +20563,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20554,7 +20600,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20592,7 +20638,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20630,7 +20676,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20668,7 +20714,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20704,7 +20750,7 @@ snapshots:
       '@types/node': 20.17.30
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20737,7 +20783,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       rhea: 3.0.4
       tslib: 2.8.1
@@ -20770,7 +20816,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       pako: 2.1.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -20817,7 +20863,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       nock: 13.5.6
       playwright: 1.52.0
       tslib: 2.8.1
@@ -20876,7 +20922,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.86)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -20909,7 +20955,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20944,7 +20990,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -20981,7 +21027,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       openai: 4.95.1(ws@8.18.1)(zod@3.24.3)
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21025,7 +21071,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21058,7 +21104,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21069,7 +21115,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21080,7 +21126,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21091,7 +21137,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21103,7 +21149,7 @@ snapshots:
       '@azure/app-configuration': 1.8.0
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21114,7 +21160,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21127,7 +21173,7 @@ snapshots:
       '@types/node': 18.19.86
       concurrently: 8.2.2
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       express: 4.21.2
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21140,7 +21186,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21151,7 +21197,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       moment: 2.30.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21163,7 +21209,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21174,7 +21220,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21186,7 +21232,7 @@ snapshots:
       '@azure/keyvault-certificates': 4.9.0
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21198,7 +21244,7 @@ snapshots:
       '@azure/keyvault-keys': 4.9.0
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21210,7 +21256,7 @@ snapshots:
       '@azure/keyvault-secrets': 4.9.0
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21221,7 +21267,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21235,7 +21281,7 @@ snapshots:
       '@opentelemetry/sdk-logs': 0.57.2(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21246,7 +21292,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21258,7 +21304,7 @@ snapshots:
       '@azure/schema-registry': 1.3.0
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21270,7 +21316,7 @@ snapshots:
       '@azure/search-documents': 12.1.0
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21281,7 +21327,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21292,7 +21338,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21303,7 +21349,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21314,7 +21360,7 @@ snapshots:
     dependencies:
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21327,7 +21373,7 @@ snapshots:
       '@azure/template': 1.0.13-beta.1
       '@types/node': 18.19.86
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       tslib: 2.8.1
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -21340,7 +21386,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21376,7 +21422,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21411,7 +21457,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21447,7 +21493,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21483,7 +21529,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21519,7 +21565,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21558,7 +21604,7 @@ snapshots:
       avsc: 5.7.7
       buffer: 6.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       lru-cache: 10.4.3
       playwright: 1.52.0
       process: 0.11.10
@@ -21601,7 +21647,7 @@ snapshots:
       ajv: 8.17.1
       buffer: 6.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       lru-cache: 10.4.3
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21638,7 +21684,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21674,7 +21720,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21722,7 +21768,7 @@ snapshots:
       chai-exclude: 3.0.1(chai@5.2.0)
       debug: 4.4.0
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       https-proxy-agent: 7.0.6
       is-buffer: 2.0.5
@@ -21767,7 +21813,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21803,7 +21849,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21838,7 +21884,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21874,7 +21920,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21910,7 +21956,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -21947,7 +21993,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       buffer: 6.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -21982,7 +22028,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22017,7 +22063,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22052,7 +22098,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22088,7 +22134,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22123,7 +22169,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22157,7 +22203,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22192,7 +22238,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22227,7 +22273,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22263,7 +22309,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22297,7 +22343,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22331,7 +22377,7 @@ snapshots:
       '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
       '@types/node': 18.19.86
-      eslint: 9.25.1
+      eslint: 9.25.0
       fs-extra: 11.3.0
       minimist: 1.2.8
       tslib: 2.8.1
@@ -22346,7 +22392,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       concurrently: 8.2.2
-      eslint: 9.25.1
+      eslint: 9.25.0
       express: 4.21.2
       playwright: 1.52.0
       tslib: 2.8.1
@@ -22383,7 +22429,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       '@vitest/expect': 3.1.2
-      eslint: 9.25.1
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22417,7 +22463,7 @@ snapshots:
       '@types/node': 18.19.86
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      eslint: 9.25.1
+      eslint: 9.25.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       playwright: 1.52.0
@@ -22450,14 +22496,14 @@ snapshots:
 
   '@rush-temp/vite-plugin-browser-test-map@file:projects/vite-plugin-browser-test-map.tgz':
     dependencies:
-      '@eslint/js': 9.25.1
+      '@eslint/js': 9.25.0
       '@types/node': 18.19.86
-      eslint: 9.25.1
+      eslint: 9.25.0
       prettier: 3.5.3
       rimraf: 5.0.10
       tslib: 2.8.1
       typescript: 5.8.3
-      typescript-eslint: 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      typescript-eslint: 8.26.1(eslint@9.25.0)(typescript@5.8.3)
     transitivePeerDependencies:
       - jiti
       - supports-color
@@ -22470,7 +22516,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       cpy-cli: 5.0.0
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       long: 5.3.2
       move-file-cli: 3.0.0
       playwright: 1.52.0
@@ -22511,7 +22557,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       buffer: 6.0.3
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       events: 3.3.0
       playwright: 1.52.0
       tslib: 2.8.1
@@ -22551,7 +22597,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       express: 4.21.2
       playwright: 1.52.0
       tslib: 2.8.1
@@ -22589,7 +22635,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       jsonwebtoken: 9.0.2
       playwright: 1.52.0
       tslib: 2.8.1
@@ -22645,7 +22691,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.86
 
-  '@rushstack/ts-command-line@5.0.0(@types/node@18.19.86)':
+  '@rushstack/ts-command-line@4.23.7(@types/node@18.19.86)':
     dependencies:
       '@rushstack/terminal': 0.15.2(@types/node@18.19.86)
       '@types/argparse': 1.0.38
@@ -22704,7 +22750,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22760,7 +22806,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -22777,7 +22823,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
@@ -22813,7 +22859,7 @@ snapshots:
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.86':
@@ -22855,7 +22901,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -22878,7 +22924,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 22.7.9
 
   '@types/triple-beam@1.3.5': {}
 
@@ -22904,15 +22950,15 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)(typescript@5.8.3)':
+  '@typescript-eslint/eslint-plugin@8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.25.0)(typescript@5.8.3))(eslint@9.25.0)(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       '@typescript-eslint/scope-manager': 8.26.1
-      '@typescript-eslint/type-utils': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/type-utils': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       '@typescript-eslint/visitor-keys': 8.26.1
-      eslint: 9.25.1
+      eslint: 9.25.0
       graphemer: 1.4.0
       ignore: 5.3.2
       natural-compare: 1.4.0
@@ -22921,25 +22967,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.26.1(eslint@9.25.1)(typescript@5.8.3)':
+  '@typescript-eslint/parser@8.26.1(eslint@9.25.0)(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.26.1
       '@typescript-eslint/types': 8.26.1
       '@typescript-eslint/typescript-estree': 8.26.1(typescript@5.8.3)
       '@typescript-eslint/visitor-keys': 8.26.1
       debug: 4.4.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/rule-tester@8.26.1(eslint@9.25.1)(typescript@5.8.3)':
+  '@typescript-eslint/rule-tester@8.26.1(eslint@9.25.0)(typescript@5.8.3)':
     dependencies:
-      '@typescript-eslint/parser': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       '@typescript-eslint/typescript-estree': 8.26.1(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       ajv: 6.12.6
-      eslint: 9.25.1
+      eslint: 9.25.0
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
       semver: 7.7.1
@@ -22952,12 +22998,12 @@ snapshots:
       '@typescript-eslint/types': 8.26.1
       '@typescript-eslint/visitor-keys': 8.26.1
 
-  '@typescript-eslint/type-utils@8.26.1(eslint@9.25.1)(typescript@5.8.3)':
+  '@typescript-eslint/type-utils@8.26.1(eslint@9.25.0)(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/typescript-estree': 8.26.1(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
       debug: 4.4.0
-      eslint: 9.25.1
+      eslint: 9.25.0
       ts-api-utils: 2.1.0(typescript@5.8.3)
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -22979,13 +23025,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.26.1(eslint@9.25.1)(typescript@5.8.3)':
+  '@typescript-eslint/utils@8.26.1(eslint@9.25.0)(typescript@5.8.3)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1)
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.0)
       '@typescript-eslint/scope-manager': 8.26.1
       '@typescript-eslint/types': 8.26.1
       '@typescript-eslint/typescript-estree': 8.26.1(typescript@5.8.3)
-      eslint: 9.25.1
+      eslint: 9.25.0
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
@@ -23257,7 +23303,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001715
-      electron-to-chromium: 1.5.140
+      electron-to-chromium: 1.5.139
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -23603,7 +23649,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.140: {}
+  electron-to-chromium@1.5.139: {}
 
   emoji-regex@8.0.0: {}
 
@@ -23696,35 +23742,35 @@ snapshots:
     optionalDependencies:
       source-map: 0.6.1
 
-  eslint-compat-utils@0.5.1(eslint@9.25.1):
+  eslint-compat-utils@0.5.1(eslint@9.25.0):
     dependencies:
-      eslint: 9.25.1
+      eslint: 9.25.0
       semver: 7.7.1
 
-  eslint-config-prettier@10.1.2(eslint@9.25.1):
+  eslint-config-prettier@10.1.2(eslint@9.25.0):
     dependencies:
-      eslint: 9.25.1
+      eslint: 9.25.0
 
-  eslint-plugin-es-x@7.8.0(eslint@9.25.1):
+  eslint-plugin-es-x@7.8.0(eslint@9.25.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1)
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.0)
       '@eslint-community/regexpp': 4.12.1
-      eslint: 9.25.1
-      eslint-compat-utils: 0.5.1(eslint@9.25.1)
+      eslint: 9.25.0
+      eslint-compat-utils: 0.5.1(eslint@9.25.0)
 
-  eslint-plugin-markdown@5.1.0(eslint@9.25.1):
+  eslint-plugin-markdown@5.1.0(eslint@9.25.0):
     dependencies:
-      eslint: 9.25.1
+      eslint: 9.25.0
       mdast-util-from-markdown: 0.8.5
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-n@17.17.0(eslint@9.25.1):
+  eslint-plugin-n@17.17.0(eslint@9.25.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1)
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.0)
       enhanced-resolve: 5.18.1
-      eslint: 9.25.1
-      eslint-plugin-es-x: 7.8.0(eslint@9.25.1)
+      eslint: 9.25.0
+      eslint-plugin-es-x: 7.8.0(eslint@9.25.0)
       get-tsconfig: 4.10.0
       globals: 15.15.0
       ignore: 5.3.2
@@ -23733,10 +23779,10 @@ snapshots:
 
   eslint-plugin-no-only-tests@3.3.0: {}
 
-  eslint-plugin-promise@7.2.1(eslint@9.25.1):
+  eslint-plugin-promise@7.2.1(eslint@9.25.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1)
-      eslint: 9.25.1
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.0)
+      eslint: 9.25.0
 
   eslint-plugin-tsdoc@0.4.0:
     dependencies:
@@ -23752,15 +23798,15 @@ snapshots:
 
   eslint-visitor-keys@4.2.0: {}
 
-  eslint@9.25.1:
+  eslint@9.25.0:
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1)
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.0)
       '@eslint-community/regexpp': 4.12.1
       '@eslint/config-array': 0.20.0
       '@eslint/config-helpers': 0.2.1
       '@eslint/core': 0.13.0
       '@eslint/eslintrc': 3.3.1
-      '@eslint/js': 9.25.1
+      '@eslint/js': 9.25.0
       '@eslint/plugin-kit': 0.2.8
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
@@ -25749,12 +25795,12 @@ snapshots:
       tersify: 3.12.1
       unpartial: 1.0.5
 
-  typescript-eslint@8.26.1(eslint@9.25.1)(typescript@5.8.3):
+  typescript-eslint@8.26.1(eslint@9.25.0)(typescript@5.8.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)(typescript@5.8.3)
-      '@typescript-eslint/parser': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.26.1(eslint@9.25.1)(typescript@5.8.3)
-      eslint: 9.25.1
+      '@typescript-eslint/eslint-plugin': 8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.25.0)(typescript@5.8.3))(eslint@9.25.0)(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.26.1(eslint@9.25.0)(typescript@5.8.3)
+      eslint: 9.25.0
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color

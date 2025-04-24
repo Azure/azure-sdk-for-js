@@ -6,462 +6,456 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    ApiVersionSetContract,
-    ApiVersionSetCreateOrUpdateOptionalParams,
-    ApiVersionSetCreateOrUpdateResponse,
-    ApiVersionSetDeleteOptionalParams,
-    ApiVersionSetGetEntityTagOptionalParams,
-    ApiVersionSetGetEntityTagResponse,
-    ApiVersionSetGetOptionalParams,
-    ApiVersionSetGetResponse,
-    ApiVersionSetListByServiceNextOptionalParams,
-    ApiVersionSetListByServiceNextResponse,
-    ApiVersionSetListByServiceOptionalParams,
-    ApiVersionSetListByServiceResponse,
-    ApiVersionSetUpdateOptionalParams,
-    ApiVersionSetUpdateParameters,
-    ApiVersionSetUpdateResponse
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiVersionSet } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ApiVersionSet } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  ApiVersionSetContract,
+  ApiVersionSetListByServiceNextOptionalParams,
+  ApiVersionSetListByServiceOptionalParams,
+  ApiVersionSetListByServiceResponse,
+  ApiVersionSetGetEntityTagOptionalParams,
+  ApiVersionSetGetEntityTagResponse,
+  ApiVersionSetGetOptionalParams,
+  ApiVersionSetGetResponse,
+  ApiVersionSetCreateOrUpdateOptionalParams,
+  ApiVersionSetCreateOrUpdateResponse,
+  ApiVersionSetUpdateParameters,
+  ApiVersionSetUpdateOptionalParams,
+  ApiVersionSetUpdateResponse,
+  ApiVersionSetDeleteOptionalParams,
+  ApiVersionSetListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiVersionSet operations. */
 export class ApiVersionSetImpl implements ApiVersionSet {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class ApiVersionSet class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class ApiVersionSet class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists a collection of API Version Sets in the specified service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    public listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiVersionSetListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<ApiVersionSetContract> {
-        const iter = this.listByServicePagingAll(
-            resourceGroupName,
-            serviceName,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByServicePagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByServicePagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiVersionSetListByServiceOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ApiVersionSetContract[]> {
-        let result: ApiVersionSetListByServiceResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByService(
-                resourceGroupName,
-                serviceName,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists a collection of API Version Sets in the specified service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiVersionSetListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<ApiVersionSetContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByServiceNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByServicePagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiVersionSetListByServiceOptionalParams
-    ): AsyncIterableIterator<ApiVersionSetContract> {
-        for await (const page of this.listByServicePagingPage(
-            resourceGroupName,
-            serviceName,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists a collection of API Version Sets in the specified service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    private _listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiVersionSetListByServiceOptionalParams
-    ): Promise<ApiVersionSetListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            listByServiceOperationSpec
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
-     *                     instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        versionSetId: string,
-        options?: ApiVersionSetGetEntityTagOptionalParams
-    ): Promise<ApiVersionSetGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, versionSetId, options },
-            getEntityTagOperationSpec
-        );
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiVersionSetListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ApiVersionSetContract[]> {
+    let result: ApiVersionSetListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Gets the details of the Api Version Set specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
-     *                     instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        versionSetId: string,
-        options?: ApiVersionSetGetOptionalParams
-    ): Promise<ApiVersionSetGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, versionSetId, options },
-            getOperationSpec
-        );
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiVersionSetListByServiceOptionalParams,
+  ): AsyncIterableIterator<ApiVersionSetContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Creates or Updates a Api Version Set.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
-     *                     instance.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        versionSetId: string,
-        parameters: ApiVersionSetContract,
-        options?: ApiVersionSetCreateOrUpdateOptionalParams
-    ): Promise<ApiVersionSetCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, versionSetId, parameters, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Lists a collection of API Version Sets in the specified service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiVersionSetListByServiceOptionalParams,
+  ): Promise<ApiVersionSetListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listByServiceOperationSpec,
+    );
+  }
 
-    /**
-     * Updates the details of the Api VersionSet specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
-     *                     instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        versionSetId: string,
-        ifMatch: string,
-        parameters: ApiVersionSetUpdateParameters,
-        options?: ApiVersionSetUpdateOptionalParams
-    ): Promise<ApiVersionSetUpdateResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                versionSetId,
-                ifMatch,
-                parameters,
-                options
-            },
-            updateOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
+   *                     instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    versionSetId: string,
+    options?: ApiVersionSetGetEntityTagOptionalParams,
+  ): Promise<ApiVersionSetGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, versionSetId, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * Deletes specific Api Version Set.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
-     *                     instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        versionSetId: string,
-        ifMatch: string,
-        options?: ApiVersionSetDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, versionSetId, ifMatch, options },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Gets the details of the Api Version Set specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
+   *                     instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    versionSetId: string,
+    options?: ApiVersionSetGetOptionalParams,
+  ): Promise<ApiVersionSetGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, versionSetId, options },
+      getOperationSpec,
+    );
+  }
 
-    /**
-     * ListByServiceNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListByService method.
-     * @param options The options parameters.
-     */
-    private _listByServiceNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ApiVersionSetListByServiceNextOptionalParams
-    ): Promise<ApiVersionSetListByServiceNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listByServiceNextOperationSpec
-        );
-    }
+  /**
+   * Creates or Updates a Api Version Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
+   *                     instance.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    versionSetId: string,
+    parameters: ApiVersionSetContract,
+    options?: ApiVersionSetCreateOrUpdateOptionalParams,
+  ): Promise<ApiVersionSetCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, versionSetId, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Updates the details of the Api VersionSet specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
+   *                     instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    versionSetId: string,
+    ifMatch: string,
+    parameters: ApiVersionSetUpdateParameters,
+    options?: ApiVersionSetUpdateOptionalParams,
+  ): Promise<ApiVersionSetUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        versionSetId,
+        ifMatch,
+        parameters,
+        options,
+      },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes specific Api Version Set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
+   *                     instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    versionSetId: string,
+    ifMatch: string,
+    options?: ApiVersionSetDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, versionSetId, ifMatch, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ApiVersionSetListByServiceNextOptionalParams,
+  ): Promise<ApiVersionSetListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ApiVersionSetCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiVersionSetCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.ApiVersionSetGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.ApiVersionSetGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.versionSetId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.versionSetId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ApiVersionSetContract,
-            headersMapper: Mappers.ApiVersionSetGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiVersionSetContract,
+      headersMapper: Mappers.ApiVersionSetGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.versionSetId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.versionSetId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ApiVersionSetContract,
-            headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.ApiVersionSetContract,
-            headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiVersionSetContract,
+      headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters18,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.versionSetId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.ApiVersionSetContract,
+      headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.versionSetId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
-    httpMethod: "PATCH",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ApiVersionSetContract,
-            headersMapper: Mappers.ApiVersionSetUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiVersionSetContract,
+      headersMapper: Mappers.ApiVersionSetUpdateHeaders,
     },
-    requestBody: Parameters.parameters19,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.versionSetId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch1
-    ],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters21,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.versionSetId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch1,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.versionSetId
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.versionSetId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ApiVersionSetCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiVersionSetCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

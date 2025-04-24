@@ -66,8 +66,8 @@ import { ContainerServiceClient } from "@azure/arm-containerservice";
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new ContainerServiceClient(credential, subscriptionId);
 ```
 

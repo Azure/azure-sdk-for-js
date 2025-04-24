@@ -1,15 +1,38 @@
 # Release History
-
-## 21.4.1 (Unreleased)
-
+    
+## 21.5.0 (2025-04-18)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group NetAppResourceUsages
+  - Added Interface DestinationReplication
+  - Added Interface NetAppResourceUsagesGetOptionalParams
+  - Added Interface NetAppResourceUsagesListNextOptionalParams
+  - Added Interface NetAppResourceUsagesListOptionalParams
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface UsageName
+  - Added Interface UsageResult
+  - Added Interface UsagesListResult
+  - Added Type Alias MultiAdStatus
+  - Added Type Alias NetAppResourceUsagesGetResponse
+  - Added Type Alias NetAppResourceUsagesListNextResponse
+  - Added Type Alias NetAppResourceUsagesListResponse
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias ReplicationType
+  - Interface Backup has a new optional parameter completionDate
+  - Interface Backup has a new optional parameter isLargeVolume
+  - Interface Backup has a new optional parameter snapshotCreationDate
+  - Interface EncryptionIdentity has a new optional parameter federatedClientId
+  - Interface NetAppAccount has a new optional parameter multiAdStatus
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter multiAdStatus
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface OperationListResult has a new optional parameter nextLink
+  - Interface ReplicationObject has a new optional parameter destinationReplications
+  - Added Enum KnownMultiAdStatus
+  - Added Enum KnownReplicationType
+    
+    
 ## 21.4.0 (2025-02-17)
     
 ### Features Added
