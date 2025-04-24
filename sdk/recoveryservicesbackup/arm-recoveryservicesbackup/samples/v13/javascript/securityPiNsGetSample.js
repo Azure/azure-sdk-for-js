@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the security PIN.
  *
  * @summary Get the security PIN.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupSecurityPin_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupSecurityPin_Get.json
  */
 async function getVaultSecurityPin() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getVaultSecurityPin() {
 }
 
 async function main() {
-  getVaultSecurityPin();
+  await getVaultSecurityPin();
 }
 
 main().catch(console.error);

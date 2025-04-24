@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists all the tasks for a specified container registry.
  *
  * @summary Lists all the tasks for a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksList.json
  */
 async function tasksList() {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function tasksList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tasks.list(resourceGroupName, registryName)) {
+  for await (const item of client.tasks.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -6,260 +6,384 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Policy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    PolicyContract,
-    PolicyCreateOrUpdateOptionalParams,
-    PolicyCreateOrUpdateResponse,
-    PolicyDeleteOptionalParams,
-    PolicyGetEntityTagOptionalParams,
-    PolicyGetEntityTagResponse,
-    PolicyGetOptionalParams,
-    PolicyGetResponse,
-    PolicyIdName,
-    PolicyListByServiceOptionalParams,
-    PolicyListByServiceResponse
-} from "../models/index.js";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { Policy } from "../operationsInterfaces/index.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  PolicyContract,
+  PolicyListByServiceNextOptionalParams,
+  PolicyListByServiceOptionalParams,
+  PolicyListByServiceResponse,
+  PolicyIdName,
+  PolicyGetEntityTagOptionalParams,
+  PolicyGetEntityTagResponse,
+  PolicyGetOptionalParams,
+  PolicyGetResponse,
+  PolicyCreateOrUpdateOptionalParams,
+  PolicyCreateOrUpdateResponse,
+  PolicyDeleteOptionalParams,
+  PolicyListByServiceNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Policy operations. */
 export class PolicyImpl implements Policy {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class Policy class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class Policy class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists all the Global Policy definitions of the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: PolicyListByServiceOptionalParams
-    ): Promise<PolicyListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            listByServiceOperationSpec
+  /**
+   * Lists all the Global Policy definitions of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        options?: PolicyGetEntityTagOptionalParams
-    ): Promise<PolicyGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, policyId, options },
-            getEntityTagOperationSpec
-        );
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PolicyContract[]> {
+    let result: PolicyListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Get the Global policy definition of the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        options?: PolicyGetOptionalParams
-    ): Promise<PolicyGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, policyId, options },
-            getOperationSpec
-        );
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+  ): AsyncIterableIterator<PolicyContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Creates or updates the global policy configuration of the Api Management service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param parameters The policy contents to apply.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        parameters: PolicyContract,
-        options?: PolicyCreateOrUpdateOptionalParams
-    ): Promise<PolicyCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, policyId, parameters, options },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Lists all the Global Policy definitions of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+  ): Promise<PolicyListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listByServiceOperationSpec,
+    );
+  }
 
-    /**
-     * Deletes the global policy configuration of the Api Management Service.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param policyId The identifier of the Policy.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        policyId: PolicyIdName,
-        ifMatch: string,
-        options?: PolicyDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, policyId, ifMatch, options },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    options?: PolicyGetEntityTagOptionalParams,
+  ): Promise<PolicyGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, policyId, options },
+      getEntityTagOperationSpec,
+    );
+  }
+
+  /**
+   * Get the Global policy definition of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    options?: PolicyGetOptionalParams,
+  ): Promise<PolicyGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, policyId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates or updates the global policy configuration of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param parameters The policy contents to apply.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    parameters: PolicyContract,
+    options?: PolicyCreateOrUpdateOptionalParams,
+  ): Promise<PolicyCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, policyId, parameters, options },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes the global policy configuration of the Api Management Service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param policyId The identifier of the Policy.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    policyId: PolicyIdName,
+    ifMatch: string,
+    options?: PolicyDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, policyId, ifMatch, options },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: PolicyListByServiceNextOptionalParams,
+  ): Promise<PolicyListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.PolicyGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.PolicyGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.policyId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.policyId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyContract,
-            headersMapper: Mappers.PolicyGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.PolicyGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion, Parameters.format],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.policyId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.format],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.policyId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.PolicyContract,
-            headersMapper: Mappers.PolicyCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.PolicyContract,
-            headersMapper: Mappers.PolicyCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.PolicyCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters5,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.policyId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.PolicyContract,
+      headersMapper: Mappers.PolicyCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.policyId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.policyId
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.policyId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
+};
+const listByServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

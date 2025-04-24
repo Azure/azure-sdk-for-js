@@ -29,6 +29,7 @@ async function putStorageTask(): Promise<void> {
     process.env["STORAGEACTIONS_RESOURCE_GROUP"] || "res4228";
   const storageTaskName = "mytask1";
   const parameters: StorageTask = {
+    identity: { type: "SystemAssigned" },
     location: "westus",
     properties: {
       description: "My Storage task",
@@ -64,7 +65,7 @@ async function putStorageTask(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putStorageTask();
+  await putStorageTask();
 }
 
 main().catch(console.error);

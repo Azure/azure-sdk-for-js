@@ -6,302 +6,298 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
-import {
-    createHttpPoller,
-    OperationState,
-    SimplePollerLike
-} from "@azure/core-lro";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import { createLroSpec } from "../lroImpl.js";
-import {
-    DeletedServiceContract,
-    DeletedServicesGetByNameOptionalParams,
-    DeletedServicesGetByNameResponse,
-    DeletedServicesListBySubscriptionNextOptionalParams,
-    DeletedServicesListBySubscriptionNextResponse,
-    DeletedServicesListBySubscriptionOptionalParams,
-    DeletedServicesListBySubscriptionResponse,
-    DeletedServicesPurgeOptionalParams
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DeletedServices } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { DeletedServices } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
+  DeletedServiceContract,
+  DeletedServicesListBySubscriptionNextOptionalParams,
+  DeletedServicesListBySubscriptionOptionalParams,
+  DeletedServicesListBySubscriptionResponse,
+  DeletedServicesGetByNameOptionalParams,
+  DeletedServicesGetByNameResponse,
+  DeletedServicesPurgeOptionalParams,
+  DeletedServicesListBySubscriptionNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DeletedServices operations. */
 export class DeletedServicesImpl implements DeletedServices {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class DeletedServices class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class DeletedServices class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists all soft-deleted services available for undelete for the given subscription.
-     * @param options The options parameters.
-     */
-    public listBySubscription(
-        options?: DeletedServicesListBySubscriptionOptionalParams
-    ): PagedAsyncIterableIterator<DeletedServiceContract> {
-        const iter = this.listBySubscriptionPagingAll(options);
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listBySubscriptionPagingPage(options, settings);
-            }
-        };
-    }
-
-    private async *listBySubscriptionPagingPage(
-        options?: DeletedServicesListBySubscriptionOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<DeletedServiceContract[]> {
-        let result: DeletedServicesListBySubscriptionResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listBySubscription(options);
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists all soft-deleted services available for undelete for the given subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: DeletedServicesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<DeletedServiceContract> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listBySubscriptionNext(continuationToken, options);
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
 
-    private async *listBySubscriptionPagingAll(
-        options?: DeletedServicesListBySubscriptionOptionalParams
-    ): AsyncIterableIterator<DeletedServiceContract> {
-        for await (const page of this.listBySubscriptionPagingPage(options)) {
-            yield* page;
-        }
+  private async *listBySubscriptionPagingPage(
+    options?: DeletedServicesListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DeletedServiceContract[]> {
+    let result: DeletedServicesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
-
-    /**
-     * Lists all soft-deleted services available for undelete for the given subscription.
-     * @param options The options parameters.
-     */
-    private _listBySubscription(
-        options?: DeletedServicesListBySubscriptionOptionalParams
-    ): Promise<DeletedServicesListBySubscriptionResponse> {
-        return this.client.sendOperationRequest(
-            { options },
-            listBySubscriptionOperationSpec
-        );
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+  }
 
-    /**
-     * Get soft-deleted Api Management Service by name.
-     * @param serviceName The name of the API Management service.
-     * @param location The location of the deleted API Management service.
-     * @param options The options parameters.
-     */
-    getByName(
-        serviceName: string,
-        location: string,
-        options?: DeletedServicesGetByNameOptionalParams
-    ): Promise<DeletedServicesGetByNameResponse> {
-        return this.client.sendOperationRequest(
-            { serviceName, location, options },
-            getByNameOperationSpec
-        );
+  private async *listBySubscriptionPagingAll(
+    options?: DeletedServicesListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<DeletedServiceContract> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
     }
+  }
 
-    /**
-     * Purges Api Management Service (deletes it with no option to undelete).
-     * @param serviceName The name of the API Management service.
-     * @param location The location of the deleted API Management service.
-     * @param options The options parameters.
-     */
-    async beginPurge(
-        serviceName: string,
-        location: string,
-        options?: DeletedServicesPurgeOptionalParams
-    ): Promise<SimplePollerLike<OperationState<void>, void>> {
-        const directSendOperation = async (
-            args: coreClient.OperationArguments,
-            spec: coreClient.OperationSpec
-        ): Promise<void> => {
-            return this.client.sendOperationRequest(args, spec);
-        };
-        const sendOperationFn = async (
-            args: coreClient.OperationArguments,
-            spec: coreClient.OperationSpec
-        ) => {
-            let currentRawResponse:
-                | coreClient.FullOperationResponse
-                | undefined = undefined;
-            const providedCallback = args.options?.onResponse;
-            const callback: coreClient.RawResponseCallback = (
-                rawResponse: coreClient.FullOperationResponse,
-                flatResponse: unknown
-            ) => {
-                currentRawResponse = rawResponse;
-                providedCallback?.(rawResponse, flatResponse);
-            };
-            const updatedArgs = {
-                ...args,
-                options: {
-                    ...args.options,
-                    onResponse: callback
-                }
-            };
-            const flatResponse = await directSendOperation(updatedArgs, spec);
-            return {
-                flatResponse,
-                rawResponse: {
-                    statusCode: currentRawResponse!.status,
-                    body: currentRawResponse!.parsedBody,
-                    headers: currentRawResponse!.headers.toJSON()
-                }
-            };
-        };
+  /**
+   * Lists all soft-deleted services available for undelete for the given subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: DeletedServicesListBySubscriptionOptionalParams,
+  ): Promise<DeletedServicesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
 
-        const lro = createLroSpec({
-            sendOperationFn,
-            args: { serviceName, location, options },
-            spec: purgeOperationSpec
-        });
-        const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-            restoreFrom: options?.resumeFrom,
-            intervalInMs: options?.updateIntervalInMs,
-            resourceLocationConfig: "location"
-        });
-        await poller.poll();
-        return poller;
-    }
+  /**
+   * Get soft-deleted Api Management Service by name.
+   * @param serviceName The name of the API Management service.
+   * @param location The location of the deleted API Management service.
+   * @param options The options parameters.
+   */
+  getByName(
+    serviceName: string,
+    location: string,
+    options?: DeletedServicesGetByNameOptionalParams,
+  ): Promise<DeletedServicesGetByNameResponse> {
+    return this.client.sendOperationRequest(
+      { serviceName, location, options },
+      getByNameOperationSpec,
+    );
+  }
 
-    /**
-     * Purges Api Management Service (deletes it with no option to undelete).
-     * @param serviceName The name of the API Management service.
-     * @param location The location of the deleted API Management service.
-     * @param options The options parameters.
-     */
-    async beginPurgeAndWait(
-        serviceName: string,
-        location: string,
-        options?: DeletedServicesPurgeOptionalParams
-    ): Promise<void> {
-        const poller = await this.beginPurge(serviceName, location, options);
-        return poller.pollUntilDone();
-    }
+  /**
+   * Purges Api Management Service (deletes it with no option to undelete).
+   * @param serviceName The name of the API Management service.
+   * @param location The location of the deleted API Management service.
+   * @param options The options parameters.
+   */
+  async beginPurge(
+    serviceName: string,
+    location: string,
+    options?: DeletedServicesPurgeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
 
-    /**
-     * ListBySubscriptionNext
-     * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-     * @param options The options parameters.
-     */
-    private _listBySubscriptionNext(
-        nextLink: string,
-        options?: DeletedServicesListBySubscriptionNextOptionalParams
-    ): Promise<DeletedServicesListBySubscriptionNextResponse> {
-        return this.client.sendOperationRequest(
-            { nextLink, options },
-            listBySubscriptionNextOperationSpec
-        );
-    }
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { serviceName, location, options },
+      spec: purgeOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Purges Api Management Service (deletes it with no option to undelete).
+   * @param serviceName The name of the API Management service.
+   * @param location The location of the deleted API Management service.
+   * @param options The options parameters.
+   */
+  async beginPurgeAndWait(
+    serviceName: string,
+    location: string,
+    options?: DeletedServicesPurgeOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginPurge(serviceName, location, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: DeletedServicesListBySubscriptionNextOptionalParams,
+  ): Promise<DeletedServicesListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/deletedservices",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.DeletedServicesCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/deletedservices",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedServicesCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [Parameters.$host, Parameters.subscriptionId],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getByNameOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.DeletedServiceContract
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedServiceContract,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.location
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const purgeOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        201: {},
-        202: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.location
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.DeletedServicesCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedServicesCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

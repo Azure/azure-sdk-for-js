@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to It will validate if given feature with resource properties is supported in service
  *
  * @summary It will validate if given feature with resource properties is supported in service
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupFeature_Validate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/BackupFeature_Validate.json
  */
 async function checkAzureVMBackupFeatureSupport() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function checkAzureVMBackupFeatureSupport() {
 }
 
 async function main() {
-  checkAzureVMBackupFeatureSupport();
+  await checkAzureVMBackupFeatureSupport();
 }
 
 main().catch(console.error);
