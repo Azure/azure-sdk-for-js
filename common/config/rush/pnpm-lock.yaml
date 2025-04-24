@@ -2649,7 +2649,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-HgJz2N5jNNuxb/8qZqKooHInHrwELAro6z3Q/Fp/nxbwMlV/Q/xfBqPcrSOtvfMwHjfFWen+zcWNdXQV/Q+XHA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-+FbZqAqRiHtUnpbraqYZ1l8yva7qiMku9/ACtkVXVWmEbjB95Lo6PydfEWISN8Qlat1NW8AuEGq0mLvYWJXWsw==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -2749,7 +2749,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-AoYPz/q8zeMsOIvSc/WmeOqPeYRkd/XBT1CPrxDl68Up/EZzi1BOA/9QAcYsy9C6De6Nj2PUmPJ3w72bZ/fWOA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-n77j2ag9WwfN1dAmlNCAmOU9K/XoKdKnL9M1tzPumMp/StB2atph07AlWJ+NKnm5NQ7YLjeNnNoZOpSna8MNbg==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
@@ -3005,7 +3005,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-neonpostgres@file:projects/arm-neonpostgres.tgz':
-    resolution: {integrity: sha512-OtXXTb+uPR318DgtfGcJtyHzGZZ5oQX90KyjNacOYuhEWuIJIUcsLn04uv95PuGyPRHgfxab6KQuvbbQP01bZg==, tarball: file:projects/arm-neonpostgres.tgz}
+    resolution: {integrity: sha512-L8Ds78VicqhwuDixYIPondccS799PPo+Pi9QJX/2pyFxe0X/XR2IyGugTKfSYKpw+0IgzRPHkm4gD7vHdwaMGA==, tarball: file:projects/arm-neonpostgres.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
@@ -3161,7 +3161,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-redisenterprisecache@file:projects/arm-redisenterprisecache.tgz':
-    resolution: {integrity: sha512-9aXROvz6zVwXo+MsMyqzWcxh7dLawgmrWaY1b7J8DHlztxS+isPbTFvxYf4myM1pIKgMAUTLESyXQRfs8TfNLQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-gcG5Cpqyigq0tm/hGofCoYZPSbDbDAEELWRbEXX6DweDIlBHojla4GIVDfYwSsVjQ25hTEqhcQVbvCZKjBv9ZQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-relay@file:projects/arm-relay.tgz':
@@ -3297,7 +3297,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
-    resolution: {integrity: sha512-pdQVLjMy8YvTf5IbFMnfQQLSpErK7uSYlQxojzF5D/WoBgG+QWvopDlvrEGXA1OvzxfyCPUWRVo4+s1XiTWTWA==, tarball: file:projects/arm-storageactions.tgz}
+    resolution: {integrity: sha512-j4ar8TKBDSjGd8Je6XzNCCf8NdFthVMM0uJ54tkeFaWgGr0cz1yOZmjQyr5YMnOgT0Gp9Ig2VwvLyG5bl05CbQ==, tarball: file:projects/arm-storageactions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
@@ -3393,7 +3393,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-workloadssapvirtualinstance@file:projects/arm-workloadssapvirtualinstance.tgz':
-    resolution: {integrity: sha512-cZYJ+xGR5WS7ypyKPsR6DqBqh0bRxFU88zE0wtLgbm5A7zU3CKAmvUb1VXos2+h9/QG3Iv3ynZwgi3+dWOPRDQ==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-mF+/PA4G+AuNhRlU8tjAr/4iEHmKve/CYJug8HHxI0FNDn0rJloTuancni28vgk29t9QvSq/gd3yyBtWS7l6hg==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workspaces@file:projects/arm-workspaces.tgz':
@@ -3505,7 +3505,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-rest-pipeline@file:projects/core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-242BXDtIZnwH2MaP1G1xDcmb3DvPK7aPd+Yv67AWt/voOSjV+w9RHE2S7ptwTLGnT032CgQE/iH0ea6eVcF6gA==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-AuCkJRE2Jx9zn6Jh4FLfHPaYFept58JlTR4PWW/Y91xbmnwpC/PXhPEQHAYNvgRcVdPYzm8lQdUf/EYdPvx0fA==, tarball: file:projects/core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/core-sse@file:projects/core-sse.tgz':
@@ -19075,8 +19075,6 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       eslint: 9.25.0
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
