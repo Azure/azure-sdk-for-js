@@ -51,8 +51,7 @@ export function getSendCertificateChain(): boolean {
 }
 
 /**
- * Enables authentication to Microsoft Entra ID using a client secret or certificate, or as a user
- * with a username and password.
+ * Enables authentication to Microsoft Entra ID using a client secret or certificate.
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:
@@ -130,6 +129,10 @@ export class EnvironmentCredential implements TokenCredential {
     if (tenantId && clientId && username && password) {
       logger.info(
         `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`,
+      );
+
+      logger.warning(
+        "Environment is configured to use username and password authentication. This authentication method is deprecated, as it doesn't support multifactor authentication (MFA). Use a more secure credential. For more details, see https://aka.ms/azsdk/identity/mfa."
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,
