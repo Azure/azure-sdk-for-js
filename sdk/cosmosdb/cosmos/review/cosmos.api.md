@@ -696,7 +696,6 @@ export class Container {
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<ContainerResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
     readPartitionKeyDefinition(diagnosticNode: DiagnosticNodeInternal): Promise<ResourceResponse<PartitionKeyDefinition>>;
-    // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
@@ -907,8 +906,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location[];
-    readonly writableLocations: Location[];
+    readonly readableLocations: Location_2[];
+    readonly writableLocations: Location_2[];
 }
 
 // @public (undocumented)
@@ -1455,7 +1454,7 @@ export enum KeyEncryptionAlgorithm {
 }
 
 // @public
-export interface Location {
+interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1465,6 +1464,7 @@ export interface Location {
     // (undocumented)
     unavailable?: boolean;
 }
+export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1784,7 +1784,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-export class Permissions {
+class Permissions_2 {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1794,14 +1794,16 @@ export class Permissions {
     // (undocumented)
     readonly user: User;
 }
+export { Permissions_2 as Permissions }
 
 // @public
-export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
+type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
+export { Plugin_2 as Plugin }
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin<any>;
+    plugin: Plugin_2<any>;
 }
 
 // @public
@@ -2061,7 +2063,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-export interface RequestInfo {
+interface RequestInfo_2 {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2073,6 +2075,7 @@ export interface RequestInfo {
     // (undocumented)
     verb: HTTPMethod;
 }
+export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2555,7 +2558,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2650,7 +2653,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions;
+    readonly permissions: Permissions_2;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;

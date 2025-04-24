@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists all the pipeline runs for the specified container registry.
  *
  * @summary Lists all the pipeline runs for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PipelineRunList.json
  */
 async function pipelineRunList() {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function pipelineRunList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.pipelineRuns.list(resourceGroupName, registryName)) {
+  for await (const item of client.pipelineRuns.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);

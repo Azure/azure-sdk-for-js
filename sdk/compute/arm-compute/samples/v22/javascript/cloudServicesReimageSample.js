@@ -37,7 +37,7 @@ async function reimageCloudServiceRoleInstancesInACloudService() {
 }
 
 async function main() {
-  reimageCloudServiceRoleInstancesInACloudService();
+  await reimageCloudServiceRoleInstancesInACloudService();
 }
 
 main().catch(console.error);

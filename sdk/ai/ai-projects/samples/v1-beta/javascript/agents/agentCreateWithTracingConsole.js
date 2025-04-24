@@ -17,7 +17,7 @@ const {
   SimpleSpanProcessor,
 } = require("@opentelemetry/sdk-trace-node");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const provider = new NodeTracerProvider();
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
@@ -34,6 +34,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
 let appInsightsConnectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const tracer = trace.getTracer("Agents Sample", "1.0.0");
@@ -57,7 +58,7 @@ async function main() {
   await tracer.startActiveSpan("main", async (span) => {
     client.telemetry.updateSettings({ enableContentRecording: true });
 
-    const agent = await client.agents.createAgent("gpt-4o", {
+    const agent = await client.agents.createAgent(modelDeploymentName, {
       name: "my-agent",
       instructions: "You are helpful agent",
       tracingOptions: { tracingContext: context.active() },

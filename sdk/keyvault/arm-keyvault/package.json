@@ -3,17 +3,17 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for KeyVaultManagementClient.",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
+    "@azure/core-client": "^1.9.3",
     "@azure/core-lro": "^2.5.4",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/core-rest-pipeline": "^1.19.1",
     "tslib": "^2.8.1"
   },
   "keywords": [
@@ -21,8 +21,7 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
@@ -33,7 +32,7 @@
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.6.0",
+    "@azure/identity": "^4.8.0",
     "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
@@ -43,7 +42,10 @@
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -69,7 +71,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
-    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "minify": "echo skipped",
     "pack": "npm pack 2>&1",
     "prepack": "npm run build",
     "test": "npm run integration-test",

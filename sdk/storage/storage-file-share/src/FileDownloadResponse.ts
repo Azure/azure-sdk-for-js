@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type {
   CopyStatusType,
   FileDownloadHeaders,
@@ -9,15 +9,15 @@ import type {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-} from "./generatedModels";
-import type { FilePosixProperties, Metadata } from "./models";
+} from "./generatedModels.js";
+import type { FilePosixProperties, Metadata } from "./models.js";
 import type {
   ReadableStreamGetter,
   RetriableReadableStreamOptions,
-} from "./utils/RetriableReadableStream";
-import { RetriableReadableStream } from "./utils/RetriableReadableStream";
-import type { HttpResponse, WithResponse } from "./utils/utils.common";
-import { assertResponse } from "./utils/utils.common";
+} from "./utils/RetriableReadableStream.js";
+import { RetriableReadableStream } from "./utils/RetriableReadableStream.js";
+import type { HttpResponse, WithResponse } from "./utils/utils.common.js";
+import { assertResponse } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -397,7 +397,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.fileDownloadStream : undefined;
+    return isNodeLike ? this.fileDownloadStream : undefined;
   }
 
   public get _response(): HttpResponse & {

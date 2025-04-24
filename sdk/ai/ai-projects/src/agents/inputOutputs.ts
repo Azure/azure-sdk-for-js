@@ -63,6 +63,9 @@ export type {
   FileSearchToolDefinitionOutput,
   FunctionToolDefinitionOutput,
   BingGroundingToolDefinitionOutput,
+  BingCustomSearchToolDefinitionOutput,
+  SearchConfigurationListOutput,
+  SearchConfigurationOutput,
   AzureAISearchToolDefinitionOutput,
   AzureAISearchResourceOutput,
   CodeInterpreterToolResourceOutput,
@@ -157,10 +160,12 @@ export type {
   AzureFunctionStorageQueueOutput,
   OpenApiConnectionSecuritySchemeOutput,
   OpenApiManagedSecuritySchemeOutput,
+  OpenAIPageableListOfAgentThreadOutput,
 } from "../customization/outputModels.js";
 export {
   ListMessagesQueryParamProperties,
   ListFilesQueryParamProperties,
+  ListThreadsQueryParamProperties,
 } from "../customization/parameters.js";
 export type {
   AgentRunResponse,
@@ -206,6 +211,7 @@ export type {
   PollingOptionsParams,
   CancelVectorStoreFileBatchOptionalParams,
   DeleteAgentOptionalParams,
+  ListAgentThreadOptionalParams,
 } from "./customModels.js";
 
 export {
@@ -287,4 +293,15 @@ export {
   OpenApiManagedAuthDetails,
   OpenApiConnectionSecurityScheme,
   OpenApiManagedSecurityScheme,
+  CreateMessageContent,
+  MessageContentBlockInput,
+  MessageContentBlockInputParent,
+  MessageTextBlockInput,
+  MessageImageFileBlockInput,
+  MessageImageUrlBlockInput,
+  MessageBlockType,
+  MessageImageFileParam,
+  MessageImageUrlParam,
+  ImageDetailLevel,
+  AzureFunctionToolResource,
 } from "../customization/models.js";

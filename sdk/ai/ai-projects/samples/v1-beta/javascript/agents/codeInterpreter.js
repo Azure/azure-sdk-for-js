@@ -10,13 +10,13 @@
 const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("node:path");
-dotenv.config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -37,7 +37,7 @@ async function main() {
   const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
@@ -101,7 +101,7 @@ async function main() {
   if (fileContent) {
     const chunks = [];
     for await (const chunk of fileContent) {
-      chunks.push(Buffer.from(chunk));
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     }
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(imageFileName, buffer);

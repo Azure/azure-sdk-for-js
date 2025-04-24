@@ -36,7 +36,7 @@ import {
   PathSetExpiryResponse,
   PathUndeleteOptionalParams,
   PathUndeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PathOperations. */
 export interface PathOperations {

@@ -11,10 +11,11 @@ const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-pro
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client from a connection string, copied from your AI Foundry project.
@@ -28,10 +29,14 @@ async function main() {
   const connection = await client.connections.getConnection(connectionName);
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, "ai-search-sample", {
+    queryType: "simple",
+    topK: 3,
+    filter: "",
+  });
 
   // Create agent with the Azure AI search tool
-  const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [azureAISearchTool.definition],
@@ -46,7 +51,7 @@ async function main() {
   // Create message to thread
   const message = await client.agents.createMessage(thread.id, {
     role: "user",
-    content: "Hello, send an email with the datetime and weather information in New York",
+    content: "What is the temperature rating of the cozynights sleeping bag?",
   });
   console.log(`Created message, message ID: ${message.id}`);
 
@@ -57,10 +62,32 @@ async function main() {
     run = await client.agents.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
-    console.log(`Run failed: ${run.lastError}`);
+    console.log(`Run failed:`, JSON.stringify(run, null, 2));
   }
   console.log(`Run finished with status: ${run.status}`);
 
+  // Fetch run steps to get the details of agent run
+  const { data: runSteps } = await client.agents.listRunSteps(thread.id, run.id);
+
+  for (const step of runSteps) {
+    console.log(`Step ID: ${step.id}, Status: ${step.status}`);
+    const stepDetails = step.stepDetails;
+    if (isOutputOfType(stepDetails, "tool_calls")) {
+      const toolCalls = stepDetails.toolCalls;
+      for (const toolCall of toolCalls) {
+        console.log(`Tool Call ID: ${toolCall.id}, Tool type: ${toolCall.type}`);
+        if (isOutputOfType(toolCall, "azure_ai_search")) {
+          {
+            const azureAISearch = toolCall.azureAISearch;
+            if (azureAISearch) {
+              console.log(`Azure AI Search Tool Call input: ${azureAISearch.input}`);
+              console.log(`Azure AI Search Tool Call output: ${azureAISearch.output}`);
+            }
+          }
+        }
+      }
+    }
+  }
   // Delete the assistant when done
   await client.agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);

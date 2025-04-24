@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   Constants,
   copyObject,
@@ -11,19 +11,19 @@ import {
   isItemResourceValid,
   ResourceType,
   StatusCodes,
-} from "../../common";
-import type { PartitionKey, PartitionKeyInternal } from "../../documents";
-import { convertToInternalPartitionKey } from "../../documents";
-import type { RequestOptions, Response } from "../../request";
-import { ErrorResponse } from "../../request";
-import type { PatchRequestBody } from "../../utils/patch";
-import { PatchOperationType } from "../../utils/patch";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import type { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";
+} from "../../common/index.js";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
+import type { RequestOptions, Response } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
+import type { PatchRequestBody } from "../../utils/patch.js";
+import { PatchOperationType } from "../../utils/patch.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
+import { ItemResponse } from "./ItemResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
 
 /**
  * Used to perform operations on a specific item.
@@ -68,15 +68,24 @@ export class Item {
    * @param options - Additional options for the request
    *
    * @example Using custom type for response
-   * ```typescript
+   * ```ts snippet:ItemRead
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
    * interface TodoItem {
    *   title: string;
-   *   done: bool;
+   *   done: boolean;
    *   id: string;
    * }
    *
-   * let item: TodoItem;
-   * ({body: item} = await item.read<TodoItem>());
+   * const { resource: item } = await container.item("id").read<TodoItem>();
    * ```
    */
   public async read<T extends ItemDefinition = any>(
@@ -178,6 +187,29 @@ export class Item {
    *
    * @param body - The definition to replace the existing {@link Item}'s definition with.
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ItemReplace
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * interface TodoItem {
+   *   title: string;
+   *   done: boolean;
+   *   id: string;
+   * }
+   *
+   * const { resource: item } = await container.item("id").read<TodoItem>();
+   *
+   * item.done = true;
+   * const { resource: replacedItem } = await container.item("id").replace<TodoItem>(item);
+   * ```
    */
   public replace<T extends ItemDefinition>(
     body: T,
@@ -288,6 +320,28 @@ export class Item {
    * You may get more or less properties and it's up to your logic to enforce it.
    *
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ItemDelete
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * interface TodoItem {
+   *   title: string;
+   *   done: boolean;
+   *   id: string;
+   * }
+   *
+   * const { resource: item } = await container.item("id").read<TodoItem>();
+   *
+   * await container.item("id").delete<TodoItem>();
+   * ```
    */
   public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {},
@@ -360,6 +414,38 @@ export class Item {
    * You may get more or less properties and it's up to your logic to enforce it.
    *
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ItemPatch
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * interface TodoItem {
+   *   title: string;
+   *   done: boolean;
+   *   id: string;
+   * }
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const { resource: item } = await container.item("id").read<TodoItem>();
+   *
+   * const { resource: patchedItem } = await container.item("id").patch<TodoItem>([
+   *   {
+   *     op: "replace", // Operation type (can be replace, add, remove, set, incr)
+   *     path: "/title", // The path to the property to update
+   *     value: "new-title", // New value for the property
+   *   },
+   *   {
+   *     op: "remove",
+   *     path: "/done",
+   *   },
+   * ]);
+   * ```
    */
   public async patch<T extends ItemDefinition = any>(
     body: PatchRequestBody,

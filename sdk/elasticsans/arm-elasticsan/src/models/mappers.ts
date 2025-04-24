@@ -939,6 +939,13 @@ export const VolumeGroupProperties: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      deleteRetentionPolicy: {
+        serializedName: "deleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy",
+        },
+      },
     },
   },
 };
@@ -1073,6 +1080,30 @@ export const VirtualNetworkRule: coreClient.CompositeMapper = {
   },
 };
 
+export const DeleteRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteRetentionPolicy",
+    modelProperties: {
+      policyState: {
+        serializedName: "policyState",
+        type: {
+          name: "String",
+        },
+      },
+      retentionPeriodDays: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "retentionPeriodDays",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const VolumeGroupUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1131,6 +1162,13 @@ export const VolumeGroupUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "enforceDataIntegrityCheckForIscsi",
         type: {
           name: "Boolean",
+        },
+      },
+      deleteRetentionPolicy: {
+        serializedName: "deleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy",
         },
       },
     },
@@ -1509,6 +1547,63 @@ export const SnapshotCreationData: coreClient.CompositeMapper = {
   },
 };
 
+export const VolumeNameList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumeNameList",
+    modelProperties: {
+      volumeNames: {
+        serializedName: "volumeNames",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PreValidationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PreValidationResponse",
+    modelProperties: {
+      validationStatus: {
+        serializedName: "validationStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DiskSnapshotList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskSnapshotList",
+    modelProperties: {
+      diskSnapshotIds: {
+        serializedName: "diskSnapshotIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1741,6 +1836,52 @@ export const VolumesDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const VolumesPreBackupHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesPreBackupHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VolumesPreRestoreHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VolumesPreRestoreHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ElasticSanManagementRestoreVolumeHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ElasticSanManagementRestoreVolumeHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
   {

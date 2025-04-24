@@ -40,6 +40,7 @@ export interface ModelInfo {
 
 export interface ResourceInfo {
   readonly deployments: DeploymentInfo[];
+  readonly nickname: string;
   readonly endpoint: string;
 }
 
@@ -50,6 +51,7 @@ export interface ResourcesInfo {
 
 export interface ClientAndDeploymentsInfo {
   readonly client: OpenAI;
+  readonly resourceNickname: string;
   readonly deployments: DeploymentInfo[];
 }
 

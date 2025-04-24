@@ -1,6 +1,6 @@
 # Release History
 
-## 4.8.1 (Unreleased)
+## 4.9.2 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,32 @@
 
 ### Other Changes
 
+## 4.9.1 (2025-04-17)
+
+### Bugs Fixed
+
+- Update the order for conditional exports so that the most specific conditions are listed first. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
+- Fix a bug in which `self.location` is undefined in specific environment. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
+
+## 4.9.0 (2025-04-16)
+
+### Features Added
+
+- Add `workerd` conditional exports support for Cloudflare environment. [#32422](https://github.com/Azure/azure-sdk-for-js/pull/32422)
+
+### Other Changes
+
+- Marked `VisualStudioCodeCredential`, `VisualStudioCodeCredentialOptions` and `VSCodeCredentialFinder` as deprecated. [#33413](https://github.com/Azure/azure-sdk-for-js/pull/33413)
+- Upgraded version of `@azure/msal-node` to v3.5.0 that has [a bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/7631) for Azure Machine Learning Managed Identity. [#33792](https://github.com/Azure/azure-sdk-for-js/pull/33792)
+
 ## 4.8.0 (2025-03-11)
 
 ### Features Added
+
 - `ManagedIdentityCredential` will now log the configured user-assigned managed identity ID. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
 
 ### Other Changes
+
 - Deprecated `UsernamePasswordCredential` and `UsernamePasswordCredentialOptions`, as the credential doesn't support multifactor authentication (MFA). MFA will soon be enforced on all Microsoft Entra tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136) and [#33312](https://github.com/Azure/azure-sdk-for-js/pull/33312)
 - For `AzureCliCredential` and `AzureDeveloperCliCredential`, if system root environment variable is not found on the Windows platform, the system root variable is set to the appropriate value with a warning logged as opposed to throwing an error. [#33178](https://github.com/Azure/azure-sdk-for-js/pull/33178)
 
@@ -38,7 +58,6 @@
 
 - Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
-
 
 ## 4.6.0 (2025-01-16)
 

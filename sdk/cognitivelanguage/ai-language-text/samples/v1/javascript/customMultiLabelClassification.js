@@ -8,14 +8,14 @@
  * @summary multi-label classification of pieces of text
  */
 
-const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["AZURE_LANGUAGE_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 const deploymentName = process.env["MULTI_LABEL_CLASSIFY_DEPLOYMENT_NAME"] || "deployment name";
 const projectName = process.env["MULTI_LABEL_CLASSIFY_PROJECT_NAME"] || "deployment name";
 
@@ -26,7 +26,7 @@ const documents = [
 async function main() {
   console.log("== Custom Entity Recognition Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions = [
     {
       kind: "CustomMultiLabelClassification",
@@ -40,7 +40,7 @@ async function main() {
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomMultiLabelClassification") {
       throw new Error(
-        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`
+        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`,
       );
     }
     if (actionResult.error) {

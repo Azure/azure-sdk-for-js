@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { VirtualMachineScaleSet } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  VirtualMachineScaleSet,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,11 +19,13 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
  */
 async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -30,7 +36,8 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri:
+            "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -85,11 +92,12 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -97,11 +105,13 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
  */
 async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -112,7 +122,8 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri:
+            "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -173,11 +184,12 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -185,11 +197,13 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -233,11 +247,12 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Pr
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -245,11 +260,13 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Pr
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
  */
 async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -303,11 +320,12 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void>
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -315,11 +333,13 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void>
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
  */
 async function createAScaleSetFromACustomImage(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -363,11 +383,12 @@ async function createAScaleSetFromACustomImage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -375,11 +396,13 @@ async function createAScaleSetFromACustomImage(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
  */
 async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -423,11 +446,12 @@ async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -435,11 +459,13 @@ async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
  */
 async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -478,11 +504,12 @@ async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -490,11 +517,13 @@ async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
  */
 async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -557,11 +586,12 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -569,11 +599,13 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
  */
 async function createAScaleSetWithApplicationProfile(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -638,11 +670,12 @@ async function createAScaleSetWithApplicationProfile(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -650,11 +683,86 @@ async function createAScaleSetWithApplicationProfile(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticZoneRebalancingPolicy.json
+ */
+async function createAScaleSetWithAutomaticZoneRebalancingEnabled(): Promise<void> {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const parameters: VirtualMachineScaleSet = {
+    location: "westus",
+    overprovision: false,
+    resiliencyPolicy: {
+      automaticZoneRebalancingPolicy: {
+        enabled: true,
+        rebalanceBehavior: "CreateBeforeDelete",
+        rebalanceStrategy: "Recreate",
+      },
+    },
+    sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
+    upgradePolicy: { mode: "Manual" },
+    virtualMachineProfile: {
+      networkProfile: {
+        networkInterfaceConfigurations: [
+          {
+            name: "{vmss-name}",
+            enableIPForwarding: true,
+            ipConfigurations: [
+              {
+                name: "{vmss-name}",
+                subnet: {
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
+            ],
+            primary: true,
+          },
+        ],
+      },
+      osProfile: {
+        adminPassword: "{your-password}",
+        adminUsername: "{your-username}",
+        computerNamePrefix: "{vmss-name}",
+      },
+      storageProfile: {
+        imageReference: {
+          offer: "WindowsServer",
+          publisher: "MicrosoftWindowsServer",
+          sku: "2016-Datacenter",
+          version: "latest",
+        },
+        osDisk: {
+          caching: "ReadWrite",
+          createOption: "FromImage",
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a VM scale set.
+ *
+ * @summary Create or update a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
  */
 async function createAScaleSetWithDiskControllerType(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -713,11 +821,12 @@ async function createAScaleSetWithDiskControllerType(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -725,11 +834,13 @@ async function createAScaleSetWithDiskControllerType(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
  */
 async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -792,11 +903,12 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -804,11 +916,13 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
  */
 async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -869,11 +983,12 @@ async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -881,11 +996,13 @@ async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
  */
 async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -938,11 +1055,12 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty():
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -950,11 +1068,13 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty():
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
  */
 async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSettings(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1027,11 +1147,12 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1039,11 +1160,13 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
  */
 async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1093,11 +1216,12 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void>
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1105,11 +1229,13 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void>
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
  */
 async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1139,9 +1265,7 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
         adminUsername: "{your-username}",
         computerNamePrefix: "{vmss-name}",
       },
-      securityProfile: {
-        proxyAgentSettings: { enabled: true, mode: "Enforce" },
-      },
+      securityProfile: { proxyAgentSettings: { enabled: true } },
       storageProfile: {
         imageReference: {
           offer: "WindowsServer",
@@ -1159,11 +1283,12 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1171,11 +1296,13 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
  */
 async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1223,11 +1350,12 @@ async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1235,11 +1363,13 @@ async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
  */
 async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1287,11 +1417,12 @@ async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1299,11 +1430,13 @@ async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
  */
 async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "eastus2euap",
@@ -1356,11 +1489,12 @@ async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1368,11 +1502,13 @@ async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1426,11 +1562,12 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> 
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1438,11 +1575,13 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> 
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpmSecurityEncryptionType(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1496,11 +1635,12 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpm
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1508,11 +1648,13 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpm
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
  */
 async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "eastus2euap",
@@ -1565,11 +1707,12 @@ async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1577,11 +1720,13 @@ async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
  */
 async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1632,11 +1777,12 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1644,11 +1790,13 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm(): Promise<voi
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
  */
 async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1700,11 +1848,12 @@ async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1712,11 +1861,13 @@ async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
  */
 async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1768,11 +1919,12 @@ async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1780,11 +1932,13 @@ async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
  */
 async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1845,11 +1999,12 @@ async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1857,11 +2012,13 @@ async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
  */
 async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     automaticRepairsPolicy: { enabled: true, gracePeriod: "PT10M" },
@@ -1916,11 +2073,12 @@ async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1928,11 +2086,13 @@ async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
  */
 async function createAScaleSetWithBootDiagnostics(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1943,7 +2103,8 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri:
+            "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       networkProfile: {
@@ -1985,11 +2146,12 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -1997,11 +2159,13 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
  */
 async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2053,11 +2217,12 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2065,11 +2230,13 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
  */
 async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2122,11 +2289,12 @@ async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlac
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2134,11 +2302,13 @@ async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlac
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
  */
 async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2191,11 +2361,12 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Prom
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2203,11 +2374,13 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Prom
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
  */
 async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2260,11 +2433,12 @@ async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2272,11 +2446,13 @@ async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
  */
 async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2287,7 +2463,8 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri:
+            "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -2342,11 +2519,12 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2354,11 +2532,13 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
  */
 async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2406,11 +2586,12 @@ async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2418,11 +2599,13 @@ async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
  */
 async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2469,11 +2652,12 @@ async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2481,11 +2665,13 @@ async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
  */
 async function createAScaleSetWithPremiumStorage(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2532,11 +2718,12 @@ async function createAScaleSetWithPremiumStorage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2544,11 +2731,13 @@ async function createAScaleSetWithPremiumStorage(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
  */
 async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2587,7 +2776,6 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
         ],
       },
       osProfile: {
-        adminPassword: "{your-password}",
         adminUsername: "{your-username}",
         computerNamePrefix: "{vmss-name}",
       },
@@ -2609,11 +2797,12 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2621,16 +2810,22 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
  */
 async function createAScaleSetWithScaleInPolicy(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
     overprovision: true,
-    scaleInPolicy: { forceDeletion: true, rules: ["OldestVM"] },
+    scaleInPolicy: {
+      forceDeletion: true,
+      prioritizeUnhealthyVMs: true,
+      rules: ["OldestVM"],
+    },
     sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
     upgradePolicy: { mode: "Manual" },
     virtualMachineProfile: {
@@ -2673,11 +2868,12 @@ async function createAScaleSetWithScaleInPolicy(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2685,11 +2881,13 @@ async function createAScaleSetWithScaleInPolicy(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile.json
  */
 async function createAScaleSetWithSkuProfile(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2751,11 +2949,12 @@ async function createAScaleSetWithSkuProfile(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2763,11 +2962,94 @@ async function createAScaleSetWithSkuProfile(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile_Prioritized.json
+ */
+async function createAScaleSetWithSkuProfileAndPrioritizedAllocationStrategy(): Promise<void> {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const parameters: VirtualMachineScaleSet = {
+    location: "westus",
+    orchestrationMode: "Flexible",
+    priorityMixPolicy: {
+      baseRegularPriorityCount: 4,
+      regularPriorityPercentageAboveBase: 50,
+    },
+    singlePlacementGroup: false,
+    sku: { name: "Mix", capacity: 10 },
+    skuProfile: {
+      allocationStrategy: "Prioritized",
+      vmSizes: [
+        { name: "Standard_D8s_v5", rank: 0 },
+        { name: "Standard_E16s_v5", rank: 1 },
+        { name: "Standard_D2s_v5", rank: 2 },
+      ],
+    },
+    virtualMachineProfile: {
+      billingProfile: { maxPrice: -1 },
+      evictionPolicy: "Deallocate",
+      networkProfile: {
+        networkInterfaceConfigurations: [
+          {
+            name: "{vmss-name}",
+            enableIPForwarding: true,
+            ipConfigurations: [
+              {
+                name: "{vmss-name}",
+                subnet: {
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                },
+              },
+            ],
+            primary: true,
+          },
+        ],
+      },
+      osProfile: {
+        adminPassword: "{your-password}",
+        adminUsername: "{your-username}",
+        computerNamePrefix: "{vmss-name}",
+      },
+      priority: "Spot",
+      storageProfile: {
+        imageReference: {
+          offer: "WindowsServer",
+          publisher: "MicrosoftWindowsServer",
+          sku: "2016-Datacenter",
+          version: "latest",
+        },
+        osDisk: {
+          caching: "ReadWrite",
+          createOption: "FromImage",
+          managedDisk: { storageAccountType: "Standard_LRS" },
+        },
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a VM scale set.
+ *
+ * @summary Create or update a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
  */
 async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2818,11 +3100,12 @@ async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2830,11 +3113,13 @@ async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
  */
 async function createAScaleSetWithSshAuthentication(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2892,11 +3177,12 @@ async function createAScaleSetWithSshAuthentication(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2904,11 +3190,13 @@ async function createAScaleSetWithSshAuthentication(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
  */
 async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2961,11 +3249,12 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -2973,11 +3262,13 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<voi
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
  */
 async function createAScaleSetWithUserData(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3025,11 +3316,12 @@ async function createAScaleSetWithUserData(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3037,11 +3329,13 @@ async function createAScaleSetWithUserData(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
  */
 async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "centralus",
@@ -3094,11 +3388,12 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3106,11 +3401,13 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
  */
 async function createAScaleSetWithVMSizeProperties(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3161,11 +3458,12 @@ async function createAScaleSetWithVMSizeProperties(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3173,11 +3471,13 @@ async function createAScaleSetWithVMSizeProperties(): Promise<void> {
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithZonalPlatformFaultDomainAlignMode.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithZonalPlatformFaultDomainAlignMode.json
  */
 async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3232,11 +3532,12 @@ async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): 
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3244,11 +3545,13 @@ async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): 
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
  */
 async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3300,11 +3603,12 @@ async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -3318,6 +3622,7 @@ async function main(): Promise<void> {
   await createAScaleSetFromASpecializedSharedImage();
   await createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty();
   await createAScaleSetWithApplicationProfile();
+  await createAScaleSetWithAutomaticZoneRebalancingEnabled();
   await createAScaleSetWithDiskControllerType();
   await createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk();
   await createAScaleSetWithFpgaNetworkInterfaces();
@@ -3348,6 +3653,7 @@ async function main(): Promise<void> {
   await createAScaleSetWithPriorityMixPolicy();
   await createAScaleSetWithScaleInPolicy();
   await createAScaleSetWithSkuProfile();
+  await createAScaleSetWithSkuProfileAndPrioritizedAllocationStrategy();
   await createAScaleSetWithSpotRestorePolicy();
   await createAScaleSetWithSshAuthentication();
   await createAScaleSetWithTerminateScheduledEventsEnabled();

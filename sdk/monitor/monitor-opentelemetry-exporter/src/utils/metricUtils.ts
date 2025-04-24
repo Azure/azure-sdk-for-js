@@ -29,9 +29,17 @@ const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
   [OTelPerformanceCounterNames.AVAILABLE_BYTES, BreezePerformanceCounterNames.AVAILABLE_BYTES],
   [OTelPerformanceCounterNames.PROCESSOR_TIME, BreezePerformanceCounterNames.PROCESSOR_TIME],
-  [OTelPerformanceCounterNames.PROCESS_TIME, BreezePerformanceCounterNames.PROCESS_TIME],
+  [
+    OTelPerformanceCounterNames.PROCESS_TIME_STANDARD,
+    BreezePerformanceCounterNames.PROCESS_TIME_STANDARD,
+  ],
+  [
+    OTelPerformanceCounterNames.PROCESS_TIME_NORMALIZED,
+    BreezePerformanceCounterNames.PROCESS_TIME_NORMALIZED,
+  ],
   [OTelPerformanceCounterNames.REQUEST_RATE, BreezePerformanceCounterNames.REQUEST_RATE],
   [OTelPerformanceCounterNames.REQUEST_DURATION, BreezePerformanceCounterNames.REQUEST_DURATION],
+  [OTelPerformanceCounterNames.EXCEPTION_RATE, BreezePerformanceCounterNames.EXCEPTION_RATE],
 ]);
 
 function createPropertiesFromMetricAttributes(attributes?: Attributes): {

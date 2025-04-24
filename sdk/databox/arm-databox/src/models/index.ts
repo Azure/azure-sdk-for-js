@@ -269,6 +269,40 @@ export interface JobStages {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly jobStageDetails?: Record<string, unknown>;
+  /**
+   * Delay information for the job stages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly delayInformation?: JobDelayDetails[];
+}
+
+/** Job Delay Notification details */
+export interface JobDelayDetails {
+  /**
+   * Status of notification
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: DelayNotificationStatus;
+  /**
+   * Delay Error code
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: PortalDelayErrorCode;
+  /**
+   * Description of the delay.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Timestamp when the delay notification was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Timestamp when the delay notification was resolved.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resolutionTime?: Date;
 }
 
 /** Contact Details. */
@@ -640,6 +674,8 @@ export interface Sku {
   displayName?: string;
   /** The sku family. */
   family?: string;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Msi identity details of the resource */
@@ -801,6 +837,11 @@ export interface SkuCapacity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maximum?: string;
+  /**
+   * Maximum capacity per device in TB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly individualSkuUsable?: string;
 }
 
 /** Describes metadata for retrieving price info. */
@@ -1018,6 +1059,8 @@ export interface RegionConfigurationRequest {
   transportAvailabilityRequest?: TransportAvailabilityRequest;
   /** Request body to get the datacenter address for given sku. */
   datacenterAddressRequest?: DatacenterAddressRequest;
+  /** Request body to get the device capabilities for a given sku. */
+  deviceCapabilityRequest?: DeviceCapabilityRequest;
 }
 
 /** Request body to get the availability for scheduling orders. */
@@ -1028,12 +1071,16 @@ export interface ScheduleAvailabilityRequest {
   storageLocation: string;
   /** Country in which storage location should be supported. */
   country?: string;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request body to get the transport availability for given sku. */
 export interface TransportAvailabilityRequest {
   /** Type of the device. */
   skuName?: SkuName;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request body to get the datacenter address. */
@@ -1042,6 +1089,16 @@ export interface DatacenterAddressRequest {
   storageLocation: string;
   /** Sku Name for which the data center address requested. */
   skuName: SkuName;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
+}
+
+/** Request body to get the device capabilities for given sku. */
+export interface DeviceCapabilityRequest {
+  /** Type of the device. */
+  skuName?: SkuName;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Configuration response specific to a region. */
@@ -1061,6 +1118,11 @@ export interface RegionConfigurationResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly datacenterAddressResponse?: DatacenterAddressResponseUnion;
+  /**
+   * Device capabilities available for a given sku in a region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceCapabilityResponse?: DeviceCapabilityResponse;
 }
 
 /** Schedule availability for given sku in a region. */
@@ -1088,6 +1150,24 @@ export interface TransportAvailabilityDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly shipmentType?: TransportShipmentTypes;
+}
+
+/** Device capabilities for given sku in a region */
+export interface DeviceCapabilityResponse {
+  /**
+   * List of device capabilities available for a given region and a given sku
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceCapabilityDetails?: DeviceCapabilityDetails[];
+}
+
+/** Device capability details for a given sku for a given region. */
+export interface DeviceCapabilityDetails {
+  /**
+   * Hardware encryption support for a given sku for a given region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareEncryption?: HardwareEncryption;
 }
 
 /** Credential details of the account. */
@@ -1833,6 +1913,11 @@ export interface JobResource extends Resource {
    */
   readonly status?: StageName;
   /**
+   * Name of the stage where delay might be present.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly delayedStage?: StageName;
+  /**
    * Time at which the job was started in UTC ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1858,6 +1943,11 @@ export interface JobResource extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isCancellableWithoutFee?: boolean;
+  /**
+   * Flag to indicate if all devices associated with the job are lost.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDevicesLost?: boolean;
 }
 
 /** The requirements to validate customer address where the device needs to be shipped. */
@@ -1870,6 +1960,8 @@ export interface ValidateAddress extends ValidationInputRequest {
   deviceType: SkuName;
   /** Preferences related to the shipment logistics of the sku. */
   transportPreferences?: TransportPreferences;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request to validate create order limit for current subscription. */
@@ -1879,6 +1971,8 @@ export interface CreateOrderLimitForSubscriptionValidationRequest
   validationType: "ValidateCreateOrderLimit";
   /** Device type to be used for the job. */
   deviceType: SkuName;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request to validate export and import data details. */
@@ -1894,6 +1988,8 @@ export interface DataTransferDetailsValidationRequest
   deviceType: SkuName;
   /** Type of the transfer. */
   transferType: TransferType;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request to validate preference of transport and data center. */
@@ -1904,6 +2000,8 @@ export interface PreferencesValidationRequest extends ValidationInputRequest {
   preference?: Preferences;
   /** Device type to be used for the job. */
   deviceType: SkuName;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request to validate sku availability. */
@@ -1919,6 +2017,8 @@ export interface SkuAvailabilityValidationRequest
   country: string;
   /** Location for data transfer. For locations check: https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01 */
   location: string;
+  /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
+  model?: ModelName;
 }
 
 /** Request to validate subscription permission to create jobs. */
@@ -2199,7 +2299,7 @@ export enum KnownStageName {
   /** Preparing the device to ship to customer. */
   PreparingToShipFromAzureDC = "PreparingToShipFromAzureDC",
   /** Shipped the device to customer. */
-  ShippedToCustomer = "ShippedToCustomer"
+  ShippedToCustomer = "ShippedToCustomer",
 }
 
 /**
@@ -2231,6 +2331,48 @@ export enum KnownStageName {
  */
 export type StageName = string;
 
+/** Known values of {@link DelayNotificationStatus} that the service accepts. */
+export enum KnownDelayNotificationStatus {
+  /** Delay is still active */
+  Active = "Active",
+  /** Delay has been resolved */
+  Resolved = "Resolved",
+}
+
+/**
+ * Defines values for DelayNotificationStatus. \
+ * {@link KnownDelayNotificationStatus} can be used interchangeably with DelayNotificationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Delay is still active \
+ * **Resolved**: Delay has been resolved
+ */
+export type DelayNotificationStatus = string;
+
+/** Known values of {@link PortalDelayErrorCode} that the service accepts. */
+export enum KnownPortalDelayErrorCode {
+  /** Delay due to any internal reasons */
+  InternalIssueDelay = "InternalIssueDelay",
+  /** Active Order limit breached. */
+  ActiveOrderLimitBreachedDelay = "ActiveOrderLimitBreachedDelay",
+  /** High demand */
+  HighDemandDelay = "HighDemandDelay",
+  /** Slow copy due to large number of files */
+  LargeNumberOfFilesDelay = "LargeNumberOfFilesDelay",
+}
+
+/**
+ * Defines values for PortalDelayErrorCode. \
+ * {@link KnownPortalDelayErrorCode} can be used interchangeably with PortalDelayErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InternalIssueDelay**: Delay due to any internal reasons \
+ * **ActiveOrderLimitBreachedDelay**: Active Order limit breached. \
+ * **HighDemandDelay**: High demand \
+ * **LargeNumberOfFilesDelay**: Slow copy due to large number of files
+ */
+export type PortalDelayErrorCode = string;
+
 /** Known values of {@link NotificationStageName} that the service accepts. */
 export enum KnownNotificationStageName {
   /** Notification at device prepared stage. */
@@ -2248,7 +2390,7 @@ export enum KnownNotificationStageName {
   /** Notification at job created stage. */
   Created = "Created",
   /** Notification at shipped devices to customer stage. */
-  ShippedToCustomer = "ShippedToCustomer"
+  ShippedToCustomer = "ShippedToCustomer",
 }
 
 /**
@@ -2386,7 +2528,25 @@ export enum KnownDataCenterCode {
   /** SN6 */
   SN6 = "SN6",
   /** BJS20 */
-  BJS20 = "BJS20"
+  BJS20 = "BJS20",
+  /** BL24 */
+  BL24 = "BL24",
+  /** IDC5 */
+  IDC5 = "IDC5",
+  /** TYO23 */
+  TYO23 = "TYO23",
+  /** CPQ21 */
+  CPQ21 = "CPQ21",
+  /** NTG20 */
+  NTG20 = "NTG20",
+  /** DXB23 */
+  DXB23 = "DXB23",
+  /** DSM11 */
+  DSM11 = "DSM11",
+  /** OSA23 */
+  OSA23 = "OSA23",
+  /** AMS25 */
+  AMS25 = "AMS25",
 }
 
 /**
@@ -2452,7 +2612,16 @@ export enum KnownDataCenterCode {
  * **PAR22** \
  * **BN7** \
  * **SN6** \
- * **BJS20**
+ * **BJS20** \
+ * **BL24** \
+ * **IDC5** \
+ * **TYO23** \
+ * **CPQ21** \
+ * **NTG20** \
+ * **DXB23** \
+ * **DSM11** \
+ * **OSA23** \
+ * **AMS25**
  */
 export type DataCenterCode = string;
 
@@ -2493,7 +2662,7 @@ export enum KnownCopyStatus {
   /** Copy failed due to corrupted drive. */
   DriveCorrupted = "DriveCorrupted",
   /** Copy failed due to modified or removed metadata files. */
-  MetadataFilesModifiedOrRemoved = "MetadataFilesModifiedOrRemoved"
+  MetadataFilesModifiedOrRemoved = "MetadataFilesModifiedOrRemoved",
 }
 
 /**
@@ -2591,6 +2760,14 @@ export type SkuName =
   | "DataBoxDisk"
   | "DataBoxHeavy"
   | "DataBoxCustomerDisk";
+/** Defines values for ModelName. */
+export type ModelName =
+  | "DataBox"
+  | "DataBoxDisk"
+  | "DataBoxHeavy"
+  | "DataBoxCustomerDisk"
+  | "AzureDataBox120"
+  | "AzureDataBox525";
 /** Defines values for SkuDisabledReason. */
 export type SkuDisabledReason =
   | "None"
@@ -2744,7 +2921,8 @@ export interface ServiceListAvailableSkusByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSkusByResourceGroup operation. */
-export type ServiceListAvailableSkusByResourceGroupResponse = AvailableSkusResult;
+export type ServiceListAvailableSkusByResourceGroupResponse =
+  AvailableSkusResult;
 
 /** Optional parameters. */
 export interface ServiceValidateAddressOptionalParams
@@ -2779,14 +2957,16 @@ export interface ServiceRegionConfigurationByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regionConfigurationByResourceGroup operation. */
-export type ServiceRegionConfigurationByResourceGroupResponse = RegionConfigurationResponse;
+export type ServiceRegionConfigurationByResourceGroupResponse =
+  RegionConfigurationResponse;
 
 /** Optional parameters. */
 export interface ServiceListAvailableSkusByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSkusByResourceGroupNext operation. */
-export type ServiceListAvailableSkusByResourceGroupNextResponse = AvailableSkusResult;
+export type ServiceListAvailableSkusByResourceGroupNextResponse =
+  AvailableSkusResult;
 
 /** Optional parameters. */
 export interface DataBoxManagementClientOptionalParams

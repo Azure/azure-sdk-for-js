@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as os from "os";
+import * as os from "node:os";
 import type {
   MeterProviderOptions,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import type { InternalConfig } from "../../shared/config";
+import type { InternalConfig } from "../../shared/config.js";
 import type { Meter, ObservableGauge, ObservableResult } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode, ValueType, context } from "@opentelemetry/api";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
@@ -26,8 +26,11 @@ import type {
   KeyValuePairString,
   DerivedMetricInfo,
   FilterConjunctionGroupInfo,
-} from "../../generated";
-import { KnownCollectionConfigurationErrorType, KnownTelemetryType } from "../../generated";
+} from "../../generated/index.js";
+import {
+  KnownCollectionConfigurationErrorType,
+  KnownTelemetryType,
+} from "../../generated/index.js";
 import {
   getLogDocument,
   getSdkVersion,
@@ -39,11 +42,11 @@ import {
   getSpanExceptionColumns,
   isExceptionData,
   isDependencyData,
-} from "./utils";
-import { QuickpulseMetricExporter } from "./export/exporter";
-import { QuickpulseSender } from "./export/sender";
-import { ConnectionStringParser } from "../../utils/connectionStringParser";
-import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
+} from "./utils.js";
+import { QuickpulseMetricExporter } from "./export/exporter.js";
+import { QuickpulseSender } from "./export/sender.js";
+import { ConnectionStringParser } from "../../utils/connectionStringParser.js";
+import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types.js";
 import type {
   QuickpulseExporterOptions,
   RequestData,
@@ -51,24 +54,25 @@ import type {
   TraceData,
   ExceptionData,
   TelemetryData,
-} from "./types";
-import { QuickPulseOpenTelemetryMetricNames } from "./types";
+} from "./types.js";
+import { QuickPulseOpenTelemetryMetricNames } from "./types.js";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
-import { getInstance } from "../../utils/statsbeat";
-import type { CollectionConfigurationError } from "../../generated";
-import { Filter } from "./filtering/filter";
-import { Validator } from "./filtering/validator";
-import { CollectionConfigurationErrorTracker } from "./filtering/collectionConfigurationErrorTracker";
-import { Projection } from "./filtering/projection";
+import { getInstance } from "../../utils/statsbeat.js";
+import type { CollectionConfigurationError } from "../../generated/index.js";
+import { Filter } from "./filtering/filter.js";
+import { Validator } from "./filtering/validator.js";
+import { CollectionConfigurationErrorTracker } from "./filtering/collectionConfigurationErrorTracker.js";
+import { Projection } from "./filtering/projection.js";
 import {
   TelemetryTypeError,
   UnexpectedFilterCreateError,
   DuplicateMetricIdError,
   MetricFailureToCreateError,
-} from "./filtering/quickpulseErrors";
+} from "./filtering/quickpulseErrors.js";
 import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
-import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils";
-import { getCloudRole, getCloudRoleInstance } from "../utils";
+import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils.js";
+import { getCloudRole, getCloudRoleInstance } from "../utils.js";
+import { Logger } from "../../shared/logging/logger.js";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -652,10 +656,14 @@ export class LiveMetrics {
   }
 
   private getProcessorTimeNormalized(observableResult: ObservableResult): void {
-    const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
-    observableResult.observe(cpuUsagePercent);
-    this.lastHrTime = process.hrtime.bigint();
-    this.lastCpuUsage = process.cpuUsage();
+    if (process && process.hrtime) {
+      const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
+      observableResult.observe(cpuUsagePercent);
+      this.lastHrTime = process.hrtime.bigint();
+      this.lastCpuUsage = process.cpuUsage();
+    } else {
+      Logger.getInstance().debug("Getting Normalized Processor Time Failed. No process available.");
+    }
   }
 
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
@@ -672,6 +680,9 @@ export class LiveMetrics {
   }
 
   private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+      return;
+    }
     response.documentStreams.forEach((documentStreamInfo) => {
       documentStreamInfo.documentFilterGroups.forEach((documentFilterGroupInfo) => {
         try {
@@ -758,6 +769,10 @@ export class LiveMetrics {
   }
 
   private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    // eslint-disable-next-line eqeqeq
+    if (!response?.documentStreams || typeof response.documentStreams.forEach !== "function") {
+      return;
+    }
     response.metrics.forEach((derivedMetricInfo) => {
       try {
         if (!this.seenMetricIds.has(derivedMetricInfo.id)) {

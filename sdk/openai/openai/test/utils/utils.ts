@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, test, describe } from "vitest";
+import { assert, test, type TestContext } from "vitest";
 import {
-  type PipelineRequest,
-  type PipelineResponse,
-  RestError,
   createDefaultHttpClient,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
+  type PipelineRequest,
+  type PipelineResponse,
+  RestError,
 } from "@azure/core-rest-pipeline";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
@@ -25,24 +25,25 @@ import { logger } from "./logger.js";
 import type { OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
 
-export type AcceptableErrors = {
+export type SkippableErrors = {
   messageSubstring: string[];
 };
 
-const GlobalAcceptedErrors: AcceptableErrors = {
-  messageSubstring: ["Rate limit is exceeded"],
+const GlobalSkippableErrors: SkippableErrors = {
+  messageSubstring: ["Rate limit is exceeded", "400 Unsupported Model"],
 };
 
 export const maxRetriesOption = { maxRetries: 0 };
 
 export enum APIVersion {
-  Preview = "2025-01-01-preview",
-  Stable = "2024-10-21",
+  v2025_03_01_preview = "2025-03-01-preview",
+  v2024_10_31 = "2024-10-31",
+  Stable = v2024_10_31,
   OpenAI = "OpenAI",
-  "2024_10_01_preview" = "2024-10-01-preview",
+  v2024_10_01_preview = "2024-10-01-preview",
 }
 
-export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
+export const APIMatrix = [APIVersion.v2025_03_01_preview, APIVersion.v2024_10_31];
 
 function toString(error: any): string {
   return error.error ? JSON.stringify(error.error) : JSON.stringify(error);
@@ -120,7 +121,13 @@ export type DeploymentTestingParameters<T> = {
   run: (client: OpenAI, model: string) => Promise<T>;
   validate?: (result: T) => void;
   modelsListToSkip?: Partial<ModelInfo>[];
-  acceptableErrors?: AcceptableErrors;
+  acceptableErrors?: SkippableErrors;
+};
+
+type ModelFlatMap = {
+  client: OpenAI;
+  deploymentName: string;
+  model: ModelInfo;
 };
 
 /**
@@ -139,34 +146,37 @@ export async function testWithDeployments<T>({
   acceptableErrors,
 }: DeploymentTestingParameters<T>): Promise<void> {
   assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
-  describe.concurrent.each(clientsAndDeploymentsInfo.clientsAndDeployments)(
-    "$client.baseURL",
-    async function ({ client, deployments }) {
-      for (const deployment of deployments) {
-        test.concurrent(`${deployment.model.name} (${deployment.model.version})`, async (done) => {
-          if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-            done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
-          }
+  const modelFlatMap: ModelFlatMap[] = clientsAndDeploymentsInfo.clientsAndDeployments.flatMap(
+    ({ client, deployments }) =>
+      deployments.map(({ model, deploymentName }) => ({
+        client,
+        deploymentName,
+        model,
+      })),
+  );
 
-          let result;
-          try {
-            result = await run(client, deployment.deploymentName);
-          } catch (e) {
-            const error = e as any;
-            if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
-              done.skip(`Skipping due to acceptable error: ${error}`);
-            }
-            if (
-              GlobalAcceptedErrors.messageSubstring.some((match) => error.message.includes(match))
-            ) {
-              done.skip(`Skipping due to global acceptable error: ${error}`);
-            }
-            throw e;
-          }
-          validate?.(result);
-          return;
-        });
+  test.concurrent.for(modelFlatMap)(
+    "$model.name ($model.version)",
+    async ({ model, client, deploymentName }: ModelFlatMap, context: TestContext) => {
+      if (modelsListToSkip && isModelInList(model, modelsListToSkip)) {
+        context.skip(`Skipping ${model.name} : ${model.version}`);
       }
+
+      let result;
+      try {
+        result = await run(client, deploymentName);
+      } catch (e) {
+        const error = e as any;
+        if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
+          context.skip(`Skipping due to acceptable error: ${error}`);
+        }
+        if (GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))) {
+          context.skip(`Skipping due to global acceptable error: ${error}`);
+        }
+        throw e;
+      }
+      validate?.(result);
+      return;
     },
   );
 }

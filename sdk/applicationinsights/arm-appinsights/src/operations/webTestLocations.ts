@@ -15,7 +15,7 @@ import { ApplicationInsightsManagementClient } from "../applicationInsightsManag
 import {
   ApplicationInsightsComponentWebTestLocation,
   WebTestLocationsListOptionalParams,
-  WebTestLocationsListResponse
+  WebTestLocationsListResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class WebTestLocationsImpl implements WebTestLocations {
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebTestLocationsListOptionalParams
+    options?: WebTestLocationsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationInsightsComponentWebTestLocation> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -58,9 +58,9 @@ export class WebTestLocationsImpl implements WebTestLocations {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -68,7 +68,7 @@ export class WebTestLocationsImpl implements WebTestLocations {
     resourceGroupName: string,
     resourceName: string,
     options?: WebTestLocationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationInsightsComponentWebTestLocation[]> {
     let result: WebTestLocationsListResponse;
     result = await this._list(resourceGroupName, resourceName, options);
@@ -78,12 +78,12 @@ export class WebTestLocationsImpl implements WebTestLocations {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebTestLocationsListOptionalParams
+    options?: WebTestLocationsListOptionalParams,
   ): AsyncIterableIterator<ApplicationInsightsComponentWebTestLocation> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -98,11 +98,11 @@ export class WebTestLocationsImpl implements WebTestLocations {
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebTestLocationsListOptionalParams
+    options?: WebTestLocationsListOptionalParams,
   ): Promise<WebTestLocationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -110,21 +110,20 @@ export class WebTestLocationsImpl implements WebTestLocations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/syntheticmonitorlocations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/syntheticmonitorlocations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsWebTestLocationsListResult
-    }
+      bodyMapper: Mappers.ApplicationInsightsWebTestLocationsListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
