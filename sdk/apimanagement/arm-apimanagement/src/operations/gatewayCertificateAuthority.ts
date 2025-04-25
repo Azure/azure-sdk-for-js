@@ -6,446 +6,442 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    GatewayCertificateAuthorityContract,
-    GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
-    GatewayCertificateAuthorityCreateOrUpdateResponse,
-    GatewayCertificateAuthorityDeleteOptionalParams,
-    GatewayCertificateAuthorityGetEntityTagOptionalParams,
-    GatewayCertificateAuthorityGetEntityTagResponse,
-    GatewayCertificateAuthorityGetOptionalParams,
-    GatewayCertificateAuthorityGetResponse,
-    GatewayCertificateAuthorityListByServiceNextOptionalParams,
-    GatewayCertificateAuthorityListByServiceNextResponse,
-    GatewayCertificateAuthorityListByServiceOptionalParams,
-    GatewayCertificateAuthorityListByServiceResponse
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GatewayCertificateAuthority } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { GatewayCertificateAuthority } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  GatewayCertificateAuthorityContract,
+  GatewayCertificateAuthorityListByServiceNextOptionalParams,
+  GatewayCertificateAuthorityListByServiceOptionalParams,
+  GatewayCertificateAuthorityListByServiceResponse,
+  GatewayCertificateAuthorityGetEntityTagOptionalParams,
+  GatewayCertificateAuthorityGetEntityTagResponse,
+  GatewayCertificateAuthorityGetOptionalParams,
+  GatewayCertificateAuthorityGetResponse,
+  GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
+  GatewayCertificateAuthorityCreateOrUpdateResponse,
+  GatewayCertificateAuthorityDeleteOptionalParams,
+  GatewayCertificateAuthorityListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayCertificateAuthority operations. */
 export class GatewayCertificateAuthorityImpl
-    implements GatewayCertificateAuthority {
-    private readonly client: ApiManagementClient;
+  implements GatewayCertificateAuthority
+{
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class GatewayCertificateAuthority class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class GatewayCertificateAuthority class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists the collection of Certificate Authorities for the specified Gateway entity.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param options The options parameters.
-     */
-    public listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        options?: GatewayCertificateAuthorityListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<GatewayCertificateAuthorityContract> {
-        const iter = this.listByServicePagingAll(
-            resourceGroupName,
-            serviceName,
-            gatewayId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByServicePagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    gatewayId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByServicePagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        options?: GatewayCertificateAuthorityListByServiceOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<GatewayCertificateAuthorityContract[]> {
-        let result: GatewayCertificateAuthorityListByServiceResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByService(
-                resourceGroupName,
-                serviceName,
-                gatewayId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists the collection of Certificate Authorities for the specified Gateway entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param options The options parameters.
+   */
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<GatewayCertificateAuthorityContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      gatewayId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByServiceNext(
-                resourceGroupName,
-                serviceName,
-                gatewayId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByServicePagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        options?: GatewayCertificateAuthorityListByServiceOptionalParams
-    ): AsyncIterableIterator<GatewayCertificateAuthorityContract> {
-        for await (const page of this.listByServicePagingPage(
-            resourceGroupName,
-            serviceName,
-            gatewayId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists the collection of Certificate Authorities for the specified Gateway entity.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param options The options parameters.
-     */
-    private _listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        options?: GatewayCertificateAuthorityListByServiceOptionalParams
-    ): Promise<GatewayCertificateAuthorityListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, gatewayId, options },
-            listByServiceOperationSpec
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          gatewayId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param certificateId Identifier of the certificate entity. Must be unique in the current API
-     *                      Management service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        certificateId: string,
-        options?: GatewayCertificateAuthorityGetEntityTagOptionalParams
-    ): Promise<GatewayCertificateAuthorityGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, gatewayId, certificateId, options },
-            getEntityTagOperationSpec
-        );
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<GatewayCertificateAuthorityContract[]> {
+    let result: GatewayCertificateAuthorityListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        gatewayId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        gatewayId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Get assigned Gateway Certificate Authority details.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param certificateId Identifier of the certificate entity. Must be unique in the current API
-     *                      Management service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        certificateId: string,
-        options?: GatewayCertificateAuthorityGetOptionalParams
-    ): Promise<GatewayCertificateAuthorityGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, gatewayId, certificateId, options },
-            getOperationSpec
-        );
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
+  ): AsyncIterableIterator<GatewayCertificateAuthorityContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      gatewayId,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Assign Certificate entity to Gateway entity as Certificate Authority.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param certificateId Identifier of the certificate entity. Must be unique in the current API
-     *                      Management service instance.
-     * @param parameters Gateway certificate authority details.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        certificateId: string,
-        parameters: GatewayCertificateAuthorityContract,
-        options?: GatewayCertificateAuthorityCreateOrUpdateOptionalParams
-    ): Promise<GatewayCertificateAuthorityCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                gatewayId,
-                certificateId,
-                parameters,
-                options
-            },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Lists the collection of Certificate Authorities for the specified Gateway entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
+  ): Promise<GatewayCertificateAuthorityListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, options },
+      listByServiceOperationSpec,
+    );
+  }
 
-    /**
-     * Remove relationship between Certificate Authority and Gateway entity.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param certificateId Identifier of the certificate entity. Must be unique in the current API
-     *                      Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        certificateId: string,
-        ifMatch: string,
-        options?: GatewayCertificateAuthorityDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                gatewayId,
-                certificateId,
-                ifMatch,
-                options
-            },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param certificateId Identifier of the certificate entity. Must be unique in the current API
+   *                      Management service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    certificateId: string,
+    options?: GatewayCertificateAuthorityGetEntityTagOptionalParams,
+  ): Promise<GatewayCertificateAuthorityGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, certificateId, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * ListByServiceNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-     *                  instance. Must not have value 'managed'
-     * @param nextLink The nextLink from the previous successful call to the ListByService method.
-     * @param options The options parameters.
-     */
-    private _listByServiceNext(
-        resourceGroupName: string,
-        serviceName: string,
-        gatewayId: string,
-        nextLink: string,
-        options?: GatewayCertificateAuthorityListByServiceNextOptionalParams
-    ): Promise<GatewayCertificateAuthorityListByServiceNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, gatewayId, nextLink, options },
-            listByServiceNextOperationSpec
-        );
-    }
+  /**
+   * Get assigned Gateway Certificate Authority details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param certificateId Identifier of the certificate entity. Must be unique in the current API
+   *                      Management service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    certificateId: string,
+    options?: GatewayCertificateAuthorityGetOptionalParams,
+  ): Promise<GatewayCertificateAuthorityGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, certificateId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Assign Certificate entity to Gateway entity as Certificate Authority.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param certificateId Identifier of the certificate entity. Must be unique in the current API
+   *                      Management service instance.
+   * @param parameters Gateway certificate authority details.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    certificateId: string,
+    parameters: GatewayCertificateAuthorityContract,
+    options?: GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
+  ): Promise<GatewayCertificateAuthorityCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        gatewayId,
+        certificateId,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Remove relationship between Certificate Authority and Gateway entity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param certificateId Identifier of the certificate entity. Must be unique in the current API
+   *                      Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    certificateId: string,
+    ifMatch: string,
+    options?: GatewayCertificateAuthorityDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        gatewayId,
+        certificateId,
+        ifMatch,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    nextLink: string,
+    options?: GatewayCertificateAuthorityListByServiceNextOptionalParams,
+  ): Promise<GatewayCertificateAuthorityListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayId, nextLink, options },
+      listByServiceNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.GatewayCertificateAuthorityCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayCertificateAuthorityCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.gatewayId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.GatewayCertificateAuthorityGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.GatewayCertificateAuthorityGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.certificateId,
-        Parameters.gatewayId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.certificateId,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.GatewayCertificateAuthorityContract,
-            headersMapper: Mappers.GatewayCertificateAuthorityGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayCertificateAuthorityContract,
+      headersMapper: Mappers.GatewayCertificateAuthorityGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.certificateId,
-        Parameters.gatewayId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.certificateId,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.GatewayCertificateAuthorityContract,
-            headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.GatewayCertificateAuthorityContract,
-            headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayCertificateAuthorityContract,
+      headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters46,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.certificateId,
-        Parameters.gatewayId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.GatewayCertificateAuthorityContract,
+      headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters54,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.certificateId,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.certificateId,
-        Parameters.gatewayId
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.certificateId,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.GatewayCertificateAuthorityCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewayCertificateAuthorityCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink,
-        Parameters.gatewayId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.gatewayId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

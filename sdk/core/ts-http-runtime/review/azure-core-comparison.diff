@@ -71,74 +71,6 @@ index 7f2adc4..0000000
 -
 -export { AbortError } from "./AbortError.js";
 -export { AbortSignalLike } from "./AbortSignalLike.js";
-diff --git a/src/accessTokenCache.ts b/src/accessTokenCache.ts
-deleted file mode 100644
-index f8d603b..0000000
---- a/src/accessTokenCache.ts
-+++ /dev/null
-@@ -1,62 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
--
--import type { AccessToken } from "@azure/core-auth";
--
--/**
-- * Defines the default token refresh buffer duration.
-- */
--export const DefaultTokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
--
--/**
-- * Provides a cache for an AccessToken that was that
-- * was returned from a TokenCredential.
-- */
--export interface AccessTokenCache {
--  /**
--   * Sets the cached token.
--   *
--   * @param accessToken - The AccessToken to be cached or null to
--   *   clear the cached token.
--   */
--  setCachedToken(accessToken: AccessToken | undefined): void;
--
--  /**
--   * Returns the cached AccessToken or undefined if nothing is cached.
--   */
--  getCachedToken(): AccessToken | undefined;
--}
--
--/**
-- * Provides an AccessTokenCache implementation which clears
-- * the cached AccessToken's after the expiresOnTimestamp has
-- * passed.
-- * @internal
-- */
--export class ExpiringAccessTokenCache implements AccessTokenCache {
--  private tokenRefreshBufferMs: number;
--  private cachedToken?: AccessToken;
--
--  /**
--   * Constructs an instance of ExpiringAccessTokenCache with
--   * an optional expiration buffer time.
--   */
--  constructor(tokenRefreshBufferMs: number = DefaultTokenRefreshBufferMs) {
--    this.tokenRefreshBufferMs = tokenRefreshBufferMs;
--  }
--
--  setCachedToken(accessToken: AccessToken | undefined): void {
--    this.cachedToken = accessToken;
--  }
--
--  getCachedToken(): AccessToken | undefined {
--    if (
--      this.cachedToken &&
--      Date.now() + this.tokenRefreshBufferMs >= this.cachedToken.expiresOnTimestamp
--    ) {
--      this.cachedToken = undefined;
--    }
--
--    return this.cachedToken;
--  }
--}
 diff --git a/src/auth/azureKeyCredential.ts b/src/auth/azureKeyCredential.ts
 deleted file mode 100644
 index 65676e7..0000000
@@ -1475,10 +1407,10 @@ index 8136c63..0ff983d 100644
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
-index fefe550..fb56a78 100644
+index b8ebf02..fb56a78 100644
 --- a/src/createPipelineFromOptions.ts
 +++ b/src/createPipelineFromOptions.ts
-@@ -6,16 +6,14 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+@@ -6,17 +6,14 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
  import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
  import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
  import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
@@ -1493,12 +1425,17 @@ index fefe550..fb56a78 100644
  import { agentPolicy } from "./policies/agentPolicy.js";
  import { tlsPolicy } from "./policies/tlsPolicy.js";
 -import { tracingPolicy } from "./policies/tracingPolicy.js";
+-import { wrapAbortSignalLikePolicy } from "./policies/wrapAbortSignalLikePolicy.js";
 +import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
  
  /**
   * Defines options that are used to configure the HTTP pipeline for
-@@ -95,15 +93,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+@@ -94,19 +91,13 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+     pipeline.addPolicy(decompressResponsePolicy());
+   }
  
+-  pipeline.addPolicy(wrapAbortSignalLikePolicy());
+-
    pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
    pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
 -  pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
@@ -1513,24 +1450,529 @@ index fefe550..fb56a78 100644
    if (isNodeLike) {
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
+diff --git a/src/defaultHttpClient-browser.mts b/src/defaultHttpClient-browser.mts
+new file mode 100644
+index 0000000..9fd4e7c
+--- /dev/null
++++ b/src/defaultHttpClient-browser.mts
+@@ -0,0 +1,12 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { HttpClient } from "./interfaces.js";
++import { createFetchHttpClient } from "./fetchHttpClient.js";
++
++/**
++ * Create the correct HttpClient for the current environment.
++ */
++export function createDefaultHttpClient(): HttpClient {
++  return createFetchHttpClient();
++}
+diff --git a/src/defaultHttpClient-react-native.mts b/src/defaultHttpClient-react-native.mts
+new file mode 100644
+index 0000000..0640b78
+--- /dev/null
++++ b/src/defaultHttpClient-react-native.mts
+@@ -0,0 +1,12 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { HttpClient } from "./interfaces.js";
++import { createXhrHttpClient } from "./xhrHttpClient.js";
++
++/**
++ * Create the correct HttpClient for the current environment.
++ */
++export function createDefaultHttpClient(): HttpClient {
++  return createXhrHttpClient();
++}
+diff --git a/src/defaultHttpClient.ts b/src/defaultHttpClient.ts
+index b217f8c..7da85d9 100644
+--- a/src/defaultHttpClient.ts
++++ b/src/defaultHttpClient.ts
+@@ -2,29 +2,11 @@
+ // Licensed under the MIT License.
+ 
+ import type { HttpClient } from "./interfaces.js";
+-import { createDefaultHttpClient as tspCreateDefaultHttpClient } from "@typespec/ts-http-runtime";
+-import { wrapAbortSignalLike } from "./util/wrapAbortSignal.js";
+-import { type PipelineRequest as TspPipelineRequest } from "@typespec/ts-http-runtime";
++import { createNodeHttpClient } from "./nodeHttpClient.js";
+ 
+ /**
+  * Create the correct HttpClient for the current environment.
+  */
+ export function createDefaultHttpClient(): HttpClient {
+-  const client = tspCreateDefaultHttpClient();
+-  return {
+-    async sendRequest(request) {
+-      // we wrap any AbortSignalLike here since the TypeSpec runtime expects a native AbortSignal.
+-      // 99% of the time, this should be a no-op since a native AbortSignal is passed in.
+-      const { abortSignal, cleanup } = request.abortSignal
+-        ? wrapAbortSignalLike(request.abortSignal)
+-        : {};
+-      try {
+-        // eslint-disable-next-line no-param-reassign
+-        request.abortSignal = abortSignal;
+-        return await client.sendRequest(request as TspPipelineRequest);
+-      } finally {
+-        cleanup?.();
+-      }
+-    },
+-  };
++  return createNodeHttpClient();
+ }
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index 71a8bd6..e250048 100644
---- a/src/fetchHttpClient.ts
+new file mode 100644
+index 0000000..e250048
+--- /dev/null
 +++ b/src/fetchHttpClient.ts
-@@ -1,7 +1,7 @@
+@@ -0,0 +1,325 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { AbortError } from "./abort-controller/AbortError.js";
++import type {
++  HttpClient,
++  HttpHeaders as PipelineHeaders,
++  PipelineRequest,
++  PipelineResponse,
++  TransferProgressEvent,
++} from "./interfaces.js";
++import { RestError } from "./restError.js";
++import { createHttpHeaders } from "./httpHeaders.js";
++import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
++
++/**
++ * Checks if the body is a Blob or Blob-like
++ */
++function isBlob(body: unknown): body is Blob {
++  // File objects count as a type of Blob, so we want to use instanceof explicitly
++  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
++}
++
++/**
++ * A HttpClient implementation that uses window.fetch to send HTTP requests.
++ * @internal
++ */
++class FetchHttpClient implements HttpClient {
++  /**
++   * Makes a request over an underlying transport layer and returns the response.
++   * @param request - The request to be made.
++   */
++  public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
++    const url = new URL(request.url);
++    const isInsecure = url.protocol !== "https:";
++
++    if (isInsecure && !request.allowInsecureConnection) {
++      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
++    }
++
++    if (request.proxySettings) {
++      throw new Error("HTTP proxy is not supported in browser environment");
++    }
++
++    try {
++      return await makeRequest(request);
++    } catch (e: any) {
++      throw getError(e, request);
++    }
++  }
++}
++
++/**
++ * Sends a request
++ */
++async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
++  const { abortController, abortControllerCleanup } = setupAbortSignal(request);
++  try {
++    const headers = buildFetchHeaders(request.headers);
++    const { streaming, body: requestBody } = buildRequestBody(request);
++    const requestInit: RequestInit = {
++      body: requestBody,
++      method: request.method,
++      headers: headers,
++      signal: abortController.signal,
++      // Cloudflare doesn't implement the full Fetch API spec
++      // because of some of it doesn't make sense in the edge.
++      // See https://github.com/cloudflare/workerd/issues/902
++      ...("credentials" in Request.prototype
++        ? { credentials: request.withCredentials ? "include" : "same-origin" }
++        : {}),
++      ...("cache" in Request.prototype ? { cache: "no-store" } : {}),
++    };
++
++    // According to https://fetch.spec.whatwg.org/#fetch-method,
++    // init.duplex must be set when body is a ReadableStream object.
++    // currently "half" is the only valid value.
++    if (streaming) {
++      (requestInit as any).duplex = "half";
++    }
++    /**
++     * Developers of the future:
++     * Do not set redirect: "manual" as part
++     * of request options.
++     * It will not work as you expect.
++     */
++    const response = await fetch(request.url, {
++      ...requestInit,
++      ...request.requestOverrides,
++    });
++    // If we're uploading a blob, we need to fire the progress event manually
++    if (isBlob(request.body) && request.onUploadProgress) {
++      request.onUploadProgress({ loadedBytes: request.body.size });
++    }
++    return buildPipelineResponse(response, request, abortControllerCleanup);
++  } catch (e) {
++    abortControllerCleanup?.();
++    throw e;
++  }
++}
++
++/**
++ * Creates a pipeline response from a Fetch response;
++ */
++async function buildPipelineResponse(
++  httpResponse: Response,
++  request: PipelineRequest,
++  abortControllerCleanup?: () => void,
++): Promise<PipelineResponse> {
++  const headers = buildPipelineHeaders(httpResponse);
++  const response: PipelineResponse = {
++    request,
++    headers,
++    status: httpResponse.status,
++  };
++
++  const bodyStream = isWebReadableStream(httpResponse.body)
++    ? buildBodyStream(httpResponse.body, {
++        onProgress: request.onDownloadProgress,
++        onEnd: abortControllerCleanup,
++      })
++    : httpResponse.body;
++
++  if (
++    // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
++    request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
++    request.streamResponseStatusCodes?.has(response.status)
++  ) {
++    if (request.enableBrowserStreams) {
++      response.browserStreamBody = bodyStream ?? undefined;
++    } else {
++      const responseStream = new Response(bodyStream);
++      response.blobBody = responseStream.blob();
++      abortControllerCleanup?.();
++    }
++  } else {
++    const responseStream = new Response(bodyStream);
++
++    response.bodyAsText = await responseStream.text();
++    abortControllerCleanup?.();
++  }
++
++  return response;
++}
++
++function setupAbortSignal(request: PipelineRequest): {
++  abortController: AbortController;
++  abortControllerCleanup: (() => void) | undefined;
++} {
++  const abortController = new AbortController();
++
++  // Cleanup function
++  let abortControllerCleanup: (() => void) | undefined;
++
++  /**
++   * Attach an abort listener to the request
++   */
++  let abortListener: ((event: any) => void) | undefined;
++  if (request.abortSignal) {
++    if (request.abortSignal.aborted) {
++      throw new AbortError("The operation was aborted. Request has already been canceled.");
++    }
++
++    abortListener = (event: Event) => {
++      if (event.type === "abort") {
++        abortController.abort();
++      }
++    };
++    request.abortSignal.addEventListener("abort", abortListener);
++    abortControllerCleanup = () => {
++      if (abortListener) {
++        request.abortSignal?.removeEventListener("abort", abortListener);
++      }
++    };
++  }
++
++  // If a timeout was passed, call the abort signal once the time elapses
++  if (request.timeout > 0) {
++    setTimeout(() => {
++      abortController.abort();
++    }, request.timeout);
++  }
++
++  return { abortController, abortControllerCleanup };
++}
++
++/**
++ * Gets the specific error
++ */
++// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
++function getError(e: RestError, request: PipelineRequest): RestError {
++  if (e && e?.name === "AbortError") {
++    return e;
++  } else {
++    return new RestError(`Error sending request: ${e.message}`, {
++      code: e?.code ?? RestError.REQUEST_SEND_ERROR,
++      request,
++    });
++  }
++}
++
++/**
++ * Converts PipelineRequest headers to Fetch headers
++ */
++function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
++  const headers = new Headers();
++  for (const [name, value] of pipelineHeaders) {
++    headers.append(name, value);
++  }
++
++  return headers;
++}
++
++function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
++  const responseHeaders = createHttpHeaders();
++  for (const [name, value] of httpResponse.headers) {
++    responseHeaders.set(name, value);
++  }
++
++  return responseHeaders;
++}
++
++interface BuildRequestBodyResponse {
++  body:
++    | string
++    | Blob
++    | ReadableStream<Uint8Array>
++    | ArrayBuffer
++    | ArrayBufferView
++    | FormData
++    | null
++    | undefined;
++  streaming: boolean;
++}
++
++function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
++  const body = typeof request.body === "function" ? request.body() : request.body;
++  if (isNodeReadableStream(body)) {
++    throw new Error("Node streams are not supported in browser environment.");
++  }
++
++  return isWebReadableStream(body)
++    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
++    : { streaming: false, body };
++}
++
++/**
++ * Reads the request/response original stream and stream it through a new
++ * ReadableStream, this is done to be able to report progress in a way that
++ * all modern browsers support. TransformStreams would be an alternative,
++ * however they are not yet supported by all browsers i.e Firefox
++ */
++function buildBodyStream(
++  readableStream: ReadableStream<Uint8Array>,
++  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
++): ReadableStream<Uint8Array> {
++  let loadedBytes = 0;
++  const { onProgress, onEnd } = options;
++
++  // If the current browser supports pipeThrough we use a TransformStream
++  // to report progress
++  if (isTransformStreamSupported(readableStream)) {
++    return readableStream.pipeThrough(
++      new TransformStream({
++        transform(chunk, controller) {
++          if (chunk === null) {
++            controller.terminate();
++            return;
++          }
++
++          controller.enqueue(chunk);
++          loadedBytes += chunk.length;
++          if (onProgress) {
++            onProgress({ loadedBytes });
++          }
++        },
++        flush() {
++          onEnd?.();
++        },
++      }),
++    );
++  } else {
++    // If we can't use transform streams, wrap the original stream in a new readable stream
++    // and use pull to enqueue each chunk and report progress.
++    const reader = readableStream.getReader();
++    return new ReadableStream({
++      async pull(controller) {
++        const { done, value } = await reader.read();
++        // When no more data needs to be consumed, break the reading
++        if (done || !value) {
++          onEnd?.();
++          // Close the stream
++          controller.close();
++          reader.releaseLock();
++          return;
++        }
++
++        loadedBytes += value?.length ?? 0;
++
++        // Enqueue the next data chunk into our target stream
++        controller.enqueue(value);
++
++        if (onProgress) {
++          onProgress({ loadedBytes });
++        }
++      },
++      cancel(reason?: string) {
++        onEnd?.();
++        return reader.cancel(reason);
++      },
++    });
++  }
++}
++
++/**
++ * Create a new HttpClient instance for the browser environment.
++ * @internal
++ */
++export function createFetchHttpClient(): HttpClient {
++  return new FetchHttpClient();
++}
++
++function isTransformStreamSupported(readableStream: ReadableStream): boolean {
++  return readableStream.pipeThrough !== undefined && self.TransformStream !== undefined;
++}
+diff --git a/src/httpHeaders.ts b/src/httpHeaders.ts
+index 94978eb..9e2914b 100644
+--- a/src/httpHeaders.ts
++++ b/src/httpHeaders.ts
+@@ -1,14 +1,107 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { AbortError } from "@azure/abort-controller";
-+import { AbortError } from "./abort-controller/AbortError.js";
- import type {
-   HttpClient,
-   HttpHeaders as PipelineHeaders,
+-import type { HttpHeaders, RawHttpHeadersInput } from "./interfaces.js";
++import type { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces.js";
+ 
+-import { createHttpHeaders as tspCreateHttpHeaders } from "@typespec/ts-http-runtime";
++interface HeaderEntry {
++  name: string;
++  value: string;
++}
++
++function normalizeName(name: string): string {
++  return name.toLowerCase();
++}
++
++function* headerIterator(map: Map<string, HeaderEntry>): IterableIterator<[string, string]> {
++  for (const entry of map.values()) {
++    yield [entry.name, entry.value];
++  }
++}
++
++class HttpHeadersImpl implements HttpHeaders {
++  private readonly _headersMap: Map<string, HeaderEntry>;
++
++  constructor(rawHeaders?: RawHttpHeaders | RawHttpHeadersInput) {
++    this._headersMap = new Map<string, HeaderEntry>();
++    if (rawHeaders) {
++      for (const headerName of Object.keys(rawHeaders)) {
++        this.set(headerName, rawHeaders[headerName]);
++      }
++    }
++  }
++
++  /**
++   * Set a header in this collection with the provided name and value. The name is
++   * case-insensitive.
++   * @param name - The name of the header to set. This value is case-insensitive.
++   * @param value - The value of the header to set.
++   */
++  public set(name: string, value: string | number | boolean): void {
++    this._headersMap.set(normalizeName(name), { name, value: String(value).trim() });
++  }
++
++  /**
++   * Get the header value for the provided header name, or undefined if no header exists in this
++   * collection with the provided name.
++   * @param name - The name of the header. This value is case-insensitive.
++   */
++  public get(name: string): string | undefined {
++    return this._headersMap.get(normalizeName(name))?.value;
++  }
++
++  /**
++   * Get whether or not this header collection contains a header entry for the provided header name.
++   * @param name - The name of the header to set. This value is case-insensitive.
++   */
++  public has(name: string): boolean {
++    return this._headersMap.has(normalizeName(name));
++  }
++
++  /**
++   * Remove the header with the provided headerName.
++   * @param name - The name of the header to remove.
++   */
++  public delete(name: string): void {
++    this._headersMap.delete(normalizeName(name));
++  }
++
++  /**
++   * Get the JSON object representation of this HTTP header collection.
++   */
++  public toJSON(options: { preserveCase?: boolean } = {}): RawHttpHeaders {
++    const result: RawHttpHeaders = {};
++    if (options.preserveCase) {
++      for (const entry of this._headersMap.values()) {
++        result[entry.name] = entry.value;
++      }
++    } else {
++      for (const [normalizedName, entry] of this._headersMap) {
++        result[normalizedName] = entry.value;
++      }
++    }
++
++    return result;
++  }
++
++  /**
++   * Get the string representation of this HTTP header collection.
++   */
++  public toString(): string {
++    return JSON.stringify(this.toJSON({ preserveCase: true }));
++  }
++
++  /**
++   * Iterate over tuples of header [name, value] pairs.
++   */
++  [Symbol.iterator](): Iterator<[string, string]> {
++    return headerIterator(this._headersMap);
++  }
++}
+ 
+ /**
+  * Creates an object that satisfies the `HttpHeaders` interface.
+  * @param rawHeaders - A simple object representing initial headers
+  */
+ export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders {
+-  return tspCreateHttpHeaders(rawHeaders);
++  return new HttpHeadersImpl(rawHeaders);
+ }
 diff --git a/src/index.ts b/src/index.ts
-index 92a7ee9..4990189 100644
+index 9cf0b30..1220eb5 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,116 +9,78 @@ declare global {
+@@ -9,117 +9,85 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1579,21 +2021,39 @@ index 92a7ee9..4990189 100644
 +  RawHttpHeadersInput,
 +  PipelineRetryOptions,
  } from "./interfaces.js";
--export {
++export { createHttpHeaders } from "./httpHeaders.js";
++export * from "./auth/schemes.js";
++export * from "./auth/oauth2Flows.js";
++export {
++  type BasicCredential,
++  type BearerTokenCredential,
++  type OAuth2TokenCredential,
++  type GetOAuth2TokenOptions,
++  type GetBearerTokenOptions,
++  type ApiKeyCredential,
++  type ClientCredential,
++} from "./auth/credentials.js";
++export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
+ export {
 -  type AddPolicyOptions as AddPipelineOptions,
 -  type PipelinePhase,
 -  type PipelinePolicy,
--  type Pipeline,
--  createEmptyPipeline,
--} from "./pipeline.js";
+   type Pipeline,
++  type PipelinePolicy,
++  type AddPolicyOptions,
++  type PipelinePhase,
+   createEmptyPipeline,
+ } from "./pipeline.js";
 -export {
 -  createPipelineFromOptions,
 -  type TelemetryOptions,
 -  type InternalPipelineOptions,
 -  type PipelineOptions,
 -} from "./createPipelineFromOptions.js";
--export { createDefaultHttpClient } from "./defaultHttpClient.js";
- export { createHttpHeaders } from "./httpHeaders.js";
++export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
++export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
+ export { createDefaultHttpClient } from "./defaultHttpClient.js";
+-export { createHttpHeaders } from "./httpHeaders.js";
 -export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 -export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
 -export {
@@ -1612,9 +2072,7 @@ index 92a7ee9..4990189 100644
 -export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
 -export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 -export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
-+export * from "./auth/schemes.js";
-+export * from "./auth/oauth2Flows.js";
- export {
+-export {
 -  redirectPolicy,
 -  redirectPolicyName,
 -  type RedirectPolicyOptions,
@@ -1629,27 +2087,13 @@ index 92a7ee9..4990189 100644
 -  throttlingRetryPolicyName,
 -  type ThrottlingRetryPolicyOptions,
 -} from "./policies/throttlingRetryPolicy.js";
--export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
-+  type BasicCredential,
-+  type BearerTokenCredential,
-+  type OAuth2TokenCredential,
-+  type GetOAuth2TokenOptions,
-+  type GetBearerTokenOptions,
-+  type ApiKeyCredential,
-+  type ClientCredential,
-+} from "./auth/credentials.js";
-+export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
-+export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
-+export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
-+export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
-+export { getClient } from "./client/getClient.js";
-+export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
-+export { createRestError } from "./client/restError.js";
- export type {
--  RetryStrategy,
--  RetryInformation,
--  RetryModifiers,
--} from "./retryStrategies/retryStrategy.js";
+-export {
+-  retryPolicy,
+-  type RetryPolicyOptions,
+-  type RetryStrategy,
+-  type RetryInformation,
+-  type RetryModifiers,
+-} from "./policies/retryPolicy.js";
 -export {
 -  tracingPolicy,
 -  tracingPolicyName,
@@ -1687,6 +2131,10 @@ index 92a7ee9..4990189 100644
 -  type CreateFileOptions,
 -  type CreateFileFromStreamOptions,
 -} from "./util/file.js";
++export { getClient } from "./client/getClient.js";
++export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
++export { createRestError } from "./client/restError.js";
++export type {
 +  Client,
 +  ClientOptions,
 +  OperationOptions,
@@ -2302,23 +2750,747 @@ index 0000000..1002e6f
 +  return context.createClientLogger(namespace);
 +}
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index a6328bf..8f1aaee 100644
---- a/src/nodeHttpClient.ts
+new file mode 100644
+index 0000000..8f1aaee
+--- /dev/null
 +++ b/src/nodeHttpClient.ts
-@@ -5,7 +5,7 @@ import * as http from "node:http";
- import * as https from "node:https";
- import * as zlib from "node:zlib";
- import { Transform } from "node:stream";
--import { AbortError } from "@azure/abort-controller";
+@@ -0,0 +1,402 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import * as http from "node:http";
++import * as https from "node:https";
++import * as zlib from "node:zlib";
++import { Transform } from "node:stream";
 +import { AbortError } from "./abort-controller/AbortError.js";
- import type {
-   HttpClient,
-   HttpHeaders,
++import type {
++  HttpClient,
++  HttpHeaders,
++  PipelineRequest,
++  PipelineResponse,
++  RequestBodyType,
++  TlsSettings,
++  TransferProgressEvent,
++} from "./interfaces.js";
++import { createHttpHeaders } from "./httpHeaders.js";
++import { RestError } from "./restError.js";
++import type { IncomingMessage } from "node:http";
++import { logger } from "./log.js";
++import { Sanitizer } from "./util/sanitizer.js";
++
++const DEFAULT_TLS_SETTINGS = {};
++
++function isReadableStream(body: any): body is NodeJS.ReadableStream {
++  return body && typeof body.pipe === "function";
++}
++
++function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
++  if (stream.readable === false) {
++    return Promise.resolve();
++  }
++
++  return new Promise((resolve) => {
++    const handler = (): void => {
++      resolve();
++      stream.removeListener("close", handler);
++      stream.removeListener("end", handler);
++      stream.removeListener("error", handler);
++    };
++
++    stream.on("close", handler);
++    stream.on("end", handler);
++    stream.on("error", handler);
++  });
++}
++
++function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
++  return body && typeof body.byteLength === "number";
++}
++
++class ReportTransform extends Transform {
++  private loadedBytes = 0;
++  private progressCallback: (progress: TransferProgressEvent) => void;
++
++  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
++  _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
++    this.push(chunk);
++    this.loadedBytes += chunk.length;
++    try {
++      this.progressCallback({ loadedBytes: this.loadedBytes });
++      callback();
++    } catch (e: any) {
++      callback(e);
++    }
++  }
++
++  constructor(progressCallback: (progress: TransferProgressEvent) => void) {
++    super();
++    this.progressCallback = progressCallback;
++  }
++}
++
++/**
++ * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
++ * @internal
++ */
++class NodeHttpClient implements HttpClient {
++  private cachedHttpAgent?: http.Agent;
++  private cachedHttpsAgents: WeakMap<TlsSettings, https.Agent> = new WeakMap();
++
++  /**
++   * Makes a request over an underlying transport layer and returns the response.
++   * @param request - The request to be made.
++   */
++  public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
++    const abortController = new AbortController();
++    let abortListener: ((event: any) => void) | undefined;
++    if (request.abortSignal) {
++      if (request.abortSignal.aborted) {
++        throw new AbortError("The operation was aborted. Request has already been canceled.");
++      }
++
++      abortListener = (event: Event) => {
++        if (event.type === "abort") {
++          abortController.abort();
++        }
++      };
++      request.abortSignal.addEventListener("abort", abortListener);
++    }
++
++    let timeoutId: ReturnType<typeof setTimeout> | undefined;
++    if (request.timeout > 0) {
++      timeoutId = setTimeout(() => {
++        const sanitizer = new Sanitizer();
++        logger.info(`request to '${sanitizer.sanitizeUrl(request.url)}' timed out. canceling...`);
++        abortController.abort();
++      }, request.timeout);
++    }
++
++    const acceptEncoding = request.headers.get("Accept-Encoding");
++    const shouldDecompress =
++      acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
++
++    let body = typeof request.body === "function" ? request.body() : request.body;
++    if (body && !request.headers.has("Content-Length")) {
++      const bodyLength = getBodyLength(body);
++      if (bodyLength !== null) {
++        request.headers.set("Content-Length", bodyLength);
++      }
++    }
++
++    let responseStream: NodeJS.ReadableStream | undefined;
++    try {
++      if (body && request.onUploadProgress) {
++        const onUploadProgress = request.onUploadProgress;
++        const uploadReportStream = new ReportTransform(onUploadProgress);
++        uploadReportStream.on("error", (e) => {
++          logger.error("Error in upload progress", e);
++        });
++        if (isReadableStream(body)) {
++          body.pipe(uploadReportStream);
++        } else {
++          uploadReportStream.end(body);
++        }
++
++        body = uploadReportStream;
++      }
++
++      const res = await this.makeRequest(request, abortController, body);
++
++      if (timeoutId !== undefined) {
++        clearTimeout(timeoutId);
++      }
++
++      const headers = getResponseHeaders(res);
++
++      const status = res.statusCode ?? 0;
++      const response: PipelineResponse = {
++        status,
++        headers,
++        request,
++      };
++
++      // Responses to HEAD must not have a body.
++      // If they do return a body, that body must be ignored.
++      if (request.method === "HEAD") {
++        // call resume() and not destroy() to avoid closing the socket
++        // and losing keep alive
++        res.resume();
++        return response;
++      }
++
++      responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
++
++      const onDownloadProgress = request.onDownloadProgress;
++      if (onDownloadProgress) {
++        const downloadReportStream = new ReportTransform(onDownloadProgress);
++        downloadReportStream.on("error", (e) => {
++          logger.error("Error in download progress", e);
++        });
++        responseStream.pipe(downloadReportStream);
++        responseStream = downloadReportStream;
++      }
++
++      if (
++        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
++        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
++        request.streamResponseStatusCodes?.has(response.status)
++      ) {
++        response.readableStreamBody = responseStream;
++      } else {
++        response.bodyAsText = await streamToText(responseStream);
++      }
++
++      return response;
++    } finally {
++      // clean up event listener
++      if (request.abortSignal && abortListener) {
++        let uploadStreamDone = Promise.resolve();
++        if (isReadableStream(body)) {
++          uploadStreamDone = isStreamComplete(body);
++        }
++        let downloadStreamDone = Promise.resolve();
++        if (isReadableStream(responseStream)) {
++          downloadStreamDone = isStreamComplete(responseStream);
++        }
++        Promise.all([uploadStreamDone, downloadStreamDone])
++          .then(() => {
++            // eslint-disable-next-line promise/always-return
++            if (abortListener) {
++              request.abortSignal?.removeEventListener("abort", abortListener);
++            }
++          })
++          .catch((e) => {
++            logger.warning("Error when cleaning up abortListener on httpRequest", e);
++          });
++      }
++    }
++  }
++
++  private makeRequest(
++    request: PipelineRequest,
++    abortController: AbortController,
++    body?: RequestBodyType,
++  ): Promise<http.IncomingMessage> {
++    const url = new URL(request.url);
++
++    const isInsecure = url.protocol !== "https:";
++
++    if (isInsecure && !request.allowInsecureConnection) {
++      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
++    }
++
++    const agent = (request.agent as http.Agent) ?? this.getOrCreateAgent(request, isInsecure);
++    const options: http.RequestOptions = {
++      agent,
++      hostname: url.hostname,
++      path: `${url.pathname}${url.search}`,
++      port: url.port,
++      method: request.method,
++      headers: request.headers.toJSON({ preserveCase: true }),
++      ...request.requestOverrides,
++    };
++
++    return new Promise<http.IncomingMessage>((resolve, reject) => {
++      const req = isInsecure ? http.request(options, resolve) : https.request(options, resolve);
++
++      req.once("error", (err: Error & { code?: string }) => {
++        reject(
++          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request }),
++        );
++      });
++
++      abortController.signal.addEventListener("abort", () => {
++        const abortError = new AbortError(
++          "The operation was aborted. Rejecting from abort signal callback while making request.",
++        );
++        req.destroy(abortError);
++        reject(abortError);
++      });
++      if (body && isReadableStream(body)) {
++        body.pipe(req);
++      } else if (body) {
++        if (typeof body === "string" || Buffer.isBuffer(body)) {
++          req.end(body);
++        } else if (isArrayBuffer(body)) {
++          req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
++        } else {
++          logger.error("Unrecognized body type", body);
++          reject(new RestError("Unrecognized body type"));
++        }
++      } else {
++        // streams don't like "undefined" being passed as data
++        req.end();
++      }
++    });
++  }
++
++  private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
++    const disableKeepAlive = request.disableKeepAlive;
++
++    // Handle Insecure requests first
++    if (isInsecure) {
++      if (disableKeepAlive) {
++        // keepAlive:false is the default so we don't need a custom Agent
++        return http.globalAgent;
++      }
++
++      if (!this.cachedHttpAgent) {
++        // If there is no cached agent create a new one and cache it.
++        this.cachedHttpAgent = new http.Agent({ keepAlive: true });
++      }
++      return this.cachedHttpAgent;
++    } else {
++      if (disableKeepAlive && !request.tlsSettings) {
++        // When there are no tlsSettings and keepAlive is false
++        // we don't need a custom agent
++        return https.globalAgent;
++      }
++
++      // We use the tlsSettings to index cached clients
++      const tlsSettings = request.tlsSettings ?? DEFAULT_TLS_SETTINGS;
++
++      // Get the cached agent or create a new one with the
++      // provided values for keepAlive and tlsSettings
++      let agent = this.cachedHttpsAgents.get(tlsSettings);
++
++      if (agent && agent.options.keepAlive === !disableKeepAlive) {
++        return agent;
++      }
++
++      logger.info("No cached TLS Agent exist, creating a new Agent");
++      agent = new https.Agent({
++        // keepAlive is true if disableKeepAlive is false.
++        keepAlive: !disableKeepAlive,
++        // Since we are spreading, if no tslSettings were provided, nothing is added to the agent options.
++        ...tlsSettings,
++      });
++
++      this.cachedHttpsAgents.set(tlsSettings, agent);
++      return agent;
++    }
++  }
++}
++
++function getResponseHeaders(res: IncomingMessage): HttpHeaders {
++  const headers = createHttpHeaders();
++  for (const header of Object.keys(res.headers)) {
++    const value = res.headers[header];
++    if (Array.isArray(value)) {
++      if (value.length > 0) {
++        headers.set(header, value[0]);
++      }
++    } else if (value) {
++      headers.set(header, value);
++    }
++  }
++  return headers;
++}
++
++function getDecodedResponseStream(
++  stream: IncomingMessage,
++  headers: HttpHeaders,
++): NodeJS.ReadableStream {
++  const contentEncoding = headers.get("Content-Encoding");
++  if (contentEncoding === "gzip") {
++    const unzip = zlib.createGunzip();
++    stream.pipe(unzip);
++    return unzip;
++  } else if (contentEncoding === "deflate") {
++    const inflate = zlib.createInflate();
++    stream.pipe(inflate);
++    return inflate;
++  }
++
++  return stream;
++}
++
++function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
++  return new Promise<string>((resolve, reject) => {
++    const buffer: Buffer[] = [];
++
++    stream.on("data", (chunk) => {
++      if (Buffer.isBuffer(chunk)) {
++        buffer.push(chunk);
++      } else {
++        buffer.push(Buffer.from(chunk));
++      }
++    });
++    stream.on("end", () => {
++      resolve(Buffer.concat(buffer).toString("utf8"));
++    });
++    stream.on("error", (e) => {
++      if (e && e?.name === "AbortError") {
++        reject(e);
++      } else {
++        reject(
++          new RestError(`Error reading response as text: ${e.message}`, {
++            code: RestError.PARSE_ERROR,
++          }),
++        );
++      }
++    });
++  });
++}
++
++/** @internal */
++export function getBodyLength(body: RequestBodyType): number | null {
++  if (!body) {
++    return 0;
++  } else if (Buffer.isBuffer(body)) {
++    return body.length;
++  } else if (isReadableStream(body)) {
++    return null;
++  } else if (isArrayBuffer(body)) {
++    return body.byteLength;
++  } else if (typeof body === "string") {
++    return Buffer.from(body).length;
++  } else {
++    return null;
++  }
++}
++
++/**
++ * Create a new HttpClient instance for the NodeJS environment.
++ * @internal
++ */
++export function createNodeHttpClient(): HttpClient {
++  return new NodeHttpClient();
++}
+diff --git a/src/pipeline.ts b/src/pipeline.ts
+index b944058..f5612f8 100644
+--- a/src/pipeline.ts
++++ b/src/pipeline.ts
+@@ -2,7 +2,6 @@
+ // Licensed under the MIT License.
+ 
+ import type { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces.js";
+-import { createEmptyPipeline as tspCreateEmptyPipeline } from "@typespec/ts-http-runtime";
+ 
+ /**
+  * Policies are executed in phases.
+@@ -15,6 +14,8 @@ import { createEmptyPipeline as tspCreateEmptyPipeline } from "@typespec/ts-http
+  */
+ export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
+ 
++const ValidPhaseNames = new Set<PipelinePhase>(["Deserialize", "Serialize", "Retry", "Sign"]);
++
+ /**
+  * Options when adding a policy to the pipeline.
+  * Used to express dependencies on other policies.
+@@ -91,10 +92,306 @@ export interface Pipeline {
+   clone(): Pipeline;
+ }
+ 
++interface PipelineDescriptor {
++  policy: PipelinePolicy;
++  options: AddPolicyOptions;
++}
++
++interface PolicyGraphNode {
++  policy: PipelinePolicy;
++  dependsOn: Set<PolicyGraphNode>;
++  dependants: Set<PolicyGraphNode>;
++  afterPhase?: Phase;
++}
++
++interface Phase {
++  name: PipelinePhase | "None";
++  policies: Set<PolicyGraphNode>;
++  hasRun: boolean;
++  hasAfterPolicies: boolean;
++}
++
++/**
++ * A private implementation of Pipeline.
++ * Do not export this class from the package.
++ * @internal
++ */
++class HttpPipeline implements Pipeline {
++  private _policies: PipelineDescriptor[] = [];
++  private _orderedPolicies?: PipelinePolicy[];
++
++  private constructor(policies?: PipelineDescriptor[]) {
++    this._policies = policies?.slice(0) ?? [];
++    this._orderedPolicies = undefined;
++  }
++
++  public addPolicy(policy: PipelinePolicy, options: AddPolicyOptions = {}): void {
++    if (options.phase && options.afterPhase) {
++      throw new Error("Policies inside a phase cannot specify afterPhase.");
++    }
++    if (options.phase && !ValidPhaseNames.has(options.phase)) {
++      throw new Error(`Invalid phase name: ${options.phase}`);
++    }
++    if (options.afterPhase && !ValidPhaseNames.has(options.afterPhase)) {
++      throw new Error(`Invalid afterPhase name: ${options.afterPhase}`);
++    }
++    this._policies.push({
++      policy,
++      options,
++    });
++    this._orderedPolicies = undefined;
++  }
++
++  public removePolicy(options: { name?: string; phase?: string }): PipelinePolicy[] {
++    const removedPolicies: PipelinePolicy[] = [];
++
++    this._policies = this._policies.filter((policyDescriptor) => {
++      if (
++        (options.name && policyDescriptor.policy.name === options.name) ||
++        (options.phase && policyDescriptor.options.phase === options.phase)
++      ) {
++        removedPolicies.push(policyDescriptor.policy);
++        return false;
++      } else {
++        return true;
++      }
++    });
++    this._orderedPolicies = undefined;
++
++    return removedPolicies;
++  }
++
++  public sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse> {
++    const policies = this.getOrderedPolicies();
++
++    const pipeline = policies.reduceRight<SendRequest>(
++      (next, policy) => {
++        return (req: PipelineRequest) => {
++          return policy.sendRequest(req, next);
++        };
++      },
++      (req: PipelineRequest) => httpClient.sendRequest(req),
++    );
++
++    return pipeline(request);
++  }
++
++  public getOrderedPolicies(): PipelinePolicy[] {
++    if (!this._orderedPolicies) {
++      this._orderedPolicies = this.orderPolicies();
++    }
++    return this._orderedPolicies;
++  }
++
++  public clone(): Pipeline {
++    return new HttpPipeline(this._policies);
++  }
++
++  public static create(): Pipeline {
++    return new HttpPipeline();
++  }
++
++  private orderPolicies(): PipelinePolicy[] {
++    /**
++     * The goal of this method is to reliably order pipeline policies
++     * based on their declared requirements when they were added.
++     *
++     * Order is first determined by phase:
++     *
++     * 1. Serialize Phase
++     * 2. Policies not in a phase
++     * 3. Deserialize Phase
++     * 4. Retry Phase
++     * 5. Sign Phase
++     *
++     * Within each phase, policies are executed in the order
++     * they were added unless they were specified to execute
++     * before/after other policies or after a particular phase.
++     *
++     * To determine the final order, we will walk the policy list
++     * in phase order multiple times until all dependencies are
++     * satisfied.
++     *
++     * `afterPolicies` are the set of policies that must be
++     * executed before a given policy. This requirement is
++     * considered satisfied when each of the listed policies
++     * have been scheduled.
++     *
++     * `beforePolicies` are the set of policies that must be
++     * executed after a given policy. Since this dependency
++     * can be expressed by converting it into a equivalent
++     * `afterPolicies` declarations, they are normalized
++     * into that form for simplicity.
++     *
++     * An `afterPhase` dependency is considered satisfied when all
++     * policies in that phase have scheduled.
++     *
++     */
++    const result: PipelinePolicy[] = [];
++
++    // Track all policies we know about.
++    const policyMap: Map<string, PolicyGraphNode> = new Map<string, PolicyGraphNode>();
++
++    function createPhase(name: PipelinePhase | "None"): Phase {
++      return {
++        name,
++        policies: new Set<PolicyGraphNode>(),
++        hasRun: false,
++        hasAfterPolicies: false,
++      };
++    }
++
++    // Track policies for each phase.
++    const serializePhase = createPhase("Serialize");
++    const noPhase = createPhase("None");
++    const deserializePhase = createPhase("Deserialize");
++    const retryPhase = createPhase("Retry");
++    const signPhase = createPhase("Sign");
++
++    // a list of phases in order
++    const orderedPhases = [serializePhase, noPhase, deserializePhase, retryPhase, signPhase];
++
++    // Small helper function to map phase name to each Phase
++    function getPhase(phase: PipelinePhase | undefined): Phase {
++      if (phase === "Retry") {
++        return retryPhase;
++      } else if (phase === "Serialize") {
++        return serializePhase;
++      } else if (phase === "Deserialize") {
++        return deserializePhase;
++      } else if (phase === "Sign") {
++        return signPhase;
++      } else {
++        return noPhase;
++      }
++    }
++
++    // First walk each policy and create a node to track metadata.
++    for (const descriptor of this._policies) {
++      const policy = descriptor.policy;
++      const options = descriptor.options;
++      const policyName = policy.name;
++      if (policyMap.has(policyName)) {
++        throw new Error("Duplicate policy names not allowed in pipeline");
++      }
++      const node: PolicyGraphNode = {
++        policy,
++        dependsOn: new Set<PolicyGraphNode>(),
++        dependants: new Set<PolicyGraphNode>(),
++      };
++      if (options.afterPhase) {
++        node.afterPhase = getPhase(options.afterPhase);
++        node.afterPhase.hasAfterPolicies = true;
++      }
++      policyMap.set(policyName, node);
++      const phase = getPhase(options.phase);
++      phase.policies.add(node);
++    }
++
++    // Now that each policy has a node, connect dependency references.
++    for (const descriptor of this._policies) {
++      const { policy, options } = descriptor;
++      const policyName = policy.name;
++      const node = policyMap.get(policyName);
++      if (!node) {
++        throw new Error(`Missing node for policy ${policyName}`);
++      }
++
++      if (options.afterPolicies) {
++        for (const afterPolicyName of options.afterPolicies) {
++          const afterNode = policyMap.get(afterPolicyName);
++          if (afterNode) {
++            // Linking in both directions helps later
++            // when we want to notify dependants.
++            node.dependsOn.add(afterNode);
++            afterNode.dependants.add(node);
++          }
++        }
++      }
++      if (options.beforePolicies) {
++        for (const beforePolicyName of options.beforePolicies) {
++          const beforeNode = policyMap.get(beforePolicyName);
++          if (beforeNode) {
++            // To execute before another node, make it
++            // depend on the current node.
++            beforeNode.dependsOn.add(node);
++            node.dependants.add(beforeNode);
++          }
++        }
++      }
++    }
++
++    function walkPhase(phase: Phase): void {
++      phase.hasRun = true;
++      // Sets iterate in insertion order
++      for (const node of phase.policies) {
++        if (node.afterPhase && (!node.afterPhase.hasRun || node.afterPhase.policies.size)) {
++          // If this node is waiting on a phase to complete,
++          // we need to skip it for now.
++          // Even if the phase is empty, we should wait for it
++          // to be walked to avoid re-ordering policies.
++          continue;
++        }
++        if (node.dependsOn.size === 0) {
++          // If there's nothing else we're waiting for, we can
++          // add this policy to the result list.
++          result.push(node.policy);
++          // Notify anything that depends on this policy that
++          // the policy has been scheduled.
++          for (const dependant of node.dependants) {
++            dependant.dependsOn.delete(node);
++          }
++          policyMap.delete(node.policy.name);
++          phase.policies.delete(node);
++        }
++      }
++    }
++
++    function walkPhases(): void {
++      for (const phase of orderedPhases) {
++        walkPhase(phase);
++        // if the phase isn't complete
++        if (phase.policies.size > 0 && phase !== noPhase) {
++          if (!noPhase.hasRun) {
++            // Try running noPhase to see if that unblocks this phase next tick.
++            // This can happen if a phase that happens before noPhase
++            // is waiting on a noPhase policy to complete.
++            walkPhase(noPhase);
++          }
++          // Don't proceed to the next phase until this phase finishes.
++          return;
++        }
++
++        if (phase.hasAfterPolicies) {
++          // Run any policies unblocked by this phase
++          walkPhase(noPhase);
++        }
++      }
++    }
++
++    // Iterate until we've put every node in the result list.
++    let iteration = 0;
++    while (policyMap.size > 0) {
++      iteration++;
++      const initialResultLength = result.length;
++      // Keep walking each phase in order until we can order every node.
++      walkPhases();
++      // The result list *should* get at least one larger each time
++      // after the first full pass.
++      // Otherwise, we're going to loop forever.
++      if (result.length <= initialResultLength && iteration > 1) {
++        throw new Error("Cannot satisfy policy dependencies due to requirements cycle.");
++      }
++    }
++
++    return result;
++  }
++}
++
+ /**
+  * Creates a totally empty pipeline.
+  * Useful for testing or creating a custom one.
+  */
+ export function createEmptyPipeline(): Pipeline {
+-  return tspCreateEmptyPipeline() as Pipeline;
++  return HttpPipeline.create();
+ }
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 07081c9..81d925d 100644
+index 8c58dc8..81d925d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
-@@ -2,21 +2,17 @@
+@@ -2,23 +2,17 @@
  // Licensed under the MIT License.
  
  import type {
@@ -2333,16 +3505,19 @@ index 07081c9..81d925d 100644
 -  TlsSettings,
    TransferProgressEvent,
  } from "./interfaces.js";
- import { createHttpHeaders } from "./httpHeaders.js";
 -import type { AbortSignalLike } from "@azure/abort-controller";
--import { randomUUID } from "@azure/core-util";
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 -import type { HttpMethods } from "@azure/core-util";
+-import {
+-  createPipelineRequest as tspCreatePipelineRequest,
+-  type PipelineRequestOptions as TspPipelineRequestOptions,
+-} from "@typespec/ts-http-runtime";
++import { createHttpHeaders } from "./httpHeaders.js";
 +import { randomUUID } from "./util/uuidUtils.js";
  
  /**
   * Settings to initialize a request.
-@@ -76,16 +72,6 @@ export interface PipelineRequestOptions {
+@@ -78,16 +72,6 @@ export interface PipelineRequestOptions {
     */
    streamResponseStatusCodes?: Set<number>;
  
@@ -2359,7 +3534,7 @@ index 07081c9..81d925d 100644
    /**
     * BROWSER ONLY
     *
-@@ -97,9 +83,6 @@ export interface PipelineRequestOptions {
+@@ -99,9 +83,6 @@ export interface PipelineRequestOptions {
     */
    enableBrowserStreams?: boolean;
  
@@ -2369,7 +3544,7 @@ index 07081c9..81d925d 100644
    /**
     * Proxy configuration.
     */
-@@ -113,12 +96,7 @@ export interface PipelineRequestOptions {
+@@ -115,12 +96,7 @@ export interface PipelineRequestOptions {
    /**
     * Used to abort the request later.
     */
@@ -2383,39 +3558,99 @@ index 07081c9..81d925d 100644
  
    /**
     * Callback which fires upon upload progress.
-@@ -155,16 +133,14 @@ class PipelineRequestImpl implements PipelineRequest {
-   public formData?: FormDataMap;
-   public streamResponseStatusCodes?: Set<number>;
-   public enableBrowserStreams: boolean;
-+
-   public proxySettings?: ProxySettings;
-   public disableKeepAlive: boolean;
--  public abortSignal?: AbortSignalLike;
-+  public abortSignal?: AbortSignal;
-   public requestId: string;
--  public tracingOptions?: OperationTracingOptions;
-   public allowInsecureConnection?: boolean;
-   public onUploadProgress?: (progress: TransferProgressEvent) => void;
-   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
--  public agent?: Agent;
--  public tlsSettings?: TlsSettings;
-   public requestOverrides?: Record<string, unknown>;
+@@ -146,14 +122,54 @@ export interface PipelineRequestOptions {
+   requestOverrides?: Record<string, unknown>;
+ }
  
-   constructor(options: PipelineRequestOptions) {
-@@ -180,14 +156,11 @@ class PipelineRequestImpl implements PipelineRequest {
-     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
-     this.withCredentials = options.withCredentials ?? false;
-     this.abortSignal = options.abortSignal;
--    this.tracingOptions = options.tracingOptions;
-     this.onUploadProgress = options.onUploadProgress;
-     this.onDownloadProgress = options.onDownloadProgress;
-     this.requestId = options.requestId || randomUUID();
-     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
-     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
--    this.agent = options.agent;
--    this.tlsSettings = options.tlsSettings;
-     this.requestOverrides = options.requestOverrides;
-   }
++class PipelineRequestImpl implements PipelineRequest {
++  public url: string;
++  public method: HttpMethods;
++  public headers: HttpHeaders;
++  public timeout: number;
++  public withCredentials: boolean;
++  public body?: RequestBodyType;
++  public multipartBody?: MultipartRequestBody;
++  public formData?: FormDataMap;
++  public streamResponseStatusCodes?: Set<number>;
++  public enableBrowserStreams: boolean;
++
++  public proxySettings?: ProxySettings;
++  public disableKeepAlive: boolean;
++  public abortSignal?: AbortSignal;
++  public requestId: string;
++  public allowInsecureConnection?: boolean;
++  public onUploadProgress?: (progress: TransferProgressEvent) => void;
++  public onDownloadProgress?: (progress: TransferProgressEvent) => void;
++  public requestOverrides?: Record<string, unknown>;
++
++  constructor(options: PipelineRequestOptions) {
++    this.url = options.url;
++    this.body = options.body;
++    this.headers = options.headers ?? createHttpHeaders();
++    this.method = options.method ?? "GET";
++    this.timeout = options.timeout ?? 0;
++    this.multipartBody = options.multipartBody;
++    this.formData = options.formData;
++    this.disableKeepAlive = options.disableKeepAlive ?? false;
++    this.proxySettings = options.proxySettings;
++    this.streamResponseStatusCodes = options.streamResponseStatusCodes;
++    this.withCredentials = options.withCredentials ?? false;
++    this.abortSignal = options.abortSignal;
++    this.onUploadProgress = options.onUploadProgress;
++    this.onDownloadProgress = options.onDownloadProgress;
++    this.requestId = options.requestId || randomUUID();
++    this.allowInsecureConnection = options.allowInsecureConnection ?? false;
++    this.enableBrowserStreams = options.enableBrowserStreams ?? false;
++    this.requestOverrides = options.requestOverrides;
++  }
++}
++
+ /**
+  * Creates a new pipeline request with the given options.
+  * This method is to allow for the easy setting of default values and not required.
+  * @param options - The options to create the request with.
+  */
+ export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
+-  // Cast required due to difference between ts-http-runtime requiring AbortSignal while core-rest-pipeline allows
+-  // the more generic AbortSignalLike. The wrapAbortSignalLike pipeline policy will take care of ensuring that any AbortSignalLike in the request
+-  // is converted into a true AbortSignal.
+-  return tspCreatePipelineRequest(options as TspPipelineRequestOptions);
++  return new PipelineRequestImpl(options);
+ }
+diff --git a/src/policies/agentPolicy.ts b/src/policies/agentPolicy.ts
+index b9c25da..7e29031 100644
+--- a/src/policies/agentPolicy.ts
++++ b/src/policies/agentPolicy.ts
+@@ -3,19 +3,24 @@
+ 
+ import type { PipelinePolicy } from "../pipeline.js";
+ import type { Agent } from "../interfaces.js";
+-import {
+-  agentPolicyName as tspAgentPolicyName,
+-  agentPolicy as tspAgentPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
+ 
+ /**
+  * Name of the Agent Policy
+  */
+-export const agentPolicyName = tspAgentPolicyName;
++export const agentPolicyName = "agentPolicy";
+ 
+ /**
+  * Gets a pipeline policy that sets http.agent
+  */
+ export function agentPolicy(agent?: Agent): PipelinePolicy {
+-  return tspAgentPolicy(agent);
++  return {
++    name: agentPolicyName,
++    sendRequest: async (req, next) => {
++      // Users may define an agent on the request, honor it over the client level one
++      if (!req.agent) {
++        req.agent = agent;
++      }
++      return next(req);
++    },
++  };
  }
 diff --git a/src/policies/auth/apiKeyAuthenticationPolicy.ts b/src/policies/auth/apiKeyAuthenticationPolicy.ts
 new file mode 100644
@@ -3261,52 +4496,551 @@ index d67931e..0000000
 -    (x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims",
 -  )?.params.claims;
 -}
-diff --git a/src/policies/formDataPolicy.ts b/src/policies/formDataPolicy.ts
-index 86d7e12..4265f06 100644
---- a/src/policies/formDataPolicy.ts
-+++ b/src/policies/formDataPolicy.ts
-@@ -1,7 +1,8 @@
+diff --git a/src/policies/decompressResponsePolicy-browser.mts b/src/policies/decompressResponsePolicy-browser.mts
+new file mode 100644
+index 0000000..0cd7506
+--- /dev/null
++++ b/src/policies/decompressResponsePolicy-browser.mts
+@@ -0,0 +1,16 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++/*
++ * NOTE: When moving this file, please update "browser" section in package.json
++ */
++
++export const decompressResponsePolicyName = "decompressResponsePolicy";
++
++/**
++ * decompressResponsePolicy is not supported in the browser and attempting
++ * to use it will raise an error.
++ */
++export function decompressResponsePolicy(): never {
++  throw new Error("decompressResponsePolicy is not supported in browser environment");
++}
+diff --git a/src/policies/decompressResponsePolicy.ts b/src/policies/decompressResponsePolicy.ts
+index 8842300..252e2ad 100644
+--- a/src/policies/decompressResponsePolicy.ts
++++ b/src/policies/decompressResponsePolicy.ts
+@@ -1,22 +1,27 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { isNodeLike, stringToUint8Array } from "@azure/core-util";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ 
+-import {
+-  decompressResponsePolicyName as tspDecompressResponsePolicyName,
+-  decompressResponsePolicy as tspDecompressResponsePolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
+-
+ /**
+  * The programmatic identifier of the decompressResponsePolicy.
+  */
+-export const decompressResponsePolicyName = tspDecompressResponsePolicyName;
++export const decompressResponsePolicyName = "decompressResponsePolicy";
+ 
+ /**
+  * A policy to enable response decompression according to Accept-Encoding header
+  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding
+  */
+ export function decompressResponsePolicy(): PipelinePolicy {
+-  return tspDecompressResponsePolicy();
++  return {
++    name: decompressResponsePolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      // HEAD requests have no body
++      if (request.method !== "HEAD") {
++        request.headers.set("Accept-Encoding", "gzip,deflate");
++      }
++      return next(request);
++    },
++  };
+ }
+diff --git a/src/policies/defaultRetryPolicy.ts b/src/policies/defaultRetryPolicy.ts
+index 68fb77e..169a7ca 100644
+--- a/src/policies/defaultRetryPolicy.ts
++++ b/src/policies/defaultRetryPolicy.ts
+@@ -3,16 +3,15 @@
+ 
+ import type { PipelineRetryOptions } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+-
+-import {
+-  defaultRetryPolicyName as tspDefaultRetryPolicyName,
+-  defaultRetryPolicy as tspDefaultRetryPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
++import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
++import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
++import { retryPolicy } from "./retryPolicy.js";
++import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+ 
+ /**
+  * Name of the {@link defaultRetryPolicy}
+  */
+-export const defaultRetryPolicyName = tspDefaultRetryPolicyName;
++export const defaultRetryPolicyName = "defaultRetryPolicy";
+ 
+ /**
+  * Options that control how to retry failed requests.
+@@ -26,5 +25,10 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
+  * - Or otherwise if the outgoing request fails, it will retry with an exponentially increasing delay.
+  */
+ export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
+-  return tspDefaultRetryPolicy(options);
++  return {
++    name: defaultRetryPolicyName,
++    sendRequest: retryPolicy([throttlingRetryStrategy(), exponentialRetryStrategy(options)], {
++      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
++    }).sendRequest,
++  };
+ }
+diff --git a/src/policies/exponentialRetryPolicy.ts b/src/policies/exponentialRetryPolicy.ts
+index 289ca0a..24f6e16 100644
+--- a/src/policies/exponentialRetryPolicy.ts
++++ b/src/policies/exponentialRetryPolicy.ts
+@@ -2,16 +2,14 @@
+ // Licensed under the MIT License.
+ 
+ import type { PipelinePolicy } from "../pipeline.js";
+-
+-import {
+-  exponentialRetryPolicyName as tspExponentialRetryPolicyName,
+-  exponentialRetryPolicy as tspExponentialRetryPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
++import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
++import { retryPolicy } from "./retryPolicy.js";
++import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+ 
+ /**
+  * The programmatic identifier of the exponentialRetryPolicy.
+  */
+-export const exponentialRetryPolicyName = tspExponentialRetryPolicyName;
++export const exponentialRetryPolicyName = "exponentialRetryPolicy";
+ 
+ /**
+  * Options that control how to retry failed requests.
+@@ -43,5 +41,15 @@ export interface ExponentialRetryPolicyOptions {
+ export function exponentialRetryPolicy(
+   options: ExponentialRetryPolicyOptions = {},
+ ): PipelinePolicy {
+-  return tspExponentialRetryPolicy(options);
++  return retryPolicy(
++    [
++      exponentialRetryStrategy({
++        ...options,
++        ignoreSystemErrors: true,
++      }),
++    ],
++    {
++      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
++    },
++  );
+ }
+diff --git a/src/policies/formDataPolicy.ts b/src/policies/formDataPolicy.ts
+index 07fa342..4265f06 100644
+--- a/src/policies/formDataPolicy.ts
++++ b/src/policies/formDataPolicy.ts
+@@ -1,21 +1,118 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
 +import { isNodeLike } from "../util/checkEnvironment.js";
- import { createHttpHeaders } from "../httpHeaders.js";
- import type {
-   BodyPart,
++import { createHttpHeaders } from "../httpHeaders.js";
++import type {
++  BodyPart,
++  FormDataMap,
++  FormDataValue,
++  PipelineRequest,
++  PipelineResponse,
++  SendRequest,
++} from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ 
+-import {
+-  formDataPolicyName as tspFormDataPolicyName,
+-  formDataPolicy as tspFormDataPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
+-
+ /**
+  * The programmatic identifier of the formDataPolicy.
+  */
+-export const formDataPolicyName = tspFormDataPolicyName;
++export const formDataPolicyName = "formDataPolicy";
++
++function formDataToFormDataMap(formData: FormData): FormDataMap {
++  const formDataMap: FormDataMap = {};
++  for (const [key, value] of formData.entries()) {
++    formDataMap[key] ??= [];
++    (formDataMap[key] as FormDataValue[]).push(value);
++  }
++  return formDataMap;
++}
+ 
+ /**
+  * A policy that encodes FormData on the request into the body.
+  */
+ export function formDataPolicy(): PipelinePolicy {
+-  return tspFormDataPolicy();
++  return {
++    name: formDataPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      if (isNodeLike && typeof FormData !== "undefined" && request.body instanceof FormData) {
++        request.formData = formDataToFormDataMap(request.body);
++        request.body = undefined;
++      }
++
++      if (request.formData) {
++        const contentType = request.headers.get("Content-Type");
++        if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
++          request.body = wwwFormUrlEncode(request.formData);
++        } else {
++          await prepareFormData(request.formData, request);
++        }
++
++        request.formData = undefined;
++      }
++      return next(request);
++    },
++  };
++}
++
++function wwwFormUrlEncode(formData: FormDataMap): string {
++  const urlSearchParams = new URLSearchParams();
++  for (const [key, value] of Object.entries(formData)) {
++    if (Array.isArray(value)) {
++      for (const subValue of value) {
++        urlSearchParams.append(key, subValue.toString());
++      }
++    } else {
++      urlSearchParams.append(key, value.toString());
++    }
++  }
++  return urlSearchParams.toString();
++}
++
++async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
++  // validate content type (multipart/form-data)
++  const contentType = request.headers.get("Content-Type");
++  if (contentType && !contentType.startsWith("multipart/form-data")) {
++    // content type is specified and is not multipart/form-data. Exit.
++    return;
++  }
++
++  request.headers.set("Content-Type", contentType ?? "multipart/form-data");
++
++  // set body to MultipartRequestBody using content from FormDataMap
++  const parts: BodyPart[] = [];
++
++  for (const [fieldName, values] of Object.entries(formData)) {
++    for (const value of Array.isArray(values) ? values : [values]) {
++      if (typeof value === "string") {
++        parts.push({
++          headers: createHttpHeaders({
++            "Content-Disposition": `form-data; name="${fieldName}"`,
++          }),
++          body: stringToUint8Array(value, "utf-8"),
++        });
++      } else if (value === undefined || value === null || typeof value !== "object") {
++        throw new Error(
++          `Unexpected value for key ${fieldName}: ${value}. Value should be serialized to string first.`,
++        );
++      } else {
++        // using || instead of ?? here since if value.name is empty we should create a file name
++        const fileName = (value as File).name || "blob";
++        const headers = createHttpHeaders();
++        headers.set(
++          "Content-Disposition",
++          `form-data; name="${fieldName}"; filename="${fileName}"`,
++        );
++
++        // again, || is used since an empty value.type means the content type is unset
++        headers.set("Content-Type", value.type || "application/octet-stream");
++
++        parts.push({
++          headers,
++          body: value,
++        });
++      }
++    }
++  }
++  request.multipartBody = { parts };
+ }
+diff --git a/src/policies/internal.ts b/src/policies/internal.ts
+new file mode 100644
+index 0000000..80a1dcd
+--- /dev/null
++++ b/src/policies/internal.ts
+@@ -0,0 +1,33 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export { agentPolicy, agentPolicyName } from "./agentPolicy.js";
++export {
++  decompressResponsePolicy,
++  decompressResponsePolicyName,
++} from "./decompressResponsePolicy.js";
++export {
++  defaultRetryPolicy,
++  defaultRetryPolicyName,
++  DefaultRetryPolicyOptions,
++} from "./defaultRetryPolicy.js";
++export {
++  exponentialRetryPolicy,
++  exponentialRetryPolicyName,
++  ExponentialRetryPolicyOptions,
++} from "./exponentialRetryPolicy.js";
++export { retryPolicy, RetryPolicyOptions } from "./retryPolicy.js";
++export {
++  RetryInformation,
++  RetryModifiers,
++  RetryStrategy,
++} from "../retryStrategies/retryStrategy.js";
++export { systemErrorRetryPolicy, systemErrorRetryPolicyName } from "./systemErrorRetryPolicy.js";
++export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./throttlingRetryPolicy.js";
++export { formDataPolicy, formDataPolicyName } from "./formDataPolicy.js";
++export { logPolicy, logPolicyName, LogPolicyOptions } from "./logPolicy.js";
++export { multipartPolicy, multipartPolicyName } from "./multipartPolicy.js";
++export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./proxyPolicy.js";
++export { redirectPolicy, redirectPolicyName, RedirectPolicyOptions } from "./redirectPolicy.js";
++export { tlsPolicy, tlsPolicyName } from "./tlsPolicy.js";
++export { userAgentPolicy, userAgentPolicyName, UserAgentPolicyOptions } from "./userAgentPolicy.js";
 diff --git a/src/policies/logPolicy.ts b/src/policies/logPolicy.ts
-index a8383c6..6b7d1ab 100644
+index 321bbec..6b7d1ab 100644
 --- a/src/policies/logPolicy.ts
 +++ b/src/policies/logPolicy.ts
-@@ -1,7 +1,7 @@
+@@ -1,18 +1,16 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { Debugger } from "@azure/logger";
 +import type { Debugger } from "../logger/logger.js";
- import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
  import type { PipelinePolicy } from "../pipeline.js";
  import { logger as coreLogger } from "../log.js";
+-import {
+-  logPolicyName as tspLogPolicyName,
+-  logPolicy as tspLogPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
++import { Sanitizer } from "../util/sanitizer.js";
+ 
+ /**
+  * The programmatic identifier of the logPolicy.
+  */
+-export const logPolicyName = tspLogPolicyName;
++export const logPolicyName = "logPolicy";
+ 
+ /**
+  * Options to configure the logPolicy.
+@@ -45,8 +43,26 @@ export interface LogPolicyOptions {
+  * @param options - Options to configure logPolicy.
+  */
+ export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
+-  return tspLogPolicy({
+-    logger: coreLogger.info,
+-    ...options,
++  const logger = options.logger ?? coreLogger.info;
++  const sanitizer = new Sanitizer({
++    additionalAllowedHeaderNames: options.additionalAllowedHeaderNames,
++    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
+   });
++  return {
++    name: logPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      if (!logger.enabled) {
++        return next(request);
++      }
++
++      logger(`Request: ${sanitizer.sanitize(request)}`);
++
++      const response = await next(request);
++
++      logger(`Response status code: ${response.status}`);
++      logger(`Headers: ${sanitizer.sanitize(response.headers)}`);
++
++      return response;
++    },
++  };
+ }
 diff --git a/src/policies/multipartPolicy.ts b/src/policies/multipartPolicy.ts
-index 2b70494..268c132 100644
+index 1e6560f..268c132 100644
 --- a/src/policies/multipartPolicy.ts
 +++ b/src/policies/multipartPolicy.ts
-@@ -1,11 +1,12 @@
+@@ -1,41 +1,155 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { randomUUID, stringToUint8Array } from "@azure/core-util";
- import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
++import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
  import type { PipelinePolicy } from "../pipeline.js";
--import { concat } from "../util/concat.js";
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
- import { isBlob } from "../util/typeGuards.js";
++import { isBlob } from "../util/typeGuards.js";
 +import { randomUUID } from "../util/uuidUtils.js";
 +import { concat } from "../util/concat.js";
  
- function generateBoundary(): string {
-   return `----AzSDKFormBoundary${randomUUID()}`;
+-import {
+-  multipartPolicyName as tspMultipartPolicyName,
+-  multipartPolicy as tspMultipartPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
+-import type {
+-  PipelineRequest as TspPipelineRequest,
+-  SendRequest as TspSendRequest,
+-} from "@typespec/ts-http-runtime";
+-import { getRawContent, hasRawContent } from "../util/file.js";
++function generateBoundary(): string {
++  return `----AzSDKFormBoundary${randomUUID()}`;
++}
++
++function encodeHeaders(headers: HttpHeaders): string {
++  let result = "";
++  for (const [key, value] of headers) {
++    result += `${key}: ${value}\r\n`;
++  }
++  return result;
++}
++
++function getLength(
++  source:
++    | (() => ReadableStream<Uint8Array>)
++    | (() => NodeJS.ReadableStream)
++    | Uint8Array
++    | Blob
++    | ReadableStream
++    | NodeJS.ReadableStream,
++): number | undefined {
++  if (source instanceof Uint8Array) {
++    return source.byteLength;
++  } else if (isBlob(source)) {
++    // if was created using createFile then -1 means we have an unknown size
++    return source.size === -1 ? undefined : source.size;
++  } else {
++    return undefined;
++  }
++}
++
++function getTotalLength(
++  sources: (
++    | (() => ReadableStream<Uint8Array>)
++    | (() => NodeJS.ReadableStream)
++    | Uint8Array
++    | Blob
++    | ReadableStream
++    | NodeJS.ReadableStream
++  )[],
++): number | undefined {
++  let total = 0;
++  for (const source of sources) {
++    const partLength = getLength(source);
++    if (partLength === undefined) {
++      return undefined;
++    } else {
++      total += partLength;
++    }
++  }
++  return total;
++}
++
++async function buildRequestBody(
++  request: PipelineRequest,
++  parts: BodyPart[],
++  boundary: string,
++): Promise<void> {
++  const sources = [
++    stringToUint8Array(`--${boundary}`, "utf-8"),
++    ...parts.flatMap((part) => [
++      stringToUint8Array("\r\n", "utf-8"),
++      stringToUint8Array(encodeHeaders(part.headers), "utf-8"),
++      stringToUint8Array("\r\n", "utf-8"),
++      part.body,
++      stringToUint8Array(`\r\n--${boundary}`, "utf-8"),
++    ]),
++    stringToUint8Array("--\r\n\r\n", "utf-8"),
++  ];
++
++  const contentLength = getTotalLength(sources);
++  if (contentLength) {
++    request.headers.set("Content-Length", contentLength);
++  }
++
++  request.body = await concat(sources);
++}
+ 
+ /**
+  * Name of multipart policy
+  */
+-export const multipartPolicyName = tspMultipartPolicyName;
++export const multipartPolicyName = "multipartPolicy";
++
++const maxBoundaryLength = 70;
++const validBoundaryCharacters = new Set(
++  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`,
++);
++
++function assertValidBoundary(boundary: string): void {
++  if (boundary.length > maxBoundaryLength) {
++    throw new Error(`Multipart boundary "${boundary}" exceeds maximum length of 70 characters`);
++  }
++
++  if (Array.from(boundary).some((x) => !validBoundaryCharacters.has(x))) {
++    throw new Error(`Multipart boundary "${boundary}" contains invalid characters`);
++  }
++}
+ 
+ /**
+  * Pipeline policy for multipart requests
+  */
+ export function multipartPolicy(): PipelinePolicy {
+-  const tspPolicy = tspMultipartPolicy();
+-
+   return {
+     name: multipartPolicyName,
+-    sendRequest: async (request, next) => {
+-      if (request.multipartBody) {
+-        for (const part of request.multipartBody.parts) {
+-          if (hasRawContent(part.body)) {
+-            part.body = getRawContent(part.body);
++    async sendRequest(request, next): Promise<PipelineResponse> {
++      if (!request.multipartBody) {
++        return next(request);
+       }
++
++      if (request.body) {
++        throw new Error("multipartBody and regular body cannot be set at the same time");
+       }
++
++      let boundary = request.multipartBody.boundary;
++
++      const contentTypeHeader = request.headers.get("Content-Type") ?? "multipart/mixed";
++      const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
++      if (!parsedHeader) {
++        throw new Error(
++          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`,
++        );
++      }
++
++      const [, contentType, parsedBoundary] = parsedHeader;
++      if (parsedBoundary && boundary && parsedBoundary !== boundary) {
++        throw new Error(
++          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`,
++        );
+       }
+ 
+-      return tspPolicy.sendRequest(request as TspPipelineRequest, next as TspSendRequest);
++      boundary ??= parsedBoundary;
++      if (boundary) {
++        assertValidBoundary(boundary);
++      } else {
++        boundary = generateBoundary();
++      }
++      request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
++      await buildRequestBody(request, request.multipartBody.parts, boundary);
++
++      request.multipartBody = undefined;
++
++      return next(request);
+     },
+   };
+ }
 diff --git a/src/policies/ndJsonPolicy.ts b/src/policies/ndJsonPolicy.ts
 deleted file mode 100644
 index deeee45..0000000
@@ -3342,25 +5076,489 @@ index deeee45..0000000
 -    },
 -  };
 -}
+diff --git a/src/policies/proxyPolicy-browser.mts b/src/policies/proxyPolicy-browser.mts
+new file mode 100644
+index 0000000..8cb0239
+--- /dev/null
++++ b/src/policies/proxyPolicy-browser.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./proxyPolicy.common.js";
+diff --git a/src/policies/proxyPolicy-react-native.mts b/src/policies/proxyPolicy-react-native.mts
+new file mode 100644
+index 0000000..8cb0239
+--- /dev/null
++++ b/src/policies/proxyPolicy-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./proxyPolicy.common.js";
+diff --git a/src/policies/proxyPolicy.common.ts b/src/policies/proxyPolicy.common.ts
+new file mode 100644
+index 0000000..9ae41a5
+--- /dev/null
++++ b/src/policies/proxyPolicy.common.ts
+@@ -0,0 +1,27 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export const proxyPolicyName = "proxyPolicy";
++const errorMessage = "proxyPolicy is not supported in browser environment";
++
++export function getDefaultProxySettings(): never {
++  throw new Error(errorMessage);
++}
++
++/**
++ * proxyPolicy is not supported in the browser and attempting
++ * to use it will raise an error.
++ */
++export function proxyPolicy(): never {
++  throw new Error(errorMessage);
++}
++
++/**
++ * A function to reset the cached agents.
++ * proxyPolicy is not supported in the browser and attempting
++ * to use it will raise an error.
++ * @internal
++ */
++export function resetCachedProxyAgents(): never {
++  throw new Error(errorMessage);
++}
+diff --git a/src/policies/proxyPolicy.ts b/src/policies/proxyPolicy.ts
+index 0ba9403..22b8c0f 100644
+--- a/src/policies/proxyPolicy.ts
++++ b/src/policies/proxyPolicy.ts
+@@ -1,19 +1,111 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { ProxySettings } from "../interfaces.js";
++import type * as http from "http";
++import type * as https from "https";
++import { HttpsProxyAgent } from "https-proxy-agent";
++import { HttpProxyAgent } from "http-proxy-agent";
++import type {
++  PipelineRequest,
++  PipelineResponse,
++  ProxySettings,
++  SendRequest,
++} from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
++import { logger } from "../log.js";
+ 
+-import {
+-  proxyPolicy as tspProxyPolicy,
+-  proxyPolicyName as tspProxyPolicyName,
+-  getDefaultProxySettings as tspGetDefaultProxySettings,
+-} from "@typespec/ts-http-runtime/internal/policies";
++const HTTPS_PROXY = "HTTPS_PROXY";
++const HTTP_PROXY = "HTTP_PROXY";
++const ALL_PROXY = "ALL_PROXY";
++const NO_PROXY = "NO_PROXY";
+ 
+ /**
+  * The programmatic identifier of the proxyPolicy.
+  */
+-export const proxyPolicyName = tspProxyPolicyName;
++export const proxyPolicyName = "proxyPolicy";
++
++/**
++ * Stores the patterns specified in NO_PROXY environment variable.
++ * @internal
++ */
++export const globalNoProxyList: string[] = [];
++let noProxyListLoaded: boolean = false;
++
++/** A cache of whether a host should bypass the proxy. */
++const globalBypassedMap: Map<string, boolean> = new Map();
++
++function getEnvironmentValue(name: string): string | undefined {
++  if (process.env[name]) {
++    return process.env[name];
++  } else if (process.env[name.toLowerCase()]) {
++    return process.env[name.toLowerCase()];
++  }
++  return undefined;
++}
++
++function loadEnvironmentProxyValue(): string | undefined {
++  if (!process) {
++    return undefined;
++  }
++
++  const httpsProxy = getEnvironmentValue(HTTPS_PROXY);
++  const allProxy = getEnvironmentValue(ALL_PROXY);
++  const httpProxy = getEnvironmentValue(HTTP_PROXY);
++
++  return httpsProxy || allProxy || httpProxy;
++}
++
++/**
++ * Check whether the host of a given `uri` matches any pattern in the no proxy list.
++ * If there's a match, any request sent to the same host shouldn't have the proxy settings set.
++ * This implementation is a port of https://github.com/Azure/azure-sdk-for-net/blob/8cca811371159e527159c7eb65602477898683e2/sdk/core/Azure.Core/src/Pipeline/Internal/HttpEnvironmentProxy.cs#L210
++ */
++function isBypassed(
++  uri: string,
++  noProxyList: string[],
++  bypassedMap?: Map<string, boolean>,
++): boolean | undefined {
++  if (noProxyList.length === 0) {
++    return false;
++  }
++  const host = new URL(uri).hostname;
++  if (bypassedMap?.has(host)) {
++    return bypassedMap.get(host);
++  }
++  let isBypassedFlag = false;
++  for (const pattern of noProxyList) {
++    if (pattern[0] === ".") {
++      // This should match either domain it self or any subdomain or host
++      // .foo.com will match foo.com it self or *.foo.com
++      if (host.endsWith(pattern)) {
++        isBypassedFlag = true;
++      } else {
++        if (host.length === pattern.length - 1 && host === pattern.slice(1)) {
++          isBypassedFlag = true;
++        }
++      }
++    } else {
++      if (host === pattern) {
++        isBypassedFlag = true;
++      }
++    }
++  }
++  bypassedMap?.set(host, isBypassedFlag);
++  return isBypassedFlag;
++}
++
++export function loadNoProxy(): string[] {
++  const noProxy = getEnvironmentValue(NO_PROXY);
++  noProxyListLoaded = true;
++  if (noProxy) {
++    return noProxy
++      .split(",")
++      .map((item) => item.trim())
++      .filter((item) => item.length);
++  }
++
++  return [];
++}
+ 
+ /**
+  * This method converts a proxy url into `ProxySettings` for use with ProxyPolicy.
+@@ -23,7 +115,92 @@ export const proxyPolicyName = tspProxyPolicyName;
+  * @deprecated - Internally this method is no longer necessary when setting proxy information.
+  */
+ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
+-  return tspGetDefaultProxySettings(proxyUrl);
++  if (!proxyUrl) {
++    proxyUrl = loadEnvironmentProxyValue();
++    if (!proxyUrl) {
++      return undefined;
++    }
++  }
++
++  const parsedUrl = new URL(proxyUrl);
++  const schema = parsedUrl.protocol ? parsedUrl.protocol + "//" : "";
++  return {
++    host: schema + parsedUrl.hostname,
++    port: Number.parseInt(parsedUrl.port || "80"),
++    username: parsedUrl.username,
++    password: parsedUrl.password,
++  };
++}
++
++/**
++ * This method attempts to parse a proxy URL from the environment
++ * variables `HTTPS_PROXY` or `HTTP_PROXY`.
++ */
++function getDefaultProxySettingsInternal(): URL | undefined {
++  const envProxy = loadEnvironmentProxyValue();
++  return envProxy ? new URL(envProxy) : undefined;
++}
++
++function getUrlFromProxySettings(settings: ProxySettings): URL {
++  let parsedProxyUrl: URL;
++  try {
++    parsedProxyUrl = new URL(settings.host);
++  } catch {
++    throw new Error(
++      `Expecting a valid host string in proxy settings, but found "${settings.host}".`,
++    );
++  }
++
++  parsedProxyUrl.port = String(settings.port);
++  if (settings.username) {
++    parsedProxyUrl.username = settings.username;
++  }
++  if (settings.password) {
++    parsedProxyUrl.password = settings.password;
++  }
++
++  return parsedProxyUrl;
++}
++
++function setProxyAgentOnRequest(
++  request: PipelineRequest,
++  cachedAgents: CachedAgents,
++  proxyUrl: URL,
++): void {
++  // Custom Agent should take precedence so if one is present
++  // we should skip to avoid overwriting it.
++  if (request.agent) {
++    return;
++  }
++
++  const url = new URL(request.url);
++
++  const isInsecure = url.protocol !== "https:";
++
++  if (request.tlsSettings) {
++    logger.warning(
++      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored.",
++    );
++  }
++
++  const headers = request.headers.toJSON();
++
++  if (isInsecure) {
++    if (!cachedAgents.httpProxyAgent) {
++      cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl, { headers });
++    }
++    request.agent = cachedAgents.httpProxyAgent;
++  } else {
++    if (!cachedAgents.httpsProxyAgent) {
++      cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyUrl, { headers });
++    }
++    request.agent = cachedAgents.httpsProxyAgent;
++  }
++}
++
++interface CachedAgents {
++  httpsProxyAgent?: https.Agent;
++  httpProxyAgent?: http.Agent;
+ }
+ 
+ /**
+@@ -40,5 +217,37 @@ export function proxyPolicy(
+     customNoProxyList?: string[];
+   },
+ ): PipelinePolicy {
+-  return tspProxyPolicy(proxySettings, options);
++  if (!noProxyListLoaded) {
++    globalNoProxyList.push(...loadNoProxy());
++  }
++
++  const defaultProxy = proxySettings
++    ? getUrlFromProxySettings(proxySettings)
++    : getDefaultProxySettingsInternal();
++
++  const cachedAgents: CachedAgents = {};
++
++  return {
++    name: proxyPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      if (
++        !request.proxySettings &&
++        defaultProxy &&
++        !isBypassed(
++          request.url,
++          options?.customNoProxyList ?? globalNoProxyList,
++          options?.customNoProxyList ? undefined : globalBypassedMap,
++        )
++      ) {
++        setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
++      } else if (request.proxySettings) {
++        setProxyAgentOnRequest(
++          request,
++          cachedAgents,
++          getUrlFromProxySettings(request.proxySettings),
++        );
++      }
++      return next(request);
++    },
++  };
+ }
+diff --git a/src/policies/redirectPolicy.ts b/src/policies/redirectPolicy.ts
+index 8a5f51c..1b8bf2c 100644
+--- a/src/policies/redirectPolicy.ts
++++ b/src/policies/redirectPolicy.ts
+@@ -1,17 +1,18 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ 
+-import {
+-  redirectPolicyName as tspRedirectPolicyName,
+-  redirectPolicy as tspRedirectPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
+-
+ /**
+  * The programmatic identifier of the redirectPolicy.
+  */
+-export const redirectPolicyName = tspRedirectPolicyName;
++export const redirectPolicyName = "redirectPolicy";
++
++/**
++ * Methods that are allowed to follow redirects 301 and 302
++ */
++const allowedRedirect = ["GET", "HEAD"];
+ 
+ /**
+  * Options for how redirect responses are handled.
+@@ -31,5 +32,49 @@ export interface RedirectPolicyOptions {
+  * @param options - Options to control policy behavior.
+  */
+ export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePolicy {
+-  return tspRedirectPolicy(options);
++  const { maxRetries = 20 } = options;
++  return {
++    name: redirectPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      const response = await next(request);
++      return handleRedirect(next, response, maxRetries);
++    },
++  };
++}
++
++async function handleRedirect(
++  next: SendRequest,
++  response: PipelineResponse,
++  maxRetries: number,
++  currentRetries: number = 0,
++): Promise<PipelineResponse> {
++  const { request, status, headers } = response;
++  const locationHeader = headers.get("location");
++  if (
++    locationHeader &&
++    (status === 300 ||
++      (status === 301 && allowedRedirect.includes(request.method)) ||
++      (status === 302 && allowedRedirect.includes(request.method)) ||
++      (status === 303 && request.method === "POST") ||
++      status === 307) &&
++    currentRetries < maxRetries
++  ) {
++    const url = new URL(locationHeader, request.url);
++    request.url = url.toString();
++
++    // POST request with Status code 303 should be converted into a
++    // redirected GET request if the redirect url is present in the location header
++    if (status === 303) {
++      request.method = "GET";
++      request.headers.delete("Content-Length");
++      delete request.body;
++    }
++
++    request.headers.delete("Authorization");
++
++    const res = await next(request);
++    return handleRedirect(next, res, maxRetries, currentRetries + 1);
++  }
++
++  return response;
+ }
 diff --git a/src/policies/retryPolicy.ts b/src/policies/retryPolicy.ts
-index 6d2afd5..badccb2 100644
+index db876b9..242dbef 100644
 --- a/src/policies/retryPolicy.ts
 +++ b/src/policies/retryPolicy.ts
-@@ -4,10 +4,11 @@
- import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+@@ -1,78 +1,22 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
  import type { PipelinePolicy } from "../pipeline.js";
- import { delay } from "../util/helpers.js";
 -import { type AzureLogger, createClientLogger } from "@azure/logger";
- import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
+-import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+-
+-import {
+-  retryPolicy as tspRetryPolicy,
+-  type RetryStrategy as TspRetryStrategy,
+-} from "@typespec/ts-http-runtime/internal/policies";
+-import type { PipelineResponse } from "../interfaces.js";
++import { delay } from "../util/helpers.js";
++import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
  import type { RestError } from "../restError.js";
--import { AbortError } from "@azure/abort-controller";
 +import { AbortError } from "../abort-controller/AbortError.js";
 +import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
 +import { createClientLogger } from "../logger/logger.js";
- import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
++import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
  
- const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
-@@ -28,7 +29,7 @@ export interface RetryPolicyOptions {
+-const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
++const retryPolicyLogger = createClientLogger("ts-http-runtime retryPolicy");
+ 
+ /**
+- * Information provided to the retry strategy about the current progress of the retry policy.
+- */
+-export interface RetryInformation {
+-  /**
+-   * A {@link PipelineResponse}, if the last retry attempt succeeded.
+-   */
+-  response?: PipelineResponse;
+-  /**
+-   * A {@link RestError}, if the last retry attempt failed.
+-   */
+-  responseError?: RestError;
+-  /**
+-   * Total number of retries so far.
++ * The programmatic identifier of the retryPolicy.
+  */
+-  retryCount: number;
+-}
+-
+-/**
+- * Properties that can modify the behavior of the retry policy.
+- */
+-export interface RetryModifiers {
+-  /**
+-   * If true, allows skipping the current strategy from running on the retry policy.
+-   */
+-  skipStrategy?: boolean;
+-  /**
+-   * Indicates to retry against this URL.
+-   */
+-  redirectTo?: string;
+-  /**
+-   * Controls whether to retry in a given number of milliseconds.
+-   * If provided, a new retry will be attempted.
+-   */
+-  retryAfterInMs?: number;
+-  /**
+-   * Indicates to throw this error instead of retrying.
+-   */
+-  errorToThrow?: RestError;
+-}
+-
+-/**
+- * A retry strategy is intended to define whether to retry or not, and how to retry.
+- */
+-export interface RetryStrategy {
+-  /**
+-   * Name of the retry strategy. Used for logging.
+-   */
+-  name: string;
+-  /**
+-   * Logger. If it's not provided, a default logger for all retry strategies is used.
+-   */
+-  logger?: AzureLogger;
+-  /**
+-   * Function that determines how to proceed with the subsequent requests.
+-   * @param state - Retry state
+-   */
+-  retry(state: RetryInformation): RetryModifiers;
+-}
++const retryPolicyName = "retryPolicy";
+ 
+ /**
+  * Options to the {@link retryPolicy}
+@@ -85,7 +29,7 @@ export interface RetryPolicyOptions {
    /**
     * Logger. If it's not provided, a default logger is used.
     */
@@ -3369,6 +5567,130 @@ index 6d2afd5..badccb2 100644
  }
  
  /**
+@@ -95,11 +39,117 @@ export function retryPolicy(
+   strategies: RetryStrategy[],
+   options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT },
+ ): PipelinePolicy {
+-  // Cast is required since the TSP runtime retry strategy type is slightly different
+-  // very deep down (using real AbortSignal vs. AbortSignalLike in RestError).
+-  // In practice the difference doesn't actually matter.
+-  return tspRetryPolicy(strategies as TspRetryStrategy[], {
+-    logger: retryPolicyLogger,
+-    ...options,
++  const logger = options.logger || retryPolicyLogger;
++  return {
++    name: retryPolicyName,
++    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
++      let response: PipelineResponse | undefined;
++      let responseError: RestError | undefined;
++      let retryCount = -1;
++
++      retryRequest: while (true) {
++        retryCount += 1;
++        response = undefined;
++        responseError = undefined;
++
++        try {
++          logger.info(`Retry ${retryCount}: Attempting to send request`, request.requestId);
++          response = await next(request);
++          logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
++        } catch (e: any) {
++          logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
++
++          // RestErrors are valid targets for the retry strategies.
++          // If none of the retry strategies can work with them, they will be thrown later in this policy.
++          // If the received error is not a RestError, it is immediately thrown.
++          responseError = e as RestError;
++          if (!e || responseError.name !== "RestError") {
++            throw e;
++          }
++
++          response = responseError.response;
++        }
++
++        if (request.abortSignal?.aborted) {
++          logger.error(`Retry ${retryCount}: Request aborted.`);
++          const abortError = new AbortError();
++          throw abortError;
++        }
++
++        if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
++          logger.info(
++            `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`,
++          );
++          if (responseError) {
++            throw responseError;
++          } else if (response) {
++            return response;
++          } else {
++            throw new Error("Maximum retries reached with no response or error to throw");
++          }
++        }
++
++        logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);
++
++        strategiesLoop: for (const strategy of strategies) {
++          const strategyLogger = strategy.logger || logger;
++          strategyLogger.info(`Retry ${retryCount}: Processing retry strategy ${strategy.name}.`);
++
++          const modifiers = strategy.retry({
++            retryCount,
++            response,
++            responseError,
+           });
++
++          if (modifiers.skipStrategy) {
++            strategyLogger.info(`Retry ${retryCount}: Skipped.`);
++            continue strategiesLoop;
++          }
++
++          const { errorToThrow, retryAfterInMs, redirectTo } = modifiers;
++
++          if (errorToThrow) {
++            strategyLogger.error(
++              `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
++              errorToThrow,
++            );
++            throw errorToThrow;
++          }
++
++          if (retryAfterInMs || retryAfterInMs === 0) {
++            strategyLogger.info(
++              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`,
++            );
++            await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
++            continue retryRequest;
++          }
++
++          if (redirectTo) {
++            strategyLogger.info(
++              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`,
++            );
++            request.url = redirectTo;
++            continue retryRequest;
++          }
++        }
++
++        if (responseError) {
++          logger.info(
++            `None of the retry strategies could work with the received error. Throwing it.`,
++          );
++          throw responseError;
++        }
++        if (response) {
++          logger.info(
++            `None of the retry strategies could work with the received response. Returning it.`,
++          );
++          return response;
++        }
++
++        // If all the retries skip and there's no response,
++        // we're still in the retry loop, so a new request will be sent
++        // until `maxRetries` is reached.
++      }
++    },
++  };
+ }
 diff --git a/src/policies/setClientRequestIdPolicy.ts b/src/policies/setClientRequestIdPolicy.ts
 deleted file mode 100644
 index a40d4ab..0000000
@@ -3405,9 +5727,126 @@ index a40d4ab..0000000
 -    },
 -  };
 -}
+diff --git a/src/policies/systemErrorRetryPolicy.ts b/src/policies/systemErrorRetryPolicy.ts
+index bb25330..4c8bf62 100644
+--- a/src/policies/systemErrorRetryPolicy.ts
++++ b/src/policies/systemErrorRetryPolicy.ts
+@@ -2,16 +2,14 @@
+ // Licensed under the MIT License.
+ 
+ import type { PipelinePolicy } from "../pipeline.js";
+-
+-import {
+-  systemErrorRetryPolicy as tspSystemErrorRetryPolicy,
+-  systemErrorRetryPolicyName as tspSystemErrorRetryPolicyName,
+-} from "@typespec/ts-http-runtime/internal/policies";
++import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
++import { retryPolicy } from "./retryPolicy.js";
++import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+ 
+ /**
+  * Name of the {@link systemErrorRetryPolicy}
+  */
+-export const systemErrorRetryPolicyName = tspSystemErrorRetryPolicyName;
++export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
+ 
+ /**
+  * Options that control how to retry failed requests.
+@@ -45,5 +43,18 @@ export interface SystemErrorRetryPolicyOptions {
+ export function systemErrorRetryPolicy(
+   options: SystemErrorRetryPolicyOptions = {},
+ ): PipelinePolicy {
+-  return tspSystemErrorRetryPolicy(options);
++  return {
++    name: systemErrorRetryPolicyName,
++    sendRequest: retryPolicy(
++      [
++        exponentialRetryStrategy({
++          ...options,
++          ignoreHttpStatusCodes: true,
++        }),
++      ],
++      {
++        maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
++      },
++    ).sendRequest,
++  };
+ }
+diff --git a/src/policies/throttlingRetryPolicy.ts b/src/policies/throttlingRetryPolicy.ts
+index 9d36e06..a7d0252 100644
+--- a/src/policies/throttlingRetryPolicy.ts
++++ b/src/policies/throttlingRetryPolicy.ts
+@@ -2,16 +2,14 @@
+ // Licensed under the MIT License.
+ 
+ import type { PipelinePolicy } from "../pipeline.js";
+-
+-import {
+-  throttlingRetryPolicyName as tspThrottlingRetryPolicyName,
+-  throttlingRetryPolicy as tspThrottlingRetryPolicy,
+-} from "@typespec/ts-http-runtime/internal/policies";
++import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
++import { retryPolicy } from "./retryPolicy.js";
++import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+ 
+ /**
+  * Name of the {@link throttlingRetryPolicy}
+  */
+-export const throttlingRetryPolicyName = tspThrottlingRetryPolicyName;
++export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+ 
+ /**
+  * Options that control how to retry failed requests.
+@@ -34,5 +32,10 @@ export interface ThrottlingRetryPolicyOptions {
+  * @param options - Options that configure retry logic.
+  */
+ export function throttlingRetryPolicy(options: ThrottlingRetryPolicyOptions = {}): PipelinePolicy {
+-  return tspThrottlingRetryPolicy(options);
++  return {
++    name: throttlingRetryPolicyName,
++    sendRequest: retryPolicy([throttlingRetryStrategy()], {
++      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
++    }).sendRequest,
++  };
+ }
+diff --git a/src/policies/tlsPolicy.ts b/src/policies/tlsPolicy.ts
+index 36dfb26..0e78872 100644
+--- a/src/policies/tlsPolicy.ts
++++ b/src/policies/tlsPolicy.ts
+@@ -4,19 +4,23 @@
+ import type { PipelinePolicy } from "../pipeline.js";
+ import type { TlsSettings } from "../interfaces.js";
+ 
+-import {
+-  tlsPolicy as tspTlsPolicy,
+-  tlsPolicyName as tspTlsPolicyName,
+-} from "@typespec/ts-http-runtime/internal/policies";
+-
+ /**
+  * Name of the TLS Policy
+  */
+-export const tlsPolicyName = tspTlsPolicyName;
++export const tlsPolicyName = "tlsPolicy";
+ 
+ /**
+  * Gets a pipeline policy that adds the client certificate to the HttpClient agent for authentication.
+  */
+ export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy {
+-  return tspTlsPolicy(tlsSettings);
++  return {
++    name: tlsPolicyName,
++    sendRequest: async (req, next) => {
++      // Users may define a request tlsSettings, honor those over the client level one
++      if (!req.tlsSettings) {
++        req.tlsSettings = tlsSettings;
++      }
++      return next(req);
++    },
++  };
+ }
 diff --git a/src/policies/tracingPolicy.ts b/src/policies/tracingPolicy.ts
 deleted file mode 100644
-index 4f54b0d..0000000
+index b633c17..0000000
 --- a/src/policies/tracingPolicy.ts
 +++ /dev/null
 @@ -1,174 +0,0 @@
@@ -3427,7 +5866,7 @@ index 4f54b0d..0000000
 -import { logger } from "../log.js";
 -import { getErrorMessage, isError } from "@azure/core-util";
 -import { isRestError } from "../restError.js";
--import { Sanitizer } from "../util/sanitizer.js";
+-import { Sanitizer } from "@typespec/ts-http-runtime/internal/util";
 -
 -/**
 - * The programmatic identifier of the tracingPolicy.
@@ -3585,79 +6024,383 @@ index 4f54b0d..0000000
 -    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
 -  }
 -}
+diff --git a/src/policies/wrapAbortSignalLikePolicy.ts b/src/policies/wrapAbortSignalLikePolicy.ts
+deleted file mode 100644
+index a33b7a0..0000000
+--- a/src/policies/wrapAbortSignalLikePolicy.ts
++++ /dev/null
+@@ -1,33 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import { type PipelinePolicy } from "../pipeline.js";
+-import { wrapAbortSignalLike } from "../util/wrapAbortSignal.js";
+-
+-export const wrapAbortSignalLikePolicyName = "wrapAbortSignalLikePolicy";
+-
+-/**
+- * Policy that ensure that any AbortSignalLike is wrapped in a native AbortSignal for processing by the pipeline.
+- * Since the ts-http-runtime expects a native AbortSignal, this policy is used to ensure that any AbortSignalLike is wrapped in a native AbortSignal.
+- *
+- * @returns - created policy
+- */
+-export function wrapAbortSignalLikePolicy(): PipelinePolicy {
+-  return {
+-    name: wrapAbortSignalLikePolicyName,
+-    sendRequest: async (request, next) => {
+-      if (!request.abortSignal) {
+-        return next(request);
+-      }
+-
+-      const { abortSignal, cleanup } = wrapAbortSignalLike(request.abortSignal);
+-      // eslint-disable-next-line no-param-reassign
+-      request.abortSignal = abortSignal;
+-      try {
+-        return await next(request);
+-      } finally {
+-        cleanup?.();
+-      }
+-    },
+-  };
+-}
 diff --git a/src/restError.ts b/src/restError.ts
-index a3d36bc..722db2a 100644
+index 90b5645..722db2a 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
-@@ -1,7 +1,7 @@
+@@ -1,13 +1,12 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { isError } from "@azure/core-util";
 +import { isError } from "./util/error.js";
  import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
- import { custom } from "./util/inspect.js";
- import { Sanitizer } from "./util/sanitizer.js";
-diff --git a/src/retryStrategies/exponentialRetryStrategy.ts b/src/retryStrategies/exponentialRetryStrategy.ts
-index c6943b8..568e864 100644
---- a/src/retryStrategies/exponentialRetryStrategy.ts
-+++ b/src/retryStrategies/exponentialRetryStrategy.ts
-@@ -3,7 +3,7 @@
++import { custom } from "./util/inspect.js";
++import { Sanitizer } from "./util/sanitizer.js";
  
- import type { PipelineResponse } from "../interfaces.js";
- import type { RestError } from "../restError.js";
--import { calculateRetryDelay } from "@azure/core-util";
-+import { calculateRetryDelay } from "../util/delay.js";
- import type { RetryStrategy } from "./retryStrategy.js";
- import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
- 
-diff --git a/src/retryStrategies/retryStrategy.ts b/src/retryStrategies/retryStrategy.ts
-index a8b94fc..bc11b52 100644
---- a/src/retryStrategies/retryStrategy.ts
-+++ b/src/retryStrategies/retryStrategy.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { AzureLogger } from "@azure/logger";
-+import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
- import type { PipelineResponse } from "../interfaces.js";
- import type { RestError } from "../restError.js";
- 
-@@ -57,7 +57,7 @@ export interface RetryStrategy {
-   /**
-    * Logger. If it's not provided, a default logger for all retry strategies is used.
-    */
--  logger?: AzureLogger;
-+  logger?: TypeSpecRuntimeLogger;
-   /**
-    * Function that determines how to proceed with the subsequent requests.
-    * @param state - Retry state
-diff --git a/src/retryStrategies/throttlingRetryStrategy.ts b/src/retryStrategies/throttlingRetryStrategy.ts
-index 2d4f87f..d0f7298 100644
---- a/src/retryStrategies/throttlingRetryStrategy.ts
-+++ b/src/retryStrategies/throttlingRetryStrategy.ts
-@@ -1,17 +1,17 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineResponse } from "../index.js";
-+import type { PipelineResponse } from "../interfaces.js";
- import { parseHeaderValueAsNumber } from "../util/helpers.js";
- import type { RetryStrategy } from "./retryStrategy.js";
+-import type { RestErrorOptions as TspRestErrorOptions } from "@typespec/ts-http-runtime";
+-import {
+-  RestError as TspRestError,
+-  isRestError as tspIsRestError,
+-} from "@typespec/ts-http-runtime";
++const errorSanitizer = new Sanitizer();
  
  /**
-- * The header that comes back from Azure services representing
-+ * The header that comes back from services representing
-  * the amount of time (minimum) to wait to retry (in seconds or timestamp after which we can retry).
+  * The options supported by RestError.
+@@ -72,13 +71,32 @@ export class RestError extends Error {
+ 
+   constructor(message: string, options: RestErrorOptions = {}) {
+     super(message);
++    this.name = "RestError";
++    this.code = options.code;
++    this.statusCode = options.statusCode;
+ 
+-    // what is this??
+-    // it turns out that you can return from a constructor and it causes
+-    // calling `new` to return the value you return.
+-    // this lets us wrap the TypeSpec RestError so that calling this constructor will give you the same type of object as calling the TypeSpec one,
+-    // even though the constructor signatures (through RestErrorOptions) are slightly different.
+-    return new TspRestError(message, options as TspRestErrorOptions);
++    // The request and response may contain sensitive information in the headers or body.
++    // To help prevent this sensitive information being accidentally logged, the request and response
++    // properties are marked as non-enumerable here. This prevents them showing up in the output of
++    // JSON.stringify and console.log.
++    Object.defineProperty(this, "request", { value: options.request, enumerable: false });
++    Object.defineProperty(this, "response", { value: options.response, enumerable: false });
++
++    // Logging method for util.inspect in Node
++    Object.defineProperty(this, custom, {
++      value: () => {
++        // Extract non-enumerable properties and add them back. This is OK since in this output the request and
++        // response get sanitized.
++        return `RestError: ${this.message} \n ${errorSanitizer.sanitize({
++          ...this,
++          request: this.request,
++          response: this.response,
++        })}`;
++      },
++      enumerable: false,
++    });
++
++    Object.setPrototypeOf(this, RestError.prototype);
+   }
+ }
+ 
+@@ -87,5 +105,8 @@ export class RestError extends Error {
+  * @param e - Something caught by a catch clause.
   */
- const RetryAfterHeader = "Retry-After";
- /**
-- * The headers that come back from Azure services representing
+ export function isRestError(e: unknown): e is RestError {
+-  return tspIsRestError(e);
++  if (e instanceof RestError) {
++    return true;
++  }
++  return isError(e) && e.name === "RestError";
+ }
+diff --git a/src/retryStrategies/exponentialRetryStrategy.ts b/src/retryStrategies/exponentialRetryStrategy.ts
+new file mode 100644
+index 0000000..568e864
+--- /dev/null
++++ b/src/retryStrategies/exponentialRetryStrategy.ts
+@@ -0,0 +1,104 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { PipelineResponse } from "../interfaces.js";
++import type { RestError } from "../restError.js";
++import { calculateRetryDelay } from "../util/delay.js";
++import type { RetryStrategy } from "./retryStrategy.js";
++import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
++
++// intervals are in milliseconds
++const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
++const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
++
++/**
++ * A retry strategy that retries with an exponentially increasing delay in these two cases:
++ * - When there are errors in the underlying transport layer (e.g. DNS lookup failures).
++ * - Or otherwise if the outgoing request fails (408, greater or equal than 500, except for 501 and 505).
++ */
++export function exponentialRetryStrategy(
++  options: {
++    /**
++     * The amount of delay in milliseconds between retry attempts. Defaults to 1000
++     * (1 second.) The delay increases exponentially with each retry up to a maximum
++     * specified by maxRetryDelayInMs.
++     */
++    retryDelayInMs?: number;
++
++    /**
++     * The maximum delay in milliseconds allowed before retrying an operation. Defaults
++     * to 64000 (64 seconds).
++     */
++    maxRetryDelayInMs?: number;
++
++    /**
++     * If true it won't retry if it received a system error.
++     */
++    ignoreSystemErrors?: boolean;
++
++    /**
++     * If true it won't retry if it received a non-fatal HTTP status code.
++     */
++    ignoreHttpStatusCodes?: boolean;
++  } = {},
++): RetryStrategy {
++  const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
++  const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
++
++  return {
++    name: "exponentialRetryStrategy",
++    retry({ retryCount, response, responseError }) {
++      const matchedSystemError = isSystemError(responseError);
++      const ignoreSystemErrors = matchedSystemError && options.ignoreSystemErrors;
++
++      const isExponential = isExponentialRetryResponse(response);
++      const ignoreExponentialResponse = isExponential && options.ignoreHttpStatusCodes;
++      const unknownResponse = response && (isThrottlingRetryResponse(response) || !isExponential);
++
++      if (unknownResponse || ignoreExponentialResponse || ignoreSystemErrors) {
++        return { skipStrategy: true };
++      }
++
++      if (responseError && !matchedSystemError && !isExponential) {
++        return { errorToThrow: responseError };
++      }
++
++      return calculateRetryDelay(retryCount, {
++        retryDelayInMs: retryInterval,
++        maxRetryDelayInMs: maxRetryInterval,
++      });
++    },
++  };
++}
++
++/**
++ * A response is a retry response if it has status codes:
++ * - 408, or
++ * - Greater or equal than 500, except for 501 and 505.
++ */
++export function isExponentialRetryResponse(response?: PipelineResponse): boolean {
++  return Boolean(
++    response &&
++      response.status !== undefined &&
++      (response.status >= 500 || response.status === 408) &&
++      response.status !== 501 &&
++      response.status !== 505,
++  );
++}
++
++/**
++ * Determines whether an error from a pipeline response was triggered in the network layer.
++ */
++export function isSystemError(err?: RestError): boolean {
++  if (!err) {
++    return false;
++  }
++  return (
++    err.code === "ETIMEDOUT" ||
++    err.code === "ESOCKETTIMEDOUT" ||
++    err.code === "ECONNREFUSED" ||
++    err.code === "ECONNRESET" ||
++    err.code === "ENOENT" ||
++    err.code === "ENOTFOUND"
++  );
++}
+diff --git a/src/retryStrategies/retryStrategy.ts b/src/retryStrategies/retryStrategy.ts
+new file mode 100644
+index 0000000..bc11b52
+--- /dev/null
++++ b/src/retryStrategies/retryStrategy.ts
+@@ -0,0 +1,66 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
++import type { PipelineResponse } from "../interfaces.js";
++import type { RestError } from "../restError.js";
++
++/**
++ * Information provided to the retry strategy about the current progress of the retry policy.
++ */
++export interface RetryInformation {
++  /**
++   * A {@link PipelineResponse}, if the last retry attempt succeeded.
++   */
++  response?: PipelineResponse;
++  /**
++   * A {@link RestError}, if the last retry attempt failed.
++   */
++  responseError?: RestError;
++  /**
++   * Total number of retries so far.
++   */
++  retryCount: number;
++}
++
++/**
++ * Properties that can modify the behavior of the retry policy.
++ */
++export interface RetryModifiers {
++  /**
++   * If true, allows skipping the current strategy from running on the retry policy.
++   */
++  skipStrategy?: boolean;
++  /**
++   * Indicates to retry against this URL.
++   */
++  redirectTo?: string;
++  /**
++   * Controls whether to retry in a given number of milliseconds.
++   * If provided, a new retry will be attempted.
++   */
++  retryAfterInMs?: number;
++  /**
++   * Indicates to throw this error instead of retrying.
++   */
++  errorToThrow?: RestError;
++}
++
++/**
++ * A retry strategy is intended to define whether to retry or not, and how to retry.
++ */
++export interface RetryStrategy {
++  /**
++   * Name of the retry strategy. Used for logging.
++   */
++  name: string;
++  /**
++   * Logger. If it's not provided, a default logger for all retry strategies is used.
++   */
++  logger?: TypeSpecRuntimeLogger;
++  /**
++   * Function that determines how to proceed with the subsequent requests.
++   * @param state - Retry state
++   */
++  retry(state: RetryInformation): RetryModifiers;
++}
+diff --git a/src/retryStrategies/throttlingRetryStrategy.ts b/src/retryStrategies/throttlingRetryStrategy.ts
+new file mode 100644
+index 0000000..d0f7298
+--- /dev/null
++++ b/src/retryStrategies/throttlingRetryStrategy.ts
+@@ -0,0 +1,79 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { PipelineResponse } from "../interfaces.js";
++import { parseHeaderValueAsNumber } from "../util/helpers.js";
++import type { RetryStrategy } from "./retryStrategy.js";
++
++/**
++ * The header that comes back from services representing
++ * the amount of time (minimum) to wait to retry (in seconds or timestamp after which we can retry).
++ */
++const RetryAfterHeader = "Retry-After";
++/**
 + * The headers that come back from services representing
-  * the amount of time (minimum) to wait to retry.
-  *
-  * "retry-after-ms", "x-ms-retry-after-ms" : milliseconds
++ * the amount of time (minimum) to wait to retry.
++ *
++ * "retry-after-ms", "x-ms-retry-after-ms" : milliseconds
++ * "Retry-After" : seconds or timestamp
++ */
++const AllRetryAfterHeaders: string[] = ["retry-after-ms", "x-ms-retry-after-ms", RetryAfterHeader];
++
++/**
++ * A response is a throttling retry response if it has a throttling status code (429 or 503),
++ * as long as one of the [ "Retry-After" or "retry-after-ms" or "x-ms-retry-after-ms" ] headers has a valid value.
++ *
++ * Returns the `retryAfterInMs` value if the response is a throttling retry response.
++ * If not throttling retry response, returns `undefined`.
++ *
++ * @internal
++ */
++function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
++  if (!(response && [429, 503].includes(response.status))) return undefined;
++  try {
++    // Headers: "retry-after-ms", "x-ms-retry-after-ms", "Retry-After"
++    for (const header of AllRetryAfterHeaders) {
++      const retryAfterValue = parseHeaderValueAsNumber(response, header);
++      if (retryAfterValue === 0 || retryAfterValue) {
++        // "Retry-After" header ==> seconds
++        // "retry-after-ms", "x-ms-retry-after-ms" headers ==> milli-seconds
++        const multiplyingFactor = header === RetryAfterHeader ? 1000 : 1;
++        return retryAfterValue * multiplyingFactor; // in milli-seconds
++      }
++    }
++
++    // RetryAfterHeader ("Retry-After") has a special case where it might be formatted as a date instead of a number of seconds
++    const retryAfterHeader = response.headers.get(RetryAfterHeader);
++    if (!retryAfterHeader) return;
++
++    const date = Date.parse(retryAfterHeader);
++    const diff = date - Date.now();
++    // negative diff would mean a date in the past, so retry asap with 0 milliseconds
++    return Number.isFinite(diff) ? Math.max(0, diff) : undefined;
++  } catch {
++    return undefined;
++  }
++}
++
++/**
++ * A response is a retry response if it has a throttling status code (429 or 503),
++ * as long as one of the [ "Retry-After" or "retry-after-ms" or "x-ms-retry-after-ms" ] headers has a valid value.
++ */
++export function isThrottlingRetryResponse(response?: PipelineResponse): boolean {
++  return Number.isFinite(getRetryAfterInMs(response));
++}
++
++export function throttlingRetryStrategy(): RetryStrategy {
++  return {
++    name: "throttlingRetryStrategy",
++    retry({ response }) {
++      const retryAfterInMs = getRetryAfterInMs(response);
++      if (!Number.isFinite(retryAfterInMs)) {
++        return { skipStrategy: true };
++      }
++      return {
++        retryAfterInMs,
++      };
++    },
++  };
++}
 diff --git a/src/tracing/index.ts b/src/tracing/index.ts
 deleted file mode 100644
 index 8992d7a..0000000
@@ -4699,21 +7442,184 @@ index 0000000..bc38b5d
 +// https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/Core/setUpNavigator.js
 +export const isReactNative =
 +  typeof navigator !== "undefined" && navigator?.product === "ReactNative";
+diff --git a/src/util/concat-browser.mts b/src/util/concat-browser.mts
+new file mode 100644
+index 0000000..83a8af3
+--- /dev/null
++++ b/src/util/concat-browser.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./concat.common.js";
+diff --git a/src/util/concat-react-native.mts b/src/util/concat-react-native.mts
+new file mode 100644
+index 0000000..83a8af3
+--- /dev/null
++++ b/src/util/concat-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./concat.common.js";
+diff --git a/src/util/concat.common.ts b/src/util/concat.common.ts
+new file mode 100644
+index 0000000..44a4962
+--- /dev/null
++++ b/src/util/concat.common.ts
+@@ -0,0 +1,55 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { isWebReadableStream } from "./typeGuards.js";
++
++/**
++ * Drain the content of the given ReadableStream into a Blob.
++ * The blob's content may end up in memory or on disk dependent on size.
++ */
++function drain(stream: ReadableStream<Uint8Array>): Promise<Blob> {
++  return new Response(stream).blob();
++}
++
++async function toBlobPart(
++  source: ReadableStream<Uint8Array> | Blob | Uint8Array,
++): Promise<BlobPart> {
++  if (source instanceof Blob || source instanceof Uint8Array) {
++    return source;
++  }
++
++  if (isWebReadableStream(source)) {
++    return drain(source);
++  } else {
++    throw new Error(
++      "Unsupported source type. Only Blob, Uint8Array, and ReadableStream are supported in browser.",
++    );
++  }
++}
++
++/**
++ * Accepted binary data types for concat
++ *
++ * @internal
++ */
++type ConcatSource = ReadableStream<Uint8Array> | Blob | Uint8Array;
++
++/**
++ * Utility function that concatenates a set of binary inputs into one combined output.
++ *
++ * @param sources - array of sources for the concatenation
++ * @returns - in Node, a (() =\> NodeJS.ReadableStream) which, when read, produces a concatenation of all the inputs.
++ *           In browser, returns a `Blob` representing all the concatenated inputs.
++ *
++ * @internal
++ */
++export async function concat(
++  sources: (ConcatSource | (() => ConcatSource))[],
++): Promise<(() => NodeJS.ReadableStream) | Blob> {
++  const parts = [];
++  for (const source of sources) {
++    parts.push(await toBlobPart(typeof source === "function" ? source() : source));
++  }
++
++  return new Blob(parts);
++}
 diff --git a/src/util/concat.ts b/src/util/concat.ts
-index 457bc22..cbadccf 100644
---- a/src/util/concat.ts
+new file mode 100644
+index 0000000..4177903
+--- /dev/null
 +++ b/src/util/concat.ts
-@@ -1,8 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import { Readable } from "node:stream";
--import type { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";
+@@ -0,0 +1,91 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import { Readable } from "stream";
 +import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
- import { isBlob } from "./typeGuards.js";
- import { getRawContent } from "./file.js";
- 
++import { isBlob } from "./typeGuards.js";
++
++async function* streamAsyncIterator(
++  this: ReadableStream<Uint8Array>,
++): AsyncIterableIterator<Uint8Array> {
++  const reader = this.getReader();
++  try {
++    while (true) {
++      const { done, value } = await reader.read();
++      if (done) {
++        return;
++      }
++
++      yield value;
++    }
++  } finally {
++    reader.releaseLock();
++  }
++}
++
++function makeAsyncIterable<T>(webStream: any): asserts webStream is AsyncIterableReadableStream<T> {
++  if (!webStream[Symbol.asyncIterator]) {
++    webStream[Symbol.asyncIterator] = streamAsyncIterator.bind(webStream);
++  }
++
++  if (!webStream.values) {
++    webStream.values = streamAsyncIterator.bind(webStream);
++  }
++}
++
++function ensureNodeStream(
++  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
++): NodeJS.ReadableStream {
++  if (stream instanceof ReadableStream) {
++    makeAsyncIterable<Uint8Array>(stream);
++    return Readable.fromWeb(stream);
++  } else {
++    return stream;
++  }
++}
++
++function toStream(
++  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob,
++): NodeJS.ReadableStream {
++  if (source instanceof Uint8Array) {
++    return Readable.from(Buffer.from(source));
++  } else if (isBlob(source)) {
++    return toStream(source);
++  } else {
++    return ensureNodeStream(source);
++  }
++}
++
++/**
++ * Accepted binary data types for concat
++ *
++ * @internal
++ */
++export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
++
++/**
++ * Utility function that concatenates a set of binary inputs into one combined output.
++ *
++ * @param sources - array of sources for the concatenation
++ * @returns - in Node, a (() =\> NodeJS.ReadableStream) which, when read, produces a concatenation of all the inputs.
++ *           In browser, returns a `Blob` representing all the concatenated inputs.
++ *
++ * @internal
++ */
++export async function concat(
++  sources: (ConcatSource | (() => ConcatSource))[],
++): Promise<(() => NodeJS.ReadableStream) | Blob> {
++  return function () {
++    const streams = sources.map((x) => (typeof x === "function" ? x() : x)).map(toStream);
++
++    return Readable.from(
++      (async function* () {
++        for (const stream of streams as NodeJS.ReadableStream[]) {
++          for await (const chunk of stream) {
++            yield chunk;
++          }
++        }
++      })(),
++    );
++  };
++}
 diff --git a/src/util/createAbortablePromise.ts b/src/util/createAbortablePromise.ts
 deleted file mode 100644
 index 25cf55a..0000000
@@ -4866,40 +7772,275 @@ index 508e2d5..34ec31c 100644
 +  return false;
  }
 diff --git a/src/util/file.ts b/src/util/file.ts
-index 48d09e6..65c0e25 100644
+deleted file mode 100644
+index 02ba689..0000000
 --- a/src/util/file.ts
-+++ b/src/util/file.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,180 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import { isNodeLike } from "@azure/core-util";
-+import { isNodeLike } from "./checkEnvironment.js";
- import { isNodeReadableStream } from "./typeGuards.js";
- 
- /**
+-
+-function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
+-  return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
+-}
+-
+-/**
+- * Options passed into createFile specifying metadata about the file.
+- */
+-export interface CreateFileOptions {
+-  /**
+-   * The MIME type of the file.
+-   */
+-  type?: string;
+-
+-  /**
+-   * Last modified time of the file as a UNIX timestamp.
+-   * This will default to the current date.
+-   */
+-  lastModified?: number;
+-
+-  /**
+-   * relative path of this file when uploading a directory.
+-   */
+-  webkitRelativePath?: string;
+-}
+-
+-/**
+- * Extra options for createFile when a stream is being passed in.
+- */
+-export interface CreateFileFromStreamOptions extends CreateFileOptions {
+-  /**
+-   * Size of the file represented by the stream in bytes.
+-   *
+-   * This will be used by the pipeline when calculating the Content-Length header
+-   * for the overall request.
+-   */
+-  size?: number;
+-}
+-
+-const unimplementedMethods = {
+-  arrayBuffer: () => {
+-    throw new Error("Not implemented");
+-  },
+-  bytes: () => {
+-    throw new Error("Not implemented");
+-  },
+-  slice: () => {
+-    throw new Error("Not implemented");
+-  },
+-  text: () => {
+-    throw new Error("Not implemented");
+-  },
+-};
+-
+-/**
+- * Private symbol used as key on objects created using createFile containing the
+- * original source of the file object.
+- *
+- * This is used in Node to access the original Node stream without using Blob#stream, which
+- * returns a web stream. This is done to avoid a couple of bugs to do with Blob#stream and
+- * Readable#to/fromWeb in Node versions we support:
+- * - https://github.com/nodejs/node/issues/42694 (fixed in Node 18.14)
+- * - https://github.com/nodejs/node/issues/48916 (fixed in Node 20.6)
+- *
+- * Once these versions are no longer supported, we may be able to stop doing this.
+- *
+- * @internal
+- */
+-const rawContent: unique symbol = Symbol("rawContent");
+-
+-/**
+- * Type signature of a blob-like object with a raw content property.
+- */
+-export interface RawContent extends Blob {
+-  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
+-}
+-
+-/**
+- * Type guard to check if a given object is a blob-like object with a raw content property.
+- */
+-export function hasRawContent(x: unknown): x is RawContent {
+-  return typeof (x as RawContent)[rawContent] === "function";
+-}
+-
+-/**
+- * Extract the raw content from a given blob-like object. If the input was created using createFile
+- * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
+- * For true instances of Blob and File, returns the actual blob.
+- *
+- * @internal
+- */
+-export function getRawContent(
+-  blob: Blob,
+-): Blob | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
+-  if (hasRawContent(blob)) {
+-    return blob[rawContent]();
+-  } else {
+-    return blob;
+-  }
+-}
+-
+-/**
+- * Create an object that implements the File interface. This object is intended to be
+- * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
+- * other situations.
+- *
+- * Use this function to:
+- * - Create a File object for use in RequestBodyType.formData in environments where the
+- *   global File object is unavailable.
+- * - Create a File-like object from a readable stream without reading the stream into memory.
+- *
+- * @param stream - the content of the file as a callback returning a stream. When a File object made using createFile is
+- *                  passed in a request's form data map, the stream will not be read into memory
+- *                  and instead will be streamed when the request is made. In the event of a retry, the
+- *                  stream needs to be read again, so this callback SHOULD return a fresh stream if possible.
+- * @param name - the name of the file.
+- * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
+- */
+-export function createFileFromStream(
+-  stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+-  name: string,
+-  options: CreateFileFromStreamOptions = {},
+-): File {
+-  return {
+-    ...unimplementedMethods,
+-    type: options.type ?? "",
+-    lastModified: options.lastModified ?? new Date().getTime(),
+-    webkitRelativePath: options.webkitRelativePath ?? "",
+-    size: options.size ?? -1,
+-    name,
+-    stream: () => {
+-      const s = stream();
+-      if (isNodeReadableStream(s)) {
+-        throw new Error(
+-          "Not supported: a Node stream was provided as input to createFileFromStream.",
+-        );
+-      }
+-
+-      return s;
+-    },
+-    [rawContent]: stream,
+-  } as File & RawContent;
+-}
+-
+-/**
+- * Create an object that implements the File interface. This object is intended to be
+- * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
+- * other situations.
+- *
+- * Use this function create a File object for use in RequestBodyType.formData in environments where the global File object is unavailable.
+- *
+- * @param content - the content of the file as a Uint8Array in memory.
+- * @param name - the name of the file.
+- * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
+- */
+-export function createFile(
+-  content: Uint8Array,
+-  name: string,
+-  options: CreateFileOptions = {},
+-): File {
+-  if (isNodeLike) {
+-    return {
+-      ...unimplementedMethods,
+-      type: options.type ?? "",
+-      lastModified: options.lastModified ?? new Date().getTime(),
+-      webkitRelativePath: options.webkitRelativePath ?? "",
+-      size: content.byteLength,
+-      name,
+-      arrayBuffer: async () => content.buffer,
+-      stream: () => new Blob([content]).stream(),
+-      [rawContent]: () => content,
+-    } as File & RawContent;
+-  } else {
+-    return new File([content], name, options);
+-  }
+-}
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
-index f6819e8..a5b7c9d 100644
---- a/src/util/helpers.ts
+new file mode 100644
+index 0000000..a5b7c9d
+--- /dev/null
 +++ b/src/util/helpers.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
+@@ -0,0 +1,78 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import { AbortError } from "../abort-controller/AbortError.js";
- import type { PipelineResponse } from "../interfaces.js";
- 
- const StandardAbortMessage = "The operation was aborted.";
-@@ -19,7 +19,7 @@ export function delay<T>(
-   delayInMs: number,
-   value?: T,
-   options?: {
--    abortSignal?: AbortSignalLike;
++import type { PipelineResponse } from "../interfaces.js";
++
++const StandardAbortMessage = "The operation was aborted.";
++
++/**
++ * A wrapper for setTimeout that resolves a promise after delayInMs milliseconds.
++ * @param delayInMs - The number of milliseconds to be delayed.
++ * @param value - The value to be resolved with after a timeout of t milliseconds.
++ * @param options - The options for delay - currently abort options
++ *                  - abortSignal - The abortSignal associated with containing operation.
++ *                  - abortErrorMsg - The abort error message associated with containing operation.
++ * @returns Resolved promise
++ */
++export function delay<T>(
++  delayInMs: number,
++  value?: T,
++  options?: {
 +    abortSignal?: AbortSignal;
-     abortErrorMsg?: string;
-   },
- ): Promise<T | void> {
++    abortErrorMsg?: string;
++  },
++): Promise<T | void> {
++  return new Promise((resolve, reject) => {
++    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
++    let onAborted: (() => void) | undefined = undefined;
++
++    const rejectOnAbort = (): void => {
++      return reject(
++        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage),
++      );
++    };
++
++    const removeListeners = (): void => {
++      if (options?.abortSignal && onAborted) {
++        options.abortSignal.removeEventListener("abort", onAborted);
++      }
++    };
++
++    onAborted = (): void => {
++      if (timer) {
++        clearTimeout(timer);
++      }
++      removeListeners();
++      return rejectOnAbort();
++    };
++
++    if (options?.abortSignal && options.abortSignal.aborted) {
++      return rejectOnAbort();
++    }
++
++    timer = setTimeout(() => {
++      removeListeners();
++      resolve(value);
++    }, delayInMs);
++
++    if (options?.abortSignal) {
++      options.abortSignal.addEventListener("abort", onAborted);
++    }
++  });
++}
++
++/**
++ * @internal
++ * @returns the parsed value or undefined if the parsed value is invalid.
++ */
++export function parseHeaderValueAsNumber(
++  response: PipelineResponse,
++  headerName: string,
++): number | undefined {
++  const value = response.headers.get(headerName);
++  if (!value) return;
++  const valueAsNum = Number(value);
++  if (Number.isNaN(valueAsNum)) return;
++  return valueAsNum;
++}
 diff --git a/src/util/index.ts b/src/util/index.ts
 deleted file mode 100644
 index abfafb3..0000000
@@ -5092,12 +8233,57 @@ index abfafb3..0000000
 -export function stringToUint8Array(value: string, format: EncodingType): Uint8Array {
 -  return tspRuntime.stringToUint8Array(value, format);
 -}
+diff --git a/src/util/inspect-browser.mts b/src/util/inspect-browser.mts
+new file mode 100644
+index 0000000..fccd45b
+--- /dev/null
++++ b/src/util/inspect-browser.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./inspect.common.js";
+diff --git a/src/util/inspect-react-native.mts b/src/util/inspect-react-native.mts
+new file mode 100644
+index 0000000..fccd45b
+--- /dev/null
++++ b/src/util/inspect-react-native.mts
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++export * from "./inspect.common.js";
+diff --git a/src/client/dom.d.ts b/src/util/inspect.common.ts
+similarity index 70%
+rename from src/client/dom.d.ts
+rename to src/util/inspect.common.ts
+index eabe718..3b8883b 100644
+--- a/src/client/dom.d.ts
++++ b/src/util/inspect.common.ts
+@@ -1,4 +1,4 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-/// <reference lib="dom" />
++export const custom = Symbol();
+diff --git a/src/util/inspect.ts b/src/util/inspect.ts
+new file mode 100644
+index 0000000..8ef0f31
+--- /dev/null
++++ b/src/util/inspect.ts
+@@ -0,0 +1,6 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import { inspect } from "node:util";
++
++export const custom = inspect.custom;
 diff --git a/src/util/internal.ts b/src/util/internal.ts
 new file mode 100644
-index 0000000..4bae54a
+index 0000000..ce8873a
 --- /dev/null
 +++ b/src/util/internal.ts
-@@ -0,0 +1,19 @@
+@@ -0,0 +1,20 @@
 +// Copyright (c) Microsoft Corporation.
 +// Licensed under the MIT License.
 +
@@ -5117,6 +8303,7 @@ index 0000000..4bae54a
 +  isWebWorker,
 +} from "./checkEnvironment.js";
 +export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./bytesEncoding.js";
++export { Sanitizer, type SanitizerOptions } from "./sanitizer.js";
 diff --git a/src/util/object.ts b/src/util/object.ts
 new file mode 100644
 index 0000000..bbc8d69
@@ -5172,30 +8359,214 @@ index 0000000..5130ca6
 +  return offset + min;
 +}
 diff --git a/src/util/sanitizer.ts b/src/util/sanitizer.ts
-index 46654b9..be4f21e 100644
---- a/src/util/sanitizer.ts
+new file mode 100644
+index 0000000..bf8848f
+--- /dev/null
 +++ b/src/util/sanitizer.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import { type UnknownObject, isObject } from "@azure/core-util";
+@@ -0,0 +1,194 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import { type UnknownObject, isObject } from "./object.js";
- 
- /**
-  * @internal
-diff --git a/src/client/dom.d.ts b/src/util/sha256-browser.mts
-similarity index 67%
-rename from src/client/dom.d.ts
-rename to src/util/sha256-browser.mts
-index eabe718..b24713e 100644
---- a/src/client/dom.d.ts
++
++/**
++ * Sanitizer options
++ */
++export interface SanitizerOptions {
++  /**
++   * Header names whose values will be logged when logging is enabled.
++   * Defaults include a list of well-known safe headers. Any headers
++   * specified in this field will be added to that list.  Any other values will
++   * be written to logs as "REDACTED".
++   */
++  additionalAllowedHeaderNames?: string[];
++
++  /**
++   * Query string names whose values will be logged when logging is enabled. By default no
++   * query string values are logged.
++   */
++  additionalAllowedQueryParameters?: string[];
++}
++
++const RedactedString = "REDACTED";
++
++// Make sure this list is up-to-date with the one under core/logger/Readme#Keyconcepts
++const defaultAllowedHeaderNames = [
++  "x-ms-client-request-id",
++  "x-ms-return-client-request-id",
++  "x-ms-useragent",
++  "x-ms-correlation-request-id",
++  "x-ms-request-id",
++  "client-request-id",
++  "ms-cv",
++  "return-client-request-id",
++  "traceparent",
++
++  "Access-Control-Allow-Credentials",
++  "Access-Control-Allow-Headers",
++  "Access-Control-Allow-Methods",
++  "Access-Control-Allow-Origin",
++  "Access-Control-Expose-Headers",
++  "Access-Control-Max-Age",
++  "Access-Control-Request-Headers",
++  "Access-Control-Request-Method",
++  "Origin",
++
++  "Accept",
++  "Accept-Encoding",
++  "Cache-Control",
++  "Connection",
++  "Content-Length",
++  "Content-Type",
++  "Date",
++  "ETag",
++  "Expires",
++  "If-Match",
++  "If-Modified-Since",
++  "If-None-Match",
++  "If-Unmodified-Since",
++  "Last-Modified",
++  "Pragma",
++  "Request-Id",
++  "Retry-After",
++  "Server",
++  "Transfer-Encoding",
++  "User-Agent",
++  "WWW-Authenticate",
++];
++
++const defaultAllowedQueryParameters: string[] = ["api-version"];
++
++/**
++ * A utility class to sanitize objects for logging.
++ */
++export class Sanitizer {
++  private allowedHeaderNames: Set<string>;
++  private allowedQueryParameters: Set<string>;
++
++  constructor({
++    additionalAllowedHeaderNames: allowedHeaderNames = [],
++    additionalAllowedQueryParameters: allowedQueryParameters = [],
++  }: SanitizerOptions = {}) {
++    allowedHeaderNames = defaultAllowedHeaderNames.concat(allowedHeaderNames);
++    allowedQueryParameters = defaultAllowedQueryParameters.concat(allowedQueryParameters);
++
++    this.allowedHeaderNames = new Set(allowedHeaderNames.map((n) => n.toLowerCase()));
++    this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
++  }
++
++  /**
++   * Sanitizes an object for logging.
++   * @param obj - The object to sanitize
++   * @returns - The sanitized object as a string
++   */
++  public sanitize(obj: unknown): string {
++    const seen = new Set<unknown>();
++    return JSON.stringify(
++      obj,
++      (key: string, value: unknown) => {
++        // Ensure Errors include their interesting non-enumerable members
++        if (value instanceof Error) {
++          return {
++            ...value,
++            name: value.name,
++            message: value.message,
++          };
++        }
++
++        if (key === "headers") {
++          return this.sanitizeHeaders(value as UnknownObject);
++        } else if (key === "url") {
++          return this.sanitizeUrl(value as string);
++        } else if (key === "query") {
++          return this.sanitizeQuery(value as UnknownObject);
++        } else if (key === "body") {
++          // Don't log the request body
++          return undefined;
++        } else if (key === "response") {
++          // Don't log response again
++          return undefined;
++        } else if (key === "operationSpec") {
++          // When using sendOperationRequest, the request carries a massive
++          // field with the autorest spec. No need to log it.
++          return undefined;
++        } else if (Array.isArray(value) || isObject(value)) {
++          if (seen.has(value)) {
++            return "[Circular]";
++          }
++          seen.add(value);
++        }
++
++        return value;
++      },
++      2,
++    );
++  }
++
++  /**
++   * Sanitizes a URL for logging.
++   * @param value - The URL to sanitize
++   * @returns - The sanitized URL as a string
++   */
++  public sanitizeUrl(value: string): string {
++    if (typeof value !== "string" || value === null || value === "") {
++      return value;
++    }
++
++    const url = new URL(value);
++
++    if (!url.search) {
++      return value;
++    }
++
++    for (const [key] of url.searchParams) {
++      if (!this.allowedQueryParameters.has(key.toLowerCase())) {
++        url.searchParams.set(key, RedactedString);
++      }
++    }
++
++    return url.toString();
++  }
++
++  private sanitizeHeaders(obj: UnknownObject): UnknownObject {
++    const sanitized: UnknownObject = {};
++    for (const key of Object.keys(obj)) {
++      if (this.allowedHeaderNames.has(key.toLowerCase())) {
++        sanitized[key] = obj[key];
++      } else {
++        sanitized[key] = RedactedString;
++      }
++    }
++    return sanitized;
++  }
++
++  private sanitizeQuery(value: UnknownObject): UnknownObject {
++    if (typeof value !== "object" || value === null) {
++      return value;
++    }
++
++    const sanitized: UnknownObject = {};
++
++    for (const k of Object.keys(value)) {
++      if (this.allowedQueryParameters.has(k.toLowerCase())) {
++        sanitized[k] = value[k];
++      } else {
++        sanitized[k] = RedactedString;
++      }
++    }
++
++    return sanitized;
++  }
++}
+diff --git a/src/util/sha256-browser.mts b/src/util/sha256-browser.mts
+new file mode 100644
+index 0000000..b24713e
+--- /dev/null
 +++ b/src/util/sha256-browser.mts
-@@ -1,4 +1,4 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--/// <reference lib="dom" />
+@@ -0,0 +1,4 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +export * from "./sha256.common.js";
 diff --git a/src/util/sha256-react-native.mts b/src/util/sha256-react-native.mts
 new file mode 100644
@@ -5371,7 +8742,7 @@ index 0000000..794d26a
 +}
 diff --git a/src/util/tokenCycler.ts b/src/util/tokenCycler.ts
 deleted file mode 100644
-index 32e2343..0000000
+index 31c7d87..0000000
 --- a/src/util/tokenCycler.ts
 +++ /dev/null
 @@ -1,232 +0,0 @@
@@ -5379,7 +8750,7 @@ index 32e2343..0000000
 -// Licensed under the MIT License.
 -
 -import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
--import { delay } from "./helpers.js";
+-import { delay } from "@azure/core-util";
 -
 -/**
 - * A function that gets a promise of an access token and allows providing
@@ -5820,16 +9191,261 @@ index 0000000..3f6a12b
 +export function randomUUID(): string {
 +  return uuidFunction();
 +}
+diff --git a/src/util/wrapAbortSignal.ts b/src/util/wrapAbortSignal.ts
+deleted file mode 100644
+index 7ca1ba6..0000000
+--- a/src/util/wrapAbortSignal.ts
++++ /dev/null
+@@ -1,39 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-
+-/**
+- * Creates a native AbortSignal which reflects the state of the provided AbortSignalLike.
+- * If the AbortSignalLike is already a native AbortSignal, it is returned as is.
+- * @param abortSignalLike - The AbortSignalLike to wrap.
+- * @returns - An object containing the native AbortSignal and an optional cleanup function. The cleanup function should be called when the AbortSignal is no longer needed.
+- */
+-export function wrapAbortSignalLike(abortSignalLike: AbortSignalLike): {
+-  abortSignal: AbortSignal;
+-  cleanup?: () => void;
+-} {
+-  if (abortSignalLike instanceof AbortSignal) {
+-    return { abortSignal: abortSignalLike };
+-  }
+-
+-  if (abortSignalLike.aborted) {
+-    return { abortSignal: AbortSignal.abort((abortSignalLike as any).reason) };
+-  }
+-
+-  const controller = new AbortController();
+-  let needsCleanup = true;
+-  function cleanup(): void {
+-    if (needsCleanup) {
+-      abortSignalLike.removeEventListener("abort", listener);
+-      needsCleanup = false;
+-    }
+-  }
+-  function listener(): void {
+-    controller.abort((abortSignalLike as any).reason);
+-    cleanup();
+-  }
+-
+-  abortSignalLike.addEventListener("abort", listener);
+-  return { abortSignal: controller.signal, cleanup };
+-}
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
-index 4a0acaa..2a8f850 100644
---- a/src/xhrHttpClient.ts
+new file mode 100644
+index 0000000..2a8f850
+--- /dev/null
 +++ b/src/xhrHttpClient.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import { AbortError } from "@azure/abort-controller";
+@@ -0,0 +1,207 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import { AbortError } from "./abort-controller/AbortError.js";
- import type {
-   HttpClient,
-   HttpHeaders,
++import type {
++  HttpClient,
++  HttpHeaders,
++  PipelineRequest,
++  PipelineResponse,
++  TransferProgressEvent,
++} from "./interfaces.js";
++import { createHttpHeaders } from "./httpHeaders.js";
++import { RestError } from "./restError.js";
++import { isReadableStream } from "./util/typeGuards.js";
++
++/**
++ * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
++ * @internal
++ */
++class XhrHttpClient implements HttpClient {
++  /**
++   * Makes a request over an underlying transport layer and returns the response.
++   * @param request - The request to be made.
++   */
++  public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
++    const url = new URL(request.url);
++    const isInsecure = url.protocol !== "https:";
++
++    if (isInsecure && !request.allowInsecureConnection) {
++      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
++    }
++
++    const xhr = new XMLHttpRequest();
++
++    if (request.proxySettings) {
++      throw new Error("HTTP proxy is not supported in browser environment");
++    }
++
++    const abortSignal = request.abortSignal;
++    if (abortSignal) {
++      if (abortSignal.aborted) {
++        throw new AbortError("The operation was aborted. Request has already been canceled.");
++      }
++
++      const listener = (): void => {
++        xhr.abort();
++      };
++      abortSignal.addEventListener("abort", listener);
++      xhr.addEventListener("readystatechange", () => {
++        if (xhr.readyState === XMLHttpRequest.DONE) {
++          abortSignal.removeEventListener("abort", listener);
++        }
++      });
++    }
++
++    addProgressListener(xhr.upload, request.onUploadProgress);
++    addProgressListener(xhr, request.onDownloadProgress);
++
++    xhr.open(request.method, request.url);
++    xhr.timeout = request.timeout;
++    xhr.withCredentials = request.withCredentials;
++    for (const [name, value] of request.headers) {
++      xhr.setRequestHeader(name, value);
++    }
++
++    xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
++
++    const body = typeof request.body === "function" ? request.body() : request.body;
++    if (isReadableStream(body)) {
++      throw new Error("streams are not supported in XhrHttpClient.");
++    }
++
++    xhr.send(body === undefined ? null : body);
++
++    if (xhr.responseType === "blob") {
++      return new Promise((resolve, reject) => {
++        handleBlobResponse(xhr, request, resolve, reject);
++        rejectOnTerminalEvent(request, xhr, reject);
++      });
++    } else {
++      return new Promise(function (resolve, reject) {
++        xhr.addEventListener("load", () =>
++          resolve({
++            request,
++            status: xhr.status,
++            headers: parseHeaders(xhr),
++            bodyAsText: xhr.responseText,
++          }),
++        );
++        rejectOnTerminalEvent(request, xhr, reject);
++      });
++    }
++  }
++}
++
++function handleBlobResponse(
++  xhr: XMLHttpRequest,
++  request: PipelineRequest,
++  res: (value: PipelineResponse | PromiseLike<PipelineResponse>) => void,
++  rej: (reason?: any) => void,
++): void {
++  xhr.addEventListener("readystatechange", () => {
++    // Resolve as soon as headers are loaded
++    if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
++      if (
++        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
++        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
++        request.streamResponseStatusCodes?.has(xhr.status)
++      ) {
++        const blobBody = new Promise<Blob>((resolve, reject) => {
++          xhr.addEventListener("load", () => {
++            resolve(xhr.response);
++          });
++          rejectOnTerminalEvent(request, xhr, reject);
++        });
++        res({
++          request,
++          status: xhr.status,
++          headers: parseHeaders(xhr),
++          blobBody,
++        });
++      } else {
++        xhr.addEventListener("load", () => {
++          // xhr.response is of Blob type if the request is sent with xhr.responseType === "blob"
++          // but the status code is not one of the stream response status codes,
++          // so treat it as text and convert from Blob to text
++          if (xhr.response) {
++            xhr.response
++              .text()
++              .then((text: string) => {
++                res({
++                  request: request,
++                  status: xhr.status,
++                  headers: parseHeaders(xhr),
++                  bodyAsText: text,
++                });
++                return;
++              })
++              .catch((e: any) => {
++                rej(e);
++              });
++          } else {
++            res({
++              request,
++              status: xhr.status,
++              headers: parseHeaders(xhr),
++            });
++          }
++        });
++      }
++    }
++  });
++}
++
++function addProgressListener(
++  xhr: XMLHttpRequestEventTarget,
++  listener?: (progress: TransferProgressEvent) => void,
++): void {
++  if (listener) {
++    xhr.addEventListener("progress", (rawEvent) =>
++      listener({
++        loadedBytes: rawEvent.loaded,
++      }),
++    );
++  }
++}
++
++function parseHeaders(xhr: XMLHttpRequest): HttpHeaders {
++  const responseHeaders = createHttpHeaders();
++  const headerLines = xhr
++    .getAllResponseHeaders()
++    .trim()
++    .split(/[\r\n]+/);
++  for (const line of headerLines) {
++    const index = line.indexOf(":");
++    const headerName = line.slice(0, index);
++    const headerValue = line.slice(index + 2);
++    responseHeaders.set(headerName, headerValue);
++  }
++  return responseHeaders;
++}
++
++function rejectOnTerminalEvent(
++  request: PipelineRequest,
++  xhr: XMLHttpRequest,
++  reject: (err: any) => void,
++): void {
++  xhr.addEventListener("error", () =>
++    reject(
++      new RestError(`Failed to send request to ${request.url}`, {
++        code: RestError.REQUEST_SEND_ERROR,
++        request,
++      }),
++    ),
++  );
++  const abortError = new AbortError("The operation was aborted.");
++  xhr.addEventListener("abort", () => reject(abortError));
++  xhr.addEventListener("timeout", () => reject(abortError));
++}
++
++/**
++ * Create a new HttpClient instance for the browser environment.
++ * @internal
++ */
++export function createXhrHttpClient(): HttpClient {
++  return new XhrHttpClient();
++}

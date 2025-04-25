@@ -18,6 +18,8 @@ import {
   VolumeGroupUpdate as VolumeGroupUpdateMapper,
   Volume as VolumeMapper,
   VolumeUpdate as VolumeUpdateMapper,
+  VolumeNameList as VolumeNameListMapper,
+  DiskSnapshotList as DiskSnapshotListMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Snapshot as SnapshotMapper,
 } from "../models/mappers.js";
@@ -49,7 +51,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2024-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -147,6 +149,16 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const xMsAccessSoftDeletedResources: OperationParameter = {
+  parameterPath: ["options", "xMsAccessSoftDeletedResources"],
+  mapper: {
+    serializedName: "x-ms-access-soft-deleted-resources",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: VolumeGroupMapper,
@@ -219,7 +231,27 @@ export const xMsForceDelete: OperationParameter = {
   },
 };
 
+export const deleteType: OperationQueryParameter = {
+  parameterPath: ["options", "deleteType"],
+  mapper: {
+    serializedName: "deleteType",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VolumeNameListMapper,
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DiskSnapshotListMapper,
+};
+
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
@@ -235,7 +267,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper,
 };

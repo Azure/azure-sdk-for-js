@@ -6,127 +6,125 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { QuotaByCounterKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    QuotaByCounterKeysListByServiceOptionalParams,
-    QuotaByCounterKeysListByServiceResponse,
-    QuotaByCounterKeysUpdateOptionalParams,
-    QuotaByCounterKeysUpdateResponse,
-    QuotaCounterValueUpdateContract
-} from "../models/index.js";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { QuotaByCounterKeys } from "../operationsInterfaces/index.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  QuotaByCounterKeysListByServiceOptionalParams,
+  QuotaByCounterKeysListByServiceResponse,
+  QuotaCounterValueUpdateContract,
+  QuotaByCounterKeysUpdateOptionalParams,
+  QuotaByCounterKeysUpdateResponse,
+} from "../models/index.js";
 
 /** Class containing QuotaByCounterKeys operations. */
 export class QuotaByCounterKeysImpl implements QuotaByCounterKeys {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class QuotaByCounterKeys class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class QuotaByCounterKeys class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists a collection of current quota counter periods associated with the counter-key configured in
-     * the policy on the specified service instance. The api does not support paging yet.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
-     *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
-     *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
-     *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        quotaCounterKey: string,
-        options?: QuotaByCounterKeysListByServiceOptionalParams
-    ): Promise<QuotaByCounterKeysListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, quotaCounterKey, options },
-            listByServiceOperationSpec
-        );
-    }
+  /**
+   * Lists a collection of current quota counter periods associated with the counter-key configured in
+   * the policy on the specified service instance. The api does not support paging yet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
+   *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
+   *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
+   *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    quotaCounterKey: string,
+    options?: QuotaByCounterKeysListByServiceOptionalParams,
+  ): Promise<QuotaByCounterKeysListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, quotaCounterKey, options },
+      listByServiceOperationSpec,
+    );
+  }
 
-    /**
-     * Updates all the quota counter values specified with the existing quota counter key to a value in the
-     * specified service instance. This should be used for reset of the quota counter values.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
-     *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
-     *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
-     *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
-     * @param parameters The value of the quota counter to be applied to all quota counter periods.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        quotaCounterKey: string,
-        parameters: QuotaCounterValueUpdateContract,
-        options?: QuotaByCounterKeysUpdateOptionalParams
-    ): Promise<QuotaByCounterKeysUpdateResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, quotaCounterKey, parameters, options },
-            updateOperationSpec
-        );
-    }
+  /**
+   * Updates all the quota counter values specified with the existing quota counter key to a value in the
+   * specified service instance. This should be used for reset of the quota counter values.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
+   *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
+   *                        the policy, then it’s accessible by "boo" counter key. But if it’s defined as
+   *                        counter-key="@("b"+"a")" then it will be accessible by "ba" key
+   * @param parameters The value of the quota counter to be applied to all quota counter periods.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    quotaCounterKey: string,
+    parameters: QuotaCounterValueUpdateContract,
+    options?: QuotaByCounterKeysUpdateOptionalParams,
+  ): Promise<QuotaByCounterKeysUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, quotaCounterKey, parameters, options },
+      updateOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.QuotaCounterCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaCounterCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.quotaCounterKey
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.quotaCounterKey,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
-    httpMethod: "PATCH",
-    responses: {
-        200: {
-            bodyMapper: Mappers.QuotaCounterCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaCounterCollection,
     },
-    requestBody: Parameters.parameters65,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.quotaCounterKey
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters77,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.quotaCounterKey,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };

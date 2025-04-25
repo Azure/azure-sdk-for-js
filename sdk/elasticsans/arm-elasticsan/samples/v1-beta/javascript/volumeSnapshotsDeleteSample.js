@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
  */
 async function volumeSnapshotsDeleteMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -39,7 +39,7 @@ async function volumeSnapshotsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
  */
 async function volumeSnapshotsDeleteMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -59,8 +59,8 @@ async function volumeSnapshotsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  volumeSnapshotsDeleteMaximumSetGen();
-  volumeSnapshotsDeleteMinimumSetGen();
+  await volumeSnapshotsDeleteMaximumSetGen();
+  await volumeSnapshotsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);
