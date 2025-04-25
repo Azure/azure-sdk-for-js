@@ -415,6 +415,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/changeanalysis/arm-changeanalysis/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -515,6 +518,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao

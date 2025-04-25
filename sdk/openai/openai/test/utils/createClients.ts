@@ -27,7 +27,7 @@ export function createClientsAndDeployments(
   switch (apiVersion) {
     case APIVersion["v2024_10_01_preview"]:
     case APIVersion.v2025_03_01_preview:
-    case APIVersion.v2024_10_31: {
+    case APIVersion.v2024_10_21: {
       const { resourcesInfo: filtered, count } = filterDeployments(resourcesInfo, {
         capabilities,
         sku,
