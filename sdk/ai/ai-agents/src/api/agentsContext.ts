@@ -24,6 +24,7 @@ export function createAgents(
   credential: KeyCredential | TokenCredential,
   options: AgentsClientOptionalParams = {},
 ): AgentsContext {
+  // Remove custom code when 1dp is available
   const parts = endpointParam.split(";");
   let endpointUrl = endpointParam;
   if (parts.length === 4) {
@@ -36,6 +37,7 @@ export function createAgents(
       options.baseUrl ??
       `${endpoint}/agents/v1.0/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`;
   }
+  // end of custom code
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-agents/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -61,7 +63,7 @@ export function createAgents(
     });
   }
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-05-15-preview";
+  const apiVersion = options.apiVersion ?? "2024-07-01-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

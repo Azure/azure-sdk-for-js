@@ -22,12 +22,10 @@ export async function main(): Promise<void> {
 
   // Create and upload file
   const fileContent = "Hello, World!";
-  // convert fileContent to Uint8Array
-  const fileContentUint8Array = new TextEncoder().encode(fileContent);
-  const file = await client.uploadFile({ 
-    file: fileContentUint8Array, 
-    purpose: "assistants"
-  }, );
+
+  const readable = Readable.from(Buffer.from(fileContent));
+  // Add fileName to options for proper multipart/form-data formatting
+  const file = await client.uploadFile(readable, "assistants");
   console.log(`Uploaded file, file ID : ${file.id}`);
 
   // List uploaded files

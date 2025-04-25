@@ -136,7 +136,9 @@ export interface GetFileOptionalParams extends OperationOptions {}
 export interface DeleteFileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface UploadFileOptionalParams extends OperationOptions {}
+export interface UploadFileOptionalParams extends OperationOptions {
+  fileName?: string;
+}
 
 /** Optional parameters. */
 export interface ListFilesOptionalParams extends OperationOptions {

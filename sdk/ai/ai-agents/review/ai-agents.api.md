@@ -95,11 +95,7 @@ export class AgentsClient {
     updateMessage(threadId: string, messageId: string, options?: UpdateMessageOptionalParams): Promise<ThreadMessage>;
     updateRun(threadId: string, runId: string, options?: UpdateRunOptionalParams): Promise<ThreadRun>;
     updateThread(threadId: string, options?: UpdateThreadOptionalParams): Promise<AgentThread>;
-    uploadFile(body: {
-        file: Uint8Array;
-        purpose: FilePurpose;
-        filename?: string;
-    }, options?: UploadFileOptionalParams): Promise<OpenAIFile>;
+    uploadFile(file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams): Promise<OpenAIFile>;
 }
 
 // @public
@@ -1454,6 +1450,9 @@ export class ToolSet {
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
+    addFabricTool(connectionId: string): {
+        definition: MicrosoftFabricToolDefinition;
+    };
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
@@ -1483,6 +1482,9 @@ export class ToolUtility {
     };
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinitionUnion;
+    };
+    static createFabricTool(connectionId: string): {
+        definition: MicrosoftFabricToolDefinition;
     };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
@@ -1554,6 +1556,8 @@ export interface UpdateToolResourcesOptions {
 
 // @public
 export interface UploadFileOptionalParams extends OperationOptions {
+    // (undocumented)
+    fileName?: string;
 }
 
 // @public

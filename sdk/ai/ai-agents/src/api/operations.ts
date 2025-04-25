@@ -912,22 +912,13 @@ export async function deleteFile(
 export function _uploadFileSend(
   context: Client,
   body: {
-    file: Uint8Array;
+    file: ReadableStream | NodeJS.ReadableStream;
     purpose: FilePurpose;
     filename?: string;
   },
   options: UploadFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/files{?api%2Dversion}",
-    {
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
+  return context.path("/files").post({
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
     headers: {
@@ -951,7 +942,7 @@ export async function _uploadFileDeserialize(result: PathUncheckedResponse): Pro
 export async function uploadFile(
   context: Client,
   body: {
-    file: Uint8Array;
+    file: ReadableStream | NodeJS.ReadableStream;
     purpose: FilePurpose;
     filename?: string;
   },

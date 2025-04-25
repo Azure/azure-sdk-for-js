@@ -280,14 +280,11 @@ export class AgentsClient {
 
   /** Uploads a file for use by other operations. */
   uploadFile(
-    body: {
-      file: Uint8Array;
-      purpose: FilePurpose;
-      filename?: string;
-    },
+    file: ReadableStream | NodeJS.ReadableStream,
+    purpose: FilePurpose,
     options: UploadFileOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIFile> {
-    return uploadFile(this._client, body, options);
+    return uploadFile(this._client, {file: file, purpose:purpose, filename: options.fileName} , options);
   }
 
   /** Gets a list of previously uploaded files. */

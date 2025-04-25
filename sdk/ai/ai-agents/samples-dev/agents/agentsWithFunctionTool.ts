@@ -12,15 +12,14 @@
 
 import type {
   FunctionToolDefinition,
-  FunctionToolDefinitionOutput,
-  MessageContentOutput,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
-  RequiredToolCallOutput,
-  SubmitToolOutputsActionOutput,
+  MessageContent,
+  MessageImageFileContent,
+  MessageTextContent,
+  RequiredToolCall,
+  SubmitToolOutputsAction,
   ToolOutput,
-} from "@azure/ai-projects";
-import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-projects";
+} from "@azure/ai-agents";
+import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -31,11 +30,8 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
-  const agents = client.agents;
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
   class FunctionToolExecutor {
     private functionTools: { func: Function; definition: FunctionToolDefinition }[];
 

@@ -20,6 +20,7 @@ import type {
   OpenApiFunctionDefinition,
   AISearchIndexResource,
   BingGroundingToolDefinition,
+  MicrosoftFabricToolDefinition,
 } from "./index.js";
 
 /**
@@ -206,6 +207,24 @@ export class ToolUtility {
     };
   }
 
+    /**
+   * Creates a Microsoft Fabric tool
+   *
+   * @param connectionIds - A list of the IDs of the Fabric connections to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  static createFabricTool(connectionId: string): { definition: MicrosoftFabricToolDefinition } {
+    return {
+      definition: {
+        type: "fabric_dataagent",
+        fabricDataagent: {
+          connectionList: [{ connectionId: connectionId }],
+        },
+      },
+    };
+  }
+
+
   /**
    * Creates a function tool
    *
@@ -351,6 +370,18 @@ export class ToolSet {
     connectionId: string,
   ): { definition: BingGroundingToolDefinition } {
     const tool = ToolUtility.createBingGroundingTool(connectionId);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds a Microsoft Fabric tool to the tool set.
+   *
+   * @param connectionId - The ID of the Fabric connection to use.
+   * @returns An object containing the definition for the Microsoft Fabric tool
+   */
+  addFabricTool(connectionId: string): { definition: MicrosoftFabricToolDefinition } {
+    const tool = ToolUtility.createFabricTool(connectionId);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }

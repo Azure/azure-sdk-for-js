@@ -6,7 +6,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
@@ -38,15 +38,12 @@ function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
 export async function main(): Promise<void> {
   console.log("== AI Projects Agent with Base64 Image Input Sample ==");
 
-  // Create the client
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString,
-    new DefaultAzureCredential(),
-  );
+   // Create an Azure AI Client
+   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create an agent
   console.log(`Creating agent with model ${modelDeployment}...`);
-  const agent = await client.agents.createAgent(modelDeployment, {
+  const agent = await client.createAgent(modelDeployment, {
     name: "my-agent",
     instructions: "You are helpful agent",
   });
@@ -54,7 +51,7 @@ export async function main(): Promise<void> {
 
   // Create a thread
   console.log("Creating thread...");
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message with text and image content using base64
@@ -78,15 +75,12 @@ export async function main(): Promise<void> {
     },
   ];
 
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: content,
-  });
+  const message = await client.createMessage(thread.id, "user", content);
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and poll a run
   console.log("Creating run...");
-  let run = await client.agents.createRun(thread.id, agent.id);
+  let run = await client.createRun(thread.id, agent.id);
 
   // Poll the run as long as run status is queued or in progress
   while (
@@ -97,16 +91,16 @@ export async function main(): Promise<void> {
     // Wait for a second
     console.log(`Run status: ${run.status}, waiting...`);
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    run = await client.agents.getRun(thread.id, run.id);
+    run = await client.getRun(thread.id, run.id);
   }
   console.log(`Run complete with status: ${run.status}`);
 
   // Delete the agent
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // List messages
-  const messages = await client.agents.listMessages(thread.id, {
+  const messages = await client.listMessages(thread.id, {
     order: "asc",
   });
 

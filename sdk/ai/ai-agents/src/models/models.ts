@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { FileContents} from "../static-helpers/multipartHelpers.js";
-import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+// import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
@@ -3381,11 +3381,15 @@ export interface _UploadFileRequest {
 }
 
 export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
+  // return [
+  //   createFilePartDescriptor("file", item["file"],"multipart/form-data"),
+  //   { name: "purpose", body: item["purpose"] },
+  //   ...(item["filename"] === undefined ? [] : [{ name: "filename", body: item["filename"] }]),
+  // ];
   return [
-    createFilePartDescriptor("file", item["file"]),
-    { name: "purpose", body: item["purpose"] },
-    ...(item["filename"] === undefined ? [] : [{ name: "filename", body: item["filename"] }]),
-  ];
+      { name: "file" as const, body: item["file"] },
+      { name: "purpose" as const, body: item["purpose"] },
+    ]
 }
 
 /** A status response from a file deletion operation. */
