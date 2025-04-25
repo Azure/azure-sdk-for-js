@@ -50,8 +50,6 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can set multiple new domains when empty before", async () => {
-      await client.setDomains([]);
-
       const domains: SipDomain[] = [
         { fqdn: domain1, enabled: false },
         { fqdn: domain2, enabled: false },
