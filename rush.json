@@ -2356,6 +2356,11 @@
       "packageName": "@azure/arm-onlineexperimentation",
       "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-carbonoptimization",
+      "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
     }
   ]
 }
