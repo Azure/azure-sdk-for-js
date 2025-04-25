@@ -68,13 +68,13 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
     }
-    if (err.code === StatusCodes.ServiceUnavailable) {
-      // Mark the partition as unavailable.
-      // Let the Retry logic decide if the request should be retried
-      await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
-        this.requestContext,
-      );
-    }
+
+    // Mark the partition as unavailable.
+    // Let the Retry logic decide if the request should be retried
+    await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      this.requestContext,
+    );
+
     if (!this.enableEndPointDiscovery) {
       return false;
     }
