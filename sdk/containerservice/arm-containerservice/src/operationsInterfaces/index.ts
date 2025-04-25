@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations.js";
-export * from "./managedClusters.js";
-export * from "./maintenanceConfigurations.js";
-export * from "./agentPools.js";
-export * from "./privateEndpointConnections.js";
-export * from "./privateLinkResources.js";
-export * from "./resolvePrivateLinkServiceId.js";
-export * from "./snapshots.js";
-export * from "./trustedAccessRoleBindings.js";
-export * from "./trustedAccessRoles.js";
-export * from "./machines.js";
+export * from "./operations";
+export * from "./managedClusters";
+export * from "./containerService";
+export * from "./maintenanceConfigurations";
+export * from "./namespaces";
+export * from "./agentPools";
+export * from "./machines";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
+export * from "./resolvePrivateLinkServiceId";
+export * from "./operationStatusResultOperations";
+export * from "./snapshots";
+export * from "./managedClusterSnapshots";
+export * from "./trustedAccessRoles";
+export * from "./trustedAccessRoleBindings";
+export * from "./loadBalancers";
