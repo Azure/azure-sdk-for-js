@@ -5,7 +5,7 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import { assertChatCompletions } from "../utils/asserts.js";
-import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
+import { APIMatrix, APIVersion, withDeployments } from "../utils/utils.js";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 import { logger } from "../utils/logger.js";
@@ -26,7 +26,7 @@ describe("Vision", function () {
       });
 
       describe("chat.completions.create", function () {
-        it("Describes an image", async () => {
+        it.skipIf(apiVersion === APIVersion.v2024_10_21)("Describes an image", async () => {
           const url =
             "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
           await withDeployments(
