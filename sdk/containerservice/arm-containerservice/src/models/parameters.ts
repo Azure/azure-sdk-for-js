@@ -24,7 +24,7 @@ import {
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
