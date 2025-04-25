@@ -117,8 +117,7 @@ export interface BeginReservationPurchaseOptions extends OperationOptions {
 /**
  * Additional options for updating a phone numbers reservation.
  */
-export interface CreateOrUpdateReservationOptions
-  extends OperationOptions {
+export interface CreateOrUpdateReservationOptions extends OperationOptions {
   /**
    * The id of the reservation.
    */

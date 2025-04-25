@@ -37,7 +37,7 @@ matrix([[true, false]], async (useAad) => {
           countryCode: "US",
           phoneNumberType: "tollFree",
         };
-  
+
         const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
           browseAvailableNumberRequest,
           {
