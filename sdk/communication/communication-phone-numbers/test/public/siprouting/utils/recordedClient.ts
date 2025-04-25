@@ -9,7 +9,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import type { SipTrunk, SipTrunkRoute } from "../../../../src/index.js";
+import type { SipTrunk, SipTrunkRoute, SipDomain } from "../../../../src/index.js";
 import { SipRoutingClient } from "../../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
@@ -145,6 +145,7 @@ export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
+  await client.setDomains([]);
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
@@ -156,6 +157,27 @@ export function getUniqueFqdn(recorder: Recorder): string {
 }
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;
+}
+
+let domainNumber = 1;
+export function getUniqueDomain(recorder: Recorder): string {
+  const uniqueDomain = randomUUID().replace(/-/g, "");
+  return recorder.variable(`domain-${domainNumber++}`, `testdomain${uniqueDomain}.com`);
+}
+
+export function resetUniqueDomains(): void {
+  domainNumber = 1;
+}
+
+export async function listAllDomains(client: SipRoutingClient): Promise<SipDomain[]> {
+  const result: SipDomain[] = [];
+
+  for await (const domain of client.listDomains()) {
+    if (domain) {
+      result.push(domain);
+    }
+  }
+  return result;
 }
 
 export async function listAllTrunks(client: SipRoutingClient): Promise<SipTrunk[]> {
