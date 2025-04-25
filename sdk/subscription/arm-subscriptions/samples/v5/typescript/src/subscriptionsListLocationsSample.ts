@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
@@ -22,10 +23,14 @@ async function listLocations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listLocations(subscriptionId)) {
+  for await (const item of client.subscriptions.listLocations(subscriptionId)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listLocations().catch(console.error);
+async function main(): Promise<void> {
+  await listLocations();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get Alias Subscription.
@@ -25,4 +26,8 @@ async function getAlias() {
   console.log(result);
 }
 
-getAlias().catch(console.error);
+async function main() {
+  await getAlias();
+}
+
+main().catch(console.error);

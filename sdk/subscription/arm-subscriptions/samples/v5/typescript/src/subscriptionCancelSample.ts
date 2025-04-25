@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to cancel a subscription
@@ -25,4 +26,8 @@ async function cancelSubscription(): Promise<void> {
   console.log(result);
 }
 
-cancelSubscription().catch(console.error);
+async function main(): Promise<void> {
+  await cancelSubscription();
+}
+
+main().catch(console.error);

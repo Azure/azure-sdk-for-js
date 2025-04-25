@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets details about a specified subscription.
@@ -25,4 +26,8 @@ async function getSubscription(): Promise<void> {
   console.log(result);
 }
 
-getSubscription().catch(console.error);
+async function main(): Promise<void> {
+  await getSubscription();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets details about a specified subscription.
@@ -25,4 +26,8 @@ async function getSubscription() {
   console.log(result);
 }
 
-getSubscription().catch(console.error);
+async function main() {
+  await getSubscription();
+}
+
+main().catch(console.error);

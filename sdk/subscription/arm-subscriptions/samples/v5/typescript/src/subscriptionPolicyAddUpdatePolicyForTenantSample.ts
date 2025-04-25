@@ -10,9 +10,10 @@
 // Licensed under the MIT License.
 import {
   PutTenantPolicyRequestProperties,
-  SubscriptionClient
+  SubscriptionClient,
 } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update Subscription tenant policy for user's tenant.
@@ -26,8 +27,8 @@ async function tenantPolicy(): Promise<void> {
     blockSubscriptionsLeavingTenant: true,
     exemptedPrincipals: [
       "e879cf0f-2b4d-5431-109a-f72fc9868693",
-      "9792da87-c97b-410d-a97d-27021ba09ce6"
-    ]
+      "9792da87-c97b-410d-a97d-27021ba09ce6",
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
@@ -35,4 +36,8 @@ async function tenantPolicy(): Promise<void> {
   console.log(result);
 }
 
-tenantPolicy().catch(console.error);
+async function main(): Promise<void> {
+  await tenantPolicy();
+}
+
+main().catch(console.error);

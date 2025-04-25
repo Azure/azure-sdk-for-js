@@ -6,7 +6,7 @@ The subscription client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/subscription/arm-subscriptions) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-subscriptions) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-subscriptions?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-subscriptions) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

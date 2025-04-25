@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Accept subscription ownership status.
@@ -25,4 +26,8 @@ async function acceptOwnershipStatus() {
   console.log(result);
 }
 
-acceptOwnershipStatus().catch(console.error);
+async function main() {
+  await acceptOwnershipStatus();
+}
+
+main().catch(console.error);

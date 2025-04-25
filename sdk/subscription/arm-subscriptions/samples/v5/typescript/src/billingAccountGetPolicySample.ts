@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get Billing Account Policy.
@@ -25,4 +26,8 @@ async function getBillingAccountPolicy(): Promise<void> {
   console.log(result);
 }
 
-getBillingAccountPolicy().catch(console.error);
+async function main(): Promise<void> {
+  await getBillingAccountPolicy();
+}
+
+main().catch(console.error);
