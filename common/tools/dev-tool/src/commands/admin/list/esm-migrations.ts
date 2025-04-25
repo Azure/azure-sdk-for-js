@@ -6,7 +6,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolveRoot } from "../../../util/resolveProject";
 import os from "node:os";
 import path from "node:path";
-import { run } from "../../../util/run";
+import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
 
 export const commandInfo = makeCommandInfo(
   "esm-migrations",
@@ -24,66 +24,6 @@ export const commandInfo = makeCommandInfo(
     },
   },
 );
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
-  if (_rushJson) return _rushJson;
-
-  const workspaceRootFile = path.resolve(__dirname, "../../../../../../../pnpm-workspace.yaml");
-  const workspaceRoot = path.dirname(workspaceRootFile);
-
-  const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=1"], {
-    captureOutput: true,
-    cwd: workspaceRoot,
-  });
-
-  // console.log(listPackagesCommand.output);
-  if (listPackagesCommand.exitCode !== 0) {
-    throw new Error("Failed to list packages");
-  }
-
-  const pnpmPackages = JSON.parse(listPackagesCommand.output);
-  const results = {
-    projects: [] as RushJsonProject[],
-  };
-
-  for (const pkg of pnpmPackages) {
-    if (pkg.path.startsWith(workspaceRoot)) {
-      const projectFolder = pkg.path.slice(workspaceRoot.length + 1);
-      const packageJsonPath = path.join(pkg.path, "package.json");
-      const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
-      results.projects.push({
-        packageName: pkg.name,
-        projectFolder,
-        versionPolicyName: packageJson["sdk-type"] || "unknown",
-      });
-    }
-  }
-
-  return (_rushJson = results);
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-
-  /**
-   * The version policy name.
-   */
-  versionPolicyName: string;
-}
 
 interface MigrationResults {
   core: MigrationResult;
@@ -192,7 +132,6 @@ export default leafCommand(commandInfo, async ({ output, verbose }) => {
 
   const rushJson = await getRushJson();
   const projects = rushJson.projects;
-
   const results: MigrationResults = {
     core: createMigrationResult(),
     management: createMigrationResult(),

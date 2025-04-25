@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "author": "Microsoft Corporation",
-  "sdk-type": "client",
+  "sdk-type": "utility",
   "keywords": [
     "azure",
     "amqp",

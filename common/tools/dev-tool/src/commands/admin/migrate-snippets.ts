@@ -5,74 +5,15 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { readFile, writeFile } from "node:fs/promises";
-import { dirname, join, resolve } from "node:path";
+import { resolve } from "node:path";
 import { existsSync } from "node:fs";
 import { run } from "../../util/run";
 import { isWindows } from "../../util/platform";
 import vendored from "../run/vendored";
 import { Project, SourceFile } from "ts-morph";
+import { getRushJson, type RushJsonProject } from "../../util/synthesizedRushJson";
 
 const log = createPrinter("migrate-source");
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
-  if (_rushJson) return _rushJson;
-
-  const workspaceRootFile = resolve(__dirname, "../../../../../../pnpm-workspace.yaml");
-  const workspaceRoot = dirname(workspaceRootFile);
-
-  const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=1"], {
-    captureOutput: true,
-    cwd: workspaceRoot,
-  });
-
-  // console.log(listPackagesCommand.output);
-  if (listPackagesCommand.exitCode !== 0) {
-    throw new Error("Failed to list packages");
-  }
-
-  const pnpmPackages = JSON.parse(listPackagesCommand.output);
-  const results = {
-    projects: [] as RushJsonProject[],
-  };
-
-  for (const pkg of pnpmPackages) {
-    if (pkg.path.startsWith(workspaceRoot)) {
-      const projectFolder = pkg.path.slice(workspaceRoot.length + 1);
-      const packageJsonPath = join(pkg.path, "package.json");
-      const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
-      results.projects.push({
-        packageName: pkg.name,
-        projectFolder,
-        versionPolicyName: packageJson["sdk-type"] || "unknown",
-      });
-    }
-  }
-
-  return (_rushJson = results);
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-
-  /**
-   * The version policy name.
-   */
-  versionPolicyName: string;
-}
 
 export const commandInfo = makeCommandInfo(
   "migrate-snippets",

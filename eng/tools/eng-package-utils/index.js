@@ -48,7 +48,7 @@ function getVersionPolicyName(project) {
     return "utility";
   } else if (packageName.includes("/arm-")) {
     return "management";
-  } else if (packageDir.includes("sdk/core") || packageDir.includes("sdk\\core")) {
+  } else if (packageDir.includes("sdk/core/") || packageDir.includes("sdk\\core\\")) {
     return "core";
   } else if (packageDir.includes("sdk/") || packageDir.includes("sdk\\")) {
     return "client";
