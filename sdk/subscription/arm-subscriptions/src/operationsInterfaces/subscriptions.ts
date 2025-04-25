@@ -13,8 +13,8 @@ import {
   Subscription,
   SubscriptionsListOptionalParams,
   SubscriptionsGetOptionalParams,
-  SubscriptionsGetResponse
-} from "../models/index.js";
+  SubscriptionsGetResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Subscriptions. */
@@ -27,14 +27,14 @@ export interface Subscriptions {
    */
   listLocations(
     subscriptionId: string,
-    options?: SubscriptionsListLocationsOptionalParams
+    options?: SubscriptionsListLocationsOptionalParams,
   ): PagedAsyncIterableIterator<Location>;
   /**
    * Gets all subscriptions for a tenant.
    * @param options The options parameters.
    */
   list(
-    options?: SubscriptionsListOptionalParams
+    options?: SubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<Subscription>;
   /**
    * Gets details about a specified subscription.
@@ -43,6 +43,6 @@ export interface Subscriptions {
    */
   get(
     subscriptionId: string,
-    options?: SubscriptionsGetOptionalParams
+    options?: SubscriptionsGetOptionalParams,
   ): Promise<SubscriptionsGetResponse>;
 }

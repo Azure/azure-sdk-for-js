@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { SubscriptionPolicy } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { SubscriptionPolicy } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SubscriptionClient } from "../subscriptionClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SubscriptionClient } from "../subscriptionClient";
 import {
   GetTenantPolicyResponse,
   SubscriptionPolicyListPolicyForTenantNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   SubscriptionPolicyAddUpdatePolicyForTenantResponse,
   SubscriptionPolicyGetPolicyForTenantOptionalParams,
   SubscriptionPolicyGetPolicyForTenantResponse,
-  SubscriptionPolicyListPolicyForTenantNextResponse
-} from "../models/index.js";
+  SubscriptionPolicyListPolicyForTenantNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionPolicy operations. */
@@ -44,7 +44,7 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
    * @param options The options parameters.
    */
   public listPolicyForTenant(
-    options?: SubscriptionPolicyListPolicyForTenantOptionalParams
+    options?: SubscriptionPolicyListPolicyForTenantOptionalParams,
   ): PagedAsyncIterableIterator<GetTenantPolicyResponse> {
     const iter = this.listPolicyForTenantPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPolicyForTenantPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPolicyForTenantPagingPage(
     options?: SubscriptionPolicyListPolicyForTenantOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GetTenantPolicyResponse[]> {
     let result: SubscriptionPolicyListPolicyForTenantResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
   }
 
   private async *listPolicyForTenantPagingAll(
-    options?: SubscriptionPolicyListPolicyForTenantOptionalParams
+    options?: SubscriptionPolicyListPolicyForTenantOptionalParams,
   ): AsyncIterableIterator<GetTenantPolicyResponse> {
     for await (const page of this.listPolicyForTenantPagingPage(options)) {
       yield* page;
@@ -100,11 +100,11 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
    */
   addUpdatePolicyForTenant(
     body: PutTenantPolicyRequestProperties,
-    options?: SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams
+    options?: SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams,
   ): Promise<SubscriptionPolicyAddUpdatePolicyForTenantResponse> {
     return this.client.sendOperationRequest(
       { body, options },
-      addUpdatePolicyForTenantOperationSpec
+      addUpdatePolicyForTenantOperationSpec,
     );
   }
 
@@ -113,11 +113,11 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
    * @param options The options parameters.
    */
   getPolicyForTenant(
-    options?: SubscriptionPolicyGetPolicyForTenantOptionalParams
+    options?: SubscriptionPolicyGetPolicyForTenantOptionalParams,
   ): Promise<SubscriptionPolicyGetPolicyForTenantResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPolicyForTenantOperationSpec
+      getPolicyForTenantOperationSpec,
     );
   }
 
@@ -126,11 +126,11 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
    * @param options The options parameters.
    */
   private _listPolicyForTenant(
-    options?: SubscriptionPolicyListPolicyForTenantOptionalParams
+    options?: SubscriptionPolicyListPolicyForTenantOptionalParams,
   ): Promise<SubscriptionPolicyListPolicyForTenantResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listPolicyForTenantOperationSpec
+      listPolicyForTenantOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class SubscriptionPolicyImpl implements SubscriptionPolicy {
    */
   private _listPolicyForTenantNext(
     nextLink: string,
-    options?: SubscriptionPolicyListPolicyForTenantNextOptionalParams
+    options?: SubscriptionPolicyListPolicyForTenantNextOptionalParams,
   ): Promise<SubscriptionPolicyListPolicyForTenantNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listPolicyForTenantNextOperationSpec
+      listPolicyForTenantNextOperationSpec,
     );
   }
 }
@@ -157,64 +157,63 @@ const addUpdatePolicyForTenantOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GetTenantPolicyResponse
+      bodyMapper: Mappers.GetTenantPolicyResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getPolicyForTenantOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Subscription/policies/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetTenantPolicyResponse
+      bodyMapper: Mappers.GetTenantPolicyResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPolicyForTenantOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Subscription/policies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetTenantPolicyListResponse
+      bodyMapper: Mappers.GetTenantPolicyListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPolicyForTenantNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetTenantPolicyListResponse
+      bodyMapper: Mappers.GetTenantPolicyListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

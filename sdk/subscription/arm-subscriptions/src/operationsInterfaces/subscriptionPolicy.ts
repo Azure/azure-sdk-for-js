@@ -14,8 +14,8 @@ import {
   SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams,
   SubscriptionPolicyAddUpdatePolicyForTenantResponse,
   SubscriptionPolicyGetPolicyForTenantOptionalParams,
-  SubscriptionPolicyGetPolicyForTenantResponse
-} from "../models/index.js";
+  SubscriptionPolicyGetPolicyForTenantResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionPolicy. */
@@ -25,7 +25,7 @@ export interface SubscriptionPolicy {
    * @param options The options parameters.
    */
   listPolicyForTenant(
-    options?: SubscriptionPolicyListPolicyForTenantOptionalParams
+    options?: SubscriptionPolicyListPolicyForTenantOptionalParams,
   ): PagedAsyncIterableIterator<GetTenantPolicyResponse>;
   /**
    * Create or Update Subscription tenant policy for user's tenant.
@@ -34,13 +34,13 @@ export interface SubscriptionPolicy {
    */
   addUpdatePolicyForTenant(
     body: PutTenantPolicyRequestProperties,
-    options?: SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams
+    options?: SubscriptionPolicyAddUpdatePolicyForTenantOptionalParams,
   ): Promise<SubscriptionPolicyAddUpdatePolicyForTenantResponse>;
   /**
    * Get the subscription tenant policy for the user's tenant.
    * @param options The options parameters.
    */
   getPolicyForTenant(
-    options?: SubscriptionPolicyGetPolicyForTenantOptionalParams
+    options?: SubscriptionPolicyGetPolicyForTenantOptionalParams,
   ): Promise<SubscriptionPolicyGetPolicyForTenantResponse>;
 }

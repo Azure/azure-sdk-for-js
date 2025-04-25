@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Tenants } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Tenants } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SubscriptionClient } from "../subscriptionClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SubscriptionClient } from "../subscriptionClient";
 import {
   TenantIdDescription,
   TenantsListNextOptionalParams,
   TenantsListOptionalParams,
   TenantsListResponse,
-  TenantsListNextResponse
-} from "../models/index.js";
+  TenantsListNextResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Tenants operations. */
@@ -39,7 +39,7 @@ export class TenantsImpl implements Tenants {
    * @param options The options parameters.
    */
   public list(
-    options?: TenantsListOptionalParams
+    options?: TenantsListOptionalParams,
   ): PagedAsyncIterableIterator<TenantIdDescription> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class TenantsImpl implements Tenants {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TenantsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TenantIdDescription[]> {
     let result: TenantsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class TenantsImpl implements Tenants {
   }
 
   private async *listPagingAll(
-    options?: TenantsListOptionalParams
+    options?: TenantsListOptionalParams,
   ): AsyncIterableIterator<TenantIdDescription> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class TenantsImpl implements Tenants {
    * @param options The options parameters.
    */
   private _list(
-    options?: TenantsListOptionalParams
+    options?: TenantsListOptionalParams,
   ): Promise<TenantsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class TenantsImpl implements Tenants {
    */
   private _listNext(
     nextLink: string,
-    options?: TenantsListNextOptionalParams
+    options?: TenantsListNextOptionalParams,
   ): Promise<TenantsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,24 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantListResult
-    }
+      bodyMapper: Mappers.TenantListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantListResult
-    }
+      bodyMapper: Mappers.TenantListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
