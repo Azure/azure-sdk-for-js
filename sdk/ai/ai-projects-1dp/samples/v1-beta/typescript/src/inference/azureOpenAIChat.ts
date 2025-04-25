@@ -16,17 +16,17 @@ const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project en
 const deploymentName = process.env["DEPLOYMENT_NAME"] || "<deployment name>";
 
 export async function main(): Promise<void> {
-    const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-    const client = await project.inference.azureOpenAI();
-    const response = await client.chat.completions.create({
-      model: deploymentName,
-      messages: [
-        { role: "system", content: "You are a helpful assistant. You will talk like a pirate." }, // System role not supported for some models
-        { role: "user", content: "Tell me a joke?" },
-      ],
-    });
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const client = await project.inference.azureOpenAI();
+  const response = await client.chat.completions.create({
+    model: deploymentName,
+    messages: [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." }, // System role not supported for some models
+      { role: "user", content: "Tell me a joke?" },
+    ],
+  });
 
-    console.log(response);
+  console.log(response);
 }
 
 main().catch((err) => {

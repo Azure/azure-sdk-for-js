@@ -291,10 +291,15 @@ export interface EvaluationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface EvaluationsOperations {
-    createRun: (evaluation: Evaluation, options?: EvaluationsCreateRunOptionalParams) => Promise<Evaluation>;
+    createRun: (evaluation: EvaluationWithOptionalId, options?: EvaluationsCreateRunOptionalParams) => Promise<Evaluation>;
     get: (name: string, options?: EvaluationsGetOptionalParams) => Promise<Evaluation>;
     list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
 }
+
+// @public
+export type EvaluationWithOptionalId = Omit<Evaluation, "id"> & {
+    id?: string;
+};
 
 // @public
 export interface EvaluatorConfiguration {
@@ -302,6 +307,35 @@ export interface EvaluatorConfiguration {
     id: string;
     initParams?: Record<string, any>;
 }
+
+// @public
+export type EvaluatorId = (typeof EvaluatorIds)[keyof typeof EvaluatorIds];
+
+// @public
+export const EvaluatorIds: {
+    readonly RELEVANCE: "azureai://built-in/evaluators/relevance";
+    readonly HATE_UNFAIRNESS: "azureai://built-in/evaluators/hate_unfairness";
+    readonly VIOLENCE: "azureai://built-in/evaluators/violence";
+    readonly GROUNDEDNESS: "azureai://built-in/evaluators/groundedness";
+    readonly GROUNDEDNESS_PRO: "azureai://built-in/evaluators/groundedness_pro";
+    readonly BLUE_SCORE: "azureai://built-in/evaluators/blue_score";
+    readonly CODE_VULNERABILITY: "azureai://built-in/evaluators/code_vulnerability";
+    readonly COHERENCE: "azureai://built-in/evaluators/coherence";
+    readonly CONTENT_SAFETY: "azureai://built-in/evaluators/content_safety";
+    readonly F1_SCORE: "azureai://built-in/evaluators/f1_score";
+    readonly FLUENCY: "azureai://built-in/evaluators/fluency";
+    readonly GLEU_SCORE: "azureai://built-in/evaluators/gleu_score";
+    readonly INDIRECT_ATTACK: "azureai://built-in/evaluators/indirect_attack";
+    readonly METEOR_SCORE: "azureai://built-in/evaluators/meteor_score";
+    readonly PROTECTED_MATERIAL: "azureai://built-in/evaluators/protected_material";
+    readonly RETRIEVAL: "azureai://built-in/evaluators/retrieval";
+    readonly ROUGE_SCORE: "azureai://built-in/evaluators/rouge_score";
+    readonly SELF_HARM: "azureai://built-in/evaluators/self_harm";
+    readonly SEXUAL: "azureai://built-in/evaluators/sexual";
+    readonly SIMILARITY_SCORE: "azureai://built-in/evaluators/similarity_score";
+    readonly UNGROUNDED_ATTRIBUTES: "azureai://built-in/evaluators/ungrounded_attributes";
+    readonly RESPONSE_COMPLETENESS: "azureai://built-in/evaluators/response_completeness";
+};
 
 // @public
 export interface FileDatasetVersion extends DatasetVersion {

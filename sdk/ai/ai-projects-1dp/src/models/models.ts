@@ -203,7 +203,11 @@ export interface Evaluation {
   evaluators: Record<string, EvaluatorConfiguration>;
 }
 
-export function evaluationSerializer(item: Evaluation): any {
+/** optional id property for Evaluation, which shouldbe used for create operation */
+export type EvaluationWithOptionalId = Omit<Evaluation, "id"> & { id?: string };
+
+// optional id property
+export function evaluationSerializer(item: EvaluationWithOptionalId): any {
   return {
     data: inputDataUnionSerializer(item["data"]),
     displayName: item["displayName"],
