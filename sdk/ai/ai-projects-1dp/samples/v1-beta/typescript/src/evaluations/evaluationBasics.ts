@@ -39,10 +39,10 @@ export async function main(): Promise<void> {
       relevance: {
         id: EvaluatorIds.RELEVANCE,
         initParams: {
-          deploymentName: "got-4o"
-        }
-      } 
-    }
+          deploymentName: "got-4o",
+        },
+      },
+    },
   };
 
   const evalResp = await project.evaluations.createRun(newEvaluation);
