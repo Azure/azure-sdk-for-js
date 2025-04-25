@@ -3011,7 +3011,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-neonpostgres@file:projects/arm-neonpostgres.tgz':
-    resolution: {integrity: sha512-OtXXTb+uPR318DgtfGcJtyHzGZZ5oQX90KyjNacOYuhEWuIJIUcsLn04uv95PuGyPRHgfxab6KQuvbbQP01bZg==, tarball: file:projects/arm-neonpostgres.tgz}
+    resolution: {integrity: sha512-L8Ds78VicqhwuDixYIPondccS799PPo+Pi9QJX/2pyFxe0X/XR2IyGugTKfSYKpw+0IgzRPHkm4gD7vHdwaMGA==, tarball: file:projects/arm-neonpostgres.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
@@ -3175,7 +3175,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-redisenterprisecache@file:projects/arm-redisenterprisecache.tgz':
-    resolution: {integrity: sha512-9aXROvz6zVwXo+MsMyqzWcxh7dLawgmrWaY1b7J8DHlztxS+isPbTFvxYf4myM1pIKgMAUTLESyXQRfs8TfNLQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-gcG5Cpqyigq0tm/hGofCoYZPSbDbDAEELWRbEXX6DweDIlBHojla4GIVDfYwSsVjQ25hTEqhcQVbvCZKjBv9ZQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-relay@file:projects/arm-relay.tgz':
@@ -3407,7 +3407,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-workloadssapvirtualinstance@file:projects/arm-workloadssapvirtualinstance.tgz':
-    resolution: {integrity: sha512-cZYJ+xGR5WS7ypyKPsR6DqBqh0bRxFU88zE0wtLgbm5A7zU3CKAmvUb1VXos2+h9/QG3Iv3ynZwgi3+dWOPRDQ==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-mF+/PA4G+AuNhRlU8tjAr/4iEHmKve/CYJug8HHxI0FNDn0rJloTuancni28vgk29t9QvSq/gd3yyBtWS7l6hg==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workspaces@file:projects/arm-workspaces.tgz':
