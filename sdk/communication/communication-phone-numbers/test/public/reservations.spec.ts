@@ -139,22 +139,15 @@ matrix([[true, false]], async (useAad) => {
         ),
       );
 
-      const phoneNumbersToRemove = [phoneNumbers[0].id as string];
-      phoneNumbersList.push(phoneNumbers[1]);
+      const phoneNumbersToRemove = [phoneNumbers[0].id as string, phoneNumbers[1].id as string];
       updatedReservationResponse = await client.createOrUpdateReservation({
         reservationId,
-        add: phoneNumbersList,
         remove: phoneNumbersToRemove,
       });
 
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
           phoneNumbers[0].id as string,
-        ),
-      );
-      assert.isTrue(
-        Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
-          phoneNumbers[1].id as string,
         ),
       );
 

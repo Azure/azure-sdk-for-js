@@ -3,7 +3,6 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { env, isPlaybackMode, type Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersReservation } from "../../src/index.js";
 import { type BrowseAvailableNumbersRequest, type PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -37,23 +36,28 @@ matrix([[true, false]], async (useAad) => {
         const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
           countryCode: "US",
           phoneNumberType: "tollFree",
-          assignmentType: "application",
         };
-
+  
         const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
           browseAvailableNumberRequest,
+          {
+            capabilities: {
+              calling: "outbound",
+            },
+            assignmentType: "application",
+          },
         );
 
-        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-        const phoneNumberForPurchase = phoneNumbers[0].phoneNumber
-          ? phoneNumbers[0].phoneNumber
+        const phoneNumberForPurchase = browseAvailableNumbers[0].phoneNumber
+          ? browseAvailableNumbers[0].phoneNumber
           : "";
 
         assert.isNotEmpty(phoneNumberForPurchase);
-        const phoneNumbersList = [phoneNumbers[0]];
+        const phoneNumbersList = [browseAvailableNumbers[0]];
 
-        const reservationResponse = await client.createReservation(phoneNumbersList, {
-          reservationId: getReservationId(),
+        const reservationResponse = await client.createOrUpdateReservation({
+          reservationId: reservationId,
+          add: phoneNumbersList,
         });
         const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
