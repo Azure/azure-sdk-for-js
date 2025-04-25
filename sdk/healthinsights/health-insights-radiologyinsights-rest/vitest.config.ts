@@ -16,6 +16,7 @@ export default mergeConfig(
       include: ["test/**/*.spec.ts"],
       hookTimeout: 5000000,
       testTimeout: 5000000,
+      environment: "node",
     },
   }),
 );

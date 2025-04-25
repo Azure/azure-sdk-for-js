@@ -24680,12 +24680,11 @@ snapshots:
 
   ? "@rush-temp/health-insights-radiologyinsights@file:projects/health-insights-radiologyinsights.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)"
   : dependencies:
-      "@azure/core-lro": 2.7.2
+      "@azure/core-lro": 3.2.0
       "@types/node": 18.19.86
       "@vitest/browser": 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       "@vitest/coverage-istanbul": 3.1.2(vitest@3.1.2)
       autorest: 3.7.1
-      ts-node: 10.9.2(@types/node@18.19.84)(typescript@5.8.2)
       dotenv: 16.5.0
       eslint: 9.25.0
       playwright: 1.52.0

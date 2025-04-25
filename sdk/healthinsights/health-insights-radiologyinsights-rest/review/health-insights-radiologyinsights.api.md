@@ -4,6 +4,8 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { CreateHttpPollerOptions } from '@azure/core-lro';
@@ -13,7 +15,6 @@ import type { KeyCredential } from '@azure/core-auth';
 import type { OperationState } from '@azure/core-lro';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
-import type { SimplePollerLike } from '@azure/core-lro';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -62,9 +63,6 @@ export type AzureHealthInsightsClient = Client & {
 export interface AzureHealthInsightsClientOptions extends ClientOptions {
     apiVersion?: string;
 }
-
-// @public
-export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
 export type ClinicalDocumentType = string;
@@ -258,7 +256,7 @@ export interface CreateJob201Response extends HttpResponse {
     status: "201";
 }
 
-// @public
+// @public (undocumented)
 export interface CreateJobBodyParam {
     body: RadiologyInsightsJob;
 }
@@ -280,6 +278,13 @@ export interface CreateJobDefaultResponse extends HttpResponse {
 }
 
 // @public
+export interface CreateJobExpandQueryParam {
+    explode: true;
+    style: "form";
+    value: string[];
+}
+
+// @public
 export interface CreateJobLogicalResponse extends HttpResponse {
     // (undocumented)
     body: RadiologyInsightsJobOutput;
@@ -287,17 +292,18 @@ export interface CreateJobLogicalResponse extends HttpResponse {
     status: "200";
 }
 
-// @public
+// @public (undocumented)
 export type CreateJobParameters = CreateJobQueryParam & CreateJobBodyParam & RequestParameters;
 
-// @public
+// @public (undocumented)
 export interface CreateJobQueryParam {
+    // (undocumented)
     queryParameters?: CreateJobQueryParamProperties;
 }
 
-// @public
+// @public (undocumented)
 export interface CreateJobQueryParamProperties {
-    expand?: string;
+    expand?: CreateJobExpandQueryParam;
 }
 
 // @public
@@ -583,16 +589,24 @@ export interface GetJobDefaultResponse extends HttpResponse {
 }
 
 // @public
+export interface GetJobExpandQueryParam {
+    explode: true;
+    style: "form";
+    value: string[];
+}
+
+// @public (undocumented)
 export type GetJobParameters = GetJobQueryParam & RequestParameters;
 
-// @public
+// @public (undocumented)
 export interface GetJobQueryParam {
+    // (undocumented)
     queryParameters?: GetJobQueryParamProperties;
 }
 
-// @public
+// @public (undocumented)
 export interface GetJobQueryParamProperties {
-    expand?: string;
+    expand?: GetJobExpandQueryParam;
 }
 
 // @public
@@ -1470,6 +1484,28 @@ export interface SexMismatchInference extends RadiologyInsightsInferenceParent {
 export interface SexMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent {
     kind: "sexMismatch";
     sexIndication: CodeableConceptOutput;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

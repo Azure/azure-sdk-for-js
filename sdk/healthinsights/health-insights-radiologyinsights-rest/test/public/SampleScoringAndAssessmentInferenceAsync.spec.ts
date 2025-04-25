@@ -64,7 +64,9 @@ There are multiple cystic and partly cystic sub-5 mm nodules noted within the ri
 In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
 
 Impression:
-Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
+Multiple bilateral small cystic benign thyroid nodules. 
+A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.
+ CADRADS 3/4.`,
 };
 
 const patientDocumentData = {

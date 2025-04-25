@@ -121,22 +121,25 @@ function createRequestBody(): CreateJobParameters {
   const content = {
     sourceType: "inline",
     value: `Exam: US THYROID
-
-Clinical History: Thyroid nodules. 76 year old patient.
-
-Comparison: none.
-
-Findings:
-Right lobe: 4.8 x 1.6 x 1.4 cm
-Left Lobe: 4.1 x 1.3 x 1.3 cm
-
-Isthmus: 4 mm
-
-There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-
-Impression:
-Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
+        
+        Clinical History: Thyroid nodules. 76 year old patient.
+        
+        Comparison: none.
+        
+        Findings:
+          Right lobe: 4.8 x 1.6 x 1.4 cm
+          Left Lobe: 4.1 x 1.3 x 1.3 cm
+          
+        Isthmus: 4 mm
+        
+        There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+        
+        In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
+        
+        Impression:
+          Multiple bilateral small cystic benign thyroid nodules. 
+          A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up. 
+          CADRADS 3/4.`,
   };
 
   const patientDocumentData = {
