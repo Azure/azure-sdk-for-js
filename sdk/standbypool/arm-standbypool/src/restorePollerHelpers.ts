@@ -3,13 +3,13 @@
 
 import { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
 import {
-  _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
-  _standbyVirtualMachinePoolsDeleteDeserialize,
-} from "./api/standbyVirtualMachinePools/index.js";
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/standbyContainerGroupPools/operations.js";
 import {
-  _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
-  _standbyContainerGroupPoolsDeleteDeserialize,
-} from "./api/standbyContainerGroupPools/index.js";
+  _$deleteDeserialize as _$deleteDeserializeStandbyVirtualMachinePools,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeStandbyVirtualMachinePools,
+} from "./api/standbyVirtualMachinePools/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -83,25 +83,25 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
     {
-      deserializer: _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
-    {
-      deserializer: _standbyVirtualMachinePoolsDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
     {
-      deserializer: _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
     {
-      deserializer: _standbyContainerGroupPoolsDeleteDeserialize,
+      deserializer: _$deleteDeserializeStandbyVirtualMachinePools,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
+    {
+      deserializer: _createOrUpdateDeserializeStandbyVirtualMachinePools,
+      expectedStatuses: ["200", "201"],
     },
 };
 

@@ -492,7 +492,7 @@ export interface SkuDetails {
    * The cache size in GB.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customerFacingSizeInGB?: number;
+  readonly sizeInGB?: number;
 }
 
 /** List of private endpoint connection associated with the specified storage account */
