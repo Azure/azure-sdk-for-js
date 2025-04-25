@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceClient.",
-  "version": "22.0.0-beta.2",
+  "version": "21.6.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -33,7 +33,7 @@
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.9.0",
+    "@azure/identity": "^4.9.1",
     "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",

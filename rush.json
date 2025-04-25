@@ -2343,6 +2343,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-dependencymap",
+      "projectFolder": "sdk/dependencymap/arm-dependencymap",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-programmableconnectivity",
       "projectFolder": "sdk/programmableconnectivity/arm-programmableconnectivity",
       "versionPolicyName": "management"
