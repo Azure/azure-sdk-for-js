@@ -31,7 +31,7 @@ import {
   TrustedAccessRolesImpl,
   TrustedAccessRoleBindingsImpl,
   LoadBalancersImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   ManagedClusters,
@@ -49,8 +49,8 @@ import {
   TrustedAccessRoles,
   TrustedAccessRoleBindings,
   LoadBalancers,
-} from "./operationsInterfaces";
-import { ContainerServiceClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ContainerServiceClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceClient extends coreClient.ServiceClient {
   $host: string;
