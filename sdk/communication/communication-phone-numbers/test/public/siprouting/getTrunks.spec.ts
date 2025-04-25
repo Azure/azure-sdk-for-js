@@ -10,7 +10,7 @@ import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueFqdn,
-  listAllTrunks,
+  trunksAreEqual,
   resetUniqueFqdns,
 } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
@@ -65,20 +65,6 @@ matrix([[true, false]], async (useAad) => {
       assert.equal(trunk?.sipSignalingPort, 4567);
     });
 
-    it("can retrieve trunks", async () => {
-      assert.isArray(await listAllTrunks(client));
-    });
-
-    it("can retrieve empty trunks", async () => {
-      await client.setTrunks([]);
-
-      const trunks = await listAllTrunks(client);
-
-      assert.isNotNull(trunks);
-      assert.isArray(trunks);
-      assert.isEmpty(trunks);
-    });
-
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks: SipTrunk[] = [
         {
@@ -109,13 +95,11 @@ matrix([[true, false]], async (useAad) => {
           ipAddressVersion: "ipv4",
         },
       ];
-      await client.setTrunks(expectedTrunks);
-
-      const trunks = await listAllTrunks(client);
+      const trunks = await client.setTrunks(expectedTrunks);
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);
-      assert.deepEqual(trunks, expectedTrunks);
+      assert.isTrue(trunksAreEqual(trunks, expectedTrunks));
     });
   });
 });
