@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./subscriptions";
-export * from "./tenants";
-export * from "./subscriptionOperations";
-export * from "./subscriptionOperation";
-export * from "./operations";
-export * from "./alias";
-export * from "./subscriptionPolicy";
-export * from "./billingAccount";
+export * from "./subscriptions.js";
+export * from "./tenants.js";
+export * from "./subscriptionOperations.js";
+export * from "./subscriptionOperation.js";
+export * from "./operations.js";
+export * from "./alias.js";
+export * from "./subscriptionPolicy.js";
+export * from "./billingAccount.js";

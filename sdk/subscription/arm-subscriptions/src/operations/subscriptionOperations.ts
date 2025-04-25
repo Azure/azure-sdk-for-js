@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SubscriptionOperations } from "../operationsInterfaces";
+import { SubscriptionOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SubscriptionClient } from "../subscriptionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SubscriptionClient } from "../subscriptionClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SubscriptionCancelOptionalParams,
   SubscriptionCancelResponse,
@@ -30,7 +30,7 @@ import {
   SubscriptionAcceptOwnershipResponse,
   SubscriptionAcceptOwnershipStatusOptionalParams,
   SubscriptionAcceptOwnershipStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SubscriptionOperations operations. */
 export class SubscriptionOperationsImpl implements SubscriptionOperations {

@@ -9,7 +9,7 @@
 import {
   SubscriptionOperationGetOptionalParams,
   SubscriptionOperationGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SubscriptionOperation. */
 export interface SubscriptionOperation {
