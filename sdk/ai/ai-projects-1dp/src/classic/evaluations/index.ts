@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { Evaluation } from "../../models/models.js";
+import { Evaluation, EvaluationWithOptionalId } from "../../models/models.js";
 import {
   EvaluationsCreateRunOptionalParams,
   EvaluationsListOptionalParams,
@@ -15,7 +15,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface EvaluationsOperations {
   /** Creates an evaluation run. */
   createRun: (
-    evaluation: Evaluation,
+    evaluation: EvaluationWithOptionalId,
     options?: EvaluationsCreateRunOptionalParams,
   ) => Promise<Evaluation>;
   /** List evaluation runs */
@@ -26,8 +26,10 @@ export interface EvaluationsOperations {
 
 function _getEvaluations(context: AIProjectContext) {
   return {
-    createRun: (evaluation: Evaluation, options?: EvaluationsCreateRunOptionalParams) =>
-      createRun(context, evaluation, options),
+    createRun: (
+      evaluation: EvaluationWithOptionalId,
+      options?: EvaluationsCreateRunOptionalParams,
+    ) => createRun(context, evaluation, options),
     list: (options?: EvaluationsListOptionalParams) => list(context, options),
     get: (name: string, options?: EvaluationsGetOptionalParams) => get(context, name, options),
   };

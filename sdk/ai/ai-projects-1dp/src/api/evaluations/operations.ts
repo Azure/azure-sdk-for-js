@@ -4,6 +4,7 @@
 import { AIProjectContext as Client } from "../index.js";
 import {
   Evaluation,
+  EvaluationWithOptionalId,
   evaluationSerializer,
   evaluationDeserializer,
   _PagedEvaluation,
@@ -28,7 +29,7 @@ import {
 
 export function _createRunSend(
   context: Client,
-  evaluation: Evaluation,
+  evaluation: EvaluationWithOptionalId,
   options: EvaluationsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -63,7 +64,7 @@ export async function _createRunDeserialize(result: PathUncheckedResponse): Prom
 /** Creates an evaluation run. */
 export async function createRun(
   context: Client,
-  evaluation: Evaluation,
+  evaluation: EvaluationWithOptionalId,
   options: EvaluationsCreateRunOptionalParams = { requestOptions: {} },
 ): Promise<Evaluation> {
   const result = await _createRunSend(context, evaluation, options);

@@ -8,7 +8,7 @@
  * and perform various operations on them.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects-1dp");
+const { AIProjectClient, EvaluatorIds } = require("@azure/ai-projects-1dp");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -16,6 +16,38 @@ const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project en
 
 async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+
+  // const dataset: DatasetVersion = await project.datasets.uploadFileAndCreate(
+  //   "jss-eval-sample-dataset",
+  //   "1",
+  //   "./samples_folder/sample_data_evaluation.jsonl",
+  // );
+  // console.log(dataset.name);
+
+  // create a new evaluation
+  const newEvaluation = {
+    displayName: "Evaluation 1",
+    description: "This is a test evaluation",
+    data: {
+      type: "dataset",
+      id: "data-id", // dataset.name
+    },
+    evaluators: {
+      relevance: {
+        id: EvaluatorIds.RELEVANCE,
+        initParams: {
+          deploymentName: "got-4o",
+        },
+      },
+    },
+  };
+
+  const evalResp = await project.evaluations.createRun(newEvaluation);
+  console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
+  // get the evaluation by ID
+  const eval2 = await project.evaluations.get(evalResp.id);
+  console.log("Get the evaluation by ID:", eval2);
+
   const evaluations = [];
   const evaluationNames = [];
   for await (const evaluation of project.evaluations.list()) {
