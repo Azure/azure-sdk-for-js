@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the admin credentials of a managed cluster.
  *
  * @summary Lists the admin credentials of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/ManagedClustersListClusterCredentialResult.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/ManagedClustersListClusterAdminCredentials.json
  */
 async function getManagedCluster(): Promise<void> {
   const subscriptionId =

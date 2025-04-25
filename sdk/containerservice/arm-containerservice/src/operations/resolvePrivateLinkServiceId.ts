@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResolvePrivateLinkServiceId } from "../operationsInterfaces/index.js";
+import { ResolvePrivateLinkServiceId } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerServiceClient } from "../containerServiceClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
   ResolvePrivateLinkServiceIdPostResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing ResolvePrivateLinkServiceId operations. */
 export class ResolvePrivateLinkServiceIdImpl
@@ -64,7 +64,7 @@ const postOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

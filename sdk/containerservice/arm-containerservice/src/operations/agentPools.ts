@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AgentPools } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AgentPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ContainerServiceClient } from "../containerServiceClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   AgentPool,
   AgentPoolsListNextOptionalParams,
@@ -41,7 +41,7 @@ import {
   AgentPoolsGetAvailableAgentPoolVersionsResponse,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
   AgentPoolsListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AgentPools operations. */
@@ -135,7 +135,7 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
+   * completes before cancellation can take place, a 409 error code is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -210,7 +210,7 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
+   * completes before cancellation can take place, a 409 error code is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -816,7 +816,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

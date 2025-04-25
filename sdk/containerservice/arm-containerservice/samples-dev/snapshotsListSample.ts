@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of snapshots in the specified subscription.
  *
  * @summary Gets a list of snapshots in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/SnapshotsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/SnapshotsList.json
  */
 async function listSnapshots(): Promise<void> {
   const subscriptionId =

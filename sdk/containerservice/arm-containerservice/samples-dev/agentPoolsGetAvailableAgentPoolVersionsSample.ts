@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
  *
  * @summary See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/AgentPoolsGetAgentPoolAvailableVersions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/AgentPoolsGetAgentPoolAvailableVersions.json
  */
 async function getAvailableVersionsForAgentPool(): Promise<void> {
   const subscriptionId =

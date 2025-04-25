@@ -16,12 +16,12 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of machines in the specified agent pool.
  *
  * @summary Gets a list of machines in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/MachineList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-02-01/examples/MachineList.json
  */
 async function listMachinesInAnAgentpoolByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    "26fe00f8-9173-4872-9134-bb1d2e00343a";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
