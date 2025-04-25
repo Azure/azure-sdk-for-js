@@ -25342,6 +25342,9 @@ importers:
 
   sdk/template/template:
     dependencies:
+      '@azure/abort-controller':
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
