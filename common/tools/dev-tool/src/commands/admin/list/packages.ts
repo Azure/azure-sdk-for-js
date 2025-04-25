@@ -44,6 +44,46 @@ async function echoPackage(project: RushJsonProject, paths: boolean, cwd: string
   }
 }
 
+/**
+ *
+ * use --task option to provide code file to be excuted for each package. For example,
+ * the following code adds missing "tsx" dev dependency whereever it is used.
+ *
+```ts
+import * as path from "node:path";
+import { writeFile } from "node:fs/promises";
+import { resolveProject } from "../../../../util/resolveProject";
+import { RushJsonProject } from "../../../../util/synthesizedRushJson";
+
+export default async function listPackageCallback(
+  project: RushJsonProject,
+  _paths: boolean,
+  _cwd: string,
+  root: string,
+) {
+  const { projectFolder, packageName } = project;
+  const fullProjectPath = path.join(root, projectFolder);
+  const { packageJson } = await resolveProject(fullProjectPath);
+
+  const unitTestNodeScript = packageJson.scripts["unit-test:node"];
+  const integrationTestNodeScript = packageJson.scripts["integration-test:node"];
+
+  if (unitTestNodeScript.includes("dev-tool run test:node-js-input") ||
+    integrationTestNodeScript.includes("dev-tool run test:node-js-input") ||
+    unitTestNodeScript.includes("dev-tool run test:node-tsx-ts") ||
+    integrationTestNodeScript.includes("dev-tool run test:node-tsx-ts")) {
+    if (!packageJson.devDependencies["tsx"]) {
+      console.log(`    updating ${packageName} ${fullProjectPath} testing scripts`);
+      packageJson.devDependencies["tsx"] = "^4.7.1";
+      await writeFile(
+        path.join(fullProjectPath, "package.json"),
+        JSON.stringify(packageJson, undefined, 2) + "\n",
+      );
+    }
+  }
+}
+```
+ */
 export default leafCommand(commandInfo, async ({ paths, service, task }) => {
   const cwd = process.cwd();
   const root = await resolveRoot();
