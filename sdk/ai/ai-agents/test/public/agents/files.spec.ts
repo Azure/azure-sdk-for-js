@@ -78,7 +78,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await projectsClient.uploadFile(fileContent, "assistants", "filename.txt");
+    const file = await projectsClient.uploadFile(fileContent, "assistants",{ fileName: "filename.txt"});
     const deleted = await projectsClient.deleteFile(file.id);
     assert.isNotNull(deleted);
   });
@@ -90,7 +90,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await projectsClient.uploadFile(fileContent, "assistants", "filename.txt");
+    const file = await projectsClient.uploadFile(fileContent, "assistants", { fileName: "filename.txt"});
     const _file = await projectsClient.getFile(file.id);
     assert.isNotEmpty(_file);
     assert.equal(_file.id, file.id);
