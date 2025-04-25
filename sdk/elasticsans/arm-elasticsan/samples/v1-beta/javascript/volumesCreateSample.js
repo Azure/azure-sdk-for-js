@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MaximumSet_Gen.json
  */
 async function volumesCreateMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -26,9 +26,9 @@ async function volumesCreateMaximumSetGen() {
   const volumeName = "volumename";
   const parameters = {
     properties: {
-      creationData: { createSource: "None", sourceId: "ARM Id of Resource" },
-      managedBy: { resourceId: "mtkeip" },
-      sizeGiB: 9,
+      creationData: { createSource: "None", sourceId: "mdonegivjquite" },
+      managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" },
+      sizeGiB: 23,
     },
   };
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function volumesCreateMaximumSetGen() {
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Create_MinimumSet_Gen.json
  */
 async function volumesCreateMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -69,8 +69,8 @@ async function volumesCreateMinimumSetGen() {
 }
 
 async function main() {
-  volumesCreateMaximumSetGen();
-  volumesCreateMinimumSetGen();
+  await volumesCreateMaximumSetGen();
+  await volumesCreateMinimumSetGen();
 }
 
 main().catch(console.error);

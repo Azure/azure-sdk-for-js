@@ -787,6 +787,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/onlineexperimentation/arm-onlineexperimentation/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -809,6 +812,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/programmableconnectivity/arm-programmableconnectivity/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/powerbidedicated/arm-powerbidedicated/ @qiaozha @MaryGao

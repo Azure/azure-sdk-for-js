@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import type {
+  SimplePollerLike,
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   PrivateEndpointConnectionsListOptionalParams,
@@ -26,7 +30,9 @@ import type {
 } from "../models/index.js";
 
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
+export class PrivateEndpointConnectionsImpl
+  implements PrivateEndpointConnections
+{
   private readonly client: ContainerServiceClient;
 
   /**
@@ -128,7 +134,8 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -255,7 +262,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
