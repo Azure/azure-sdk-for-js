@@ -9339,6 +9339,9 @@ importers:
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
         version: 7.6.0
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.4.0
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool

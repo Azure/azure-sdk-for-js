@@ -68,6 +68,7 @@
     "@azure-tools/test-utils-vitest": "workspace:*",
     "@azure/abort-controller": "workspace:*",
     "@azure/arm-cognitiveservices": "catalog:arm",
+    "@azure/arm-storage": "catalog:arm",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
