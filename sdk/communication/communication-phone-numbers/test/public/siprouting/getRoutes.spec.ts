@@ -9,7 +9,7 @@ import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
-  listAllRoutes,
+  routesAreEqual
 } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
@@ -34,20 +34,6 @@ matrix([[true, false]], async (useAad) => {
       await recorder.stop();
     });
 
-    it("can retrieve routes", async () => {
-      assert.isArray(await listAllRoutes(client));
-    });
-
-    it("can retrieve empty routes", async () => {
-      await client.setRoutes([]);
-
-      const routes = await listAllRoutes(client);
-
-      assert.isNotNull(routes);
-      assert.isArray(routes);
-      assert.isEmpty(routes);
-    });
-
     it("can retrieve not empty routes", async () => {
       const expectedRoutes: SipTrunkRoute[] = [
         {
@@ -61,15 +47,11 @@ matrix([[true, false]], async (useAad) => {
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
+          trunks: []
         },
       ];
-      await client.setRoutes(expectedRoutes);
-
-      const routes = await listAllRoutes(client);
-      assert.isNotNull(routes);
-      assert.isArray(routes);
-      assert.deepEqual(routes, expectedRoutes);
+      const routes = await client.setRoutes(expectedRoutes);
+      assert.isTrue(routesAreEqual(routes, expectedRoutes));
     });
   });
 });

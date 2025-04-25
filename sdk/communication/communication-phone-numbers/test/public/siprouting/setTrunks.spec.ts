@@ -57,7 +57,7 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can set an existing trunk", async () => {
-      const trunk: SipTrunk = {
+      let trunk: SipTrunk = {
         fqdn: firstFqdn,
         sipSignalingPort: 1231,
         directTransfer: false,

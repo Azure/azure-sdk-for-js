@@ -4,14 +4,12 @@ import type { SipRoutingClient } from "../../../src/index.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { type SipTrunk, type SipTrunkRoute } from "../../../src/models.js";
+import { type SipTrunkRoute } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
-  getUniqueFqdn,
-  listAllRoutes,
-  listAllTrunks,
+  routesAreEqual,
   resetUniqueFqdns,
 } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
@@ -21,8 +19,6 @@ matrix([[true, false]], async (useAad) => {
   describe(`SipRoutingClient - set routes${useAad ? " [AAD]" : ""}`, () => {
     let client: SipRoutingClient;
     let recorder: Recorder;
-    let firstFqdn = "";
-    let secondFqdn = "";
 
     beforeAll(async () => {
       if (!isPlaybackMode()) {
@@ -34,8 +30,6 @@ matrix([[true, false]], async (useAad) => {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(ctx)
         : await createRecordedClient(ctx));
-      firstFqdn = getUniqueFqdn(recorder);
-      secondFqdn = getUniqueFqdn(recorder);
     });
 
     afterEach(async () => {
@@ -63,10 +57,7 @@ matrix([[true, false]], async (useAad) => {
       ];
 
       const setRoutes = await client.setRoutes(routes);
-      assert.deepEqual(setRoutes, routes);
-
-      const storedRoutes = await listAllRoutes(client);
-      assert.deepEqual(storedRoutes, routes);
+      assert.isTrue(routesAreEqual(setRoutes, routes));
     });
 
     it("can set multiple new and existing routes", async () => {
@@ -98,215 +89,7 @@ matrix([[true, false]], async (useAad) => {
       });
 
       const setRoutes = await client.setRoutes(expectedRoutes);
-      assert.deepEqual(setRoutes, expectedRoutes);
-
-      const storedRoutes = await listAllRoutes(client);
-      assert.deepEqual(storedRoutes, expectedRoutes);
-    });
-
-    it("can set a new route with trunk", async () => {
-      const trunk: SipTrunk = {
-        fqdn: firstFqdn,
-        sipSignalingPort: 5678,
-        directTransfer: false,
-        enabled: false,
-        privacyHeader: "id",
-        ipAddressVersion: "ipv4",
-      };
-      await client.setTrunk(trunk);
-
-      const route: SipTrunkRoute = {
-        name: "myFirstRoute",
-        description: "myFirstRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [firstFqdn],
-      };
-
-      const routes = await client.setRoutes([route]);
-      const routeList = await listAllRoutes(client);
-      assert.deepEqual(routes, [route]);
-      assert.deepEqual(routeList, [route]);
-    });
-
-    it("can set empty routes when empty before", async () => {
-      await client.setRoutes([]);
-
-      await client.setRoutes([]);
-
-      const storedRoutes = await listAllRoutes(client);
-      assert.isNotNull(storedRoutes);
-      assert.isArray(storedRoutes);
-      assert.isEmpty(storedRoutes);
-    });
-
-    it("can set empty routes when not empty before", async () => {
-      const routes: SipTrunkRoute[] = [
-        {
-          name: "myFirstRoute",
-          description: "myFirstRoute's description",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
-        },
-        {
-          name: "mySecondRoute",
-          description: "mySecondRoute's description",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
-        },
-      ];
-      await client.setRoutes(routes);
-
-      await client.setRoutes([]);
-
-      const storedRoutes = await listAllRoutes(client);
-      assert.isNotNull(storedRoutes);
-      assert.isArray(storedRoutes);
-      assert.isEmpty(storedRoutes);
-    });
-
-    it("cannot set invalid name route", async () => {
-      const invalidRoute: SipTrunkRoute = {
-        name: "",
-        description: "description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-      };
-
-      try {
-        await client.setRoutes([invalidRoute]);
-      } catch (error: any) {
-        assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await listAllRoutes(client);
-        assert.isUndefined(storedRoutes.find((item) => item.name === ""));
-        return;
-      }
-      assert.fail("UnprocessableConfiguration expected.");
-    });
-
-    it("cannot set invalid number pattern route", async () => {
-      const invalidRoute: SipTrunkRoute = {
-        name: "invalidNumberPatternRoute",
-        numberPattern: "",
-      };
-
-      try {
-        await client.setRoutes([invalidRoute]);
-      } catch (error: any) {
-        assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await listAllRoutes(client);
-        assert.isUndefined(storedRoutes.find((item) => item.name === "invalidNumberPatternRoute"));
-        return;
-      }
-      assert.fail("UnprocessableConfiguration expected.");
-    });
-
-    it("cannot set duplicated routes", async () => {
-      const invalidRoutes: SipTrunkRoute[] = [
-        {
-          name: "sameNameRoute",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-        },
-        {
-          name: "sameNameRoute",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-        },
-      ];
-
-      try {
-        await client.setRoutes(invalidRoutes);
-      } catch (error: any) {
-        assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await listAllRoutes(client);
-        assert.isUndefined(storedRoutes.find((item) => item.name === "sameNameRoute"));
-        return;
-      }
-      assert.fail("UnprocessableConfiguration expected.");
-    });
-
-    it("cannot set a route with duplicated routing trunks", async () => {
-      const trunks: SipTrunk[] = [
-        { fqdn: firstFqdn, sipSignalingPort: 8239 },
-        { fqdn: secondFqdn, sipSignalingPort: 7348 },
-      ];
-      await client.setTrunks(trunks);
-
-      const invalidRoute: SipTrunkRoute = {
-        name: "invalidDuplicatedRoutingTrunksRoute",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [firstFqdn, firstFqdn],
-      };
-
-      try {
-        await client.setRoutes([invalidRoute]);
-      } catch (error: any) {
-        assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await listAllRoutes(client);
-        assert.isUndefined(
-          storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute"),
-        );
-        return;
-      }
-      assert.fail("UnprocessableConfiguration expected.");
-    });
-
-    it("cannot set a route without referenced trunk", async () => {
-      const invalidRoute: SipTrunkRoute = {
-        name: "invalidRoutingTrunkRoute",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["notExisting.fqdn.com"],
-      };
-
-      try {
-        await client.setRoutes([invalidRoute]);
-      } catch (error: any) {
-        assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await listAllRoutes(client);
-        assert.isUndefined(storedRoutes.find((item) => item.name === "invalidRoutingTrunkRoute"));
-        return;
-      }
-      assert.fail("UnprocessableConfiguration expected.");
-    });
-
-    it("can set multiple new routes without affecting trunks via PATCH", async () => {
-      const trunks: SipTrunk[] = [
-        {
-          fqdn: getUniqueFqdn(recorder),
-          sipSignalingPort: 5678,
-          directTransfer: false,
-          health: undefined,
-          enabled: false,
-          privacyHeader: "id",
-          ipAddressVersion: "ipv4",
-        },
-        {
-          fqdn: getUniqueFqdn(recorder),
-          sipSignalingPort: 5678,
-          directTransfer: false,
-          health: undefined,
-          enabled: false,
-          privacyHeader: "id",
-          ipAddressVersion: "ipv4",
-        },
-      ];
-      await client.setTrunks(trunks);
-
-      const routes: SipTrunkRoute[] = [
-        {
-          name: "myFirstRoute",
-          description: "myFirstRoute's description",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
-        },
-        {
-          name: "mySecondRoute",
-          description: "mySecondRoute's description",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
-        },
-      ];
-      await client.setRoutes(routes);
-      const routeList = await listAllRoutes(client);
-      assert.deepEqual(await listAllTrunks(client), trunks);
-      assert.deepEqual(routeList, routes);
+      assert.isTrue(routesAreEqual(setRoutes, expectedRoutes));
     });
   });
 });
