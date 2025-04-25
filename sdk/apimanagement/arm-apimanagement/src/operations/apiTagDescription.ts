@@ -6,448 +6,443 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    ApiTagDescriptionCreateOrUpdateOptionalParams,
-    ApiTagDescriptionCreateOrUpdateResponse,
-    ApiTagDescriptionDeleteOptionalParams,
-    ApiTagDescriptionGetEntityTagOptionalParams,
-    ApiTagDescriptionGetEntityTagResponse,
-    ApiTagDescriptionGetOptionalParams,
-    ApiTagDescriptionGetResponse,
-    ApiTagDescriptionListByServiceNextOptionalParams,
-    ApiTagDescriptionListByServiceNextResponse,
-    ApiTagDescriptionListByServiceOptionalParams,
-    ApiTagDescriptionListByServiceResponse,
-    TagDescriptionContract,
-    TagDescriptionCreateParameters
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiTagDescription } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ApiTagDescription } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  TagDescriptionContract,
+  ApiTagDescriptionListByServiceNextOptionalParams,
+  ApiTagDescriptionListByServiceOptionalParams,
+  ApiTagDescriptionListByServiceResponse,
+  ApiTagDescriptionGetEntityTagOptionalParams,
+  ApiTagDescriptionGetEntityTagResponse,
+  ApiTagDescriptionGetOptionalParams,
+  ApiTagDescriptionGetResponse,
+  TagDescriptionCreateParameters,
+  ApiTagDescriptionCreateOrUpdateOptionalParams,
+  ApiTagDescriptionCreateOrUpdateResponse,
+  ApiTagDescriptionDeleteOptionalParams,
+  ApiTagDescriptionListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiTagDescription operations. */
 export class ApiTagDescriptionImpl implements ApiTagDescription {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class ApiTagDescription class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class ApiTagDescription class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on
-     * API level but tag may be assigned to the Operations
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param options The options parameters.
-     */
-    public listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiTagDescriptionListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<TagDescriptionContract> {
-        const iter = this.listByServicePagingAll(
-            resourceGroupName,
-            serviceName,
-            apiId,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listByServicePagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    apiId,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listByServicePagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiTagDescriptionListByServiceOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<TagDescriptionContract[]> {
-        let result: ApiTagDescriptionListByServiceResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listByService(
-                resourceGroupName,
-                serviceName,
-                apiId,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on
+   * API level but tag may be assigned to the Operations
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param options The options parameters.
+   */
+  public listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiTagDescriptionListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<TagDescriptionContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listByServiceNext(
-                resourceGroupName,
-                serviceName,
-                apiId,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listByServicePagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiTagDescriptionListByServiceOptionalParams
-    ): AsyncIterableIterator<TagDescriptionContract> {
-        for await (const page of this.listByServicePagingPage(
-            resourceGroupName,
-            serviceName,
-            apiId,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on
-     * API level but tag may be assigned to the Operations
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param options The options parameters.
-     */
-    private _listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        options?: ApiTagDescriptionListByServiceOptionalParams
-    ): Promise<ApiTagDescriptionListByServiceResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, options },
-            listByServiceOperationSpec
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          apiId,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * Gets the entity state version of the tag specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
-     *                         association. Based on API and Tag names.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        tagDescriptionId: string,
-        options?: ApiTagDescriptionGetEntityTagOptionalParams
-    ): Promise<ApiTagDescriptionGetEntityTagResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, tagDescriptionId, options },
-            getEntityTagOperationSpec
-        );
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiTagDescriptionListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<TagDescriptionContract[]> {
+    let result: ApiTagDescriptionListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        apiId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
 
-    /**
-     * Get Tag description in scope of API
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
-     *                         association. Based on API and Tag names.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        tagDescriptionId: string,
-        options?: ApiTagDescriptionGetOptionalParams
-    ): Promise<ApiTagDescriptionGetResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, tagDescriptionId, options },
-            getOperationSpec
-        );
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiTagDescriptionListByServiceOptionalParams,
+  ): AsyncIterableIterator<TagDescriptionContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      apiId,
+      options,
+    )) {
+      yield* page;
     }
+  }
 
-    /**
-     * Create/Update tag description in scope of the Api.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
-     *                         association. Based on API and Tag names.
-     * @param parameters Create parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        tagDescriptionId: string,
-        parameters: TagDescriptionCreateParameters,
-        options?: ApiTagDescriptionCreateOrUpdateOptionalParams
-    ): Promise<ApiTagDescriptionCreateOrUpdateResponse> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                apiId,
-                tagDescriptionId,
-                parameters,
-                options
-            },
-            createOrUpdateOperationSpec
-        );
-    }
+  /**
+   * Lists all Tags descriptions in scope of API. Model similar to swagger - tagDescription is defined on
+   * API level but tag may be assigned to the Operations
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: ApiTagDescriptionListByServiceOptionalParams,
+  ): Promise<ApiTagDescriptionListByServiceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, options },
+      listByServiceOperationSpec,
+    );
+  }
 
-    /**
-     * Delete tag description for the Api.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
-     *                         association. Based on API and Tag names.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        tagDescriptionId: string,
-        ifMatch: string,
-        options?: ApiTagDescriptionDeleteOptionalParams
-    ): Promise<void> {
-        return this.client.sendOperationRequest(
-            {
-                resourceGroupName,
-                serviceName,
-                apiId,
-                tagDescriptionId,
-                ifMatch,
-                options
-            },
-            deleteOperationSpec
-        );
-    }
+  /**
+   * Gets the entity state version of the tag specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
+   *                         association. Based on API and Tag names.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    tagDescriptionId: string,
+    options?: ApiTagDescriptionGetEntityTagOptionalParams,
+  ): Promise<ApiTagDescriptionGetEntityTagResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, tagDescriptionId, options },
+      getEntityTagOperationSpec,
+    );
+  }
 
-    /**
-     * ListByServiceNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-     *              Non-current revision has ;rev=n as a suffix where n is the revision number.
-     * @param nextLink The nextLink from the previous successful call to the ListByService method.
-     * @param options The options parameters.
-     */
-    private _listByServiceNext(
-        resourceGroupName: string,
-        serviceName: string,
-        apiId: string,
-        nextLink: string,
-        options?: ApiTagDescriptionListByServiceNextOptionalParams
-    ): Promise<ApiTagDescriptionListByServiceNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, apiId, nextLink, options },
-            listByServiceNextOperationSpec
-        );
-    }
+  /**
+   * Get Tag description in scope of API
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
+   *                         association. Based on API and Tag names.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    tagDescriptionId: string,
+    options?: ApiTagDescriptionGetOptionalParams,
+  ): Promise<ApiTagDescriptionGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, tagDescriptionId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create/Update tag description in scope of the Api.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
+   *                         association. Based on API and Tag names.
+   * @param parameters Create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    tagDescriptionId: string,
+    parameters: TagDescriptionCreateParameters,
+    options?: ApiTagDescriptionCreateOrUpdateOptionalParams,
+  ): Promise<ApiTagDescriptionCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        tagDescriptionId,
+        parameters,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Delete tag description for the Api.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param tagDescriptionId Tag description identifier. Used when creating tagDescription for API/Tag
+   *                         association. Based on API and Tag names.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    tagDescriptionId: string,
+    ifMatch: string,
+    options?: ApiTagDescriptionDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        tagDescriptionId,
+        ifMatch,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
+   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    nextLink: string,
+    options?: ApiTagDescriptionListByServiceNextOptionalParams,
+  ): Promise<ApiTagDescriptionListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, apiId, nextLink, options },
+      listByServiceNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.TagDescriptionCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagDescriptionCollection,
     },
-    queryParameters: [
-        Parameters.filter,
-        Parameters.top,
-        Parameters.skip,
-        Parameters.apiVersion
-    ],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.skip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
-    httpMethod: "HEAD",
-    responses: {
-        200: {
-            headersMapper: Mappers.ApiTagDescriptionGetEntityTagHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.ApiTagDescriptionGetEntityTagHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.tagDescriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.tagDescriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.TagDescriptionContract,
-            headersMapper: Mappers.ApiTagDescriptionGetHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagDescriptionContract,
+      headersMapper: Mappers.ApiTagDescriptionGetHeaders,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.tagDescriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.tagDescriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
-    httpMethod: "PUT",
-    responses: {
-        200: {
-            bodyMapper: Mappers.TagDescriptionContract,
-            headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders
-        },
-        201: {
-            bodyMapper: Mappers.TagDescriptionContract,
-            headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagDescriptionContract,
+      headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders,
     },
-    requestBody: Parameters.parameters15,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.tagDescriptionId
-    ],
-    headerParameters: [
-        Parameters.accept,
-        Parameters.contentType,
-        Parameters.ifMatch
-    ],
-    mediaType: "json",
-    serializer
+    201: {
+      bodyMapper: Mappers.TagDescriptionContract,
+      headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.tagDescriptionId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
-    httpMethod: "DELETE",
-    responses: {
-        200: {},
-        204: {},
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.tagDescriptionId
-    ],
-    headerParameters: [Parameters.accept, Parameters.ifMatch1],
-    serializer
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.apiId,
+    Parameters.tagDescriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.TagDescriptionCollection
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagDescriptionCollection,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.apiId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.apiId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

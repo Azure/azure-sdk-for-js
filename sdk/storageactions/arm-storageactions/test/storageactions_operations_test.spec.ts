@@ -50,7 +50,7 @@ describe("StorageActions test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new StorageActionsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
+    location = "westus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 

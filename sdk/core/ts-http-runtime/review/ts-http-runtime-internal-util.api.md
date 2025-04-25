@@ -55,6 +55,19 @@ export const isWebWorker: boolean;
 export function randomUUID(): string;
 
 // @public
+export class Sanitizer {
+    constructor({ additionalAllowedHeaderNames: allowedHeaderNames, additionalAllowedQueryParameters: allowedQueryParameters, }?: SanitizerOptions);
+    sanitize(obj: unknown): string;
+    sanitizeUrl(value: string): string;
+}
+
+// @public
+export interface SanitizerOptions {
+    additionalAllowedHeaderNames?: string[];
+    additionalAllowedQueryParameters?: string[];
+}
+
+// @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
 // @public

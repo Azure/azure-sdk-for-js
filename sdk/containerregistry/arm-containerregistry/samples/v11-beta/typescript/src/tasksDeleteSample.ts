@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a specified task.
  *
  * @summary Deletes a specified task.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksDelete.json
  */
 async function tasksDelete(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function tasksDelete(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.tasks.beginDeleteAndWait(
+  const result = await client.tasks.delete(
     resourceGroupName,
     registryName,
     taskName,
