@@ -9,11 +9,11 @@
  */
 
 import type {
-  MessageContentOutput,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
-} from "@azure/ai-projects";
-import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
+  MessageContent,
+  MessageImageFileContent,
+  MessageTextContent,
+} from "@azure/ai-agents";
+import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,21 +25,19 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Upload file
   const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
-  const file = await client.agents.uploadFile(localFileStream, "assistants", {
+  const file = await client.uploadFile(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store
-  const vectorStore = await client.agents.createVectorStore({
+  const vectorStore = await client.createVectorStore({
     fileIds: [file.id],
     name: "myVectorStore",
   });
@@ -49,7 +47,7 @@ export async function main(): Promise<void> {
   const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with files
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "SDK Test Agent - Retrieval",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
     tools: [fileSearchTool.definition],
@@ -58,43 +56,40 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "Can you give me the documented codes for 'banana' and 'orange'?",
-  });
+  const message = await client.createMessage(thread.id,  "user", "Can you give me the documented codes for 'banana' and 'orange'?");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create run
-  let run = await client.agents.createRun(thread.id, agent.id);
+  let run = await client.createRun(thread.id, agent.id);
   while (["queued", "in_progress"].includes(run.status)) {
     await delay(500);
-    run = await client.agents.getRun(thread.id, run.id);
+    run = await client.getRun(thread.id, run.id);
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   }
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
-  const messages = await client.agents.listMessages(thread.id);
+  const messages = await client.listMessages(thread.id);
   await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
-    threadMessage.content.forEach((content: MessageContentOutput) => {
-      if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-        const textContent = content as MessageTextContentOutput;
+    threadMessage.content.forEach((content: MessageContent) => {
+      if (isOutputOfType<MessageTextContent>(content, "text")) {
+        const textContent = content as MessageTextContent;
         console.log(`Text Message Content - ${textContent.text.value}`);
-      } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContentOutput;
+      } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
+        const imageContent = content as MessageImageFileContent;
         console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
   });
 
   // Delete agent
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

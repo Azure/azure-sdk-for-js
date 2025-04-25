@@ -9,7 +9,7 @@
  *
  */
 
-import { AIProjectsClient, ToolSet } from "@azure/ai-projects";
+import { AgentsClient, ToolSet } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
@@ -20,15 +20,13 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Upload file for code interpreter tool
   const filePath1 = "./data/nifty500QuarterlyResults.csv";
   const fileStream1 = fs.createReadStream(filePath1);
-  const codeInterpreterFile = await client.agents.uploadFile(fileStream1, "assistants", {
+  const codeInterpreterFile = await client.uploadFile(fileStream1, "assistants", {
     fileName: "myLocalFile",
   });
 
@@ -37,13 +35,13 @@ export async function main(): Promise<void> {
   // Upload file for file search tool
   const filePath2 = "./data/sampleFileForUpload.txt";
   const fileStream2 = fs.createReadStream(filePath2);
-  const fileSearchFile = await client.agents.uploadFile(fileStream2, "assistants", {
+  const fileSearchFile = await client.uploadFile(fileStream2, "assistants", {
     fileName: "sampleFileForUpload.txt",
   });
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
   // Create vector store for file search tool
-  const vectorStore = await client.agents
+  const vectorStore = await client
     .createVectorStoreAndPoll({
       fileIds: [fileSearchFile.id],
     })
@@ -55,7 +53,7 @@ export async function main(): Promise<void> {
   await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
   // Create agent with tool set
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: toolSet.toolDefinitions,
@@ -66,7 +64,7 @@ export async function main(): Promise<void> {
   // Create threads, messages, and runs to interact with agent as desired
 
   // Delete agent
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

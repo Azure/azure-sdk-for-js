@@ -8,8 +8,8 @@
  *
  */
 
-import type { MessageTextContentOutput } from "@azure/ai-projects";
-import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-projects";
+import type { MessageTextContent } from "@azure/ai-agents";
+import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
@@ -20,10 +20,8 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Read in OpenApi spec
   const filePath = "./data/weatherOpenApi.json";
@@ -44,7 +42,7 @@ export async function main(): Promise<void> {
   const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
 
   // Create agent with OpenApi tool
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "myAgent",
     instructions: "You are a helpful agent",
     tools: [openApiTool.definition],
@@ -52,21 +50,18 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create a thread
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "What's the weather in Seattle?",
-  });
+  const message = await client.createMessage(thread.id, "user","What's the weather in Seattle?");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and execute a run
-  let run = await client.agents.createRun(thread.id, agent.id);
+  let run = await client.createRun(thread.id, agent.id);
   while (run.status === "queued" || run.status === "in_progress") {
     await delay(1000);
-    run = await client.agents.getRun(thread.id, run.id);
+    run = await client.getRun(thread.id, run.id);
   }
   if (run.status === "failed") {
     // Check if you got "Rate limit is exceeded.", then you want to get more quota
@@ -75,18 +70,18 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Get most recent message from the assistant
-  const messages = await client.agents.listMessages(thread.id);
+  const messages = await client.listMessages(thread.id);
   const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
-      isOutputOfType<MessageTextContentOutput>(content, "text"),
-    ) as MessageTextContentOutput;
+      isOutputOfType<MessageTextContent>(content, "text"),
+    ) as MessageTextContent;
     if (textContent) {
       console.log(`Last message: ${textContent.text.value}`);
     }
   }
   // Delete the agent once done
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

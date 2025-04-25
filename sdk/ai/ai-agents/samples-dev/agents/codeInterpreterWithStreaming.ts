@@ -12,19 +12,19 @@
 import type {
   MessageDeltaChunk,
   MessageDeltaTextContent,
-  MessageImageFileContentOutput,
-  MessageTextContentOutput,
-  ThreadRunOutput,
-} from "@azure/ai-projects";
+  MessageImageFileContent,
+  MessageTextContent,
+  ThreadRun,
+} from "@azure/ai-agents";
 import {
-  AIProjectsClient,
+  AgentsClient,
   DoneEvent,
   ErrorEvent,
   isOutputOfType,
   MessageStreamEvent,
   RunStreamEvent,
   ToolUtility,
-} from "@azure/ai-projects";
+} from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as fs from "fs";
@@ -36,15 +36,13 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Upload file and wait for it to be processed
   const filePath = "./data/nifty500QuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
+  const localFile = await client.uploadFile(localFileStream, "assistants", {
     fileName: "myLocalFile",
   });
 
@@ -54,7 +52,7 @@ export async function main(): Promise<void> {
   const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
   // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [codeInterpreterTool.definition],
@@ -63,25 +61,21 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create a thread
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content:
-      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
-  });
+  const message = await client.createMessage(thread.id, "user", "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?");
 
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and execute a run
-  const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
@@ -109,19 +103,19 @@ export async function main(): Promise<void> {
   }
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
-  await client.agents.deleteFile(localFile.id);
+  await client.deleteFile(localFile.id);
   console.log(`Deleted file, file ID : ${localFile.id}`);
 
   // Print the messages from the agent
-  const messages = await client.agents.listMessages(thread.id);
+  const messages = await client.listMessages(thread.id);
   console.log("Messages:", messages);
 
   // Get most recent message from the assistant
   const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
-      isOutputOfType<MessageTextContentOutput>(content, "text"),
-    ) as MessageTextContentOutput;
+      isOutputOfType<MessageTextContent>(content, "text"),
+    ) as MessageTextContent;
     if (textContent) {
       console.log(`Last message: ${textContent.text.value}`);
     }
@@ -129,14 +123,14 @@ export async function main(): Promise<void> {
 
   // Save the newly created file
   console.log(`Saving new files...`);
-  const imageFileOutput = messages.data[0].content[0] as MessageImageFileContentOutput;
+  const imageFileOutput = messages.data[0].content[0] as MessageImageFileContent;
   const imageFile = imageFileOutput.imageFile.fileId;
   const imageFileName = path.resolve(
-    "./data/" + (await client.agents.getFile(imageFile)).filename + "ImageFile.png",
+    "./data/" + (await client.getFile(imageFile)).filename + "ImageFile.png",
   );
   console.log(`Image file name : ${imageFileName}`);
 
-  const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
+  const fileContent = await (await client.getFileContent(imageFile).asNodeStream()).body;
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {
@@ -154,8 +148,8 @@ export async function main(): Promise<void> {
   await messages.data.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
-      const textContent = m.content[0] as MessageTextContentOutput;
+    if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
+      const textContent = m.content[0] as MessageTextContent;
       console.log(`Text: ${textContent.text.value}`);
     }
     console.log(`File ID: ${m.id}`);

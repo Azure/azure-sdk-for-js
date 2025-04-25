@@ -19,7 +19,7 @@ import type {
   SubmitToolOutputsAction,
   ToolOutput,
 } from "@azure/ai-agents";
-import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
+import { AgentsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -88,7 +88,7 @@ export async function main(): Promise<void> {
     }
 
     public invokeTool(
-      toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
+      toolCall: RequiredToolCall & FunctionToolDefinition,
     ): ToolOutput | undefined {
       console.log(`Function tool call - ${toolCall.function.name}`);
       const args = [];
@@ -125,7 +125,7 @@ export async function main(): Promise<void> {
 
   const functionToolExecutor = new FunctionToolExecutor();
   const functionTools = functionToolExecutor.getFunctionDefinitions();
-  const agent = await agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions:
       "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
@@ -134,34 +134,31 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create thread
-  const thread = await agents.createThread();
+  const thread = await client.createThread();
   console.log(`Created Thread, thread ID:  ${thread.id}`);
 
   // Create message
-  const message = await agents.createMessage(thread.id, {
-    role: "user",
-    content: "What's the weather like in my favorite city?",
-  });
+  const message = await client.createMessage(thread.id, "user","What's the weather like in my favorite city?");
   console.log(`Created message, message ID ${message.id}`);
 
   // Create run
-  let run = await agents.createRun(thread.id, agent.id);
+  let run = await client.createRun(thread.id, agent.id);
   console.log(`Created Run, Run ID:  ${run.id}`);
 
   while (["queued", "in_progress", "requires_action"].includes(run.status)) {
     await delay(1000);
-    run = await agents.getRun(thread.id, run.id);
+    run = await client.getRun(thread.id, run.id);
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
     if (run.status === "requires_action" && run.requiredAction) {
       console.log(`Run requires action - ${run.requiredAction}`);
       if (
-        isOutputOfType<SubmitToolOutputsActionOutput>(run.requiredAction, "submit_tool_outputs")
+        isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")
       ) {
-        const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsActionOutput;
+        const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsAction;
         const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses = [];
         for (const toolCall of toolCalls) {
-          if (isOutputOfType<FunctionToolDefinitionOutput>(toolCall, "function")) {
+          if (isOutputOfType<FunctionToolDefinition>(toolCall, "function")) {
             const toolResponse = functionToolExecutor.invokeTool(toolCall);
             if (toolResponse) {
               toolResponses.push(toolResponse);
@@ -169,7 +166,7 @@ export async function main(): Promise<void> {
           }
         }
         if (toolResponses.length > 0) {
-          run = await agents.submitToolOutputsToRun(thread.id, run.id, toolResponses);
+          run = await client.submitToolOutputsToRun(thread.id, run.id, toolResponses);
           console.log(`Submitted tool response - ${run.status}`);
         }
       }
@@ -177,23 +174,23 @@ export async function main(): Promise<void> {
   }
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
-  const messages = await agents.listMessages(thread.id);
+  const messages = await client.listMessages(thread.id);
   await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
-    threadMessage.content.forEach((content: MessageContentOutput) => {
-      if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-        const textContent = content as MessageTextContentOutput;
+    threadMessage.content.forEach((content: MessageContent) => {
+      if (isOutputOfType<MessageTextContent>(content, "text")) {
+        const textContent = content as MessageTextContent;
         console.log(`Text Message Content - ${textContent.text.value}`);
-      } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContentOutput;
+      } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
+        const imageContent = content as MessageImageFileContent;
         console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
   });
   // Delete agent
-  await agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

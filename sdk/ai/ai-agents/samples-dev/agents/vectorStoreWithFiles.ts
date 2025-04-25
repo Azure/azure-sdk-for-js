@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
@@ -17,13 +17,11 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create vector store
-  const vectorStore = await client.agents.createVectorStore();
+  const vectorStore = await client.createVectorStore();
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create and upload file
@@ -31,38 +29,38 @@ export async function main(): Promise<void> {
   const readable = new Readable();
   await readable.push(fileContent);
   await readable.push(null); // end the stream
-  const file = await client.agents.uploadFile(readable, "assistants", {
+  const file = await client.uploadFile(readable, "assistants", {
     fileName: "vectorFile.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store file
-  const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, {
+  const vectorStoreFile = await client.createVectorStoreFile(vectorStore.id, {
     fileId: file.id,
   });
   console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
   // Retrieve vector store file
-  const _vectorStoreFile = await client.agents.getVectorStoreFile(
+  const _vectorStoreFile = await client.getVectorStoreFile(
     vectorStore.id,
     vectorStoreFile.id,
   );
   console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
 
   // List vector store files
-  const vectorStoreFiles = await client.agents.listVectorStoreFiles(vectorStore.id);
+  const vectorStoreFiles = await client.listVectorStoreFiles(vectorStore.id);
   console.log(`List of vector store files: ${vectorStoreFiles.data.map((f) => f.id).join(", ")}`);
 
   // Delete vector store file
-  await client.agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+  await client.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
   console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
   // Delete file
-  await client.agents.deleteFile(file.id);
+  await client.deleteFile(file.id);
   console.log(`Deleted file, file ID: ${file.id}`);
 
   // Delete vector store
-  await client.agents.deleteVectorStore(vectorStore.id);
+  await client.deleteVectorStore(vectorStore.id);
   console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 

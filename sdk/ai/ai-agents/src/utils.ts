@@ -256,7 +256,13 @@ export class ToolUtility {
     return {
       definition: {
         type: "openapi",
-        openapi: openApiFunctionDefinition,
+        openapi: {
+          name: openApiFunctionDefinition.name,
+          spec: openApiFunctionDefinition.spec,
+          description: openApiFunctionDefinition.description,
+          auth: openApiFunctionDefinition.auth,
+          defaultParams: openApiFunctionDefinition.defaultParams,
+        },
       },
     };
   }

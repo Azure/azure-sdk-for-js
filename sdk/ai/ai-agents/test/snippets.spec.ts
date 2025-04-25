@@ -36,6 +36,8 @@ import {
 } from "@opentelemetry/sdk-trace-node";
 import { RestError } from "@azure/core-rest-pipeline";
 
+// TODO update all snippets when samples are working
+
 describe("snippets", function () {
   let client: AgentsClient;
 

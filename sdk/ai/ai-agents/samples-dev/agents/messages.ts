@@ -8,8 +8,8 @@
  *
  */
 
-import type { MessageTextContentOutput } from "@azure/ai-projects";
-import { AIProjectsClient } from "@azure/ai-projects";
+import type { MessageTextContent } from "@azure/ai-agents";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -19,36 +19,32 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are helpful agent",
   });
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
 
-  const message = await client.agents.createMessage(thread.id, {
-    role: "user",
-    content: "hello, world!",
-  });
+  const message = await client.createMessage(thread.id,  "user", "hello, world!");
   console.log(`Created message, message ID: ${message.id}`);
 
-  const messages = await client.agents.listMessages(thread.id);
+  const messages = await client.listMessages(thread.id);
   console.log(
-    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContentOutput).text.value}`,
+    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContent).text.value}`,
   );
 
-  const updatedMessage = await client.agents.updateMessage(thread.id, message.id, {
+  const updatedMessage = await client.updateMessage(thread.id, message.id, {
     metadata: { introduction: "true" },
   });
   console.log(`Updated message metadata - introduction: ${updatedMessage.metadata?.introduction}`);
 
-  await client.agents.deleteThread(thread.id);
+  await client.deleteThread(thread.id);
   console.log(`Deleted thread, thread ID : ${thread.id}`);
 
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID : ${agent.id}`);
 }
 

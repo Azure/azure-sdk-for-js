@@ -11,15 +11,15 @@
 import type {
   MessageDeltaChunk,
   MessageDeltaTextContent,
-  ThreadRunOutput,
-} from "@azure/ai-projects";
+  ThreadRun,
+} from "@azure/ai-agents";
 import {
-  AIProjectsClient,
+  AgentsClient,
   DoneEvent,
   ErrorEvent,
   MessageStreamEvent,
   RunStreamEvent,
-} from "@azure/ai-projects";
+} from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -29,32 +29,30 @@ const connectionString =
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-assistant",
     instructions: "You are helpful agent",
   });
 
   console.log(`Created agent, agent ID : ${agent.id}`);
 
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
 
   console.log(`Created thread, thread ID : ${agent.id}`);
 
-  await client.agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
+  await client.createMessage(thread.id, "user", "Hello, tell me a joke");
 
   console.log(`Created message, thread ID : ${agent.id}`);
 
-  const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
@@ -81,7 +79,7 @@ export async function main(): Promise<void> {
     }
   }
 
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Delete agent, agent ID : ${agent.id}`);
 }
 

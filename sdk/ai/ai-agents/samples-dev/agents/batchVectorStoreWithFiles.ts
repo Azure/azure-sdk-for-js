@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
@@ -17,13 +17,11 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+   // Create an Azure AI Client
+   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create vector store
-  const vectorStore = await client.agents.createVectorStore();
+  const vectorStore = await client.createVectorStore();
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create and upload first file
@@ -31,7 +29,7 @@ export async function main(): Promise<void> {
   const readable1 = new Readable();
   await readable1.push(file1Content);
   await readable1.push(null); // end the stream
-  const file1 = await client.agents.uploadFile(readable1, "assistants", {
+  const file1 = await client.uploadFile(readable1, "assistants", {
     fileName: "vectorFile1.txt",
   });
   console.log(`Uploaded file1, file ID: ${file1.id}`);
@@ -41,13 +39,13 @@ export async function main(): Promise<void> {
   const readable2 = new Readable();
   await readable2.push(file2Content);
   await readable2.push(null); // end the stream
-  const file2 = await client.agents.uploadFile(readable2, "assistants", {
+  const file2 = await client.uploadFile(readable2, "assistants", {
     fileName: "vectorFile2.txt",
   });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
   // Create vector store file batch
-  const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatch(vectorStore.id, {
+  const vectorStoreFileBatch = await client.createVectorStoreFileBatch(vectorStore.id, {
     fileIds: [file1.id, file2.id],
   });
   console.log(
@@ -55,7 +53,7 @@ export async function main(): Promise<void> {
   );
 
   // Retrieve vector store file batch
-  const _vectorStoreFileBatch = await client.agents.getVectorStoreFileBatch(
+  const _vectorStoreFileBatch = await client.getVectorStoreFileBatch(
     vectorStore.id,
     vectorStoreFileBatch.id,
   );
@@ -64,7 +62,7 @@ export async function main(): Promise<void> {
   );
 
   // List vector store files in the batch
-  const vectorStoreFiles = await client.agents.listVectorStoreFileBatchFiles(
+  const vectorStoreFiles = await client.listVectorStoreFileBatchFiles(
     vectorStore.id,
     vectorStoreFileBatch.id,
   );
@@ -73,13 +71,13 @@ export async function main(): Promise<void> {
   );
 
   // Delete files
-  await client.agents.deleteFile(file1.id);
+  await client.deleteFile(file1.id);
   console.log(`Deleted file1, file ID: ${file1.id}`);
-  await client.agents.deleteFile(file2.id);
+  await client.deleteFile(file2.id);
   console.log(`Deleted file2, file ID: ${file2.id}`);
 
   // Delete vector store
-  await client.agents.deleteVectorStore(vectorStore.id);
+  await client.deleteVectorStore(vectorStore.id);
   console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 

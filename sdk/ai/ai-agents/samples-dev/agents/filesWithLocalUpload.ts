@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as fs from "fs";
@@ -18,27 +18,23 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Upload local file
   const filePath = "./data/localFile.txt";
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
-    fileName: "myLocalFile.txt",
-  });
+  const localFile = await client.uploadFile(localFileStream, "assistants");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
   // Retrieve local file
-  const retrievedLocalFile = await client.agents.getFile(localFile.id);
+  const retrievedLocalFile = await client.getFile(localFile.id);
 
   console.log(`Retrieved local file, file ID : ${retrievedLocalFile.id}`);
 
   // Delete local file
-  await client.agents.deleteFile(localFile.id);
+  await client.deleteFile(localFile.id);
 
   console.log(`Deleted local file, file ID : ${localFile.id}`);
 }

@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
@@ -17,10 +17,8 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create file content
   const fileContent1 = "Hello, World!";
@@ -39,7 +37,7 @@ export async function main(): Promise<void> {
   }
 
   // Upload file, which will automatically poll until the operation is complete
-  const file1 = await client.agents.uploadFile(readable1, "assistants", {
+  const file1 = await client.uploadFile(readable1, "assistants", {
     fileName: "myPollingFile.txt",
     onResponse: onResponse,
   });
@@ -49,7 +47,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const filePoller = client.agents.uploadFile(readable2, "assistants", {
+  const filePoller = client.uploadFile(readable2, "assistants", {
     fileName: "myPollingFile.txt",
     onResponse: onResponse,
   });
@@ -57,8 +55,8 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file with status ${file2.status}, file ID: ${file2.id}`);
 
   // Delete file
-  await client.agents.deleteFile(file1.id);
-  await client.agents.deleteFile(file2.id);
+  await client.deleteFile(file1.id);
+  await client.deleteFile(file2.id);
   console.log(`Deleted files, file IDs: ${file1.id} & ${file2.id}`);
 }
 

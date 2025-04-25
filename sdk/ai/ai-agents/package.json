@@ -151,7 +151,7 @@
         "typescript/data"
       ]
     },
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-agents"
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",

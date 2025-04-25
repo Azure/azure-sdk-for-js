@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
@@ -17,13 +17,11 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create vector store
-  const vectorStore = await client.agents.createVectorStore();
+  const vectorStore = await client.createVectorStore();
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create and upload first file
@@ -31,7 +29,7 @@ export async function main(): Promise<void> {
   const readable1 = new Readable();
   await readable1.push(file1Content);
   await readable1.push(null); // end the stream
-  const file1 = await client.agents.uploadFile(readable1, "assistants", {
+  const file1 = await client.uploadFile(readable1, "assistants", {
     fileName: "vectorFile1.txt",
   });
   console.log(`Uploaded file1, file ID: ${file1.id}`);
@@ -41,7 +39,7 @@ export async function main(): Promise<void> {
   const readable2 = new Readable();
   await readable2.push(file2Content);
   await readable2.push(null); // end the stream
-  const file2 = await client.agents.uploadFile(readable2, "assistants", {
+  const file2 = await client.uploadFile(readable2, "assistants", {
     fileName: "vectorFile2.txt",
   });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
@@ -52,7 +50,7 @@ export async function main(): Promise<void> {
   }
 
   // Create vector store file batch, which will automatically poll until the operation is complete
-  const vectorStoreFileBatch1 = await client.agents.createVectorStoreFileBatch(vectorStore.id, {
+  const vectorStoreFileBatch1 = await client.createVectorStoreFileBatch(vectorStore.id, {
     fileIds: [file1.id, file2.id],
     onResponse: onResponse,
   });
@@ -64,7 +62,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFileBatchPoller = client.agents.createVectorStoreFileBatch(vectorStore.id, {
+  const vectorStoreFileBatchPoller = client.createVectorStoreFileBatch(vectorStore.id, {
     fileIds: [file1.id, file2.id],
     onResponse: onResponse,
   });
@@ -76,12 +74,12 @@ export async function main(): Promise<void> {
   );
 
   // Delete files
-  await client.agents.deleteFile(file1.id);
-  await client.agents.deleteFile(file2.id);
+  await client.deleteFile(file1.id);
+  await client.deleteFile(file2.id);
   console.log(`Deleted files, file IDs: ${file1.id} & ${file2.id}`);
 
   // Delete vector store
-  await client.agents.deleteVectorStore(vectorStore.id);
+  await client.deleteVectorStore(vectorStore.id);
   console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 

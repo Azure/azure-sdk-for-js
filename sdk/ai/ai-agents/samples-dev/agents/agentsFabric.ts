@@ -16,6 +16,7 @@ import "dotenv/config";
 
 const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+  const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
@@ -28,7 +29,7 @@ export async function main(): Promise<void> {
   const fabricTool = ToolUtility.createFabricTool(connectionId);
 
   // Create agent with the Microsoft Fabric tool and process assistant run
-  const agent = await client.createAgent("gpt-4o", {
+  const agent = await client.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions: "You are a helpful agent",
     tools: [fabricTool.definition],

@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "stream";
 import "dotenv/config";
@@ -17,13 +17,11 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create vector store
-  const vectorStore = await client.agents.createVectorStore();
+  const vectorStore = await client.createVectorStore();
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create and upload file
@@ -31,7 +29,7 @@ export async function main(): Promise<void> {
   const readable = new Readable();
   await readable.push(fileContent);
   await readable.push(null); // end the stream
-  const file = await client.agents.uploadFile(readable, "assistants", {
+  const file = await client.uploadFile(readable, "assistants", {
     fileName: "vectorFile.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
@@ -42,7 +40,7 @@ export async function main(): Promise<void> {
   }
 
   // Create vector store file, which will automatically poll until the operation is complete
-  const vectorStoreFile1 = await client.agents.createVectorStoreFile(vectorStore.id, {
+  const vectorStoreFile1 = await client.createVectorStoreFile(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       sleepIntervalInMs: 2000,
@@ -57,7 +55,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFilePoller = client.agents.createVectorStoreFile(vectorStore.id, {
+  const vectorStoreFilePoller = client.createVectorStoreFile(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       sleepIntervalInMs: 2000,
@@ -72,11 +70,11 @@ export async function main(): Promise<void> {
   );
 
   // Delete file
-  await client.agents.deleteFile(file.id);
+  await client.deleteFile(file.id);
   console.log(`Deleted file, file ID: ${file.id}`);
 
   // Delete vector store
-  await client.agents.deleteVectorStore(vectorStore.id);
+  await client.deleteVectorStore(vectorStore.id);
   console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 

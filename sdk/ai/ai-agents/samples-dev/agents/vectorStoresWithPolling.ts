@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -17,10 +17,8 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // (Optional) Define an onResponse callback to monitor the progress of polling
   function onResponse(response: any): void {
@@ -28,7 +26,7 @@ export async function main(): Promise<void> {
   }
 
   // Create a vector, which will automatically poll until the operation is complete
-  const vectorStore1 = await client.agents.createVectorStore({
+  const vectorStore1 = await client.createVectorStore({
     name: "myVectorStore",
     pollingOptions: {
       sleepIntervalInMs: 2000,
@@ -43,7 +41,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStorePoller = client.agents.createVectorStore({
+  const vectorStorePoller = client.createVectorStore({
     name: "myVectorStore",
     pollingOptions: {
       sleepIntervalInMs: 2000,
@@ -58,8 +56,8 @@ export async function main(): Promise<void> {
   );
 
   // Delete the vector store
-  await client.agents.deleteVectorStore(vectorStore1.id);
-  await client.agents.deleteVectorStore(vectorStore2.id);
+  await client.deleteVectorStore(vectorStore1.id);
+  await client.deleteVectorStore(vectorStore2.id);
   console.log(`Deleted vector stores, vector store IDs: ${vectorStore1.id} & ${vectorStore2.id}`);
 }
 

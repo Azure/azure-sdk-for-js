@@ -2,20 +2,18 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsOperations, AIProjectsClient, ThreadRunOutput } from "../../../src/index.js";
+import type { AgentsClient, ThreadRun } from "../../../src/index.js";
 import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
 describe("Agents - streaming", () => {
   let recorder: Recorder;
-  let projectsClient: AIProjectsClient;
-  let agents: AgentsOperations;
+  let projectsClient: AgentsClient;
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    agents = projectsClient.agents;
   });
 
   afterEach(async function () {
@@ -24,32 +22,29 @@ describe("Agents - streaming", () => {
 
   it("should run streaming", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4-1106-preview", {
+    const agent = await projectsClient.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread
-    const thread = await agents.createThread();
+    const thread = await projectsClient.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await agents.createMessage(thread.id, {
-      role: "user",
-      content: "Hello, tell me a joke",
-    });
+    const message = await projectsClient.createMessage(thread.id,"user", "Hello, tell me a joke");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Run streaming
-    const streamEventMessages = await agents.createRun(thread.id, agent.id).stream();
+    const streamEventMessages = await projectsClient.createRun(thread.id, agent.id).stream();
     let hasEventMessages = false;
 
     for await (const eventMessage of streamEventMessages) {
       hasEventMessages = true;
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRunOutput).assistantId}`);
+          console.log(`Thread Run Created - ${(eventMessage.data as ThreadRun).assistantId}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           console.log(`Thread Message Delta, thread ID: ${thread.id}`);
@@ -63,23 +58,23 @@ describe("Agents - streaming", () => {
     assert.isNotNull(streamEventMessages);
 
     // Delete agent and thread
-    await agents.deleteAgent(agent.id);
+    await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await agents.deleteThread(thread.id);
+    await projectsClient.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
   // eslint-disable-next-line no-only-tests/no-only-tests
   it("should create thread and run streaming", async function () {
     // Create agent
-    const agent = await agents.createAgent("gpt-4-1106-preview", {
+    const agent = await projectsClient.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread and run streaming
-    const streamEventMessages = await agents
+    const streamEventMessages = await projectsClient
       .createThreadAndRun(agent.id, {
         thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
       })
@@ -104,7 +99,7 @@ describe("Agents - streaming", () => {
     assert.isNotNull(streamEventMessages);
 
     // Delete agent
-    await agents.deleteAgent(agent.id);
+    await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
   });
 });

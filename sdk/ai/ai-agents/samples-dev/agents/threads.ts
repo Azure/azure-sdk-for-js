@@ -8,7 +8,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -17,20 +17,18 @@ const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
-  const thread = await client.agents.createThread();
+  const thread = await client.createThread();
 
   console.log(`Created thread, thread ID : ${thread.id}`);
 
-  const _thread = await client.agents.getThread(thread.id);
+  const _thread = await client.getThread(thread.id);
 
   console.log(`Retrieved thread, thread ID : ${_thread.id}`);
 
-  await client.agents.deleteThread(thread.id);
+  await client.deleteThread(thread.id);
 
   console.log(`Deleted thread, thread ID : ${_thread.id}`);
 }
