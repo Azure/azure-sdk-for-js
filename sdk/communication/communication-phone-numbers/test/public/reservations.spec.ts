@@ -32,18 +32,20 @@ matrix([[true, false]], async (useAad) => {
       const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
         countryCode: "US",
         phoneNumberType: "tollFree",
-        capabilities: {
-          calling: "outbound",
-        },
-        assignmentType: "application",
       };
 
       const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
         browseAvailableNumberRequest,
+        {
+          capabilities: {
+            calling: "outbound",
+          },
+          assignmentType: "application",
+        },
       );
-      assert.isTrue(browseAvailableNumbers.phoneNumbers.length > 0);
+      assert.isTrue(browseAvailableNumbers.length > 0);
 
-      for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
+      for (const phoneNumber of browseAvailableNumbers) {
         assert.equal(phoneNumber.phoneNumberType, "tollFree");
         assert.isTrue(phoneNumber.capabilities.calling.includes("outbound"));
         assert.equal(phoneNumber.assignmentType, "application");
@@ -57,9 +59,9 @@ matrix([[true, false]], async (useAad) => {
       const browseGeographicAvailableNumbers = await client.browseAvailablePhoneNumbers(
         browseGeographicAvailableNumberRequest,
       );
-      assert.isTrue(browseGeographicAvailableNumbers.phoneNumbers.length > 0);
+      assert.isTrue(browseGeographicAvailableNumbers.length > 0);
 
-      for (const phoneNumber of browseGeographicAvailableNumbers.phoneNumbers) {
+      for (const phoneNumber of browseGeographicAvailableNumbers) {
         assert.equal(phoneNumber.phoneNumberType, "geographic");
       }
     });
@@ -69,15 +71,16 @@ matrix([[true, false]], async (useAad) => {
       const invalidBrowseRequest: BrowseAvailableNumbersRequest = {
         countryCode: "INVALID",
         phoneNumberType: "tollFree",
-        assignmentType: "application",
-        capabilities: {
-          sms: "inbound+outbound",
-          calling: "none",
-        },
       };
 
       try {
-        await client.browseAvailablePhoneNumbers(invalidBrowseRequest);
+        await client.browseAvailablePhoneNumbers(invalidBrowseRequest, {
+          assignmentType: "application",
+          capabilities: {
+            sms: "inbound+outbound",
+            calling: "none",
+          },
+        });
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
@@ -93,21 +96,24 @@ matrix([[true, false]], async (useAad) => {
       const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
         countryCode: "US",
         phoneNumberType: "tollFree",
-        capabilities: {
-          calling: "outbound",
-        },
-        assignmentType: "application",
       };
 
       const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
         browseAvailableNumberRequest,
+        {
+          capabilities: {
+            calling: "outbound",
+          },
+          assignmentType: "application",
+        },
       );
 
-      const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+      const phoneNumbers = browseAvailableNumbers;
       const phoneNumbersList = [phoneNumbers[0]];
 
-      const reservationResponse = await client.createReservation(phoneNumbersList, {
+      const reservationResponse = await client.createOrUpdateReservation({
         reservationId: getReservationId(),
+        add: phoneNumbersList,
       });
       const reservationId = reservationResponse.id as string;
 
@@ -118,7 +124,8 @@ matrix([[true, false]], async (useAad) => {
 
       const updatedPhoneNumbersList = [phoneNumbers[1]];
 
-      let updatedReservationResponse = await client.updateReservation(reservationId, {
+      let updatedReservationResponse = await client.createOrUpdateReservation({
+        reservationId,
         add: updatedPhoneNumbersList,
       });
       assert.isTrue(
@@ -132,9 +139,12 @@ matrix([[true, false]], async (useAad) => {
         ),
       );
 
+      const phoneNumbersToRemove = [phoneNumbers[0].id as string];
       phoneNumbersList.push(phoneNumbers[1]);
-      updatedReservationResponse = await client.updateReservation(reservationId, {
-        remove: phoneNumbersList,
+      updatedReservationResponse = await client.createOrUpdateReservation({
+        reservationId,
+        add: phoneNumbersList,
+        remove: phoneNumbersToRemove,
       });
 
       assert.isFalse(
@@ -142,7 +152,7 @@ matrix([[true, false]], async (useAad) => {
           phoneNumbers[0].id as string,
         ),
       );
-      assert.isFalse(
+      assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
           phoneNumbers[1].id as string,
         ),
@@ -158,21 +168,24 @@ matrix([[true, false]], async (useAad) => {
         const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
           countryCode: "FR",
           phoneNumberType: "tollFree",
-          capabilities: {
-            calling: "outbound",
-          },
-          assignmentType: "application",
         };
 
         const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
           browseAvailableNumberRequest,
+          {
+            capabilities: {
+              calling: "outbound",
+            },
+            assignmentType: "application",
+          },
         );
 
-        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+        const phoneNumbers = browseAvailableNumbers;
         const phoneNumbersList = [phoneNumbers[0]];
 
-        const reservationResponse = await client.createReservation(phoneNumbersList, {
+        const reservationResponse = await client.createOrUpdateReservation({
           reservationId: getReservationId(),
+          add: phoneNumbersList,
         });
         const reservationId = reservationResponse.id as string;
 
