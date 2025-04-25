@@ -53,14 +53,13 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
-    if (err.code === StatusCodes.Forbidden && err.substatus === SubStatusCodes.WriteForbidden) {
-      const resp =
-        await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
-          this.requestContext,
-        );
-      if (resp) {
-        return true;
-      }
+
+    const resp =
+      await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        this.requestContext,
+      );
+    if (resp) {
+      return true;
     }
 
     if (!this.globalEndpointManager.enableEndpointDiscovery) {

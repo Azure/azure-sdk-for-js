@@ -7,7 +7,7 @@ import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
-import { SubStatusCodes } from "../../../src/common/statusCodes.js";
+import { StatusCodes, SubStatusCodes } from "../../../src/common/statusCodes.js";
 
 const endpoint = "https://ppaf.documents.azure.com/";
 
@@ -153,35 +153,53 @@ const readPartitionKeyRangesResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
+const ServiceUnavailableResponse = {
+  code: StatusCodes.ServiceUnavailable,
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const WriteForbiddenResponse = {
+  code: StatusCodes.Forbidden,
+  substatus: SubStatusCodes.WriteForbidden,
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const SuccessResponse = {
+  code: StatusCodes.Created,
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
 describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
   it("ppaf", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
+
     const responses = [
       databaseAccountResponse,
       collectionResponse,
       readPartitionKeyRangesResponse,
-      { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
+      SuccessResponse,
+
       readPartitionKeyRangesResponse,
-      { code: 503, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
-      { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
-      // readPartitionKeyRangesResponse,
-      // {
-      //   code: 403,
-      //   SubStatusCodes: 3,
-      //   result: {},
-      //   headers: {},
-      //   diagnostics: getEmptyCosmosDiagnostics(),
-      // },
-      // {
-      //   code: 403,
-      //   SubStatusCodes: 3,
-      //   result: {},
-      //   headers: {},
-      //   diagnostics: getEmptyCosmosDiagnostics(),
-      // },
-      // { code: 201, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
+      ServiceUnavailableResponse,
+      SuccessResponse,
+
+      readPartitionKeyRangesResponse,
+      SuccessResponse,
+
+      readPartitionKeyRangesResponse,
+      WriteForbiddenResponse,
+      WriteForbiddenResponse,
+      databaseAccountResponse,
+      SuccessResponse,
     ];
+
     const options: CosmosClientOptions = {
       endpoint,
       key: masterKey,
@@ -219,12 +237,11 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
     await client.database("foo").container("foo").items.upsert({ id: "bar", name: "sample2" });
     assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
 
-    // await client.database("foo").container("foo").items.upsert({ id: "bar1", name: "sample2" });
-    // assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
+    await client.database("foo").container("foo").items.upsert({ id: "bar1", name: "sample2" });
+    assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
 
-    // await client.database("foo").container("foo").items.upsert({ id: "bar2", name: "sample2" });
-    // assert.equal(lastEndpointCalled, "https://ppaf-westus.documents.azure.com:443/");
-    // assert.equal(lastEndpointCalled, "https://ppaf-eastus.documents.azure.com:443/");
+    await client.database("foo").container("foo").items.upsert({ id: "bar2", name: "sample2" });
+    assert.equal(writeEndpoint, "https://ppaf-eastus.documents.azure.com:443/");
 
     client.dispose();
   });
