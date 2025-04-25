@@ -8,6 +8,7 @@
   "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure-rest/core-client": "workspace:*",
+    "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "tslib": "catalog:"
