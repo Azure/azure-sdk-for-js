@@ -161,7 +161,7 @@ export function resetUniqueFqdns(): void {
 let domainNumber = 1;
 export function getUniqueDomain(recorder: Recorder): string {
   const uniqueDomain = randomUUID().replace(/-/g, "");
-  return recorder.variable(`domain-${domainNumber++}`, `testdomain${uniqueDomain}.com`);
+  return recorder.variable(`domain-${domainNumber++}`, `${uniqueDomain}.test.com`);
 }
 
 export function resetUniqueDomains(): void {
