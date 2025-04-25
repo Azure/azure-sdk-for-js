@@ -19,7 +19,7 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AIProjectClient(endpoint, credential);
 
-  // Create a red team project
+  // Create a red team
   const redTeamName = "redteam-sample-name";
 
   const newRedTeam = await client.redTeams.createRun({
@@ -30,17 +30,17 @@ export async function main(): Promise<void> {
     simulationOnly: true,
     riskCategories: ["HateUnfairness", "Sexual"],
   });
-  console.log("Red Team Created:", newRedTeam);
+  console.log("New redteam Created:", newRedTeam);
 
-  // Get the red team project details
+  // Get the red team details
   const redTeam = await client.redTeams.get(newRedTeam.id);
-  console.log("Red Team Project Details:", redTeam);
-  // list all red team projects
+  console.log("Redteam Details:", redTeam);
+  // list all red teams
   const redTeams: RedTeam[] = [];
   for await (const r of client.redTeams.list()) {
     redTeams.push(r);
   }
-  console.log("Red Team Projects count:", redTeams.length);
+  console.log("All redteams count:", redTeams.length);
 }
 
 main().catch((error) => {

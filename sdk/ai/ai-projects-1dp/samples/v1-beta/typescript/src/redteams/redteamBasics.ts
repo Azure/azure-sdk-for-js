@@ -3,11 +3,11 @@
 
 /**
  * This sample demonstrates how to use AIProjectClient to interact with red team.
- * 
+ *
  * @summary Given an AIProjectClient, this sample demonstrates how to create a red team, how to get the red team details and how to list all red team.
  */
 
-import { AIProjectClient,  } from "@azure/ai-projects-1dp";
+import { AIProjectClient } from "@azure/ai-projects-1dp";
 import type { RedTeam } from "@azure/ai-projects-1dp";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -19,7 +19,7 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AIProjectClient(endpoint, credential);
 
-  // Create a red team project
+  // Create a red team
   const redTeamName = "redteam-sample-name";
 
   const newRedTeam = await client.redTeams.createRun({
@@ -30,17 +30,17 @@ export async function main(): Promise<void> {
     simulationOnly: true,
     riskCategories: ["HateUnfairness", "Sexual"],
   });
-  console.log("Red Team Created:", newRedTeam);
+  console.log("New redteam Created:", newRedTeam);
 
-  // Get the red team project details
+  // Get the red team details
   const redTeam = await client.redTeams.get(newRedTeam.id);
-  console.log("Red Team Project Details:", redTeam);
-  // list all red team projects
+  console.log("Redteam Details:", redTeam);
+  // list all red teams
   const redTeams: RedTeam[] = [];
   for await (const r of client.redTeams.list()) {
     redTeams.push(r);
   }
-  console.log("Red Team Projects count:", redTeams.length);
+  console.log("All redteams count:", redTeams.length);
 }
 
 main().catch((error) => {
