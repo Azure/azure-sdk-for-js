@@ -15,6 +15,7 @@
     "@azure/core-lro": "catalog:corelrov2",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-tracing": "workspace:*",
+    "@azure/core-util": "workspace:*",
     "tslib": "catalog:"
   },
   "keywords": [

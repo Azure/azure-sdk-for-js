@@ -3343,6 +3343,9 @@ importers:
       '@azure/core-tracing':
         specifier: workspace:*
         version: link:../../core/core-tracing
+      '@azure/core-util':
+        specifier: workspace:*
+        version: link:../../core/core-util
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
