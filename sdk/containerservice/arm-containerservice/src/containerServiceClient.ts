@@ -8,12 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   ManagedClustersImpl,
@@ -32,7 +32,7 @@ import {
   TrustedAccessRoleBindingsImpl,
   LoadBalancersImpl,
 } from "./operations/index.js";
-import {
+import type {
   Operations,
   ManagedClusters,
   ContainerService,
@@ -50,7 +50,7 @@ import {
   TrustedAccessRoleBindings,
   LoadBalancers,
 } from "./operationsInterfaces/index.js";
-import { ContainerServiceClientOptionalParams } from "./models/index.js";
+import type { ContainerServiceClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceClient extends coreClient.ServiceClient {
   $host: string;
