@@ -11,7 +11,6 @@ import { StatusCodes, SubStatusCodes } from "../../../src/common/statusCodes.js"
 
 const endpoint = "https://ppaf.documents.azure.com/";
 
-// This needs to be a function so the SDK plugin gets a fresh response each time and cannot mutate it
 const databaseAccountResponse = {
   headers: {
     "content-location": "https://ppaf.documents.azure.com/",
