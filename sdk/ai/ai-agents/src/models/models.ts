@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { randomUUID } from "@azure/core-util";
 import type { FileContents} from "../static-helpers/multipartHelpers.js";
 // import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
 
@@ -3387,9 +3388,10 @@ export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
   //   ...(item["filename"] === undefined ? [] : [{ name: "filename", body: item["filename"] }]),
   // ];
   return [
-      { name: "file" as const, body: item["file"] },
+      { name: "file" as const, body: item["file"], filename: item["filename"] ?? randomUUID() },
       { name: "purpose" as const, body: item["purpose"] },
     ]
+    
 }
 
 /** A status response from a file deletion operation. */

@@ -348,7 +348,7 @@ type ErrorEvent_2 = "error";
 export { ErrorEvent_2 as ErrorEvent }
 
 // @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+export type FileContents = string | NodeJS.ReadableStream | ReadableStream | Uint8Array | Blob;
 
 // @public
 export interface FileDeletionStatus {
