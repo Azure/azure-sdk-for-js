@@ -8,7 +8,7 @@ import { APIVersion, isRateLimitRun, testWithDeployments } from "../utils/utils.
 import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
 import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 
-describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) => {
+describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
   function createCodeAssistant(deploymentName: string): AssistantCreateParams {
     return {
       tools: [{ type: "code_interpreter" as const }],

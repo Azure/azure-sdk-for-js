@@ -1,20 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import { StandbyVirtualMachinePoolRuntimeViewResource } from "../../models/models.js";
 import {
-  standbyVirtualMachinePoolRuntimeViewsGet,
-  standbyVirtualMachinePoolRuntimeViewsListByStandbyPool,
-} from "../../api/standbyVirtualMachinePoolRuntimeViews/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import {
-  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
   StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-} from "../../models/options.js";
+  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
+} from "../../api/standbyVirtualMachinePoolRuntimeViews/options.js";
+import {
+  listByStandbyPool,
+  get,
+} from "../../api/standbyVirtualMachinePoolRuntimeViews/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandbyVirtualMachinePoolRuntimeViews operations. */
 export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
+  /** List StandbyVirtualMachinePoolRuntimeViewResource resources by StandbyVirtualMachinePoolResource */
+  listByStandbyPool: (
+    resourceGroupName: string,
+    standbyVirtualMachinePoolName: string,
+    options?: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+  ) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolRuntimeViewResource>;
   /** Get a StandbyVirtualMachinePoolRuntimeViewResource */
   get: (
     resourceGroupName: string,
@@ -22,53 +28,28 @@ export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
     runtimeView: string,
     options?: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
   ) => Promise<StandbyVirtualMachinePoolRuntimeViewResource>;
-  /** List StandbyVirtualMachinePoolRuntimeViewResource resources by StandbyVirtualMachinePoolResource */
-  listByStandbyPool: (
-    resourceGroupName: string,
-    standbyVirtualMachinePoolName: string,
-    options?: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-  ) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolRuntimeViewResource>;
 }
 
-export function getStandbyVirtualMachinePoolRuntimeViews(
-  context: StandbyPoolContext,
-  subscriptionId: string,
-) {
+function _getStandbyVirtualMachinePoolRuntimeViews(context: StandbyPoolManagementContext) {
   return {
+    listByStandbyPool: (
+      resourceGroupName: string,
+      standbyVirtualMachinePoolName: string,
+      options?: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+    ) => listByStandbyPool(context, resourceGroupName, standbyVirtualMachinePoolName, options),
     get: (
       resourceGroupName: string,
       standbyVirtualMachinePoolName: string,
       runtimeView: string,
       options?: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
-    ) =>
-      standbyVirtualMachinePoolRuntimeViewsGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        runtimeView,
-        options,
-      ),
-    listByStandbyPool: (
-      resourceGroupName: string,
-      standbyVirtualMachinePoolName: string,
-      options?: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-    ) =>
-      standbyVirtualMachinePoolRuntimeViewsListByStandbyPool(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        standbyVirtualMachinePoolName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, standbyVirtualMachinePoolName, runtimeView, options),
   };
 }
 
-export function getStandbyVirtualMachinePoolRuntimeViewsOperations(
-  context: StandbyPoolContext,
-  subscriptionId: string,
+export function _getStandbyVirtualMachinePoolRuntimeViewsOperations(
+  context: StandbyPoolManagementContext,
 ): StandbyVirtualMachinePoolRuntimeViewsOperations {
   return {
-    ...getStandbyVirtualMachinePoolRuntimeViews(context, subscriptionId),
+    ..._getStandbyVirtualMachinePoolRuntimeViews(context),
   };
 }

@@ -2330,7 +2330,7 @@ export interface ProvisioningIssueProperties {
 }
 
 // @public
-export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded" | "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Deleting" | "Canceled" | "Failed";
+export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded" | "ValidateSubscriptionQuotaBegin" | "ValidateSubscriptionQuotaEnd" | "Accepted" | "Deleting" | "Canceled" | "Failed";
 
 // @public
 export interface ProxyResource extends Resource {
