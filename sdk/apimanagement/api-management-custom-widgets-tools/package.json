@@ -60,9 +60,10 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@azure/abort-controller": "workspace:*",
     "@azure-rest/core-client": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@azure/storage-blob": "^12.17.0",
+    "@azure/storage-blob": "catalog:internal",
     "mime": "^4.0.1",
     "tslib": "catalog:"
   },
