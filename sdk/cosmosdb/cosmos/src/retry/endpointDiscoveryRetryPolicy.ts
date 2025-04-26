@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import { StatusCodes, SubStatusCodes, type OperationType } from "../common/index.js";
+import { type OperationType } from "../common/index.js";
 import { isReadRequest } from "../common/helper.js";
 import type { GlobalEndpointManager } from "../globalEndpointManager.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
