@@ -9,6 +9,7 @@ import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/i
 import { EvaluationsOperations, _getEvaluationsOperations } from "./classic/evaluations/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { InferenceOperations, _getInferenceOperations } from "./classic/inference/index.js";
+import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
@@ -44,6 +45,7 @@ export class AIProjectClient {
     this.evaluations = _getEvaluationsOperations(this._client);
     this.connections = _getConnectionsOperations(this._client);
     this.inference = _getInferenceOperations(this._client, this.connections);
+    this.telemetry = _getTelemetryOperations(this.connections);
   }
 
   /** The operation groups for redTeams */
@@ -60,6 +62,8 @@ export class AIProjectClient {
   public readonly connections: ConnectionsOperations;
   /** The operation groups for inference */
   public readonly inference: InferenceOperations;
+  /** The operation groups for telemetry */
+  public readonly telemetry: TelemetryOperations;
 
   /**
    * gets the endpoint of the client
