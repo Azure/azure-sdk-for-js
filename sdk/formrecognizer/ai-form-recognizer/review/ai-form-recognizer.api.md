@@ -192,6 +192,7 @@ export class DocumentAnalysisClient {
 
 // @public
 export interface DocumentAnalysisClientOptions extends CommonClientOptions {
+    audience?: string;
     stringIndexType?: StringIndexType;
 }
 
@@ -398,6 +399,7 @@ export class DocumentModelAdministrationClient {
 
 // @public
 export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {
+    audience?: string;
 }
 
 // @public
@@ -619,6 +621,13 @@ export type FontStyle = string;
 
 // @public
 export type FontWeight = string;
+
+// @public
+export enum FormRecognizerAudience {
+    AzureChina = "https://cognitiveservices.azure.cn/.default",
+    AzureGovernment = "https://cognitiveservices.azure.us/.default",
+    AzurePublicCloud = "https://cognitiveservices.azure.com/.default"
+}
 
 // @public
 export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature] | (string & {});

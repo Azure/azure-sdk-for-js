@@ -45,9 +45,34 @@ export interface DocumentAnalysisClientOptions extends CommonClientOptions {
    * Default: "utf16CodeUnit"
    */
   stringIndexType?: StringIndexType;
+  /**
+   * The audience (scope) to use for authentication with Azure Active Directory.
+   *
+   * Setting this option is only necessary
+   * - if you are using AAD/token credential
+   *   (and)
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
+   *
+   * The authentication scope will be set from this audience.
+   * See {@link FormRecognizerAudience} for known audience values.
+   */
+  audience?: string;
 }
 
 /**
  * Configurable options for DocumentModelAdministrationClient.
  */
-export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {}
+export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {
+  /**
+   * The audience (scope) to use for authentication with Azure Active Directory.
+   *
+   * Setting this option is only necessary
+   * - if you are using AAD/token credential
+   *   (and)
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
+   *
+   * The authentication scope will be set from this audience.
+   * See {@link FormRecognizerAudience} for known audience values.
+   */
+  audience?: string;
+}

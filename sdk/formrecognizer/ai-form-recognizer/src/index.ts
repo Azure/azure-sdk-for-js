@@ -84,3 +84,4 @@ export * from "./models/index.js";
 export * from "./options/index.js";
 export * from "./documentModel.js";
 export { Point2D } from "./transforms/polygon.js";
+export { FormRecognizerAudience } from "./constants.js";
