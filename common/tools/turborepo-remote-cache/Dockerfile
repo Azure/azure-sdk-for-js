@@ -1,17 +1,13 @@
 # Use an official node 22-slim image
-FROM node:22-slim
+FROM node:22-alpine
 
 # Install Node.js LTS, pnpm, and other dependencies
-RUN apt-get update && apt-get install -y \
-  curl \
-  && npm install -g pnpm \
-  && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN npm install -g pnpm
 
-# Conditionally install Azure CLI if NODE_ENV is development
+# Install to /bin/bash
+RUN apk add --no-cache bash
+
 ARG NODE_ENV=production
-RUN if [ "$NODE_ENV" = "development" ]; then \
-  curl -sL https://aka.ms/InstallAzureCLIDeb | bash; \
-  fi
 
 # Set the working directory in the container
 WORKDIR /app
