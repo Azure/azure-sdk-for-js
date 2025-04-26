@@ -274,6 +274,6 @@ export function routesAreEqual(actual: SipTrunkRoute[], expected:SipTrunkRoute[]
     return true;
 }
 
-function getAzureTestDomain(): string {
+export function getAzureTestDomain(): string {
   return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }

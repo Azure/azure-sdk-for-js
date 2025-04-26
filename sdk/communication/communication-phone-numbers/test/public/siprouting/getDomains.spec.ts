@@ -8,7 +8,7 @@ import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
-  getUniqueDomain,
+  getAzureTestDomain,
   listAllDomains,
   resetUniqueDomains,
 } from "./utils/recordedClient.js";
@@ -19,29 +19,19 @@ matrix([[true, false]], async (useAad) => {
   describe(`SipRoutingClient - get domains${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
-    let firstDomain = "";
-    let secondDomain = "";
-    let thirdDomain = "";
+    let testDomain = "";
 
     beforeAll(async () => {
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
+      testDomain = getAzureTestDomain();
     });
 
     beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(ctx)
         : await createRecordedClient(ctx));
-
-      firstDomain = getUniqueDomain(recorder);
-      secondDomain = getUniqueDomain(recorder);
-      thirdDomain = getUniqueDomain(recorder);
-      await client.setDomains([
-        { fqdn: firstDomain, enabled: false },
-        { fqdn: secondDomain, enabled: false },
-        { fqdn: thirdDomain, enabled: false },
-      ]);
     });
 
     afterEach(async () => {
@@ -50,10 +40,10 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("can retrieve an existing domain", async () => {
-      const domain = await client.getDomain(firstDomain);
+      const domain = await client.getDomain(testDomain);
 
       assert.isNotNull(domain);
-      assert.equal(domain?.enabled, false);
+      assert.equal(domain?.enabled, true);
     });
 
     it("can retrieve domains", async () => {

@@ -62,7 +62,6 @@ matrix([[true, false]], async (useAad) => {
     });
 
     it("cannot delete non existing domain but succeeds", async () => {
-      await client.setDomains([]);
       await client.deleteDomain("notExisting.fqdn.com");
     });
   });

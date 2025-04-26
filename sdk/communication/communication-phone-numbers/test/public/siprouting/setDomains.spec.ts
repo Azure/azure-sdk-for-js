@@ -14,6 +14,7 @@ import {
   createRecordedClient,
   createRecordedClientWithToken,
   getUniqueDomain,
+  getAzureTestDomain,
   resetUniqueDomains,
 } from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils-vitest";
@@ -23,6 +24,7 @@ matrix([[true, false]], async (useAad) => {
   describe(`SipRoutingClient - set domains${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
+    let testDomain = "";
     let domain1 = "";
     let domain2 = "";
     let domain3 = "";
@@ -38,6 +40,7 @@ matrix([[true, false]], async (useAad) => {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(ctx)
         : await createRecordedClient(ctx));
+      testDomain = getAzureTestDomain();
       domain1 = getUniqueDomain(recorder);
       domain2 = getUniqueDomain(recorder);
       domain3 = getUniqueDomain(recorder);
@@ -51,6 +54,7 @@ matrix([[true, false]], async (useAad) => {
 
     it("can set multiple new domains when empty before", async () => {
       const domains: SipDomain[] = [
+        { fqdn: testDomain, enabled: true},
         { fqdn: domain1, enabled: false },
         { fqdn: domain2, enabled: false },
       ];
@@ -61,6 +65,7 @@ matrix([[true, false]], async (useAad) => {
 
     it("can override existing domains", async () => {
       const initialDomains: SipDomain[] = [
+        { fqdn: testDomain, enabled: true},
         { fqdn: domain1, enabled: false },
         { fqdn: domain2, enabled: false },
       ];
@@ -68,6 +73,7 @@ matrix([[true, false]], async (useAad) => {
       assert.deepEqual(setInitialDomains, initialDomains);
 
       const domains: SipDomain[] = [
+        { fqdn: testDomain, enabled: true},
         { fqdn: domain3, enabled: false },
         { fqdn: domain4, enabled: false },
       ];
@@ -85,7 +91,6 @@ matrix([[true, false]], async (useAad) => {
         try {
           await client.getDomain(invalidDomain.fqdn);
         } catch (getError: any) {
-          console.log(`${getError} `);
           assert.equal(getError.code, "NotFound");
           return;
         }
