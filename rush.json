@@ -2338,6 +2338,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-lambdatesthyperexecute",
+      "projectFolder": "sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-dependencymap",
       "projectFolder": "sdk/dependencymap/arm-dependencymap",
       "versionPolicyName": "management"
