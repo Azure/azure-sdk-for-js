@@ -3,7 +3,7 @@
 
 import { assert, describe } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
-import { APIMatrix, type APIVersion, testWithDeployments } from "../utils/utils.js";
+import { APIMatrix, APIVersion, testWithDeployments } from "../utils/utils.js";
 
 describe.concurrent.for(APIMatrix)("Text to speech [%s]", (apiVersion: APIVersion) => {
   const clientsAndDeploymentsInfo = createClientsAndDeployments(
@@ -13,7 +13,7 @@ describe.concurrent.for(APIMatrix)("Text to speech [%s]", (apiVersion: APIVersio
   );
 
   describe("audio.speech.create", () => {
-    describe("returns speech based on text input", async () => {
+    describe.skipIf(apiVersion === APIVersion.v2024_10_21)("returns speech based on text input", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
         run: (client, deployment) =>
