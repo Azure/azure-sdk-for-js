@@ -89,7 +89,8 @@ const responseMap: Record<string, string[]> = {
   "GET /documentModels/{modelId}/analyzeResults/{resultId}": ["200"],
   "DELETE /documentModels/{modelId}/analyzeResults/{resultId}": ["204"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}/pdf": ["200"],
-  "GET /documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}": ["200"],
+  "GET /documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}":
+    ["200"],
   "GET /documentModels/{modelId}:analyze": ["200", "202"],
   "POST /documentModels/{modelId}:analyze": ["202"],
   "GET /documentModels/{modelId}/analyzeBatchResults/{resultId}": ["200"],
@@ -164,7 +165,9 @@ export function isUnexpected(
   response: GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse,
 ): response is GetAnalyzeResultPdfDefaultResponse;
 export function isUnexpected(
-  response: GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse,
+  response:
+    | GetAnalyzeResultFigure200Response
+    | GetAnalyzeResultFigureDefaultResponse,
 ): response is GetAnalyzeResultFigureDefaultResponse;
 export function isUnexpected(
   response:
@@ -179,10 +182,14 @@ export function isUnexpected(
     | AnalyzeDocumentDefaultResponse,
 ): response is AnalyzeDocumentDefaultResponse;
 export function isUnexpected(
-  response: GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse,
+  response:
+    | GetAnalyzeBatchResult200Response
+    | GetAnalyzeBatchResultDefaultResponse,
 ): response is GetAnalyzeBatchResultDefaultResponse;
 export function isUnexpected(
-  response: DeleteAnalyzeBatchResult204Response | DeleteAnalyzeBatchResultDefaultResponse,
+  response:
+    | DeleteAnalyzeBatchResult204Response
+    | DeleteAnalyzeBatchResultDefaultResponse,
 ): response is DeleteAnalyzeBatchResultDefaultResponse;
 export function isUnexpected(
   response:
@@ -191,7 +198,9 @@ export function isUnexpected(
     | AnalyzeBatchDocumentsDefaultResponse,
 ): response is AnalyzeBatchDocumentsDefaultResponse;
 export function isUnexpected(
-  response: ListAnalyzeBatchResults200Response | ListAnalyzeBatchResultsDefaultResponse,
+  response:
+    | ListAnalyzeBatchResults200Response
+    | ListAnalyzeBatchResultsDefaultResponse,
 ): response is ListAnalyzeBatchResultsDefaultResponse;
 export function isUnexpected(
   response: GetModel200Response | GetModelDefaultResponse,
@@ -200,16 +209,25 @@ export function isUnexpected(
   response: DeleteModel204Response | DeleteModelDefaultResponse,
 ): response is DeleteModelDefaultResponse;
 export function isUnexpected(
-  response: BuildModel202Response | BuildModelLogicalResponse | BuildModelDefaultResponse,
+  response:
+    | BuildModel202Response
+    | BuildModelLogicalResponse
+    | BuildModelDefaultResponse,
 ): response is BuildModelDefaultResponse;
 export function isUnexpected(
-  response: ComposeModel202Response | ComposeModelLogicalResponse | ComposeModelDefaultResponse,
+  response:
+    | ComposeModel202Response
+    | ComposeModelLogicalResponse
+    | ComposeModelDefaultResponse,
 ): response is ComposeModelDefaultResponse;
 export function isUnexpected(
   response: AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse,
 ): response is AuthorizeModelCopyDefaultResponse;
 export function isUnexpected(
-  response: CopyModelTo202Response | CopyModelToLogicalResponse | CopyModelToDefaultResponse,
+  response:
+    | CopyModelTo202Response
+    | CopyModelToLogicalResponse
+    | CopyModelToDefaultResponse,
 ): response is CopyModelToDefaultResponse;
 export function isUnexpected(
   response: ListModels200Response | ListModelsDefaultResponse,
@@ -245,7 +263,9 @@ export function isUnexpected(
   response: GetClassifyResult200Response | GetClassifyResultDefaultResponse,
 ): response is GetClassifyResultDefaultResponse;
 export function isUnexpected(
-  response: AuthorizeClassifierCopy200Response | AuthorizeClassifierCopyDefaultResponse,
+  response:
+    | AuthorizeClassifierCopy200Response
+    | AuthorizeClassifierCopyDefaultResponse,
 ): response is AuthorizeClassifierCopyDefaultResponse;
 export function isUnexpected(
   response:
@@ -400,17 +420,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
