@@ -145,6 +145,7 @@ export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
+  await client.setDomain({fqdn: getAzureTestDomain(), enabled: true} as SipDomain);
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
