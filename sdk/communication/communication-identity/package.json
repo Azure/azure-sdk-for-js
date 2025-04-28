@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-identity",
-  "version": "1.3.2",
+  "version": "1.4.0-beta.1",
   "description": "SDK for Azure Communication service which facilitates user token administration.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
