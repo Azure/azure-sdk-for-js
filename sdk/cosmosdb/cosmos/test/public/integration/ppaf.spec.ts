@@ -230,15 +230,32 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
       plugins,
     } as any);
     const writeEndpoint = await client.getWriteEndpoint();
-    assert.equal(writeEndpoint, "https://ppaf-eastus.documents.azure.com:443/");
-    await client.database("foo").container("foo").items.upsert({ id: "foo", name: "sample1" });
 
+    // Lets say we have three regions East US, Australia East and West US. Here we have a single master account.
+    // Initially the write region is East US. So the write endpoint will be East US.
+    assert.equal(writeEndpoint, "https://ppaf-eastus.documents.azure.com:443/");
+
+    // Any write request will be directed to the write region i.e. East US.
+    await client.database("foo").container("foo").items.upsert({ id: "foo", name: "sample1" });
+    assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
+
+    // Now lets say on sending the next write request, the write region i.e. East US is not available. So we will receive a 503 error.
+    // So for the partition key "sampele 2", we should failover to the next available region i.e. Australia East.
+    // We will mark the East US region as unavailable for the "sample2" partition key and create an override pointing to the Australia East.
+    // So on the next retry we will try to write to Australia East.
     await client.database("foo").container("foo").items.upsert({ id: "bar", name: "sample2" });
     assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
 
+    // Now since there is a write override for the "sample2" partition key, any further writes to the "sample2" partition key
+    // will be directed to Australia East.
     await client.database("foo").container("foo").items.upsert({ id: "bar1", name: "sample2" });
     assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
 
+    // Now lets say the East US region is healthy. So we should fail back to the East US region as write region. On sending a write request to
+    // australia east, we will get a 403.3 error. So we will mark the Australia East also as unavailable for the
+    // "sample2" partition key and create an override pointing to the next available region i.e. West US. So on the next retry we will try to write to West US.
+    // But since West US is also not the primary write region, it will also give a 403.3 error. So we will mark the West US region also as unavailable for the "sample2" partition key.
+    // Since we have retried all the available regions, we will remove the overrides for the "sample2" partition key and try to write to the primary region i.e. East US.
     await client.database("foo").container("foo").items.upsert({ id: "bar2", name: "sample2" });
     assert.equal(writeEndpoint, "https://ppaf-eastus.documents.azure.com:443/");
 
