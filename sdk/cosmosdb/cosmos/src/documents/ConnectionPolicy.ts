@@ -45,7 +45,7 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
     fixedRetryIntervalInMilliseconds: Constants.ThrottledRequestFixedRetryIntervalInMs,
     maxWaitTimeInSeconds: Constants.ThrottledRequestMaxWaitTimeInSeconds,
   },
-  useMultipleWriteLocations: true,
+  useMultipleWriteLocations: false,
   endpointRefreshRateInMs: 300000,
-  enableBackgroundEndpointRefreshing: true,
+  enableBackgroundEndpointRefreshing: false,
 });
