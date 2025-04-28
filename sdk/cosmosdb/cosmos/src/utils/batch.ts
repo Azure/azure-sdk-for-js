@@ -70,12 +70,6 @@ export interface ExtendedOperationResponse extends OperationResponse {
   diagnostics: CosmosDiagnostics;
 }
 
-export function isErrorResponse(
-  result: ExtendedOperationResponse | ErrorResponse,
-): result is ErrorResponse {
-  return !isSuccessStatusCode(result.statusCode);
-}
-
 export interface OperationResponse {
   statusCode: number;
   requestCharge: number;

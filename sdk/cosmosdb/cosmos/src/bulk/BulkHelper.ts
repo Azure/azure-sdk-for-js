@@ -50,6 +50,8 @@ export class BulkHelper {
   private congestionControlTimer: NodeJS.Timeout;
   private readonly congestionControlDelayInMs: number = 1000;
   private staleRidError: ErrorResponse | undefined;
+  private readonly operationsPerSleep: number = 100; // Number of operations to add per sleep
+  private readonly intervalForPartialBatchInMs: number = 1000; // Sleep interval before adding partial batch to dispatch queue
 
   /**
    * @internal
@@ -78,20 +80,29 @@ export class BulkHelper {
    */
   async execute(operationInput: OperationInput[]): Promise<CosmosBulkOperationResult[]> {
     const addOperationPromises: Promise<void>[] = [];
+    const minimalPause = 0; // minimal pause (0 ms) inserted periodically during processing.
     try {
       for (let i = 0; i < operationInput.length; i++) {
-        if (i % 100 === 0) {
-          await sleep(0);
+        // After every 100 operations,sleep of 0 ms is added to allow the event loop to process any pending
+        // callbacks/tasks such as fetching partition key definition and dispatching batches from queue. This helps
+        // to prevent blocking and improves overall responsiveness.
+        if (i % this.operationsPerSleep === 0) {
+          await sleep(minimalPause);
         }
         addOperationPromises.push(this.addOperation(operationInput[i], i));
       }
       await Promise.allSettled(addOperationPromises);
+
+      // After processing all operations via addOperation, it's possible that the current batch in each helper is not completely full.
+      // In such cases, addPartialBatchToQueue is called to ensure that all the operations are added to the dispatch queue.
+      // while loop below waits until the count of processed operations equals the number of input operations. This is necessary because
+      // some operations might fail and then again get added to current batch for retry.
       while (this.processedOperationCountRef.count < operationInput.length) {
-        // wait for all operations to be fulfilled
         this.helpersByPartitionKeyRangeId.forEach((helper) => {
           helper.addPartialBatchToQueue();
         });
-        await sleep(1000);
+        // Pause for 1000 ms to give pending operations chance to accumulate into a batch to avoid sending multiple small batches.
+        await sleep(this.intervalForPartialBatchInMs);
       }
     } finally {
       if (this.congestionControlTimer) {

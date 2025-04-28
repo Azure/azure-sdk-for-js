@@ -12,11 +12,7 @@ import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 import type { ClientConfigDiagnostic } from "../index.js";
 import { ErrorResponse } from "../index.js";
 import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
-import {
-  calculateObjectSizeInBytes,
-  isSuccessStatusCode,
-  isErrorResponse,
-} from "../utils/batch.js";
+import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
 import type { ItemBulkOperation } from "./index.js";
@@ -136,10 +132,7 @@ export class BulkBatcher {
       for (let i = 0; i < response.operations.length; i++) {
         const operation = response.operations[i];
         const bulkOperationResult = response.results[i];
-        if (
-          !isSuccessStatusCode(bulkOperationResult.statusCode) &&
-          isErrorResponse(bulkOperationResult)
-        ) {
+        if (bulkOperationResult instanceof ErrorResponse) {
           const shouldRetry = await operation.operationContext.retryPolicy.shouldRetry(
             bulkOperationResult,
             operation.operationContext.diagnosticNode,
@@ -179,7 +172,7 @@ export class BulkBatcher {
         const bulkItemResponse: CosmosBulkOperationResult = {
           operationInput: operation.plainTextOperationInput,
         };
-        if (isErrorResponse(bulkOperationResult)) {
+        if (bulkOperationResult instanceof ErrorResponse) {
           bulkItemResponse.error = bulkOperationResult;
         } else {
           bulkItemResponse.response = bulkOperationResult;

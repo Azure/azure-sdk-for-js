@@ -8,7 +8,7 @@ import { ErrorResponse } from "../index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
 import type { StatusCode, SubStatusCode } from "../request/StatusCodes.js";
 import type { ExtendedOperationResponse } from "../utils/batch.js";
-import { isSuccessStatusCode, isErrorResponse } from "../utils/batch.js";
+import { isSuccessStatusCode } from "../utils/batch.js";
 import type { ItemBulkOperation } from "./index.js";
 
 /**
@@ -128,7 +128,7 @@ export class BulkResponse {
     if (responseMessage.code === StatusCodes.MultiStatus) {
       for (const result of results) {
         if (
-          isErrorResponse(result) &&
+          result instanceof ErrorResponse &&
           result.statusCode !== StatusCodes.FailedDependency &&
           result.statusCode >= StatusCodes.BadRequest
         ) {
