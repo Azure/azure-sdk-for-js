@@ -145,7 +145,7 @@ export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
-  await client.setDomain({ fqdn: getAzureTestDomain(), enabled: true } as SipDomain);
+  await client.setDomain({ fqdn: env.AZURE_TEST_DOMAIN, enabled: true } as SipDomain);
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
@@ -153,8 +153,9 @@ export async function clearSipConfiguration(): Promise<void> {
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
   const id = randomUUID().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain(recorder)}`);
 }
+
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;
 }
@@ -162,7 +163,7 @@ export function resetUniqueFqdns(): void {
 let domainNumber = 1;
 export function getUniqueDomain(recorder: Recorder): string {
   const uniqueDomain = randomUUID().replace(/-/g, "");
-  return recorder.variable(`domain-${domainNumber++}`, `${uniqueDomain}.test.com`);
+  return recorder.variable(`domain-${domainNumber++}`, `${uniqueDomain}.sanitized.sbc.test`);
 }
 
 export function resetUniqueDomains(): void {
@@ -263,6 +264,6 @@ export function routesAreEqual(actual: SipTrunkRoute[], expected: SipTrunkRoute[
   return true;
 }
 
-export function getAzureTestDomain(): string {
-  return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
+export function getAzureTestDomain(recorder: Recorder): string {
+  return recorder.variable("verified-domain", `${env.AZURE_TEST_DOMAIN}`);
 }

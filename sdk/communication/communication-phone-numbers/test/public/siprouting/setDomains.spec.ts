@@ -40,7 +40,7 @@ matrix([[true, false]], async (useAad) => {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(ctx)
         : await createRecordedClient(ctx));
-      testDomain = getAzureTestDomain();
+      testDomain = getAzureTestDomain(recorder);
       domain1 = getUniqueDomain(recorder);
       domain2 = getUniqueDomain(recorder);
       domain3 = getUniqueDomain(recorder);

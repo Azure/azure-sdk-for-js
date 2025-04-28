@@ -80,10 +80,10 @@ matrix([[true, false]], async (useAad) => {
         {
           fqdn: firstFqdn,
           sipSignalingPort: 8239,
-          directTransfer: false,
+          directTransfer: true,
           enabled: false,
-          privacyHeader: "id",
-          ipAddressVersion: "ipv4",
+          privacyHeader: "none",
+          ipAddressVersion: "ipv6",
         },
         {
           fqdn: secondFqdn,
@@ -121,6 +121,11 @@ matrix([[true, false]], async (useAad) => {
       await client.setTrunks(trunks);
 
       trunks[0].sipSignalingPort = 5678;
+      trunks[0].directTransfer = true;
+      trunks[0].enabled = true;
+      trunks[0].privacyHeader = "none";
+      trunks[0].ipAddressVersion = "ipv6";
+
       trunks[1].sipSignalingPort = 5678;
 
       const setTrunks = await client.setTrunks(trunks);
