@@ -10,7 +10,6 @@
       "cache": false
     },
     "build:test": {
-      "dependsOn": ["^build:test"],
       "cache": false
     },
     "check-format": {
@@ -41,13 +40,15 @@
     "test": {
     },
     "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "dependsOn": ["^build"]
     },
     "unit-test": {
     },
     "unit-test:browser": {
+      "dependsOn": ["build"]
     },
     "unit-test:node": {
+      "dependsOn": ["build"]
     },
     "update-snippets": {
       "cache": false
