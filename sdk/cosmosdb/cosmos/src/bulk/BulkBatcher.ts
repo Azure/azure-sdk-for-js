@@ -12,7 +12,7 @@ import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 import type { ClientConfigDiagnostic } from "../index.js";
 import { ErrorResponse } from "../index.js";
 import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
-import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch.js";
+import { calculateObjectSizeInBytes } from "../utils/batch.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
 import type { ItemBulkOperation } from "./index.js";
