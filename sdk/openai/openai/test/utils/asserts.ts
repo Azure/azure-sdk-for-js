@@ -307,8 +307,7 @@ async function assertAsyncIterable<T>(
       validate(item);
     } catch (e: any) {
       throw new Error(
-        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
-          e.message
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
@@ -409,7 +408,7 @@ export function assertImagesWithURLs(image: ImagesResponse, height: number, widt
   assert.isNotNull(image);
   assert.isNumber(image.created);
   assert.isArray(image.data);
-  image.data.forEach((img) => {
+  image.data!.forEach((img) => {
     ifDefined(img.revised_prompt, assert.isString);
     assert.isUndefined(img.b64_json);
     ifDefined(img.url, async (url) => {
@@ -426,7 +425,7 @@ export function assertImagesWithJSON(image: ImagesResponse, height: number, widt
   assert.isNotNull(image);
   assert.isNumber(image.created);
   assert.isArray(image.data);
-  image.data.forEach((img) => {
+  image.data!.forEach((img) => {
     ifDefined(img.revised_prompt, assert.isString);
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {

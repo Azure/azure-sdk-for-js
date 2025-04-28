@@ -27,7 +27,7 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
       });
     });
 
-    describe("generates image strings", () => {
+    describe("generates image strings with response_format", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
         run: (client, deploymentName) =>
@@ -38,8 +38,27 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
             size,
             response_format: "b64_json",
           }),
+        modelsListToSkip: [
+          { name: "gpt-image-1" }  // response_format: "b64_json" is not supported for this model
+        ],
         validate: (item) => assertImagesWithJSON(item, height, width),
       });
     });
+
+    describe("generates image strings without response_format", () => {
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.images.generate({
+            model: deploymentName,
+            prompt,
+            n,
+            size,
+            quality: "standard",
+          }),
+        validate: (item) => assertImagesWithJSON(item, height, width),
+      });
+    });
+
   });
 });
