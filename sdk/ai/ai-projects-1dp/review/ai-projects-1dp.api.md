@@ -30,6 +30,7 @@ export class AIProjectClient {
     readonly inference: InferenceOperations;
     readonly pipeline: Pipeline;
     readonly redTeams: RedTeamsOperations;
+    readonly telemetry: TelemetryOperations;
 }
 
 // @public
@@ -538,6 +539,11 @@ export interface Sku {
     name: string;
     size: string;
     tier: string;
+}
+
+// @public
+export interface TelemetryOperations {
+    getConnectionString: () => Promise<string>;
 }
 
 // (No @packageDocumentation comment for this package)

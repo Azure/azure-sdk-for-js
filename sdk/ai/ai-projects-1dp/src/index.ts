@@ -94,6 +94,7 @@ export {
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
 } from "./api/redTeams/index.js";
+export { TelemetryOperations } from "./classic/telemetry/index.js";
 export {
   ConnectionsOperations,
   DatasetsOperations,

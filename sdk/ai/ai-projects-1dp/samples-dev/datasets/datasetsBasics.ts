@@ -42,6 +42,9 @@ async function main(): Promise<void> {
   );
   console.log(dataset1);
 
+  const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
+  console.log("Credential for the dataset:", credential);
+
   console.log(
     "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
   );
