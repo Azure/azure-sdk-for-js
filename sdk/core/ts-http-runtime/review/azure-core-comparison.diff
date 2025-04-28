@@ -934,7 +934,7 @@ index 30dac33..d0a5cc1 100644
  
  export function getCachedDefaultHttpsClient(): HttpClient {
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 58f6eba..2fd91b4 100644
+index 58f6eba..4937868 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
@@ -1063,13 +1063,13 @@ index 58f6eba..2fd91b4 100644
 -  credentials?: {
 -    /**
 -     * Authentication scopes for AAD
--     */
--    scopes?: string[];
--    /**
--     * Heder name for Client Secret authentication
 +   * List of authentication schemes supported by the client.
 +   * These schemes define how the client can authenticate requests.
     */
+-    scopes?: string[];
+-    /**
+-     * Heder name for Client Secret authentication
+-     */
 -    apiKeyHeaderName?: string;
 -  };
 +  authSchemes?: AuthScheme[];
@@ -1088,32 +1088,65 @@ index 58f6eba..2fd91b4 100644
    /**
     * Endpoint for the client
     */
+@@ -374,6 +340,12 @@ export type ClientOptions = PipelineOptions & {
+    * Options to configure request/response logging.
+    */
+   loggingOptions?: LogPolicyOptions;
++  /**
++   * Pipeline to use for the client. If not provided, a default pipeline will be created using the options provided.
++   * Use with caution -- when setting this option, all client options that are used in the creation of the default pipeline
++   * will be ignored.
++   */
++  pipeline?: Pipeline;
+ };
+ 
+ /**
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index 05bd395..e3f46d2 100644
+index af9b748..721f901 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
-@@ -1,9 +1,8 @@
+@@ -1,94 +1,127 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 -import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
--import type { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
+-import { type PipelineOptions } from "@azure/core-rest-pipeline";
 +import type { HttpClient, HttpMethods } from "../interfaces.js";
 +import type { Pipeline } from "../pipeline.js";
  import { createDefaultPipeline } from "./clientHelpers.js";
- import type {
-   Client,
-@@ -11,44 +10,21 @@ import type {
-   HttpBrowserStreamResponse,
-   HttpNodeStreamResponse,
-   RequestParameters,
+-import type { Client, ClientOptions, RequestParameters, StreamableMethod } from "./common.js";
+-import {
+-  getClient as tspGetClient,
+-  type ClientOptions as TspClientOptions,
+-} from "@typespec/ts-http-runtime";
+-
+-/**
+- * Function to wrap RequestParameters so that we get the legacy onResponse behavior in core-client-rest
+- */
+-function wrapRequestParameters(parameters: RequestParameters): RequestParameters {
+-  if (parameters.onResponse) {
+-    return {
+-      ...parameters,
+-      onResponse(rawResponse, error) {
+-        parameters.onResponse?.(rawResponse, error, error);
+-      },
+-    };
+-  }
+-
+-  return parameters;
+-}
++import type {
++  Client,
++  ClientOptions,
++  HttpBrowserStreamResponse,
++  HttpNodeStreamResponse,
++  RequestParameters,
 +  ResourceMethods,
-   StreamableMethod,
- } from "./common.js";
- import { sendRequest } from "./sendRequest.js";
- import { buildRequestUrl } from "./urlHelpers.js";
--import { isNodeLike } from "@azure/core-util";
++  StreamableMethod,
++} from "./common.js";
++import { sendRequest } from "./sendRequest.js";
++import { buildRequestUrl } from "./urlHelpers.js";
 +import { isNodeLike } from "../util/checkEnvironment.js";
  
 -/**
@@ -1144,100 +1177,186 @@ index 05bd395..e3f46d2 100644
 -      credentials = credentialsOrPipelineOptions;
 -    } else {
 -      clientOptions = credentialsOrPipelineOptions ?? {};
--    }
--  }
--
--  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
 +export function getClient(endpoint: string, clientOptions: ClientOptions = {}): Client {
-+  const pipeline = createDefaultPipeline(clientOptions);
-   if (clientOptions.additionalPolicies?.length) {
-     for (const { policy, position } of clientOptions.additionalPolicies) {
-       // Sign happens after Retry and is commonly needed to occur
-@@ -62,8 +38,8 @@ export function getClient(
++  const pipeline = clientOptions.pipeline ?? createDefaultPipeline(clientOptions);
++  if (clientOptions.additionalPolicies?.length) {
++    for (const { policy, position } of clientOptions.additionalPolicies) {
++      // Sign happens after Retry and is commonly needed to occur
++      // before policies that intercept post-retry.
++      const afterPhase = position === "perRetry" ? "Sign" : undefined;
++      pipeline.addPolicy(policy, {
++        afterPhase,
++      });
+     }
+   }
  
-   const { allowInsecureConnection, httpClient } = clientOptions;
-   const endpointUrl = clientOptions.endpoint ?? endpoint;
--  const client = (path: string, ...args: Array<any>) => {
--    const getUrl = (requestOptions: RequestParameters) =>
+-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+-  const tspClient = tspGetClient(endpoint, {
+-    ...clientOptions,
+-    pipeline,
+-  } as TspClientOptions) as Client;
++  const { allowInsecureConnection, httpClient } = clientOptions;
++  const endpointUrl = clientOptions.endpoint ?? endpoint;
 +  const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
 +    const getUrl = (requestOptions: RequestParameters): string =>
-       buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
++      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
  
+-  const client = (path: string, ...args: Array<any>) => {
      return {
-@@ -208,9 +184,3 @@ function buildOperation(
-     },
+       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).get(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "GET",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       post: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).post(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "POST",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       put: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).put(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "PUT",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).patch(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "PATCH",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).delete(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "DELETE",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       head: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).head(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "HEAD",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       options: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).options(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "OPTIONS",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+       trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
+-        return tspClient.path(path, ...args).trace(wrapRequestParameters(requestOptions));
++        return buildOperation(
++          "TRACE",
++          getUrl(requestOptions),
++          pipeline,
++          requestOptions,
++          allowInsecureConnection,
++          httpClient,
++        );
+       },
+     };
+   };
+@@ -96,12 +129,58 @@ export function getClient(
+   return {
+     path: client,
+     pathUnchecked: client,
+-    pipeline: tspClient.pipeline,
++    pipeline,
    };
  }
--
+ 
 -function isCredential(
 -  param: (TokenCredential | KeyCredential) | PipelineOptions,
 -): param is TokenCredential | KeyCredential {
 -  return isKeyCredential(param) || isTokenCredential(param);
--}
-diff --git a/src/client/helpers/isBinaryBody.ts b/src/client/helpers/isBinaryBody.ts
-deleted file mode 100644
-index ef06c77..0000000
---- a/src/client/helpers/isBinaryBody.ts
-+++ /dev/null
-@@ -1,22 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
--
--import { isReadableStream } from "./isReadableStream.js";
--
--export function isBinaryBody(
--  body: unknown,
--): body is
--  | Uint8Array
--  | NodeJS.ReadableStream
--  | ReadableStream<Uint8Array>
--  | (() => NodeJS.ReadableStream)
--  | (() => ReadableStream<Uint8Array>)
--  | Blob {
--  return (
--    body !== undefined &&
--    (body instanceof Uint8Array ||
--      isReadableStream(body) ||
--      typeof body === "function" ||
--      body instanceof Blob)
--  );
--}
-diff --git a/src/client/helpers/isReadableStream-browser.mts b/src/client/helpers/isReadableStream-browser.mts
-deleted file mode 100644
-index 9d792bd..0000000
---- a/src/client/helpers/isReadableStream-browser.mts
-+++ /dev/null
-@@ -1,14 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
--
--/**
-- * Checks if the body is a ReadableStream supported by browsers
-- * @internal
-- */
--export function isReadableStream(body: unknown): body is ReadableStream {
--  return Boolean(
--    body &&
--      typeof (body as ReadableStream).getReader === "function" &&
--      typeof (body as ReadableStream).tee === "function",
--  );
--}
-diff --git a/src/client/helpers/isReadableStream.ts b/src/client/helpers/isReadableStream.ts
-deleted file mode 100644
-index 5963319..0000000
---- a/src/client/helpers/isReadableStream.ts
-+++ /dev/null
-@@ -1,10 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
--
--/**
-- * Checks if the body is a ReadableStream supported by Node
-- * @internal
-- */
--export function isReadableStream(body: unknown): body is NodeJS.ReadableStream {
--  return Boolean(body) && typeof (body as any).pipe === "function";
--}
++function buildOperation(
++  method: HttpMethods,
++  url: string,
++  pipeline: Pipeline,
++  options: RequestParameters,
++  allowInsecureConnection?: boolean,
++  httpClient?: HttpClient,
++): StreamableMethod {
++  allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
++  return {
++    then: function (onFulfilled, onrejected) {
++      return sendRequest(
++        method,
++        url,
++        pipeline,
++        { ...options, allowInsecureConnection },
++        httpClient,
++      ).then(onFulfilled, onrejected);
++    },
++    async asBrowserStream() {
++      if (isNodeLike) {
++        throw new Error(
++          "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
++        );
++      } else {
++        return sendRequest(
++          method,
++          url,
++          pipeline,
++          { ...options, allowInsecureConnection, responseAsStream: true },
++          httpClient,
++        ) as Promise<HttpBrowserStreamResponse>;
++      }
++    },
++    async asNodeStream() {
++      if (isNodeLike) {
++        return sendRequest(
++          method,
++          url,
++          pipeline,
++          { ...options, allowInsecureConnection, responseAsStream: true },
++          httpClient,
++        ) as Promise<HttpNodeStreamResponse>;
++      } else {
++        throw new Error(
++          "`isNodeStream` is not supported in the browser environment. Use `asBrowserStream` to obtain the response body stream.",
++        );
++      }
++    },
++  };
+ }
 diff --git a/src/client/index.ts b/src/client/index.ts
 deleted file mode 100644
 index 1cd7d94..0000000
@@ -1295,105 +1414,762 @@ index 06bc091..0000000
 -  };
 -}
 diff --git a/src/client/multipart.ts b/src/client/multipart.ts
-index 175b5cd..102ed57 100644
---- a/src/client/multipart.ts
+new file mode 100644
+index 0000000..102ed57
+--- /dev/null
 +++ b/src/client/multipart.ts
-@@ -1,14 +1,11 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type {
--  BodyPart,
--  MultipartRequestBody,
--  RawHttpHeadersInput,
--} from "@azure/core-rest-pipeline";
--import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
--import { stringToUint8Array } from "@azure/core-util";
--import { isBinaryBody } from "./helpers/isBinaryBody.js";
+@@ -0,0 +1,200 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
 +import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
 +import { RestError } from "../restError.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
 +import { isBinaryBody } from "../util/typeGuards.js";
- 
- /**
-  * Describes a single part in a multipart body.
++
++/**
++ * Describes a single part in a multipart body.
++ */
++export interface PartDescriptor {
++  /**
++   * Content type of this part. If set, this value will be used to set the Content-Type MIME header for this part, although explicitly
++   * setting the Content-Type header in the headers bag will override this value. If set to `null`, no content type will be inferred from
++   * the body field. Otherwise, the value of the Content-Type MIME header will be inferred based on the type of the body.
++   */
++  contentType?: string | null;
++
++  /**
++   * The disposition type of this part (for example, "form-data" for parts making up a multipart/form-data request). If set, this value
++   * will be used to set the Content-Disposition MIME header for this part, in addition to the `name` and `filename` properties.
++   * If the `name` or `filename` properties are set while `dispositionType` is left undefined, `dispositionType` will default to "form-data".
++   *
++   * Explicitly setting the Content-Disposition header in the headers bag will override this value.
++   */
++  dispositionType?: string;
++
++  /**
++   * The field name associated with this part. This value will be used to construct the Content-Disposition header,
++   * along with the `dispositionType` and `filename` properties, if the header has not been set in the `headers` bag.
++   */
++  name?: string;
++
++  /**
++   * The file name of the content if it is a file. This value will be used to construct the Content-Disposition header,
++   * along with the `dispositionType` and `name` properties, if the header has not been set in the `headers` bag.
++   */
++  filename?: string;
++
++  /**
++   * The multipart headers for this part of the multipart body. Values of the Content-Type and Content-Disposition headers set in the headers bag
++   * will take precedence over those computed from the request body or the contentType, dispositionType, name, and filename fields on this object.
++   */
++  headers?: RawHttpHeadersInput;
++
++  /**
++   * The body of this part of the multipart request.
++   */
++  body?: unknown;
++}
++
++type MultipartBodyType = BodyPart["body"];
++
++type HeaderValue = RawHttpHeadersInput[string];
++
++/**
++ * Get value of a header in the part descriptor ignoring case
++ */
++function getHeaderValue(descriptor: PartDescriptor, headerName: string): HeaderValue | undefined {
++  if (descriptor.headers) {
++    const actualHeaderName = Object.keys(descriptor.headers).find(
++      (x) => x.toLowerCase() === headerName.toLowerCase(),
++    );
++    if (actualHeaderName) {
++      return descriptor.headers[actualHeaderName];
++    }
++  }
++
++  return undefined;
++}
++
++function getPartContentType(descriptor: PartDescriptor): HeaderValue | undefined {
++  const contentTypeHeader = getHeaderValue(descriptor, "content-type");
++  if (contentTypeHeader) {
++    return contentTypeHeader;
++  }
++
++  // Special value of null means content type is to be omitted
++  if (descriptor.contentType === null) {
++    return undefined;
++  }
++
++  if (descriptor.contentType) {
++    return descriptor.contentType;
++  }
++
++  const { body } = descriptor;
++
++  if (body === null || body === undefined) {
++    return undefined;
++  }
++
++  if (typeof body === "string" || typeof body === "number" || typeof body === "boolean") {
++    return "text/plain; charset=UTF-8";
++  }
++
++  if (body instanceof Blob) {
++    return body.type || "application/octet-stream";
++  }
++
++  if (isBinaryBody(body)) {
++    return "application/octet-stream";
++  }
++
++  // arbitrary non-text object -> generic JSON content type by default. We will try to JSON.stringify the body.
++  return "application/json";
++}
++
++/**
++ * Enclose value in quotes and escape special characters, for use in the Content-Disposition header
++ */
++function escapeDispositionField(value: string): string {
++  return JSON.stringify(value);
++}
++
++function getContentDisposition(descriptor: PartDescriptor): HeaderValue | undefined {
++  const contentDispositionHeader = getHeaderValue(descriptor, "content-disposition");
++  if (contentDispositionHeader) {
++    return contentDispositionHeader;
++  }
++
++  if (
++    descriptor.dispositionType === undefined &&
++    descriptor.name === undefined &&
++    descriptor.filename === undefined
++  ) {
++    return undefined;
++  }
++
++  const dispositionType = descriptor.dispositionType ?? "form-data";
++
++  let disposition = dispositionType;
++  if (descriptor.name) {
++    disposition += `; name=${escapeDispositionField(descriptor.name)}`;
++  }
++
++  let filename: string | undefined = undefined;
++  if (descriptor.filename) {
++    filename = descriptor.filename;
++  } else if (typeof File !== "undefined" && descriptor.body instanceof File) {
++    const filenameFromFile = (descriptor.body as File).name;
++    if (filenameFromFile !== "") {
++      filename = filenameFromFile;
++    }
++  }
++
++  if (filename) {
++    disposition += `; filename=${escapeDispositionField(filename)}`;
++  }
++
++  return disposition;
++}
++
++function normalizeBody(body?: unknown, contentType?: HeaderValue): MultipartBodyType {
++  if (body === undefined) {
++    // zero-length body
++    return new Uint8Array([]);
++  }
++
++  // binary and primitives should go straight on the wire regardless of content type
++  if (isBinaryBody(body)) {
++    return body;
++  }
++  if (typeof body === "string" || typeof body === "number" || typeof body === "boolean") {
++    return stringToUint8Array(String(body), "utf-8");
++  }
++
++  // stringify objects for JSON-ish content types e.g. application/json, application/merge-patch+json, application/vnd.oci.manifest.v1+json, application.json; charset=UTF-8
++  if (contentType && /application\/(.+\+)?json(;.+)?/i.test(String(contentType))) {
++    return stringToUint8Array(JSON.stringify(body), "utf-8");
++  }
++
++  throw new RestError(`Unsupported body/content-type combination: ${body}, ${contentType}`);
++}
++
++export function buildBodyPart(descriptor: PartDescriptor): BodyPart {
++  const contentType = getPartContentType(descriptor);
++  const contentDisposition = getContentDisposition(descriptor);
++  const headers = createHttpHeaders(descriptor.headers ?? {});
++
++  if (contentType) {
++    headers.set("content-type", contentType);
++  }
++  if (contentDisposition) {
++    headers.set("content-disposition", contentDisposition);
++  }
++
++  const body = normalizeBody(descriptor.body, contentType);
++
++  return {
++    headers,
++    body,
++  };
++}
++
++export function buildMultipartBody(parts: PartDescriptor[]): MultipartRequestBody {
++  return { parts: parts.map(buildBodyPart) };
++}
 diff --git a/src/client/operationOptionHelpers.ts b/src/client/operationOptionHelpers.ts
-index c7c1eb6..15bdc45 100644
+index 39bbbdb..15bdc45 100644
 --- a/src/client/operationOptionHelpers.ts
 +++ b/src/client/operationOptionHelpers.ts
-@@ -16,7 +16,6 @@ export function operationOptionsToRequestParameters(options: OperationOptions):
-     abortSignal: options.abortSignal,
-     onUploadProgress: options.requestOptions?.onUploadProgress,
-     onDownloadProgress: options.requestOptions?.onDownloadProgress,
--    tracingOptions: options.tracingOptions,
-     headers: { ...options.requestOptions?.headers },
-     onResponse: options.onResponse,
-   };
+@@ -3,18 +3,20 @@
+ 
+ import type { OperationOptions, RequestParameters } from "./common.js";
+ 
+-import {
+-  operationOptionsToRequestParameters as tspOperationOptionsToRequestParameters,
+-  type OperationOptions as TspOperationOptions,
+-} from "@typespec/ts-http-runtime";
+-
+ /**
+  * Helper function to convert OperationOptions to RequestParameters
+  * @param options - the options that are used by Modular layer to send the request
+  * @returns the result of the conversion in RequestParameters of RLC layer
+  */
+ export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
+-  return tspOperationOptionsToRequestParameters(
+-    options as TspOperationOptions,
+-  ) as RequestParameters;
++  return {
++    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
++    timeout: options.requestOptions?.timeout,
++    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
++    abortSignal: options.abortSignal,
++    onUploadProgress: options.requestOptions?.onUploadProgress,
++    onDownloadProgress: options.requestOptions?.onDownloadProgress,
++    headers: { ...options.requestOptions?.headers },
++    onResponse: options.onResponse,
++  };
+ }
 diff --git a/src/client/restError.ts b/src/client/restError.ts
-index 747e774..6b630ef 100644
+index a2f59f9..6b630ef 100644
 --- a/src/client/restError.ts
 +++ b/src/client/restError.ts
-@@ -1,8 +1,9 @@
+@@ -1,14 +1,11 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import type { PipelineResponse } from "@azure/core-rest-pipeline";
--import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+-import type { RestError } from "@azure/core-rest-pipeline";
 +import type { PipelineResponse } from "../interfaces.js";
 +import { RestError } from "../restError.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
  import type { PathUncheckedResponse } from "./common.js";
  
- /**
-diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
-index 4ee4778..dc3b0f5 100644
---- a/src/client/sendRequest.ts
-+++ b/src/client/sendRequest.ts
-@@ -5,19 +5,16 @@ import type {
-   HttpClient,
-   HttpMethods,
-   MultipartRequestBody,
--  Pipeline,
-   PipelineRequest,
-   PipelineResponse,
-   RequestBodyType,
--} from "@azure/core-rest-pipeline";
 -import {
--  RestError,
--  createHttpHeaders,
--  createPipelineRequest,
--  isRestError,
--} from "@azure/core-rest-pipeline";
+-  createRestError as tspCreateRestError,
+-  type PathUncheckedResponse as TspPathUncheckedResponse,
+-} from "@typespec/ts-http-runtime";
+-
+ /**
+  * Creates a rest error from a PathUnchecked response
+  */
+@@ -21,9 +18,30 @@ export function createRestError(
+   messageOrResponse: string | PathUncheckedResponse,
+   response?: PathUncheckedResponse,
+ ): RestError {
+-  if (typeof messageOrResponse === "string") {
+-    return tspCreateRestError(messageOrResponse, response! as TspPathUncheckedResponse);
+-  } else {
+-    return tspCreateRestError(messageOrResponse as TspPathUncheckedResponse);
++  const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
++  const internalError = resp.body?.error ?? resp.body;
++  const message =
++    typeof messageOrResponse === "string"
++      ? messageOrResponse
++      : (internalError?.message ?? `Unexpected status code: ${resp.status}`);
++  return new RestError(message, {
++    statusCode: statusCodeToNumber(resp.status),
++    code: internalError?.code,
++    request: resp.request,
++    response: toPipelineResponse(resp),
++  });
++}
++
++function toPipelineResponse(response: PathUncheckedResponse): PipelineResponse {
++  return {
++    headers: createHttpHeaders(response.headers),
++    request: response.request,
++    status: statusCodeToNumber(response.status) ?? -1,
++  };
+ }
++
++function statusCodeToNumber(statusCode: string): number | undefined {
++  const status = Number.parseInt(statusCode);
++
++  return Number.isNaN(status) ? undefined : status;
+ }
+diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
+new file mode 100644
+index 0000000..dc3b0f5
+--- /dev/null
++++ b/src/client/sendRequest.ts
+@@ -0,0 +1,230 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type {
++  HttpClient,
++  HttpMethods,
++  MultipartRequestBody,
++  PipelineRequest,
++  PipelineResponse,
++  RequestBodyType,
 +} from "../interfaces.js";
 +import { isRestError, RestError } from "../restError.js";
 +import type { Pipeline } from "../pipeline.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
 +import { createPipelineRequest } from "../pipelineRequest.js";
- import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
--import { isReadableStream } from "./helpers/isReadableStream.js";
++import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 +import { isReadableStream } from "../util/typeGuards.js";
- import type { HttpResponse, RequestParameters } from "./common.js";
- import type { PartDescriptor } from "./multipart.js";
- import { buildMultipartBody } from "./multipart.js";
-@@ -63,7 +60,8 @@ export async function sendRequest(
-     if (isRestError(e) && e.response && options.onResponse) {
-       const { response } = e;
-       const rawHeaders = response.headers.toJSON();
--      options?.onResponse({ ...response, request, rawHeaders }, e, e);
++import type { HttpResponse, RequestParameters } from "./common.js";
++import type { PartDescriptor } from "./multipart.js";
++import { buildMultipartBody } from "./multipart.js";
++
++/**
++ * Helper function to send request used by the client
++ * @param method - method to use to send the request
++ * @param url - url to send the request to
++ * @param pipeline - pipeline with the policies to run when sending the request
++ * @param options - request options
++ * @param customHttpClient - a custom HttpClient to use when making the request
++ * @returns returns and HttpResponse
++ */
++export async function sendRequest(
++  method: HttpMethods,
++  url: string,
++  pipeline: Pipeline,
++  options: InternalRequestParameters = {},
++  customHttpClient?: HttpClient,
++): Promise<HttpResponse> {
++  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
++  const request = buildPipelineRequest(method, url, options);
++
++  try {
++    const response = await pipeline.sendRequest(httpClient, request);
++    const headers = response.headers.toJSON();
++    const stream = response.readableStreamBody ?? response.browserStreamBody;
++    const parsedBody =
++      options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
++    const body = stream ?? parsedBody;
++
++    if (options?.onResponse) {
++      options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
++    }
++
++    return {
++      request,
++      headers,
++      status: `${response.status}`,
++      body,
++    };
++  } catch (e: unknown) {
++    if (isRestError(e) && e.response && options.onResponse) {
++      const { response } = e;
++      const rawHeaders = response.headers.toJSON();
 +      // UNBRANDED DIFFERENCE: onResponse callback does not have a second __legacyError property
 +      options?.onResponse({ ...response, request, rawHeaders }, e);
-     }
- 
-     throw e;
-@@ -136,7 +134,6 @@ function buildPipelineRequest(
-     multipartBody,
-     headers,
-     allowInsecureConnection: options.allowInsecureConnection,
--    tracingOptions: options.tracingOptions,
-     abortSignal: options.abortSignal,
-     onUploadProgress: options.onUploadProgress,
-     onDownloadProgress: options.onDownloadProgress,
++    }
++
++    throw e;
++  }
++}
++
++/**
++ * Function to determine the request content type
++ * @param options - request options InternalRequestParameters
++ * @returns returns the content-type
++ */
++function getRequestContentType(options: InternalRequestParameters = {}): string {
++  return (
++    options.contentType ??
++    (options.headers?.["content-type"] as string) ??
++    getContentType(options.body)
++  );
++}
++
++/**
++ * Function to determine the content-type of a body
++ * this is used if an explicit content-type is not provided
++ * @param body - body in the request
++ * @returns returns the content-type
++ */
++function getContentType(body: any): string | undefined {
++  if (ArrayBuffer.isView(body)) {
++    return "application/octet-stream";
++  }
++
++  if (typeof body === "string") {
++    try {
++      JSON.parse(body);
++      return "application/json";
++    } catch (error: any) {
++      // If we fail to parse the body, it is not json
++      return undefined;
++    }
++  }
++  // By default return json
++  return "application/json";
++}
++
++export interface InternalRequestParameters extends RequestParameters {
++  responseAsStream?: boolean;
++}
++
++function buildPipelineRequest(
++  method: HttpMethods,
++  url: string,
++  options: InternalRequestParameters = {},
++): PipelineRequest {
++  const requestContentType = getRequestContentType(options);
++  const { body, multipartBody } = getRequestBody(options.body, requestContentType);
++  const hasContent = body !== undefined || multipartBody !== undefined;
++
++  const headers = createHttpHeaders({
++    ...(options.headers ? options.headers : {}),
++    accept: options.accept ?? options.headers?.accept ?? "application/json",
++    ...(hasContent &&
++      requestContentType && {
++        "content-type": requestContentType,
++      }),
++  });
++
++  return createPipelineRequest({
++    url,
++    method,
++    body,
++    multipartBody,
++    headers,
++    allowInsecureConnection: options.allowInsecureConnection,
++    abortSignal: options.abortSignal,
++    onUploadProgress: options.onUploadProgress,
++    onDownloadProgress: options.onDownloadProgress,
++    timeout: options.timeout,
++    enableBrowserStreams: true,
++    streamResponseStatusCodes: options.responseAsStream
++      ? new Set([Number.POSITIVE_INFINITY])
++      : undefined,
++  });
++}
++
++interface RequestBody {
++  body?: RequestBodyType;
++  multipartBody?: MultipartRequestBody;
++}
++
++/**
++ * Prepares the body before sending the request
++ */
++function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
++  if (body === undefined) {
++    return { body: undefined };
++  }
++
++  if (typeof FormData !== "undefined" && body instanceof FormData) {
++    return { body };
++  }
++
++  if (isReadableStream(body)) {
++    return { body };
++  }
++
++  if (ArrayBuffer.isView(body)) {
++    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
++  }
++
++  const firstType = contentType.split(";")[0];
++
++  switch (firstType) {
++    case "application/json":
++      return { body: JSON.stringify(body) };
++    case "multipart/form-data":
++      if (Array.isArray(body)) {
++        return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };
++      }
++      return { body: JSON.stringify(body) };
++    case "text/plain":
++      return { body: String(body) };
++    default:
++      if (typeof body === "string") {
++        return { body };
++      }
++      return { body: JSON.stringify(body) };
++  }
++}
++
++/**
++ * Prepares the response body
++ */
++function getResponseBody(response: PipelineResponse): RequestBodyType | undefined {
++  // Set the default response type
++  const contentType = response.headers.get("content-type") ?? "";
++  const firstType = contentType.split(";")[0];
++  const bodyToParse = response.bodyAsText ?? "";
++
++  if (firstType === "text/plain") {
++    return String(bodyToParse);
++  }
++  // Default to "application/json" and fallback to string;
++  try {
++    return bodyToParse ? JSON.parse(bodyToParse) : undefined;
++  } catch (error: any) {
++    // If we were supposed to get a JSON object and failed to
++    // parse, throw a parse error
++    if (firstType === "application/json") {
++      throw createParseError(response, error);
++    }
++
++    // We are not sure how to handle the response so we return it as
++    // plain text.
++    return String(bodyToParse);
++  }
++}
++
++function createParseError(response: PipelineResponse, err: any): RestError {
++  const msg = `Error "${err}" occurred while parsing the response body - ${response.bodyAsText}.`;
++  const errCode = err.code ?? RestError.PARSE_ERROR;
++  return new RestError(msg, {
++    code: errCode,
++    statusCode: response.status,
++    request: response.request,
++    response: response,
++  });
++}
+diff --git a/src/client/urlHelpers.ts b/src/client/urlHelpers.ts
+new file mode 100644
+index 0000000..f30583b
+--- /dev/null
++++ b/src/client/urlHelpers.ts
+@@ -0,0 +1,219 @@
++// Copyright (c) Microsoft Corporation.
++// Licensed under the MIT License.
++
++import type { PathParameterWithOptions, RequestParameters } from "./common.js";
++
++type QueryParameterStyle = "form" | "spaceDelimited" | "pipeDelimited";
++
++/**
++ * An object that can be passed as a query parameter, allowing for additional options to be set relating to how the parameter is encoded.
++ */
++interface QueryParameterWithOptions {
++  /**
++   * The value of the query parameter.
++   */
++  value: unknown;
++
++  /**
++   * If set to true, value must be an array. Setting this option to true will cause the array to be encoded as multiple query parameters.
++   * Setting it to false will cause the array values to be encoded as a single query parameter, with each value separated by a comma ','.
++   *
++   * For example, with `explode` set to true, a query parameter named "foo" with value ["a", "b", "c"] will be encoded as foo=a&foo=b&foo=c.
++   * If `explode` was set to false, the same example would instead be encouded as foo=a,b,c.
++   *
++   * Defaults to false.
++   */
++  explode?: boolean;
++
++  /**
++   * Style for encoding arrays. Three possible values:
++   * - "form": array values will be separated by a comma "," in the query parameter value.
++   * - "spaceDelimited": array values will be separated by a space (" ", url-encoded to "%20").
++   * - "pipeDelimited": array values will be separated by a pipe ("|").
++   *
++   * Defaults to "form".
++   */
++  style?: QueryParameterStyle;
++}
++
++function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions {
++  const value = (x as QueryParameterWithOptions).value as any;
++  return (
++    value !== undefined && value.toString !== undefined && typeof value.toString === "function"
++  );
++}
++
++/**
++ * Builds the request url, filling in query and path parameters
++ * @param endpoint - base url which can be a template url
++ * @param routePath - path to append to the endpoint
++ * @param pathParameters - values of the path parameters
++ * @param options - request parameters including query parameters
++ * @returns a full url with path and query parameters
++ */
++export function buildRequestUrl(
++  endpoint: string,
++  routePath: string,
++  pathParameters: (string | number | PathParameterWithOptions)[],
++  options: RequestParameters = {},
++): string {
++  if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
++    return routePath;
++  }
++  endpoint = buildBaseUrl(endpoint, options);
++  routePath = buildRoutePath(routePath, pathParameters, options);
++  const requestUrl = appendQueryParams(`${endpoint}/${routePath}`, options);
++  const url = new URL(requestUrl);
++
++  return (
++    url
++      .toString()
++      // Remove double forward slashes
++      .replace(/([^:]\/)\/+/g, "$1")
++  );
++}
++
++function getQueryParamValue(
++  key: string,
++  allowReserved: boolean,
++  style: QueryParameterStyle,
++  param: any,
++): string {
++  let separator: string;
++  if (style === "pipeDelimited") {
++    separator = "|";
++  } else if (style === "spaceDelimited") {
++    separator = "%20";
++  } else {
++    separator = ",";
++  }
++
++  let paramValues: any[];
++  if (Array.isArray(param)) {
++    paramValues = param;
++  } else if (typeof param === "object" && param.toString === Object.prototype.toString) {
++    // If the parameter is an object without a custom toString implementation (e.g. a Date),
++    // then we should deconstruct the object into an array [key1, value1, key2, value2, ...].
++    paramValues = Object.entries(param).flat();
++  } else {
++    paramValues = [param];
++  }
++
++  const value = paramValues
++    .map((p) => {
++      if (p === null || p === undefined) {
++        return "";
++      }
++
++      if (!p.toString || typeof p.toString !== "function") {
++        throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
++      }
++
++      const rawValue = p.toISOString !== undefined ? p.toISOString() : p.toString();
++      return allowReserved ? rawValue : encodeURIComponent(rawValue);
++    })
++    .join(separator);
++
++  return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
++}
++
++function appendQueryParams(url: string, options: RequestParameters = {}): string {
++  if (!options.queryParameters) {
++    return url;
++  }
++  const parsedUrl = new URL(url);
++  const queryParams = options.queryParameters;
++
++  const paramStrings: string[] = [];
++  for (const key of Object.keys(queryParams)) {
++    const param = queryParams[key] as any;
++    if (param === undefined || param === null) {
++      continue;
++    }
++
++    const hasMetadata = isQueryParameterWithOptions(param);
++    const rawValue = hasMetadata ? param.value : param;
++    const explode = hasMetadata ? (param.explode ?? false) : false;
++    const style = hasMetadata && param.style ? param.style : "form";
++
++    if (explode) {
++      if (Array.isArray(rawValue)) {
++        for (const item of rawValue) {
++          paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item));
++        }
++      } else if (typeof rawValue === "object") {
++        // For object explode, the name of the query parameter is ignored and we use the object key instead
++        for (const [actualKey, value] of Object.entries(rawValue)) {
++          paramStrings.push(
++            getQueryParamValue(actualKey, options.skipUrlEncoding ?? false, style, value),
++          );
++        }
++      } else {
++        // Explode doesn't really make sense for primitives
++        throw new Error("explode can only be set to true for objects and arrays");
++      }
++    } else {
++      paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue));
++    }
++  }
++
++  if (parsedUrl.search !== "") {
++    parsedUrl.search += "&";
++  }
++  parsedUrl.search += paramStrings.join("&");
++  return parsedUrl.toString();
++}
++
++export function buildBaseUrl(endpoint: string, options: RequestParameters): string {
++  if (!options.pathParameters) {
++    return endpoint;
++  }
++  const pathParams = options.pathParameters;
++  for (const [key, param] of Object.entries(pathParams)) {
++    if (param === undefined || param === null) {
++      throw new Error(`Path parameters ${key} must not be undefined or null`);
++    }
++    if (!param.toString || typeof param.toString !== "function") {
++      throw new Error(`Path parameters must be able to be represented as string, ${key} can't`);
++    }
++    let value = param.toISOString !== undefined ? param.toISOString() : String(param);
++    if (!options.skipUrlEncoding) {
++      value = encodeURIComponent(param);
++    }
++    endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
++  }
++  return endpoint;
++}
++
++function buildRoutePath(
++  routePath: string,
++  pathParameters: (string | number | PathParameterWithOptions)[],
++  options: RequestParameters = {},
++): string {
++  for (const pathParam of pathParameters) {
++    const allowReserved = typeof pathParam === "object" && (pathParam.allowReserved ?? false);
++    let value = typeof pathParam === "object" ? pathParam.value : pathParam;
++
++    if (!options.skipUrlEncoding && !allowReserved) {
++      value = encodeURIComponent(value);
++    }
++
++    routePath = routePath.replace(/\{[\w-]+\}/, String(value));
++  }
++  return routePath;
++}
++
++/**
++ * Replace all of the instances of searchValue in value with the provided replaceValue.
++ * @param value - The value to search and replace in.
++ * @param searchValue - The value to search for in the value argument.
++ * @param replaceValue - The value to replace searchValue with in the value argument.
++ * @returns The value where each instance of searchValue was replaced with replacedValue.
++ */
++export function replaceAll(
++  value: string | undefined,
++  searchValue: string,
++  replaceValue: string,
++): string | undefined {
++  return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
++}
 diff --git a/src/constants.ts b/src/constants.ts
 index 8136c63..0ff983d 100644
 --- a/src/constants.ts
