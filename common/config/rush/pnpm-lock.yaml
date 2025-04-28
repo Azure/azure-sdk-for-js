@@ -2880,7 +2880,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-iotfirmwaredefense@file:projects/arm-iotfirmwaredefense.tgz':
-    resolution: {integrity: sha512-UpyYuDoqThFmqjC0JPrFhw0gykbgOlaiaM1SMJORFMWTv3t68NHFAUSgsHKkHhZy+EeQz9ZhQYtYI3wJ03t1qw==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    resolution: {integrity: sha512-uG5UwXuZw39+ZtzQIWjrncKO9wTGuCru8h/T7RskNv8CKxuy+Q3Rv22x0GIVP7jfPgIshSv3KmXpK4WYvnYs0Q==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iothub-profile-2020-09-01-hybrid@file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz':
@@ -13507,6 +13507,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.2(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
+      eslint: 9.25.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
