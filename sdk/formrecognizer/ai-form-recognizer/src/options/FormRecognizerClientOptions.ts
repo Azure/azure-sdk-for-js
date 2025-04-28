@@ -51,7 +51,7 @@ export interface DocumentAnalysisClientOptions extends CommonClientOptions {
    * Setting this option is only necessary
    * - if you are using AAD/token credential
    *   (and)
-   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/")
    *
    * The authentication scope will be set from this audience.
    * See {@link KnownFormRecognizerAudience} for known audience values.
