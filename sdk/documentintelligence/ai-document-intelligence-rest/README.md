@@ -29,7 +29,7 @@ The below table describes the relationship of each client and its supported API 
 
 | Service API version | Supported clients                                            | Package                                                |
 | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
-| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0` |
+| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `^1.0.0` |
 | 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`           |
 | 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`           |
 
