@@ -4,27 +4,27 @@
 /**
  * Defines the known cloud audiences for Form Recognizer.
  *
- * To authenticate with Azure Active Directory (using a `TokenCredential`) in a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud)
+ * To authenticate with Entra Id (using a `TokenCredential`) in a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud)
  * environment, provide the appropriate value below as the `audience` option when creating a
  * `DocumentAnalysisClient` or `DocumentModelAdministrationClient`.
  *
  * The default value is suitable for Form Recognizer resources created in the Azure Public Cloud, so this value
  * is only required to use Form Recognizer in a different cloud environment.
  */
-export enum FormRecognizerAudience {
+export enum KnownFormRecognizerAudience {
   /** Azure China */
-  AzureChina = "https://cognitiveservices.azure.cn/.default",
+  AzureChina = "https://cognitiveservices.azure.cn/",
   /** Azure Government */
-  AzureGovernment = "https://cognitiveservices.azure.us/.default",
+  AzureGovernment = "https://cognitiveservices.azure.us/",
   /** Azure Public Cloud */
-  AzurePublicCloud = "https://cognitiveservices.azure.com/.default",
+  AzurePublicCloud = "https://cognitiveservices.azure.com/",
 }
 
 /**
- * The default AAD permissions scope for Cognitive Services.
+ * The default Entra Id permissions scope for Cognitive Services.
  * @internal
  */
-export const DEFAULT_COGNITIVE_SCOPE = FormRecognizerAudience.AzurePublicCloud;
+export const DEFAULT_COGNITIVE_SCOPE = KnownFormRecognizerAudience.AzurePublicCloud;
 
 /**
  * @internal

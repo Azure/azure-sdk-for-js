@@ -54,7 +54,7 @@ export interface DocumentAnalysisClientOptions extends CommonClientOptions {
    * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
    *
    * The authentication scope will be set from this audience.
-   * See {@link FormRecognizerAudience} for known audience values.
+   * See {@link KnownFormRecognizerAudience} for known audience values.
    */
   audience?: string;
 }
@@ -67,12 +67,12 @@ export interface DocumentModelAdministrationClientOptions extends CommonClientOp
    * The audience (scope) to use for authentication with Azure Active Directory.
    *
    * Setting this option is only necessary
-   * - if you are using AAD/token credential
+   * - if you are using Entra Id
    *   (and)
-   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/")
    *
    * The authentication scope will be set from this audience.
-   * See {@link FormRecognizerAudience} for known audience values.
+   * See {@link KnownFormRecognizerAudience} for known audience values.
    */
   audience?: string;
 }

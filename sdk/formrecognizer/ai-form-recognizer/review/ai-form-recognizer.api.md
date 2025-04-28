@@ -623,13 +623,6 @@ export type FontStyle = string;
 export type FontWeight = string;
 
 // @public
-export enum FormRecognizerAudience {
-    AzureChina = "https://cognitiveservices.azure.cn/.default",
-    AzureGovernment = "https://cognitiveservices.azure.us/.default",
-    AzurePublicCloud = "https://cognitiveservices.azure.com/.default"
-}
-
-// @public
 export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature] | (string & {});
 
 // @public
@@ -749,6 +742,13 @@ export enum KnownFontStyle {
 export enum KnownFontWeight {
     Bold = "bold",
     Normal = "normal"
+}
+
+// @public
+export enum KnownFormRecognizerAudience {
+    AzureChina = "https://cognitiveservices.azure.cn/",
+    AzureGovernment = "https://cognitiveservices.azure.us/",
+    AzurePublicCloud = "https://cognitiveservices.azure.com/"
 }
 
 // @public
