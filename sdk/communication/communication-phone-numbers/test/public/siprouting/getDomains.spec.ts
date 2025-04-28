@@ -25,13 +25,13 @@ matrix([[true, false]], async (useAad) => {
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
-      testDomain = getAzureTestDomain();
     });
 
     beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(ctx)
         : await createRecordedClient(ctx));
+      testDomain = getAzureTestDomain(recorder);
     });
 
     afterEach(async () => {
