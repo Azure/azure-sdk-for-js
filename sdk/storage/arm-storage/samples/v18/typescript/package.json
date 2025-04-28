@@ -31,7 +31,7 @@
   "dependencies": {
     "@azure/arm-storage": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.7.0"
+    "@azure/identity": "^4.9.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

@@ -6,198 +6,197 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-    ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams,
-    ApiManagementServiceSkusListAvailableServiceSkusNextResponse,
-    ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
-    ApiManagementServiceSkusListAvailableServiceSkusResponse,
-    ResourceSkuResult
-} from "../models/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementServiceSkus } from "../operationsInterfaces/index.js";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ApiManagementServiceSkus } from "../operationsInterfaces/index.js";
-import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import {
+  ResourceSkuResult,
+  ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams,
+  ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
+  ApiManagementServiceSkusListAvailableServiceSkusResponse,
+  ApiManagementServiceSkusListAvailableServiceSkusNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiManagementServiceSkus operations. */
 export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
-    private readonly client: ApiManagementClient;
+  private readonly client: ApiManagementClient;
 
-    /**
-     * Initialize a new instance of the class ApiManagementServiceSkus class.
-     * @param client Reference to the service client
-     */
-    constructor(client: ApiManagementClient) {
-        this.client = client;
-    }
+  /**
+   * Initialize a new instance of the class ApiManagementServiceSkus class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ApiManagementClient) {
+    this.client = client;
+  }
 
-    /**
-     * Gets all available SKU for a given API Management service
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    public listAvailableServiceSkus(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
-    ): PagedAsyncIterableIterator<ResourceSkuResult> {
-        const iter = this.listAvailableServiceSkusPagingAll(
-            resourceGroupName,
-            serviceName,
-            options
-        );
-        return {
-            next() {
-                return iter.next();
-            },
-            [Symbol.asyncIterator]() {
-                return this;
-            },
-            byPage: (settings?: PageSettings) => {
-                if (settings?.maxPageSize) {
-                    throw new Error("maxPageSize is not supported by this operation.");
-                }
-                return this.listAvailableServiceSkusPagingPage(
-                    resourceGroupName,
-                    serviceName,
-                    options,
-                    settings
-                );
-            }
-        };
-    }
-
-    private async *listAvailableServiceSkusPagingPage(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
-        settings?: PageSettings
-    ): AsyncIterableIterator<ResourceSkuResult[]> {
-        let result: ApiManagementServiceSkusListAvailableServiceSkusResponse;
-        let continuationToken = settings?.continuationToken;
-        if (!continuationToken) {
-            result = await this._listAvailableServiceSkus(
-                resourceGroupName,
-                serviceName,
-                options
-            );
-            let page = result.value || [];
-            continuationToken = result.nextLink;
-            setContinuationToken(page, continuationToken);
-            yield page;
+  /**
+   * Gets all available SKU for a given API Management service
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  public listAvailableServiceSkus(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
+  ): PagedAsyncIterableIterator<ResourceSkuResult> {
+    const iter = this.listAvailableServiceSkusPagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
         }
-        while (continuationToken) {
-            result = await this._listAvailableServiceSkusNext(
-                resourceGroupName,
-                serviceName,
-                continuationToken,
-                options
-            );
-            continuationToken = result.nextLink;
-            let page = result.value || [];
-            setContinuationToken(page, continuationToken);
-            yield page;
-        }
-    }
-
-    private async *listAvailableServiceSkusPagingAll(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
-    ): AsyncIterableIterator<ResourceSkuResult> {
-        for await (const page of this.listAvailableServiceSkusPagingPage(
-            resourceGroupName,
-            serviceName,
-            options
-        )) {
-            yield* page;
-        }
-    }
-
-    /**
-     * Gets all available SKU for a given API Management service
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    private _listAvailableServiceSkus(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
-    ): Promise<ApiManagementServiceSkusListAvailableServiceSkusResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, options },
-            listAvailableServiceSkusOperationSpec
+        return this.listAvailableServiceSkusPagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
         );
-    }
+      },
+    };
+  }
 
-    /**
-     * ListAvailableServiceSkusNext
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param nextLink The nextLink from the previous successful call to the ListAvailableServiceSkus
-     *                 method.
-     * @param options The options parameters.
-     */
-    private _listAvailableServiceSkusNext(
-        resourceGroupName: string,
-        serviceName: string,
-        nextLink: string,
-        options?: ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams
-    ): Promise<ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
-        return this.client.sendOperationRequest(
-            { resourceGroupName, serviceName, nextLink, options },
-            listAvailableServiceSkusNextOperationSpec
-        );
+  private async *listAvailableServiceSkusPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ResourceSkuResult[]> {
+    let result: ApiManagementServiceSkusListAvailableServiceSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAvailableServiceSkus(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
+    while (continuationToken) {
+      result = await this._listAvailableServiceSkusNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listAvailableServiceSkusPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
+  ): AsyncIterableIterator<ResourceSkuResult> {
+    for await (const page of this.listAvailableServiceSkusPagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets all available SKU for a given API Management service
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listAvailableServiceSkus(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
+  ): Promise<ApiManagementServiceSkusListAvailableServiceSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listAvailableServiceSkusOperationSpec,
+    );
+  }
+
+  /**
+   * ListAvailableServiceSkusNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListAvailableServiceSkus
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listAvailableServiceSkusNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams,
+  ): Promise<ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listAvailableServiceSkusNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAvailableServiceSkusOperationSpec: coreClient.OperationSpec = {
-    path:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ResourceSkuResults
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceSkuResults,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAvailableServiceSkusNextOperationSpec: coreClient.OperationSpec = {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-        200: {
-            bodyMapper: Mappers.ResourceSkuResults
-        },
-        default: {
-            bodyMapper: Mappers.ErrorResponse
-        }
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceSkuResults,
     },
-    urlParameters: [
-        Parameters.$host,
-        Parameters.resourceGroupName,
-        Parameters.serviceName,
-        Parameters.subscriptionId,
-        Parameters.nextLink
-    ],
-    headerParameters: [Parameters.accept],
-    serializer
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -190,7 +190,7 @@ export interface StorageTaskAction {
 
 /** The if block of storage task operation */
 export interface IfCondition {
-  /** The condition predicate which is composed of object properties, eg: blob and container properties. */
+  /** Condition predicate to evaluate each object. See https://aka.ms/storagetaskconditions for valid properties and operators. */
   condition: string;
   /** List of operations to execute when the condition predicate satisfies. */
   operations: StorageTaskOperation[];
@@ -203,9 +203,9 @@ export interface StorageTaskOperation {
   /** Key-value parameters for the operation. */
   parameters?: { [propertyName: string]: string };
   /** Action to be taken when the operation is successful for a object. */
-  onSuccess?: "continue";
+  onSuccess?: OnSuccess;
   /** Action to be taken when the operation fails for a object. */
-  onFailure?: "break";
+  onFailure?: OnFailure;
 }
 
 /** The else block of storage task operation */
@@ -264,7 +264,7 @@ export interface StorageTaskUpdateParameters {
   properties?: StorageTaskProperties;
 }
 
-/** The response from the List Storage Tasks operation. */
+/** The response from the List Storage Task operation. */
 export interface StorageTasksListResult {
   /**
    * Gets the list of storage tasks and their properties.
@@ -281,21 +281,21 @@ export interface StorageTasksListResult {
 /** The response from the List Storage Tasks operation. */
 export interface StorageTaskAssignmentsListResult {
   /**
-   * Gets the list of storage task assignment Ids.
+   * List of Storage Task Assignment Resource IDs associated with this Storage Task.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: StorageTaskAssignment[];
   /**
-   * Request URL that can be used to query next page of storage task assignment Ids. Returned when total number of requested storage task assignment Ids exceed maximum page size.
+   * Request URL that can be used to query next page of Resource IDs. Returned when total number of requested Resource IDs exceed maximum page size.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** Fetch the Storage task assignment ARM ids. */
+/** Storage Task Assignment associated with this Storage Task. */
 export interface StorageTaskAssignment {
   /**
-   * ARM Id of the storage task assignments, associated with the storage tasks.
+   * Resource ID of the Storage Task Assignment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -318,12 +318,12 @@ export interface StorageTaskReportSummary {
 /** Storage task execution report for a run instance. */
 export interface StorageTaskReportProperties {
   /**
-   * Represents the Storage Task Assignment Id associated with the storage task that provided an execution context.
+   * Resource ID of the Storage Task Assignment associated with this reported run.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly taskAssignmentId?: string;
   /**
-   * Represents the Storage Account Id where the storage task definition was applied and executed.
+   * Resource ID of the Storage Account where this reported run executed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageAccountId?: string;
@@ -373,7 +373,7 @@ export interface StorageTaskReportProperties {
    */
   readonly summaryReportPath?: string;
   /**
-   * Storage Task Arm Id.
+   * Resource ID of the Storage Task applied during this run.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly taskId?: string;
@@ -397,17 +397,17 @@ export interface StorageTaskPreviewAction {
 
 /** Storage task preview action properties. */
 export interface StorageTaskPreviewActionProperties {
-  /** Preview action container properties to be tested for a match with the provided condition. */
+  /** Properties of a sample container to test for a match with the preview action. */
   container: StorageTaskPreviewContainerProperties;
-  /** Preview action container properties to be tested for a match with the provided condition. */
+  /** Properties of some sample blobs in the container to test for matches with the preview action. */
   blobs: StorageTaskPreviewBlobProperties[];
-  /** Preview action container properties to be tested for a match with the provided condition. */
+  /** Preview action to test */
   action: StorageTaskPreviewActionCondition;
 }
 
 /** Storage task preview container properties */
 export interface StorageTaskPreviewContainerProperties {
-  /** property for the container name. */
+  /** Name of test container */
   name?: string;
   /** metadata key value pairs to be tested for a match against the provided condition. */
   metadata?: StorageTaskPreviewKeyValueProperties[];
@@ -423,7 +423,7 @@ export interface StorageTaskPreviewKeyValueProperties {
 
 /** Storage task preview container properties */
 export interface StorageTaskPreviewBlobProperties {
-  /** property for the container name. */
+  /** Name of test blob */
   name?: string;
   /** properties key value pairs to be tested for a match against the provided condition. */
   properties?: StorageTaskPreviewKeyValueProperties[];
@@ -466,9 +466,9 @@ export interface ProxyResource extends Resource {}
 /** Represents Storage Task. */
 export interface StorageTask extends TrackedResource {
   /** The managed service identity of the resource. */
-  identity?: ManagedServiceIdentity;
+  identity: ManagedServiceIdentity;
   /** Properties of the storage task. */
-  properties?: StorageTaskProperties;
+  properties: StorageTaskProperties;
 }
 
 /** Storage Tasks run report instance */
@@ -585,6 +585,72 @@ export enum KnownStorageTaskOperationName {
  */
 export type StorageTaskOperationName = string;
 
+/** Known values of {@link OnSuccess} that the service accepts. */
+export enum KnownOnSuccess {
+  /** Continue */
+  Continue = "continue",
+}
+
+/**
+ * Defines values for OnSuccess. \
+ * {@link KnownOnSuccess} can be used interchangeably with OnSuccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **continue**
+ */
+export type OnSuccess = string;
+
+/** Known values of {@link OnFailure} that the service accepts. */
+export enum KnownOnFailure {
+  /** Break */
+  Break = "break",
+}
+
+/**
+ * Defines values for OnFailure. \
+ * {@link KnownOnFailure} can be used interchangeably with OnFailure,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **break**
+ */
+export type OnFailure = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** ValidateSubscriptionQuotaBegin */
+  ValidateSubscriptionQuotaBegin = "ValidateSubscriptionQuotaBegin",
+  /** ValidateSubscriptionQuotaEnd */
+  ValidateSubscriptionQuotaEnd = "ValidateSubscriptionQuotaEnd",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Creating */
+  Creating = "Creating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ValidateSubscriptionQuotaBegin** \
+ * **ValidateSubscriptionQuotaEnd** \
+ * **Accepted** \
+ * **Creating** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type ProvisioningState = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -665,15 +731,6 @@ export enum KnownMatchedBlockName {
  * **None**
  */
 export type MatchedBlockName = string;
-/** Defines values for ProvisioningState. */
-export type ProvisioningState =
-  | "ValidateSubscriptionQuotaBegin"
-  | "ValidateSubscriptionQuotaEnd"
-  | "Creating"
-  | "Succeeded"
-  | "Deleting"
-  | "Canceled"
-  | "Failed";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -771,8 +828,8 @@ export type StorageTasksListByResourceGroupNextResponse =
 /** Optional parameters. */
 export interface StorageTaskAssignmentListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of storage task assignment Ids to be included in the list response. */
-  maxpagesize?: string;
+  /** Optional, specifies the maximum number of Storage Task Assignment Resource IDs to be included in the list response. */
+  maxpagesize?: number;
 }
 
 /** Contains response data for the list operation. */
@@ -790,8 +847,8 @@ export type StorageTaskAssignmentListNextResponse =
 /** Optional parameters. */
 export interface StorageTasksReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of storage task assignment Ids to be included in the list response. */
-  maxpagesize?: string;
+  /** Optional, specifies the maximum number of Storage Task Assignment Resource IDs to be included in the list response. */
+  maxpagesize?: number;
   /** Optional. When specified, it can be used to query using reporting properties. */
   filter?: string;
 }

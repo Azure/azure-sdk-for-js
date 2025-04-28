@@ -25,6 +25,13 @@ export const OperationListResult: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -498,6 +505,98 @@ export const QuotaAvailabilityRequest: coreClient.CompositeMapper = {
       resourceGroup: {
         serializedName: "resourceGroup",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UsagesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UsagesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UsageResult",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UsageResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UsageResult",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "UsageName",
+        },
+      },
+      currentValue: {
+        serializedName: "properties.currentValue",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      limit: {
+        serializedName: "properties.limit",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      unit: {
+        serializedName: "properties.unit",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UsageName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UsageName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
         type: {
           name: "String",
         },
@@ -1214,6 +1313,12 @@ export const EncryptionIdentity: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      federatedClientId: {
+        serializedName: "federatedClientId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1358,6 +1463,24 @@ export const NetAppAccountPatch: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean",
+        },
+      },
+      nfsV4IDDomain: {
+        constraints: {
+          Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9.-]{0,253}[a-zA-Z0-9]$"),
+          MaxLength: 255,
+        },
+        serializedName: "properties.nfsV4IDDomain",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      multiAdStatus: {
+        serializedName: "properties.multiAdStatus",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -1890,6 +2013,19 @@ export const ReplicationObject: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      destinationReplications: {
+        serializedName: "destinationReplications",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DestinationReplication",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -1916,6 +2052,39 @@ export const RemotePath: coreClient.CompositeMapper = {
       volumeName: {
         serializedName: "volumeName",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DestinationReplication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DestinationReplication",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      replicationType: {
+        serializedName: "replicationType",
+        type: {
+          name: "String",
+        },
+      },
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String",
+        },
+      },
+      zone: {
+        serializedName: "zone",
         type: {
           name: "String",
         },
@@ -3460,6 +3629,7 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
       },
       isRestoring: {
         serializedName: "properties.isRestoring",
+        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -4572,6 +4742,22 @@ export const Backup: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
+      snapshotCreationDate: {
+        serializedName: "properties.snapshotCreationDate",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      completionDate: {
+        serializedName: "properties.completionDate",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "DateTime",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -4633,6 +4819,13 @@ export const Backup: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      isLargeVolume: {
+        serializedName: "properties.isLargeVolume",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -4689,6 +4882,24 @@ export const NetAppAccount: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "Boolean",
+        },
+      },
+      nfsV4IDDomain: {
+        constraints: {
+          Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9.-]{0,253}[a-zA-Z0-9]$"),
+          MaxLength: 255,
+        },
+        serializedName: "properties.nfsV4IDDomain",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      multiAdStatus: {
+        serializedName: "properties.multiAdStatus",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -4980,6 +5191,7 @@ export const Volume: coreClient.CompositeMapper = {
       },
       isRestoring: {
         serializedName: "properties.isRestoring",
+        readOnly: true,
         type: {
           name: "Boolean",
         },

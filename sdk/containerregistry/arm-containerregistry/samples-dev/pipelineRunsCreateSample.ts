@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   PipelineRun,
   ContainerRegistryManagementClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunCreate_Export.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PipelineRunCreate_Export.json
  */
 async function pipelineRunCreateExport(): Promise<void> {
   const subscriptionId =
@@ -56,7 +58,7 @@ async function pipelineRunCreateExport(): Promise<void> {
  * This sample demonstrates how to Creates a pipeline run for a container registry with the specified parameters
  *
  * @summary Creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunCreate_Import.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PipelineRunCreate_Import.json
  */
 async function pipelineRunCreateImport(): Promise<void> {
   const subscriptionId =
