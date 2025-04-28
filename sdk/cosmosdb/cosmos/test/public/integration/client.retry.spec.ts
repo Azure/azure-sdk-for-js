@@ -8,7 +8,6 @@ import { PluginOn } from "../../../src/index.js";
 import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
-import { connect } from "http2";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
