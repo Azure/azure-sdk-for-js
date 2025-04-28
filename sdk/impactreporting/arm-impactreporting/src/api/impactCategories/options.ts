@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ImpactCategoriesListBySubscriptionOptionalParams
-  extends OperationOptions {
+export interface ImpactCategoriesListBySubscriptionOptionalParams extends OperationOptions {
   /** Filter by category name */
   categoryName?: string;
 }

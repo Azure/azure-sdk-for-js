@@ -46,20 +46,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -82,12 +78,7 @@ export async function $delete(
   insightName: string,
   options: InsightsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(
-    context,
-    workloadImpactName,
-    insightName,
-    options,
-  );
+  const result = await _$deleteSend(context, workloadImpactName, insightName, options);
   return _$deleteDeserialize(result);
 }
 
@@ -110,22 +101,18 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: insightSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: insightSerializer(resource),
+  });
 }
 
-export async function _createDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Insight> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -144,13 +131,7 @@ export async function create(
   resource: Insight,
   options: InsightsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _createSend(
-    context,
-    workloadImpactName,
-    insightName,
-    resource,
-    options,
-  );
+  const result = await _createSend(context, workloadImpactName, insightName, resource, options);
   return _createDeserialize(result);
 }
 
@@ -170,15 +151,13 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -227,20 +206,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Insight> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -258,11 +233,6 @@ export async function get(
   insightName: string,
   options: InsightsGetOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _getSend(
-    context,
-    workloadImpactName,
-    insightName,
-    options,
-  );
+  const result = await _getSend(context, workloadImpactName, insightName, options);
   return _getDeserialize(result);
 }

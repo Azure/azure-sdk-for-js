@@ -9,12 +9,7 @@ import {
   WorkloadImpactsGetOptionalParams,
   WorkloadImpactsCreateOptionalParams,
 } from "../../api/workloadImpacts/options.js";
-import {
-  listBySubscription,
-  $delete,
-  get,
-  create,
-} from "../../api/workloadImpacts/operations.js";
+import { listBySubscription, $delete, get, create } from "../../api/workloadImpacts/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -49,17 +44,12 @@ export interface WorkloadImpactsOperations {
 
 function _getWorkloadImpacts(context: ImpactContext) {
   return {
-    listBySubscription: (
-      options?: WorkloadImpactsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
-    delete: (
-      workloadImpactName: string,
-      options?: WorkloadImpactsDeleteOptionalParams,
-    ) => $delete(context, workloadImpactName, options),
-    get: (
-      workloadImpactName: string,
-      options?: WorkloadImpactsGetOptionalParams,
-    ) => get(context, workloadImpactName, options),
+    listBySubscription: (options?: WorkloadImpactsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
+    delete: (workloadImpactName: string, options?: WorkloadImpactsDeleteOptionalParams) =>
+      $delete(context, workloadImpactName, options),
+    get: (workloadImpactName: string, options?: WorkloadImpactsGetOptionalParams) =>
+      get(context, workloadImpactName, options),
     create: (
       workloadImpactName: string,
       resource: WorkloadImpact,
@@ -68,9 +58,7 @@ function _getWorkloadImpacts(context: ImpactContext) {
   };
 }
 
-export function _getWorkloadImpactsOperations(
-  context: ImpactContext,
-): WorkloadImpactsOperations {
+export function _getWorkloadImpactsOperations(context: ImpactContext): WorkloadImpactsOperations {
   return {
     ..._getWorkloadImpacts(context),
   };
