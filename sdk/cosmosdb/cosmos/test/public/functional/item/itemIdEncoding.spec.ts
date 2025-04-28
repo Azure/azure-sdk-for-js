@@ -148,7 +148,7 @@ describe("Id encoding", { timeout: 10000 }, () => {
     };
 
     await executeTestCaseOnComputeGateway(scenario);
-  }, 30000);
+  }, 15000);
 
   it("RGW_ContainerIdWithUnicode鱀", async () => {
     const scenario: TestScenario = {
