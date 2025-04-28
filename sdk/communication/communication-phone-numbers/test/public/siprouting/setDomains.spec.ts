@@ -54,7 +54,7 @@ matrix([[true, false]], async (useAad) => {
 
     it("can set multiple new domains when empty before", async () => {
       const domains: SipDomain[] = [
-        { fqdn: testDomain, enabled: true},
+        { fqdn: testDomain, enabled: true },
         { fqdn: domain1, enabled: false },
         { fqdn: domain2, enabled: false },
       ];
@@ -65,7 +65,7 @@ matrix([[true, false]], async (useAad) => {
 
     it("can override existing domains", async () => {
       const initialDomains: SipDomain[] = [
-        { fqdn: testDomain, enabled: true},
+        { fqdn: testDomain, enabled: true },
         { fqdn: domain1, enabled: false },
         { fqdn: domain2, enabled: false },
       ];
@@ -73,7 +73,7 @@ matrix([[true, false]], async (useAad) => {
       assert.deepEqual(setInitialDomains, initialDomains);
 
       const domains: SipDomain[] = [
-        { fqdn: testDomain, enabled: true},
+        { fqdn: testDomain, enabled: true },
         { fqdn: domain3, enabled: false },
         { fqdn: domain4, enabled: false },
       ];

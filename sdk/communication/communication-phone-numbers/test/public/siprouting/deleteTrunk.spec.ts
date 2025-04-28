@@ -60,6 +60,6 @@ matrix([[true, false]], async (useAad) => {
     it("cannot delete a not existing trunk but succeeds", async () => {
       await client.setTrunks([]);
       await client.deleteTrunk("notExisting.fqdn.com");
-      });
+    });
   });
 });

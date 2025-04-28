@@ -9,7 +9,7 @@ import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
-  routesAreEqual
+  routesAreEqual,
 } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
@@ -47,7 +47,7 @@ matrix([[true, false]], async (useAad) => {
           name: "mySecondRoute",
           description: "mySecondRoute's description",
           numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: []
+          trunks: [],
         },
       ];
       const routes = await client.setRoutes(expectedRoutes);

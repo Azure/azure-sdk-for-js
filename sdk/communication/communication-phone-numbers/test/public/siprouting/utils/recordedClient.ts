@@ -145,7 +145,7 @@ export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
-  await client.setDomain({fqdn: getAzureTestDomain(), enabled: true} as SipDomain);
+  await client.setDomain({ fqdn: getAzureTestDomain(), enabled: true } as SipDomain);
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
@@ -201,35 +201,30 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
   return result;
 }
 
-export function trunksAreEqual(actual: SipTrunk[], expected: SipTrunk[])
-{
-  if (actual == null && expected == null)
-  {
+export function trunksAreEqual(actual: SipTrunk[], expected: SipTrunk[]): boolean {
+  if (actual == null && expected == null) {
     return true;
   }
 
-  if (actual.length != expected.length)
-  {
+  if (actual.length !== expected.length) {
     return false;
   }
 
-  for (const trunk of actual)
-  {
+  for (const trunk of actual) {
     const expectedTrunk = expected.find((value: SipTrunk) => value.fqdn === trunk.fqdn);
-    
-    if(expectedTrunk === undefined)
-    {
+
+    if (expectedTrunk === undefined) {
       return false;
     }
 
-    const trunkEqual = trunk.enabled === expectedTrunk.enabled &&
-    trunk.sipSignalingPort == expectedTrunk.sipSignalingPort &&
-    trunk.directTransfer === expectedTrunk.directTransfer &&
-    trunk.ipAddressVersion === expectedTrunk.ipAddressVersion &&
-    trunk.privacyHeader === expectedTrunk.privacyHeader;
+    const trunkEqual =
+      trunk.enabled === expectedTrunk.enabled &&
+      trunk.sipSignalingPort === expectedTrunk.sipSignalingPort &&
+      trunk.directTransfer === expectedTrunk.directTransfer &&
+      trunk.ipAddressVersion === expectedTrunk.ipAddressVersion &&
+      trunk.privacyHeader === expectedTrunk.privacyHeader;
 
-    if (!trunkEqual)
-    {
+    if (!trunkEqual) {
       return false;
     }
   }
@@ -237,42 +232,35 @@ export function trunksAreEqual(actual: SipTrunk[], expected: SipTrunk[])
   return true;
 }
 
-export function routesAreEqual(actual: SipTrunkRoute[], expected:SipTrunkRoute[])
-{
+export function routesAreEqual(actual: SipTrunkRoute[], expected: SipTrunkRoute[]): boolean {
+  if (actual == null && expected == null) {
+    return true;
+  }
 
-  if (actual == null && expected == null)
-    {
-      return true;
-    }
-  
-    if (actual.length != expected.length)
-    {
+  if (actual.length !== expected.length) {
+    return false;
+  }
+
+  for (const route of actual) {
+    const expectedRoute = expected.find((value: SipTrunkRoute) => value.name === route.name);
+
+    if (expectedRoute === undefined) {
       return false;
     }
-  
-    for (const route of actual)
-    {
-      const expectedRoute = expected.find((value: SipTrunkRoute) => value.name === route.name);
-      
-      if(expectedRoute === undefined)
-      {
-        return false;
-      }
 
-      const routeEqual =
+    const routeEqual =
       route.description === expectedRoute.description &&
       route.numberPattern === expectedRoute.numberPattern &&
       route.trunks?.length === expectedRoute.trunks?.length &&
-      (route.callerIdOverride === expectedRoute.callerIdOverride  || 
+      (route.callerIdOverride === expectedRoute.callerIdOverride ||
         (!route.callerIdOverride && !expectedRoute.callerIdOverride));
 
-      if (!routeEqual)
-      {
-        return false;
-      }
+    if (!routeEqual) {
+      return false;
     }
-  
-    return true;
+  }
+
+  return true;
 }
 
 export function getAzureTestDomain(): string {
