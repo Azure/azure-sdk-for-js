@@ -74,7 +74,7 @@ export class EnvironmentCredential implements TokenCredential {
    * - `AZURE_CLIENT_CERTIFICATE_PASSWORD`: (optional) password for the certificate file.
    * - `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN`: (optional) indicates that the certificate chain should be set in x5c header to support subject name / issuer based authentication.
    *
-   * The username and password authentication is deprecated, since it doesn't support multifactor authentication (MFA). See https://aka.ms/azsdk/identity/mfa for more details. Though users can still provide environment variables for this authentication:
+   * Username and password authentication is deprecated, since it doesn't support multifactor authentication (MFA). See https://aka.ms/azsdk/identity/mfa for more details. Users can still provide environment variables for this authentication method:
    * - `AZURE_USERNAME`: Username to authenticate with.
    * - `AZURE_PASSWORD`: Password to authenticate with.
    *
