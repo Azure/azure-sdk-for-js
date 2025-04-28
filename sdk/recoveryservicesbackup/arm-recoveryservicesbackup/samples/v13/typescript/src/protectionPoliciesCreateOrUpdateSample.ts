@@ -21,7 +21,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
  */
 async function createOrUpdateAzureStorageVaultStandardProtectionPolicy(): Promise<void> {
   const subscriptionId =
@@ -96,7 +96,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
  */
 async function createOrUpdateDailyAzureStorageProtectionPolicy(): Promise<void> {
   const subscriptionId =
@@ -168,7 +168,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup(): Promise<void> {
   const subscriptionId =
@@ -246,7 +246,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup(): Promise<void> {
   const subscriptionId =
@@ -320,7 +320,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureVMProtectionPolicy(): Promise<void> {
   const subscriptionId =
@@ -386,7 +386,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureWorkloadProtectionPolicy(): Promise<void> {
   const subscriptionId =
@@ -482,7 +482,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
  */
 async function createOrUpdateHourlyAzureStorageProtectionPolicy(): Promise<void> {
   const subscriptionId =
@@ -558,7 +558,7 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
  */
 async function createOrUpdateSimpleAzureVMProtectionPolicy(): Promise<void> {
   const subscriptionId =
@@ -598,14 +598,14 @@ async function createOrUpdateSimpleAzureVMProtectionPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAzureStorageVaultStandardProtectionPolicy();
-  createOrUpdateDailyAzureStorageProtectionPolicy();
-  createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup();
-  createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup();
-  createOrUpdateFullAzureVMProtectionPolicy();
-  createOrUpdateFullAzureWorkloadProtectionPolicy();
-  createOrUpdateHourlyAzureStorageProtectionPolicy();
-  createOrUpdateSimpleAzureVMProtectionPolicy();
+  await createOrUpdateAzureStorageVaultStandardProtectionPolicy();
+  await createOrUpdateDailyAzureStorageProtectionPolicy();
+  await createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup();
+  await createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup();
+  await createOrUpdateFullAzureVMProtectionPolicy();
+  await createOrUpdateFullAzureWorkloadProtectionPolicy();
+  await createOrUpdateHourlyAzureStorageProtectionPolicy();
+  await createOrUpdateSimpleAzureVMProtectionPolicy();
 }
 
 main().catch(console.error);

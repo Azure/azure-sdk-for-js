@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Updates a connected registry with the specified parameters.
  *
  * @summary Updates a connected registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ConnectedRegistryUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ConnectedRegistryUpdate.json
  */
 async function connectedRegistryUpdate() {
   const subscriptionId =

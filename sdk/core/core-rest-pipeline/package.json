@@ -97,8 +97,7 @@
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "http-proxy-agent": "^7.0.0",
-    "https-proxy-agent": "^7.0.0",
+    "@typespec/ts-http-runtime": "^0.2.2",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

@@ -1,0 +1,4 @@
+directory: specification/portalservices/CopilotSettings.Management
+commit: 053f097e58bd110d2e11e5a783b393c3299e258a
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

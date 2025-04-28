@@ -16,6 +16,7 @@ import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js
 import { agentPolicy } from "./policies/agentPolicy.js";
 import { tlsPolicy } from "./policies/tlsPolicy.js";
 import { tracingPolicy } from "./policies/tracingPolicy.js";
+import { wrapAbortSignalLikePolicy } from "./policies/wrapAbortSignalLikePolicy.js";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -92,6 +93,8 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
     pipeline.addPolicy(decompressResponsePolicy());
   }
+
+  pipeline.addPolicy(wrapAbortSignalLikePolicy());
 
   pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));

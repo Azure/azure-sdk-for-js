@@ -79,12 +79,13 @@ export {
   throttlingRetryPolicyName,
   type ThrottlingRetryPolicyOptions,
 } from "./policies/throttlingRetryPolicy.js";
-export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
-export type {
-  RetryStrategy,
-  RetryInformation,
-  RetryModifiers,
-} from "./retryStrategies/retryStrategy.js";
+export {
+  retryPolicy,
+  type RetryPolicyOptions,
+  type RetryStrategy,
+  type RetryInformation,
+  type RetryModifiers,
+} from "./policies/retryPolicy.js";
 export {
   tracingPolicy,
   tracingPolicyName,

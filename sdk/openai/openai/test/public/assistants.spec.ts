@@ -8,7 +8,7 @@ import { APIVersion, isRateLimitRun, testWithDeployments } from "../utils/utils.
 import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
 import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 
-describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) => {
+describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
   function createCodeAssistant(deploymentName: string): AssistantCreateParams {
     return {
       tools: [{ type: "code_interpreter" as const }],
@@ -164,7 +164,7 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
       });
     });
 
-    describe("create, lists, gets, and cancels a run", async () => {
+    describe.concurrent("create, lists, gets, and cancels a run", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
         run: async (client, deployment) => {
@@ -196,7 +196,7 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
 
           const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id);
           // with no messages, there should be no steps
-          assert.equal(runSteps.data.length, 0);
+          assert.equal(runSteps.data.length, 0, JSON.stringify(runSteps.data));
           assert.equal((runSteps as any).body.first_id, null);
           assert.equal((runSteps as any).body.last_id, null);
 
@@ -292,12 +292,13 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
         modelsListToSkip: [
           { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
           { name: "o1-preview" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o1-mini" }, // "Sorry, something went wrong" 2025-04-15
           { name: "o3-mini" }, // "Sorry, something went wrong" 2025-04-15
         ],
       });
     });
 
-    describe("create and run function scenario for assistant", async () => {
+    describe.sequential("create and run function scenario for assistant", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
         run: async (client, deployment) => {
@@ -455,6 +456,7 @@ describe.each([APIVersion.Preview])("Assistants [%s]", (apiVersion: APIVersion) 
         modelsListToSkip: [
           { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
           { name: "o1-preview" }, // "Sorry, something went wrong" 2025-04-15
+          { name: "o1-mini" }, // "Sorry, something went wrong" 2025-04-15
           { name: "o3-mini" }, // "Sorry, something went wrong" 2025-04-15
         ],
       });

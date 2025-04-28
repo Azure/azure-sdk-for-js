@@ -26,7 +26,10 @@ export function getContinuationToken(page: unknown): string | undefined {
   return pageMap.get(page)?.continuationToken;
 }
 
-export function setContinuationToken(page: unknown, continuationToken: string | undefined): void {
+export function setContinuationToken(
+  page: unknown,
+  continuationToken: string | undefined,
+): void {
   if (typeof page !== "object" || page === null || !continuationToken) {
     return;
   }
