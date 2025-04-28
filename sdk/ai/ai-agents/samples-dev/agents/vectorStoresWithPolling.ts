@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStorePoller = client.createVectorStore({
+  const vectorStorePoller = client.createVectorStoreAndPoll({
     name: "myVectorStore",
     pollingOptions: {
       sleepIntervalInMs: 2000,

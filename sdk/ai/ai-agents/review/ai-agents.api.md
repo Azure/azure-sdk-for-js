@@ -7,7 +7,9 @@
 import { ClientOptions } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -62,8 +64,11 @@ export class AgentsClient {
     createThread(options?: CreateThreadOptionalParams): Promise<AgentThread>;
     createThreadAndRun(assistantId: string, options?: CreateThreadAndRunOptionalParams): Promise<ThreadRun>;
     createVectorStore(options?: CreateVectorStoreOptionalParams): Promise<VectorStore>;
+    createVectorStoreAndPoll(options?: CreateVectorStoreOptionalParams): PollerLike<OperationState<VectorStore>, VectorStore>;
     createVectorStoreFile(vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams): Promise<VectorStoreFile>;
+    createVectorStoreFileAndPoll(vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>;
     createVectorStoreFileBatch(vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams): Promise<VectorStoreFileBatch>;
+    createVectorStoreFileBatchAndPoll(vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch>;
     deleteAgent(assistantId: string, options?: DeleteAgentOptionalParams): Promise<AgentDeletionStatus>;
     deleteFile(fileId: string, options?: DeleteFileOptionalParams): Promise<FileDeletionStatus>;
     deleteThread(threadId: string, options?: DeleteThreadOptionalParams): Promise<ThreadDeletionStatus>;
@@ -96,6 +101,7 @@ export class AgentsClient {
     updateRun(threadId: string, runId: string, options?: UpdateRunOptionalParams): Promise<ThreadRun>;
     updateThread(threadId: string, options?: UpdateThreadOptionalParams): Promise<AgentThread>;
     uploadFile(file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams): Promise<OpenAIFile>;
+    uploadFileAndPoll(file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams): PollerLike<OperationState<OpenAIFile>, OpenAIFile>;
 }
 
 // @public
@@ -297,21 +303,21 @@ export interface CreateThreadOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CreateVectorStoreFileBatchOptionalParams extends OperationOptions {
+export interface CreateVectorStoreFileBatchOptionalParams extends OperationOptions, PollingOptionsParams {
     chunkingStrategy?: VectorStoreChunkingStrategyRequestUnion;
     dataSources?: VectorStoreDataSource[];
     fileIds?: string[];
 }
 
 // @public
-export interface CreateVectorStoreFileOptionalParams extends OperationOptions {
+export interface CreateVectorStoreFileOptionalParams extends OperationOptions, PollingOptionsParams {
     chunkingStrategy?: VectorStoreChunkingStrategyRequestUnion;
     dataSource?: VectorStoreDataSource;
     fileId?: string;
 }
 
 // @public
-export interface CreateVectorStoreOptionalParams extends OperationOptions {
+export interface CreateVectorStoreOptionalParams extends OperationOptions, PollingOptionsParams {
     chunkingStrategy?: VectorStoreChunkingStrategyRequestUnion;
     expiresAfter?: VectorStoreExpirationPolicy;
     fileIds?: string[];
@@ -946,6 +952,16 @@ export interface OpenApiToolDefinition extends ToolDefinition {
 }
 
 // @public
+export interface PollingOptions {
+    sleepIntervalInMs?: number;
+}
+
+// @public
+export interface PollingOptionsParams {
+    pollingOptions?: PollingOptions;
+}
+
+// @public
 export interface RequiredAction {
     type: string;
 }
@@ -1555,8 +1571,7 @@ export interface UpdateToolResourcesOptions {
 }
 
 // @public
-export interface UploadFileOptionalParams extends OperationOptions {
-    // (undocumented)
+export interface UploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
     fileName?: string;
 }
 

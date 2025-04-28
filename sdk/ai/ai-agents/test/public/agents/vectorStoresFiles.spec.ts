@@ -135,21 +135,20 @@ describe("projectsClient - vector stores files", () => {
     const file = await projectsClient.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
-    // TODO: add polling operations
-    // // Create vector store file and poll
-    // const vectorStoreFilePoller = projectsClient.createVectorStoreFileAndPoll(vectorStore.id, {
-    //   fileId: file.id,
-    // });
-    // assert.isNotNull(vectorStoreFilePoller);
-    // const initialState = vectorStoreFilePoller.poll();
-    // assert.isNotNull(initialState);
-    // const vectorStoreFile = await vectorStoreFilePoller.pollUntilDone();
-    // assert.isNotNull(vectorStoreFile);
-    // assert.isNotEmpty(vectorStoreFile.id);
-    // assert.notEqual(vectorStoreFile.status, "in_progress");
-    // console.log(
-    //   `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
-    // );
+    // Create vector store file and poll
+    const vectorStoreFilePoller = projectsClient.createVectorStoreFileAndPoll(vectorStore.id, {
+      fileId: file.id,
+    });
+    assert.isNotNull(vectorStoreFilePoller);
+    const initialState = vectorStoreFilePoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFile = await vectorStoreFilePoller.pollUntilDone();
+    assert.isNotNull(vectorStoreFile);
+    assert.isNotEmpty(vectorStoreFile.id);
+    assert.notEqual(vectorStoreFile.status, "in_progress");
+    console.log(
+      `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
+    );
 
     // Clean up
     await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
@@ -170,21 +169,20 @@ describe("projectsClient - vector stores files", () => {
     const file = await projectsClient.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
-    // TODO: add polling operations
-    // // Create vector store file and poll
-    // const vectorStoreFilePoller = projectsClient.createVectorStoreFile(vectorStore.id, {
-    //   fileId: file.id,
-    // });
-    // assert.isNotNull(vectorStoreFilePoller);
-    // const initialState = vectorStoreFilePoller.poll();
-    // assert.isNotNull(initialState);
-    // const vectorStoreFile = await vectorStoreFilePoller.pollUntilDone();
-    // assert.isNotNull(vectorStoreFile);
-    // assert.isNotEmpty(vectorStoreFile.id);
-    // assert.notEqual(vectorStoreFile.status, "in_progress");
-    // console.log(
-    //   `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
-    // );
+    // Create vector store file and poll
+    const vectorStoreFilePoller = projectsClient.createVectorStoreFile(vectorStore.id, {
+      fileId: file.id,
+    });
+    assert.isNotNull(vectorStoreFilePoller);
+    const initialState = vectorStoreFilePoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFile = await vectorStoreFilePoller.pollUntilDone();
+    assert.isNotNull(vectorStoreFile);
+    assert.isNotEmpty(vectorStoreFile.id);
+    assert.notEqual(vectorStoreFile.status, "in_progress");
+    console.log(
+      `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
+    );
 
     // Clean up
     await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);

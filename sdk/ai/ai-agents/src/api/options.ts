@@ -43,7 +43,7 @@ export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptio
 export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CreateVectorStoreFileBatchOptionalParams extends OperationOptions {
+export interface CreateVectorStoreFileBatchOptionalParams extends OperationOptions, PollingOptionsParams {
   /** List of file identifiers. */
   fileIds?: string[];
   /** List of Azure assets. */
@@ -59,7 +59,7 @@ export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {}
 export interface GetVectorStoreFileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CreateVectorStoreFileOptionalParams extends OperationOptions {
+export interface CreateVectorStoreFileOptionalParams extends OperationOptions, PollingOptionsParams {
   /** Identifier of the file. */
   fileId?: string;
   /** Azure asset ID. */
@@ -99,7 +99,7 @@ export interface ModifyVectorStoreOptionalParams extends OperationOptions {
 export interface GetVectorStoreOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CreateVectorStoreOptionalParams extends OperationOptions {
+export interface CreateVectorStoreOptionalParams extends OperationOptions, PollingOptionsParams {
   /** A list of file IDs that the vector store should use. Useful for tools like `file_search` that can access files. */
   fileIds?: string[];
   /** The name of the vector store. */
@@ -135,8 +135,29 @@ export interface GetFileOptionalParams extends OperationOptions {}
 /** Optional parameters. */
 export interface DeleteFileOptionalParams extends OperationOptions {}
 
+
+/**
+ * Options for configuring polling behavior.
+ */
+export interface PollingOptions {
+  /**
+   * The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used.
+   */
+  sleepIntervalInMs?: number;
+}
+
+/**
+ * Optional parameters configuring polling behavior.
+ */
+export interface PollingOptionsParams {
+  /** Options for configuring polling behavior. */
+  pollingOptions?: PollingOptions;
+}
+
+
 /** Optional parameters. */
-export interface UploadFileOptionalParams extends OperationOptions {
+export interface UploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
+  /** The name of the file. */
   fileName?: string;
 }
 

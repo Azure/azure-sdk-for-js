@@ -179,22 +179,21 @@ describe("projectsClient - vector stores file batches", () => {
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
-    // TODO: add polling operations
-    // // Create vector store file batch
-    // const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(vectorStore.id, {
-    //   fileIds: [file1.id, file2.id],
-    // });
-    // assert.isNotNull(vectorStoreFileBatchPoller);
-    // const initialState = vectorStoreFileBatchPoller.poll();
-    // assert.isNotNull(initialState);
-    // const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
-    // assert.isNotNull(vectorStoreFileBatch);
-    // assert.isNotEmpty(vectorStoreFileBatch.id);
-    // assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
-    // assert.notEqual(vectorStoreFileBatch.status, "in_progress");
-    // console.log(
-    //   `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
-    // );
+    // Create vector store file batch
+    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(vectorStore.id, {
+      fileIds: [file1.id, file2.id],
+    });
+    assert.isNotNull(vectorStoreFileBatchPoller);
+    const initialState = vectorStoreFileBatchPoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
+    assert.isNotNull(vectorStoreFileBatch);
+    assert.isNotEmpty(vectorStoreFileBatch.id);
+    assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
+    assert.notEqual(vectorStoreFileBatch.status, "in_progress");
+    console.log(
+      `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
+    );
 
     // Clean up
     await projectsClient.deleteFile(file1.id);
@@ -216,21 +215,20 @@ describe("projectsClient - vector stores file batches", () => {
     const fileContent2 = await generateFileStream();
     const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
-    // TODO: add polling operations
-    // // Create vector store file batch
-    // const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatch(vectorStore.id, {
-    //   fileIds: [file1.id, file2.id],
-    // });
-    // assert.isNotNull(vectorStoreFileBatchPoller);
-    // const initialState = vectorStoreFileBatchPoller.poll();
-    // assert.isNotNull(initialState);
-    // const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
-    // assert.isNotEmpty(vectorStoreFileBatch.id);
-    // assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
-    // assert.notEqual(vectorStoreFileBatch.status, "in_progress");
-    // console.log(
-    //   `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
-    // );
+    // Create vector store file batch
+    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatch(vectorStore.id, {
+      fileIds: [file1.id, file2.id],
+    });
+    assert.isNotNull(vectorStoreFileBatchPoller);
+    const initialState = vectorStoreFileBatchPoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
+    assert.isNotEmpty(vectorStoreFileBatch.id);
+    assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
+    assert.notEqual(vectorStoreFileBatch.status, "in_progress");
+    console.log(
+      `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
+    );
 
     // Clean up
     await projectsClient.deleteFile(file1.id);

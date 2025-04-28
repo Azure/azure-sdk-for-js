@@ -19,6 +19,7 @@ export {
   getFile,
   deleteFile,
   uploadFile,
+  uploadFileAndPoll,
   listFiles,
   listRunSteps,
   getRunStep,
@@ -86,4 +87,6 @@ export {
   GetAgentOptionalParams,
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
+  PollingOptionsParams,
+  PollingOptions,
 } from "./options.js";

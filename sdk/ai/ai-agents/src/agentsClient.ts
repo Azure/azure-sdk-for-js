@@ -115,9 +115,14 @@ import {
   getAgent,
   listAgents,
   createAgent,
+  uploadFileAndPoll,
+  createVectorStoreFileAndPoll,
+  createVectorStoreFileBatchAndPoll,
+  createVectorStoreAndPoll,
 } from "./api/operations.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { OperationState, PollerLike } from "@azure/core-lro";
 
 export { AgentsClientOptionalParams } from "./api/agentsContext.js";
 
@@ -179,6 +184,14 @@ export class AgentsClient {
     return createVectorStoreFileBatch(this._client, vectorStoreId, options);
   }
 
+  /** Create a vector store file batch and poll. */
+  createVectorStoreFileBatchAndPoll(
+  vectorStoreId: string,
+  options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch> {
+    return createVectorStoreFileBatchAndPoll(this._client, vectorStoreId, options);
+  }
+
   /**
    * Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted.
    * To delete the file, use the delete file endpoint.
@@ -206,6 +219,14 @@ export class AgentsClient {
     options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFile> {
     return createVectorStoreFile(this._client, vectorStoreId, options);
+  }
+
+  /** Create a vector store file by attaching a file to a vector store and poll. */ 
+  createVectorStoreFileAndPoll(
+    vectorStoreId: string,
+    options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile> {
+    return createVectorStoreFileAndPoll(this._client, vectorStoreId, options);
   }
 
   /** Returns a list of vector store files. */
@@ -247,6 +268,15 @@ export class AgentsClient {
     return createVectorStore(this._client, options);
   }
 
+  /**
+ * Creates a vector store and poll.
+ */
+  createVectorStoreAndPoll(
+  options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStore>, VectorStore> {
+    return createVectorStoreAndPoll(this._client, options);
+  }
+
   /** Returns a list of vector stores. */
   listVectorStores(
     options: ListVectorStoresOptionalParams = { requestOptions: {} },
@@ -286,7 +316,16 @@ export class AgentsClient {
   ): Promise<OpenAIFile> {
     return uploadFile(this._client, {file: file, purpose:purpose, filename: options.fileName} , options);
   }
-
+  
+  /** Uploads a file for use by other operations and returns a poller to track the status of the operation. */
+  uploadFileAndPoll(
+    file: ReadableStream | NodeJS.ReadableStream,
+    purpose: FilePurpose,
+    options: UploadFileOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<OpenAIFile>, OpenAIFile> {
+  return uploadFileAndPoll(this._client, {file: file, purpose:purpose, filename: options.fileName} , options);
+  }
+  
   /** Gets a list of previously uploaded files. */
   listFiles(options: ListFilesOptionalParams = { requestOptions: {} }): Promise<FileListResponse> {
     return listFiles(this._client, options);

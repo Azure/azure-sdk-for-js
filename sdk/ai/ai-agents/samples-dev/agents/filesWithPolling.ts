@@ -47,7 +47,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const filePoller = client.uploadFile(readable2, "assistants", {
+  const filePoller = client.uploadFileAndPoll(readable2, "assistants", {
     fileName: "myPollingFile.txt",
     onResponse: onResponse,
   });

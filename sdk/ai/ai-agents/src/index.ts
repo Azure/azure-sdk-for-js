@@ -274,5 +274,7 @@ export {
   GetAgentOptionalParams,
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
+  PollingOptionsParams,
+  PollingOptions,
 } from "./api/index.js";
 export { FileContents };

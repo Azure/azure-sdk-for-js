@@ -119,6 +119,8 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import { createPoller } from "./poller.js";
 
 export function _listVectorStoreFileBatchFilesSend(
   context: Client,
@@ -316,13 +318,49 @@ export async function _createVectorStoreFileBatchDeserialize(
 }
 
 /** Create a vector store file batch. */
-export async function createVectorStoreFileBatch(
+export async function createVectorStoreFileBatchInternal(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
 ): Promise<VectorStoreFileBatch> {
   const result = await _createVectorStoreFileBatchSend(context, vectorStoreId, options);
   return _createVectorStoreFileBatchDeserialize(result);
+}
+
+/** Create a vector store file batch. */
+export function createVectorStoreFileBatch(
+  context: Client,
+  vectorStoreId: string,
+  options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch> {
+  return createPoller<VectorStoreFileBatch>({
+    initOperation: async () => {
+      return createVectorStoreFileBatchInternal(context, vectorStoreId, options);
+    },
+    pollOperation: async (currentResult: VectorStoreFileBatch) => {
+      return getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
+}
+
+/** Create a vector store file batch and poll. */
+export function createVectorStoreFileBatchAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch> {
+  return createPoller<VectorStoreFileBatch>({
+    initOperation: async () => {
+      return createVectorStoreFileBatchInternal(context, vectorStoreId, options);
+    },
+    pollOperation: async (currentResult: VectorStoreFileBatch) => {
+      return getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
 }
 
 export function _deleteVectorStoreFileSend(
@@ -470,13 +508,63 @@ export async function _createVectorStoreFileDeserialize(
 }
 
 /** Create a vector store file by attaching a file to a vector store. */
-export async function createVectorStoreFile(
+export async function createVectorStoreFileInternal(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
 ): Promise<VectorStoreFile> {
   const result = await _createVectorStoreFileSend(context, vectorStoreId, options);
   return _createVectorStoreFileDeserialize(result);
+}
+
+/** Create a vector store file by attaching a file to a vector store. */
+export function createVectorStoreFile(
+  context: Client,
+  vectorStoreId: string,
+  options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile> {
+  return createPoller<VectorStoreFile>({
+    initOperation: async () => {
+      return createVectorStoreFileInternal(context, vectorStoreId, options);
+    },
+    pollOperation: async (currentResult: VectorStoreFile) => {
+      return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: VectorStoreFile) => {
+      return result.status === "failed" && result.lastError
+        ? new Error(
+            `Operation failed with code ${result.lastError.code}: ${result.lastError.message}`,
+          )
+        : undefined;
+    },
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
+}
+
+/** Create a vector store file by attaching a file to a vector store and poll. */
+export function createVectorStoreFileAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile> {
+  return createPoller<VectorStoreFile>({
+    initOperation: async () => {
+      return createVectorStoreFileInternal(context, vectorStoreId, options);
+    },
+    pollOperation: async (currentResult: VectorStoreFile) => {
+      return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: VectorStoreFile) => {
+      return result.status === "failed" && result.lastError
+        ? new Error(
+            `Operation failed with code ${result.lastError.code}: ${result.lastError.message}`,
+          )
+        : undefined;
+    },
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
 }
 
 export function _listVectorStoreFilesSend(
@@ -722,12 +810,48 @@ export async function _createVectorStoreDeserialize(
 }
 
 /** Creates a vector store. */
-export async function createVectorStore(
+export async function createVectorStoreInternal(
   context: Client,
   options: CreateVectorStoreOptionalParams = { requestOptions: {} },
 ): Promise<VectorStore> {
   const result = await _createVectorStoreSend(context, options);
   return _createVectorStoreDeserialize(result);
+}
+
+/** Creates a vector store. */
+export function createVectorStore(
+  context: Client,
+  options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStore>, VectorStore> {
+  return createPoller<VectorStore>({
+    initOperation: async () => {
+      return createVectorStoreInternal(context, options);
+    },
+    pollOperation: async (currentResult: VectorStore) => {
+      return getVectorStore(context, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
+}
+
+/**
+ * Creates a vector store and poll.
+ */
+export function createVectorStoreAndPoll(
+  context: Client,
+  options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<VectorStore>, VectorStore> {
+  return createPoller<VectorStore>({
+    initOperation: async () => {
+      return createVectorStoreInternal(context, options);
+    },
+    pollOperation: async (currentResult: VectorStore) => {
+      return getVectorStore(context, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
 }
 
 export function _listVectorStoresSend(
@@ -939,7 +1063,7 @@ export async function _uploadFileDeserialize(result: PathUncheckedResponse): Pro
 }
 
 /** Uploads a file for use by other operations. */
-export async function uploadFile(
+export async function uploadFileInternal(
   context: Client,
   body: {
     file: ReadableStream | NodeJS.ReadableStream;
@@ -952,6 +1076,71 @@ export async function uploadFile(
   return _uploadFileDeserialize(result);
 }
 
+/** Uploads a file for use by other operations. */
+export function uploadFile(
+  context: Client,
+  body: {
+    file: ReadableStream | NodeJS.ReadableStream;
+    purpose: FilePurpose;
+    filename?: string;
+  },
+  options: UploadFileOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<OpenAIFile>, OpenAIFile> {
+  return createPoller<OpenAIFile>({
+    initOperation: async () => {
+      return uploadFileInternal(context, body, options);
+    },
+    pollOperation: async (currentResult: OpenAIFile) => {
+      return getFile(context, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: OpenAIFile) => {
+          return getLroOperationStatus(result) === "failed" && result.statusDetails
+            ? new Error(`Operation failed: ${result.statusDetails}`)
+            : undefined;
+        },
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
+}
+
+export function uploadFileAndPoll(
+  context: Client,
+  body: {
+    file: ReadableStream | NodeJS.ReadableStream;
+    purpose: FilePurpose;
+    filename?: string;
+  },
+  options: UploadFileOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<OpenAIFile>, OpenAIFile> {
+  return createPoller<OpenAIFile>({
+    initOperation: async () => {
+      return uploadFileInternal(context, body, options);
+    },
+    pollOperation: async (currentResult: OpenAIFile) => {
+      return getFile(context, currentResult.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: OpenAIFile) => {
+      return getLroOperationStatus(result) === "failed" && result.statusDetails
+        ? new Error(`Operation failed: ${result.statusDetails}`)
+        : undefined;
+    },
+    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+  });
+}
+
+function getLroOperationStatus(result: any): OperationStatus {
+  switch (result.status) {
+    case "running":
+    case "pending":
+      return "running";
+    case "uploaded":
+    case "processed":
+      return "succeeded";
+    default:
+      return "failed";
+  }
+}
 export function _listFilesSend(
   context: Client,
   options: ListFilesOptionalParams = { requestOptions: {} },
