@@ -170,7 +170,7 @@ describe("projectsClient - vector stores files", () => {
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
-    const vectorStoreFilePoller = projectsClient.createVectorStoreFile(vectorStore.id, {
+    const vectorStoreFilePoller = projectsClient.createVectorStoreFileAndPoll(vectorStore.id, {
       fileId: file.id,
     });
     assert.isNotNull(vectorStoreFilePoller);

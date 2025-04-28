@@ -113,7 +113,7 @@ describe("projectsClient - vector stores", () => {
 
   it("should create vector store and poll (through creation method)", async function () {
     // Create vector store
-    const vectorStorePoller = projectsClient.createVectorStore({
+    const vectorStorePoller = projectsClient.createVectorStoreAndPoll({
       pollingOptions: { sleepIntervalInMs: 2000 },
     });
     const initialState = vectorStorePoller.poll();

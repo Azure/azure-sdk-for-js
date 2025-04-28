@@ -128,23 +128,7 @@ export function _listVectorStoreFileBatchFilesSend(
   batchId: string,
   options: ListVectorStoreFileBatchFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?api%2Dversion,filter,limit,order,after,before}",
-    {
-      vectorStoreId: vectorStoreId,
-      batchId: batchId,
-      "api%2Dversion": context.apiVersion,
-      filter: options?.filter,
-      limit: options?.limit,
-      order: options?.order,
-      after: options?.after,
-      before: options?.before,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
+  return context.path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files",vectorStoreId, batchId).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
       accept: "application/json",
@@ -764,16 +748,7 @@ export function _createVectorStoreSend(
   context: Client,
   options: CreateVectorStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/vector_stores{?api%2Dversion}",
-    {
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
+  return context.path("/vector_stores").post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
@@ -1129,7 +1104,7 @@ export function uploadFileAndPoll(
   });
 }
 
-function getLroOperationStatus(result: any): OperationStatus {
+function getLroOperationStatus(result: VectorStore|VectorStoreFile|VectorStoreFileBatch|OpenAIFile): OperationStatus {
   switch (result.status) {
     case "running":
     case "pending":
@@ -1137,6 +1112,12 @@ function getLroOperationStatus(result: any): OperationStatus {
     case "uploaded":
     case "processed":
       return "succeeded";
+    case "in_progress":
+      return "running";
+    case "completed":
+      return "succeeded";
+    case "expired":
+      return "failed";
     default:
       return "failed";
   }

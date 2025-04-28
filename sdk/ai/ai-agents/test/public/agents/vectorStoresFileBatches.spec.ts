@@ -216,7 +216,7 @@ describe("projectsClient - vector stores file batches", () => {
     const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
-    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatch(vectorStore.id, {
+    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(vectorStore.id, {
       fileIds: [file1.id, file2.id],
     });
     assert.isNotNull(vectorStoreFileBatchPoller);

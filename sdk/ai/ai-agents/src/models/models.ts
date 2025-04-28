@@ -3515,7 +3515,7 @@ export function vectorStoreFileCountDeserializer(item: any): VectorStoreFileCoun
 }
 
 /** Vector store possible status */
-export type VectorStoreStatus = "expired" | "in_progress" | "completed";
+export type VectorStoreStatus = string;
 
 /** The expiration policy for a vector store. */
 export interface VectorStoreExpirationPolicy {
@@ -3723,7 +3723,8 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(
+    chunkingStrategy: !item["chunking_strategy"]
+      ? item["chunking_strategy"] : vectorStoreChunkingStrategyResponseUnionDeserializer(
       item["chunking_strategy"],
     ),
   };

@@ -1733,7 +1733,7 @@ export interface VectorStoreStaticChunkingStrategyResponse extends VectorStoreCh
 }
 
 // @public
-export type VectorStoreStatus = "expired" | "in_progress" | "completed";
+export type VectorStoreStatus = string;
 
 // (No @packageDocumentation comment for this package)
 
