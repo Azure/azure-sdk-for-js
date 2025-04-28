@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
+import { ServiceClient } from "@azure/core-client";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
@@ -26,7 +27,7 @@ import {
 
 export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
 
-export class MongoClusterManagementClient {
+export class MongoClusterManagementClient extends ServiceClient {
   private _client: DocumentDBContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
@@ -37,6 +38,8 @@ export class MongoClusterManagementClient {
     subscriptionId: string,
     options: MongoClusterManagementClientOptionalParams = {},
   ) {
+    super();
+
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
