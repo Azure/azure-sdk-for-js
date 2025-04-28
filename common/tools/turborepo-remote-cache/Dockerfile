@@ -7,7 +7,11 @@ RUN corepack enable
 # Install to /bin/bash
 RUN apk add --no-cache bash
 
+# Conditionally install Azure CLI if NODE_ENV is development
 ARG NODE_ENV=production
+RUN if [ "$NODE_ENV" = "development" ]; then \
+  curl -sL https://aka.ms/InstallAzureCLIDeb | bash; \
+  fi
 
 # Set the working directory in the container
 WORKDIR /app
