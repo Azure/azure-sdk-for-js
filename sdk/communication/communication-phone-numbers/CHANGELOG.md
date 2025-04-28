@@ -1,5 +1,15 @@
 # Release History
 
+## 1.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.3.1-alpha.20250428.1 (2025-04-28)
 
 ### Features Added
