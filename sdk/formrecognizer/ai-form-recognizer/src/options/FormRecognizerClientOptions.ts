@@ -49,9 +49,9 @@ export interface DocumentAnalysisClientOptions extends CommonClientOptions {
    * The audience (scope) to use for authentication with Azure Active Directory.
    *
    * Setting this option is only necessary
-   * - if you are using AAD/token credential
+   * - if you are using Entra Id
    *   (and)
-   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/.default")
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/")
    *
    * The authentication scope will be set from this audience.
    * See {@link KnownFormRecognizerAudience} for known audience values.
