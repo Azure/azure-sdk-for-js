@@ -132,7 +132,7 @@ export class EnvironmentCredential implements TokenCredential {
       );
 
       logger.warning(
-        "Environment is configured to use username and password authentication. This authentication method is deprecated, as it doesn't support multifactor authentication (MFA). Use a more secure credential. For more details, see https://aka.ms/azsdk/identity/mfa."
+        "Environment is configured to use username and password authentication. This authentication method is deprecated, as it doesn't support multifactor authentication (MFA). Use a more secure credential. For more details, see https://aka.ms/azsdk/identity/mfa.",
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,
