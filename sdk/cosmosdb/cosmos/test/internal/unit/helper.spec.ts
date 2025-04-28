@@ -6,7 +6,7 @@ import { describe, it, assert } from "vitest";
 
 describe("Helper methods", () => {
   describe("parseConnectionString", () => {
-    it("parses the valid connection string", () => {
+    it("parses they valid connection string", () => {
       const connectionString =
         "AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=c213asdasdefgdfgrtweaYPpgoeCsHbpRTHhxuMsTaw==;"; // [SuppressMessage("Microsoft.Security", "CS001:SecretInline", Justification="Not a real key")]
       const connectionObject = parseConnectionString(connectionString);
