@@ -395,7 +395,7 @@ const client = new SipRoutingClient("<endpoint-from-resource>", credential);
 
 const trunk = await client.getTrunk("sbc.one.domain.com");
 if (trunk) {
-  console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
+  console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}, ${trunk.enabled}, ${trunk.directTransfer}, ${trunk.ipAddressVersion}, ${trunk.privacyHeader}`);
 } else {
   console.log("Trunk not found");
 }
@@ -426,6 +426,24 @@ const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
 
 await client.deleteTrunk("sbc.one.domain.com");
+```
+
+#### Get SIP routes for target phone number
+
+```ts snippet:SipRoutingClientGetRoutesForNumber
+import { DefaultAzureCredential } from "@azure/identity";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
+
+const credential = new DefaultAzureCredential();
+const client = new SipRoutingClient("<endpoint-from-resource>", credential);
+
+const routes = [
+  { name: "route1", numberPattern: "^.123.*" },
+  { name: "route2", numberPattern: "^.987.*" },
+  { name: "route3", numberPattern: "^.*" },
+];
+
+const matchedRoutes = await client.getRoutesForNumber("+123456789", routes);
 ```
 
 ## Troubleshooting
