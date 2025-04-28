@@ -7,65 +7,50 @@
       "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
     },
     "build:samples": {
-      "dependsOn": [
-        "^build:samples"
-      ],
       "cache": false
     },
     "build:test": {
-      "dependsOn": ["^build:test"],
       "cache": false
     },
     "check-format": {
-      "dependsOn": ["^check-format"],
       "cache": false
     },
     "clean": {
-      "dependsOn": ["^clean"],
       "cache": false
     },
     "format": {
-      "dependsOn": ["^format"],
       "cache": false
     },
     "integration-test": {
-      "dependsOn": ["^integration-test"]
     },
     "integration-test:browser": {
-      "dependsOn": ["^integration-test:browser"]
     },
     "integration-test:node": {
-      "dependsOn": ["^integration-test:node"]
     },
     "lint": {
-      "dependsOn": ["^lint"],
       "cache": false
     },
     "lint:fix": {
-      "dependsOn": ["^lint:fix"],
       "cache": false
     },
     "pack": {
-      "dependsOn": ["^pack", "build"],
+      "dependsOn": ["build"],
       "cache": false
     },
     "test": {
-      "dependsOn": ["^test"]
     },
     "typecheck": {
-      "dependsOn": ["^typecheck"]
+      "dependsOn": ["^build"]
     },
     "unit-test": {
-      "dependsOn": ["^unit-test"]
     },
     "unit-test:browser": {
-      "dependsOn": ["^unit-test:browser"]
+      "dependsOn": ["build"]
     },
     "unit-test:node": {
-      "dependsOn": ["^unit-test:node"]
+      "dependsOn": ["build"]
     },
     "update-snippets": {
-      "dependsOn": ["^update-snippets"],
       "cache": false
     },
     "dev": {
