@@ -217,7 +217,7 @@ jobs:
 
               pnpm run integration-test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - PackagePath"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -238,7 +238,7 @@ jobs:
 
               pnpm run integration-test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - PackageTestPath"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"

@@ -79,7 +79,7 @@
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-tracing": "workspace:*",
-    "@azure/core-util": "workspace:*",
+    "@typespec/ts-http-runtime": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {

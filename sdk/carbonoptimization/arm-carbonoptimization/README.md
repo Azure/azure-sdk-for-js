@@ -66,8 +66,8 @@ import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimizatio
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new CarbonOptimizationManagementClient(credential);
 ```
 
