@@ -6,21 +6,10 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npx",
-      "runtimeArgs": [
-        "dev-tool",
-        "run",
-        "test:vitest"
-      ],
-      "args": [
-        "--",
-        "--inspect-brk",
-        "--no-file-parallelism",
-        "${input:filename}"
-      ],
+      "runtimeArgs": ["dev-tool", "run", "test:vitest"],
+      "args": ["--", "--inspect-brk", "--no-file-parallelism", "${input:filename}"],
       "autoAttachChildProcesses": false,
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "attachSimplePort": 9229,
       "cwd": "${workspaceFolder}/sdk/${input:package-directory}"
@@ -30,19 +19,10 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "rushx",
-      "runtimeArgs": [
-        "unit-test:node"
-      ],
-      "args": [
-        "--",
-        "--inspect-brk",
-        "--no-file-parallelism",
-        "${fileBasename}"
-      ],
+      "runtimeArgs": ["unit-test:node"],
+      "args": ["--", "--inspect-brk", "--no-file-parallelism", "${fileBasename}"],
       "autoAttachChildProcesses": false,
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "attachSimplePort": 9229,
       "cwd": "${fileDirname}"
@@ -52,18 +32,10 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "rushx",
-      "runtimeArgs": [
-        "unit-test:node"
-      ],
-      "args": [
-        "--inspect-brk",
-        "--no-file-parallelism",
-        "${fileBasename}"
-      ],
+      "runtimeArgs": ["unit-test:node"],
+      "args": ["--inspect-brk", "--no-file-parallelism", "${fileBasename}"],
       "autoAttachChildProcesses": false,
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "attachSimplePort": 9229,
       "cwd": "${fileDirname}"
@@ -73,19 +45,10 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "rushx",
-      "runtimeArgs": [
-        "integration-test:node"
-      ],
-      "args": [
-        "--",
-        "--inspect-brk",
-        "--no-file-parallelism",
-        "${fileBasename}"
-      ],
+      "runtimeArgs": ["integration-test:node"],
+      "args": ["--", "--inspect-brk", "--no-file-parallelism", "${fileBasename}"],
       "autoAttachChildProcesses": false,
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "attachSimplePort": 9229,
       "cwd": "${fileDirname}"
@@ -95,18 +58,10 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "rushx",
-      "runtimeArgs": [
-        "integration-test:node"
-      ],
-      "args": [
-        "--inspect-brk",
-        "--no-file-parallelism",
-        "${fileBasename}"
-      ],
+      "runtimeArgs": ["integration-test:node"],
+      "args": ["--inspect-brk", "--no-file-parallelism", "${fileBasename}"],
       "autoAttachChildProcesses": false,
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "attachSimplePort": 9229,
       "cwd": "${fileDirname}"
