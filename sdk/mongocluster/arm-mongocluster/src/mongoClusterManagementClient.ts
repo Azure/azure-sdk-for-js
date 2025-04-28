@@ -38,7 +38,7 @@ export class MongoClusterManagementClient extends ServiceClient {
     subscriptionId: string,
     options: MongoClusterManagementClientOptionalParams = {},
   ) {
-    super();
+    super(options);
 
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
