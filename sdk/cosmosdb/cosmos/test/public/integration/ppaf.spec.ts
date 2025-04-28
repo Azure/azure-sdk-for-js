@@ -237,7 +237,7 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
 
     // Any write request will be directed to the write region i.e. East US.
     await client.database("foo").container("foo").items.upsert({ id: "foo", name: "sample1" });
-    assert.equal(lastEndpointCalled, "https://ppaf-australiaeast.documents.azure.com:443/");
+    assert.equal(lastEndpointCalled, "https://ppaf-eastus.documents.azure.com:443/");
 
     // Now lets say on sending the next write request, the write region i.e. East US is not available. So we will receive a 503 error.
     // So for the partition key "sampele 2", we should failover to the next available region i.e. Australia East.
