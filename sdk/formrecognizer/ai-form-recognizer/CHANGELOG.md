@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Supports alternative cloud environments (Azure United States Government and Azure China Cloud). To use an alternative cloud environment, provide a value for the `audience` field of `DocumentAnalysisClientOptions` or `DocumentModelAdministrationClientOptions` to configure the client to authenticate within a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
+- Supports Azure Sovereign Cloud environments (Azure United States Government and Azure China Cloud). To use a sovereign cloud environment, provide a value for the `audience` field of `DocumentAnalysisClientOptions` or `DocumentModelAdministrationClientOptions` to configure the client to authenticate within a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
   Import and use `FormRecognizerAudience` to get the correct values for a given cloud environment. The currently supported cloud environments are:
 
   - `FormRecognizerAudience.AzureChina` (`"https://cognitiveservices.azure.cn/.default"`),
