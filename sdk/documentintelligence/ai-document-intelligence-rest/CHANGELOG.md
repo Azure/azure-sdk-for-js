@@ -2,6 +2,27 @@
 
 # Release History
 
+## 1.1.0 (2025-04-29)
+
+### Features Added
+
+- Supports alternative cloud environments (Azure United States Government and Azure China Cloud). To use an alternative cloud environment, provide a value for the `scopes` field of `DocumentIntelligenceClientOptions#credentials` to configure the client to authenticate within a [Sovereign Cloud](https://learn.microsoft.com/entra/identity-platform/authentication-national-cloud).
+  Import and use `KnownDocumentIntelligenceAudience` to get the correct values for a given cloud environment. The currently supported cloud environments are:
+
+  - `KnownDocumentIntelligenceAudience.AzureChina` (`"https://cognitiveservices.azure.cn/.default"`),
+  - `KnownDocumentIntelligenceAudience.AzureGovernment` (`"https://cognitiveservices.azure.us/.default"`),
+  - `KnownDocumentIntelligenceAudience.AzurePublicCloud` (`"https://cognitiveservices.azure.com/.default"`),
+
+  ```js
+    const client = DocumentIntelligence(
+      "<cognitive services endpoint>",
+      <--credential-->,
+      { credentials: { scopes: [ KnownDocumentIntelligenceAudience.AzureGovernment ] } }
+    );
+  ```
+
+  If `scopes` is undefined, the default value is suitable for the Azure Public Cloud `https://cognitiveservices.azure.com/.default`.
+
 ## 1.0.0 (2024-12-16)
 
 ### Features Added

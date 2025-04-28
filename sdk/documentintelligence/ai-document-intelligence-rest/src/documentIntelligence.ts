@@ -6,6 +6,7 @@ import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
 import type { DocumentIntelligenceClient } from "./clientDefinitions.js";
+import { KnownDocumentIntelligenceAudience } from "./audience.js";
 
 /** The optional parameters for the client */
 export interface DocumentIntelligenceClientOptions extends ClientOptions {
@@ -40,7 +41,7 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [KnownDocumentIntelligenceAudience.AzurePublicCloud],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };

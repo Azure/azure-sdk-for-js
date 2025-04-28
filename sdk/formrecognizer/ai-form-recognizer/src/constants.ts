@@ -4,7 +4,7 @@
 /**
  * Defines the known cloud audiences for Form Recognizer.
  *
- * To authenticate with Entra Id (using a `TokenCredential`) in a [Sovereign Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud)
+ * To authenticate with Entra Id (using a `TokenCredential`) in a [Sovereign Cloud](https://learn.microsoft.com/entra/identity-platform/authentication-national-cloud)
  * environment, provide the appropriate value below as the `audience` option when creating a
  * `DocumentAnalysisClient` or `DocumentModelAdministrationClient`.
  *
