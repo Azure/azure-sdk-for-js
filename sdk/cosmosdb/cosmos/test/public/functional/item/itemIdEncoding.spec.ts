@@ -8,7 +8,7 @@ import {
   getDefaultClient,
   getDefaultComputeGatewayClient,
 } from "../../common/TestHelpers.js";
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 interface ItemPayload {
   id?: string;
@@ -119,7 +119,19 @@ const executeTestCaseOnComputeGateway = async function (scenario: TestScenario):
   return executeTestCase(scenario, true);
 };
 
+let start: number;
+
 describe("Id encoding", { timeout: 10000 }, () => {
+  beforeAll(async () => {
+    start = Date.now();
+  });
+  afterAll(async () => {
+    const end = Date.now();
+    console.log("//////////////", start);
+    console.log("//////////////", end);
+    console.log("//////////////", end - start);
+    // console.log(`Test 'Id encoding' took ${end - start} ms`);
+  });
   beforeEach(async () => {
     await removeAllDatabases();
   });
