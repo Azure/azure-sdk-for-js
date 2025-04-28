@@ -49,6 +49,4 @@ export interface CreateJobQueryParam {
   queryParameters?: CreateJobQueryParamProperties;
 }
 
-export type CreateJobParameters = CreateJobQueryParam &
-  CreateJobBodyParam &
-  RequestParameters;
+export type CreateJobParameters = CreateJobQueryParam & CreateJobBodyParam & RequestParameters;

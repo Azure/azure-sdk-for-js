@@ -120,7 +120,7 @@ const findingOptions = {
 
 const qualityMeasureOptions = {
   measureTypes: ["mips364", "mips360", "mips436"],
-}
+};
 
 const guidancOptions = {
   showGuidanceInHistory: true,
@@ -178,14 +178,12 @@ function findQMInference(res: any): void {
 
             inference.qualityCriteria?.forEach((criteria: any) => {
               console.log("   Quality Criterium: ", criteria);
-            })
-
+            });
           }
         });
       }
     });
   }
-
 }
 
 describe("Quality Measure Inference Test", () => {

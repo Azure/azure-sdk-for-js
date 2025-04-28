@@ -158,19 +158,22 @@ function findGuidance(res: any): void {
             inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
               console.log("   Present Guidance Information: ");
               displayPresentGuidanceInformation(presentInfo);
-            })
+            });
 
             if ("ranking" in inference) {
               console.log("   Ranking: ", inference.ranking);
             }
 
             if ("recommendationProposals" in inference) {
-              console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+              console.log(
+                "   Recommendation Proposal: ",
+                inference.recommendationProposals.recommendedProcedure.kind,
+              );
             }
 
             inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
               console.log("   Missing Guidance Information: ", missingInfo);
-            })
+            });
           }
         });
       }
@@ -192,7 +195,7 @@ function findGuidance(res: any): void {
 
     guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
       console.log("     Present Guidance Value: ", sizes);
-    })
+    });
 
     guidanceinfo.sizes?.forEach((sizes: any) => {
       if ("valueQuantity" in sizes) {
@@ -207,7 +210,7 @@ function findGuidance(res: any): void {
           console.log("     Size ValueRange: max", sizes.valueRange.high);
         }
       }
-    })
+    });
 
     if ("maximumDiameterAsInText" in guidanceinfo) {
       console.log("     Maximum Diameter As In Text: ");

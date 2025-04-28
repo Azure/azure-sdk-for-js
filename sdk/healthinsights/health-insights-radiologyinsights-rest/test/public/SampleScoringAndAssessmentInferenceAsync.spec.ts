@@ -48,25 +48,8 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value: `Exam: US THYROID
-
-Clinical History: Thyroid nodules. 76 year old patient.
-
-Comparison: none.
-
-Findings:
-Right lobe: 4.8 x 1.6 x 1.4 cm
-Left Lobe: 4.1 x 1.3 x 1.3 cm
-
-Isthmus: 4 mm
-
-There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
-In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
-
-Impression:
-Multiple bilateral small cystic benign thyroid nodules. 
-A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.
- CADRADS 3/4.`,
+  value:
+    "\n\n\n\r\n\nExam: US THYROID\n\nClinical History: Thyroid nodules. 76 year old patient.\n\nComparison: none.\n\nFindings:\n\nRight lobe: 4.8 x 1.6 x 1.4 cm\n\nLeft Lobe: 4.1 x 1.3 x 1.3 cm\n\nIsthmus: 4 mm\n\nThere are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).  \n\nIn the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).\n\nImpression:\nMultiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up. CADRADS 3/4.\n\n\r\n",
 };
 
 const patientDocumentData = {
@@ -186,7 +169,6 @@ function findSAInference(res: any): void {
       console.log("     Max: ", range.maximum);
     }
   }
-
 }
 
 describe("Scoring and Assessment Inference Test", () => {
@@ -204,7 +186,7 @@ describe("Scoring and Assessment Inference Test", () => {
 
   it("scoring and assessment inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795260271")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260270")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
