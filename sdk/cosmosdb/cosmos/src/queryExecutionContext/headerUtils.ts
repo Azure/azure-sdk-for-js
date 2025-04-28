@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common";
-import { QueryMetrics } from "../queryMetrics/queryMetrics";
+import { Constants } from "../common/index.js";
+import { QueryMetrics } from "../queryMetrics/queryMetrics.js";
 
 export interface CosmosHeaders {
   [key: string]: any;

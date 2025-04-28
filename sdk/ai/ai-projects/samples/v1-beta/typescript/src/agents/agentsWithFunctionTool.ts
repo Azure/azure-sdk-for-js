@@ -25,11 +25,11 @@ import { AIProjectsClient, ToolUtility, isOutputOfType } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -130,7 +130,7 @@ export async function main(): Promise<void> {
 
   const functionToolExecutor = new FunctionToolExecutor();
   const functionTools = functionToolExecutor.getFunctionDefinitions();
-  const agent = await agents.createAgent("gpt-4o", {
+  const agent = await agents.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions:
       "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
@@ -183,7 +183,7 @@ export async function main(): Promise<void> {
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
@@ -198,7 +198,7 @@ export async function main(): Promise<void> {
     });
   });
   // Delete agent
-  agents.deleteAgent(agent.id);
+  await agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

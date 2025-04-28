@@ -1,14 +1,22 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations with file searching from the Azure Agents service.
+ *
+ * @summary This sample demonstrates how to use agent operations with file searching.
+ */
+
 const { AIProjectsClient, isOutputOfType, ToolUtility } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const dotenv = require("dotenv");
 const fs = require("fs");
-const path = require("node:path");
-dotenv.config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -17,7 +25,7 @@ async function main() {
   );
 
   // Upload file
-  const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
+  const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",
@@ -35,7 +43,7 @@ async function main() {
   const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with files
-  const agent = await client.agents.createAgent("gpt-4o", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "SDK Test Agent - Retrieval",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
     tools: [fileSearchTool.definition],
@@ -64,7 +72,7 @@ async function main() {
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );

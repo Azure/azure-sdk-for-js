@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
+import { AzureSDKReporter } from "../../../vitest.shared.config.js";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
 import { resolve } from "node:path";
@@ -24,7 +25,7 @@ export default defineConfig({
     include: ["dist-test/browser/**/*.spec.js"],
     globalSetup: ["./test/utils/setup.ts"],
     setupFiles: ["./test/utils/logging.ts"],
-    reporters: ["verbose", "junit"],
+    reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },

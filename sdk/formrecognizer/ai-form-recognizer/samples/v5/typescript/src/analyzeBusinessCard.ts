@@ -13,22 +13,21 @@
  * @summary extract data from a business card document
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard.js";
-
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltBusinessCardModel,
     // The Document Intelligence service will access the following URL to a business card image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/businessCard/business-card-english.jpg"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/businessCard/business-card-english.jpg",
   );
 
   const { documents } = await poller.pollUntilDone();

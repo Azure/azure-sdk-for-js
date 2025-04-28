@@ -28,6 +28,7 @@ import {
   SEMATTRS_HTTP_HOST,
   SEMATTRS_HTTP_METHOD,
   SEMATTRS_HTTP_ROUTE,
+  SEMATTRS_HTTP_SCHEME,
   SEMATTRS_HTTP_STATUS_CODE,
   SEMATTRS_HTTP_URL,
   SEMATTRS_NET_PEER_IP,
@@ -40,7 +41,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 
 import type { Tags, Properties, Measurements } from "../../src/types.js";
-import { MaxPropertyLengths } from "../../src/types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "../../src/types.js";
 import { Context, getInstance } from "../../src/platform/index.js";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils.js";
 import type {
@@ -138,6 +139,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: "test rpc system",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -147,6 +149,7 @@ describe("spanUtils.ts", () => {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
           [KnownContextTagKeys.AiOperationName]: "parent span",
+          [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
         };
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -289,6 +292,7 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: "test rpc system",
           [SEMATTRS_PEER_SERVICE]: "test peer service",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -297,6 +301,7 @@ describe("spanUtils.ts", () => {
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
         };
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -587,6 +592,7 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_ROUTE]: "/api/example",
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_HTTP_SCHEME]: "https",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -910,6 +916,7 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          [SEMATTRS_HTTP_SCHEME]: "https",
           "extra.attribute": "foo",
         });
         span.setStatus({

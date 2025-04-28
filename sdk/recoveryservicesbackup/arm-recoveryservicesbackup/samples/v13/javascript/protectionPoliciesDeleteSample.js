@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
@@ -18,7 +18,7 @@ operation can be fetched using GetProtectionPolicyOperationResult API.
  *
  * @summary Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
 operation can be fetched using GetProtectionPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
  */
 async function deleteAzureVMProtectionPolicy() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function deleteAzureVMProtectionPolicy() {
 }
 
 async function main() {
-  deleteAzureVMProtectionPolicy();
+  await deleteAzureVMProtectionPolicy();
 }
 
 main().catch(console.error);

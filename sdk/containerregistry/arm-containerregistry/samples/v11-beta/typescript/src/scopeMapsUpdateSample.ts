@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a scope map with the specified parameters.
  *
  * @summary Updates a scope map with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ScopeMapUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ScopeMapUpdate.json
  */
 async function scopeMapUpdate(): Promise<void> {
   const subscriptionId =

@@ -11,9 +11,10 @@ import type {
   RawHttpHeadersInput,
 } from "../interfaces.js";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
-import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
+import type { AuthScheme } from "../auth/schemes.js";
+import type { ClientCredential } from "../auth/credentials.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -70,7 +71,7 @@ export type RequestParameters = {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * A function to be called each time a response is received from the server
@@ -116,7 +117,7 @@ export interface OperationOptions {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
   /**
    * Options used when creating and sending HTTP requests for this operation.
    */
@@ -302,18 +303,16 @@ export interface AdditionalPolicyConfig {
  */
 export type ClientOptions = PipelineOptions & {
   /**
-   * Credentials information
+   * List of authentication schemes supported by the client.
+   * These schemes define how the client can authenticate requests.
    */
-  credentials?: {
-    /**
-     * Authentication scopes for AAD
-     */
-    scopes?: string[];
-    /**
-     * Heder name for Client Secret authentication
-     */
-    apiKeyHeaderName?: string;
-  };
+  authSchemes?: AuthScheme[];
+
+  /**
+   * The credential used to authenticate requests.
+   * Must be compatible with one of the specified authentication schemes.
+   */
+  credential?: ClientCredential;
 
   // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
 
@@ -341,6 +340,12 @@ export type ClientOptions = PipelineOptions & {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+  /**
+   * Pipeline to use for the client. If not provided, a default pipeline will be created using the options provided.
+   * Use with caution -- when setting this option, all client options that are used in the creation of the default pipeline
+   * will be ignored.
+   */
+  pipeline?: Pipeline;
 };
 
 /**

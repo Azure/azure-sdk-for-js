@@ -10,28 +10,28 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the details of a network.
  *
  * @summary Gets the details of a network.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworks_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationNetworks_Get.json
  */
 async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
-  const resourceName = "srce2avaultbvtaC27";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "srcBvte2a14C27";
+  const resourceName = "srce2avaultbvtaC27";
   const fabricName = "b0cef6e9a4437b81803d0b55ada4f700ab66caae59c35d62723a1589c0cd13ac";
   const networkName = "93ce99d7-1219-4914-aa61-73fe5023988e";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationNetworks.get(
-    resourceName,
     resourceGroupName,
+    resourceName,
     fabricName,
     networkName,
   );
@@ -39,7 +39,7 @@ async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
 }
 
 async function main() {
-  getsANetworkWithSpecifiedServerIdAndNetworkName();
+  await getsANetworkWithSpecifiedServerIdAndNetworkName();
 }
 
 main().catch(console.error);

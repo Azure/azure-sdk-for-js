@@ -1,8 +1,10 @@
-# App Configuration client library for JavaScript
+# Azure App Configuration client library for JavaScript
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the client library for App Configuration to:
+For applications that **only need to read configuration values**, we suggest using the [*`@azure/app-configuration-provider`*](https://www.npmjs.com/package/@azure/app-configuration-provider) library instead.
+
+Use *@azure/app-configuration* (this library) to:
 
 - Create flexible key representations and mappings
 - Tag keys with labels
@@ -78,19 +80,15 @@ More information about `@azure/identity` can be found [here](https://github.com/
 To authenticate with a resource in a [Sovereign Cloud](https://learn.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to set the `audience` in the `AppConfigurationClient` constructor options.
 
 ```ts snippet:AuthenticatingWithAzureSovereignCloud
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { AppConfigurationClient, KnownAppConfigAudience } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // The endpoint for your App Configuration resource
 const endpoint = "https://example.azconfig.azure.cn";
 // Create an AppConfigurationClient that will authenticate through AAD in the China cloud
-const client = new AppConfigurationClient(
-  endpoint,
-  new DefaultAzureCredential(),
-  {
-    audience: KnownAppConfigurationAudience.AzureChina
-  }
-);
+const client = new AppConfigurationClient(endpoint, new DefaultAzureCredential(), {
+  audience: KnownAppConfigAudience.AzureChina,
+});
 ```
 
 Note: When `audience` property is not defined, the SDK will default to Azure Public Cloud.

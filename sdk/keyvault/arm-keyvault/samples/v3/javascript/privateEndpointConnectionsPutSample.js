@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates the specified private endpoint connection associated with the key vault.
  *
  * @summary Updates the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/putPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/putPrivateEndpointConnection.json
  */
 async function keyVaultPutPrivateEndpointConnection() {
   const subscriptionId =
@@ -37,13 +37,13 @@ async function keyVaultPutPrivateEndpointConnection() {
     resourceGroupName,
     vaultName,
     privateEndpointConnectionName,
-    properties
+    properties,
   );
   console.log(result);
 }
 
 async function main() {
-  keyVaultPutPrivateEndpointConnection();
+  await keyVaultPutPrivateEndpointConnection();
 }
 
 main().catch(console.error);

@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide for migrating to `@azure/storage-blob` v12 from `azure-storage`
 
 This guide is intended to assist in the migration to version 12 of `@azure/storage-blob` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
@@ -73,7 +75,7 @@ const azure = require("azure-storage");
 const tokenCredential = new azure.TokenCredential("<access-token>");
 const blobService = azure.createBlobServiceWithTokenCredential(
   "https://<account-name>.blob.core.windows.net",
-  tokenCredential
+  tokenCredential,
 );
 ```
 
@@ -85,7 +87,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const tokenCredential = new DefaultAzureCredential();
 const blobService = new BlobServiceClient(
   "https://<account-name>.blob.core.windows.net",
-  tokenCredential
+  tokenCredential,
 );
 ```
 
@@ -98,7 +100,7 @@ const azure = require("azure-storage");
 const blobService = azure.createBlobService("<connection-string>");
 
 const containerName = "<container-name>";
-blobService.createContainer(containerName, function() {
+blobService.createContainer(containerName, function () {
   console.log(`Container created`);
 });
 ```
@@ -112,7 +114,7 @@ const blobEndpoint = "https://<account-name>.blob.core.windows.net";
 
 const blobService = new BlobServiceClient(
   blobEndpoint,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the container with `<container-name>`
@@ -128,7 +130,7 @@ const containerUrl = "https://<account-name>.blob.core.windows.net/<container-na
 
 const containerClient = new ContainerClient(
   containerUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 // Creates the container with `<container-name>`
@@ -147,7 +149,7 @@ const blobName = "<blob-name>";
 const filePath = "<local-file-path>";
 const blobService = azure.createBlobService("<connection-string>");
 
-blobService.createBlockBlobFromLocalFile(containerName, blobName, filePath, function() {
+blobService.createBlockBlobFromLocalFile(containerName, blobName, filePath, function () {
   console.log("Blob uploaded");
 });
 ```
@@ -161,7 +163,7 @@ const blobUrl = "https://<account-name>.blob.core.windows.net/<container-name>/<
 
 const blockBlobClient = new BlockBlobClient(
   blobUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await blockBlobClient.uploadFile(filePath);
@@ -177,7 +179,7 @@ const blobService = azure.createBlobService("<connection-string>");
 
 const containerName = "<container-name>";
 const blobName = "<blob-name>";
-blobService.getBlobProperties(containerName, blobName, function(error, result) {
+blobService.getBlobProperties(containerName, blobName, function (error, result) {
   if (!error) {
     // result contains the blob properties
     console.log(result);
@@ -193,7 +195,7 @@ const blobUrl = "https://<account-name>.blob.core.windows.net/<container-name>/<
 
 const blobClient = new BlobClient(
   blobUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const blobProperties = await blobClient.getProperties();
@@ -212,7 +214,7 @@ const containerName = "<container-name>";
 let blobs = [];
 
 function listBlobs(continuationToken, callback) {
-  blobService.listBlobsSegmented(containerName, continuationToken, function(error, result) {
+  blobService.listBlobsSegmented(containerName, continuationToken, function (error, result) {
     blobs.push.apply(blobs, result.entries);
     const continuationToken = result.continuationToken;
     if (continuationToken) {
@@ -224,7 +226,7 @@ function listBlobs(continuationToken, callback) {
   });
 }
 
-listBlobs(null, function() {
+listBlobs(null, function () {
   console.log(blobs);
 });
 ```
@@ -237,7 +239,7 @@ const containerUrl = "https://<account-name>.blob.core.windows.net/<container-na
 
 const containerClient = new ContainerClient(
   containerUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 const iterator = containerClient.listBlobsFlat();
@@ -260,9 +262,9 @@ const firstBlobName = "<first-blob-name>";
 const secondBlobName = "<second-blob-name>";
 const blobContent = "Hello, World!";
 
-blobService.createContainer(containerName, function() {
-  blobService.createBlockBlobFromText(containerName, firstBlobName, blobContent, function() {
-    blobService.createBlockBlobFromText(containerName, secondBlobName, blobContent, function() {
+blobService.createContainer(containerName, function () {
+  blobService.createBlockBlobFromText(containerName, firstBlobName, blobContent, function () {
+    blobService.createBlockBlobFromText(containerName, secondBlobName, blobContent, function () {
       console.log("Uploaded blobs");
     });
   });
@@ -280,7 +282,7 @@ const blobContent = "Hello, World!";
 
 const containerClient = new ContainerClient(
   containerUrl,
-  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>"),
 );
 
 await containerClient.create();

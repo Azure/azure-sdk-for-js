@@ -1,52 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { matrix } from "@azure-tools/test-utils-vitest";
-import { describe, beforeEach, it } from "vitest";
+import { describe } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { APIVersion } from "../utils/utils.js";
 import { assertCompletions, assertCompletionsStream } from "../utils/asserts.js";
-import { APIMatrix, withDeployments } from "../utils/utils.js";
+import { APIMatrix, testWithDeployments } from "../utils/utils.js";
 import { completionsModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
-describe("Legacy Completions", function () {
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+describe.concurrent.each(APIMatrix)("Legacy Completions [%s]", (apiVersion: APIVersion) => {
+  const clientsAndDeployments: ClientsAndDeploymentsInfo = createClientsAndDeployments(
+    apiVersion,
+    { completion: "true" },
+    { clientOptions: { maxRetries: 0 }, deploymentsToSkip: ["computer-use-preview"] },
+  );
 
-      beforeEach(async () => {
-        clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });
+  describe("completions.create", function () {
+    describe("returns completions across all models", async () => {
+      const prompt = ["What is Azure OpenAI?"];
+      await testWithDeployments({
+        clientsAndDeploymentsInfo: clientsAndDeployments,
+        run: (client, deploymentName) =>
+          client.completions.create({ model: deploymentName, prompt }),
+        validate: assertCompletions,
+        modelsListToSkip: completionsModelsToSkip,
       });
+    });
 
-      describe("completions.create", function () {
-        it("returns completions across all models", async () => {
-          const prompt = ["What is Azure OpenAI?"];
-          await withDeployments(
-            clientsAndDeployments,
-            (client, deploymentName) =>
-              client.completions.create({ model: deploymentName, prompt }),
-            assertCompletions,
-            completionsModelsToSkip,
-          );
-        });
+    describe("returns completions stream", async () => {
+      const prompt = ["This is Azure OpenAI?"];
+      await testWithDeployments({
+        clientsAndDeploymentsInfo: clientsAndDeployments,
+        run: (client, deploymentName) =>
+          client.completions.create({ model: deploymentName, prompt, stream: true }),
+        validate: (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+      });
+    });
 
-        it("returns completions stream", async () => {
-          const prompt = ["This is Azure OpenAI?"];
-          await withDeployments(
-            clientsAndDeployments,
-            (client, deploymentName) =>
-              client.completions.create({ model: deploymentName, prompt, stream: true }),
-            // The API returns an empty choice in the first event for some
-            // reason. This should be fixed in the API.
-            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
-          );
-        });
-
-        it("stream long completions", async () => {
-          const prompt = [
-            `##### Translate this code snippet into Python. Use Azure SDKs where possible.
+    describe("stream long completions", async () => {
+      const prompt = [
+        `##### Translate this code snippet into Python. Use Azure SDKs where possible.
   \`\`\`
   using System.Threading.Tasks;
   using Microsoft.AspNetCore.Mvc;
@@ -100,20 +95,15 @@ describe("Legacy Completions", function () {
   
   \`\`\`
   `,
-          ];
-          await withDeployments(
-            clientsAndDeployments,
-            (client, deploymentName) =>
-              client.completions.create(
-                { model: deploymentName, prompt, stream: true, max_tokens: 2048 },
-                { timeout: 10000 },
-              ),
-
-            // The API returns an empty choice in the first event for some
-            // reason. This should be fixed in the API.
-            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
-          );
-        });
+      ];
+      await testWithDeployments({
+        clientsAndDeploymentsInfo: clientsAndDeployments,
+        run: (client, deploymentName) =>
+          client.completions.create(
+            { model: deploymentName, prompt, stream: true, max_tokens: 2048 },
+            { timeout: 10000 },
+          ),
+        validate: (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
       });
     });
   });

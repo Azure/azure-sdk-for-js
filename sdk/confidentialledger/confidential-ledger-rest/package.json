@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Confidential Ledger service.",
-  "version": "1.1.2",
+  "version": "1.1.2-beta.1",
   "keywords": [
     "node",
     "azure",
@@ -24,7 +24,9 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
   ],
   "//metadata": {
     "constantPaths": [
@@ -50,11 +52,8 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "echo \"Browser is not supported.\" && exit 0",
-    "build:debug": "dev-tool run build-package && dev-tool run bundle && dev-tool run extract-api",
-    "build:node": "dev-tool run build-package && dev-tool run bundle --browser-test=false",
-    "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle --browser-test=false",
+    "build:samples": "echo skipped.",
+    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm dist-test temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -92,11 +91,11 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
   },
   "type": "module",
   "tshy": {

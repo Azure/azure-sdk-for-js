@@ -4,7 +4,6 @@
 import { Readable } from "stream";
 import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 import { isBlob } from "./typeGuards.js";
-import { getRawContent } from "./file.js";
 
 async function* streamAsyncIterator(
   this: ReadableStream<Uint8Array>,
@@ -51,7 +50,7 @@ function toStream(
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlob(source)) {
-    return toStream(getRawContent(source));
+    return toStream(source);
   } else {
     return ensureNodeStream(source);
   }

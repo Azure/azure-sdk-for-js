@@ -120,10 +120,6 @@ As of version 3.3.0, `DefaultAzureCredential` attempts to authenticate with all 
 
 This allows for trying all of the developer credentials on your machine while having predictable deployed behavior.
 
-#### Note about `VisualStudioCodeCredential`
-
-Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), `VisualStudioCodeCredential` has been removed from the `DefaultAzureCredential` token chain. When the issue is resolved in a future release, this change will be reverted.
-
 ## Plugins
 
 Azure Identity for JavaScript provides a plugin API that allows us to provide certain functionality through separate _plugin packages_. The `@azure/identity` package exports a top-level function (`useIdentityPlugin`) that can be used to enable a plugin. We provide two plugin packages:
@@ -235,7 +231,7 @@ const credential = new ClientSecretCredential(
 );
 ```
 
-Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration. Similarly, `VisualStudioCodeCredential` accepts an `authorityHost` argument but defaults to the `authorityHost` matching Visual Studio Code's **Azure: Cloud** setting.
+Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration.
 
 ## Credential classes
 
@@ -253,7 +249,6 @@ Not all credentials require this configuration. Credentials that authenticate th
 | [`EnvironmentCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest)           | Authenticates a service principal or user via credential information specified in environment variables.                | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
 | [`ManagedIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)   | Authenticates the managed identity of an Azure resource.                                                                | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
 | [`WorkloadIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/workloadidentitycredential?view=azure-node-latest) | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-workload-identity)                  |
-|  |
 
 ### Authenticate service principals
 

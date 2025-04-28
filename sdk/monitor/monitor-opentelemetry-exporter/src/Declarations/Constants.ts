@@ -92,6 +92,21 @@ export enum RetriableRestErrorTypes {
   REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
   DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
 }
+/**
+ * Application Insights shim version.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_SHIM_VERSION = "APPLICATION_INSIGHTS_SHIM_VERSION";
+/**
+ * Azure Monitor version prefix.
+ * @internal
+ */
+export const ENV_AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
+/**
+ * Azure Monitor Distro version.
+ * @internal
+ */
+export const ENV_AZURE_MONITOR_DISTRO_VERSION = "AZURE_MONITOR_DISTRO_VERSION";
 
 /**
  * QuickPulse metric counter names.
@@ -129,11 +144,17 @@ export enum PerformanceCounter {
 
   // CPU
   PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
-  PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  PROCESS_TIME_STANDARD = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  PROCESS_TIME_NORMALIZED = "\\Process(??APP_WIN32_PROC??)\\% Processor Time Normalized",
 
   // Requests
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
+
+  // Exception
+  EXCEPTION_RATE = "\\.NET CLR Exceptions(??APP_CLR_PROC??)\\# of Exceps Thrown / sec",
+  // I/O
+  IO_RATE = "\\Process(??APP_WIN32_PROC??)\\IO Data Bytes/sec",
 }
 
 /**

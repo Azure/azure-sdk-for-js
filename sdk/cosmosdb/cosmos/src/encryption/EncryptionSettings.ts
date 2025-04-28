@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
+import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty.js";
 
 /**
  * stores partitionKeyPaths, all the pathsToEncrypt, and encryption settings (cekId, encryption type, and algorithm) for each property.
