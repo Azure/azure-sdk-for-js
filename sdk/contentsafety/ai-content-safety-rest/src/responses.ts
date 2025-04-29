@@ -6,6 +6,8 @@ import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import type {
   AnalyzeImageResultOutput,
   AnalyzeTextResultOutput,
+  ShieldPromptResultOutput,
+  DetectTextProtectedMaterialResultOutput,
   TextBlocklistOutput,
   PagedTextBlocklistOutput,
   AddOrUpdateTextBlocklistItemsResultOutput,
@@ -48,6 +50,41 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
+export interface ShieldPrompt200Response extends HttpResponse {
+  status: "200";
+  body: ShieldPromptResultOutput;
+}
+
+export interface ShieldPromptDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ShieldPromptDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & ShieldPromptDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+  status: "200";
+  body: DetectTextProtectedMaterialResultOutput;
+}
+
+export interface DetectTextProtectedMaterialDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextProtectedMaterialDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface GetTextBlocklist200Response extends HttpResponse {
   status: "200";
   body: TextBlocklistOutput;
@@ -81,7 +118,8 @@ export interface CreateOrUpdateTextBlocklistDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
+export interface CreateOrUpdateTextBlocklistDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
