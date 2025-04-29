@@ -217,10 +217,11 @@ jobs:
 
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - PackagePath"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
+            ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
             SERVICE_VERSION: $(ServiceVersion)
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
@@ -238,7 +239,7 @@ jobs:
 
               node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - PackageTestPath"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -274,7 +275,7 @@ jobs:
       - ${{ else }}:
         - script: |
             node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - PackagePath"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
@@ -284,7 +285,7 @@ jobs:
 
         - script: |
             node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries"
+          displayName: "Integration test libraries - PackageTestPath"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
