@@ -25,10 +25,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-sms",
   "dependencies": {
-    "@azure/communication-sms": "latest",
-    "dotenv": "latest",
+    "@azure-samples/communication-sms-js": "file:",
     "@azure/communication-common": "^2.2.0",
+    "@azure/communication-sms": "latest",
     "@azure/core-util": "^1.0.0",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
   }
 }

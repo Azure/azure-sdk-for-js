@@ -2343,6 +2343,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-lambdatesthyperexecute",
+      "projectFolder": "sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dependencymap",
+      "projectFolder": "sdk/dependencymap/arm-dependencymap",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-programmableconnectivity",
       "projectFolder": "sdk/programmableconnectivity/arm-programmableconnectivity",
       "versionPolicyName": "management"
@@ -2355,6 +2365,11 @@
     {
       "packageName": "@azure/arm-onlineexperimentation",
       "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-carbonoptimization",
+      "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
       "versionPolicyName": "management"
     }
   ]

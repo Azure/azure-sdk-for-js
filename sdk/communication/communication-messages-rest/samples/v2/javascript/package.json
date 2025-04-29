@@ -27,9 +27,10 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest",
   "dependencies": {
     "@azure-rest/communication-messages": "latest",
-    "dotenv": "latest",
+    "@azure-samples/communication-messages-js": "file:",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-util": "^1.7.0",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
   }
 }

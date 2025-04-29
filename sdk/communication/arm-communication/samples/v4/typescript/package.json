@@ -29,13 +29,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication",
   "dependencies": {
+    "@azure-samples/arm-communication-ts": "file:",
     "@azure/arm-communication": "latest",
-    "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "typescript": "~5.8.2"
   }
 }

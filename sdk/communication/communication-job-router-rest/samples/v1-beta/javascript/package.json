@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest",
   "dependencies": {
     "@azure-rest/communication-job-router": "next",
+    "@azure-samples/communication-job-router-js-beta": "file:",
     "dotenv": "latest"
   }
 }
