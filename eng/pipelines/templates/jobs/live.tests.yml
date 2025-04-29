@@ -215,9 +215,9 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              node ../../../common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries - PackagePath"
+          displayName: "Test libraries - PackagePath"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -237,7 +237,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries - PackageTestPath"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
@@ -274,7 +274,7 @@ jobs:
 
       - ${{ else }}:
         - script: |
-            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+            node ../../../common/scripts/install-run-rushx.js test:$(TestType)
           displayName: "Integration test libraries - PackagePath"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
@@ -284,7 +284,7 @@ jobs:
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - script: |
-            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
           displayName: "Integration test libraries - PackageTestPath"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))

@@ -37,8 +37,6 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
     switch (actionComponents[0]) {
       case "build":
       case "test":
-      case "unit-test":
-      case "integration-test":
         exitCode = rushRunAllWithDirection(
           action,
           getDirectionMappedPackages(packageNames, action, serviceDirs),
