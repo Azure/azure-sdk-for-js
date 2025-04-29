@@ -26,10 +26,13 @@ const config = {
     ],
     typecheck: {
       ...mergedConfig.typecheck,
-      include: ["test/integration/**/*.ts", "test/integration/**/*.mts", "test/integration/**/*.cts"],
+      include: [
+        "test/integration/**/*.ts", 
+        "test/integration/**/*.mts", 
+        "test/integration/**/*.cts"
+      ],
     },
   },
 };
 
-console.log("vitest.managed-identity.config.ts", JSON.stringify(config, null, 2));
 export default config;

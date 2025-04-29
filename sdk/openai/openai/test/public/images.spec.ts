@@ -24,10 +24,13 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
         run: (client, deploymentName) =>
           client.images.generate({ model: deploymentName, prompt, n, size }),
         validate: (item) => assertImagesWithURLs(item, height, width),
+        modelsListToSkip: [
+          { name: "gpt-image-1" }, // always responds with b64_json
+        ],
       });
     });
 
-    describe("generates image strings", () => {
+    describe("generates image strings with response_format", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
         run: (client, deploymentName) =>
@@ -38,7 +41,28 @@ describe.concurrent.each(APIMatrix)("Images [%s]", (apiVersion: APIVersion) => {
             size,
             response_format: "b64_json",
           }),
+        modelsListToSkip: [
+          { name: "gpt-image-1" }, // `response_format` parameter is not supported for this model
+        ],
         validate: (item) => assertImagesWithJSON(item, height, width),
+      });
+    });
+
+    describe("generates image strings without response_format", () => {
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: (client, deploymentName) =>
+          client.images.generate({
+            model: deploymentName,
+            prompt,
+            n,
+            size,
+            quality: "medium",
+          }),
+        validate: (item) => assertImagesWithJSON(item, height, width),
+        modelsListToSkip: [
+          { name: "dall-e-3" }, // quality values are different for dalle3 and gpt-image-1
+        ],
       });
     });
   });

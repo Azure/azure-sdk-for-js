@@ -16,17 +16,16 @@ describe("Azure Kubernetes Integration test", function () {
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
     console.log("Does token exist?", typeof process.env.ARM_OIDC_TOKEN);
 
-    // Log in as service principal in CI
-    const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
-    const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
-    const oidc = requireEnvVar("ARM_OIDC_TOKEN");
-    console.log("Running login command with", subscriptionId, clientId, tenantId);
-    console.log("OIDC token lenth", oidc.length);
-    
-    runCommand(
-      "az",
-      `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
-    );
+    if (process.env.ARM_OIDC_TOKEN) {
+      // Log in as service principal in CI
+      const clientId = requireEnvVar("AZURE_CLIENT_ID");
+      const tenantId = requireEnvVar("AZURE_TENANT_ID");
+      const oidc = requireEnvVar("ARM_OIDC_TOKEN");
+      runCommand(
+        "az",
+        `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
+      );
+    }
 
     runCommand("az", `account set --subscription ${subscriptionId}`);
     runCommand(
