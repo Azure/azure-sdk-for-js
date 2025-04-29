@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   LoadBalancer,
   LoadBalancersListByManagedClusterOptionalParams,
   LoadBalancersGetOptionalParams,
@@ -51,12 +51,14 @@ export interface LoadBalancers {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param loadBalancerName The name of the load balancer.
+   * @param parameters The load balancer to create or update.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     resourceName: string,
     loadBalancerName: string,
+    parameters: LoadBalancer,
     options?: LoadBalancersCreateOrUpdateOptionalParams,
   ): Promise<LoadBalancersCreateOrUpdateResponse>;
   /**

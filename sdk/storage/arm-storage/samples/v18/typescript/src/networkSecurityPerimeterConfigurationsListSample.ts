@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets list of effective NetworkSecurityPerimeterConfiguration for storage account
  *
  * @summary Gets list of effective NetworkSecurityPerimeterConfiguration for storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/NetworkSecurityPerimeterConfigurationList.json
  */
 async function networkSecurityPerimeterConfigurationList(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function networkSecurityPerimeterConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkSecurityPerimeterConfigurations.list(
+  for await (const item of client.networkSecurityPerimeterConfigurations.list(
     resourceGroupName,
     accountName,
   )) {
@@ -37,7 +37,7 @@ async function networkSecurityPerimeterConfigurationList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkSecurityPerimeterConfigurationList();
+  await networkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

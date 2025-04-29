@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates vault security config.
  *
  * @summary Updates vault security config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupResourceVaultConfigs_Patch.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupResourceVaultConfigs_Patch.json
  */
 async function updateVaultSecurityConfig() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function updateVaultSecurityConfig() {
 }
 
 async function main() {
-  updateVaultSecurityConfig();
+  await updateVaultSecurityConfig();
 }
 
 main().catch(console.error);

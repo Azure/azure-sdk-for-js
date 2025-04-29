@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all file services in storage accounts
  *
  * @summary List all file services in storage accounts
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesList.json
  */
 async function listFileServices(): Promise<void> {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listFileServices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listFileServices();
+  await listFileServices();
 }
 
 main().catch(console.error);

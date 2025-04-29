@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.4 (Unreleased)
+## 2.3.6 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,22 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.5 (2025-04-07)
+
+### Features Added
+
+- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
+
+### Other Changes
+
+- Handling REST errors that don't have a response body.
+
+## 2.3.4 (2025-03-06)
+
+### Bugs Fixed
+
+- `asNodeStream` and `asBrowserStream` now throw when called in the incorrect environment instead of returning the wrong type of stream. PR [#33138](https://github.com/Azure/azure-sdk-for-js/pull/33138)
 
 ## 2.3.3 (2025-02-06)
 

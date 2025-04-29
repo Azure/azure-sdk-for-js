@@ -11,9 +11,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
-
-// @public
 export interface AccountEncryption {
     identity?: EncryptionIdentity;
     keySource?: KeySource;
@@ -85,7 +82,7 @@ export interface AccountsGetChangeKeyVaultInformationOptionalParams extends core
 }
 
 // @public
-export type AccountsGetChangeKeyVaultInformationResponse = AccountsGetChangeKeyVaultInformationHeaders;
+export type AccountsGetChangeKeyVaultInformationResponse = GetKeyVaultStatusResponse;
 
 // @public
 export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
@@ -199,12 +196,14 @@ export interface Backup extends ProxyResource {
     readonly backupId?: string;
     readonly backupPolicyResourceId?: string;
     readonly backupType?: BackupType;
+    readonly completionDate?: Date;
     readonly creationDate?: Date;
     readonly failureReason?: string;
     readonly isLargeVolume?: boolean;
     label?: string;
     readonly provisioningState?: string;
     readonly size?: number;
+    readonly snapshotCreationDate?: Date;
     snapshotName?: string;
     useExistingSnapshot?: boolean;
     volumeResourceId: string;
@@ -593,7 +592,6 @@ export interface BreakReplicationRequest {
 // @public
 export interface CapacityPool extends TrackedResource {
     coolAccess?: boolean;
-    customThroughputMibps?: number;
     encryptionType?: EncryptionType;
     readonly etag?: string;
     readonly poolId?: string;
@@ -614,7 +612,6 @@ export interface CapacityPoolList {
 // @public
 export interface CapacityPoolPatch {
     coolAccess?: boolean;
-    customThroughputMibps?: number;
     readonly id?: string;
     location?: string;
     readonly name?: string;
@@ -668,6 +665,9 @@ export interface ClusterPeerCommandResponse {
 
 // @public
 export type CoolAccessRetrievalPolicy = string;
+
+// @public
+export type CoolAccessTieringPolicy = string;
 
 // @public
 export type CreatedByType = string;
@@ -782,6 +782,14 @@ export interface GetGroupIdListForLdapUserResponse {
 }
 
 // @public
+export interface GetKeyVaultStatusResponse {
+    keyName?: string;
+    keyVaultPrivateEndpoints?: KeyVaultPrivateEndpoint[];
+    keyVaultResourceId?: string;
+    keyVaultUri?: string;
+}
+
+// @public
 export interface HourlySchedule {
     minute?: number;
     snapshotsToKeep?: number;
@@ -811,12 +819,6 @@ export interface KeyVaultProperties {
 
 // @public
 export type KeyVaultStatus = string;
-
-// @public
-export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
-    Accepted = "Accepted",
-    Declined = "Declined"
-}
 
 // @public
 export enum KnownActiveDirectoryStatus {
@@ -872,6 +874,12 @@ export enum KnownCoolAccessRetrievalPolicy {
     Default = "Default",
     Never = "Never",
     OnRead = "OnRead"
+}
+
+// @public
+export enum KnownCoolAccessTieringPolicy {
+    Auto = "Auto",
+    SnapshotOnly = "SnapshotOnly"
 }
 
 // @public
@@ -954,6 +962,12 @@ export enum KnownMirrorState {
 }
 
 // @public
+export enum KnownMultiAdStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownNetworkFeatures {
     Basic = "Basic",
     BasicStandard = "Basic_Standard",
@@ -1016,7 +1030,6 @@ export enum KnownSecurityStyle {
 
 // @public
 export enum KnownServiceLevel {
-    Flexible = "Flexible",
     Premium = "Premium",
     Standard = "Standard",
     StandardZRS = "StandardZRS",
@@ -1044,79 +1057,6 @@ export enum KnownType {
 }
 
 // @public
-export enum KnownVolumeLanguage {
-    Ar = "ar",
-    ArUtf8 = "ar.utf-8",
-    C = "c",
-    Cs = "cs",
-    CsUtf8 = "cs.utf-8",
-    CUtf8 = "c.utf-8",
-    Da = "da",
-    DaUtf8 = "da.utf-8",
-    De = "de",
-    DeUtf8 = "de.utf-8",
-    En = "en",
-    EnUs = "en-us",
-    EnUsUtf8 = "en-us.utf-8",
-    EnUtf8 = "en.utf-8",
-    Es = "es",
-    EsUtf8 = "es.utf-8",
-    Fi = "fi",
-    FiUtf8 = "fi.utf-8",
-    Fr = "fr",
-    FrUtf8 = "fr.utf-8",
-    He = "he",
-    HeUtf8 = "he.utf-8",
-    Hr = "hr",
-    HrUtf8 = "hr.utf-8",
-    Hu = "hu",
-    HuUtf8 = "hu.utf-8",
-    It = "it",
-    ItUtf8 = "it.utf-8",
-    Ja = "ja",
-    JaJp932 = "ja-jp.932",
-    JaJp932Utf8 = "ja-jp.932.utf-8",
-    JaJpPck = "ja-jp.pck",
-    JaJpPckUtf8 = "ja-jp.pck.utf-8",
-    JaJpPckV2 = "ja-jp.pck-v2",
-    JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
-    JaUtf8 = "ja.utf-8",
-    JaV1 = "ja-v1",
-    JaV1Utf8 = "ja-v1.utf-8",
-    Ko = "ko",
-    KoUtf8 = "ko.utf-8",
-    Nl = "nl",
-    NlUtf8 = "nl.utf-8",
-    No = "no",
-    NoUtf8 = "no.utf-8",
-    Pl = "pl",
-    PlUtf8 = "pl.utf-8",
-    Pt = "pt",
-    PtUtf8 = "pt.utf-8",
-    Ro = "ro",
-    RoUtf8 = "ro.utf-8",
-    Ru = "ru",
-    RuUtf8 = "ru.utf-8",
-    Sk = "sk",
-    SkUtf8 = "sk.utf-8",
-    Sl = "sl",
-    SlUtf8 = "sl.utf-8",
-    Sv = "sv",
-    SvUtf8 = "sv.utf-8",
-    Tr = "tr",
-    TrUtf8 = "tr.utf-8",
-    Utf8Mb4 = "utf8mb4",
-    Zh = "zh",
-    ZhGbk = "zh.gbk",
-    ZhGbkUtf8 = "zh.gbk.utf-8",
-    ZhTw = "zh-tw",
-    ZhTwBig5 = "zh-tw.big5",
-    ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
-    ZhTwUtf8 = "zh-tw.utf-8",
-    ZhUtf8 = "zh.utf-8"
-}
-
-// @public
 export enum KnownVolumeStorageToNetworkProximity {
     AcrossT2 = "AcrossT2",
     Default = "Default",
@@ -1129,12 +1069,6 @@ export interface LdapSearchScopeOpt {
     groupDN?: string;
     groupMembershipFilter?: string;
     userDN?: string;
-}
-
-// @public
-export interface ListQuotaReportResponse {
-    nextLink?: string;
-    value?: QuotaReport[];
 }
 
 // @public
@@ -1220,13 +1154,16 @@ export interface MountTargetProperties {
 }
 
 // @public
+export type MultiAdStatus = string;
+
+// @public
 export interface NetAppAccount extends TrackedResource {
     activeDirectories?: ActiveDirectory[];
     readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
-    readonly isMultiAdEnabled?: boolean;
+    readonly multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string;
     readonly provisioningState?: string;
 }
@@ -1244,8 +1181,8 @@ export interface NetAppAccountPatch {
     encryption?: AccountEncryption;
     readonly id?: string;
     identity?: ManagedServiceIdentity;
-    readonly isMultiAdEnabled?: boolean;
     location?: string;
+    readonly multiAdStatus?: MultiAdStatus;
     readonly name?: string;
     nfsV4IDDomain?: string;
     readonly provisioningState?: string;
@@ -1282,6 +1219,8 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     netAppResourceQuotaLimits: NetAppResourceQuotaLimits;
     // (undocumented)
     netAppResourceRegionInfos: NetAppResourceRegionInfos;
+    // (undocumented)
+    netAppResourceUsages: NetAppResourceUsages;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -1419,6 +1358,33 @@ export interface NetAppResourceUpdateNetworkSiblingSetOptionalParams extends cor
 export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 // @public
+export interface NetAppResourceUsages {
+    get(location: string, usageType: string, options?: NetAppResourceUsagesGetOptionalParams): Promise<NetAppResourceUsagesGetResponse>;
+    list(location: string, options?: NetAppResourceUsagesListOptionalParams): PagedAsyncIterableIterator<UsageResult>;
+}
+
+// @public
+export interface NetAppResourceUsagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesGetResponse = UsageResult;
+
+// @public
+export interface NetAppResourceUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesListNextResponse = UsagesListResult;
+
+// @public
+export interface NetAppResourceUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceUsagesListResponse = UsagesListResult;
+
+// @public
 export type NetworkFeatures = string;
 
 // @public
@@ -1458,6 +1424,7 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationListResult {
+    readonly nextLink?: string;
     value?: Operation[];
 }
 
@@ -1465,6 +1432,13 @@ export interface OperationListResult {
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
@@ -1567,16 +1541,6 @@ export interface QuotaAvailabilityRequest {
     name: string;
     resourceGroup: string;
     type: CheckQuotaNameResourceTypes;
-}
-
-// @public
-export interface QuotaReport {
-    isDerivedQuota?: boolean;
-    percentageUsed?: number;
-    quotaLimitTotalInKiBs?: number;
-    quotaLimitUsedInKiBs?: number;
-    quotaTarget?: string;
-    quotaType?: Type;
 }
 
 // @public
@@ -2049,6 +2013,27 @@ export interface UpdateNetworkSiblingSetRequest {
 }
 
 // @public
+export interface UsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface UsageResult {
+    readonly currentValue?: number;
+    readonly id?: string;
+    readonly limit?: number;
+    readonly name?: UsageName;
+    readonly unit?: string;
+}
+
+// @public
+export interface UsagesListResult {
+    nextLink?: string;
+    value?: UsageResult[];
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -2056,7 +2041,6 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Volume extends TrackedResource {
-    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
@@ -2065,6 +2049,7 @@ export interface Volume extends TrackedResource {
     readonly cloneProgress?: number;
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
     coolnessPeriod?: number;
     creationToken: string;
     dataProtection?: VolumePropertiesDataProtection;
@@ -2080,13 +2065,11 @@ export interface Volume extends TrackedResource {
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
-    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
-    isRestoring?: boolean;
+    readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
-    language?: VolumeLanguage;
     ldapEnabled?: boolean;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
@@ -2209,7 +2192,6 @@ export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupVolumeProperties {
-    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
@@ -2218,6 +2200,7 @@ export interface VolumeGroupVolumeProperties {
     readonly cloneProgress?: number;
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
     coolnessPeriod?: number;
     creationToken: string;
     dataProtection?: VolumePropertiesDataProtection;
@@ -2233,13 +2216,11 @@ export interface VolumeGroupVolumeProperties {
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
     readonly id?: string;
-    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
-    isRestoring?: boolean;
+    readonly isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
-    language?: VolumeLanguage;
     ldapEnabled?: boolean;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
@@ -2277,9 +2258,6 @@ export interface VolumeGroupVolumeProperties {
 }
 
 // @public
-export type VolumeLanguage = string;
-
-// @public
 export interface VolumeList {
     nextLink?: string;
     value?: Volume[];
@@ -2289,6 +2267,7 @@ export interface VolumeList {
 export interface VolumePatch {
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+    coolAccessTieringPolicy?: CoolAccessTieringPolicy;
     coolnessPeriod?: number;
     dataProtection?: VolumePatchPropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
@@ -2443,8 +2422,6 @@ export interface Volumes {
     beginFinalizeRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<void>;
     beginListGetGroupIdListForLdapUser(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<SimplePollerLike<OperationState<VolumesListGetGroupIdListForLdapUserResponse>, VolumesListGetGroupIdListForLdapUserResponse>>;
     beginListGetGroupIdListForLdapUserAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
-    beginListQuotaReport(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams): Promise<SimplePollerLike<OperationState<VolumesListQuotaReportResponse>, VolumesListQuotaReportResponse>>;
-    beginListQuotaReportAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams): Promise<VolumesListQuotaReportResponse>;
     beginPeerExternalCluster(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerExternalClusterOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPeerExternalClusterResponse>, VolumesPeerExternalClusterResponse>>;
     beginPeerExternalClusterAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerExternalClusterOptionalParams): Promise<VolumesPeerExternalClusterResponse>;
     beginPerformReplicationTransfer(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPerformReplicationTransferOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPerformReplicationTransferResponse>, VolumesPerformReplicationTransferResponse>>;
@@ -2467,8 +2444,6 @@ export interface Volumes {
     beginRevertAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumeRevert, options?: VolumesRevertOptionalParams): Promise<void>;
     beginRevertRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRevertRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<void>;
-    beginSplitCloneFromParent(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesSplitCloneFromParentOptionalParams): Promise<SimplePollerLike<OperationState<VolumesSplitCloneFromParentResponse>, VolumesSplitCloneFromParentResponse>>;
-    beginSplitCloneFromParentAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesSplitCloneFromParentOptionalParams): Promise<VolumesSplitCloneFromParentResponse>;
     beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
@@ -2595,21 +2570,6 @@ export interface VolumesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface VolumesListQuotaReportHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumesListQuotaReportOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VolumesListQuotaReportResponse = ListQuotaReportResponse;
-
-// @public
 export interface VolumesListReplicationsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2733,21 +2693,6 @@ export interface VolumesRevertRelocationOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface VolumesSplitCloneFromParentHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VolumesSplitCloneFromParentOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VolumesSplitCloneFromParentResponse = VolumesSplitCloneFromParentHeaders;
 
 // @public
 export type VolumeStorageToNetworkProximity = string;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TelemetryItem as Envelope } from "./models/index";
+import type { TelemetryItem as Envelope } from "./models/index.js";
 
 export interface Expectation extends Partial<Envelope> {
   children: Expectation[];

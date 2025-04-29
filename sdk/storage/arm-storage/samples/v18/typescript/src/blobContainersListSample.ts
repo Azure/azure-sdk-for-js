@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersList.json
  */
 async function listContainers(): Promise<void> {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
   )) {
@@ -42,7 +42,7 @@ async function listContainers(): Promise<void> {
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  *
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedBlobContainersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/DeletedBlobContainersList.json
  */
 async function listDeletedContainers(): Promise<void> {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function listDeletedContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
     options,
@@ -65,8 +65,8 @@ async function listDeletedContainers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listContainers();
-  listDeletedContainers();
+  await listContainers();
+  await listDeletedContainers();
 }
 
 main().catch(console.error);

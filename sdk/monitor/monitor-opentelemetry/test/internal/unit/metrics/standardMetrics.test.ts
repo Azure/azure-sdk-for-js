@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import * as sinon from "sinon";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
@@ -17,40 +15,46 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_K8S_DEPLOYMENT_NAME,
   SEMRESATTRS_K8S_POD_NAME,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_USER_AGENT_ORIGINAL,
+  ATTR_CLIENT_ADDRESS,
+  ATTR_SERVER_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
-import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
-import { InternalConfig } from "../../../../src/shared";
-import { getDependencyTarget } from "../../../../src/metrics/utils";
+import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
+import { getDependencyTarget } from "../../../../src/metrics/utils.js";
+import type { MockInstance } from "vitest";
+import { expect, afterAll, afterEach, beforeAll, describe, it, vi, assert } from "vitest";
 
 describe("#StandardMetricsHandler", () => {
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance<(typeof autoCollect)["_azureExporter"]["export"]>;
   let autoCollect: StandardMetrics;
 
-  before(() => {
+  beforeAll(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new StandardMetrics(config, { collectionInterval: 100 });
-    exportStub = sinon.stub(autoCollect["_azureExporter"], "export").callsFake(
-      (spans: any, resultCallback: any) =>
+    exportStub = vi.spyOn(autoCollect["_azureExporter"], "export").mockImplementation(
+      (_, resultCallback) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
           });
-          resolve(spans);
+          resolve();
         }),
     );
   });
 
   afterEach(() => {
-    exportStub.resetHistory();
+    exportStub.mockReset();
   });
 
-  after(() => {
-    exportStub.restore();
+  afterAll(() => {
+    vi.restoreAllMocks();
     autoCollect.shutdown();
   });
 
@@ -70,9 +74,9 @@ describe("#StandardMetricsHandler", () => {
     clientSpan.attributes[SEMATTRS_PEER_SERVICE] = "testPeerService";
     autoCollect.recordSpan(clientSpan);
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    assert.ok(exportStub.called);
+    expect(exportStub).toHaveBeenCalled();
 
-    const resourceMetrics = exportStub.args[0][0];
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -137,8 +141,8 @@ describe("#StandardMetricsHandler", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -245,8 +249,38 @@ describe("#StandardMetricsHandler", () => {
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+    assert.strictEqual(metrics.length, 1, "metrics count");
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
+    assert.equal(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
+  });
+
+  it("[new sem conv] should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
+    const resource = new Resource({});
+    const serverSpan: any = {
+      kind: SpanKind.SERVER,
+      duration: [654321],
+      status: { code: SpanStatusCode.OK },
+      attributes: {
+        [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
+        [ATTR_USER_AGENT_ORIGINAL]: "AlwaysOn",
+      },
+      resource: resource,
+    };
+    autoCollect.recordSpan(serverSpan);
+
+    for (let i = 0; i < 10; i++) {
+      serverSpan.duration[0] = i * 100000;
+      autoCollect.recordSpan(serverSpan);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -290,8 +324,8 @@ describe("#StandardMetricsHandler", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -317,20 +351,35 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(getDependencyTarget(attributes), "");
   });
 
+  it("[new sem conv] should set dependency targets", () => {
+    let attributes: Attributes;
+
+    attributes = { [SEMATTRS_PEER_SERVICE]: "TestService" };
+    assert.strictEqual(getDependencyTarget(attributes), "TestService");
+
+    attributes = { [ATTR_CLIENT_ADDRESS]: "test.com" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com");
+
+    attributes = { [ATTR_CLIENT_ADDRESS]: "test.com", [ATTR_SERVER_PORT]: "8080" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com:8080");
+
+    attributes = { "unknown.attribute": "value" };
+    assert.strictEqual(getDependencyTarget(attributes), "");
+  });
+
   it("should retrieve meter provider", () => {
     assert.ok(autoCollect.getMeterProvider());
   });
 
-  it("should not collect when disabled", () => {
+  it("should not collect when disabled", async () => {
     autoCollect.shutdown();
-    setTimeout(() => {
-      assert.ok(exportStub.notCalled);
-    }, 120);
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    expect(exportStub).not.toHaveBeenCalled();
   });
 
   it("should calculate even if telemetry is sampled out", async () => {
     autoCollect.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
+    expect(exportStub).not.toHaveBeenCalled();
   });
 });

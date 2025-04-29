@@ -85,7 +85,6 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 | [InteractiveBrowserCredential](#authenticating-a-user-account-interactively-in-the-browser) | Interactively authenticates a user with the default system browser.                                                     | None                                                             |
 | [DeviceCodeCredential](#authenticating-a-user-account-with-device-code-flow)                | Interactively authenticates a user by having user post the provided code in the given url on same or different machine. | None                                                             |
 | [AuthorizationCodeCredential](#authenticating-a-user-account-with-auth-code-flow)           | Authenticate a user with a previously obtained authorization.                                                           | Yes, please see the linked example.                              |
-| [UsernamePasswordCredential](#authenticating-a-user-account-with-username-and-password)     | Authenticates a user with a username and password.                                                                      | [Application Registration][quickstart-register-app] is required. |
 
 ### Authenticating User Accounts with developer tools
 
@@ -374,27 +373,6 @@ function withDeviceCodeCredential() {
     (deviceCodeInfo) => {
       console.log(deviceCodeInfo.message);
     },
-  );
-  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
-}
-```
-
-#### Authenticating a user account with username and password
-
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `UsernamePasswordCredential`. The user must **not** have Multi-factor auth turned on.
-
-Apart from user name and password, this credential requires you to know the tenant ID and client ID. To get the client ID, first [register your application][quickstart-register-app].
-
-```ts
-/**
- *  Authenticate with a username and password.
- */
-function withUsernamePasswordCredential() {
-  let credential = new UsernamePasswordCredential(
-    "<YOUR_TENANT_ID>",
-    "<YOUR_CLIENT_ID>",
-    "<USERNAME>",
-    "<PASSWORD>",
   );
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }

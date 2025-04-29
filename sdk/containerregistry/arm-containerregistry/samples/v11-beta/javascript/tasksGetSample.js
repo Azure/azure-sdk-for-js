@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the properties of a specified task.
  *
  * @summary Get the properties of a specified task.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksGet.json
  */
 async function tasksGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function tasksGet() {
 }
 
 async function main() {
-  tasksGet();
+  await tasksGet();
 }
 
 main().catch(console.error);

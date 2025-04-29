@@ -15,16 +15,16 @@ import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 import type { AzureOpenAI } from "openai";
 
 describe("Realtime", () => {
-  matrix([[APIVersion["2024_10_01_preview"]]] as const, async function (apiVersion: APIVersion) {
+  matrix([[APIVersion["v2024_10_01_preview"]]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });
       });
 
       describe("OpenAIRealtimeWS", function () {
-        it("ws.azure", async function () {
+        it("ws.azure", async () => {
           await withDeployments(clientAndDeployments, async (client, deploymentName) => {
             const rt = await OpenAIRealtimeWS.azure(client as AzureOpenAI, { deploymentName });
             await new Promise<void>((resolve, reject) => {

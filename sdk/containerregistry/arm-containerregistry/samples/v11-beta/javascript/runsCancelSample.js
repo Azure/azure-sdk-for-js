@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Cancel an existing run.
  *
  * @summary Cancel an existing run.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RunsCancel.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RunsCancel.json
  */
 async function runsCancel() {
   const subscriptionId =
@@ -26,12 +26,12 @@ async function runsCancel() {
   const runId = "0accec26-d6de-4757-8e74-d080f38eaaab";
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.runs.beginCancelAndWait(resourceGroupName, registryName, runId);
+  const result = await client.runs.cancel(resourceGroupName, registryName, runId);
   console.log(result);
 }
 
 async function main() {
-  runsCancel();
+  await runsCancel();
 }
 
 main().catch(console.error);

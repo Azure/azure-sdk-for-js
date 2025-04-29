@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the agent pools for a specified container registry.
  *
  * @summary Lists all the agent pools for a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/AgentPoolsList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/AgentPoolsList.json
  */
 async function agentPoolsList() {
   const subscriptionId =
@@ -26,14 +26,14 @@ async function agentPoolsList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.agentPools.list(resourceGroupName, registryName)) {
+  for await (const item of client.agentPools.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  agentPoolsList();
+  await agentPoolsList();
 }
 
 main().catch(console.error);

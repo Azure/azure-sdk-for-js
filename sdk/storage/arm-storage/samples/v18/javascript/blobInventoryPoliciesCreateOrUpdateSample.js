@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountSetBlobInventoryPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountSetBlobInventoryPolicy.json
  */
 async function storageAccountSetBlobInventoryPolicy() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -98,7 +98,7 @@ async function storageAccountSetBlobInventoryPolicy() {
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -198,7 +198,7 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForH
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -294,9 +294,9 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForN
 }
 
 async function main() {
-  storageAccountSetBlobInventoryPolicy();
-  storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount();
-  storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount();
+  await storageAccountSetBlobInventoryPolicy();
+  await storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount();
+  await storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount();
 }
 
 main().catch(console.error);

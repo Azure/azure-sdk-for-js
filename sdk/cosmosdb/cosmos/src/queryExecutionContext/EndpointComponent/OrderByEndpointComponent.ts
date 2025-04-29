@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import type { Response } from "../../request";
-import type { ExecutionContext } from "../ExecutionContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {

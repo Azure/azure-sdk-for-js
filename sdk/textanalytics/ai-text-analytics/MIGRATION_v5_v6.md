@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Migrating to `@azure/ai-text-analytics` Version 6
 
 **Note ⚠️**: `@azure/ai-text-analytics` version 6 is currently a beta package. Certain aspects of the package's API surface and implementation may change during the course of its development, and this document is a work-in-progress and may change to reflect updates to the package. We value your feedback, and it is especially useful during the beta development cycle. Please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.

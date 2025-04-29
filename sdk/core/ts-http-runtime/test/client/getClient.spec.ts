@@ -10,8 +10,9 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "../../src/interfaces.js";
-import type { PipelinePolicy } from "../../src/pipeline.js";
+import { createEmptyPipeline, type PipelinePolicy } from "../../src/pipeline.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { isNodeLike } from "../../src/util/checkEnvironment.js";
 
 describe("getClient", () => {
   afterEach(() => {
@@ -254,10 +255,12 @@ describe("getClient", () => {
         called = true;
       },
     });
-    await res.asNodeStream();
-    assert.isTrue(called);
-    called = false;
-    await res.asBrowserStream();
+
+    if (isNodeLike) {
+      await res.asNodeStream();
+    } else {
+      await res.asBrowserStream();
+    }
     assert.isTrue(called);
   });
 
@@ -314,5 +317,12 @@ describe("getClient", () => {
     await client
       .pathUnchecked("/{foo}/blah", { value: "test/test!@#$%^", allowReserved: true })
       .get();
+  });
+
+  it("setting pipeline property should override the default pipeline", async () => {
+    const pipeline = createEmptyPipeline();
+    const client = getClient("https://example.org", { pipeline });
+    assert.equal(client.pipeline, pipeline);
+    assert.isEmpty(client.pipeline.getOrderedPolicies());
   });
 });

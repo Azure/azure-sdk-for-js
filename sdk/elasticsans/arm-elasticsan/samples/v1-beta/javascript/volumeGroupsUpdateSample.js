@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update an VolumeGroup.
  *
  * @summary Update an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Update_MaximumSet_Gen.json
  */
 async function volumeGroupsUpdateMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -24,27 +24,24 @@ async function volumeGroupsUpdateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const parameters = {
-    identity: { type: "None", userAssignedIdentities: { key1006: {} } },
+    identity: { type: "None", userAssignedIdentities: { key2350: {} } },
     properties: {
+      deleteRetentionPolicy: {
+        policyState: "Enabled",
+        retentionPeriodDays: 14,
+      },
       encryption: "EncryptionAtRestWithPlatformKey",
       encryptionProperties: {
-        encryptionIdentity: {
-          encryptionUserAssignedIdentity: "gfhkfbozahmmwluqndfgxunssafa",
-        },
+        encryptionIdentity: { encryptionUserAssignedIdentity: "vgbeephfgecgg" },
         keyVaultProperties: {
-          keyName: "lunpapamzeimppgobraxjt",
-          keyVaultUri: "https://microsoft.com/a",
-          keyVersion: "oemygbnfmqhijmonkqfqmy",
+          keyName: "rommjwp",
+          keyVaultUri: "https://microsoft.com/at",
+          keyVersion: "ulmxxgzgsuhalwesmhfslq",
         },
       },
       enforceDataIntegrityCheckForIscsi: true,
       networkAcls: {
-        virtualNetworkRules: [
-          {
-            action: "Allow",
-            virtualNetworkResourceId: "bkhwaiqvvaguymsmnzzbzz",
-          },
-        ],
+        virtualNetworkRules: [{ action: "Allow", virtualNetworkResourceId: "fhhawhc" }],
       },
       protocolType: "Iscsi",
     },
@@ -64,7 +61,7 @@ async function volumeGroupsUpdateMaximumSetGen() {
  * This sample demonstrates how to Update an VolumeGroup.
  *
  * @summary Update an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Update_MinimumSet_Gen.json
  */
 async function volumeGroupsUpdateMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -84,8 +81,8 @@ async function volumeGroupsUpdateMinimumSetGen() {
 }
 
 async function main() {
-  volumeGroupsUpdateMaximumSetGen();
-  volumeGroupsUpdateMinimumSetGen();
+  await volumeGroupsUpdateMaximumSetGen();
+  await volumeGroupsUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

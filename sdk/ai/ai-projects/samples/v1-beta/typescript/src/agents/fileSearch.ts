@@ -16,13 +16,12 @@ import { AIProjectsClient, isOutputOfType, ToolUtility } from "@azure/ai-project
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
 import * as fs from "fs";
-import path from "node:path";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(
@@ -31,7 +30,7 @@ export async function main(): Promise<void> {
   );
 
   // Upload file
-  const filePath = path.resolve(__dirname, "../data/sampleFileForUpload.txt");
+  const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
   const file = await client.agents.uploadFile(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",
@@ -49,7 +48,7 @@ export async function main(): Promise<void> {
   const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
   // Create agent with files
-  const agent = await client.agents.createAgent("gpt-4o", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "SDK Test Agent - Retrieval",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
     tools: [fileSearchTool.definition],
@@ -78,7 +77,7 @@ export async function main(): Promise<void> {
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );

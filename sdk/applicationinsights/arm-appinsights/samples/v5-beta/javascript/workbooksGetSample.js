@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a single workbook by its resourceName.
  *
  * @summary Get a single workbook by its resourceName.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookGet.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookGet.json
  */
 async function workbookGet() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
@@ -27,35 +28,35 @@ async function workbookGet() {
   console.log(result);
 }
 
-workbookGet().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a single workbook by its resourceName.
  *
  * @summary Get a single workbook by its resourceName.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookGet1.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookGet1.json
  */
 async function workbookGet1() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.workbooks.get(resourceGroupName, resourceName);
   console.log(result);
 }
-
-workbookGet1().catch(console.error);
 
 /**
  * This sample demonstrates how to Get a single workbook by its resourceName.
  *
  * @summary Get a single workbook by its resourceName.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookManagedGet.json
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookManagedGet.json
  */
 async function workbookManagedGet() {
-  const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "6b643656-33eb-422f-aee8-3ac145d124af";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
@@ -63,4 +64,10 @@ async function workbookManagedGet() {
   console.log(result);
 }
 
-workbookManagedGet().catch(console.error);
+async function main() {
+  await workbookGet();
+  await workbookGet1();
+  await workbookManagedGet();
+}
+
+main().catch(console.error);

@@ -12,11 +12,11 @@ import type { FileObject } from "openai/resources/index";
 import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 
 describe("Batches", () => {
-  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
+  matrix([[APIVersion.v2025_03_01_preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientAndDeployments = createClientsAndDeployments(
           apiVersion,
           {},
@@ -39,7 +39,7 @@ describe("Batches", () => {
           return file;
         }
 
-        it("CRUD operations", async function () {
+        it("CRUD operations", async () => {
           await withDeployments(
             clientAndDeployments,
             async (client, deploymentName) => {

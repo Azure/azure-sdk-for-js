@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the local users associated with the storage account.
  *
  * @summary List the local users associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUsersList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUsersList.json
  */
 async function listLocalUsers(): Promise<void> {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listLocalUsers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localUsersOperations.list(
+  for await (const item of client.localUsersOperations.list(
     resourceGroupName,
     accountName,
   )) {
@@ -42,7 +42,7 @@ async function listLocalUsers(): Promise<void> {
  * This sample demonstrates how to List the local users associated with the storage account.
  *
  * @summary List the local users associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUsersListNFSv3Enabled.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUsersListNFSv3Enabled.json
  */
 async function listNfSv3EnabledLocalUsers(): Promise<void> {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function listNfSv3EnabledLocalUsers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localUsersOperations.list(
+  for await (const item of client.localUsersOperations.list(
     resourceGroupName,
     accountName,
     options,
@@ -65,8 +65,8 @@ async function listNfSv3EnabledLocalUsers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listLocalUsers();
-  listNfSv3EnabledLocalUsers();
+  await listLocalUsers();
+  await listNfSv3EnabledLocalUsers();
 }
 
 main().catch(console.error);

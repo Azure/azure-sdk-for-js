@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -37,7 +37,7 @@ async function privateEndpointConnectionsDeleteMaximumSetGen() {
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -55,8 +55,8 @@ async function privateEndpointConnectionsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  privateEndpointConnectionsDeleteMaximumSetGen();
-  privateEndpointConnectionsDeleteMinimumSetGen();
+  await privateEndpointConnectionsDeleteMaximumSetGen();
+  await privateEndpointConnectionsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

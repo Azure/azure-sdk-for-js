@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a cache rule for a container registry with the specified parameters.
  *
  * @summary Updates a cache rule for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CacheRuleUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/CacheRuleUpdate.json
  */
 async function cacheRuleUpdate() {
   const subscriptionId =
@@ -34,13 +34,13 @@ async function cacheRuleUpdate() {
     resourceGroupName,
     registryName,
     cacheRuleName,
-    cacheRuleUpdateParameters
+    cacheRuleUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  cacheRuleUpdate();
+  await cacheRuleUpdate();
 }
 
 main().catch(console.error);

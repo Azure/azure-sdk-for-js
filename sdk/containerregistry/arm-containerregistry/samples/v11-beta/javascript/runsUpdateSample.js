@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Patch the run properties.
  *
  * @summary Patch the run properties.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RunsUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RunsUpdate.json
  */
 async function runsUpdate() {
   const subscriptionId =
@@ -27,17 +27,17 @@ async function runsUpdate() {
   const runUpdateParameters = { isArchiveEnabled: true };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.runs.beginUpdateAndWait(
+  const result = await client.runs.update(
     resourceGroupName,
     registryName,
     runId,
-    runUpdateParameters
+    runUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  runsUpdate();
+  await runsUpdate();
 }
 
 main().catch(console.error);

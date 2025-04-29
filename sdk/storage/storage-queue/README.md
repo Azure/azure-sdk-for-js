@@ -114,14 +114,14 @@ Key data types in our library related to these services are:
 
 To use the clients, import the package into your file:
 
-```javascript
-const AzureStorageQueue = require("@azure/storage-queue");
+```ts snippet:ignore
+import * as AzureStorageQueue from "@azure/storage-queue";
 ```
 
 Alternatively, selectively import only the types you need:
 
-```javascript
-const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/storage-queue");
+```ts snippet:ignore
+import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
 ```
 
 ### Create the queue service client
@@ -149,9 +149,9 @@ Setup : Reference - Authorize access to blobs and queues with Azure Active Direc
   - From the overview page of your AAD Application, note down the `CLIENT ID` and `TENANT ID`. In the "Certificates & Secrets" tab, create a secret and note that down.
   - Make sure you have `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET` as environment variables to successfully execute the sample (can leverage process.env).
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleCreateClient_DefaultAzureCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { QueueServiceClient } from "@azure/storage-queue";
 
 const account = "<account>";
 const credential = new DefaultAzureCredential();
@@ -168,12 +168,12 @@ const queueServiceClient = new QueueServiceClient(
 
 Alternatively, you can instantiate a `QueueServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.) [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-```javascript
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { QueueServiceClient } from "@azure/storage-queue";
 
-const connStr = "<connection string>";
+const connectionString = "<connection string>";
 
-const queueServiceClient = QueueServiceClient.fromConnectionString(connStr);
+const queueServiceClient = QueueServiceClient.fromConnectionString(connectionString);
 ```
 
 #### with `StorageSharedKeyCredential`
@@ -181,8 +181,8 @@ const queueServiceClient = QueueServiceClient.fromConnectionString(connStr);
 Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-```javascript
-const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleCreateClient_StorageSharedKeyCredential
+import { StorageSharedKeyCredential, QueueServiceClient } from "@azure/storage-queue";
 
 // Enter your storage account name and shared key
 const account = "<account>";
@@ -197,7 +197,9 @@ const queueServiceClient = new QueueServiceClient(
   sharedKeyCredential,
   {
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "BasicSample/V11.0.0" }, // Customized telemetry string
+    userAgentOptions: {
+      userAgentPrefix: "BasicSample V10.0.0",
+    }, // Customized telemetry string
   },
 );
 ```
@@ -206,12 +208,13 @@ const queueServiceClient = new QueueServiceClient(
 
 Also, You can instantiate a `QueueServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
 
-```javascript
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleCreateClient_SASToken
+import { QueueServiceClient } from "@azure/storage-queue";
+
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net${sas}`,
+  `https://${account}.queue.core.windows.net?${sas}`,
 );
 ```
 
@@ -220,55 +223,41 @@ const queueServiceClient = new QueueServiceClient(
 Use `QueueServiceClient.listQueues()` function to iterate the queues,
 with the new `for-await-of` syntax:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleListQueues
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
-async function main() {
-  const iter1 = queueServiceClient.listQueues();
-  let i = 1;
-  for await (const item of iter1) {
-    console.log(`Queue${i}: ${item.name}`);
-    i++;
-  }
+let i = 1;
+for await (const item of queueServiceClient.listQueues()) {
+  console.log(`Queue${i++}: ${item.name}`);
 }
-
-main();
 ```
 
 Alternatively without `for-await-of`:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleListQueues_Iterator
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
-async function main() {
-  const iter2 = queueServiceClient.listQueues();
-  let i = 1;
-  let item = await iter2.next();
-  while (!item.done) {
-    console.log(`Queue ${i++}: ${item.value.name}`);
-    item = await iter2.next();
-  }
+let i = 1;
+const iterator = queueServiceClient.listQueues();
+let { done, value } = await iterator.next();
+while (!done) {
+  console.log(`Queue${i++}: ${value.name}`);
+  ({ done, value } = await iterator.next());
 }
-
-main();
 ```
 
 For a complete sample on iterating queues please see [samples/v12/typescript/listQueues.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/listQueues.ts).
@@ -277,59 +266,45 @@ For a complete sample on iterating queues please see [samples/v12/typescript/lis
 
 Use `QueueServiceClient.getQueueClient()` function to create a new queue.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleCreateQueue
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
 const queueName = "<valid queue name>";
-
-async function main() {
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const createQueueResponse = await queueClient.create();
-  console.log(
-    `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
-  );
-}
-
-main();
+const queueClient = queueServiceClient.getQueueClient(queueName);
+const createQueueResponse = await queueClient.create();
+console.log(
+  `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+);
 ```
 
 ### Send a message to the queue
 
 Use `sendMessage()` to add a message to the queue:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleSendMessage
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
 const queueName = "<valid queue name>";
-
-async function main() {
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  // Send a message into the queue using the sendMessage method.
-  const sendMessageResponse = await queueClient.sendMessage("Hello World!");
-  console.log(
-    `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`,
-  );
-}
-
-main();
+const queueClient = queueServiceClient.getQueueClient(queueName);
+// Send a message into the queue using the sendMessage method.
+const sendMessageResponse = await queueClient.sendMessage("Hello World!");
+console.log(
+  `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`,
+);
 ```
 
 ### Peek a message
@@ -337,27 +312,20 @@ main();
 `QueueClient.peekMessages()` allows looking at one or more messages in front of the queue. This call
 doesn't prevent other code from accessing peeked messages.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSamplePeekMessage
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
 const queueName = "<valid queue name>";
-
-async function main() {
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const peekMessagesResponse = await queueClient.peekMessages();
-  console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
-}
-
-main();
+const queueClient = queueServiceClient.getQueueClient(queueName);
+const peekMessagesResponse = await queueClient.peekMessages();
+console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
 ```
 
 ### Processing a message
@@ -369,64 +337,50 @@ Messages are processed in two steps.
 
 If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleReceiveMessage
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
 const queueName = "<valid queue name>";
-
-async function main() {
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const response = await queueClient.receiveMessages();
-  if (response.receivedMessageItems.length === 1) {
-    const receivedMessageItem = response.receivedMessageItems[0];
-    console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
-    const deleteMessageResponse = await queueClient.deleteMessage(
-      receivedMessageItem.messageId,
-      receivedMessageItem.popReceipt,
-    );
-    console.log(
-      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`,
-    );
-  }
+const queueClient = queueServiceClient.getQueueClient(queueName);
+const response = await queueClient.receiveMessages();
+if (response.receivedMessageItems.length === 1) {
+  const receivedMessageItem = response.receivedMessageItems[0];
+  console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
+  const deleteMessageResponse = await queueClient.deleteMessage(
+    receivedMessageItem.messageId,
+    receivedMessageItem.popReceipt,
+  );
+  console.log(
+    `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`,
+  );
 }
-
-main();
 ```
 
 ### Delete a queue
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { QueueServiceClient } = require("@azure/storage-queue");
+```ts snippet:ReadmeSampleDeleteQueue
+import { QueueServiceClient } from "@azure/storage-queue";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const account = "<account>";
-const credential = new DefaultAzureCredential();
-
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential,
+  new DefaultAzureCredential(),
 );
 
 const queueName = "<valid queue name>";
-
-async function main() {
-  const queueClient = queueServiceClient.getQueueClient(queueName);
-  const deleteQueueResponse = await queueClient.delete();
-  console.log(
-    `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
-  );
-}
-
-main();
+const queueClient = queueServiceClient.getQueueClient(queueName);
+const deleteQueueResponse = await queueClient.delete();
+console.log(
+  `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
+);
 ```
 
 A complete example of simple `QueueServiceClient` scenarios is at [samples/v12/typescript/src/queueClient.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/queueClient.ts).
@@ -435,8 +389,8 @@ A complete example of simple `QueueServiceClient` scenarios is at [samples/v12/t
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

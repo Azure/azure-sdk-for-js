@@ -6,13 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
   DockerBuildRequest,
   EncodedTaskRunRequest,
   FileTaskRunRequest,
   TaskRunRequest,
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,12 +22,14 @@ import "dotenv/config";
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun.json
  */
 async function registriesScheduleRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: DockerBuildRequest = {
     type: "DockerBuildRequest",
@@ -48,8 +52,11 @@ async function registriesScheduleRun(): Promise<void> {
       "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -61,12 +68,14 @@ async function registriesScheduleRun(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_EncodedTaskRun.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_EncodedTaskRun.json
  */
 async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: EncodedTaskRunRequest = {
     type: "EncodedTaskRunRequest",
@@ -85,8 +94,11 @@ async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -98,12 +110,14 @@ async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTaskRun.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_FileTaskRun.json
  */
 async function registriesScheduleRunFileTaskRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: FileTaskRunRequest = {
     type: "FileTaskRunRequest",
@@ -123,8 +137,11 @@ async function registriesScheduleRunFileTaskRun(): Promise<void> {
     valuesFilePath: "prod-values.yaml",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -136,12 +153,14 @@ async function registriesScheduleRunFileTaskRun(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_Task.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_Task.json
  */
 async function registriesScheduleRunTask(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: TaskRunRequest = {
     type: "TaskRunRequest",
@@ -159,14 +178,21 @@ async function registriesScheduleRunTask(): Promise<void> {
       updateTriggerToken: "aGVsbG8gd29ybGQ=",
       values: [
         { name: "mytestname", isSecret: false, value: "mytestvalue" },
-        { name: "mysecrettestname", isSecret: true, value: "mysecrettestvalue" },
+        {
+          name: "mysecrettestname",
+          isSecret: true,
+          value: "mysecrettestvalue",
+        },
       ],
     },
     taskId: "myTask",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -178,12 +204,14 @@ async function registriesScheduleRunTask(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTask_WithCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_FileTask_WithCustomCredentials.json
  */
 async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: FileTaskRunRequest = {
     type: "FileTaskRunRequest",
@@ -208,8 +236,11 @@ async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -221,12 +252,14 @@ async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_WithCustomCredentials.json
  */
 async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: DockerBuildRequest = {
     type: "DockerBuildRequest",
@@ -263,8 +296,11 @@ async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
     target: "stage1",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -276,12 +312,14 @@ async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithLogTemplate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_WithLogTemplate.json
  */
 async function registriesScheduleRunWithLogTemplate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: DockerBuildRequest = {
     type: "DockerBuildRequest",
@@ -305,8 +343,11 @@ async function registriesScheduleRunWithLogTemplate(): Promise<void> {
       "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.registries.beginScheduleRunAndWait(
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,

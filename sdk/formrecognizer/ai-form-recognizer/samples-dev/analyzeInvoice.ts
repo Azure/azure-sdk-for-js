@@ -13,16 +13,14 @@
  * @azsdk-skip-javascript
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
-
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
 import { PrebuiltInvoiceModel } from "./prebuilt/prebuilt-invoice.js";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 

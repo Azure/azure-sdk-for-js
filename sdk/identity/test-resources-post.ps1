@@ -4,17 +4,31 @@
 # IMPORTANT: Do not invoke this file directly. Please instead run eng/New-TestResources.ps1 from the repository root.
 
 param (
-  [Parameter(ValueFromRemainingArguments = $true)]
-  $RemainingArguments,
-
   [Parameter()]
   [hashtable] $DeploymentOutputs,
 
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $SubscriptionId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $TenantId,
+
   [Parameter()]
-  [hashtable] $AdditionalParameters = @{}
+  [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+  [string] $TestApplicationId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $Environment,
+
+  # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
+  [Parameter(ValueFromRemainingArguments = $true)]
+  $RemainingArguments
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
@@ -39,8 +53,8 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $env:ARM_CLIENT_ID --tenant $env:ARM_TENANT_ID --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
-  az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+  az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
+  az account set --subscription $SubscriptionId
 }
 
 # Azure Functions app deployment
@@ -55,17 +69,18 @@ az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESO
 Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 Write-Host "Deployed function app"
 
-Write-Host "Deplying Identity Web App"
-Push-Location "$webappRoot/AzureWebApps"
-npm install
-npm run build
-az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
-Pop-Location
-Write-Host "Deployed Identity Web App"
+# TODO: The deployment step runs into 504 Gateway Timeout error
+# Write-Host "Deplying Identity Web App"
+# Push-Location "$webappRoot/AzureWebApps"
+# npm install
+# npm run build
+# az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
+# Pop-Location
+# Write-Host "Deployed Identity Web App"
 
 Write-Host "Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
-$loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
+$loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
 docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image

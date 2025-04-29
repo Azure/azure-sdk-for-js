@@ -1323,28 +1323,28 @@ const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec =
-{
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+  {
+    path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+    httpMethod: "POST",
+    responses: {
+      200: {},
+      201: {},
+      202: {},
+      204: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.subscriptionId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const customerInitiatedMigrationOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
   httpMethod: "POST",

@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Run,
   RunsListOptionalParams,
@@ -18,7 +17,7 @@ import {
   RunsUpdateResponse,
   RunsGetLogSasUrlOptionalParams,
   RunsGetLogSasUrlResponse,
-  RunsCancelOptionalParams
+  RunsCancelOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +32,7 @@ export interface Runs {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
+    options?: RunsListOptionalParams,
   ): PagedAsyncIterableIterator<Run>;
   /**
    * Gets the detailed information for a given run.
@@ -46,7 +45,7 @@ export interface Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsGetOptionalParams
+    options?: RunsGetOptionalParams,
   ): Promise<RunsGetResponse>;
   /**
    * Patch the run properties.
@@ -56,29 +55,12 @@ export interface Runs {
    * @param runUpdateParameters The run update properties.
    * @param options The options parameters.
    */
-  beginUpdate(
+  update(
     resourceGroupName: string,
     registryName: string,
     runId: string,
     runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>
-  >;
-  /**
-   * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param runUpdateParameters The run update properties.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
+    options?: RunsUpdateOptionalParams,
   ): Promise<RunsUpdateResponse>;
   /**
    * Gets a link to download the run logs.
@@ -91,7 +73,7 @@ export interface Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsGetLogSasUrlOptionalParams
+    options?: RunsGetLogSasUrlOptionalParams,
   ): Promise<RunsGetLogSasUrlResponse>;
   /**
    * Cancel an existing run.
@@ -100,23 +82,10 @@ export interface Runs {
    * @param runId The run ID.
    * @param options The options parameters.
    */
-  beginCancel(
+  cancel(
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsCancelOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param options The options parameters.
-   */
-  beginCancelAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    options?: RunsCancelOptionalParams
+    options?: RunsCancelOptionalParams,
   ): Promise<void>;
 }

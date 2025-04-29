@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Sets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Queue service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/QueueServicesPut.json
  */
 async function queueServicesPut(): Promise<void> {
   const subscriptionId =
@@ -75,7 +75,7 @@ async function queueServicesPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  queueServicesPut();
+  await queueServicesPut();
 }
 
 main().catch(console.error);

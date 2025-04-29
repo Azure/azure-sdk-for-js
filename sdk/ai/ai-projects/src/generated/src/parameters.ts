@@ -1,19 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   CreateAgentOptions,
   ListSortOrder,
   UpdateAgentOptions,
   AgentThreadCreationOptions,
   UpdateAgentThreadOptions,
   ThreadMessageOptions,
+  RunAdditionalFieldList,
   CreateRunOptions,
   ToolOutput,
   CreateAndRunThreadOptions,
   FilePurpose,
+  HttpPartFile,
+  HttpPartFilePurpose,
+  HttpPartString,
   VectorStoreOptions,
   VectorStoreUpdateOptions,
   VectorStoreFileStatusFilter,
@@ -73,6 +77,27 @@ export interface UpdateThreadBodyParam {
 export type UpdateThreadParameters = UpdateThreadBodyParam & RequestParameters;
 export type DeleteThreadParameters = RequestParameters;
 
+export interface ListThreadsQueryParamProperties {
+  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
+  limit?: number;
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: "asc", "desc"
+   */
+  order?: ListSortOrder;
+  /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
+  after?: string;
+  /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
+  before?: string;
+}
+
+export interface ListThreadsQueryParam {
+  queryParameters?: ListThreadsQueryParamProperties;
+}
+
+export type ListThreadsParameters = ListThreadsQueryParam & RequestParameters;
+
 export interface CreateMessageBodyParam {
   body: ThreadMessageOptions;
 }
@@ -115,7 +140,31 @@ export interface CreateRunBodyParam {
   body: CreateRunOptions;
 }
 
-export type CreateRunParameters = CreateRunBodyParam & RequestParameters;
+/** This is the wrapper object for the parameter `include[]` with explode set to false and style set to form. */
+export interface CreateRunIncludeQueryParam {
+  /** Value of the parameter */
+  value: RunAdditionalFieldList[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+export interface CreateRunQueryParamProperties {
+  /**
+   * A list of additional fields to include in the response.
+   * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+   */
+  "include[]"?: RunAdditionalFieldList[] | CreateRunIncludeQueryParam;
+}
+
+export interface CreateRunQueryParam {
+  queryParameters?: CreateRunQueryParamProperties;
+}
+
+export type CreateRunParameters = CreateRunQueryParam &
+  CreateRunBodyParam &
+  RequestParameters;
 
 export interface ListRunsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
@@ -159,9 +208,47 @@ export interface CreateThreadAndRunBodyParam {
 
 export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam &
   RequestParameters;
-export type GetRunStepParameters = RequestParameters;
+
+/** This is the wrapper object for the parameter `include[]` with explode set to false and style set to form. */
+export interface GetRunStepIncludeQueryParam {
+  /** Value of the parameter */
+  value: RunAdditionalFieldList[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+export interface GetRunStepQueryParamProperties {
+  /**
+   * A list of additional fields to include in the response.
+   * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+   */
+  "include[]"?: RunAdditionalFieldList[] | GetRunStepIncludeQueryParam;
+}
+
+export interface GetRunStepQueryParam {
+  queryParameters?: GetRunStepQueryParamProperties;
+}
+
+export type GetRunStepParameters = GetRunStepQueryParam & RequestParameters;
+
+/** This is the wrapper object for the parameter `include[]` with explode set to false and style set to form. */
+export interface ListRunStepsIncludeQueryParam {
+  /** Value of the parameter */
+  value: RunAdditionalFieldList[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
 
 export interface ListRunStepsQueryParamProperties {
+  /**
+   * A list of additional fields to include in the response.
+   * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content.
+   */
+  "include[]"?: RunAdditionalFieldList[] | ListRunStepsIncludeQueryParam;
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -198,27 +285,23 @@ export interface ListFilesQueryParam {
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
+  /** Multipart body */
   body:
     | FormData
     | Array<
         | {
             name: "file";
-            body:
-              | string
-              | Uint8Array
-              | ReadableStream<Uint8Array>
-              | NodeJS.ReadableStream
-              | File;
+            body: HttpPartFile;
             filename?: string;
             contentType?: string;
           }
         | {
             name: "purpose";
-            body: FilePurpose;
+            body: HttpPartFilePurpose;
             filename?: string;
             contentType?: string;
           }
-        | { name: "filename"; body: string }
+        | { name: "filename"; body: HttpPartString }
       >;
 }
 
@@ -303,7 +386,7 @@ export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam &
 export interface CreateVectorStoreFileBodyParam {
   body: {
     file_id?: string;
-    data_sources?: Array<VectorStoreDataSource>;
+    data_source?: VectorStoreDataSource;
     chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
@@ -356,7 +439,11 @@ export type ListVectorStoreFileBatchFilesParameters =
 export type GetWorkspaceParameters = RequestParameters;
 
 export interface ListConnectionsQueryParamProperties {
-  /** Category of the workspace connection. */
+  /**
+   * Category of the workspace connection.
+   *
+   * Possible values: "AzureOpenAI", "Serverless", "AzureBlob", "AIServices", "CognitiveSearch", "ApiKey", "CustomKeys", "CognitiveService"
+   */
   category?: ConnectionType;
   /** Indicates whether to list datastores. Service default: do not list datastores. */
   includeAll?: boolean;

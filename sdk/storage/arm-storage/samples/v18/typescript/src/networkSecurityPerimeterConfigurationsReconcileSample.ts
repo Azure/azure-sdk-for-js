@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Refreshes any information about the association.
  *
  * @summary Refreshes any information about the association.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function networkSecurityPerimeterConfigurationReconcile(): Promise<void> {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function networkSecurityPerimeterConfigurationReconcile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkSecurityPerimeterConfigurationReconcile();
+  await networkSecurityPerimeterConfigurationReconcile();
 }
 
 main().catch(console.error);

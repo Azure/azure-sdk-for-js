@@ -14,12 +14,6 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
-import {
   Run,
   RunsListNextOptionalParams,
   RunsListOptionalParams,
@@ -32,7 +26,7 @@ import {
   RunsGetLogSasUrlOptionalParams,
   RunsGetLogSasUrlResponse,
   RunsCancelOptionalParams,
-  RunsListNextResponse
+  RunsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +51,7 @@ export class RunsImpl implements Runs {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
+    options?: RunsListOptionalParams,
   ): PagedAsyncIterableIterator<Run> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -75,9 +69,9 @@ export class RunsImpl implements Runs {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +79,7 @@ export class RunsImpl implements Runs {
     resourceGroupName: string,
     registryName: string,
     options?: RunsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Run[]> {
     let result: RunsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +95,7 @@ export class RunsImpl implements Runs {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +107,12 @@ export class RunsImpl implements Runs {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
+    options?: RunsListOptionalParams,
   ): AsyncIterableIterator<Run> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +127,11 @@ export class RunsImpl implements Runs {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
+    options?: RunsListOptionalParams,
   ): Promise<RunsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -152,11 +146,11 @@ export class RunsImpl implements Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsGetOptionalParams
+    options?: RunsGetOptionalParams,
   ): Promise<RunsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, runId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,99 +162,17 @@ export class RunsImpl implements Runs {
    * @param runUpdateParameters The run update properties.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  update(
     resourceGroupName: string,
     registryName: string,
     runId: string,
     runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<RunsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        registryName,
-        runId,
-        runUpdateParameters,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      RunsUpdateResponse,
-      OperationState<RunsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Patch the run properties.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param runUpdateParameters The run update properties.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
+    options?: RunsUpdateOptionalParams,
   ): Promise<RunsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      registryName,
-      runId,
-      runUpdateParameters,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, runId, runUpdateParameters, options },
+      updateOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -274,11 +186,11 @@ export class RunsImpl implements Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsGetLogSasUrlOptionalParams
+    options?: RunsGetLogSasUrlOptionalParams,
   ): Promise<RunsGetLogSasUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, runId, options },
-      getLogSasUrlOperationSpec
+      getLogSasUrlOperationSpec,
     );
   }
 
@@ -289,84 +201,16 @@ export class RunsImpl implements Runs {
    * @param runId The run ID.
    * @param options The options parameters.
    */
-  async beginCancel(
+  cancel(
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsCancelOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, runId, options },
-      spec: cancelOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Cancel an existing run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runId The run ID.
-   * @param options The options parameters.
-   */
-  async beginCancelAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    runId: string,
-    options?: RunsCancelOptionalParams
+    options?: RunsCancelOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginCancel(
-      resourceGroupName,
-      registryName,
-      runId,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, runId, options },
+      cancelOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -380,11 +224,11 @@ export class RunsImpl implements Runs {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: RunsListNextOptionalParams
+    options?: RunsListNextOptionalParams,
   ): Promise<RunsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -392,149 +236,132 @@ export class RunsImpl implements Runs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunListResult
+      bodyMapper: Mappers.RunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.registryName,
-    Parameters.resourceGroupName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.runId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Run,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.registryName,
+    Parameters.resourceGroupName1,
+    Parameters.runId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Run
-    },
-    201: {
-      bodyMapper: Mappers.Run
-    },
-    202: {
-      bodyMapper: Mappers.Run
-    },
-    204: {
-      bodyMapper: Mappers.Run
+      bodyMapper: Mappers.Run,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.runUpdateParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.runId
+    Parameters.runId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RunGetLogResult
+      bodyMapper: Mappers.RunGetLogResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.runId
+    Parameters.runId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
   httpMethod: "POST",
   responses: {
     200: {},
-    201: {},
-    202: {},
-    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.resourceGroupName1,
-    Parameters.runId
+    Parameters.runId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunListResult
+      bodyMapper: Mappers.RunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseForContainerRegistry
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.registryName,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
