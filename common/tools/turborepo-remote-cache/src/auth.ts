@@ -7,9 +7,6 @@ import process from "node:process";
 // Token authentication as a Fastify plugin
 export const authenticateToken: FastifyPluginAsync = async (fastify) => {
   fastify.addHook("preHandler", async (request: FastifyRequest, reply: FastifyReply) => {
-    if (process.env.AZURE_CONTAINER_SAS_URL) {
-      return;
-    };
     const authHeader = request.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
 
