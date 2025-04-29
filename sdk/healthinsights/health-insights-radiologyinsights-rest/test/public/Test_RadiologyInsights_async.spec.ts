@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createManagedClient, createRecorder } from "./utils/recordedClient.js";
+import { createTestClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -148,7 +148,7 @@ describe("Radiology Insights Test", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createManagedClient(recorder);
+    client = await createTestClient(recorder);
   });
 
   afterEach(async () => {
