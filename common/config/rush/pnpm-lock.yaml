@@ -3536,7 +3536,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-client@file:projects/core-client.tgz':
-    resolution: {integrity: sha512-j6hx5Yuzt1PhSywtDlY8ky0yfMcCvNxfDk1O0slDdAP0ab84Ax+E5FsM3FJZ9GwjVfsGXEhqUbfOlTfmtk4Oww==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-+NJNEAvfot12qN/e6EqYyY7MzMw2GA2SQQPDzZp+f/DGsXrFJrl8GBGqNIM6E7JoMOU+siBpQUF3w2p70t1Nyw==, tarball: file:projects/core-client.tgz}
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
@@ -3752,7 +3752,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-b6LjLNglBGfbrTXmqOmB8CSVbeXhIRQgUbvW+7Kuq9iiMW7WnJALqlHRT+Tk9uY86xIqSWo8F5CyHsmsWzXPSg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-rDQ+qDu7fLRrh7vnpgr1JTKAyo1uyjvrC/XI/ObEOry4F9miUcAP8T3zcBqK6EEZmMDqpc6PyQU/FSe/zc2Hig==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -5976,6 +5976,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-emoji@2.2.0:
     resolution: {integrity: sha512-Z3lTE9pLaJF47NyMhd4ww1yFTAP8YhYI8SleJiHzM46Fgpm5cnNzSl9XfzFNqbaz+VlJrIj3fXQ4DeN1Rjm6cw==}
@@ -6034,8 +6035,8 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@4.90.0:
-    resolution: {integrity: sha512-YCuHMMycqtCg1B8G9ezkOF0j8UnBWD3Al/zYaelpuXwU1yhCEv+Y4n9G20MnyGy6cH4GsFwOMrgstQ+bgG1PtA==}
+  openai@4.96.0:
+    resolution: {integrity: sha512-dKoW56i02Prv2XQolJ9Rl9Svqubqkzg3QpwEOBuSVZLk05Shelu7s+ErRTwFc1Bs3JZ2qBqBfVpXQiJhwOGG8A==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -21214,7 +21215,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.1(vitest@3.1.1)
       dotenv: 16.4.7
       eslint: 9.23.0
-      openai: 4.90.0(ws@8.18.1)(zod@3.24.2)
+      openai: 4.96.0(ws@8.18.1)(zod@3.24.2)
       playwright: 1.51.1
       tslib: 2.8.1
       typescript: 5.8.2
@@ -25104,7 +25105,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.90.0(ws@8.18.1)(zod@3.24.2):
+  openai@4.96.0(ws@8.18.1)(zod@3.24.2):
     dependencies:
       '@types/node': 18.19.84
       '@types/node-fetch': 2.6.12

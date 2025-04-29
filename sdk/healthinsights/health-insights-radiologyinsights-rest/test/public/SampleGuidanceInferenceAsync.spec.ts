@@ -164,12 +164,11 @@ function findGuidance(res: any): void {
               console.log("   Ranking: ", inference.ranking);
             }
 
-            if ("recommendationProposals" in inference) {
-              console.log(
-                "   Recommendation Proposal: ",
-                inference.recommendationProposals.recommendedProcedure.kind,
-              );
-            }
+            inference.recommendationProposals?.forEach((recomendProposal: any) => {
+              recomendProposal.kind?.forEach((kind: any) => {
+                console.log("   Recommendation Proposal: ", kind);
+              });
+            });
 
             inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
               console.log("   Missing Guidance Information: ", missingInfo);
@@ -197,17 +196,17 @@ function findGuidance(res: any): void {
       console.log("     Present Guidance Value: ", sizes);
     });
 
-    guidanceinfo.sizes?.forEach((sizes: any) => {
-      if ("valueQuantity" in sizes) {
+    guidanceinfo.sizes?.forEach((gsizes: any) => {
+      if ("valueQuantity" in gsizes) {
         console.log("     Size valueQuantity: ");
-        displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
+        displayQuantityOutput(gsizes.valueQuantity);
       }
-      if ("valueRange" in sizes) {
-        if ("low" in sizes.valueRange) {
-          console.log("     Size ValueRange: min", sizes.valueRange.low);
+      if ("valueRange" in gsizes) {
+        if ("low" in gsizes.valueRange) {
+          console.log("     Size ValueRange: min", gsizes.valueRange.low);
         }
-        if ("high" in sizes.valueRange) {
-          console.log("     Size ValueRange: max", sizes.valueRange.high);
+        if ("high" in gsizes.valueRange) {
+          console.log("     Size ValueRange: max", gsizes.valueRange.high);
         }
       }
     });

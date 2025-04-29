@@ -30,7 +30,7 @@ export default function createClient(
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
       : `${userAgentInfo}`;
-  options = {
+  const clientOptions: AzureHealthInsightsClientOptions = {
     ...options,
     userAgentOptions: {
       userAgentPrefix,
@@ -43,23 +43,20 @@ export default function createClient(
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as AzureHealthInsightsClient;
+  const client = getClient(endpointUrl, credentials, clientOptions) as AzureHealthInsightsClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
+        const newUrl = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"}api-version=${apiVersion}`;
+        const newReq = { ...req, url: newUrl };
+        return next(newReq);
       }
-
       return next(req);
-    },
+    }
   });
 
   return client;

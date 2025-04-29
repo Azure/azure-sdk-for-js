@@ -148,7 +148,7 @@ function findSAInference(res: any): void {
             }
 
             if ("singleValue" in inference) {
-              console.log("   Singe Value: ", inference.singleValue);
+              console.log("   Single Value: ", inference.singleValue);
             }
 
             if ("rangeValue" in inference) {
