@@ -21,6 +21,7 @@ export class AIProjectClient {
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
+    readonly enableTelemetry: EnableTelemetryType;
     readonly evaluations: EvaluationsOperations;
     static fromEndpoint(endpoint: string, credential: KeyCredential | TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
     getCredential(): KeyCredential | TokenCredential;
@@ -255,6 +256,9 @@ export interface EmbeddingConfiguration {
     embeddingField: string;
     modelDeploymentName: string;
 }
+
+// @public
+export type EnableTelemetryType = (destination?: string) => void;
 
 // @public
 export interface EntraIDCredentials extends BaseCredentials {
