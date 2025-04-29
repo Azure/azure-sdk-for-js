@@ -5,7 +5,7 @@ import "dotenv/config";
 import Fastify from "fastify";
 import { badRequest, notFound } from "@hapi/boom";
 import { DefaultAzureCredential } from "@azure/identity";
-import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { join } from "node:path";
 import { PassThrough, Readable } from "node:stream";
 import { authenticateToken, authenticateTeamId } from "./auth.js";
@@ -32,20 +32,27 @@ fastify.register(authenticateToken);
 fastify.register(authenticateTeamId);
 
 const port = (process.env.AZURE_CACHE_PORT || 3000) as number;
-const azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT;
-const azureStorageContainerName = process.env.AZURE_STORAGE_CONTAINER_NAME;
 const packageVersion = process.env.PACKAGE_VERSION || "1.0.0";
 
-if (!azureStorageAccount || !azureStorageContainerName) {
-  fastify.log.error("Missing Azure Storage account or container name.");
-  process.exit(1);
-}
+let containerClient: ContainerClient;
 
-const blobServiceClient = new BlobServiceClient(
-  `https://${azureStorageAccount}.blob.core.windows.net`,
-  new DefaultAzureCredential(),
-);
-const containerClient = blobServiceClient.getContainerClient(azureStorageContainerName);
+if (process.env.AZURE_CONTAINER_SAS_URL) {
+  containerClient = new ContainerClient(process.env.AZURE_CONTAINER_SAS_URL);
+} else {
+  const azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT;
+  const azureStorageContainerName = process.env.AZURE_STORAGE_CONTAINER_NAME;
+  if (!azureStorageAccount || !azureStorageContainerName) {
+    fastify.log.error("Missing Azure Storage account or container name.");
+    process.exit(1);
+  }
+
+  const blobServiceClient = new BlobServiceClient(
+    `https://${azureStorageAccount}.blob.core.windows.net`,
+    new DefaultAzureCredential(),
+  );
+
+  containerClient = blobServiceClient.getContainerClient(azureStorageContainerName);
+}
 
 // GET /v8/artifacts/status
 fastify.get("/v8/artifacts/status", async (_request, reply) => {
@@ -204,7 +211,9 @@ fastify.post("/v8/artifacts", async (request, reply) => {
 });
 
 const start = async () => {
-  await containerClient.createIfNotExists();
+  if (!process.env.AZURE_CONTAINER_SAS_URL) {
+    await containerClient.createIfNotExists();
+  }
   fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
     if (err) {
       fastify.log.error(err);

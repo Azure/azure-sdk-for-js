@@ -1,11 +1,11 @@
-# Use an official node 22-slim image
-FROM node:22-slim
+# Use an official node 22 image
+FROM node:22-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# Install Node.js LTS, pnpm, and other dependencies
-RUN apt-get update && apt-get install -y \
-  curl \
-  && npm install -g pnpm \
-  && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install to /bin/bash
+RUN apk add --no-cache bash
 
 # Conditionally install Azure CLI if NODE_ENV is development
 ARG NODE_ENV=production
@@ -19,18 +19,18 @@ WORKDIR /app
 # Copy package.json
 COPY package.json ./
 
-# Install dependencies
-RUN pnpm install
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 
-# Copy the .env file explicitly if it exists
-COPY .env .env
-
-# Copy the rest of the application code, excluding node_modules and .env
+FROM base AS build
 COPY . ./
-RUN rm -rf node_modules && pnpm install --offline
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN pnpm run build
 
-# Build the project
-RUN pnpm build
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/.env /app/.env
 
 # Expose the port the application will run on (if applicable)
 EXPOSE 3000
