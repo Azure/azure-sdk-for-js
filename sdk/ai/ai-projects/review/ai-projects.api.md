@@ -131,7 +131,7 @@ export interface AgentsOperations {
     getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
     getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    getVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
+    getVectorStore: (vectorStoreId: string, options?: GetVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     getVectorStoreFile: (vectorStoreId: string, fileId: string, options?: GetVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
@@ -141,7 +141,7 @@ export interface AgentsOperations {
     listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStores: (options?: DeleteVectorStoreOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
+    listVectorStores: (options?: ListVectorStoresOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, toolOutputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
