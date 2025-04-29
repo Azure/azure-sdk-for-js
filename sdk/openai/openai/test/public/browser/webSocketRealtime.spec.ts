@@ -12,12 +12,13 @@ import {
 import { createClientsAndDeployments } from "../../utils/createClients.js";
 import { APIVersion, testWithDeployments } from "../../utils/utils.js";
 
-describe.for([APIVersion.v2024_10_01_preview])("OpenAIRealtimeWebSocket [%s]", (apiVersion: APIVersion) => {
-  const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, { realtime: "true" });
+describe.for([APIVersion.v2024_10_01_preview])(
+  "OpenAIRealtimeWebSocket [%s]",
+  (apiVersion: APIVersion) => {
+    const clientsAndDeploymentsInfo = createClientsAndDeployments(apiVersion, { realtime: "true" });
 
-  describe("websocket.azure", async () => {
-    await testWithDeployments(
-      {
+    describe("websocket.azure", async () => {
+      await testWithDeployments({
         clientsAndDeploymentsInfo,
         run: async (client, deploymentName) => {
           const rt = await OpenAIRealtimeWebSocket.azure(client as AzureOpenAI, {
@@ -77,7 +78,8 @@ describe.for([APIVersion.v2024_10_01_preview])("OpenAIRealtimeWebSocket [%s]", (
               }
             });
           });
-        }
+        },
       });
-  });
-});
+    });
+  },
+);
