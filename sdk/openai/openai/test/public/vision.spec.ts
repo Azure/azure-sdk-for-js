@@ -1,75 +1,83 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { matrix } from "@azure-tools/test-utils-vitest";
-import { assert, describe, beforeEach, it } from "vitest";
-import { createClientsAndDeployments } from "../utils/createClients.js";
+import { describe } from "vitest";
 import { assertChatCompletions } from "../utils/asserts.js";
-import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { createClientsAndDeployments } from "../utils/createClients.js";
+import { visionModelsToSkip } from "../utils/models.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
-import { logger } from "../utils/logger.js";
+import { APIMatrix, APIVersion, testWithDeployments } from "../utils/utils.js";
 
-describe("Vision", function () {
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
-      let clientsAndDeployments: ClientsAndDeploymentsInfo;
+describe.concurrent.each(APIMatrix)("Vision [%s]", (apiVersion: APIVersion) => {
+  const clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo = createClientsAndDeployments(
+    apiVersion,
+    { chatCompletion: "true" },
+  );
 
-      beforeEach(async () => {
-        clientsAndDeployments = createClientsAndDeployments(
-          apiVersion,
-          { chatCompletion: "true" },
-          {
-            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o1" }, { name: "o3-mini" }],
-          },
-        );
-      });
-
-      describe("chat.completions.create", function () {
-        it("Describes an image", async () => {
+  describe.skipIf(apiVersion === APIVersion.v2024_10_21)("chat.completions.create", function () {
+    describe("Describes an image from external URL", () => {
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deploymentName) => {
           const url =
             "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
-          await withDeployments(
-            clientsAndDeployments,
-            (client, deploymentName) =>
-              client.chat.completions.create({
-                model: deploymentName,
-                messages: [
+          return client.chat.completions.create({
+            model: deploymentName,
+            messages: [
+              {
+                role: "user",
+                content: [
                   {
-                    role: "user",
-                    content: [
-                      {
-                        type: "text",
-                        text: "What’s in this image?",
-                      },
-                      {
-                        type: "image_url",
-                        image_url: {
-                          url,
-                          detail: "auto",
-                        },
-                      },
-                    ],
+                    type: "text",
+                    text: "What's in this image?",
+                  },
+                  {
+                    type: "image_url",
+                    image_url: {
+                      url,
+                      detail: "auto",
+                    },
                   },
                 ],
-              }),
-            (res) => {
-              assertChatCompletions(res);
-              try {
-                assert.isTrue(
-                  res.choices[0].message?.content?.includes("snow") ||
-                    res.choices[0].message?.content?.includes("icy"),
-                );
-              } catch (error: any) {
-                if (error.name === "AssertionError") {
-                  logger.info("The content returned is:", res.choices[0].message?.content);
-                } else {
-                  throw new RestError("Unexpceted error encounterd", error);
-                }
-              }
-            },
-          );
-        });
+              },
+            ],
+          });
+        },
+        modelsListToSkip: visionModelsToSkip,
+        validate: (res) => {
+          assertChatCompletions(res);
+        },
+      });
+    });
+    describe("Describes an image from base64", () => {
+      const base64Image =
+        "data:image/gif;base64,R0lGODdhAQABAIEAAAAAAAAAAAAAAAAAACwAAAAAAQABAAAIBAABBAQAOw==";
+      testWithDeployments({
+        clientsAndDeploymentsInfo,
+        run: async (client, deploymentName) => {
+          return client.chat.completions.create({
+            model: deploymentName,
+            messages: [
+              {
+                role: "user",
+                content: [
+                  { type: "text", text: "What's in this image?" },
+                  {
+                    type: "image_url",
+                    image_url: {
+                      url: `${base64Image}`,
+                      detail: "auto",
+                    },
+                  },
+                ],
+              },
+            ],
+          });
+        },
+        modelsListToSkip: visionModelsToSkip,
+        validate: (res) => {
+          assertChatCompletions(res);
+        },
       });
     });
   });

@@ -157,5 +157,15 @@ describe("ClientCertificateCredential (internal)", function () {
       );
       assert.isUndefined(result.x5c);
     });
+
+    it("returns thumbprint SHA-256", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        false,
+      );
+      assert.isNotEmpty(result.thumbprintSha256);
+    });
   });
 });
