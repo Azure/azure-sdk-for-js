@@ -65,9 +65,6 @@ export async function main(): Promise<void> {
   const vectorStoreFiles = await client.listVectorStoreFileBatchFiles(
     vectorStore.id,
     vectorStoreFileBatch.id,
-    {
-      chunkingStrategy: "auto",
-    }
   );
   console.log(
     `List of vector store files in the batch: ${vectorStoreFiles.data.map((f) => f.id).join(", ")}`,
