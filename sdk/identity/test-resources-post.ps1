@@ -141,20 +141,3 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
-
-# Get the pod output and set it as an environment variable
-Write-Host "Getting pod output from kubectl exec command"
-$pods = kubectl get pods -o jsonpath='{.items[0].metadata.name}'
-if ($pods -contains $podName) {
-  Write-Host "Found pod $podName, executing the pod command"
-  $podOutput = kubectl exec $podName -- node /app/index.js
-  Write-Host "Pod output: $podOutput"
-    
-  # For local PowerShell environment
-  $env:IDENTITY_AKS_POD_OUTPUT = $podOutput
-  Write-Host "Pod output successfully set in env: $env:IDENTITY_AKS_POD_OUTPUT"
-    
-}
-else {
-  Write-Host "Pod $podName not found, skipping pod output capture"
-}
