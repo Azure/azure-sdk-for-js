@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { ItemBulkOperationContext } from "./ItemBulkOperationContext.js";
-export { ItemBulkOperation } from "./ItemBulkOperation.js";
+export { ItemOperationContext } from "./ItemOperationContext.js";
+export { ItemOperation } from "./ItemOperation.js";
 export { BulkResponse } from "./BulkResponse.js";

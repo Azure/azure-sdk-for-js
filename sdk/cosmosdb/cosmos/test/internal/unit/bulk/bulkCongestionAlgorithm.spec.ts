@@ -2,28 +2,28 @@
 // Licensed under the MIT License.
 
 import { assert, beforeEach, describe, it } from "vitest";
-import { BulkCongestionAlgorithm } from "../../../../src/bulk/BulkCongestionAlgorithm.js";
-import { BulkPartitionMetric } from "../../../../src/bulk/BulkPartitionMetric.js";
+import { CongestionAlgorithm } from "../../../../src/bulk/CongestionAlgorithm.js";
+import { PartitionMetric } from "../../../../src/bulk/PartitionMetric.js";
 import { LimiterQueue } from "../../../../src/bulk/Limiter.js";
 import type { RetryCallback } from "../../../../src/utils/batch.js";
 
-describe("BulkCongestionAlgorithm", () => {
+describe("CongestionAlgorithm", () => {
   let limiter: LimiterQueue;
-  let oldPartitionMetric: BulkPartitionMetric;
-  let partitionMetric: BulkPartitionMetric;
+  let oldPartitionMetric: PartitionMetric;
+  let partitionMetric: PartitionMetric;
 
   const mockRetrier: RetryCallback = async () => {};
 
   beforeEach(() => {
-    oldPartitionMetric = new BulkPartitionMetric();
-    partitionMetric = new BulkPartitionMetric();
+    oldPartitionMetric = new PartitionMetric();
+    partitionMetric = new PartitionMetric();
     limiter = new LimiterQueue(1, partitionMetric, mockRetrier);
   });
   it("should increase concurrency by 1 when there is no throttling and items are processed", () => {
     const itemsCount = 10; // 10 items processed
     const timeTakenInMs = 1100; // should be greater than congestionWaitTimeInMs (1000 ms)
     const numberOfThrottles = 0; // no throttling
-    const algorithm = new BulkCongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
     algorithm["currentDegreeOfConcurrency"] = 1;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -34,7 +34,7 @@ describe("BulkCongestionAlgorithm", () => {
     const itemsCount = 10; // 10 items processed
     let timeTakenInMs = 1100; // should be greater than congestionWaitTimeInMs (1000 ms)
     const numberOfThrottles = 2; // throttling
-    const algorithm = new BulkCongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
     algorithm["currentDegreeOfConcurrency"] = 12;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -57,7 +57,7 @@ describe("BulkCongestionAlgorithm", () => {
     let itemsCount = 10;
     const timeTakenInMs = 100;
     let numberOfThrottles = 2;
-    const algorithm = new BulkCongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
     algorithm["currentDegreeOfConcurrency"] = 10;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -75,7 +75,7 @@ describe("BulkCongestionAlgorithm", () => {
     const itemsCount = 10;
     const timeTakenInMs = 1100;
     const numberOfThrottles = 2;
-    const algorithm = new BulkCongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
     algorithm["currentDegreeOfConcurrency"] = 1;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();

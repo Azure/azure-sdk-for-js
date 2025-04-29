@@ -29,7 +29,7 @@ import type {
   BulkOptions,
   BulkOperationResponse,
   Operation,
-  CosmosBulkOperationResult,
+  BulkOperationResult,
 } from "../../utils/batch.js";
 import {
   isKeyInRange,
@@ -767,7 +767,7 @@ export class Items {
   public async executeBulkOperations(
     operations: OperationInput[],
     options: RequestOptions = {},
-  ): Promise<CosmosBulkOperationResult[]> {
+  ): Promise<BulkOperationResult[]> {
     const bulkHelper = new BulkHelper(
       this.container,
       this.clientContext,

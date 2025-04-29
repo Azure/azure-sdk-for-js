@@ -4,14 +4,14 @@
 import { StatusCodes } from "../common/statusCodes.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { RetryCallback } from "../utils/batch.js";
-import type { BulkBatcher } from "./BulkBatcher.js";
-import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
-import type { ItemBulkOperation } from "./ItemBulkOperation.js";
+import type { Batcher } from "./Batcher.js";
+import type { PartitionMetric } from "./PartitionMetric.js";
+import type { ItemOperation } from "./ItemOperation.js";
 
 export type Task<T = any> = () => Promise<T>;
 
 interface QueueItem {
-  batcher: BulkBatcher;
+  batcher: Batcher;
   resolve: (value: any) => void;
   reject: (reason?: any) => void;
 }
@@ -104,7 +104,7 @@ export class LimiterQueue {
   // retry callback to retry all the queued operations in case of split/merge error
   private retrier: RetryCallback;
   // partiton metric for collecting metrics for the requests
-  private partitionMetric: BulkPartitionMetric;
+  private partitionMetric: PartitionMetric;
   // callback used to refresh the partition key range cache in case of split/merge error
   private readonly refreshPartitionKeyRangeCache: (diagnosticNode: any) => Promise<void>;
 
@@ -113,7 +113,7 @@ export class LimiterQueue {
    */
   constructor(
     concurrency: number,
-    partitionMetric: BulkPartitionMetric,
+    partitionMetric: PartitionMetric,
     retrier: RetryCallback,
     refreshPartitionKeyRangeCache: (diagnosticNode: any) => Promise<void>,
   ) {
@@ -127,7 +127,7 @@ export class LimiterQueue {
    * Enqueue a task and return a Promise that resolves or rejects when the task completes.
    * If the queue has been terminated via pauseAndClear, the promise resolves immediately with the terminated value.
    */
-  public push(batcher: BulkBatcher): Promise<any> {
+  public push(batcher: Batcher): Promise<any> {
     if (this.terminated) {
       return Promise.resolve(this.terminatedValue);
     }
@@ -147,7 +147,7 @@ export class LimiterQueue {
   ): Promise<void> {
     this.terminated = true;
     this.terminatedValue = customValue;
-    const operationsList: ItemBulkOperation[] = [];
+    const operationsList: ItemOperation[] = [];
     while (!this.tasks.isEmpty()) {
       const queueItem = this.tasks.shift();
       if (!queueItem) break;

@@ -6,7 +6,7 @@ import semaphore from "semaphore";
 /**
  * Captures the metrics for the requests made for bulk.
  */
-export class BulkPartitionMetric {
+export class PartitionMetric {
   numberOfItemsOperatedOn: number;
   timeTakenInMs: number;
   numberOfThrottles: number;

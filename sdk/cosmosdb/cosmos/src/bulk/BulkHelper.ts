@@ -19,17 +19,17 @@ import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy.js";
 import { ResourceThrottleRetryPolicy } from "../retry/resourceThrottleRetryPolicy.js";
 import type { RetryPolicy } from "../retry/RetryPolicy.js";
 import type { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
-import type { CosmosBulkOperationResult, OperationInput, Operation } from "../utils/batch.js";
+import type { BulkOperationResult, OperationInput, Operation } from "../utils/batch.js";
 import { encryptOperationInput, isKeyInRange } from "../utils/batch.js";
 import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { hashPartitionKey } from "../utils/hashing/hash.js";
-import { BulkHelperPerPartition } from "./BulkHelperPerPartition.js";
-import type { ItemBulkOperation } from "./index.js";
-import { ItemBulkOperationContext, BulkResponse } from "./index.js";
+import { HelperPerPartition } from "./HelperPerPartition.js";
+import type { ItemOperation } from "./index.js";
+import { ItemOperationContext, BulkResponse } from "./index.js";
 
 /**
  * BulkHelper for bulk operations in a container.
- * It maintains one @see {@link BulkHelperPerPartition} for each Partition Key Range, which allows independent execution of requests. Queue based limiters @see {@link LimiterQueue}
+ * It maintains one @see {@link HelperPerPartition} for each Partition Key Range, which allows independent execution of requests. Queue based limiters @see {@link LimiterQueue}
  * rate limit requestsbat the helper / Partition Key Range level, this means that we can send parallel and independent requests to different Partition Key Ranges, but for the same Range, requests
  * will be limited. Two callback implementations define how a particular request should be executed, and how operations should be retried. When the helper dispatches a batch
  * the batch will create a request and call the execute callback (executeRequest), if conditions are met, it might call the retry callback (reBatchOperation).
@@ -40,13 +40,13 @@ export class BulkHelper {
   private readonly container: Container;
   private readonly clientContext: ClientContext;
   private readonly partitionKeyRangeCache: PartitionKeyRangeCache;
-  private readonly helpersByPartitionKeyRangeId: Map<string, BulkHelperPerPartition>;
+  private readonly helpersByPartitionKeyRangeId: Map<string, HelperPerPartition>;
   private options: RequestOptions;
   private partitionKeyDefinition: PartitionKeyDefinition;
   private partitionKeyDefinitionPromise: Promise<PartitionKeyDefinition>;
   private isCancelled: boolean;
   private processedOperationCountRef: { count: number } = { count: 0 };
-  private operationPromisesList: Promise<CosmosBulkOperationResult>[] = [];
+  private operationPromisesList: Promise<BulkOperationResult>[] = [];
   private congestionControlTimer: NodeJS.Timeout;
   private readonly congestionControlDelayInMs: number = 1000;
   private staleRidError: ErrorResponse | undefined;
@@ -78,7 +78,7 @@ export class BulkHelper {
    * adds operation(s) to the helper
    * @param operationInput - bulk operation or list of bulk operations
    */
-  async execute(operationInput: OperationInput[]): Promise<CosmosBulkOperationResult[]> {
+  async execute(operationInput: OperationInput[]): Promise<BulkOperationResult[]> {
     const addOperationPromises: Promise<void>[] = [];
     const minimalPause = 0; // minimal pause (0 ms) inserted periodically during processing.
     try {
@@ -218,8 +218,8 @@ export class BulkHelper {
     // Get helper & context.
     const helperForPartition = this.getHelperForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
-    const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
-    const itemOperation: ItemBulkOperation = {
+    const context = new ItemOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
+    const itemOperation: ItemOperation = {
       plainTextOperationInput: plainTextOperation,
       operationInput: operation,
       operationContext: context,
@@ -229,7 +229,7 @@ export class BulkHelper {
     this.operationPromisesList[idx] = context.operationPromise;
 
     if (operationError) {
-      const response: CosmosBulkOperationResult = {
+      const response: BulkOperationResult = {
         operationInput: plainTextOperation,
         error: Object.assign(new ErrorResponse(operationError.message), {
           code: StatusCodes.InternalServerError,
@@ -272,7 +272,7 @@ export class BulkHelper {
   }
 
   private async executeRequest(
-    operations: ItemBulkOperation[],
+    operations: ItemOperation[],
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<BulkResponse> {
     if (this.isCancelled) {
@@ -282,8 +282,8 @@ export class BulkHelper {
     const pkRangeId = operations[0].operationContext.pkRangeId;
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const requestBody: Operation[] = [];
-    for (const itemBulkOperation of operations) {
-      requestBody.push(this.prepareOperation(itemBulkOperation.operationInput));
+    for (const itemOperation of operations) {
+      requestBody.push(this.prepareOperation(itemOperation.operationInput));
     }
     if (!this.options.containerRid) {
       this.options.containerRid = this.container._rid;
@@ -328,7 +328,7 @@ export class BulkHelper {
   }
 
   private async reBatchOperation(
-    operation: ItemBulkOperation,
+    operation: ItemOperation,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<void> {
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(
@@ -349,12 +349,12 @@ export class BulkHelper {
     this.helpersByPartitionKeyRangeId.clear();
   }
 
-  private getHelperForPKRange(pkRangeId: string): BulkHelperPerPartition {
+  private getHelperForPKRange(pkRangeId: string): HelperPerPartition {
     if (this.helpersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.helpersByPartitionKeyRangeId.get(pkRangeId);
     }
 
-    const newHelper = new BulkHelperPerPartition(
+    const newHelper = new HelperPerPartition(
       this.executeRequest,
       this.reBatchOperation,
       this.refreshPartitionKeyRangeCache,

@@ -6,11 +6,11 @@ import { StatusCodes } from "../common/statusCodes.js";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 import type { ClientConfigDiagnostic, DiagnosticNodeInternal } from "../index.js";
-import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
-import { BulkBatcher } from "./BulkBatcher.js";
-import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm.js";
-import { BulkPartitionMetric } from "./BulkPartitionMetric.js";
-import type { ItemBulkOperation } from "./index.js";
+import type { ExecuteCallback, RetryCallback, BulkOperationResult } from "../utils/batch.js";
+import { Batcher } from "./Batcher.js";
+import { CongestionAlgorithm } from "./CongestionAlgorithm.js";
+import { PartitionMetric } from "./PartitionMetric.js";
+import type { ItemOperation } from "./index.js";
 import { LimiterQueue } from "./Limiter.js";
 
 /**
@@ -19,18 +19,18 @@ import { LimiterQueue } from "./Limiter.js";
  * @hidden
  */
 
-export class BulkHelperPerPartition {
+export class HelperPerPartition {
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
-  private currentBatcher: BulkBatcher;
+  private currentBatcher: Batcher;
   private readonly lock: semaphore.Semaphore;
-  private readonly partitionMetric: BulkPartitionMetric;
-  private readonly oldPartitionMetric: BulkPartitionMetric;
+  private readonly partitionMetric: PartitionMetric;
+  private readonly oldPartitionMetric: PartitionMetric;
   private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
   private readonly encryptionEnabled: boolean;
   private readonly encryptionProcessor: EncryptionProcessor;
   private readonly clientConfigDiagnostics: ClientConfigDiagnostic;
-  private readonly congestionControlAlgorithm: BulkCongestionAlgorithm;
+  private readonly congestionControlAlgorithm: CongestionAlgorithm;
   private readonly dispatchLimiterQueue: LimiterQueue;
   private initialConcurrency: number = 1;
   private processedOperationCountRef: { count: number };
@@ -51,8 +51,8 @@ export class BulkHelperPerPartition {
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
     this.clientConfigDiagnostics = clientConfig;
-    this.oldPartitionMetric = new BulkPartitionMetric();
-    this.partitionMetric = new BulkPartitionMetric();
+    this.oldPartitionMetric = new PartitionMetric();
+    this.partitionMetric = new PartitionMetric();
     this.processedOperationCountRef = processedOperationCountRef;
     this.lock = semaphore(1);
     this.dispatchLimiterQueue = new LimiterQueue(
@@ -61,12 +61,12 @@ export class BulkHelperPerPartition {
       this.retrier,
       refreshpartitionKeyRangeCache,
     );
-    this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
+    this.congestionControlAlgorithm = new CongestionAlgorithm(
       this.dispatchLimiterQueue,
       this.partitionMetric,
       this.oldPartitionMetric,
     );
-    this.currentBatcher = this.createBulkBatcher();
+    this.currentBatcher = this.createBatcher();
   }
 
   /**
@@ -74,7 +74,7 @@ export class BulkHelperPerPartition {
    * If the operation does not fit because the batch is full, the full batch is enqueued in the dispatch queue
    * and a new batch is created. The promise resolves when the operation has been successfully added.
    */
-  async add(operation: ItemBulkOperation): Promise<void> {
+  async add(operation: ItemOperation): Promise<void> {
     return new Promise((resolve, reject) => {
       this.lock.take(() => {
         try {
@@ -88,7 +88,7 @@ export class BulkHelperPerPartition {
           // At this point the operation was added.
           resolve();
         } catch (err) {
-          const response: CosmosBulkOperationResult = {
+          const response: BulkOperationResult = {
             operationInput: operation.plainTextOperationInput,
             error: Object.assign(new Error(err.message), {
               code: StatusCodes.InternalServerError,
@@ -110,10 +110,10 @@ export class BulkHelperPerPartition {
   /**
    * @returns the batch to be dispatched and creates a new one
    */
-  private getBatchToQueueAndCreate(): BulkBatcher {
+  private getBatchToQueueAndCreate(): Batcher {
     if (this.currentBatcher.isEmpty()) return null;
     const previousBatcher = this.currentBatcher;
-    this.currentBatcher = this.createBulkBatcher();
+    this.currentBatcher = this.createBatcher();
     return previousBatcher;
   }
 
@@ -126,7 +126,7 @@ export class BulkHelperPerPartition {
       try {
         if (!this.currentBatcher.isEmpty()) {
           const batch = this.currentBatcher;
-          this.currentBatcher = this.createBulkBatcher();
+          this.currentBatcher = this.createBatcher();
           this.dispatchLimiterQueue.push(batch);
         }
       } finally {
@@ -135,8 +135,8 @@ export class BulkHelperPerPartition {
     });
   }
 
-  private createBulkBatcher(): BulkBatcher {
-    return new BulkBatcher(
+  private createBatcher(): Batcher {
+    return new Batcher(
       this.dispatchLimiterQueue,
       this.executor,
       this.retrier,

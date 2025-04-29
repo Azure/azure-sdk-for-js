@@ -9,7 +9,7 @@ import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
 import type { StatusCode, SubStatusCode } from "../request/StatusCodes.js";
 import type { ExtendedOperationResponse } from "../utils/batch.js";
 import { isSuccessStatusCode } from "../utils/batch.js";
-import type { ItemBulkOperation } from "./index.js";
+import type { ItemOperation } from "./index.js";
 
 /**
  * Represents a batch response for bulk request.
@@ -20,7 +20,7 @@ export class BulkResponse {
   statusCode: StatusCode;
   subStatusCode: SubStatusCode;
   headers: CosmosHeaders;
-  operations: ItemBulkOperation[];
+  operations: ItemOperation[];
   results: (ExtendedOperationResponse | ErrorResponse)[] = [];
   diagnostics: CosmosDiagnostics;
 
@@ -28,7 +28,7 @@ export class BulkResponse {
     statusCode: StatusCode,
     subStatusCode: SubStatusCode,
     headers: CosmosHeaders,
-    operations: ItemBulkOperation[],
+    operations: ItemOperation[],
   ) {
     this.statusCode = statusCode;
     this.subStatusCode = subStatusCode;
@@ -40,7 +40,7 @@ export class BulkResponse {
    * Generate empty response object
    */
   static createEmptyResponse(
-    operations: ItemBulkOperation[],
+    operations: ItemOperation[],
     statusCode: StatusCode,
     subStatusCode: SubStatusCode,
     headers: CosmosHeaders,
@@ -55,7 +55,7 @@ export class BulkResponse {
    */
   static fromResponseMessage(
     responseMessage: Response<any>,
-    operations: ItemBulkOperation[],
+    operations: ItemOperation[],
   ): BulkResponse {
     // Create and populate the response object
     let bulkResponse = this.populateFromResponse(responseMessage, operations);
@@ -88,7 +88,7 @@ export class BulkResponse {
   private static populateFromResponse(
     // eslint-disable-next-line n/no-unsupported-features/node-builtins
     responseMessage: Response<any>,
-    operations: ItemBulkOperation[],
+    operations: ItemOperation[],
   ): BulkResponse {
     const results: (ExtendedOperationResponse | ErrorResponse)[] = [];
 
@@ -104,7 +104,7 @@ export class BulkResponse {
             sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
             requestCharge: itemResponse?.requestCharge,
             resourceBody: itemResponse?.resourceBody,
-            // diagnostics will be filled in BulkBatcher dispatch to capture the complete diagnostics(e.g. decryption)
+            // diagnostics will be filled in Batcher dispatch to capture the complete diagnostics(e.g. decryption)
             diagnostics: null,
             headers: responseMessage.headers,
           };
@@ -149,7 +149,7 @@ export class BulkResponse {
     return bulkResponse;
   }
 
-  private createAndPopulateResults(operations: ItemBulkOperation[], retryAfterInMs: number): void {
+  private createAndPopulateResults(operations: ItemOperation[], retryAfterInMs: number): void {
     this.results = operations.map(() => {
       const errorResponse = new ErrorResponse();
       errorResponse.code = this.statusCode;

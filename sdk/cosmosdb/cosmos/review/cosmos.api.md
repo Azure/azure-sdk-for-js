@@ -42,6 +42,13 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export interface BulkOperationResult {
+    error?: ErrorResponse;
+    operationInput: OperationInput;
+    response?: ExtendedOperationResponse;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -762,13 +769,6 @@ export class Containers {
 }
 
 // @public
-export interface CosmosBulkOperationResult {
-    error?: ErrorResponse;
-    operationInput: OperationInput;
-    response?: ExtendedOperationResponse;
-}
-
-// @public
 export class CosmosClient {
     constructor(connectionString: string);
     constructor(options: CosmosClientOptions);
@@ -1435,7 +1435,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<CosmosBulkOperationResult[]>;
+    executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<BulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;

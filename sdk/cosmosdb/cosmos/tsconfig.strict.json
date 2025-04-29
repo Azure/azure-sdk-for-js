@@ -173,7 +173,7 @@
     "test/internal/unit/hybridExecutionContext.spec.ts",
     "test/internal/unit/sessionContainer.spec.ts",
     "test/internal/unit/changeFeed/*.spec.ts",
-    "test/internal/unit/bulkCongestionAlgorithm.spec.ts",
+    "test/internal/unit/CongestionAlgorithm.spec.ts",
     "test/internal/unit/bulkStreamerPerPartition.spec.ts",
     "test/internal/unit/bulkExecutionRetryPolicy.spec.ts",
     "test/public/common/MockQueryIterator.ts",

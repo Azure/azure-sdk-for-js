@@ -3,27 +3,27 @@
 
 import { type DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { RetryPolicy } from "../retry/RetryPolicy.js";
-import type { CosmosBulkOperationResult } from "../utils/batch.js";
+import type { BulkOperationResult } from "../utils/batch.js";
 import { TaskCompletionSource } from "../utils/batch.js";
 
 /**
- * Context for a particular @see {@link ItemBulkOperation}.
+ * Context for a particular @see {@link ItemOperation}.
  * @hidden
  */
-export class ItemBulkOperationContext {
+export class ItemOperationContext {
   pkRangeId: string;
   retryPolicy: RetryPolicy;
   diagnosticNode: DiagnosticNodeInternal;
-  private readonly taskCompletionSource: TaskCompletionSource<CosmosBulkOperationResult>;
+  private readonly taskCompletionSource: TaskCompletionSource<BulkOperationResult>;
 
   constructor(pkRangeId: string, retryPolicy: RetryPolicy, diagnosticNode: DiagnosticNodeInternal) {
     this.pkRangeId = pkRangeId;
     this.retryPolicy = retryPolicy;
     this.diagnosticNode = diagnosticNode;
-    this.taskCompletionSource = new TaskCompletionSource<CosmosBulkOperationResult>();
+    this.taskCompletionSource = new TaskCompletionSource<BulkOperationResult>();
   }
 
-  public get operationPromise(): Promise<CosmosBulkOperationResult> {
+  public get operationPromise(): Promise<BulkOperationResult> {
     return this.taskCompletionSource.task;
   }
 
@@ -36,11 +36,11 @@ export class ItemBulkOperationContext {
     this.pkRangeId = pkRangeId;
   }
 
-  complete(result: CosmosBulkOperationResult): void {
+  complete(result: BulkOperationResult): void {
     this.taskCompletionSource.setResult(result);
   }
 
-  fail(error: CosmosBulkOperationResult): void {
+  fail(error: BulkOperationResult): void {
     this.taskCompletionSource.setException(error.error);
   }
 }

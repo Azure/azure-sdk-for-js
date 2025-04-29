@@ -11,11 +11,11 @@ import {
 import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 import type { ClientConfigDiagnostic } from "../index.js";
 import { ErrorResponse } from "../index.js";
-import type { ExecuteCallback, RetryCallback, CosmosBulkOperationResult } from "../utils/batch.js";
+import type { ExecuteCallback, RetryCallback, BulkOperationResult } from "../utils/batch.js";
 import { calculateObjectSizeInBytes } from "../utils/batch.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
-import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
-import type { ItemBulkOperation } from "./index.js";
+import type { PartitionMetric } from "./PartitionMetric.js";
+import type { ItemOperation } from "./index.js";
 import type { LimiterQueue } from "./Limiter.js";
 
 /**
@@ -24,8 +24,8 @@ import type { LimiterQueue } from "./Limiter.js";
  * @hidden
  */
 
-export class BulkBatcher {
-  private batchOperationsList: ItemBulkOperation[];
+export class Batcher {
+  private batchOperationsList: ItemOperation[];
   private currentSize: number;
   private toBeDispatched: boolean;
   private readonly executor: ExecuteCallback;
@@ -64,7 +64,7 @@ export class BulkBatcher {
    * Attempts to add an operation to the current batch.
    * Returns false if the batch is full or already dispatched.
    */
-  public tryAdd(operation: ItemBulkOperation): boolean {
+  public tryAdd(operation: ItemOperation): boolean {
     if (this.toBeDispatched) {
       return false;
     }
@@ -98,7 +98,7 @@ export class BulkBatcher {
    * Dispatches the current batch of operations.
    * Handles retries for failed operations and updates the ordered response.
    */
-  public async dispatch(partitionMetric: BulkPartitionMetric): Promise<void> {
+  public async dispatch(partitionMetric: PartitionMetric): Promise<void> {
     this.toBeDispatched = true;
     const startTime = getCurrentTimestampInMs();
     const diagnosticNode = new DiagnosticNodeInternal(
@@ -169,7 +169,7 @@ export class BulkBatcher {
         bulkOperationResult.diagnostics = operation.operationContext.diagnosticNode.toDiagnostic(
           this.clientConfigDiagnostics,
         );
-        const bulkItemResponse: CosmosBulkOperationResult = {
+        const bulkItemResponse: BulkOperationResult = {
           operationInput: operation.plainTextOperationInput,
         };
         if (bulkOperationResult instanceof ErrorResponse) {
@@ -183,7 +183,7 @@ export class BulkBatcher {
     } catch (error) {
       // Mark all operations in the batch as failed
       for (const operation of this.batchOperationsList) {
-        const response: CosmosBulkOperationResult = {
+        const response: BulkOperationResult = {
           operationInput: operation.operationInput,
           error: Object.assign(new ErrorResponse(error.message), {
             code: StatusCodes.InternalServerError,
@@ -201,7 +201,7 @@ export class BulkBatcher {
     }
   }
 
-  public getOperations(): ItemBulkOperation[] {
+  public getOperations(): ItemOperation[] {
     return this.batchOperationsList;
   }
 }

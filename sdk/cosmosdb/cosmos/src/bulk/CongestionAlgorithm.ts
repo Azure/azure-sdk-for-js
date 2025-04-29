@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../common/constants.js";
-import type { BulkPartitionMetric } from "./BulkPartitionMetric.js";
+import type { PartitionMetric } from "./PartitionMetric.js";
 import type { LimiterQueue } from "./Limiter.js";
 
 /**
  * This class implements a congestion control algorithm which dynamically adjusts the degree
  * of concurrency based on the throttling and number of processed items.
- * It uses the @see {@link BulkPartitionMetric} to capture the metrics.
+ * It uses the @see {@link PartitionMetric} to capture the metrics.
  * @hidden
  */
 
-export class BulkCongestionAlgorithm {
+export class CongestionAlgorithm {
   // The semaphore to control the degree of concurrency.
   private limiterQueue: LimiterQueue;
   // captures metrics upto previous requests for a partition.
-  private oldPartitionMetric: BulkPartitionMetric;
+  private oldPartitionMetric: PartitionMetric;
   // captures metrics upto current request for a partition.
-  private partitionMetric: BulkPartitionMetric;
+  private partitionMetric: PartitionMetric;
   // time to wait before adjusting the degree of concurrency.
   private congestionWaitTimeInMs: number = 1000;
   private congestionIncreaseFactor: number = 1;
@@ -27,8 +27,8 @@ export class BulkCongestionAlgorithm {
 
   constructor(
     limiterQueue: LimiterQueue,
-    partitionMetric: BulkPartitionMetric,
-    oldPartitionMetric: BulkPartitionMetric,
+    partitionMetric: PartitionMetric,
+    oldPartitionMetric: PartitionMetric,
   ) {
     this.limiterQueue = limiterQueue;
     this.oldPartitionMetric = oldPartitionMetric;

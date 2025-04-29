@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { assert, beforeEach, describe, it } from "vitest";
-import type { BulkBatcher } from "../../../../src/bulk/BulkBatcher.js";
+import type { Batcher } from "../../../../src/bulk/Batcher.js";
 import { LimiterQueue } from "../../../../src/bulk/Limiter.js";
 
-function createFakeBatcher(result: any, delay = 0): BulkBatcher {
+function createFakeBatcher(result: any, delay = 0): Batcher {
   return {
     dispatch: (_metric: any) => new Promise((resolve) => setTimeout(() => resolve(result), delay)),
     getOperations: (): any[] => [],
-  } as unknown as BulkBatcher;
+  } as unknown as Batcher;
 }
 
 const fakeRetryCallback = (_op: any, _diagnostic: any): Promise<any> => {
@@ -55,7 +55,7 @@ describe("LimiterQueue", () => {
     let currentActive = 0;
     let maxActive = 0;
 
-    function createCountingBatcher(result: string, delay = 50): BulkBatcher {
+    function createCountingBatcher(result: string, delay = 50): Batcher {
       return {
         dispatch: async (_metric: any) => {
           currentActive++;
@@ -67,7 +67,7 @@ describe("LimiterQueue", () => {
           return result;
         },
         getOperations: (): any[] => [],
-      } as unknown as BulkBatcher;
+      } as unknown as Batcher;
     }
     // Initially set concurrency to 3
     limiter.setConcurrency(3);
@@ -112,11 +112,11 @@ describe("LimiterQueue", () => {
   it("should resolve queued tasks immediately with terminated value on pauseAndClear", async () => {
     const terminatedValue = "terminated";
 
-    function createNeverEndingBatcher(): BulkBatcher {
+    function createNeverEndingBatcher(): Batcher {
       return {
         dispatch: (_metric: any) => new Promise(() => {}),
         getOperations: (): any[] => [],
-      } as unknown as BulkBatcher;
+      } as unknown as Batcher;
     }
 
     const batchers = Array.from({ length: 10 }, () => createNeverEndingBatcher());

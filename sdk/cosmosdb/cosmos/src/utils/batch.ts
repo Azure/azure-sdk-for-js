@@ -22,7 +22,7 @@ import { assertNotUndefined } from "./typeChecks.js";
 import { bodyFromData } from "../request/request.js";
 import { Constants } from "../common/constants.js";
 import { randomUUID } from "@azure/core-util";
-import type { ItemBulkOperation } from "../bulk/ItemBulkOperation.js";
+import type { ItemOperation } from "../bulk/ItemOperation.js";
 import type { BulkResponse } from "../bulk/index.js";
 import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 
@@ -47,7 +47,7 @@ export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosD
 /**
  * represents response for an operation in bulk with executeBulkOperations API
  */
-export interface CosmosBulkOperationResult {
+export interface BulkOperationResult {
   /** the original operation input passed */
   operationInput: OperationInput;
   /** response from the backend for the item operation  */
@@ -344,11 +344,11 @@ export function isSuccessStatusCode(statusCode: StatusCode): boolean {
 }
 
 export type ExecuteCallback = (
-  operations: ItemBulkOperation[],
+  operations: ItemOperation[],
   diagnosticNode: DiagnosticNodeInternal,
 ) => Promise<BulkResponse>;
 export type RetryCallback = (
-  operation: ItemBulkOperation,
+  operation: ItemOperation,
   diagnosticNode: DiagnosticNodeInternal,
 ) => Promise<void>;
 
