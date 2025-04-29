@@ -68,8 +68,8 @@ import { HyperExecuteClient } from "@azure/arm-lambdatesthyperexecute";
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new HyperExecuteClient(credential, subscriptionId);
 ```
 
