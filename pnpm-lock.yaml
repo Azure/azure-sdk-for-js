@@ -6400,9 +6400,9 @@ importers:
       '@azure/core-tracing':
         specifier: workspace:*
         version: link:../core-tracing
-      '@azure/core-util':
+      '@typespec/ts-http-runtime':
         specifier: workspace:*
-        version: link:../core-util
+        version: link:../ts-http-runtime
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -18558,8 +18558,8 @@ importers:
         specifier: 'catalog:'
         version: 9.22.0
       openai:
-        specifier: ^4.84.1
-        version: 4.90.0(ws@8.18.1)(zod@3.24.2)
+        specifier: ^4.96.0
+        version: 4.96.2(ws@8.18.1)(zod@3.24.2)
       playwright:
         specifier: catalog:testing
         version: 1.51.1
@@ -30926,6 +30926,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-emoji@2.2.0:
     resolution: {integrity: sha512-Z3lTE9pLaJF47NyMhd4ww1yFTAP8YhYI8SleJiHzM46Fgpm5cnNzSl9XfzFNqbaz+VlJrIj3fXQ4DeN1Rjm6cw==}
@@ -30991,8 +30992,8 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@4.90.0:
-    resolution: {integrity: sha512-YCuHMMycqtCg1B8G9ezkOF0j8UnBWD3Al/zYaelpuXwU1yhCEv+Y4n9G20MnyGy6cH4GsFwOMrgstQ+bgG1PtA==}
+  openai@4.96.2:
+    resolution: {integrity: sha512-R2XnxvMsizkROr7BV3uNp1q/3skwPZ7fmPjO1bXLnfB4Tu5xKxrT1EVwzjhxn0MZKBKAvOaGWS63jTMN6KrIXA==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -37370,7 +37371,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.90.0(ws@8.18.1)(zod@3.24.2):
+  openai@4.96.2(ws@8.18.1)(zod@3.24.2):
     dependencies:
       '@types/node': 18.19.81
       '@types/node-fetch': 2.6.12
