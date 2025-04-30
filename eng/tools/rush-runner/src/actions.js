@@ -26,7 +26,7 @@ import {
 export function executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag) {
   const actionComponents = action.toLowerCase().split(":");
 
-  console.log(`Packages to build: ${artifactNames}`);
+  console.log(`Service directories: ${serviceDirs}. Packages to build: ${artifactNames}`);
   const { packageNames, packageDirs } = getServicePackages(serviceDirs, artifactNames);
   console.log(`Packages eligible to run rush task: ${packageNames}`);
 
