@@ -53,7 +53,7 @@ async function main() {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFilePoller = client.createVectorStoreFile(vectorStore.id, {
+  const vectorStoreFilePoller = client.createVectorStoreFileAndPoll(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       sleepIntervalInMs: 2000,

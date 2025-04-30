@@ -60,7 +60,7 @@ async function main() {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFileBatchPoller = client.createVectorStoreFileBatch(vectorStore.id, {
+  const vectorStoreFileBatchPoller = client.createVectorStoreFileBatchAndPoll(vectorStore.id, {
     fileIds: [file1.id, file2.id],
     onResponse: onResponse,
   });

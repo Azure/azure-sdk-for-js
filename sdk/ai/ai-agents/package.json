@@ -48,7 +48,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/projectsClient.ts",
+        "path": "src/agentsClient.ts",
         "prefix": "userAgentInfo"
       },
       {
@@ -141,7 +141,7 @@
     }
   },
   "//sampleConfiguration": {
-    "productName": "Azure AI Projects",
+    "productName": "Azure AI Agents",
     "productSlugs": [
       "azure"
     ],
