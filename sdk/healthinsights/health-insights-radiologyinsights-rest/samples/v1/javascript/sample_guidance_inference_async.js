@@ -55,7 +55,16 @@ function printResults(radiologyInsightsResult) {
               }
 
               if ("recommendationProposals" in inference) {
-                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+                inference.recommendationProposals.forEach((proposal) => {
+                  console.log("   Recommendation Proposal: ", proposal.kind);
+                  console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
+                  if ("imagingProcedures" in proposal.recommendedProcedure) {
+                    proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure) => {
+                      console.log("      Recommended Imaging Procedure Codes: ");
+                      displayImaging(imagingProcedure);
+                    });
+                  }
+                });
               }
 
               inference.missingGuidanceInformation?.forEach((missingInfo) => {
@@ -140,6 +149,26 @@ function printResults(radiologyInsightsResult) {
       }
     });
   }
+
+  function displayImaging(images) {
+    console.log("     Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("     Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("     Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if ("contrast" in images) {
+      console.log("     Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("     View Codes: ");
+      displayCodes(images.view.code);
+    }
+  }
+
 }
 
 // Create request body for radiology insights

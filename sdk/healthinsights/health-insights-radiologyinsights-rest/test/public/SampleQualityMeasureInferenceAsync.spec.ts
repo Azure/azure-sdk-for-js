@@ -118,6 +118,7 @@ const findingOptions = {
   provideFocusedSentenceEvidence: true,
 };
 
+//the mipscodes (“merit based payment incentive”) need to be filled in for which the qualityMeasure is checked
 const qualityMeasureOptions = {
   measureTypes: ["mips364", "mips360", "mips436"],
 };

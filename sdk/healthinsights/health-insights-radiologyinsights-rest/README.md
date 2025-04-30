@@ -169,9 +169,20 @@ const findingOptions = {
   provideFocusedSentenceEvidence: true,
 };
 
+//the mipscodes (“merit based payment incentive”) need to be filled in for which the qualityMeasure is checked
+const qualityMeasureOptions = {
+  measureTypes: ["mipsxxx", "mipsyyy", "mipszz"],
+};
+
+const guidancOptions = {
+  showGuidanceInHistory: true,
+};
+
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
   findingOptions: findingOptions,
+  GuidanceOptions: guidancOptions,
+  QualityMeasureOptions: qualityMeasureOptions,
 };
 
 // Create RI Configuration
@@ -525,9 +536,11 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 import {
   RadiologyInsightsJobOutput,
   GuidanceInference,
+  ImagingProcedureRecommendation,
   CodeableConcept,
   PresentGuidanceInformation,
   Extension,
+  ImagingProcedure,
 } from "../src/index.js";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
@@ -565,8 +578,19 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
           console.log("   Recommendation Proposal: ");
           const recommendationProposals = guidanceInference.recommendationProposals;
           for (const proposal of recommendationProposals) {
-            console.log("   Recommended Procedure: ");
-            console.log(`      Kind: ${proposal.kind}`);
+            console.log(`   Recommended Proposal: ${proposal.kind}`);
+            console.log(`      Recommendation Procedure:  ${proposal.recommendedProcedure.kind}`);
+            let imagingprocedure;
+            if (proposal.recommendedProcedure.kind === "imagingProcedureRecommendation") {
+              imagingprocedure = (proposal.recommendedProcedure as ImagingProcedureRecommendation)
+                .imagingProcedures;
+              if (imagingprocedure) {
+                console.log("   Imaging Procedure Codes: ");
+                for (const imagingProcedure of imagingprocedure) {
+                  displayImaging(imagingProcedure);
+                }
+              }
+            }
           }
         }
 
@@ -628,6 +652,25 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
           console.log(`      ${url}: ${valueString}`);
         }
       }
+    }
+  }
+
+  function displayImaging(images: ImagingProcedure): void {
+    console.log("   Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("   Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if (images.laterality) {
+      console.log("   Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if (images.contrast) {
+      console.log("   Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if (images.view) {
+      console.log("   View Codes: ");
+      displayCodes(images.view.code);
     }
   }
 }
@@ -701,7 +744,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 }
 ```
 
-### Print out the Quality Measure Inference with the measure denominator, compliance typa and quality criterium
+### Print out the Quality Measure Inference with the measure denominator, compliance typa and quality criterium. ! The MIPS-codes (“merit based payment incentive”) need to be filled in in the qualityMeasureOptions !
 ```ts snippet:ReadmeSampleQualityMeasure
 import {
   RadiologyInsightsJobOutput,

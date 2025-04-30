@@ -8,8 +8,13 @@
 - Added sample and test code for scoring and assessment, quality measure and clinical guidance.
 
 ### Breaking Changes
+
 - for PatientDocumentOutput:
-  - Adding guidanceOptions and qualityMeasureOptions.
+  - Adding guidanceOptions (default true) and qualityMeasureOptions (needed for Quality Measure Inferences).
+
+- for azureHealthInsightsClient:
+  - Adding new endpointParam
+  - Adding ClientApiVersionPolicy
 
 - for HealthInsightsErrorResponseOutput:
   - Retire 'requestId' and the response: RequestIdResponseHeaderOutput.
@@ -26,7 +31,12 @@
 
 - for ClinicalDocumentTypeOutput:
   - Replace 'ClinicalDocumentTypeOutputEnum' by 'string'.
-  
+
+- for pollingHelper:
+  - Adding imports for 'AbortSignalLike' and 'CancelOnProgress'
+  - Replace 'RunningOperation' with 'LongRunningOperation'
+  - Replace 'OperationResponse' with 'LroResponse'
+  - Retire 'SimplePollerLike'
 
 ## 1.0.0 (2024-08-15)
 

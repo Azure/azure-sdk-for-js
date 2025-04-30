@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { createRecorder, createManagedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
@@ -48,10 +48,31 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value: `History:
-    Left renal tumor with thin septations.
-    Findings:
-    There is a right kidney tumor with nodular calcification.`,
+  value: `EXAM: CT CHEST WO CONTRAST
+
+INDICATION: abnormal lung findings. History of emphysema.
+
+TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique. 
+
+COMPARISON: Chest CT dated 6/21/2022.
+
+Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
+
+FINDINGS:
+
+Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
+
+Limited evaluation of the upper abdomen shows no concerning abnormality.
+
+Review of bone windows shows no aggressive appearing osseous lesions.
+
+
+IMPRESSION:
+
+1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
+2. Severe emphysema.
+
+Findings communicated to Dr. Jane Smith.`,
 };
 
 const patientDocumentData = {
@@ -164,11 +185,18 @@ function findGuidance(res: any): void {
               console.log("   Ranking: ", inference.ranking);
             }
 
-            inference.recommendationProposals?.forEach((recomendProposal: any) => {
-              recomendProposal.kind?.forEach((kind: any) => {
-                console.log("   Recommendation Proposal: ", kind);
+            if ("recommendationProposals" in inference) {
+              inference.recommendationProposals.forEach((proposal: any) => {
+                console.log("   Recommendation Proposal: ", proposal.kind);
+                console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
+                if ("imagingProcedures" in proposal.recommendedProcedure) {
+                  proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure: any) => {
+                    console.log("      Recommended Imaging Procedure Codes: ");
+                    displayImaging(imagingProcedure);
+                  });
+                }
               });
-            });
+            }
 
             inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
               console.log("   Missing Guidance Information: ", missingInfo);
@@ -183,7 +211,7 @@ function findGuidance(res: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log(
-          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+          "          Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
         );
       }
     });
@@ -243,6 +271,32 @@ function findGuidance(res: any): void {
       }
     });
   }
+
+  function displayImaging(images: {
+    modality: { coding: any[] };
+    anatomy: { coding: any[] };
+    laterality: { coding: any[] };
+    contrast: { code: { coding: any[] } };
+    view: { code: { coding: any[] } };
+  }): void {
+    console.log("        Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("        Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("        Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if ("contrast" in images) {
+      console.log("        Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("        View Codes: ");
+      displayCodes(images.view.code);
+    }
+  }
+
 }
 
 describe("Guidance Inference Test", () => {
@@ -251,7 +305,7 @@ describe("Guidance Inference Test", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createTestClient(recorder);
+    client = await createManagedClient(recorder);
   });
 
   afterEach(async () => {
@@ -260,7 +314,7 @@ describe("Guidance Inference Test", () => {
 
   it("guidance inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138794807347")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138794807551")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();

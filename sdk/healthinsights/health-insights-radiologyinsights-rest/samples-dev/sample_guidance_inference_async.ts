@@ -67,7 +67,16 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
               }
 
               if ("recommendationProposals" in inference) {
-                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
+                inference.recommendationProposals.forEach((proposal: any) => {
+                  console.log("   Recommendation Proposal: ", proposal.kind);
+                  console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
+                  if ("imagingProcedures" in proposal.recommendedProcedure) {
+                    proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure: any) => {
+                      console.log("      Recommended Imaging Procedure Codes: ");
+                      displayImaging(imagingProcedure);
+                    });
+                  }
+                });
               }
 
               inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
@@ -150,6 +159,32 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         }
       });
     }
+
+    function displayImaging(images: {
+      modality: { coding: any[] };
+      anatomy: { coding: any[] };
+      laterality: { coding: any[] };
+      contrast: { code: { coding: any[] } };
+      view: { code: { coding: any[] } };
+    }): void {
+      console.log("     Modality Codes: ");
+      displayCodes(images.modality);
+      console.log("     Anatomy Codes: ");
+      displayCodes(images.anatomy);
+      if ("laterality" in images) {
+        console.log("     Laterality Codes: ");
+        displayCodes(images.laterality);
+      }
+      if ("contrast" in images) {
+        console.log("     Contrast Codes: ");
+        displayCodes(images.contrast.code);
+      }
+      if ("view" in images) {
+        console.log("     View Codes: ");
+        displayCodes(images.view.code);
+      }
+    }
+
   }
 
 }

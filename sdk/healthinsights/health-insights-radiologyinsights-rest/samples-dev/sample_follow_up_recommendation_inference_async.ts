@@ -116,6 +116,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       displayCodes(images.view.code);
     }
   }
+
 }
 
 // Create request body for radiology insights

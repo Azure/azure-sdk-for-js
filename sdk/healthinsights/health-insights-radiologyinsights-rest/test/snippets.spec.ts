@@ -138,10 +138,21 @@ describe("snippets", () => {
     const findingOptions = {
       provideFocusedSentenceEvidence: true,
     };
+    //@ts-preserve-whitespace
+    //the mipscodes (“merit based payment incentive”) need to be filled in for which the qualityMeasure is checked
+    const qualityMeasureOptions = {
+      measureTypes: ["mipsxxx", "mipsyyy", "mipszz"],
+    };
+    //@ts-preserve-whitespace
+    const guidancOptions = {
+      showGuidanceInHistory: true,
+    };
     // @ts-preserve-whitespace
     const inferenceOptions = {
       followupRecommendationOptions: followupRecommendationOptions,
       findingOptions: findingOptions,
+      GuidanceOptions: guidancOptions,
+      QualityMeasureOptions: qualityMeasureOptions,
     };
     // @ts-preserve-whitespace
     // Create RI Configuration
@@ -496,8 +507,18 @@ describe("snippets", () => {
               console.log("   Recommendation Proposal: ");
               const recommendationProposals = guidanceInference.recommendationProposals;
               for (const proposal of recommendationProposals) {
-                console.log("   Recommended Procedure: ");
-                console.log(`      Kind: ${proposal.kind}`);
+                console.log(`   Recommended Proposal: ${proposal.kind}`);
+                console.log(`      Recommendation Procedure:  ${proposal.recommendedProcedure.kind}`);
+                let imagingprocedure;
+                if (proposal.recommendedProcedure.kind === "imagingProcedureRecommendation") {
+                  imagingprocedure = (proposal.recommendedProcedure as ImagingProcedureRecommendation).imagingProcedures;
+                  if (imagingprocedure) {
+                    console.log("   Imaging Procedure Codes: ");
+                    for (const imagingProcedure of imagingprocedure) {
+                      displayImaging(imagingProcedure);
+                    }
+                  }
+                }
               }
             }
             // @ts-preserve-whitespace
@@ -561,6 +582,25 @@ describe("snippets", () => {
               console.log(`      ${url}: ${valueString}`);
             }
           }
+        }
+      }
+      // @ts-preserve-whitespace
+      function displayImaging(images: ImagingProcedure): void {
+        console.log("   Modality Codes: ");
+        displayCodes(images.modality);
+        console.log("   Anatomy Codes: ");
+        displayCodes(images.anatomy);
+        if (images.laterality) {
+          console.log("   Laterality Codes: ");
+          displayCodes(images.laterality);
+        }
+        if (images.contrast) {
+          console.log("   Contrast Codes: ");
+          displayCodes(images.contrast.code);
+        }
+        if (images.view) {
+          console.log("   View Codes: ");
+          displayCodes(images.view.code);
         }
       }
     }
