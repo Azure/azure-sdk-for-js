@@ -74,7 +74,6 @@ describe.for([APIVersion.v2024_10_01_preview])(
                 resolve();
               } catch (e) {
                 reject(e);
-                throw e;
               }
             });
           });
