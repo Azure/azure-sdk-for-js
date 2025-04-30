@@ -51,8 +51,6 @@ module managedIdentityModule 'test-resources-managed-identity.bicep' = if(deploy
     }
 }
 
-output IDENTITY_TENANT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityTenantID : ''
-output IDENTITY_CLIENT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityClientID : ''
 output IDENTITY_WEBAPP_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityWebAppName : ''
 output IDENTITY_WEBAPP_PLAN string = deployMIResources? managedIdentityModule.outputs.IdentityWebAppPlan : ''
 output IDENTITY_USER_DEFINED_IDENTITY string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedIdentity: ''
@@ -65,3 +63,5 @@ output IDENTITY_AKS_CLUSTER_NAME string = deployMIResources? managedIdentityModu
 output IDENTITY_AKS_POD_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAksPodName : ''
 output IDENTITY_ACR_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAcrName : ''
 output IDENTITY_ACR_LOGIN_SERVER string = deployMIResources? managedIdentityModule.outputs.IdentityAcrLoginServer : ''
+output IDENTITY_TENANT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityTenantID : ''
+output IDENTITY_CLIENT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityClientID : ''

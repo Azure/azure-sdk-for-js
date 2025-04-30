@@ -32,8 +32,8 @@ param (
 )
 
 if (!$AdditionalParameters['deployMIResources']) {
-  Write-Host "Skipping post-provisioning script because resources weren't deployed"
-  return
+    Write-Host "Skipping post-provisioning script because resources weren't deployed"
+    return
 }
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
@@ -141,6 +141,3 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
-
-
-Write-Host "value is: $env:AZURE_CLIENT_SECRET"
