@@ -69,9 +69,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
     this.setFeatures();
 
-    this.longIntervalStatsbeatMeterProvider = new MeterProvider();
     this.longIntervalAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
-
     // Export Long Interval Statsbeats every day
     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.longIntervalAzureExporter,
@@ -82,7 +80,9 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.longIntervalMetricReader = new PeriodicExportingMetricReader(
       longIntervalMetricReaderOptions,
     );
-    this.longIntervalStatsbeatMeterProvider.addMetricReader(this.longIntervalMetricReader);
+    this.longIntervalStatsbeatMeterProvider = new MeterProvider({
+      readers: [new PeriodicExportingMetricReader(longIntervalMetricReaderOptions)]
+    });
     this.longIntervalStatsbeatMeter = this.longIntervalStatsbeatMeterProvider.getMeter(
       "Azure Monitor Long Interval Statsbeat",
     );
