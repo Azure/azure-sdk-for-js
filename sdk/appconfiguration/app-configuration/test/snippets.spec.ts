@@ -3,7 +3,7 @@
 
 import { describe, it } from "vitest";
 import { DefaultAzureCredential } from "@azure/identity";
-import { AppConfigurationClient, KnownAppConfigAudience } from "@azure/app-configuration";
+import { AppConfigurationClient, KnownAppConfigAudience } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
