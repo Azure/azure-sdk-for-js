@@ -427,7 +427,7 @@ export async function encryptOperationInput(
       const patchRequestBody = Array.isArray(body) ? body : body.operations;
       for (const patchOperation of patchRequestBody) {
         if ("value" in patchOperation) {
-          if (encryptionProcessor.isPathEncrypted(patchOperation.path)) {
+          if (await encryptionProcessor.isPathEncrypted(patchOperation.path)) {
             patchOperation.value = await encryptionProcessor.encryptProperty(
               patchOperation.path,
               patchOperation.value,

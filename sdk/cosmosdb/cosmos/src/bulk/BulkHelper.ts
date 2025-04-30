@@ -148,7 +148,11 @@ export class BulkHelper {
     }
 
     // Checks for id and partition key in input body
-    if (operation.operationType === "Create" || operation.operationType === "Upsert") {
+    if (
+      operation.operationType === "Create" ||
+      operation.operationType === "Upsert" ||
+      operation.operationType === "Replace"
+    ) {
       if (!operation.resourceBody.id) {
         this.operationPromisesList[idx] = Promise.resolve({
           operationInput: operation,
@@ -162,20 +166,17 @@ export class BulkHelper {
         this.processedOperationCountRef.count++;
         return;
       }
-    } else {
-      if (operation.partitionKey === undefined) {
-        this.operationPromisesList[idx] = Promise.resolve({
-          operationInput: operation,
-          error: Object.assign(
-            new ErrorResponse(
-              `PartitionKey is required for ${operation.operationType} operations.`,
-            ),
-            { code: StatusCodes.InternalServerError },
-          ),
-        });
-        this.processedOperationCountRef.count++;
-        return;
-      }
+    }
+    if (operation.partitionKey === undefined) {
+      this.operationPromisesList[idx] = Promise.resolve({
+        operationInput: operation,
+        error: Object.assign(
+          new ErrorResponse(`PartitionKey is required for ${operation.operationType} operations.`),
+          { code: StatusCodes.InternalServerError },
+        ),
+      });
+      this.processedOperationCountRef.count++;
+      return;
     }
 
     let operationError: Error | undefined;
