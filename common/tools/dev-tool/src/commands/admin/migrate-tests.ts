@@ -7,8 +7,7 @@ import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import stripJsonComments from "strip-json-comments";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { existsSync } from "node:fs";
-import vendored from "../run/vendored";
+import { vendoredWithOptions } from "../run/vendored";
 
 const log = createPrinter("migrate-tests");
 
@@ -47,6 +46,12 @@ export const commandInfo = makeCommandInfo(
   "migrate-tests",
   "migrates a package to the latest tests standards",
   {
+    all: {
+      description: "Migrate all packages",
+      kind: "boolean",
+      required: false,
+      default: false,
+    },
     "package-name": {
       description: "The name of the package to migrate",
       kind: "string",
@@ -57,8 +62,25 @@ export const commandInfo = makeCommandInfo(
 
 const TEST_ESM_NODE = "dev-tool run test:vitest --esm";
 
-export default leafCommand(commandInfo, async ({ "package-name": packageName }) => {
+export default leafCommand(commandInfo, async ({ all, "package-name": packageName }) => {
   let projectFolder: string;
+
+  if (all) {
+    const root = await resolveRoot();
+    const rushJson = await getRushJson();
+    const projects = rushJson.projects;
+
+    for (const project of projects) {
+      log.info(`Migrating package ${project.packageName}`);
+      const projectFolder = resolve(root, project.projectFolder);
+      const success = await updatePackageJson(projectFolder, project.packageName);
+      if (!success) {
+        log.error(`Failed to migrate package ${packageName}`);
+        return false;
+      }
+    }
+    return true;
+  }
 
   if (!packageName) {
     projectFolder = process.cwd();
@@ -75,12 +97,20 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
       log.error(`Package ${packageName} not found in rush.json`);
       return false;
     }
-
     projectFolder = resolve(root, project.projectFolder);
   }
 
   log.info(`Migrating package ${packageName}`);
+  const success = await updatePackageJson(projectFolder, packageName);
+  if (!success) {
+    log.error(`Failed to migrate package ${packageName}`);
+    return false;
+  }
 
+  return true;
+});
+
+async function updatePackageJson(projectFolder: string, packageName: string): Promise<boolean> {
   const packageJsonPath = resolve(projectFolder, "package.json");
   const packageJsonContent = await readFile(packageJsonPath, "utf-8");
   const packageJson = JSON.parse(packageJsonContent);
@@ -100,11 +130,14 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
     }
     if (unitTestBrowser) {
       packageJson.scripts["test:browser"] = unitTestBrowser;
-      delete packageJson.scripts["unit-test:browser"];
     }
 
     // Save the integration test if it's not the same as the ESM node test
-    if (packageJson.scripts["integration-test:node"] !== TEST_ESM_NODE) {
+    if (
+      packageJson.scripts["integration-test:node"] !== TEST_ESM_NODE &&
+      packageJson.scripts["integration-test:node"] !== packageJson.scripts["unit-test:node"] &&
+      !packageJson.scripts["integration-test:node"].includes("echo")
+    ) {
       log.info("Saving integration-test:node");
       packageJson.scripts["test:node:live"] = packageJson.scripts["integration-test:node"];
     }
@@ -128,10 +161,21 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
     delete packageJson.scripts["minify"];
 
     packageJson.scripts["test:node:esm"] = "dev-tool run test:vitest --esm";
+    if (packageJson.scripts["test:node"].includes("--no-test-proxy")) {
+      packageJson.scripts["test:node:esm"] += " --no-test-proxy";
+    }
+
+    if (
+      packageName.startsWith("@azure-tests/perf-") ||
+      packageName === "@azure/dev-tool" ||
+      packageName === "@azure-tools/vite-plugin-browser-test-map" ||
+      packageName === "@azure/eslint-plugin-azure-sdk"
+    ) {
+      packageJson.scripts["test:node:esm"] = "echo skipped";
+    }
 
     // Set the entry point for testing
-    packageJson.scripts["test"] =
-      "npm run test:node && npm run test:node:esm && npm run test:browser";
+    packageJson.scripts["test"] = "npm run test:node && npm run test:browser";
 
     // Clean it up
     sortPackage(packageJson);
@@ -145,7 +189,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
   }
 
   return true;
-});
+}
 
 function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: string]: string } {
   const sortedEntries = Object.entries(unsortedObj).sort((a, b) => a[0].localeCompare(b[0]));
@@ -169,9 +213,6 @@ function sortPackage(packageJson: any): void {
 }
 
 async function runCleanup(projectFolder: string): Promise<boolean> {
-  const samplesDevPath = resolve(projectFolder, "samples-dev");
-  const hasSamplesDev = existsSync(samplesDevPath);
-
   const prettierCommandArgs = [
     "prettier",
     "--write",
@@ -179,19 +220,10 @@ async function runCleanup(projectFolder: string): Promise<boolean> {
     "../../../.prettierrc.json",
     "--ignore-path",
     "../../../.prettierignore",
-    "test/**/*.ts",
-    "*.json",
-    "*.ts",
+    "package.json",
   ];
 
-  if (hasSamplesDev) {
-    const testIndex = prettierCommandArgs.indexOf("test/**/*.ts");
-    if (testIndex !== -1) {
-      prettierCommandArgs.splice(testIndex + 1, 0, "samples-dev/**/*.ts");
-    }
-  }
-
-  const prettierCommand = await vendored(...prettierCommandArgs);
+  const prettierCommand = await vendoredWithOptions({ cwd: projectFolder }, ...prettierCommandArgs);
 
   if (!prettierCommand) {
     return false;
