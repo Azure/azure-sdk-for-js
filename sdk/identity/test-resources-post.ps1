@@ -141,3 +141,6 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+
+
+Write-Host "value is: $env:AZURE_CLIENT_SECRET"

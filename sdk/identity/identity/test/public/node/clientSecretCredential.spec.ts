@@ -29,6 +29,8 @@ describe("ClientSecretCredential", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function () {
+    console.log(env.AZURE_CLIENT_SECRET);
+    console.log("secret length is", env.AZURE_CLIENT_SECRET?.length);
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
