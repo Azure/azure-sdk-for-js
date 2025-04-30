@@ -1267,6 +1267,9 @@ importers:
       '@rush-temp/web-pubsub-express':
         specifier: file:./projects/web-pubsub-express.tgz
         version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      pg-protocol:
+        specifier: 1.8.0
+        version: 1.8.0
 
 packages:
 
@@ -2880,7 +2883,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-iotfirmwaredefense@file:projects/arm-iotfirmwaredefense.tgz':
-    resolution: {integrity: sha512-uG5UwXuZw39+ZtzQIWjrncKO9wTGuCru8h/T7RskNv8CKxuy+Q3Rv22x0GIVP7jfPgIshSv3KmXpK4WYvnYs0Q==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    resolution: {integrity: sha512-VosDsn3Jyydk96qaX2fTcLg+gTL+N1kbIOh52JrEaaDdcELmtJcJ+Vz6BwJbFm/ByQFpKcvGELMXuZFw/QI7nQ==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iothub-profile-2020-09-01-hybrid@file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz':
@@ -3524,7 +3527,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-client@file:projects/core-client.tgz':
-    resolution: {integrity: sha512-j6hx5Yuzt1PhSywtDlY8ky0yfMcCvNxfDk1O0slDdAP0ab84Ax+E5FsM3FJZ9GwjVfsGXEhqUbfOlTfmtk4Oww==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-+NJNEAvfot12qN/e6EqYyY7MzMw2GA2SQQPDzZp+f/DGsXrFJrl8GBGqNIM6E7JoMOU+siBpQUF3w2p70t1Nyw==, tarball: file:projects/core-client.tgz}
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
@@ -3740,7 +3743,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-b6LjLNglBGfbrTXmqOmB8CSVbeXhIRQgUbvW+7Kuq9iiMW7WnJALqlHRT+Tk9uY86xIqSWo8F5CyHsmsWzXPSg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-rDQ+qDu7fLRrh7vnpgr1JTKAyo1uyjvrC/XI/ObEOry4F9miUcAP8T3zcBqK6EEZmMDqpc6PyQU/FSe/zc2Hig==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -6168,8 +6171,8 @@ packages:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
 
-  pg-protocol@1.9.5:
-    resolution: {integrity: sha512-DYTWtWpfd5FOro3UnAfwvhD8jh59r2ig8bPtc9H8Ds7MscE/9NYruUQWFAOuraRl29jwcT2kyMFQ3MxeaVjUhg==}
+  pg-protocol@1.8.0:
+    resolution: {integrity: sha512-jvuYlEkL03NRvOoyoRktBK7+qU5kOvlAwvmrH8sr3wbLrOdVWsRxQfz8mMy9sZFsqJ1hEWNfdWKI4SAmoL+j7g==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -13507,7 +13510,7 @@ snapshots:
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
-      eslint: 9.25.0
+      eslint: 9.25.1
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -23053,7 +23056,7 @@ snapshots:
   '@types/pg@8.6.1':
     dependencies:
       '@types/node': 18.19.87
-      pg-protocol: 1.9.5
+      pg-protocol: 1.8.0
       pg-types: 2.2.0
 
   '@types/priorityqueuejs@1.0.4': {}
@@ -25206,7 +25209,7 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
-  pg-protocol@1.9.5: {}
+  pg-protocol@1.8.0: {}
 
   pg-types@2.2.0:
     dependencies:
