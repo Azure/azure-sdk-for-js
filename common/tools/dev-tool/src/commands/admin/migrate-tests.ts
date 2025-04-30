@@ -151,7 +151,7 @@ async function updatePackageJson(projectFolder: string, packageName: string): Pr
     delete packageJson.scripts["integration-test:browser"];
 
     // Clean up build scripts
-    if (packageJson.scripts["build:test"]?.includes("echo")) {
+    if (!packageJson.scripts["build:test"]?.includes("echo")) {
       log.info("Removing build:test script");
       log.info(`"build:test": "${packageJson.scripts["build:test"]}"`);
     }
