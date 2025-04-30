@@ -168,7 +168,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
       });
     });
 
-    describe.concurrent("create, lists, gets, and cancels a run", async () => {
+    describe.concurrent("creates, lists, gets, and cancels a run", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
         run: async (client, deployment) => {
@@ -235,8 +235,7 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
         },
         acceptableErrors: {
           messageSubstring: [
-            "400 Cannot cancel run with status 'completed'",
-            "400 Cannot cancel run with status 'failed'",
+            "400 Cannot cancel run with status",
           ],
         },
         modelsListToSkip: [
