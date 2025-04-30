@@ -17,7 +17,7 @@ describe("CongestionAlgorithm", () => {
   beforeEach(() => {
     oldPartitionMetric = new PartitionMetric();
     partitionMetric = new PartitionMetric();
-    limiter = new LimiterQueue(1, partitionMetric, mockRetrier);
+    limiter = new LimiterQueue(1, partitionMetric, mockRetrier, {} as any);
   });
   it("should increase concurrency by 1 when there is no throttling and items are processed", () => {
     const itemsCount = 10; // 10 items processed

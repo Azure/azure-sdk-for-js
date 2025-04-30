@@ -109,17 +109,28 @@ export class BulkHelper {
         clearInterval(this.congestionControlTimer);
       }
     }
-    const operationResults = await Promise.allSettled(this.operationPromisesList);
+    const settledResults = await Promise.allSettled(this.operationPromisesList);
     if (this.isCancelled && this.staleRidError) {
       throw this.staleRidError;
     }
 
-    return operationResults.map((result) => {
-      if (result.status === "fulfilled") {
-        return result.value;
+    const bulkOperationResults = settledResults.map((result) =>
+      result.status === "fulfilled" ? result.value : result.reason,
+    );
+
+    // Formatting result: if an error is present, removing the stack trace details.
+    const formattedResults = bulkOperationResults.map((result) => {
+      if (result && result.error) {
+        const { stack, ...otherProps } = result.error;
+        const trimmedError = { message: result.error.message, ...otherProps };
+        return {
+          ...result,
+          error: trimmedError,
+        };
       }
-      return result.reason;
+      return result;
     });
+    return formattedResults;
   }
 
   private async addOperation(operation: OperationInput, idx: number): Promise<void> {
