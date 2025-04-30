@@ -83,7 +83,12 @@ export interface CertificateParts {
    * Hex encoded X.509 SHA-256 thumbprint of the certificate.
    */
   thumbprintSha256: string;
-
+  /**
+   * Hex encoded X.509 SHA-1 thumbprint of the certificate.
+   * @deprecated Use thumbprintSha256 property instead. Thumbprint needs to be computed with SHA-256 algorithm.
+   * SHA-1 is only needed for backwards compatibility with older versions of ADFS.
+   */
+  thumbprint: string;
   /**
    * The PEM encoded private key.
    */
