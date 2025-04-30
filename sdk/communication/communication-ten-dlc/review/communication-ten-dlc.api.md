@@ -40,6 +40,7 @@ export interface BrandDetails {
     stockSymbol?: string;
     taxNumber?: string;
     taxNumberIssuingCountry?: string;
+    termsAndConditionsAccepted?: boolean;
     url?: string;
 }
 
@@ -50,6 +51,9 @@ export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancella
 export interface CampaignDetails {
     callToAction?: string;
     description?: string;
+    name?: string;
+    privacyPolicyUrl?: string;
+    termsAndConditionsUrl?: string;
 }
 
 // @public
@@ -61,11 +65,14 @@ export type CompanyVertical = "Agriculture" | "Communication" | "Construction" |
 // @public
 export interface ContactInformation {
     email?: string;
+    emailForVerification?: string;
+    firstName?: string;
+    lastName?: string;
     phone?: string;
 }
 
 // @public
-export type ContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication";
+export type ContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication" | "UcaasLow";
 
 // @public
 export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {

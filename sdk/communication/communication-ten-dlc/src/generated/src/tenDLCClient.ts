@@ -57,7 +57,7 @@ export class TenDLCClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-05-01-preview";
+    this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.tenDlc = new TenDlcImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

@@ -79,14 +79,22 @@ export interface BrandDetails {
   taxNumberIssuingCountry?: string;
   /** URL */
   url?: string;
+  /** Whether the terms and conditions have been accepted */
+  termsAndConditionsAccepted?: boolean;
 }
 
 /** Represent contact information for the brand. */
 export interface ContactInformation {
+  /** Contact first name. */
+  firstName?: string;
+  /** Contact last name. */
+  lastName?: string;
   /** Contact phone number for the authorized user for the customer. Use E164 format. e.g. +14086111111 */
   phone?: string;
-  /** Contact email address number for the authorized user for the customer */
+  /** Contact email for the authorized user for the customer */
   email?: string;
+  /** Email used for two factor authentication. */
+  emailForVerification?: string;
 }
 
 /** Represents postal address. */
@@ -171,10 +179,16 @@ export interface USCampaign {
 
 /** Information about the campaign. */
 export interface CampaignDetails {
+  /** Friendly name for the campaign */
+  name?: string;
   /** Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type */
   callToAction?: string;
   /** Describes how and why the number will be used for messaging as part of the program. */
   description?: string;
+  /** URL to the privacy policy */
+  privacyPolicyUrl?: string;
+  /** URL to the terms and conditions */
+  termsAndConditionsUrl?: string;
 }
 
 /** Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like. */
@@ -334,7 +348,8 @@ export type ContentType =
   | "PollingVoting"
   | "PublicServiceAnnouncement"
   | "SecurityAlert"
-  | "TwoFactorAuthentication";
+  | "TwoFactorAuthentication"
+  | "UcaasLow";
 /** Defines values for SubContentType. */
 export type SubContentType =
   | "TwoFactorAuthentication"
@@ -406,6 +421,13 @@ export interface TenDlcCancelUSBrandOptionalParams
 
 /** Contains response data for the cancelUSBrand operation. */
 export type TenDlcCancelUSBrandResponse = USBrand;
+
+/** Optional parameters. */
+export interface TenDlcSubmitUSBrandForVettingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the submitUSBrandForVetting operation. */
+export type TenDlcSubmitUSBrandForVettingResponse = USBrand;
 
 /** Optional parameters. */
 export interface TenDlcUpsertUSCampaignOptionalParams

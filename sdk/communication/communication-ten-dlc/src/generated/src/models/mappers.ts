@@ -236,6 +236,12 @@ export const BrandDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      termsAndConditionsAccepted: {
+        serializedName: "termsAndConditionsAccepted",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -245,6 +251,18 @@ export const ContactInformation: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ContactInformation",
     modelProperties: {
+      firstName: {
+        serializedName: "firstName",
+        type: {
+          name: "String",
+        },
+      },
+      lastName: {
+        serializedName: "lastName",
+        type: {
+          name: "String",
+        },
+      },
       phone: {
         serializedName: "phone",
         type: {
@@ -256,6 +274,15 @@ export const ContactInformation: coreClient.CompositeMapper = {
           MaxLength: 100,
         },
         serializedName: "email",
+        type: {
+          name: "String",
+        },
+      },
+      emailForVerification: {
+        constraints: {
+          MaxLength: 100,
+        },
+        serializedName: "emailForVerification",
         type: {
           name: "String",
         },
@@ -500,6 +527,15 @@ export const CampaignDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CampaignDetails",
     modelProperties: {
+      name: {
+        constraints: {
+          MaxLength: 255,
+        },
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
       callToAction: {
         serializedName: "callToAction",
         type: {
@@ -508,6 +544,24 @@ export const CampaignDetails: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      privacyPolicyUrl: {
+        constraints: {
+          MaxLength: 255,
+        },
+        serializedName: "privacyPolicyUrl",
+        type: {
+          name: "String",
+        },
+      },
+      termsAndConditionsUrl: {
+        constraints: {
+          MaxLength: 255,
+        },
+        serializedName: "termsAndConditionsUrl",
         type: {
           name: "String",
         },

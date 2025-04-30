@@ -101,7 +101,7 @@ export const brandId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01-preview",
+    defaultValue: "2025-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

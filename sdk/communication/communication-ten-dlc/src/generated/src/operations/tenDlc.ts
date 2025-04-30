@@ -36,6 +36,8 @@ import {
   TenDlcSubmitUSBrandResponse,
   TenDlcCancelUSBrandOptionalParams,
   TenDlcCancelUSBrandResponse,
+  TenDlcSubmitUSBrandForVettingOptionalParams,
+  TenDlcSubmitUSBrandForVettingResponse,
   TenDlcUpsertUSCampaignOptionalParams,
   TenDlcUpsertUSCampaignResponse,
   TenDlcDeleteUSCampaignOptionalParams,
@@ -333,6 +335,26 @@ export class TenDlcImpl implements TenDlc {
           { brandId, options },
           cancelUSBrandOperationSpec,
         ) as Promise<TenDlcCancelUSBrandResponse>;
+      },
+    );
+  }
+
+  /**
+   * @param brandId
+   * @param options The options parameters.
+   */
+  async submitUSBrandForVetting(
+    brandId: string,
+    options?: TenDlcSubmitUSBrandForVettingOptionalParams,
+  ): Promise<TenDlcSubmitUSBrandForVettingResponse> {
+    return tracingClient.withSpan(
+      "TenDLCClient.submitUSBrandForVetting",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { brandId, options },
+          submitUSBrandForVettingOperationSpec,
+        ) as Promise<TenDlcSubmitUSBrandForVettingResponse>;
       },
     );
   }
@@ -641,6 +663,22 @@ const getUSBrandsOperationSpec: coreClient.OperationSpec = {
 };
 const cancelUSBrandOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/brands/{brandId}:cancel",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.USBrand,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.brandId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const submitUSBrandForVettingOperationSpec: coreClient.OperationSpec = {
+  path: "/tendlc/countries/US/brands/{brandId}:submitForVetting",
   httpMethod: "POST",
   responses: {
     200: {
