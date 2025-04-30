@@ -8,6 +8,7 @@ export type FileContents = string | NodeJS.ReadableStream | ReadableStream | Uin
 
 export function createFilePartDescriptor(
   partName: string,
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   fileInput: any,
   defaultContentType?: string,
 ): any {
