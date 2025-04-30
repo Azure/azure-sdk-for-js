@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the agent pools for a specified container registry.
  *
  * @summary Lists all the agent pools for a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/AgentPoolsList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/AgentPoolsList.json
  */
 async function agentPoolsList(): Promise<void> {
   const subscriptionId =
@@ -29,7 +31,7 @@ async function agentPoolsList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.agentPools.list(
+  for await (const item of client.agentPools.list(
     resourceGroupName,
     registryName,
   )) {

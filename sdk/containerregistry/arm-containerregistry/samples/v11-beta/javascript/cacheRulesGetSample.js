@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -14,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the properties of the specified cache rule resource.
  *
  * @summary Gets the properties of the specified cache rule resource.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/CacheRuleGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/CacheRuleGet.json
  */
 async function cacheRuleGet() {
   const subscriptionId =

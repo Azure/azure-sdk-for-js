@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { NetAppManagementClient } = require("@azure/arm-netapp");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -14,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete quota rule
  *
  * @summary Delete quota rule
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-09-01/examples/VolumeQuotaRules_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/VolumeQuotaRules_Delete.json
  */
 async function volumeQuotaRulesDelete() {
   const subscriptionId =

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists recent events for the specified webhook.
  *
  * @summary Lists recent events for the specified webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/WebhookListEvents.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/WebhookListEvents.json
  */
 async function webhookListEvents(): Promise<void> {
   const subscriptionId =
@@ -30,7 +32,7 @@ async function webhookListEvents(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.webhooks.listEvents(
+  for await (const item of client.webhooks.listEvents(
     resourceGroupName,
     registryName,
     webhookName,
