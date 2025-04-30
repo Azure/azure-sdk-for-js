@@ -28,4 +28,6 @@ extends:
         safeName: azurerestaiinference
       - name: azure-ai-projects
         safeName: azureaaiprojects
+      - name: azure-ai-agents
+        safeName: azureaaiagents
     
