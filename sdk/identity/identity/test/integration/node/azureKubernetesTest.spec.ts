@@ -10,8 +10,8 @@ describe("Azure Kubernetes Integration test", function () {
     if (!isLiveMode()) {
       ctx.skip();
     }
-    const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
 
+    const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
 
