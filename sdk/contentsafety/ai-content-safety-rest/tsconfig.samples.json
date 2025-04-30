@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/ai-content-safety": ["./dist/esm"]
+      "@azure-rest/ai-content-safety": [
+        "./dist/esm"
+      ]
     }
   }
 }
