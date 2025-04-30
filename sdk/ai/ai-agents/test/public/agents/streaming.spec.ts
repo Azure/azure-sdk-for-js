@@ -3,9 +3,9 @@
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsClient, ThreadRun } from "../../../src/index.js";
-import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { RunStreamEvent, MessageStreamEvent } from "../../../src/models/streamingModels.js";
 
 describe("Agents - streaming", () => {
   let recorder: Recorder;

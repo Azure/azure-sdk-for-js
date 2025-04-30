@@ -121,6 +121,11 @@ import {
 } from "@azure-rest/core-client";
 import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "./poller.js";
+import { createSseStream, EventMessage, EventMessageStream } from "@azure/core-sse";
+import { isNodeLike } from "@azure/core-util";
+import { IncomingMessage } from "http";
+import { AgentEventMessage, AgentEventMessageStream, AgentEventStreamData, AgentRunResponse, MessageStreamEvent, RunStepStreamEvent, RunStreamEvent, ThreadStreamEvent } from "../models/streamingModels.js";
+import { logger } from "../logger.js";
 
 export function _listVectorStoreFileBatchFilesSend(
   context: Client,
@@ -1340,13 +1345,26 @@ export async function _createThreadAndRunDeserialize(
 }
 
 /** Creates a new agent thread and immediately starts a run using that new thread. */
-export async function createThreadAndRun(
+export function createThreadAndRun(
   context: Client,
   assistantId: string,
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
-): Promise<ThreadRun> {
-  const result = await _createThreadAndRunSend(context, assistantId, options);
-  return _createThreadAndRunDeserialize(result);
+): AgentRunResponse {
+
+    async function executeCreateThreadAndRun(): Promise<ThreadRun> {
+    const result = await _createThreadAndRunSend(context, assistantId, options);
+    return _createThreadAndRunDeserialize(result);
+  }
+
+  return {
+    then: function (onFulfilled, onRejected) {
+      return executeCreateThreadAndRun().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      return createThreadAndRunStreaming(context, assistantId, options);
+    },
+  };
+
 }
 
 export function _cancelRunSend(
@@ -1599,22 +1617,7 @@ export function _createRunSend(
   assistantId: string,
   options: CreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/threads/{threadId}/runs{?api%2Dversion,include%5B%5D}",
-    {
-      threadId: threadId,
-      "api%2Dversion": context.apiVersion,
-      "include%5B%5D": !options?.include
-        ? options?.include
-        : options?.include.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
+  return context.path("/threads/{threadId}/runs", threadId).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
@@ -1660,14 +1663,26 @@ export async function _createRunDeserialize(result: PathUncheckedResponse): Prom
 }
 
 /** Creates a new run for an agent thread. */
-export async function createRun(
+export function createRun(
   context: Client,
   threadId: string,
   assistantId: string,
-  options: CreateRunOptionalParams = { requestOptions: {} },
-): Promise<ThreadRun> {
-  const result = await _createRunSend(context, threadId, assistantId, options);
-  return _createRunDeserialize(result);
+  options: CreateRunOptionalParams,
+): AgentRunResponse {
+
+  async function executeCreateRun(): Promise<ThreadRun> {
+    const result = await _createRunSend(context, threadId, assistantId, options);
+    return _createRunDeserialize(result);
+  }
+
+  return {
+    then: function (onFulfilled, onRejected) {
+      return executeCreateRun().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      return createRunStreaming(context, assistantId,threadId, options);
+    },
+  };
 }
 
 export function _updateMessageSend(
@@ -2365,4 +2380,104 @@ export async function createAgent(
 ): Promise<Agent> {
   const result = await _createAgentSend(context, model, options);
   return _createAgentDeserialize(result);
+}
+
+const handlers = [
+  { events: Object.values(ThreadStreamEvent) as string[] },
+  { events: Object.values(RunStreamEvent) as string[]},
+  { events: Object.values(RunStepStreamEvent) as string[] },
+  { events: Object.values(MessageStreamEvent) as string[] },
+];
+
+function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
+  const asyncIterator = toAsyncIterable(stream);
+  const asyncDisposable = stream as AsyncDisposable;
+  return Object.assign(asyncIterator, asyncDisposable);
+}
+
+async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<AgentEventMessage> {
+  for await (const event of stream) {
+    const data = deserializeEventData(event);
+    yield { data: data, event: event.event };
+  }
+}
+
+function deserializeEventData(event: EventMessage): AgentEventStreamData {
+  try {
+    const jsonData = JSON.parse(event.data);
+    switch (event.event) {
+      case MessageStreamEvent.ThreadMessageDelta:
+        return jsonData;
+      case RunStepStreamEvent.ThreadRunStepDelta:
+        return jsonData;
+      default: {
+        for (const { events } of handlers) {
+          if (events.includes(event.event)) {
+            return jsonData;
+          }
+        }
+
+        return jsonData;
+      }
+    }
+  } catch (ex) {
+    logger.error(`Failed to parse event data  ${event.event} - error: ${ex}`);
+    return event.data;
+  }
+}
+
+async function processStream(streamResponse: StreamableMethod): Promise<AgentEventMessageStream> {
+  const expectedStatuses = ["200"];
+  const result = isNodeLike
+    ? await streamResponse.asNodeStream()
+    : await streamResponse.asBrowserStream();
+
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+  if (!result.body) {
+    throw new Error("No body in response");
+  }
+
+  const stream = isNodeLike
+    ? createSseStream(result.body as IncomingMessage)
+    : createSseStream(result.body as ReadableStream);
+  return createAgentStream(stream);
+}
+
+/** Create a run and stream the events */
+export async function createRunStreaming(
+  context: Client,
+  assistantId: string,
+  threadId: string,
+  options: CreateRunOptionalParams = { requestOptions: {} },
+): Promise<AgentEventMessageStream> {
+  options.stream = true;
+
+  return processStream(_createRunSend(context, threadId, assistantId, options));
+}
+
+/** Create a thread and run and stream the events */
+export async function createThreadAndRunStreaming(
+  context: Client,
+  assistantId: string,
+  options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
+): Promise<AgentEventMessageStream> {
+  options.stream = true;
+  return processStream(_createThreadAndRunSend(context, assistantId, options));
+}
+
+export async function submitToolOutputsToRunStreaming(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
+): Promise<AgentEventMessageStream> {
+  options.stream = true;
+
+  return processStream(
+    context
+      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
+      .post(options),
+  );
 }

@@ -123,6 +123,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { OperationState, PollerLike } from "@azure/core-lro";
+import { AgentRunResponse } from "./models/streamingModels.js";
 
 export { AgentsClientOptionalParams } from "./api/agentsContext.js";
 
@@ -354,7 +355,7 @@ export class AgentsClient {
   createThreadAndRun(
     assistantId: string,
     options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
-  ): Promise<ThreadRun> {
+  ): AgentRunResponse {
     return createThreadAndRun(this._client, assistantId, options);
   }
 
@@ -408,7 +409,7 @@ export class AgentsClient {
     threadId: string,
     assistantId: string,
     options: CreateRunOptionalParams = { requestOptions: {} },
-  ): Promise<ThreadRun> {
+  ): AgentRunResponse {
     return createRun(this._client, threadId, assistantId, options);
   }
 

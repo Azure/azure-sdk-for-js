@@ -8,21 +8,16 @@
  *
  */
 
-import type {
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  ThreadRun,
-} from "@azure/ai-agents";
 import {
   AgentsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
+  type MessageDeltaChunk,
+  type MessageDeltaTextContent,
+  type ThreadRun,
 } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
+import { RunStreamEvent, MessageStreamEvent, ErrorEvent, DoneEvent } from "../../dist/esm/models/streamingModels.js";
 
 const connectionString =
   process.env["PROJECT_ENDPOINT"] || "<project connection string>";
@@ -41,11 +36,11 @@ export async function main(): Promise<void> {
 
   const thread = await client.createThread();
 
-  console.log(`Created thread, thread ID : ${agent.id}`);
+  console.log(`Created thread, thread ID : ${thread.id}`);
 
   await client.createMessage(thread.id, "user", "Hello, tell me a joke");
 
-  console.log(`Created message, thread ID : ${agent.id}`);
+  console.log(`Created message, thread ID : ${thread.id}`);
 
   const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
 
