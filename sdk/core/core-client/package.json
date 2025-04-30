@@ -71,7 +71,7 @@
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.4.0",
-    "@azure/core-rest-pipeline": "^1.9.1",
+    "@azure/core-rest-pipeline": "^1.20.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.0",

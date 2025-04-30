@@ -217,7 +217,7 @@ jobs:
 
               node ../../../common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Test libraries - PackagePath"
+          displayName: "Test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -239,7 +239,7 @@ jobs:
 
               node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries - PackageTestPath"
+          displayName: "Integration test libraries - min/max testing"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -275,7 +275,7 @@ jobs:
       - ${{ else }}:
         - script: |
             node ../../../common/scripts/install-run-rushx.js test:$(TestType)
-          displayName: "Integration test libraries - PackagePath"
+          displayName: "Integration test libraries"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
@@ -285,7 +285,7 @@ jobs:
 
         - script: |
             node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
-          displayName: "Integration test libraries - PackageTestPath"
+          displayName: "Test libraries - min/max testing"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
