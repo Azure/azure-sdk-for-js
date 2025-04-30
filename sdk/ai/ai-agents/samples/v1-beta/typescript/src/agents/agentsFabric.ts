@@ -13,16 +13,14 @@ import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
-  const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
-  const connectionId = 
-    process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
+  const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize agent Microsoft Fabric tool with the connection id
   const fabricTool = ToolUtility.createFabricTool(connectionId);
@@ -40,7 +38,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(thread.id, "user", "What are the top 3 weather events with the highest property damage?");
+  const message = await client.createMessage(
+    thread.id,
+    "user",
+    "What are the top 3 weather events with the highest property damage?",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools

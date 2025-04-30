@@ -13,11 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "node:stream";
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
-// Create an Azure AI Client
+  // Create an Azure AI Client
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create and upload file
@@ -25,7 +24,7 @@ export async function main(): Promise<void> {
 
   const readable = Readable.from(Buffer.from(fileContent));
   // Add fileName to options for proper multipart/form-data formatting
-  const file = await client.uploadFile(readable, "assistants",{ fileName: "file.txt"});
+  const file = await client.uploadFile(readable, "assistants", { fileName: "file.txt" });
   console.log(`Uploaded file, file ID : ${file.id}`);
 
   // List uploaded files

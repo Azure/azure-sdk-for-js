@@ -9,21 +9,15 @@
  */
 
 import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
-import {
-  AgentsClient,
-  ToolUtility,
-  connectionToolType,
-  isOutputOfType,
-} from "@azure/ai-agents";
+import { AgentsClient, ToolUtility, connectionToolType, isOutputOfType } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
-  const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
@@ -50,7 +44,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(thread.id,  "user","Hello, tell me about my health insurance options");
+  const message = await client.createMessage(
+    thread.id,
+    "user",
+    "Hello, tell me about my health insurance options",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools

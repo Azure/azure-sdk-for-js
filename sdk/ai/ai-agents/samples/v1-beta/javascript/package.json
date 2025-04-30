@@ -2,7 +2,7 @@
   "name": "@azure-samples/ai-agents-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure AI Projects client library samples for JavaScript (Beta)",
+  "description": "Azure AI Agents client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
   },

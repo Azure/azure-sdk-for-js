@@ -82,7 +82,9 @@ describe("projectsClient - vector stores", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Modify vector store
-    const updatedVectorStore = await projectsClient.modifyVectorStore(vectorStore.id, { name: "updated" });
+    const updatedVectorStore = await projectsClient.modifyVectorStore(vectorStore.id, {
+      name: "updated",
+    });
     assert.equal(updatedVectorStore.id, vectorStore.id);
     assert.equal(updatedVectorStore.name, "updated");
     console.log(

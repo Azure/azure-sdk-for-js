@@ -31,9 +31,13 @@ describe("projectsClient - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", {
+      fileName: "filename.txt",
+    });
     const fileContent2 = await generateFileStream();
-    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", {
+      fileName: "filename.txt",
+    });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await projectsClient.createVectorStoreFileBatch(vectorStore.id, {
@@ -62,9 +66,13 @@ describe("projectsClient - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", {
+      fileName: "filename.txt",
+    });
     const fileContent2 = await generateFileStream();
-    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", {
+      fileName: "filename.txt",
+    });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await projectsClient.createVectorStoreFileBatch(vectorStore.id, {
@@ -101,9 +109,13 @@ describe("projectsClient - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", {
+      fileName: "filename.txt",
+    });
     const fileContent2 = await generateFileStream();
-    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", {
+      fileName: "filename.txt",
+    });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await projectsClient.createVectorStoreFileBatch(vectorStore.id, {
@@ -140,9 +152,13 @@ describe("projectsClient - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", {
+      fileName: "filename.txt",
+    });
     const fileContent2 = await generateFileStream();
-    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", {
+      fileName: "filename.txt",
+    });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await projectsClient.createVectorStoreFileBatch(vectorStore.id, {
@@ -175,14 +191,21 @@ describe("projectsClient - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", {
+      fileName: "filename.txt",
+    });
     const fileContent2 = await generateFileStream();
-    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", {
+      fileName: "filename.txt",
+    });
 
     // Create vector store file batch
-    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(vectorStore.id, {
-      fileIds: [file1.id, file2.id],
-    });
+    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(
+      vectorStore.id,
+      {
+        fileIds: [file1.id, file2.id],
+      },
+    );
     assert.isNotNull(vectorStoreFileBatchPoller);
     const initialState = vectorStoreFileBatchPoller.poll();
     assert.isNotNull(initialState);
@@ -211,14 +234,21 @@ describe("projectsClient - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
+    const file1 = await projectsClient.uploadFile(fileContent1, "assistants", {
+      fileName: "filename.txt",
+    });
     const fileContent2 = await generateFileStream();
-    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
+    const file2 = await projectsClient.uploadFile(fileContent2, "assistants", {
+      fileName: "filename.txt",
+    });
 
     // Create vector store file batch
-    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(vectorStore.id, {
-      fileIds: [file1.id, file2.id],
-    });
+    const vectorStoreFileBatchPoller = projectsClient.createVectorStoreFileBatchAndPoll(
+      vectorStore.id,
+      {
+        fileIds: [file1.id, file2.id],
+      },
+    );
     assert.isNotNull(vectorStoreFileBatchPoller);
     const initialState = vectorStoreFileBatchPoller.poll();
     assert.isNotNull(initialState);

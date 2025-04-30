@@ -123,6 +123,7 @@ import {
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { OperationState, PollerLike } from "@azure/core-lro";
+import { AgentRunResponse } from "./models/streamingModels.js";
 
 export { AgentsClientOptionalParams } from "./api/agentsContext.js";
 
@@ -186,9 +187,9 @@ export class AgentsClient {
 
   /** Create a vector store file batch and poll. */
   createVectorStoreFileBatchAndPoll(
-  vectorStoreId: string,
-  options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch> {
+    vectorStoreId: string,
+    options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch> {
     return createVectorStoreFileBatchAndPoll(this._client, vectorStoreId, options);
   }
 
@@ -221,7 +222,7 @@ export class AgentsClient {
     return createVectorStoreFile(this._client, vectorStoreId, options);
   }
 
-  /** Create a vector store file by attaching a file to a vector store and poll. */ 
+  /** Create a vector store file by attaching a file to a vector store and poll. */
   createVectorStoreFileAndPoll(
     vectorStoreId: string,
     options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
@@ -269,11 +270,11 @@ export class AgentsClient {
   }
 
   /**
- * Creates a vector store and poll.
- */
+   * Creates a vector store and poll.
+   */
   createVectorStoreAndPoll(
-  options: CreateVectorStoreOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<VectorStore>, VectorStore> {
+    options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<VectorStore>, VectorStore> {
     return createVectorStoreAndPoll(this._client, options);
   }
 
@@ -314,18 +315,26 @@ export class AgentsClient {
     purpose: FilePurpose,
     options: UploadFileOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIFile> {
-    return uploadFile(this._client, {file: file, purpose:purpose, filename: options.fileName} , options);
+    return uploadFile(
+      this._client,
+      { file: file, purpose: purpose, filename: options.fileName },
+      options,
+    );
   }
-  
+
   /** Uploads a file for use by other operations and returns a poller to track the status of the operation. */
   uploadFileAndPoll(
     file: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options: UploadFileOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<OpenAIFile>, OpenAIFile> {
-  return uploadFileAndPoll(this._client, {file: file, purpose:purpose, filename: options.fileName} , options);
+    return uploadFileAndPoll(
+      this._client,
+      { file: file, purpose: purpose, filename: options.fileName },
+      options,
+    );
   }
-  
+
   /** Gets a list of previously uploaded files. */
   listFiles(options: ListFilesOptionalParams = { requestOptions: {} }): Promise<FileListResponse> {
     return listFiles(this._client, options);
@@ -354,7 +363,7 @@ export class AgentsClient {
   createThreadAndRun(
     assistantId: string,
     options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
-  ): Promise<ThreadRun> {
+  ): AgentRunResponse {
     return createThreadAndRun(this._client, assistantId, options);
   }
 
@@ -408,7 +417,7 @@ export class AgentsClient {
     threadId: string,
     assistantId: string,
     options: CreateRunOptionalParams = { requestOptions: {} },
-  ): Promise<ThreadRun> {
+  ): AgentRunResponse {
     return createRun(this._client, threadId, assistantId, options);
   }
 

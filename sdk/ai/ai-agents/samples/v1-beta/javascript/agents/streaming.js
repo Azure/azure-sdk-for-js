@@ -7,16 +7,16 @@
  * @summary demonstrates how to use agent operations in streaming.
  */
 
-const {
-  AgentsClient,
-  DoneEvent,
-  ErrorEvent,
-  MessageStreamEvent,
-  RunStreamEvent,
-} = require("@azure/ai-agents");
+const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
+const {
+  RunStreamEvent,
+  MessageStreamEvent,
+  ErrorEvent,
+  DoneEvent,
+} = require("../../dist/esm/models/streamingModels.js");
 
 const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -34,11 +34,11 @@ async function main() {
 
   const thread = await client.createThread();
 
-  console.log(`Created thread, thread ID : ${agent.id}`);
+  console.log(`Created thread, thread ID : ${thread.id}`);
 
   await client.createMessage(thread.id, "user", "Hello, tell me a joke");
 
-  console.log(`Created message, thread ID : ${agent.id}`);
+  console.log(`Created message, thread ID : ${thread.id}`);
 
   const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
 

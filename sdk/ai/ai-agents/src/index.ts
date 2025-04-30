@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { FileContents } from "./static-helpers/multipartHelpers.js";
+export * from "./models/streamingModels.js";
 export * from "./utils.js";
 export { AgentsClient } from "./agentsClient.js";
 export {

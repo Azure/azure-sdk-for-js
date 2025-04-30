@@ -38,8 +38,8 @@ function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
 export async function main(): Promise<void> {
   console.log("== AI Projects Agent with Base64 Image Input Sample ==");
 
-   // Create an Azure AI Client
-   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  // Create an Azure AI Client
+  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create an agent
   console.log(`Creating agent with model ${modelDeployment}...`);

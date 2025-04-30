@@ -14,8 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -53,7 +52,7 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.createMessage(thread.id, "user","What's the weather in Seattle?");
+  const message = await client.createMessage(thread.id, "user", "What's the weather in Seattle?");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and execute a run

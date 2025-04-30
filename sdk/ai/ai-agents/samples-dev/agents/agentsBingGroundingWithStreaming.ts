@@ -13,7 +13,7 @@ import type {
   MessageContent,
   MessageDeltaTextContent,
   MessageTextContent,
-  MessageDeltaTextUrlCitationAnnotation
+  MessageDeltaTextUrlCitationAnnotation,
 } from "@azure/ai-agents";
 import {
   AgentsClient,
@@ -35,8 +35,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -60,7 +59,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(thread.id, "user", "How does wikipedia explain Euler's Identity?");
+  const message = await client.createMessage(
+    thread.id,
+    "user",
+    "How does wikipedia explain Euler's Identity?",
+  );
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools

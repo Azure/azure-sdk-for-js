@@ -16,8 +16,7 @@ import * as fs from "fs";
 import path from "node:path";
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -96,9 +95,7 @@ export async function main(): Promise<void> {
     "./data/" + (await client.getFile(imageFile.fileId)).filename + "ImageFile.png",
   );
 
-  const fileContent = await (
-    await client.getFileContent(imageFile.fileId).asNodeStream()
-  ).body;
+  const fileContent = await (await client.getFileContent(imageFile.fileId).asNodeStream()).body;
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {

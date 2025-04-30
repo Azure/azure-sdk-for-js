@@ -25,8 +25,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -87,9 +86,7 @@ export async function main(): Promise<void> {
       return { weather: unit === "f" ? "72f" : "22c" };
     }
 
-    public invokeTool(
-      toolCall: RequiredToolCall & FunctionToolDefinition,
-    ): ToolOutput | undefined {
+    public invokeTool(toolCall: RequiredToolCall & FunctionToolDefinition): ToolOutput | undefined {
       console.log(`Function tool call - ${toolCall.function.name}`);
       const args = [];
       if (toolCall.function.parameters) {
@@ -138,7 +135,11 @@ export async function main(): Promise<void> {
   console.log(`Created Thread, thread ID:  ${thread.id}`);
 
   // Create message
-  const message = await client.createMessage(thread.id, "user","What's the weather like in my favorite city?");
+  const message = await client.createMessage(
+    thread.id,
+    "user",
+    "What's the weather like in my favorite city?",
+  );
   console.log(`Created message, message ID ${message.id}`);
 
   // Create run
@@ -151,9 +152,7 @@ export async function main(): Promise<void> {
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
     if (run.status === "requires_action" && run.requiredAction) {
       console.log(`Run requires action - ${run.requiredAction}`);
-      if (
-        isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")
-      ) {
+      if (isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")) {
         const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsAction;
         const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
         const toolResponses = [];

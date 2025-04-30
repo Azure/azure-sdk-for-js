@@ -37,6 +37,24 @@ export interface AgentDeletionStatus {
 }
 
 // @public
+export interface AgentEventMessage {
+    data: AgentEventStreamData;
+    event: AgentStreamEvent | string;
+}
+
+// @public
+export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> {
+}
+
+// @public
+export type AgentEventStreamData = AgentThread | ThreadRun | RunStep | ThreadMessage | MessageDeltaChunk | RunStepDeltaChunk | string;
+
+// @public
+export type AgentRunResponse = PromiseLike<ThreadRun> & {
+    stream: () => Promise<AgentEventMessageStream>;
+};
+
+// @public
 export interface AgentsApiResponseFormat {
     type?: ResponseFormat;
 }
@@ -60,9 +78,9 @@ export class AgentsClient {
     cancelVectorStoreFileBatch(vectorStoreId: string, batchId: string, options?: CancelVectorStoreFileBatchOptionalParams): Promise<VectorStoreFileBatch>;
     createAgent(model: string, options?: CreateAgentOptionalParams): Promise<Agent>;
     createMessage(threadId: string, role: MessageRole, content: MessageInputContent, options?: CreateMessageOptionalParams): Promise<ThreadMessage>;
-    createRun(threadId: string, assistantId: string, options?: CreateRunOptionalParams): Promise<ThreadRun>;
+    createRun(threadId: string, assistantId: string, options?: CreateRunOptionalParams): AgentRunResponse;
     createThread(options?: CreateThreadOptionalParams): Promise<AgentThread>;
-    createThreadAndRun(assistantId: string, options?: CreateThreadAndRunOptionalParams): Promise<ThreadRun>;
+    createThreadAndRun(assistantId: string, options?: CreateThreadAndRunOptionalParams): AgentRunResponse;
     createVectorStore(options?: CreateVectorStoreOptionalParams): Promise<VectorStore>;
     createVectorStoreAndPoll(options?: CreateVectorStoreOptionalParams): PollerLike<OperationState<VectorStore>, VectorStore>;
     createVectorStoreFile(vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams): Promise<VectorStoreFile>;

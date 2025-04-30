@@ -79,7 +79,11 @@ describe("Agents - function tool", () => {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user", "Hello, what's the time?");
+    const message = await projectsClient.createMessage(
+      thread.id,
+      "user",
+      "Hello, what's the time?",
+    );
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
@@ -99,9 +103,7 @@ describe("Agents - function tool", () => {
       console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
       if (run.status === "requires_action" && run.requiredAction) {
         console.log(`Run requires action - ${run.requiredAction}`);
-        if (
-          isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")
-        ) {
+        if (isOutputOfType<SubmitToolOutputsAction>(run.requiredAction, "submit_tool_outputs")) {
           const submitToolOutputsActionOutput = run.requiredAction as SubmitToolOutputsAction;
           const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
           for (const toolCall of toolCalls) {
