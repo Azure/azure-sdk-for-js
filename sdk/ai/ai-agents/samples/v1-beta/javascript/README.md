@@ -7,9 +7,9 @@ products:
 urlFragment: ai-agents-javascript-beta
 ---
 
-# Azure AI Projects client library samples for JavaScript (Beta)
+# Azure AI Agents client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for Azure AI Projects in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure AI Agents in some common scenarios.
 
 | **File Name**                                                                               | **Description**                                                                                                            |
 | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |

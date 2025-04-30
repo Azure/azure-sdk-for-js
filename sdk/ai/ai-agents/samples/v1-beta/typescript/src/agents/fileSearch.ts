@@ -7,11 +7,7 @@
  * @summary This sample demonstrates how to use agent operations with file searching.
  */
 
-import type {
-  MessageContent,
-  MessageImageFileContent,
-  MessageTextContent,
-} from "@azure/ai-agents";
+import type { MessageContent, MessageImageFileContent, MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,8 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -59,7 +54,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message
-  const message = await client.createMessage(thread.id,  "user", "Can you give me the documented codes for 'banana' and 'orange'?");
+  const message = await client.createMessage(
+    thread.id,
+    "user",
+    "Can you give me the documented codes for 'banana' and 'orange'?",
+  );
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create run

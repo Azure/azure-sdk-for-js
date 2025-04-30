@@ -7,9 +7,9 @@ products:
 urlFragment: ai-agents-typescript-beta
 ---
 
-# Azure AI Projects client library samples for TypeScript (Beta)
+# Azure AI Agents client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for Azure AI Projects in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure AI Agents in some common scenarios.
 
 | **File Name**                                                                               | **Description**                                                                                                            |
 | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |

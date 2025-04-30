@@ -11,8 +11,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 export async function main(): Promise<void> {
   // Create an Azure AI Client
@@ -27,7 +26,7 @@ export async function main(): Promise<void> {
   // Create a thread
   const thread = await client.createThread();
   // Create a message
-  const message = await client.createMessage(thread.id,"user","hello, world!");
+  const message = await client.createMessage(thread.id, "user", "hello, world!");
 
   console.log(`Created message, message ID: ${message.id}`);
 
