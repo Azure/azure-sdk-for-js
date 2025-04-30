@@ -360,6 +360,12 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetTableEntityOptions = {},
   ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
+    if (partitionKey === undefined || partitionKey === null) {
+      throw new Error("The entity's partitionKey cannot be undefined or null.");
+    }
+    if (rowKey === undefined || rowKey === null) {
+      throw new Error("The entity's rowKey cannot be undefined or null.");
+    }
     return tracingClient.withSpan("TableClient.getEntity", options, async (updatedOptions) => {
       let parsedBody: any;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -594,6 +600,12 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: DeleteTableEntityOptions = {},
   ): Promise<DeleteTableEntityResponse> {
+    if (partitionKey === undefined || partitionKey === null) {
+      throw new Error("The entity's partitionKey cannot be undefined or null.");
+    }
+    if (rowKey === undefined || rowKey === null) {
+      throw new Error("The entity's rowKey cannot be undefined or null.");
+    }
     return tracingClient.withSpan("TableClient.deleteEntity", options, (updatedOptions) => {
       const { etag = "*", ...rest } = updatedOptions;
       const deleteOptions: TableDeleteEntityOptionalParams = {
@@ -652,6 +664,12 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateTableEntityOptions = {},
   ): Promise<UpdateEntityResponse> {
+    if (entity.partitionKey === undefined || entity.partitionKey === null) {
+      throw new Error("The entity's partitionKey cannot be undefined or null.");
+    }
+    if (entity.rowKey === undefined || entity.rowKey === null) {
+      throw new Error("The entity's rowKey cannot be undefined or null.");
+    }
     return tracingClient.withSpan(
       "TableClient.updateEntity",
       options,
@@ -727,6 +745,13 @@ export class TableClient {
       "TableClient.upsertEntity",
       options,
       async (updatedOptions) => {
+        if (entity.partitionKey === undefined || entity.partitionKey === null) {
+          throw new Error("The entity's partitionKey cannot be undefined or null.");
+        }
+        if (entity.rowKey === undefined || entity.rowKey === null) {
+          throw new Error("The entity's rowKey cannot be undefined or null.");
+        }
+
         const partitionKey = escapeQuotes(entity.partitionKey);
         const rowKey = escapeQuotes(entity.rowKey);
 
