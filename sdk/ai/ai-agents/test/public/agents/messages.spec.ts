@@ -29,7 +29,7 @@ describe("Agents - messages", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id,  "user", "hello, world!");
+    const message = await projectsClient.createMessage(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
     assert.isNotNull(message);
     assert.isNotNull(message.id);
@@ -45,8 +45,12 @@ describe("Agents - messages", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create messages
-    const firstMessage = await projectsClient.createMessage(thread.id,  "user", "knock knock");
-    const secondMessage = await projectsClient.createMessage(thread.id,  "assistant", "who's there?");
+    const firstMessage = await projectsClient.createMessage(thread.id, "user", "knock knock");
+    const secondMessage = await projectsClient.createMessage(
+      thread.id,
+      "assistant",
+      "who's there?",
+    );
     console.log(`Created messages, message IDs: ${firstMessage.id}, ${secondMessage.id}`);
 
     // List messages
@@ -68,7 +72,7 @@ describe("Agents - messages", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id,  "user","hello, world!");
+    const message = await projectsClient.createMessage(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Update message

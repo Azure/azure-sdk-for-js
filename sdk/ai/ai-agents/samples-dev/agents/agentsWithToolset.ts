@@ -15,8 +15,7 @@ import * as fs from "fs";
 
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {

@@ -33,7 +33,7 @@ describe("Agents - streaming", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id,"user", "Hello, tell me a joke");
+    const message = await projectsClient.createMessage(thread.id, "user", "Hello, tell me a joke");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Run streaming

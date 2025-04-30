@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./streamingModels.js"
+export * from "./streamingModels.js";
 export {
   ToolDefinition,
   ToolDefinitionUnion,

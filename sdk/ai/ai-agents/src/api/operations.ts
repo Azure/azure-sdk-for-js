@@ -124,7 +124,16 @@ import { createPoller } from "./poller.js";
 import { createSseStream, EventMessage, EventMessageStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
 import { IncomingMessage } from "http";
-import { AgentEventMessage, AgentEventMessageStream, AgentEventStreamData, AgentRunResponse, MessageStreamEvent, RunStepStreamEvent, RunStreamEvent, ThreadStreamEvent } from "../models/streamingModels.js";
+import {
+  AgentEventMessage,
+  AgentEventMessageStream,
+  AgentEventStreamData,
+  AgentRunResponse,
+  MessageStreamEvent,
+  RunStepStreamEvent,
+  RunStreamEvent,
+  ThreadStreamEvent,
+} from "../models/streamingModels.js";
 import { logger } from "../logger.js";
 
 export function _listVectorStoreFileBatchFilesSend(
@@ -133,13 +142,15 @@ export function _listVectorStoreFileBatchFilesSend(
   batchId: string,
   options: ListVectorStoreFileBatchFilesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context.path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files",vectorStoreId, batchId).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listVectorStoreFileBatchFilesDeserialize(
@@ -1075,10 +1086,10 @@ export function uploadFile(
     },
     getOperationStatus: getLroOperationStatus,
     getOperationError: (result: OpenAIFile) => {
-          return getLroOperationStatus(result) === "failed" && result.statusDetails
-            ? new Error(`Operation failed: ${result.statusDetails}`)
-            : undefined;
-        },
+      return getLroOperationStatus(result) === "failed" && result.statusDetails
+        ? new Error(`Operation failed: ${result.statusDetails}`)
+        : undefined;
+    },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
 }
@@ -1109,7 +1120,9 @@ export function uploadFileAndPoll(
   });
 }
 
-function getLroOperationStatus(result: VectorStore|VectorStoreFile|VectorStoreFileBatch|OpenAIFile): OperationStatus {
+function getLroOperationStatus(
+  result: VectorStore | VectorStoreFile | VectorStoreFileBatch | OpenAIFile,
+): OperationStatus {
   switch (result.status) {
     case "running":
     case "pending":
@@ -1350,8 +1363,7 @@ export function createThreadAndRun(
   assistantId: string,
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): AgentRunResponse {
-
-    async function executeCreateThreadAndRun(): Promise<ThreadRun> {
+  async function executeCreateThreadAndRun(): Promise<ThreadRun> {
     const result = await _createThreadAndRunSend(context, assistantId, options);
     return _createThreadAndRunDeserialize(result);
   }
@@ -1364,7 +1376,6 @@ export function createThreadAndRun(
       return createThreadAndRunStreaming(context, assistantId, options);
     },
   };
-
 }
 
 export function _cancelRunSend(
@@ -1669,7 +1680,6 @@ export function createRun(
   assistantId: string,
   options: CreateRunOptionalParams,
 ): AgentRunResponse {
-
   async function executeCreateRun(): Promise<ThreadRun> {
     const result = await _createRunSend(context, threadId, assistantId, options);
     return _createRunDeserialize(result);
@@ -1680,7 +1690,7 @@ export function createRun(
       return executeCreateRun().then(onFulfilled, onRejected).catch(onRejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return createRunStreaming(context, assistantId,threadId, options);
+      return createRunStreaming(context, assistantId, threadId, options);
     },
   };
 }
@@ -2384,7 +2394,7 @@ export async function createAgent(
 
 const handlers = [
   { events: Object.values(ThreadStreamEvent) as string[] },
-  { events: Object.values(RunStreamEvent) as string[]},
+  { events: Object.values(RunStreamEvent) as string[] },
   { events: Object.values(RunStepStreamEvent) as string[] },
   { events: Object.values(MessageStreamEvent) as string[] },
 ];

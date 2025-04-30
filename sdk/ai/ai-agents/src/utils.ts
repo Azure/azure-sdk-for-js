@@ -87,15 +87,15 @@ export class ToolUtility {
 
   /**
    * Creates a bing grounding search tool
-   * 
+   *
    * @param connectionId - The ID of the bing search connection.
-   * 
+   *
    * @returns An object containing the definition and resources for the bing grounding search tool
-   * 
+   *
    */
-  static createBingGroundingTool(
-    connectionId: string,
-  ): { definition: BingGroundingToolDefinition } {
+  static createBingGroundingTool(connectionId: string): {
+    definition: BingGroundingToolDefinition;
+  } {
     return {
       definition: {
         type: "bing_grounding",
@@ -187,7 +187,7 @@ export class ToolUtility {
   static createAzureAISearchTool(
     indexConnectionId: string,
     indexName: string,
-    options?: AISearchIndexResource
+    options?: AISearchIndexResource,
   ): { definition: AzureAISearchToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_ai_search" },
@@ -207,7 +207,7 @@ export class ToolUtility {
     };
   }
 
-    /**
+  /**
    * Creates a Microsoft Fabric tool
    *
    * @param connectionIds - A list of the IDs of the Fabric connections to use.
@@ -223,7 +223,6 @@ export class ToolUtility {
       },
     };
   }
-
 
   /**
    * Creates a function tool
@@ -367,14 +366,12 @@ export class ToolSet {
 
   /**
    * Adds a bing grounding search tool to the tool set.
-   * 
+   *
    * @param connectionId - The ID of the bing search connection.
-   * 
+   *
    * @returns An object containing the definition and resources for the bing grounding search tool
    */
-  addBingGroundingTool(
-    connectionId: string,
-  ): { definition: BingGroundingToolDefinition } {
+  addBingGroundingTool(connectionId: string): { definition: BingGroundingToolDefinition } {
     const tool = ToolUtility.createBingGroundingTool(connectionId);
     this.toolDefinitions.push(tool.definition);
     return tool;

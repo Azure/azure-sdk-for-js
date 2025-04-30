@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentStreamEvent, AgentThread, MessageDeltaChunk, RunStep, RunStepDeltaChunk, ThreadMessage, ThreadRun } from "./models.js";
+import {
+  AgentStreamEvent,
+  AgentThread,
+  MessageDeltaChunk,
+  RunStep,
+  RunStepDeltaChunk,
+  ThreadMessage,
+  ThreadRun,
+} from "./models.js";
 
 /**
 Each event in a server-sent events stream has an `event` and `data` property:
@@ -133,7 +141,6 @@ export enum DoneEvent {
 export interface AgentEventMessageStream
   extends AsyncDisposable,
     AsyncIterable<AgentEventMessage> {}
-
 
 /**
  * Agent run response with support to stream.

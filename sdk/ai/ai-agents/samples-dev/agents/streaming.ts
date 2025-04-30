@@ -17,10 +17,14 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-import { RunStreamEvent, MessageStreamEvent, ErrorEvent, DoneEvent } from "../../dist/esm/models/streamingModels.js";
+import {
+  RunStreamEvent,
+  MessageStreamEvent,
+  ErrorEvent,
+  DoneEvent,
+} from "../../dist/esm/models/streamingModels.js";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {

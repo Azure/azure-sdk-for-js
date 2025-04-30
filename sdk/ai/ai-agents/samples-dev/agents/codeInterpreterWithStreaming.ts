@@ -31,8 +31,7 @@ import * as fs from "fs";
 import path from "node:path";
 import "dotenv/config";
 
-const connectionString =
-  process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -65,7 +64,11 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.createMessage(thread.id, "user", "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?");
+  const message = await client.createMessage(
+    thread.id,
+    "user",
+    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+  );
 
   console.log(`Created message, message ID: ${message.id}`);
 

@@ -33,7 +33,7 @@ describe("Agents - run steps", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id,  "user", "hello, world!");
+    const message = await projectsClient.createMessage(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Create run
@@ -73,7 +73,7 @@ describe("Agents - run steps", () => {
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user","hello, world!");
+    const message = await projectsClient.createMessage(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Create run
