@@ -41,26 +41,30 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
         run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistantResponse = await client.beta.assistants.create(codeAssistant);
-          assertAssistantEquality(codeAssistant, assistantResponse);
-          const getAssistantResponse = await client.beta.assistants.retrieve(assistantResponse.id);
-          assertAssistantEquality(codeAssistant, getAssistantResponse);
-          codeAssistant.name = "Completely different name";
-          const updateAssistantResponse = await client.beta.assistants.update(
-            assistantResponse.id,
-            codeAssistant,
-          );
-          assertAssistantEquality(codeAssistant, updateAssistantResponse);
-          const listLength = 1;
-          const oneAssistantList = await client.beta.assistants.list({ limit: listLength });
-          assert.equal(oneAssistantList.data.length, listLength);
-          // TODO: Fix this any cast
-          const firstID = (oneAssistantList as any).body.first_id;
-          const lastID = (oneAssistantList as any).body.last_id;
-          assert.equal(firstID, lastID);
-          assert.equal(oneAssistantList.data[0].id, firstID);
-
-          const deleteAssistantResponse = await client.beta.assistants.del(assistantResponse.id);
-          assert.equal(deleteAssistantResponse.deleted, true);
+          try {
+            assertAssistantEquality(codeAssistant, assistantResponse);
+            const getAssistantResponse = await client.beta.assistants.retrieve(
+              assistantResponse.id,
+            );
+            assertAssistantEquality(codeAssistant, getAssistantResponse);
+            codeAssistant.name = "Completely different name";
+            const updateAssistantResponse = await client.beta.assistants.update(
+              assistantResponse.id,
+              codeAssistant,
+            );
+            assertAssistantEquality(codeAssistant, updateAssistantResponse);
+            const listLength = 1;
+            const oneAssistantList = await client.beta.assistants.list({ limit: listLength });
+            assert.equal(oneAssistantList.data.length, listLength);
+            // TODO: Fix this any cast
+            const firstID = (oneAssistantList as any).body.first_id;
+            const lastID = (oneAssistantList as any).body.last_id;
+            assert.equal(firstID, lastID);
+            assert.equal(oneAssistantList.data[0].id, firstID);
+          } finally {
+            const deleteAssistantResponse = await client.beta.assistants.del(assistantResponse.id);
+            assert.equal(deleteAssistantResponse.deleted, true);
+          }
         },
         modelsListToSkip: [
           { name: "gpt-4.1" }, // 400 The requested deployment 'gpt-4.1' with engine 'gpt-4.1-2025-04-14' cannot be used with this API.
@@ -77,25 +81,30 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
           const thread = {
             metadata: { foo: metadataValue },
           };
-
           const threadResponse = await client.beta.threads.create(thread);
-          assert.isNotNull(threadResponse.id);
-          assert.equal((threadResponse.metadata as unknown as Metadata).foo, metadataValue);
-          const getThreadResponse = await client.beta.threads.retrieve(threadResponse.id);
-          assert.equal(threadResponse.id, getThreadResponse.id);
-          assert.equal((getThreadResponse.metadata as unknown as Metadata).foo, metadataValue);
+          try {
+            assert.isNotNull(threadResponse.id);
+            assert.equal((threadResponse.metadata as unknown as Metadata).foo, metadataValue);
+            const getThreadResponse = await client.beta.threads.retrieve(threadResponse.id);
+            assert.equal(threadResponse.id, getThreadResponse.id);
+            assert.equal((getThreadResponse.metadata as unknown as Metadata).foo, metadataValue);
 
-          const newMetadataValue = "other value";
-          thread.metadata.foo = newMetadataValue;
+            const newMetadataValue = "other value";
+            thread.metadata.foo = newMetadataValue;
 
-          const updateThreadResponse = await client.beta.threads.update(threadResponse.id, thread);
-          assert.equal(threadResponse.id, updateThreadResponse.id);
-          assert.equal(
-            (updateThreadResponse.metadata as unknown as Metadata).foo,
-            newMetadataValue,
-          );
-          const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
-          assert.equal(deleteThreadResponse.deleted, true);
+            const updateThreadResponse = await client.beta.threads.update(
+              threadResponse.id,
+              thread,
+            );
+            assert.equal(threadResponse.id, updateThreadResponse.id);
+            assert.equal(
+              (updateThreadResponse.metadata as unknown as Metadata).foo,
+              newMetadataValue,
+            );
+          } finally {
+            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
+            assert.equal(deleteThreadResponse.deleted, true);
+          }
         },
       });
     });
@@ -108,62 +117,67 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
             messages: [],
           };
           const threadResponse = await client.beta.threads.create(thread);
-          assert.isNotNull(threadResponse.id);
-          const role = "user";
-          const content = "explain the fibonacci sequence";
+          try {
+            assert.isNotNull(threadResponse.id);
+            const role = "user";
+            const content = "explain the fibonacci sequence";
 
-          const metadataValue = "bar";
-          const messageOptions = {
-            metadata: { foo: metadataValue },
-          };
-          const messageResponse = await client.beta.threads.messages.create(threadResponse.id, {
-            role,
-            content,
-            ...messageOptions,
-          });
+            const metadataValue = "bar";
+            const messageOptions = {
+              metadata: { foo: metadataValue },
+            };
+            const messageResponse = await client.beta.threads.messages.create(threadResponse.id, {
+              role,
+              content,
+              ...messageOptions,
+            });
 
-          let messageContent = messageResponse.content[0];
-          assert.isNotNull(messageResponse.id);
-          assert.equal(messageResponse.role, role);
-          if (messageContent.type === "text") {
-            assert.equal(messageContent.text.value, content);
+            let messageContent = messageResponse.content[0];
+            assert.isNotNull(messageResponse.id);
+            assert.equal(messageResponse.role, role);
+            if (messageContent.type === "text") {
+              assert.equal(messageContent.text.value, content);
+            }
+            assert.equal((messageResponse.metadata as unknown as Metadata).foo, metadataValue);
+            const getMessageResponse = await client.beta.threads.messages.retrieve(
+              threadResponse.id,
+              messageResponse.id || "",
+            );
+            messageContent = getMessageResponse.content[0];
+            assert.equal(messageResponse.id, getMessageResponse.id);
+            assert.equal(getMessageResponse.role, role);
+            if (messageContent.type === "text") {
+              assert.equal(messageContent.text.value, content);
+            }
+            assert.equal((getMessageResponse.metadata as unknown as Metadata).foo, metadataValue);
+
+            const newMetadataValue = "other value";
+            messageOptions.metadata.foo = newMetadataValue;
+
+            const updateMessageResponse = await client.beta.threads.messages.update(
+              threadResponse.id,
+              messageResponse.id || "",
+              messageOptions,
+            );
+            assert.equal(messageResponse.id, updateMessageResponse.id);
+            assert.equal(
+              (updateMessageResponse.metadata as unknown as Metadata).foo,
+              newMetadataValue,
+            );
+
+            const listLength = 1;
+            const oneMessageList = await client.beta.threads.messages.list(threadResponse.id, {
+              limit: listLength,
+            });
+            assert.equal(oneMessageList.data.length, listLength);
+            const firstID = (oneMessageList as any).body.first_id;
+            const lastID = (oneMessageList as any).body.last_id;
+            assert.equal(firstID, lastID);
+            assert.equal(oneMessageList.data[0].id, firstID);
+          } finally {
+            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
+            assert.equal(deleteThreadResponse.deleted, true);
           }
-          assert.equal((messageResponse.metadata as unknown as Metadata).foo, metadataValue);
-          const getMessageResponse = await client.beta.threads.messages.retrieve(
-            threadResponse.id,
-            messageResponse.id || "",
-          );
-          messageContent = getMessageResponse.content[0];
-          assert.equal(messageResponse.id, getMessageResponse.id);
-          assert.equal(getMessageResponse.role, role);
-          if (messageContent.type === "text") {
-            assert.equal(messageContent.text.value, content);
-          }
-          assert.equal((getMessageResponse.metadata as unknown as Metadata).foo, metadataValue);
-
-          const newMetadataValue = "other value";
-          messageOptions.metadata.foo = newMetadataValue;
-
-          const updateMessageResponse = await client.beta.threads.messages.update(
-            threadResponse.id,
-            messageResponse.id || "",
-            messageOptions,
-          );
-          assert.equal(messageResponse.id, updateMessageResponse.id);
-          assert.equal(
-            (updateMessageResponse.metadata as unknown as Metadata).foo,
-            newMetadataValue,
-          );
-
-          const listLength = 1;
-          const oneMessageList = await client.beta.threads.messages.list(threadResponse.id, {
-            limit: listLength,
-          });
-          assert.equal(oneMessageList.data.length, listLength);
-          const firstID = (oneMessageList as any).body.first_id;
-          const lastID = (oneMessageList as any).body.last_id;
-          assert.equal(firstID, lastID);
-          assert.equal(oneMessageList.data[0].id, firstID);
         },
       });
     });
@@ -229,14 +243,13 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
           } finally {
             const deleteThreadResponse = await client.beta.threads.del(thread.id);
             const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
           }
         },
         acceptableErrors: {
-          messageSubstring: [
-            "400 Cannot cancel run with status",
-          ],
+          messageSubstring: ["400 Cannot cancel run with status"],
         },
         modelsListToSkip: [
           { name: "gpt-4.1" }, // 400 The requested deployment 'gpt-4.1' with engine 'gpt-4.1-2025-04-14' cannot be used with this API.
@@ -253,50 +266,53 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
         run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistant = await client.beta.assistants.create(codeAssistant);
-          assertAssistantEquality(codeAssistant, assistant);
           const thread = await client.beta.threads.create();
-          assert.isNotNull(thread.id);
-          const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-          const role = "user";
-          const message = await client.beta.threads.messages.create(thread.id, {
-            role,
-            content: question,
-          });
-          const messageContent = message.content[0];
-          assert.isNotNull(message.id);
-          assert.equal(message.role, role);
-          if (messageContent.type === "text") {
-            assert.equal(messageContent.text.value, question);
-          }
-          const instructions =
-            "Please address the user as Jane Doe. The user has a premium account.";
-          const run = await client.beta.threads.runs.createAndPoll(thread.id, {
-            assistant_id: assistant.id,
-            instructions,
-          });
-          if (isRateLimitRun(run)) {
-            return;
-          }
-          assert.isNotNull(run.id);
-          assert.equal(run.thread_id, thread.id);
-          assert.equal(run.assistant_id, assistant.id);
-          assert.equal(run.instructions, instructions);
-          assert.equal(run.status, "completed");
+          try {
+            assertAssistantEquality(codeAssistant, assistant);
+            assert.isNotNull(thread.id);
+            const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
+            const role = "user";
+            const message = await client.beta.threads.messages.create(thread.id, {
+              role,
+              content: question,
+            });
+            const messageContent = message.content[0];
+            assert.isNotNull(message.id);
+            assert.equal(message.role, role);
+            if (messageContent.type === "text") {
+              assert.equal(messageContent.text.value, question);
+            }
+            const instructions =
+              "Please address the user as Jane Doe. The user has a premium account.";
+            const run = await client.beta.threads.runs.createAndPoll(thread.id, {
+              assistant_id: assistant.id,
+              instructions,
+            });
+            if (isRateLimitRun(run)) {
+              return;
+            }
+            assert.isNotNull(run.id);
+            assert.equal(run.thread_id, thread.id);
+            assert.equal(run.assistant_id, assistant.id);
+            assert.equal(run.instructions, instructions);
+            assert.equal(run.status, "completed");
 
-          const runMessages = await client.beta.threads.messages.list(thread.id);
-          for (const runMessageDatum of runMessages.data) {
-            for (const item of runMessageDatum.content) {
-              assert.equal(item.type, "text");
-              if (item.type === "text") {
-                assert.isNotEmpty(item.text.value);
+            const runMessages = await client.beta.threads.messages.list(thread.id);
+            for (const runMessageDatum of runMessages.data) {
+              for (const item of runMessageDatum.content) {
+                assert.equal(item.type, "text");
+                if (item.type === "text") {
+                  assert.isNotEmpty(item.text.value);
+                }
               }
             }
+          } finally {
+            const deleteThreadResponse = await client.beta.threads.del(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            // All deletes before any asserts
+            assert.equal(deleteThreadResponse.deleted, true);
+            assert.equal(deleteAssistantResponse.deleted, true);
           }
-          const deleteThreadResponse = await client.beta.threads.del(thread.id);
-          assert.equal(deleteThreadResponse.deleted, true);
-
-          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
-          assert.equal(deleteAssistantResponse.deleted, true);
         },
         modelsListToSkip: [
           { name: "o1" }, // "Sorry, something went wrong" 2025-04-15
@@ -401,68 +417,70 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
             tools: [getUserFavoriteCityTool, getCityNicknameTool],
           };
           const assistant = await client.beta.assistants.create(functionAssistant);
-          assert.isNotNull(assistant.id);
           const thread = await client.beta.threads.create();
-          assert.isNotNull(thread.id);
-          const content = "What's the nickname of my favorite city?";
-          const role = "user";
-          const message = await client.beta.threads.messages.create(thread.id, { role, content });
-          assert.isNotNull(message.id);
-          assert.equal(message.thread_id, thread.id);
-          let run = await client.beta.threads.runs.createAndPoll(
-            thread.id,
-            {
-              assistant_id: assistant.id,
-              tools: [getUserFavoriteCityTool, getCityNicknameTool],
-            },
-            {
-              timeout: 10000,
-            },
-          );
-          if (isRateLimitRun(run)) {
-            return;
-          }
-          if (
-            run.status === "requires_action" &&
-            run.required_action?.type === "submit_tool_outputs"
-          ) {
-            const toolOutputs = [];
-
-            assert.isDefined(run.required_action?.submit_tool_outputs?.tool_calls);
-            if (run.required_action?.submit_tool_outputs?.tool_calls !== undefined) {
-              for (const toolCall of run.required_action.submit_tool_outputs.tool_calls) {
-                toolOutputs.push(getResolvedToolOutput(toolCall));
-              }
-            }
-            run = await client.beta.threads.runs.submitToolOutputsAndPoll(thread.id, run.id, {
-              tool_outputs: toolOutputs,
-            });
-
+          try {
+            assert.isNotNull(assistant.id);
+            assert.isNotNull(thread.id);
+            const content = "What's the nickname of my favorite city?";
+            const role = "user";
+            const message = await client.beta.threads.messages.create(thread.id, { role, content });
+            assert.isNotNull(message.id);
+            assert.equal(message.thread_id, thread.id);
+            let run = await client.beta.threads.runs.createAndPoll(
+              thread.id,
+              {
+                assistant_id: assistant.id,
+                tools: [getUserFavoriteCityTool, getCityNicknameTool],
+              },
+              {
+                timeout: 10000,
+              },
+            );
             if (isRateLimitRun(run)) {
               return;
             }
-            assert.equal(favoriteCityCalled, true);
-            // Some models can't perform the two tool calls in one run
-            if (toolOutputs.length === 2) {
-              assert.equal(nicknameCalled, true);
-            }
-          }
+            if (
+              run.status === "requires_action" &&
+              run.required_action?.type === "submit_tool_outputs"
+            ) {
+              const toolOutputs = [];
 
-          const runMessages = await client.beta.threads.messages.list(thread.id);
-          for (const runMessageDatum of runMessages.data) {
-            for (const item of runMessageDatum.content) {
-              assert.equal(item.type, "text");
-              if (item.type === "text") {
-                assert.isNotEmpty(item.text?.value);
+              assert.isDefined(run.required_action?.submit_tool_outputs?.tool_calls);
+              if (run.required_action?.submit_tool_outputs?.tool_calls !== undefined) {
+                for (const toolCall of run.required_action.submit_tool_outputs.tool_calls) {
+                  toolOutputs.push(getResolvedToolOutput(toolCall));
+                }
+              }
+              run = await client.beta.threads.runs.submitToolOutputsAndPoll(thread.id, run.id, {
+                tool_outputs: toolOutputs,
+              });
+
+              if (isRateLimitRun(run)) {
+                return;
+              }
+              assert.equal(favoriteCityCalled, true);
+              // Some models can't perform the two tool calls in one run
+              if (toolOutputs.length === 2) {
+                assert.equal(nicknameCalled, true);
               }
             }
+
+            const runMessages = await client.beta.threads.messages.list(thread.id);
+            for (const runMessageDatum of runMessages.data) {
+              for (const item of runMessageDatum.content) {
+                assert.equal(item.type, "text");
+                if (item.type === "text") {
+                  assert.isNotEmpty(item.text?.value);
+                }
+              }
+            }
+          } finally {
+            const deleteThreadResponse = await client.beta.threads.del(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            // All deletes before any asserts
+            assert.equal(deleteThreadResponse.deleted, true);
+            assert.equal(deleteAssistantResponse.deleted, true);
           }
-
-          const deleteThreadResponse = await client.beta.threads.del(thread.id);
-          assert.equal(deleteThreadResponse.deleted, true);
-
-          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
-          assert.equal(deleteAssistantResponse.deleted, true);
         },
         modelsListToSkip: [
           { name: "o1" }, // "Sorry, something went wrong" 2025-04-15

@@ -27,17 +27,19 @@ describe("Assistants", () => {
             file,
             purpose: "assistants",
           });
-          assert.isNotNull(uploadedFile.id);
-          assert.equal(uploadedFile.filename, filename);
-          assert.equal(uploadedFile.bytes, file.size);
+          try {
+            assert.isNotNull(uploadedFile.id);
+            assert.equal(uploadedFile.filename, filename);
+            assert.equal(uploadedFile.bytes, file.size);
 
-          const fileList = await client.files.list({ limit: 5 });
-          assert.isNotEmpty(fileList.data);
-          assert.isNotNull(fileList.data[0].id);
-
-          const fileDeleted = await client.files.del(uploadedFile.id);
-          assert.isTrue(fileDeleted.deleted);
-          assert.equal(fileDeleted.id, uploadedFile.id);
+            const fileList = await client.files.list({ limit: 5 });
+            assert.isNotEmpty(fileList.data);
+            assert.isNotNull(fileList.data[0].id);
+          } finally {
+            const fileDeleted = await client.files.del(uploadedFile.id);
+            assert.isTrue(fileDeleted.deleted);
+            assert.equal(fileDeleted.id, uploadedFile.id);
+          }
         });
       });
     });
