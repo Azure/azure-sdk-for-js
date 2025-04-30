@@ -115,35 +115,12 @@
     },
     {
       "commandKind": "bulk",
-      "name": "unit-test:browser",
-      "summary": "Execute browser unit tests defined in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "unit-test:node",
-      "summary": "Execute Node unit tests defined in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "unit-test",
-      "summary": "Execute unit tests defined in projects",
-      "description": "Execute tests which don't need to connect to any external service.",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "execute:samples",
       "summary": "Execute samples defined in projects",
       "description": "Execute samples against external service.",
       "enableParallelism": true,
       "allowWarningsInSuccessfulBuild": true
     },
-    // Optional Scripts
     {
       "commandKind": "bulk",
       "name": "extract-api",
