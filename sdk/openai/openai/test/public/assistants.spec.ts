@@ -172,65 +172,66 @@ describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: 
       await testWithDeployments({
         clientsAndDeploymentsInfo,
         run: async (client, deployment) => {
-          const assistant = await client.beta.assistants.create({
-            model: deployment,
-            name: "JS CI Math Tutor",
-            instructions:
-              "You are a personal math tutor. Write and run code to answer math questions.",
-            tools: [{ type: "code_interpreter" }],
-          });
-          assert.isNotNull(assistant.id);
-          const thread = await client.beta.threads.create();
-          assert.isNotNull(thread.id);
+          const [assistant, thread] = await Promise.all([
+            client.beta.assistants.create({
+              model: deployment,
+              name: "JS CI Math Tutor",
+              instructions:
+                "You are a personal math tutor. Write and run code to answer math questions.",
+              tools: [{ type: "code_interpreter" }],
+            }),
+            client.beta.threads.create(),
+          ]);
 
-          const metadataValue = "bar";
-          const metadata = { foo: metadataValue };
-          const instructions =
-            "Please address the user as Jane Doe. The user has a premium account.";
-          const run = await client.beta.threads.runs.create(thread.id, {
-            assistant_id: assistant.id,
-            instructions,
-            metadata,
-          });
-          assert.isNotNull(run.id);
-          assert.equal(run.thread_id, thread.id);
-          assert.equal(run.assistant_id, assistant.id);
-          assert.equal(run.instructions, instructions);
-          assert.equal((run.metadata as unknown as Metadata).foo, metadataValue);
+          try {
+            assert.isNotNull(assistant.id);
+            assert.isNotNull(thread.id);
 
-          const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id);
-          // with no messages, there should be no steps
-          // assert.equal(runSteps.data.length, 0, JSON.stringify(runSteps.data));
-          // Sometimes there is a step. message_creation in_progress
-          assert.equal((runSteps as any).body.first_id, null);
-          assert.equal((runSteps as any).body.last_id, null);
+            const metadataValue = "bar";
+            const metadata = { foo: metadataValue };
+            const instructions =
+              "Please address the user as Jane Doe. The user has a premium account.";
+            const run = await client.beta.threads.runs.create(thread.id, {
+              assistant_id: assistant.id,
+              instructions,
+              metadata,
+            });
+            assert.isNotNull(run.id);
+            assert.equal(run.thread_id, thread.id);
+            assert.equal(run.assistant_id, assistant.id);
+            assert.equal(run.instructions, instructions);
+            assert.equal((run.metadata as unknown as Metadata).foo, metadataValue);
 
-          const listLength = 1;
-          const list = await client.beta.threads.runs.list(thread.id, { limit: listLength });
-          assert.equal(list.data.length, listLength);
-          const firstID = (list as any).body.first_id;
-          const lastID = (list as any).body.last_id;
-          assert.equal(firstID, lastID);
-          assert.equal(list.data[0].id, firstID);
+            // With no messages, there should be no steps, but sometimes there is a step...
+            // so can't evaluate anything on threads.runs.steps.list
 
-          const cancel = await client.beta.threads.runs.cancel(thread.id, run.id);
-          assert.equal(cancel.id, run.id);
-          assert.equal(cancel.thread_id, thread.id);
-          assert.equal(cancel.assistant_id, assistant.id);
-          assert.equal(cancel.instructions, instructions);
-          assert.equal(cancel.status, "cancelling");
+            const listLength = 1;
+            const list = await client.beta.threads.runs.list(thread.id, { limit: listLength });
+            assert.equal(list.data.length, listLength);
+            const firstID = (list as any).body.first_id;
+            const lastID = (list as any).body.last_id;
+            assert.equal(firstID, lastID);
+            assert.equal(list.data[0].id, firstID);
 
-          const getRun = await client.beta.threads.runs.retrieve(thread.id, run.id);
-          assert.equal(getRun.id, run.id);
-          assert.equal(getRun.thread_id, thread.id);
-          assert.equal(getRun.assistant_id, assistant.id);
-          assert.equal(getRun.instructions, instructions);
-          assert.equal((getRun.metadata as unknown as Metadata).foo, metadataValue);
-          const deleteThreadResponse = await client.beta.threads.del(thread.id);
-          assert.equal(deleteThreadResponse.deleted, true);
+            const cancel = await client.beta.threads.runs.cancel(thread.id, run.id);
+            assert.equal(cancel.id, run.id);
+            assert.equal(cancel.thread_id, thread.id);
+            assert.equal(cancel.assistant_id, assistant.id);
+            assert.equal(cancel.instructions, instructions);
+            assert.equal(cancel.status, "cancelling");
 
-          const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
-          assert.equal(deleteAssistantResponse.deleted, true);
+            const getRun = await client.beta.threads.runs.retrieve(thread.id, run.id);
+            assert.equal(getRun.id, run.id);
+            assert.equal(getRun.thread_id, thread.id);
+            assert.equal(getRun.assistant_id, assistant.id);
+            assert.equal(getRun.instructions, instructions);
+            assert.equal((getRun.metadata as unknown as Metadata).foo, metadataValue);
+          } finally {
+            const deleteThreadResponse = await client.beta.threads.del(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            assert.equal(deleteThreadResponse.deleted, true);
+            assert.equal(deleteAssistantResponse.deleted, true);
+          }
         },
         acceptableErrors: {
           messageSubstring: [
