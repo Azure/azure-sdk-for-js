@@ -30,13 +30,18 @@ try {
 }
 
 // 2. Merge the shared base config with some standard test settings for min/max tests.
-// These settings apply to all packages unless specifically overridden,
+// These settings apply to all packages unless specifically overridden
+// By default, the config includes all test files ending with .spec.ts
+// and excludes any test files located in the node_modules directory or those that are browser-specific.
 const baseConfig = mergeConfig(
   viteConfig,
   defineConfig({
     test: {
       include: ["./**/*.spec.ts"],
-      exclude: ["**/node_modules/**"],
+      exclude: [
+        "**/node_modules/**",
+        "**/browser/*.spec.ts"
+      ],
     },
   }),
 );
