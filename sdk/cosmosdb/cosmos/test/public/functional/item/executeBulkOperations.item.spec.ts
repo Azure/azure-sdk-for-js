@@ -14,6 +14,8 @@ import {
   Constants,
   StatusCodes,
   ErrorResponse,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
 } from "../../../../src/index.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { endpoint } from "../../common/_testConfig.js";
@@ -231,6 +233,117 @@ describe("test executeBulkOperations", () => {
     // Patch
     assert.equal(result[5].response.resourceBody.great, "goodValue");
     assert.equal(result[5].response.statusCode, 200);
+  });
+
+  it("should execute bulk operations with hierarchical partition key", async () => {
+    const hierarchicalContainer = await getTestContainer("executeBulkOperations", undefined, {
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      throughput: 1000,
+    });
+    const { resource: itemToReplace } = await hierarchicalContainer.items.create({
+      id: addEntropy("docToReplace"),
+      key1: "A",
+      key2: "B",
+      class: "2010",
+    });
+    const { resource: itemToRead } = await hierarchicalContainer.items.create({
+      id: addEntropy("docToRead"),
+      key1: "B",
+      key2: "C",
+      class: "2010",
+    });
+    const { resource: itemToDelete } = await hierarchicalContainer.items.create({
+      id: addEntropy("docToDelete"),
+      key1: "A",
+      key2: "B",
+      class: "2010",
+    });
+    const { resource: itemToPatch } = await hierarchicalContainer.items.create({
+      id: addEntropy("docToPatch"),
+      key1: "B",
+      key2: "C",
+      class: "2010",
+    });
+    const operations: OperationInput[] = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: ["A", "B"],
+        resourceBody: {
+          id: addEntropy("doc1"),
+          name: "sample",
+          key1: "A",
+          key2: "B",
+        },
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: ["A", "B"],
+        resourceBody: {
+          id: addEntropy("doc2"),
+          name: "other",
+          key1: "A",
+          key2: "B",
+        },
+      },
+      {
+        operationType: BulkOperationType.Read,
+        id: itemToRead.id,
+        partitionKey: [itemToRead.key1, itemToRead.key2],
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: itemToDelete.id,
+        partitionKey: [itemToDelete.key1, itemToDelete.key2],
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        id: itemToReplace.id,
+        partitionKey: [itemToReplace.key1, itemToReplace.key2],
+        resourceBody: {
+          id: itemToReplace.id,
+          key1: itemToReplace.key1,
+          key2: itemToReplace.key2,
+          name: "nice",
+        },
+      },
+      {
+        operationType: BulkOperationType.Patch,
+        id: itemToPatch.id,
+        partitionKey: [itemToPatch.key1, itemToPatch.key2],
+        resourceBody: {
+          operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }],
+        },
+      },
+    ];
+    const result = await hierarchicalContainer.items.executeBulkOperations(operations);
+
+    assert.equal(result.length, 6);
+    result.forEach((res, index) => {
+      assert.ok(res.response);
+      assert.ok(res.response.diagnostics, `Diagnostics should be present for operation ${index}`);
+    });
+    // Create
+    assert.equal(result[0].response.resourceBody.name, "sample");
+    assert.equal(result[0].response.statusCode, 201);
+    // Upsert
+    assert.equal(result[1].response.resourceBody.name, "other");
+    assert.equal(result[1].response.statusCode, 201);
+    // Read
+    assert.equal(result[2].response.resourceBody.class, "2010");
+    assert.equal(result[2].response.statusCode, 200);
+    // Delete
+    assert.equal(result[3].response.statusCode, 204);
+    // Replace
+    assert.equal(result[4].response.resourceBody.name, "nice");
+    assert.equal(result[4].response.statusCode, 200);
+    // Patch
+    assert.equal(result[5].response.resourceBody.great, "goodValue");
+    assert.equal(result[5].response.statusCode, 200);
+    await hierarchicalContainer.delete();
   });
 
   it("test diagnostics", async () => {
@@ -501,5 +614,165 @@ describe("test executeBulkOperations", () => {
     assert.ok(result[1].response);
     assert.equal(result[1].error, undefined);
     assert.equal(result[1].response.statusCode, StatusCodes.Created);
+  });
+
+  it("removing id from resource body should populate error response for Create, Upsert, and Replace operations", async () => {
+    // itemToReplace is created with id
+    await container.items.create({
+      id: addEntropy("docToReplace"),
+      key: "A",
+      class: "2010",
+    });
+    const operations: OperationInput[] = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: "A",
+        resourceBody: {
+          name: "sample",
+          key: "A",
+        },
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: "A",
+        resourceBody: {
+          name: "sample",
+          key: "A",
+        },
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        id: addEntropy("docToReplace"),
+        partitionKey: "A",
+        resourceBody: {
+          name: "sample",
+          key: "A",
+        },
+      },
+    ];
+    const result = await container.items.executeBulkOperations(operations);
+    assert.equal(result.length, 3);
+
+    result.forEach((res) => {
+      assert.ok(res.error);
+      assert.equal(res.response, undefined);
+      assert.equal(res.error.code, StatusCodes.InternalServerError);
+      assert.ok(res.error.message.includes("Operation resource body must have an 'id'"));
+    });
+  });
+
+  it("removing partition key should populate error response for all operations", async () => {
+    const { item: itemToReplace } = await container.items.create({
+      id: addEntropy("docToReplace"),
+      key: "A",
+      class: "2010",
+    });
+    const { item: itemToRead } = await container.items.create({
+      id: addEntropy("docToRead"),
+      key: "B",
+      class: "2010",
+    });
+    const { item: itemToDelete } = await container.items.create({
+      id: addEntropy("docToDelete"),
+      key: "A",
+      class: "2010",
+    });
+
+    const { item: itemToPatch } = await container.items.create({
+      id: addEntropy("docToPatch"),
+      key: "B",
+      class: "2010",
+    });
+
+    const operations: OperationInput[] = [
+      {
+        operationType: BulkOperationType.Create,
+        resourceBody: {
+          id: addEntropy("doc1"),
+          name: "sample",
+          key: "A",
+          class: "2010",
+        },
+      },
+      {
+        operationType: BulkOperationType.Read,
+        id: itemToRead.id,
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: itemToDelete.id,
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        id: itemToReplace.id,
+        resourceBody: {
+          id: itemToReplace.id,
+          name: "sample",
+          key: "A",
+          class: "2010",
+        },
+      },
+      {
+        operationType: BulkOperationType.Patch,
+        id: itemToPatch.id,
+        resourceBody: {
+          operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }],
+        },
+      },
+    ];
+    const result = await container.items.executeBulkOperations(operations);
+    assert.equal(result.length, 5);
+    result.forEach((res) => {
+      assert.ok(res.error);
+      assert.equal(res.response, undefined);
+      assert.equal(res.error.code, StatusCodes.InternalServerError);
+      assert.ok(
+        res.error.message.includes(
+          `PartitionKey is required for ${res.operationInput.operationType} operations.`,
+        ),
+      );
+    });
+  });
+  it("should return responses in order of operation input", async () => {
+    // create a container with 400 RU/s to ensure that order of response is not affected with internal retries and errors
+    const testContainer = await getTestContainer("executeBulkOperations", undefined, {
+      partitionKey: {
+        paths: ["/key"],
+        version: 2,
+      },
+      throughput: 400,
+    });
+    // add operations with id and without id (to populate error response)
+    const operations: OperationInput[] = Array.from({ length: 200 }, (_, i) => {
+      const resourceBody: { name: string; key: number; id?: string } = {
+        name: "sample",
+        key: i,
+      };
+
+      // If i % 10 is not 0, add the id.
+      if (i % 10 !== 0) {
+        resourceBody.id = addEntropy(`doc${i}`);
+      }
+
+      return {
+        operationType: BulkOperationType.Create,
+        partitionKey: i,
+        resourceBody,
+      };
+    });
+    const result = await testContainer.items.executeBulkOperations(operations);
+    assert.equal(result.length, 200);
+    result.forEach((res, index) => {
+      if (index % 10 === 0) {
+        assert.ok(res.error);
+        assert.equal(res.response, undefined);
+        assert.equal(res.error.code, StatusCodes.InternalServerError);
+      } else {
+        assert.ok(res.response);
+        assert.equal(res.response.statusCode, 201);
+      }
+      assert.equal(res.operationInput.partitionKey, index);
+    });
+    await testContainer.delete();
   });
 });

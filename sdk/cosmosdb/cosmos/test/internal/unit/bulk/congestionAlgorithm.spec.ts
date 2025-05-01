@@ -6,6 +6,7 @@ import { CongestionAlgorithm } from "../../../../src/bulk/CongestionAlgorithm.js
 import { PartitionMetric } from "../../../../src/bulk/PartitionMetric.js";
 import { LimiterQueue } from "../../../../src/bulk/Limiter.js";
 import type { RetryCallback } from "../../../../src/utils/batch.js";
+import { Constants } from "../../../../src/index.js";
 
 describe("CongestionAlgorithm", () => {
   let limiter: LimiterQueue;
@@ -80,5 +81,16 @@ describe("CongestionAlgorithm", () => {
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
     assert.strictEqual(algorithm["currentDegreeOfConcurrency"], 1, "decrease factor should be 0");
+  });
+
+  it("degree of concurrency should not exceed maxDegreeOfConcurrency", () => {
+    const itemsCount = 10;
+    const timeTakenInMs = 1100;
+    const numberOfThrottles = 0;
+    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    algorithm["currentDegreeOfConcurrency"] = Constants.BulkMaxDegreeOfConcurrency;
+    partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
+    algorithm.run();
+    assert.strictEqual(algorithm["currentDegreeOfConcurrency"], 50);
   });
 });

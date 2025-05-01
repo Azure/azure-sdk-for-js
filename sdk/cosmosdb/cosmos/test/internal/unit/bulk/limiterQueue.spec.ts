@@ -4,11 +4,18 @@
 import { assert, beforeEach, describe, it } from "vitest";
 import type { Batcher } from "../../../../src/bulk/Batcher.js";
 import { LimiterQueue } from "../../../../src/bulk/Limiter.js";
+import { StatusCodes } from "../../../../src/index.js";
 
 function createFakeBatcher(result: any, delay = 0): Batcher {
   return {
     dispatch: (_metric: any) => new Promise((resolve) => setTimeout(() => resolve(result), delay)),
     getOperations: (): any[] => [],
+  } as unknown as Batcher;
+}
+function createNeverEndingBatcher(): Batcher {
+  return {
+    dispatch: (_metric: any) => new Promise(() => {}),
+    getOperations: (): any[] => [{ operationContext: { diagnosticNode: {} } }],
   } as unknown as Batcher;
 }
 
@@ -22,7 +29,7 @@ describe("LimiterQueue", () => {
 
   beforeEach(() => {
     // Instantiate with concurrency of 1 for ordered processing.
-    limiter = new LimiterQueue(1, dummyMetric, fakeRetryCallback);
+    limiter = new LimiterQueue(1, dummyMetric, fakeRetryCallback, {} as any);
   });
 
   it("should process a single task and return its value", async () => {
@@ -40,13 +47,11 @@ describe("LimiterQueue", () => {
     const batcher2 = createFakeBatcher("second", 5);
     const batcher3 = createFakeBatcher("third", 10);
 
-    // Enqueue tasks; processing is asynchronous.
     const p1 = limiter.push(batcher1).then((res) => results.push(res));
     const p2 = limiter.push(batcher2).then((res) => results.push(res));
     const p3 = limiter.push(batcher3).then((res) => results.push(res));
 
     await Promise.all([p1, p2, p3]);
-    // Even though processing is concurrent by scheduling,
     // tasks pushed in order with concurrency 1 should resolve in the same order.
     assert.deepEqual(results, ["first", "second", "third"]);
   });
@@ -79,7 +84,7 @@ describe("LimiterQueue", () => {
 
     await Promise.all(tasks1);
     // Check that at most 3 tasks were active at any time.
-    assert.isAtMost(maxActive, 3);
+    assert.equal(maxActive, 3);
 
     maxActive = 0; // Reset for next test
 
@@ -93,7 +98,7 @@ describe("LimiterQueue", () => {
     await Promise.all(tasks2);
 
     // Check that no more than 5 tasks were active concurrently.
-    assert.isAtMost(maxActive, 5);
+    assert.equal(maxActive, 5);
 
     maxActive = 0; // Reset for next test
 
@@ -109,28 +114,73 @@ describe("LimiterQueue", () => {
     assert.isAtMost(maxActive, 1);
   });
 
-  it("should resolve queued tasks immediately with terminated value on pauseAndClear", async () => {
-    const terminatedValue = "terminated";
+  it("should refresh pk range cache and retry operations when pauseAndClear is called on split", async () => {
+    const terminatedValue = StatusCodes.Gone;
+    const retriedOperations: any[] = [];
+    let refreshCalled = false;
 
-    function createNeverEndingBatcher(): Batcher {
-      return {
-        dispatch: (_metric: any) => new Promise(() => {}),
-        getOperations: (): any[] => [],
-      } as unknown as Batcher;
-    }
+    // Override retrier and refresh functions
+    limiter = new LimiterQueue(
+      1,
+      dummyMetric,
+      async (op, _diag) => {
+        retriedOperations.push(op);
+        return Promise.resolve();
+      },
+      async (_diag) => {
+        refreshCalled = true;
+      },
+    );
 
     const batchers = Array.from({ length: 10 }, () => createNeverEndingBatcher());
     const promises = batchers.map((batcher) => limiter.push(batcher));
 
     await limiter.pauseAndClear(terminatedValue);
-
     const results = await Promise.all(promises);
-    results.forEach((result) => assert.equal(result, terminatedValue));
-
-    // eslint-disable-next-line promise/catch-or-return
-    limiter.push(createFakeBatcher("should not be processed", 60000)).then((res) => {
-      assert.equal(res, terminatedValue);
-      return res;
+    results.forEach((result) => {
+      assert.equal(result, terminatedValue);
     });
+    // Verify that partition key range cache was refreshed
+    assert.isTrue(
+      refreshCalled,
+      "Partition key range cache should be refreshed when terminated value is 410",
+    );
+    // Verify that each queued operation was retried
+    assert.equal(retriedOperations.length, 10, "All queued operations should have been retried");
+  });
+
+  it("should simply clear the queue without refresh or retry when pauseAndClear is called with a non-410 terminated value", async () => {
+    const terminatedValue: null = null;
+    const retriedOperations: any[] = [];
+    let refreshCalled = false;
+
+    // Override retrier and refresh functions
+    limiter = new LimiterQueue(
+      1,
+      dummyMetric,
+      async (op, _diag) => {
+        retriedOperations.push(op);
+        return Promise.resolve();
+      },
+      async (_diag) => {
+        refreshCalled = true;
+      },
+    );
+
+    const batchers = Array.from({ length: 10 }, () => createNeverEndingBatcher());
+    const promises = batchers.map((batcher) => limiter.push(batcher));
+
+    await limiter.pauseAndClear(terminatedValue);
+    const results = await Promise.all(promises);
+    results.forEach((result) => {
+      assert.equal(result, terminatedValue);
+    });
+    // Verify that partition key range cache was not refreshed
+    assert.isFalse(
+      refreshCalled,
+      "Partition key range cache should not be refreshed when terminated value is not 410",
+    );
+    // Verify that no queued operations were retried
+    assert.equal(retriedOperations.length, 0, "No queued operations should have been retried");
   });
 });
