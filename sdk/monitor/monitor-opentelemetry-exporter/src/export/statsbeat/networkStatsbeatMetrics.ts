@@ -34,7 +34,6 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private networkStatsbeatMeter: Meter;
   private networkStatsbeatMeterProvider: MeterProvider;
   private networkAzureExporter: AzureMonitorStatsbeatExporter;
-  private networkMetricReader: PeriodicExportingMetricReader;
 
   // Custom dimensions
   private cikey: string;
@@ -62,22 +61,20 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   constructor(options: StatsbeatOptions) {
     super();
     this.connectionString = super.getConnectionString(options.endpointUrl);
-    this.networkStatsbeatMeterProvider = new MeterProvider();
-
-    const exporterConfig: AzureMonitorExporterOptions = {
+        const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
     };
 
     this.networkAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
-
     // Exports Network Statsbeat every 15 minutes
     const networkMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.networkAzureExporter,
       exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionShortInterval, // 15 minutes
     };
+    this.networkStatsbeatMeterProvider = new MeterProvider({
+      readers: [new PeriodicExportingMetricReader(networkMetricReaderOptions)]
+    });
 
-    this.networkMetricReader = new PeriodicExportingMetricReader(networkMetricReaderOptions);
-    this.networkStatsbeatMeterProvider.addMetricReader(this.networkMetricReader);
     this.networkStatsbeatMeter = this.networkStatsbeatMeterProvider.getMeter(
       "Azure Monitor Network Statsbeat",
     );
