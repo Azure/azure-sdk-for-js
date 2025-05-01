@@ -42,7 +42,7 @@ const finalViteConfig = mergeConfig(
       include: ["./**/*.spec.ts"],
       exclude: [
         "**/node_modules/**",
-        "./**/browser/*.spec.ts"
+        "**/browser/*.spec.ts"
       ],
     },
   }),
