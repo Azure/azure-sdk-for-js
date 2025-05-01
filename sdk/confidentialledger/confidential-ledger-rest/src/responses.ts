@@ -17,8 +17,15 @@ import type {
   TransactionStatusOutput,
   LedgerEntryOutput,
   PagedUsersOutput,
+  PagedLedgerUsersOutput,
   LedgerUserOutput,
+  LedgerUserMultipleRolesOutput,
   PagedUserDefinedFunctionsOutput,
+  UserDefinedFunctionOutput,
+  UserDefinedFunctionExecutionResponseOutput,
+  JSRuntimeOptionsOutput,
+  ModuleDefOutput,
+  RoleOutput,
 } from "./outputModels.js";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
@@ -170,6 +177,53 @@ export interface ListUsersDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
+/** All users' object IDs and multiple roles will be returned. */
+export interface ListLedgerUsers200Response extends HttpResponse {
+    status: "200";
+    body: PagedLedgerUsersOutput;
+}
+
+/** All users' object IDs and multiple roles will be returned. */
+export interface ListLedgerUsersDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** Deletes a user with multiple roles from the Confidential Ledger. */
+export interface DeleteLedgerUser204Response extends HttpResponse {
+    status: "204";
+}
+
+/** Deletes a user with multiple roles from the Confidential Ledger. */
+export interface DeleteLedgerUserDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** Gets a user with multiple roles. */
+export interface GetLedgerUser200Response extends HttpResponse {
+    status: "200";
+    body: LedgerUserMultipleRolesOutput;
+}
+
+/** Gets a user with multiple roles. */
+export interface GetLedgerUserDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** A JSON merge patch is applied for existing users */
+export interface CreateOrUpdateLedgerUser200Response extends HttpResponse {
+    status: "200";
+    body: LedgerUserMultipleRolesOutput;
+}
+
+/** A JSON merge patch is applied for existing users */
+export interface CreateOrUpdateLedgerUserDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
 /** Deletes a user from the Confidential Ledger. */
 export interface DeleteUser204Response extends HttpResponse {
   status: "204";
@@ -217,6 +271,43 @@ export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
+/** It returns the runtime options */
+export interface GetRuntimeOptions200Response extends HttpResponse {
+    status: "200";
+    body: JSRuntimeOptionsOutput;
+}
+
+/** It returns the runtime options */
+export interface GetRuntimeOptionsDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** Updates the runtime options. */
+export interface UpdateRuntimeOptions200Response extends HttpResponse {
+    status: "200";
+    body: JSRuntimeOptionsOutput;
+}
+
+/** Updates the runtime options. */
+export interface UpdateRuntimeOptionsDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** It gets the module for the user defined endpoint. */
+export interface GetUserDefinedEndpointsModule200Response extends HttpResponse {
+    status: "200";
+    body: ModuleDefOutput;
+}
+
+/** It gets the module for the user defined endpoint. */
+export interface GetUserDefinedEndpointsModuleDefaultResponse
+    extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
 /** User defined functions stored in the Confidential Ledger */
 export interface ListUserDefinedFunctions200Response extends HttpResponse {
   status: "200";
@@ -227,4 +318,115 @@ export interface ListUserDefinedFunctions200Response extends HttpResponse {
 export interface ListUserDefinedFunctionsDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
+}
+
+/** Deletes a user defined function from the Confidential Ledger. */
+export interface DeleteUserDefinedFunction204Response extends HttpResponse {
+    status: "204";
+}
+
+/** Deletes a user defined function from the Confidential Ledger. */
+export interface DeleteUserDefinedFunctionDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** Returns the user defined function in the Confidential Ledger */
+export interface GetUserDefinedFunction200Response extends HttpResponse {
+    status: "200";
+    body: UserDefinedFunctionOutput;
+}
+
+/** Returns the user defined function in the Confidential Ledger */
+export interface GetUserDefinedFunctionDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+export interface CreateUserDefinedFunction200Headers {
+    /** The transaction id at which this write will become durable. */
+    "x-ms-ccf-transaction-id"?: string;
+}
+
+/** Creates the user defined function in the Confidential Ledger */
+export interface CreateUserDefinedFunction200Response extends HttpResponse {
+    status: "200";
+    body: UserDefinedFunctionOutput;
+    headers: RawHttpHeaders & CreateUserDefinedFunction200Headers;
+}
+
+export interface CreateUserDefinedFunction201Headers {
+    /** The transaction id at which this write will become durable. */
+    "x-ms-ccf-transaction-id"?: string;
+}
+
+/** Creates the user defined function in the Confidential Ledger */
+export interface CreateUserDefinedFunction201Response extends HttpResponse {
+    status: "201";
+    body: UserDefinedFunctionOutput;
+    headers: RawHttpHeaders & CreateUserDefinedFunction201Headers;
+}
+
+/** Creates the user defined function in the Confidential Ledger */
+export interface CreateUserDefinedFunctionDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** Executes the user defined function in the Confidential Ledger */
+export interface ExecuteUserDefinedFunction200Response extends HttpResponse {
+    status: "200";
+    body: UserDefinedFunctionExecutionResponseOutput;
+}
+
+/** Executes the user defined function in the Confidential Ledger */
+export interface ExecuteUserDefinedFunctionDefaultResponse
+    extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** user defined roles allow users to define and manage app specific AuthZ policy. */
+export interface GetUserDefinedRole200Response extends HttpResponse {
+    status: "200";
+    body: Array<RoleOutput>;
+}
+
+/** user defined roles allow users to define and manage app specific AuthZ policy. */
+export interface GetUserDefinedRoleDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface CreateUserDefinedRole200Response extends HttpResponse {
+    status: "200";
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface CreateUserDefinedRoleDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface UpdateUserDefinedRole200Response extends HttpResponse {
+    status: "200";
+}
+
+/** User defined roles allow users to define and manage app specific AuthZ policy. */
+export interface UpdateUserDefinedRoleDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
+}
+
+/** A user defined role allows the users to create and manage their own role actions using the API. */
+export interface DeleteUserDefinedRole200Response extends HttpResponse {
+    status: "200";
+}
+
+/** A user defined role allows the users to create and manage their own role actions using the API. */
+export interface DeleteUserDefinedRoleDefaultResponse extends HttpResponse {
+    status: string;
+    body: ConfidentialLedgerErrorOutput;
 }
