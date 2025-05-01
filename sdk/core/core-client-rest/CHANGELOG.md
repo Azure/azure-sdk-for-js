@@ -1,14 +1,10 @@
 # Release History
 
-## 2.3.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.4.0 (2025-05-01)
 
 ### Other Changes
+
+- Depend on `@typespec/ts-http-runtime`. [PR #33948](https://github.com/Azure/azure-sdk-for-js/pull/33948)
 
 ## 2.3.5 (2025-04-07)
 

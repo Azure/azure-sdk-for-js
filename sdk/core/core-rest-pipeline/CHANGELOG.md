@@ -1,16 +1,14 @@
 # Release History
 
-## 1.20.0 (Unreleased)
+## 1.20.0 (2025-05-01)
 
 ### Features Added
 
 - Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions` [PR #33724](https://github.com/Azure/azure-sdk-for-js/pull/33724).
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
+
+- Depend on `@typespec/ts-http-runtime`. [PR #33948](https://github.com/Azure/azure-sdk-for-js/pull/33948)
 
 ## 1.19.1 (2025-03-06)
 
