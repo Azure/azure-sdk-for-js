@@ -146,7 +146,11 @@ export interface PollingOptions {
   /**
    * The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used.
    */
-  sleepIntervalInMs?: number;
+  intervalInMs?: number;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
+  restoreFrom?: string;
 }
 
 /**

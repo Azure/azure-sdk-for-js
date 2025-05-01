@@ -28,7 +28,7 @@ export async function main(): Promise<void> {
   const vectorStore1 = await client.createVectorStore({
     name: "myVectorStore",
     pollingOptions: {
-      sleepIntervalInMs: 2000,
+      intervalInMs: 2000,
     },
     onResponse: onResponse,
   });
@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
   const vectorStorePoller = client.createVectorStoreAndPoll({
     name: "myVectorStore",
     pollingOptions: {
-      sleepIntervalInMs: 2000,
+      intervalInMs: 2000,
     },
     onResponse: onResponse,
   });

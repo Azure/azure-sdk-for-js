@@ -341,7 +341,7 @@ export function createVectorStoreFileBatch(
       return getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -359,7 +359,7 @@ export function createVectorStoreFileBatchAndPoll(
       return getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -538,7 +538,7 @@ export function createVectorStoreFile(
           )
         : undefined;
     },
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -563,7 +563,7 @@ export function createVectorStoreFileAndPoll(
           )
         : undefined;
     },
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -822,7 +822,7 @@ export function createVectorStore(
       return getVectorStore(context, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -841,7 +841,7 @@ export function createVectorStoreAndPoll(
       return getVectorStore(context, currentResult.id, options);
     },
     getOperationStatus: getLroOperationStatus,
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -1090,7 +1090,7 @@ export function uploadFile(
         ? new Error(`Operation failed: ${result.statusDetails}`)
         : undefined;
     },
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 
@@ -1116,7 +1116,7 @@ export function uploadFileAndPoll(
         ? new Error(`Operation failed: ${result.statusDetails}`)
         : undefined;
     },
-    intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
 

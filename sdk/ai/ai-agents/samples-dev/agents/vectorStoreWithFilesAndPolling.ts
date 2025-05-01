@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
   const vectorStoreFile1 = await client.createVectorStoreFile(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
-      sleepIntervalInMs: 2000,
+      intervalInMs: 2000,
     },
     onResponse: onResponse,
   });
@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
   const vectorStoreFilePoller = client.createVectorStoreFileAndPoll(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
-      sleepIntervalInMs: 2000,
+      intervalInMs: 2000,
     },
     onResponse: onResponse,
   });

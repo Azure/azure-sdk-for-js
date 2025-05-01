@@ -971,7 +971,8 @@ export interface OpenApiToolDefinition extends ToolDefinition {
 
 // @public
 export interface PollingOptions {
-    sleepIntervalInMs?: number;
+    intervalInMs?: number;
+    restoreFrom?: string;
 }
 
 // @public
