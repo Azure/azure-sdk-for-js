@@ -5,13 +5,13 @@ import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../../../vitest.shared.config.ts";
 
 // The goal of this file is to create a unified test configuration for Vitest
-// by combining a base configuration shared across packages with package-specific settings.
+// by combining a base configuration for dependency testing with package-specific settings.
 // This ensures that we maintain consistent test behavior when running min/max tests,
 // while allowing for individual package overrides where necessary.
 
 // 1. Try to load the package-specific vitest config, if available.
 // This allows each package to have its own tailored test configuration,
-// but it's optional. If the package config isn't present, we proceed with a default setup.
+// but it's optional. 
 let packageConfig = {};
 try {
   packageConfig = (await import("../../vitest.config.ts")).default;
@@ -28,28 +28,23 @@ try {
     throw e;
   }
 }
+// If the package config isn't present, we proceed with the default shared setup.
+packageConfig = packageConfig || viteConfig;
 
-// 2. Merge the shared base config with some standard test settings for min/max tests.
-// These settings apply to all packages unless specifically overridden
-// By default, the config includes all test files ending with .spec.ts
-// and excludes any test files located in the node_modules directory or those that are browser-specific.
-const baseConfig = mergeConfig(
-  viteConfig,
+// 2. Merge the shared base config/ package specific config with the standard test settings for min/max tests.
+// These settings apply to all packages.
+const finalViteConfig = mergeConfig(
+  packageConfig,
   defineConfig({
     test: {
       include: ["./**/*.spec.ts"],
       exclude: [
         "**/node_modules/**",
-        "**/browser/*.spec.ts"
+        "./**/browser/*.spec.ts"
       ],
     },
   }),
 );
-
-// 3. Merge the package-specific config with the base config to produce the final result.
-// This allows for package-level customizations while still adhering to the shared setup,
-// ensuring consistency across the entire codebase.
-const finalViteConfig = mergeConfig(baseConfig, packageConfig);
 
 console.log("Using the following Vitest configuration:");
 console.log(JSON.stringify(finalViteConfig, null, 2));
