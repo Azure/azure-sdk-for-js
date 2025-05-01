@@ -58,7 +58,6 @@ extends:
         jobs:
         - job: NPM_Admin
           displayName: 'NPM package management'
-          dependsOn: NPM_Approval
           pool:
             name: $(WINDOWSPOOL)
             image: $(WINDOWSVMIMAGE)
