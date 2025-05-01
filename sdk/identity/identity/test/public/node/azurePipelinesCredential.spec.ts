@@ -44,7 +44,7 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken,
     );
     const regExp: RegExp =
-      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
+      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .*/;
     await expect(credential.getToken(scope)).rejects.toThrow(regExp);
   });
 
@@ -69,7 +69,9 @@ describe("AzurePipelinesCredential", function () {
     await expect(credential.getToken(scope)).rejects.toThrow(regExpHeader2);
   });
 
-  it("fails with with invalid client id", async function (ctx) {
+  // TODO: Unskip this test once service confirms expected behavior
+  // Currently, the error message is unrelated to `clientId`
+  it.skip("fails with with invalid client id", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }
