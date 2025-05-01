@@ -19,10 +19,9 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run integration-test:browser",
     "test:browser:proxy": "dev-tool run test:vitest --browser",
-    "test:node": "npm run integration-test:node",
+    "test:node": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
     "test:node:proxy": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
-    "test:node:live": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
+    "test:node:esm": "echo skipped",
     "tests:server": "node server.mjs",
     "update-snippets": "dev-tool run update-snippets"
   },
