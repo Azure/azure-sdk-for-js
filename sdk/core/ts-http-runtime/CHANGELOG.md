@@ -1,10 +1,14 @@
 # Release History
 
-## 0.2.2 (Unreleased)
+## 0.2.2 (2025-05-01)
 
 ### Features Added
 
 - Add an optional `requestOverrides` property to `PipelineRequest` and `PipelineRequestOptions`.
+
+### Other Changes
+
+- Add `internal/` subpath. This subpath contains internal definitions that are for private use only; stability is not guaranteed.
 
 ## 0.2.1 (2025-04-08)
 
