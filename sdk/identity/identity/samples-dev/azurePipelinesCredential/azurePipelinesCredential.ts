@@ -8,9 +8,8 @@ import { AzurePipelinesCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
 async function main() {
-
-  const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!; 
-  const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!; 
+  const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+  const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
   const serviceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
   const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
   if (systemAccessToken) {
