@@ -1,14 +1,10 @@
 # Release History
 
-## 1.9.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.9.4 (2025-05-01)
 
 ### Other Changes
+
+- Bump dependency `@azure/core-rest-pipeline` to `^1.20.0`. [PR #34151](https://github.com/Azure/azure-sdk-for-js/pull/34151)
 
 ## 1.9.3 (2025-03-06)
 
