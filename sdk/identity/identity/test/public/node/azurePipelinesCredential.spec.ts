@@ -71,7 +71,7 @@ describe("AzurePipelinesCredential", function () {
 
   // TODO: Unskip this test once service confirms expected behavior
   // Currently, the error message is unrelated to `clientId`
-  it.skip("fails with with invalid client id", async function (ctx) {
+  it.skip("fails with invalid client id", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }
