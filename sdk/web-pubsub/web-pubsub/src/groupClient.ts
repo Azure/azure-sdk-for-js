@@ -12,6 +12,7 @@ import type { GeneratedClient } from "./generated/generatedClient.js";
 import { tracingClient } from "./tracing.js";
 import { getPayloadForMessage } from "./utils.js";
 import type { JSONTypes } from "./hubClient.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options for constructing a GroupAdmin client.
@@ -87,6 +88,26 @@ export interface GroupCloseAllConnectionsOptions extends OperationOptions {
    * Reason the connection is being closed.
    */
   reason?: string;
+}
+
+/**
+ * A connection in a group in the Web PubSub service.
+ */
+export interface WebPubSubGroupMember {
+  /** A unique identifier of a connection. */
+  connectionId: string;
+  /** The user ID of the connection. A user can have multiple connections. */
+  userId?: string;
+}
+
+/** Options for listing connections in a group. */
+export interface GroupListConnectionsOptions extends OperationOptions {
+  /** The maximum number of connections to include in a single response. It should be between 1 and 200. */
+  maxPageSize?: number;
+  /** The maximum number of connections to return. If the value is not set, then all the connections in a group are returned. */
+  top?: number;
+  /** A token that allows the client to retrieve the next page of results. This parameter is provided by the service in the response of a previous request when there are additional results to be fetched. Clients should include the continuationToken in the next request to receive the subsequent page of data. If this parameter is omitted, the server will return the first page of results. */
+  continuationToken?: string;
 }
 
 export interface WebPubSubGroup {
@@ -170,6 +191,15 @@ export interface WebPubSubGroup {
    * @param options - Additional options
    */
   sendToAll(message: RequestBodyType, options?: GroupSendToAllOptions): Promise<void>;
+
+  /**
+   * List connections in this group
+   *
+   * @param options - Additional options for listing connections
+   */
+  listConnections(
+    options?: GroupListConnectionsOptions,
+  ): Promise<PagedAsyncIterableIterator<WebPubSubGroupMember>>;
 }
 
 /**
@@ -191,7 +221,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2020-10-01";
+  public readonly apiVersion: string = "2024-12-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -361,5 +391,20 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
         updatedOptions,
       );
     });
+  }
+
+  /**
+   * List connections in this group.
+   * @param options - The options parameters.
+   */
+  public listConnections(
+    options: GroupListConnectionsOptions = {},
+  ): Promise<PagedAsyncIterableIterator<WebPubSubGroupMember>> {
+    return tracingClient.withSpan(
+      "WebPubSubGroupClient.listConnections",
+      options,
+      (updatedOptions) =>
+        this.client.webPubSub.listConnectionsInGroup(this.hubName, this.groupName, updatedOptions),
+    );
   }
 }

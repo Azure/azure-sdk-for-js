@@ -173,6 +173,10 @@ export async function testWithDeployments<T>({
         if (GlobalSkippableErrors.messageSubstring.some((match) => error.message.includes(match))) {
           context.skip(`Skipping due to global acceptable error: ${error}`);
         }
+
+        if (e instanceof Error) {
+          e.message = `${e.message} BaseURL: ${client.baseURL} Deployment: ${deploymentName}`;
+        }
         throw e;
       }
       validate?.(result);
