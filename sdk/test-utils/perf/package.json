@@ -21,10 +21,10 @@
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "perf-test:node": "npm run build:test && node dist-test/test/index.spec.js",
+    "perf-test:node": "npm run build && tsc --project tsconfig.tests.config.json && node dist-test/test/index.spec.js",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "npm run build:test && node dist-test/runAllTests.js",
+    "test:node": "npm run build && tsc --project tsconfig.tests.config.json && node dist-test/runAllTests.js",
     "test:node:esm": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
   },
