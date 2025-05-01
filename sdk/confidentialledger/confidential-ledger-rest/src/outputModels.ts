@@ -194,17 +194,17 @@ export interface LedgerUserOutput {
 
 /** Paginated users returned in response to a query. */
 export interface PagedLedgerUsersOutput {
-    ledgerUsers?: Array<LedgerUserMultipleRolesOutput>;
-    /** Path from which to retrieve the next page of results. */
-    nextLink?: string;
+  ledgerUsers?: Array<LedgerUserMultipleRolesOutput>;
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
 }
 
 /** Details about a Confidential Ledger user. */
 export interface LedgerUserMultipleRolesOutput {
-    /** Represents an assignable role. */
-    assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
-    /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
-    readonly userId?: string;
+  /** Represents an assignable role. */
+  assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
+  /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
+  readonly userId?: string;
 }
 
 /** bundle for the user defined endpoints */
@@ -244,36 +244,36 @@ export interface InterpreterReusePolicyOutput {
 }
 
 export interface ModuleDefOutput {
-    module: string;
-    name: string;
+  module: string;
+  name: string;
 }
 
 /** Hook for a user defined function execution. */
 export interface UserDefinedFunctionHookOutput {
-    /** ID of the user defined function to execute. */
-    functionId: string;
-    /** The properties for executing a user defined function. */
-    properties?: UserDefinedFunctionExecutionPropertiesOutput;
+  /** ID of the user defined function to execute. */
+  functionId: string;
+  /** The properties for executing a user defined function. */
+  properties?: UserDefinedFunctionExecutionPropertiesOutput;
 }
 
 /** The properties for executing a user defined function. */
 export interface UserDefinedFunctionExecutionPropertiesOutput {
-    /** Runtime arguments of the user defined function. Defaults to an empty list. */
-    arguments?: Array<string>;
-    /** Name of the exported function to execute in the code of the user defined function. Defaults to main. */
-    exportedFunctionName?: string;
-    /** JS runtime options for user defined endpoints and functions */
-    runtimeOptions?: JSRuntimeOptionsOutput;
+  /** Runtime arguments of the user defined function. Defaults to an empty list. */
+  arguments?: Array<string>;
+  /** Name of the exported function to execute in the code of the user defined function. Defaults to main. */
+  exportedFunctionName?: string;
+  /** JS runtime options for user defined endpoints and functions */
+  runtimeOptions?: JSRuntimeOptionsOutput;
 }
 
 /** JS runtime options for user defined endpoints and functions */
 export interface JSRuntimeOptionsOutput {
-    log_exception_details?: boolean;
-    max_cached_interpreters?: number;
-    max_execution_time_ms?: number;
-    max_heap_bytes?: number;
-    max_stack_bytes?: number;
-    return_exception_details?: boolean;
+  log_exception_details?: boolean;
+  max_cached_interpreters?: number;
+  max_execution_time_ms?: number;
+  max_heap_bytes?: number;
+  max_stack_bytes?: number;
+  return_exception_details?: boolean;
 }
 
 /** Paginated user defined functions returned in response to a query. */
@@ -293,24 +293,24 @@ export interface UserDefinedFunctionOutput {
 
 /** The result of a user defined function execution. */
 export interface UserDefinedFunctionExecutionResponseOutput {
-    /** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
-    error?: UserDefinedFunctionExecutionErrorOutput;
-    /** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
-    result?: UserDefinedFunctionExecutionResultOutput;
-    /** Represents the status of a user defined function execution. */
-    status: "Succeeded" | "Failed";
+  /** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
+  error?: UserDefinedFunctionExecutionErrorOutput;
+  /** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
+  result?: UserDefinedFunctionExecutionResultOutput;
+  /** Represents the status of a user defined function execution. */
+  status: "Succeeded" | "Failed";
 }
 
 /** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
 export interface UserDefinedFunctionExecutionErrorOutput {
-    /** Message indicating the error thrown when executing the function. */
-    message?: string;
+  /** Message indicating the error thrown when executing the function. */
+  message?: string;
 }
 
 /** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
 export interface UserDefinedFunctionExecutionResultOutput {
-    /** String-encoded value returned by the user defined function execution. If the function does not return any value, this is set to an empty string. */
-    returnValue?: string;
+  /** String-encoded value returned by the user defined function execution. If the function does not return any value, this is set to an empty string. */
+  returnValue?: string;
 }
 
 /** Definition for roles */

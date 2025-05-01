@@ -192,12 +192,10 @@ export interface ListUsers {
 }
 
 export interface ListLedgerUsers {
-    /** All users' object IDs and multiple roles will be returned. */
-    get(
-        options?: ListLedgerUsersParameters,
-    ): StreamableMethod<
-        ListLedgerUsers200Response | ListLedgerUsersDefaultResponse
-    >;
+  /** All users' object IDs and multiple roles will be returned. */
+  get(
+    options?: ListLedgerUsersParameters,
+  ): StreamableMethod<ListLedgerUsers200Response | ListLedgerUsersDefaultResponse>;
 }
 
 export interface DeleteUser {
@@ -217,9 +215,7 @@ export interface DeleteLedgerUser {
   /** Deletes a user with multiple roles from the Confidential Ledger. */
   delete(
     options?: DeleteLedgerUserParameters,
-  ): StreamableMethod<
-    DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse
-  >;
+  ): StreamableMethod<DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse>;
   /** Gets a user with multiple roles. */
   get(
     options?: GetLedgerUserParameters,
@@ -228,8 +224,7 @@ export interface DeleteLedgerUser {
   patch(
     options: CreateOrUpdateLedgerUserParameters,
   ): StreamableMethod<
-    | CreateOrUpdateLedgerUser200Response
-    | CreateOrUpdateLedgerUserDefaultResponse
+    CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse
   >;
 }
 
@@ -237,15 +232,11 @@ export interface GetRuntimeOptions {
   /** It returns the runtime options */
   get(
     options?: GetRuntimeOptionsParameters,
-  ): StreamableMethod<
-    GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse
-  >;
+  ): StreamableMethod<GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse>;
   /** Updates the runtime options. */
   patch(
     options: UpdateRuntimeOptionsParameters,
-  ): StreamableMethod<
-    UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse
-  >;
+  ): StreamableMethod<UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse>;
 }
 
 export interface GetUserDefinedEndpointsModule {
@@ -253,8 +244,7 @@ export interface GetUserDefinedEndpointsModule {
   get(
     options: GetUserDefinedEndpointsModuleParameters,
   ): StreamableMethod<
-    | GetUserDefinedEndpointsModule200Response
-    | GetUserDefinedEndpointsModuleDefaultResponse
+    GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse
   >;
 }
 
@@ -272,15 +262,12 @@ export interface DeleteUserDefinedFunction {
   delete(
     options?: DeleteUserDefinedFunctionParameters,
   ): StreamableMethod<
-    | DeleteUserDefinedFunction204Response
-    | DeleteUserDefinedFunctionDefaultResponse
+    DeleteUserDefinedFunction204Response | DeleteUserDefinedFunctionDefaultResponse
   >;
   /** Returns the user defined function in the Confidential Ledger */
   get(
     options?: GetUserDefinedFunctionParameters,
-  ): StreamableMethod<
-    GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse
-  >;
+  ): StreamableMethod<GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse>;
   /** Creates the user defined function in the Confidential Ledger */
   put(
     options: CreateUserDefinedFunctionParameters,
@@ -292,40 +279,31 @@ export interface DeleteUserDefinedFunction {
 }
 
 export interface ExecuteUserDefinedFunction {
-    /** Executes the user defined function in the Confidential Ledger */
-    post(
-        options?: ExecuteUserDefinedFunctionParameters,
-    ): StreamableMethod<
-        | ExecuteUserDefinedFunction200Response
-        | ExecuteUserDefinedFunctionDefaultResponse
-    >;
+  /** Executes the user defined function in the Confidential Ledger */
+  post(
+    options?: ExecuteUserDefinedFunctionParameters,
+  ): StreamableMethod<
+    ExecuteUserDefinedFunction200Response | ExecuteUserDefinedFunctionDefaultResponse
+  >;
 }
 
 export interface GetUserDefinedRole {
   /** user defined roles allow users to define and manage app specific AuthZ policy. */
   get(
     options: GetUserDefinedRoleParameters,
-  ): StreamableMethod<
-    GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse>;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   put(
     options: CreateUserDefinedRoleParameters,
-  ): StreamableMethod<
-    CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse>;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   patch(
     options: UpdateUserDefinedRoleParameters,
-  ): StreamableMethod<
-    UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse>;
   /** A user defined role allows the users to create and manage their own role actions using the API. */
   delete(
     options: DeleteUserDefinedRoleParameters,
-  ): StreamableMethod<
-    DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse>;
 }
 
 export interface Routes {
@@ -364,10 +342,7 @@ export interface Routes {
   /** Resource for '/app/userDefinedFunctions' has methods for the following verbs: get */
   (path: "/app/userDefinedFunctions"): ListUserDefinedFunctions;
   /** Resource for '/app/userDefinedFunctions/\{functionId\}' has methods for the following verbs: delete, get, put */
-  (
-    path: "/app/userDefinedFunctions/{functionId}",
-    functionId: string,
-  ): DeleteUserDefinedFunction;
+  (path: "/app/userDefinedFunctions/{functionId}", functionId: string): DeleteUserDefinedFunction;
   /** Resource for '/app/userDefinedFunctions/\{functionId\}:execute' has methods for the following verbs: post */
   (
     path: "/app/userDefinedFunctions/{functionId}:execute",
