@@ -58,13 +58,14 @@ extends:
         jobs:
         - job: NPM_Admin
           displayName: 'NPM package management'
-          pool: server
+          pool:
+            name: $(WINDOWSPOOL)
+            image: $(WINDOWSVMIMAGE)
+            os: windows
+
           steps:
             - checkout: self
             - download: current
-            - task: ManualValidation@1
-              inputs:
-                notifyUsers: ''
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
@@ -78,3 +79,11 @@ extends:
                   -npmToken "$(azure-sdk-npm-token)"
                   -reason "${{parameters.Reason}}"
                 pwsh: true
+
+        - job: NPM_Admin_Approval
+          displayName: 'NPM package management approval'
+          pool: server
+          steps:
+            - task: ManualValidation@1
+              inputs:
+                notifyUsers: ''
