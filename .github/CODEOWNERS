@@ -210,10 +210,10 @@
 # AzureSdkOwners: @joheredi
 
 # PRLabel: %ConfidentialLedger
-/sdk/confidentialledger/ @joheredi
+/sdk/confidentialledger/ @amruthashree18
 
 # ServiceLabel: %ConfidentialLedger
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @amruthashree18
 
 # PRLabel: %DocumentTranslator
 /sdk/documenttranslator/ @joheredi
