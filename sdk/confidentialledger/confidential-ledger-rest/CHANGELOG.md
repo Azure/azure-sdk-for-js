@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.2-beta.1 (2025-05-01)
+
+### Bugs Fixed
+
+- Added missed models in previous release
+
 ## 1.1.2-beta.1 (2025-04-23)
 
 ### Features Added
