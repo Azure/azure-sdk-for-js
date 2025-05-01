@@ -270,6 +270,26 @@ describe("multipartPolicy", function () {
     });
   });
 
+  it("Supports Blob body", async function () {
+    const blob = new Blob(["part1"]);
+
+    const request = await performRequest({
+      multipartBody: {
+        boundary: "blah",
+        parts: [
+          {
+            body: blob,
+            headers: createHttpHeaders(),
+          },
+        ],
+      },
+    });
+
+    const expectedBody = stringToUint8Array("--blah\r\n\r\npart1\r\n--blah--\r\n\r\n", "utf-8");
+    await assertBodyMatches(request.body, expectedBody);
+    assert.equal(request.headers.get("Content-Length"), expectedBody.byteLength.toString());
+  });
+
   describe("part headers", function () {
     it("are present when specified", async function () {
       const request = await performRequest({
