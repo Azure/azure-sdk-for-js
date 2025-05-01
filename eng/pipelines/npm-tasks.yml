@@ -64,8 +64,7 @@ extends:
             os: windows
 
           steps:
-            - checkout: self
-            - download: current
+            - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
