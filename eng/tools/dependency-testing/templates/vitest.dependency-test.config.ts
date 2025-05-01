@@ -13,8 +13,10 @@ import viteConfig from "../../../../../vitest.shared.config.ts";
 // This allows each package to have its own tailored test configuration,
 // but it's optional. 
 let packageConfig = {};
+let foundPackageConfig = false;
 try {
   packageConfig = (await import("../../vitest.config.ts")).default;
+  foundPackageConfig = true;
 } catch (e: any) {
   if (e.code === "ERR_MODULE_NOT_FOUND") {
     // If no specific config is found, we log this fact.
@@ -29,12 +31,12 @@ try {
   }
 }
 // If the package config isn't present, we proceed with the default shared setup.
-packageConfig = packageConfig || viteConfig;
+const baseConfig = foundPackageConfig ? packageConfig : viteConfig;
 
 // 2. Merge the shared base config/ package specific config with the standard test settings for min/max tests.
 // These settings apply to all packages.
 const finalViteConfig = mergeConfig(
-  packageConfig,
+  baseConfig,
   defineConfig({
     test: {
       include: ["./**/*.spec.ts"],
