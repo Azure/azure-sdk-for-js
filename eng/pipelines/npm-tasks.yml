@@ -56,8 +56,16 @@ extends:
           - template: /eng/pipelines/templates/variables/image.yml
 
         jobs:
+        - job: NPM_Approval
+          displayName: 'NPM package management approval'
+          pool: server
+          steps:
+            - task: ManualValidation@1
+              inputs:
+                notifyUsers: ''
         - job: NPM_Admin
           displayName: 'NPM package management'
+          dependsOn: NPM_Approval
           pool:
             name: $(WINDOWSPOOL)
             image: $(WINDOWSVMIMAGE)
@@ -79,11 +87,3 @@ extends:
                   -npmToken "$(azure-sdk-npm-token)"
                   -reason "${{parameters.Reason}}"
                 pwsh: true
-
-        - job: NPM_Admin_Approval
-          displayName: 'NPM package management approval'
-          pool: server
-          steps:
-            - task: ManualValidation@1
-              inputs:
-                notifyUsers: ''
