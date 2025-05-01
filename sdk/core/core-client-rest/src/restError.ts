@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineResponse } from "@azure/core-rest-pipeline";
-import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
 import type { PathUncheckedResponse } from "./common.js";
+
+import {
+  createRestError as tspCreateRestError,
+  type PathUncheckedResponse as TspPathUncheckedResponse,
+} from "@typespec/ts-http-runtime";
 
 /**
  * Creates a rest error from a PathUnchecked response
@@ -17,30 +21,9 @@ export function createRestError(
   messageOrResponse: string | PathUncheckedResponse,
   response?: PathUncheckedResponse,
 ): RestError {
-  const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
-  const internalError = resp.body?.error ?? resp.body;
-  const message =
-    typeof messageOrResponse === "string"
-      ? messageOrResponse
-      : (internalError?.message ?? `Unexpected status code: ${resp.status}`);
-  return new RestError(message, {
-    statusCode: statusCodeToNumber(resp.status),
-    code: internalError?.code,
-    request: resp.request,
-    response: toPipelineResponse(resp),
-  });
-}
-
-function toPipelineResponse(response: PathUncheckedResponse): PipelineResponse {
-  return {
-    headers: createHttpHeaders(response.headers),
-    request: response.request,
-    status: statusCodeToNumber(response.status) ?? -1,
-  };
-}
-
-function statusCodeToNumber(statusCode: string): number | undefined {
-  const status = Number.parseInt(statusCode);
-
-  return Number.isNaN(status) ? undefined : status;
+  if (typeof messageOrResponse === "string") {
+    return tspCreateRestError(messageOrResponse, response! as TspPathUncheckedResponse);
+  } else {
+    return tspCreateRestError(messageOrResponse as TspPathUncheckedResponse);
+  }
 }

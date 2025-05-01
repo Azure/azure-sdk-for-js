@@ -1,21 +1,78 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
-import { delay } from "../util/helpers.js";
 import { type AzureLogger, createClientLogger } from "@azure/logger";
-import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
-import type { RestError } from "../restError.js";
-import { AbortError } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+
+import {
+  retryPolicy as tspRetryPolicy,
+  type RetryStrategy as TspRetryStrategy,
+} from "@typespec/ts-http-runtime/internal/policies";
+import type { PipelineResponse } from "../interfaces.js";
+import type { RestError } from "../restError.js";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 
 /**
- * The programmatic identifier of the retryPolicy.
+ * Information provided to the retry strategy about the current progress of the retry policy.
  */
-const retryPolicyName = "retryPolicy";
+export interface RetryInformation {
+  /**
+   * A {@link PipelineResponse}, if the last retry attempt succeeded.
+   */
+  response?: PipelineResponse;
+  /**
+   * A {@link RestError}, if the last retry attempt failed.
+   */
+  responseError?: RestError;
+  /**
+   * Total number of retries so far.
+   */
+  retryCount: number;
+}
+
+/**
+ * Properties that can modify the behavior of the retry policy.
+ */
+export interface RetryModifiers {
+  /**
+   * If true, allows skipping the current strategy from running on the retry policy.
+   */
+  skipStrategy?: boolean;
+  /**
+   * Indicates to retry against this URL.
+   */
+  redirectTo?: string;
+  /**
+   * Controls whether to retry in a given number of milliseconds.
+   * If provided, a new retry will be attempted.
+   */
+  retryAfterInMs?: number;
+  /**
+   * Indicates to throw this error instead of retrying.
+   */
+  errorToThrow?: RestError;
+}
+
+/**
+ * A retry strategy is intended to define whether to retry or not, and how to retry.
+ */
+export interface RetryStrategy {
+  /**
+   * Name of the retry strategy. Used for logging.
+   */
+  name: string;
+  /**
+   * Logger. If it's not provided, a default logger for all retry strategies is used.
+   */
+  logger?: AzureLogger;
+  /**
+   * Function that determines how to proceed with the subsequent requests.
+   * @param state - Retry state
+   */
+  retry(state: RetryInformation): RetryModifiers;
+}
 
 /**
  * Options to the {@link retryPolicy}
@@ -38,117 +95,11 @@ export function retryPolicy(
   strategies: RetryStrategy[],
   options: RetryPolicyOptions = { maxRetries: DEFAULT_RETRY_POLICY_COUNT },
 ): PipelinePolicy {
-  const logger = options.logger || retryPolicyLogger;
-  return {
-    name: retryPolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let response: PipelineResponse | undefined;
-      let responseError: RestError | undefined;
-      let retryCount = -1;
-
-      retryRequest: while (true) {
-        retryCount += 1;
-        response = undefined;
-        responseError = undefined;
-
-        try {
-          logger.info(`Retry ${retryCount}: Attempting to send request`, request.requestId);
-          response = await next(request);
-          logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
-        } catch (e: any) {
-          logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
-
-          // RestErrors are valid targets for the retry strategies.
-          // If none of the retry strategies can work with them, they will be thrown later in this policy.
-          // If the received error is not a RestError, it is immediately thrown.
-          responseError = e as RestError;
-          if (!e || responseError.name !== "RestError") {
-            throw e;
-          }
-
-          response = responseError.response;
-        }
-
-        if (request.abortSignal?.aborted) {
-          logger.error(`Retry ${retryCount}: Request aborted.`);
-          const abortError = new AbortError();
-          throw abortError;
-        }
-
-        if (retryCount >= (options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT)) {
-          logger.info(
-            `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`,
-          );
-          if (responseError) {
-            throw responseError;
-          } else if (response) {
-            return response;
-          } else {
-            throw new Error("Maximum retries reached with no response or error to throw");
-          }
-        }
-
-        logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);
-
-        strategiesLoop: for (const strategy of strategies) {
-          const strategyLogger = strategy.logger || retryPolicyLogger;
-          strategyLogger.info(`Retry ${retryCount}: Processing retry strategy ${strategy.name}.`);
-
-          const modifiers = strategy.retry({
-            retryCount,
-            response,
-            responseError,
-          });
-
-          if (modifiers.skipStrategy) {
-            strategyLogger.info(`Retry ${retryCount}: Skipped.`);
-            continue strategiesLoop;
-          }
-
-          const { errorToThrow, retryAfterInMs, redirectTo } = modifiers;
-
-          if (errorToThrow) {
-            strategyLogger.error(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
-              errorToThrow,
-            );
-            throw errorToThrow;
-          }
-
-          if (retryAfterInMs || retryAfterInMs === 0) {
-            strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`,
-            );
-            await delay(retryAfterInMs, undefined, { abortSignal: request.abortSignal });
-            continue retryRequest;
-          }
-
-          if (redirectTo) {
-            strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`,
-            );
-            request.url = redirectTo;
-            continue retryRequest;
-          }
-        }
-
-        if (responseError) {
-          logger.info(
-            `None of the retry strategies could work with the received error. Throwing it.`,
-          );
-          throw responseError;
-        }
-        if (response) {
-          logger.info(
-            `None of the retry strategies could work with the received response. Returning it.`,
-          );
-          return response;
-        }
-
-        // If all the retries skip and there's no response,
-        // we're still in the retry loop, so a new request will be sent
-        // until `maxRetries` is reached.
-      }
-    },
-  };
+  // Cast is required since the TSP runtime retry strategy type is slightly different
+  // very deep down (using real AbortSignal vs. AbortSignalLike in RestError).
+  // In practice the difference doesn't actually matter.
+  return tspRetryPolicy(strategies as TspRetryStrategy[], {
+    logger: retryPolicyLogger,
+    ...options,
+  });
 }

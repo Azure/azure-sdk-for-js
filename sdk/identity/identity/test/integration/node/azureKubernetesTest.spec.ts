@@ -10,27 +10,8 @@ describe("Azure Kubernetes Integration test", function () {
     if (!isLiveMode()) {
       ctx.skip();
     }
-    const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
-    const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
-    const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
+
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
-
-    if (process.env.IDENTITY_CLIENT_SECRET) {
-      // Log in as service principal in CI
-      const clientId = requireEnvVar("ARM_CLIENT_ID");
-      const tenantId = requireEnvVar("ARM_TENANT_ID");
-      const oidc = requireEnvVar("ARM_OIDC_TOKEN");
-      runCommand(
-        "az",
-        `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
-      );
-    }
-
-    runCommand("az", `account set --subscription ${subscriptionId}`);
-    runCommand(
-      "az",
-      `aks get-credentials --resource-group ${resourceGroup} --name ${aksClusterName}`,
-    );
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
 

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete a Elastic San.
  *
  * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Delete_MaximumSet_Gen.json
  */
 async function elasticSansDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function elasticSansDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Delete a Elastic San.
  *
  * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Delete_MinimumSet_Gen.json
  */
 async function elasticSansDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -55,8 +55,8 @@ async function elasticSansDeleteMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  elasticSansDeleteMaximumSetGen();
-  elasticSansDeleteMinimumSetGen();
+  await elasticSansDeleteMaximumSetGen();
+  await elasticSansDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

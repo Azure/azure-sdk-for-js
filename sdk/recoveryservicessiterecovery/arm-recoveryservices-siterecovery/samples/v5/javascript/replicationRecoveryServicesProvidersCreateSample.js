@@ -10,21 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The operation to add a recovery services provider.
  *
  * @summary The operation to add a recovery services provider.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryServicesProviders_Create.json
  */
 async function addsARecoveryServicesProvider() {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "cb53d0c3-bd59-4721-89bc-06916a9147ef";
-  const resourceName = "migrationvault";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourcegroup1";
+  const resourceName = "migrationvault";
   const fabricName = "vmwarefabric1";
   const providerName = "vmwareprovider1";
   const addProviderInput = {
@@ -49,8 +49,8 @@ async function addsARecoveryServicesProvider() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationRecoveryServicesProviders.beginCreateAndWait(
-    resourceName,
     resourceGroupName,
+    resourceName,
     fabricName,
     providerName,
     addProviderInput,
@@ -59,7 +59,7 @@ async function addsARecoveryServicesProvider() {
 }
 
 async function main() {
-  addsARecoveryServicesProvider();
+  await addsARecoveryServicesProvider();
 }
 
 main().catch(console.error);

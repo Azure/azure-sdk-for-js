@@ -12,7 +12,7 @@ import type { FileObject } from "openai/resources/index";
 import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 
 describe("Batches", () => {
-  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
+  matrix([[APIVersion.v2025_03_01_preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 

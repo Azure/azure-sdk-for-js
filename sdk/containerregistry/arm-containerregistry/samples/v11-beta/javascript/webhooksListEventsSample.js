@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists recent events for the specified webhook.
  *
  * @summary Lists recent events for the specified webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/WebhookListEvents.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/WebhookListEvents.json
  */
 async function webhookListEvents() {
   const subscriptionId =
@@ -27,7 +27,11 @@ async function webhookListEvents() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webhooks.listEvents(resourceGroupName, registryName, webhookName)) {
+  for await (const item of client.webhooks.listEvents(
+    resourceGroupName,
+    registryName,
+    webhookName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

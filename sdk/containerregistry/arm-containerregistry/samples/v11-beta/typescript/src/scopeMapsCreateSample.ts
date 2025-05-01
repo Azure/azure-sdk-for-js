@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a scope map for a container registry with the specified parameters.
  *
  * @summary Creates a scope map for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ScopeMapCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ScopeMapCreate.json
  */
 async function scopeMapCreate(): Promise<void> {
   const subscriptionId =
