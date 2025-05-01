@@ -59,13 +59,12 @@ extends:
         - job: NPM_Admin
           displayName: 'NPM package management'
           pool: server
-
           steps:
             - checkout: self
             - download: current
             - task: ManualValidation@1
               inputs:
-                notifyUsers: false
+                notifyUsers: ''
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
