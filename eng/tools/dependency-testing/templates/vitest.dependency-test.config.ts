@@ -16,7 +16,6 @@ let packageConfig = undefined;
 
 try {
   packageConfig = (await import("../../vitest.config.ts")).default;
-  foundPackageConfig = true;
 } catch (e: any) {
   if (e.code === "ERR_MODULE_NOT_FOUND") {
     // If no specific config is found, we log this fact.
