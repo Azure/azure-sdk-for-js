@@ -236,7 +236,8 @@ stages:
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
     jobs:
-      - job: Dump values
+      - job: Dumpvalues
+        displayName: Dump Variables and Paramters
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
@@ -248,7 +249,8 @@ stages:
               Write-Host "variables.System.TeamProject: $(System.TeamProject)"
             displayName: Dumping Values
       - ${{ each artifact in parameters.Artifacts }}:
-        - job: Dump values for ${{ artifact.name }}
+        - job: Dump${{ artifact.name }}
+          displayName: Dump values for ${{ artifact.name }}
           pool:
             name: $(LINUXPOOL)
             image: $(LINUXVMIMAGE)
