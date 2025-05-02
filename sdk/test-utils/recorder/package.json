@@ -19,7 +19,7 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run integration-test:browser",
     "test:browser:proxy": "dev-tool run test:vitest --browser",
-    "test:node": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
+    "test:node": "concurrently \"npm run tests:server\" \"npm run test:node:proxy\" --kill-others --success first",
     "test:node:proxy": "dev-tool run test:vitest",
     "test:node:esm": "echo skipped",
     "tests:server": "node server.mjs",
