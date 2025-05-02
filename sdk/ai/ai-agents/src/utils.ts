@@ -8,7 +8,6 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
-  SearchConfiguration,
   OpenApiToolDefinition,
   RequiredAction,
   RequiredToolCall,
@@ -21,6 +20,8 @@ import type {
   AISearchIndexResource,
   BingGroundingToolDefinition,
   MicrosoftFabricToolDefinition,
+  BingCustomSearchToolDefinition,
+  BingCustomSearchConfiguration,
 } from "./index.js";
 
 /**
@@ -100,7 +101,7 @@ export class ToolUtility {
       definition: {
         type: "bing_grounding",
         bingGrounding: {
-          connectionList: [
+          searchConfigurations: [
             {
               connectionId: connectionId,
             },
@@ -118,8 +119,8 @@ export class ToolUtility {
    * @returns An object containing the definition and resources for the bing custom search tool
    */
 
-  static createBingCustomSearchTool(searchConfigurations: SearchConfiguration[]): {
-    definition: ToolDefinitionUnion;
+  static createBingCustomSearchTool(searchConfigurations: BingCustomSearchConfiguration[]): {
+    definition: BingCustomSearchToolDefinition;
   } {
     return {
       definition: {

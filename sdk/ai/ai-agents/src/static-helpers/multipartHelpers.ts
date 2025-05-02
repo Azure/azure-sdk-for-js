@@ -4,11 +4,15 @@
 /**
  * Valid values for the contents of a binary file.
  */
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream | Uint8Array | Blob;
+export type FileContents =
+  | string
+  | NodeJS.ReadableStream
+  | ReadableStream<Uint8Array>
+  | Uint8Array
+  | Blob;
 
 export function createFilePartDescriptor(
   partName: string,
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   fileInput: any,
   defaultContentType?: string,
 ): any {

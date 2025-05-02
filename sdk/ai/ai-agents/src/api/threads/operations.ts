@@ -1,0 +1,278 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AgentsContext as Client } from "../index.js";
+import {
+  toolResourcesSerializer,
+  threadMessageOptionsArraySerializer,
+  AgentThread,
+  agentThreadDeserializer,
+  OpenAIPageableListOfAgentThread,
+  openAIPageableListOfAgentThreadDeserializer,
+  ThreadDeletionStatus,
+  threadDeletionStatusDeserializer,
+} from "../../models/models.js";
+import {
+  ThreadsDeleteThreadOptionalParams,
+  ThreadsUpdateThreadOptionalParams,
+  ThreadsGetThreadOptionalParams,
+  ThreadsListThreadsOptionalParams,
+  ThreadsCreateThreadOptionalParams,
+} from "./options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+
+export function _deleteThreadSend(
+  context: Client,
+  threadId: string,
+  options: ThreadsDeleteThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads/{threadId}{?api%2Dversion}",
+    {
+      threadId: threadId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteThreadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ThreadDeletionStatus> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return threadDeletionStatusDeserializer(result.body);
+}
+
+/** Deletes an existing thread. */
+export async function deleteThread(
+  context: Client,
+  threadId: string,
+  options: ThreadsDeleteThreadOptionalParams = { requestOptions: {} },
+): Promise<ThreadDeletionStatus> {
+  const result = await _deleteThreadSend(context, threadId, options);
+  return _deleteThreadDeserialize(result);
+}
+
+export function _updateThreadSend(
+  context: Client,
+  threadId: string,
+  options: ThreadsUpdateThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads/{threadId}{?api%2Dversion}",
+    {
+      threadId: threadId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        metadata: options?.metadata,
+      },
+    });
+}
+
+export async function _updateThreadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentThread> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return agentThreadDeserializer(result.body);
+}
+
+/** Modifies an existing thread. */
+export async function updateThread(
+  context: Client,
+  threadId: string,
+  options: ThreadsUpdateThreadOptionalParams = { requestOptions: {} },
+): Promise<AgentThread> {
+  const result = await _updateThreadSend(context, threadId, options);
+  return _updateThreadDeserialize(result);
+}
+
+export function _getThreadSend(
+  context: Client,
+  threadId: string,
+  options: ThreadsGetThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads/{threadId}{?api%2Dversion}",
+    {
+      threadId: threadId,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getThreadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentThread> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return agentThreadDeserializer(result.body);
+}
+
+/** Gets information about an existing thread. */
+export async function getThread(
+  context: Client,
+  threadId: string,
+  options: ThreadsGetThreadOptionalParams = { requestOptions: {} },
+): Promise<AgentThread> {
+  const result = await _getThreadSend(context, threadId, options);
+  return _getThreadDeserialize(result);
+}
+
+export function _listThreadsSend(
+  context: Client,
+  options: ThreadsListThreadsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads{?api%2Dversion,limit,order,after,before}",
+    {
+      "api%2Dversion": context.apiVersion,
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listThreadsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<OpenAIPageableListOfAgentThread> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return openAIPageableListOfAgentThreadDeserializer(result.body);
+}
+
+/** Gets a list of threads that were previously created. */
+export async function listThreads(
+  context: Client,
+  options: ThreadsListThreadsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfAgentThread> {
+  const result = await _listThreadsSend(context, options);
+  return _listThreadsDeserialize(result);
+}
+
+export function _createThreadSend(
+  context: Client,
+  options: ThreadsCreateThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/threads{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        messages: !options?.messages
+          ? options?.messages
+          : threadMessageOptionsArraySerializer(options?.messages),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        metadata: options?.metadata,
+      },
+    });
+}
+
+export async function _createThreadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AgentThread> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return agentThreadDeserializer(result.body);
+}
+
+/** Creates a new thread. Threads contain messages and can be run by agents. */
+export async function createThread(
+  context: Client,
+  options: ThreadsCreateThreadOptionalParams = { requestOptions: {} },
+): Promise<AgentThread> {
+  const result = await _createThreadSend(context, options);
+  return _createThreadDeserialize(result);
+}

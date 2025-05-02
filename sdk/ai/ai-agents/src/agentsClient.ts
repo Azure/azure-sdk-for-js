@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createAgents, AgentsContext, AgentsClientOptionalParams } from "./api/index.js";
+import type {
+  AgentsContext,
+  AgentsClientOptionalParams} from "./api/index.js";
 import {
+  createAgents
+} from "./api/index.js";
+import type {
   Agent,
   OpenAIPageableListOfAgent,
   AgentDeletionStatus,
@@ -19,7 +24,6 @@ import {
   RunStep,
   OpenAIPageableListOfRunStep,
   FileListResponse,
-  OpenAIFile,
   FilePurpose,
   FileDeletionStatus,
   OpenAIPageableListOfVectorStore,
@@ -29,101 +33,119 @@ import {
   VectorStoreFile,
   VectorStoreFileDeletionStatus,
   VectorStoreFileBatch,
+  FileInfo,
 } from "./models/models.js";
-import {
-  ListVectorStoreFileBatchFilesOptionalParams,
-  CancelVectorStoreFileBatchOptionalParams,
-  GetVectorStoreFileBatchOptionalParams,
-  CreateVectorStoreFileBatchOptionalParams,
-  DeleteVectorStoreFileOptionalParams,
-  GetVectorStoreFileOptionalParams,
-  CreateVectorStoreFileOptionalParams,
-  ListVectorStoreFilesOptionalParams,
-  DeleteVectorStoreOptionalParams,
-  ModifyVectorStoreOptionalParams,
-  GetVectorStoreOptionalParams,
-  CreateVectorStoreOptionalParams,
-  ListVectorStoresOptionalParams,
-  GetFileContentOptionalParams,
-  GetFileOptionalParams,
-  DeleteFileOptionalParams,
-  UploadFileOptionalParams,
-  ListFilesOptionalParams,
-  ListRunStepsOptionalParams,
-  GetRunStepOptionalParams,
+import type {
   CreateThreadAndRunOptionalParams,
-  CancelRunOptionalParams,
-  SubmitToolOutputsToRunOptionalParams,
-  UpdateRunOptionalParams,
-  GetRunOptionalParams,
-  ListRunsOptionalParams,
-  CreateRunOptionalParams,
-  UpdateMessageOptionalParams,
-  GetMessageOptionalParams,
-  ListMessagesOptionalParams,
-  CreateMessageOptionalParams,
-  ListThreadsOptionalParams,
-  DeleteThreadOptionalParams,
-  UpdateThreadOptionalParams,
-  GetThreadOptionalParams,
-  CreateThreadOptionalParams,
   DeleteAgentOptionalParams,
   UpdateAgentOptionalParams,
   GetAgentOptionalParams,
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
 } from "./api/options.js";
+import type {
+    FilesGetFileContentOptionalParams,
+  FilesGetFileOptionalParams,
+  FilesDeleteFileOptionalParams,
+  FilesUploadFileOptionalParams,
+  FilesListFilesOptionalParams,
+} from "./api/files/options.js";
+import type {
+  ThreadsCreateThreadOptionalParams,
+  ThreadsListThreadsOptionalParams,
+  ThreadsDeleteThreadOptionalParams,
+  ThreadsUpdateThreadOptionalParams,
+  ThreadsGetThreadOptionalParams,
+} from "./api/threads/options.js";
+import type {
+  MessagesUpdateMessageOptionalParams,
+  MessagesGetMessageOptionalParams,
+  MessagesListMessagesOptionalParams,
+  MessagesCreateMessageOptionalParams,
+} from "./api/messages/options.js";
+import type {
+  RunsListRunsOptionalParams,
+  RunsGetRunOptionalParams,
+  RunsCancelRunOptionalParams,
+  RunsSubmitToolOutputsToRunOptionalParams,
+  RunsUpdateRunOptionalParams,
+  RunsCreateRunOptionalParams,
+} from "./api/runs/options.js";
+import type {
+  VectorStoresDeleteVectorStoreOptionalParams,
+  VectorStoresModifyVectorStoreOptionalParams,
+  VectorStoresGetVectorStoreOptionalParams,
+  VectorStoresCreateVectorStoreOptionalParams,
+  VectorStoresListVectorStoresOptionalParams,
+} from "./api/vectorStores/options.js";
+import type {
+  VectorStoreFilesCreateVectorStoreFileOptionalParams,
+  VectorStoreFilesGetVectorStoreFileOptionalParams,
+  VectorStoreFilesListVectorStoreFilesOptionalParams,
+  VectorStoreFilesDeleteVectorStoreFileOptionalParams,
+} from "./api/vectorStoreFiles/options.js";
+import type {
+  VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
+  VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
+  VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
+  VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
+} from "./api/vectorStoreFileBatches/options.js";
 import {
-  listVectorStoreFileBatchFiles,
-  cancelVectorStoreFileBatch,
-  getVectorStoreFileBatch,
-  createVectorStoreFileBatch,
-  deleteVectorStoreFile,
-  getVectorStoreFile,
-  createVectorStoreFile,
-  listVectorStoreFiles,
-  deleteVectorStore,
-  modifyVectorStore,
-  getVectorStore,
-  createVectorStore,
-  listVectorStores,
-  getFileContent,
-  getFile,
-  deleteFile,
-  uploadFile,
-  listFiles,
-  listRunSteps,
-  getRunStep,
   createThreadAndRun,
-  cancelRun,
-  submitToolOutputsToRun,
-  updateRun,
-  getRun,
-  listRuns,
-  createRun,
-  updateMessage,
-  getMessage,
-  listMessages,
-  createMessage,
-  listThreads,
-  deleteThread,
-  updateThread,
-  getThread,
-  createThread,
   deleteAgent,
   updateAgent,
   getAgent,
   listAgents,
   createAgent,
-  uploadFileAndPoll,
-  createVectorStoreFileAndPoll,
-  createVectorStoreFileBatchAndPoll,
-  createVectorStoreAndPoll,
 } from "./api/operations.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type {
+  VectorStoreFileBatchesOperations} from "./classic/vectorStoreFileBatches/index.js";
+import {
+  _getVectorStoreFileBatchesOperations,
+} from "./classic/vectorStoreFileBatches/index.js";
+import type {
+  VectorStoreFilesOperations} from "./classic/vectorStoreFiles/index.js";
+import {
+  _getVectorStoreFilesOperations,
+} from "./classic/vectorStoreFiles/index.js";
+import type {
+  VectorStoresOperations} from "./classic/vectorStores/index.js";
+import {
+  _getVectorStoresOperations,
+} from "./classic/vectorStores/index.js";
+import type { FilesOperations} from "./classic/files/index.js";
+import { _getFilesOperations } from "./classic/files/index.js";
+import type {
+  RunStepsOperations} from "./classic/runSteps/index.js";
+import {
+  _getRunStepsOperations,
+} from "./classic/runSteps/index.js";
+import type { RunsOperations} from "./classic/runs/index.js";
+import { _getRunsOperations } from "./classic/runs/index.js";
+import type {
+  MessagesOperations} from "./classic/messages/index.js";
+import {
+  _getMessagesOperations,
+} from "./classic/messages/index.js";
+import type {
+  ThreadsOperations} from "./classic/threads/index.js";
+import {
+  _getThreadsOperations,
+} from "./classic/threads/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { createThread, deleteThread, getThread, listThreads, updateThread } from "./api/threads/operations.js";
+import { createMessage, getMessage, listMessages, updateMessage } from "./api/messages/operations.js";
+import { cancelRun, createRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./api/runs/operations.js";
+import { getRunStep, listRunSteps } from "./api/runSteps/operations.js";
+import { deleteFile, getFile, getFileContent, listFiles, uploadFile, uploadFileAndPoll } from "./api/files/operations.js";
+import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./api/vectorStoreFiles/operations.js";
+import { createVectorStoreFileBatch, cancelVectorStoreFileBatch, getVectorStoreFileBatch, listVectorStoreFileBatchFiles, createVectorStoreFileBatchAndPoll } from "./api/vectorStoreFileBatches/operations.js";
+import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./api/vectorStores/operations.js";
 import { OperationState, PollerLike } from "@azure/core-lro";
+import { RunStepsGetRunStepOptionalParams, RunStepsListRunStepsOptionalParams } from "./api/runSteps/options.js";
 import { AgentRunResponse } from "./models/streamingModels.js";
+
 
 export { AgentsClientOptionalParams } from "./api/agentsContext.js";
 
@@ -146,13 +168,40 @@ export class AgentsClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.vectorStoreFileBatches = _getVectorStoreFileBatchesOperations(
+      this._client,
+    );
+    this.vectorStoreFiles = _getVectorStoreFilesOperations(this._client);
+    this.vectorStores = _getVectorStoresOperations(this._client);
+    this.files = _getFilesOperations(this._client);
+    this.runSteps = _getRunStepsOperations(this._client);
+    this.runs = _getRunsOperations(this._client);
+    this.messages = _getMessagesOperations(this._client);
+    this.threads = _getThreadsOperations(this._client);
   }
 
-  /** Returns a list of vector store files in a batch. */
+  /** The operation groups for vectorStoreFileBatches */
+  public readonly vectorStoreFileBatches: VectorStoreFileBatchesOperations;
+  /** The operation groups for vectorStoreFiles */
+  public readonly vectorStoreFiles: VectorStoreFilesOperations;
+  /** The operation groups for vectorStores */
+  public readonly vectorStores: VectorStoresOperations;
+  /** The operation groups for files */
+  public readonly files: FilesOperations;
+  /** The operation groups for runSteps */
+  public readonly runSteps: RunStepsOperations;
+  /** The operation groups for runs */
+  public readonly runs: RunsOperations;
+  /** The operation groups for messages */
+  public readonly messages: MessagesOperations;
+  /** The operation groups for threads */
+  public readonly threads: ThreadsOperations;
+
+ /** Returns a list of vector store files in a batch. */
   listVectorStoreFileBatchFiles(
     vectorStoreId: string,
     batchId: string,
-    options: ListVectorStoreFileBatchFilesOptionalParams = {
+    options: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams = {
       requestOptions: {},
     },
   ): Promise<OpenAIPageableListOfVectorStoreFile> {
@@ -163,7 +212,7 @@ export class AgentsClient {
   cancelVectorStoreFileBatch(
     vectorStoreId: string,
     batchId: string,
-    options: CancelVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+    options: VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFileBatch> {
     return cancelVectorStoreFileBatch(this._client, vectorStoreId, batchId, options);
   }
@@ -172,7 +221,7 @@ export class AgentsClient {
   getVectorStoreFileBatch(
     vectorStoreId: string,
     batchId: string,
-    options: GetVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+    options: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFileBatch> {
     return getVectorStoreFileBatch(this._client, vectorStoreId, batchId, options);
   }
@@ -180,7 +229,7 @@ export class AgentsClient {
   /** Create a vector store file batch. */
   createVectorStoreFileBatch(
     vectorStoreId: string,
-    options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+    options: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFileBatch> {
     return createVectorStoreFileBatch(this._client, vectorStoreId, options);
   }
@@ -188,7 +237,7 @@ export class AgentsClient {
   /** Create a vector store file batch and poll. */
   createVectorStoreFileBatchAndPoll(
     vectorStoreId: string,
-    options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+    options: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch> {
     return createVectorStoreFileBatchAndPoll(this._client, vectorStoreId, options);
   }
@@ -200,7 +249,7 @@ export class AgentsClient {
   deleteVectorStoreFile(
     vectorStoreId: string,
     fileId: string,
-    options: DeleteVectorStoreFileOptionalParams = { requestOptions: {} },
+    options: VectorStoreFilesDeleteVectorStoreFileOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFileDeletionStatus> {
     return deleteVectorStoreFile(this._client, vectorStoreId, fileId, options);
   }
@@ -209,7 +258,7 @@ export class AgentsClient {
   getVectorStoreFile(
     vectorStoreId: string,
     fileId: string,
-    options: GetVectorStoreFileOptionalParams = { requestOptions: {} },
+    options: VectorStoreFilesGetVectorStoreFileOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFile> {
     return getVectorStoreFile(this._client, vectorStoreId, fileId, options);
   }
@@ -217,7 +266,7 @@ export class AgentsClient {
   /** Create a vector store file by attaching a file to a vector store. */
   createVectorStoreFile(
     vectorStoreId: string,
-    options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+    options: VectorStoreFilesCreateVectorStoreFileOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreFile> {
     return createVectorStoreFile(this._client, vectorStoreId, options);
   }
@@ -225,7 +274,7 @@ export class AgentsClient {
   /** Create a vector store file by attaching a file to a vector store and poll. */
   createVectorStoreFileAndPoll(
     vectorStoreId: string,
-    options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+    options: VectorStoreFilesCreateVectorStoreFileOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile> {
     return createVectorStoreFileAndPoll(this._client, vectorStoreId, options);
   }
@@ -233,7 +282,7 @@ export class AgentsClient {
   /** Returns a list of vector store files. */
   listVectorStoreFiles(
     vectorStoreId: string,
-    options: ListVectorStoreFilesOptionalParams = { requestOptions: {} },
+    options: VectorStoreFilesListVectorStoreFilesOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIPageableListOfVectorStoreFile> {
     return listVectorStoreFiles(this._client, vectorStoreId, options);
   }
@@ -241,7 +290,7 @@ export class AgentsClient {
   /** Deletes the vector store object matching the specified ID. */
   deleteVectorStore(
     vectorStoreId: string,
-    options: DeleteVectorStoreOptionalParams = { requestOptions: {} },
+    options: VectorStoresDeleteVectorStoreOptionalParams = { requestOptions: {} },
   ): Promise<VectorStoreDeletionStatus> {
     return deleteVectorStore(this._client, vectorStoreId, options);
   }
@@ -249,7 +298,7 @@ export class AgentsClient {
   /** The ID of the vector store to modify. */
   modifyVectorStore(
     vectorStoreId: string,
-    options: ModifyVectorStoreOptionalParams = { requestOptions: {} },
+    options: VectorStoresModifyVectorStoreOptionalParams = { requestOptions: {} },
   ): Promise<VectorStore> {
     return modifyVectorStore(this._client, vectorStoreId, options);
   }
@@ -257,14 +306,14 @@ export class AgentsClient {
   /** Returns the vector store object matching the specified ID. */
   getVectorStore(
     vectorStoreId: string,
-    options: GetVectorStoreOptionalParams = { requestOptions: {} },
+    options: VectorStoresGetVectorStoreOptionalParams = { requestOptions: {} },
   ): Promise<VectorStore> {
     return getVectorStore(this._client, vectorStoreId, options);
   }
 
   /** Creates a vector store. */
   createVectorStore(
-    options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+    options: VectorStoresCreateVectorStoreOptionalParams = { requestOptions: {} },
   ): Promise<VectorStore> {
     return createVectorStore(this._client, options);
   }
@@ -273,14 +322,14 @@ export class AgentsClient {
    * Creates a vector store and poll.
    */
   createVectorStoreAndPoll(
-    options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+    options: VectorStoresCreateVectorStoreOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<VectorStore>, VectorStore> {
     return createVectorStoreAndPoll(this._client, options);
   }
 
   /** Returns a list of vector stores. */
   listVectorStores(
-    options: ListVectorStoresOptionalParams = { requestOptions: {} },
+    options: VectorStoresListVectorStoresOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIPageableListOfVectorStore> {
     return listVectorStores(this._client, options);
   }
@@ -288,7 +337,7 @@ export class AgentsClient {
   /** Retrieves the raw content of a specific file. */
   getFileContent(
     fileId: string,
-    options: GetFileContentOptionalParams = { requestOptions: {} },
+    options: FilesGetFileContentOptionalParams = { requestOptions: {} },
   ): Promise<Uint8Array> {
     return getFileContent(this._client, fileId, options);
   }
@@ -296,15 +345,15 @@ export class AgentsClient {
   /** Returns information about a specific file. Does not retrieve file content. */
   getFile(
     fileId: string,
-    options: GetFileOptionalParams = { requestOptions: {} },
-  ): Promise<OpenAIFile> {
+    options: FilesGetFileOptionalParams = { requestOptions: {} },
+  ): Promise<FileInfo> {
     return getFile(this._client, fileId, options);
   }
 
   /** Delete a previously uploaded file. */
   deleteFile(
     fileId: string,
-    options: DeleteFileOptionalParams = { requestOptions: {} },
+    options: FilesDeleteFileOptionalParams = { requestOptions: {} },
   ): Promise<FileDeletionStatus> {
     return deleteFile(this._client, fileId, options);
   }
@@ -313,8 +362,8 @@ export class AgentsClient {
   uploadFile(
     file: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
-    options: UploadFileOptionalParams = { requestOptions: {} },
-  ): Promise<OpenAIFile> {
+    options: FilesUploadFileOptionalParams = { requestOptions: {} },
+  ): Promise<FileInfo> {
     return uploadFile(
       this._client,
       { file: file, purpose: purpose, filename: options.fileName },
@@ -326,8 +375,8 @@ export class AgentsClient {
   uploadFileAndPoll(
     file: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
-    options: UploadFileOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<OpenAIFile>, OpenAIFile> {
+    options: FilesUploadFileOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<FileInfo>, FileInfo> {
     return uploadFileAndPoll(
       this._client,
       { file: file, purpose: purpose, filename: options.fileName },
@@ -336,7 +385,7 @@ export class AgentsClient {
   }
 
   /** Gets a list of previously uploaded files. */
-  listFiles(options: ListFilesOptionalParams = { requestOptions: {} }): Promise<FileListResponse> {
+  listFiles(options: FilesListFilesOptionalParams = { requestOptions: {} }): Promise<FileListResponse> {
     return listFiles(this._client, options);
   }
 
@@ -344,7 +393,7 @@ export class AgentsClient {
   listRunSteps(
     threadId: string,
     runId: string,
-    options: ListRunStepsOptionalParams = { requestOptions: {} },
+    options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIPageableListOfRunStep> {
     return listRunSteps(this._client, threadId, runId, options);
   }
@@ -354,7 +403,7 @@ export class AgentsClient {
     threadId: string,
     runId: string,
     stepId: string,
-    options: GetRunStepOptionalParams = { requestOptions: {} },
+    options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
   ): Promise<RunStep> {
     return getRunStep(this._client, threadId, runId, stepId, options);
   }
@@ -371,7 +420,7 @@ export class AgentsClient {
   cancelRun(
     threadId: string,
     runId: string,
-    options: CancelRunOptionalParams = { requestOptions: {} },
+    options: RunsCancelRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return cancelRun(this._client, threadId, runId, options);
   }
@@ -381,7 +430,7 @@ export class AgentsClient {
     threadId: string,
     runId: string,
     toolOutputs: ToolOutput[],
-    options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
+    options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return submitToolOutputsToRun(this._client, threadId, runId, toolOutputs, options);
   }
@@ -390,7 +439,7 @@ export class AgentsClient {
   updateRun(
     threadId: string,
     runId: string,
-    options: UpdateRunOptionalParams = { requestOptions: {} },
+    options: RunsUpdateRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return updateRun(this._client, threadId, runId, options);
   }
@@ -399,7 +448,7 @@ export class AgentsClient {
   getRun(
     threadId: string,
     runId: string,
-    options: GetRunOptionalParams = { requestOptions: {} },
+    options: RunsGetRunOptionalParams = { requestOptions: {} },
   ): Promise<ThreadRun> {
     return getRun(this._client, threadId, runId, options);
   }
@@ -407,7 +456,7 @@ export class AgentsClient {
   /** Gets a list of runs for a specified thread. */
   listRuns(
     threadId: string,
-    options: ListRunsOptionalParams = { requestOptions: {} },
+    options: RunsListRunsOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIPageableListOfThreadRun> {
     return listRuns(this._client, threadId, options);
   }
@@ -416,7 +465,7 @@ export class AgentsClient {
   createRun(
     threadId: string,
     assistantId: string,
-    options: CreateRunOptionalParams = { requestOptions: {} },
+    options: RunsCreateRunOptionalParams = { requestOptions: {} },
   ): AgentRunResponse {
     return createRun(this._client, threadId, assistantId, options);
   }
@@ -425,7 +474,7 @@ export class AgentsClient {
   updateMessage(
     threadId: string,
     messageId: string,
-    options: UpdateMessageOptionalParams = { requestOptions: {} },
+    options: MessagesUpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ThreadMessage> {
     return updateMessage(this._client, threadId, messageId, options);
   }
@@ -434,7 +483,7 @@ export class AgentsClient {
   getMessage(
     threadId: string,
     messageId: string,
-    options: GetMessageOptionalParams = { requestOptions: {} },
+    options: MessagesGetMessageOptionalParams = { requestOptions: {} },
   ): Promise<ThreadMessage> {
     return getMessage(this._client, threadId, messageId, options);
   }
@@ -442,7 +491,7 @@ export class AgentsClient {
   /** Gets a list of messages that exist on a thread. */
   listMessages(
     threadId: string,
-    options: ListMessagesOptionalParams = { requestOptions: {} },
+    options: MessagesListMessagesOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIPageableListOfThreadMessage> {
     return listMessages(this._client, threadId, options);
   }
@@ -452,14 +501,14 @@ export class AgentsClient {
     threadId: string,
     role: MessageRole,
     content: MessageInputContent,
-    options: CreateMessageOptionalParams = { requestOptions: {} },
+    options: MessagesCreateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ThreadMessage> {
     return createMessage(this._client, threadId, role, content, options);
   }
 
   /** Gets a list of threads that were previously created. */
   listThreads(
-    options: ListThreadsOptionalParams = { requestOptions: {} },
+    options: ThreadsListThreadsOptionalParams = { requestOptions: {} },
   ): Promise<OpenAIPageableListOfAgentThread> {
     return listThreads(this._client, options);
   }
@@ -467,7 +516,7 @@ export class AgentsClient {
   /** Deletes an existing thread. */
   deleteThread(
     threadId: string,
-    options: DeleteThreadOptionalParams = { requestOptions: {} },
+    options: ThreadsDeleteThreadOptionalParams = { requestOptions: {} },
   ): Promise<ThreadDeletionStatus> {
     return deleteThread(this._client, threadId, options);
   }
@@ -475,7 +524,7 @@ export class AgentsClient {
   /** Modifies an existing thread. */
   updateThread(
     threadId: string,
-    options: UpdateThreadOptionalParams = { requestOptions: {} },
+    options: ThreadsUpdateThreadOptionalParams = { requestOptions: {} },
   ): Promise<AgentThread> {
     return updateThread(this._client, threadId, options);
   }
@@ -483,13 +532,13 @@ export class AgentsClient {
   /** Gets information about an existing thread. */
   getThread(
     threadId: string,
-    options: GetThreadOptionalParams = { requestOptions: {} },
+    options: ThreadsGetThreadOptionalParams = { requestOptions: {} },
   ): Promise<AgentThread> {
     return getThread(this._client, threadId, options);
   }
 
   /** Creates a new thread. Threads contain messages and can be run by agents. */
-  createThread(options: CreateThreadOptionalParams = { requestOptions: {} }): Promise<AgentThread> {
+  createThread(options: ThreadsCreateThreadOptionalParams = { requestOptions: {} }): Promise<AgentThread> {
     return createThread(this._client, options);
   }
 
