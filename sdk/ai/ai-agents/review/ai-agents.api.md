@@ -1736,7 +1736,7 @@ export interface VectorStoreFilesListVectorStoreFilesOptionalParams extends Oper
 // @public
 export interface VectorStoreFilesOperations {
     create: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
-    createAndPoll: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
+    createAndPoll: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>;
     delete: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatus>;
     get: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesGetVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
     list: (vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
@@ -1784,7 +1784,7 @@ export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOp
 // @public
 export interface VectorStoresOperations {
     create: (options?: VectorStoresCreateVectorStoreOptionalParams) => Promise<VectorStore>;
-    createAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): Promise<VectorStore>;
+    createAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): PollerLike<OperationState<VectorStore>, VectorStore>;
     delete: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatus>;
     get: (vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams) => Promise<VectorStore>;
     list: (options?: VectorStoresListVectorStoresOptionalParams) => Promise<OpenAIPageableListOfVectorStore>;
