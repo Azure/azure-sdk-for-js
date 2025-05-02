@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { randomUUID } from "@azure/core-util";
-import { FileContents } from "../static-helpers/multipartHelpers.js";
+import type { FileContents } from "../static-helpers/multipartHelpers.js";
 
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
@@ -3482,6 +3486,7 @@ export type FileState =
   | "deleted";
 
 /** model interface _UploadFileRequest */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export interface _UploadFileRequest {
   /** The file data, in bytes. */
   file: FileContents | { contents: FileContents; contentType?: string; filename?: string };
