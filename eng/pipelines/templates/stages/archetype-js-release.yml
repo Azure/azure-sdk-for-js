@@ -239,7 +239,7 @@ stages:
       - ${{ each artifact in parameters.Artifacts }}:
         - ${{ if ne(artifact.skipPublishDevFeed, 'true') }}:
           - job: DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
-            condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true'))))
+            condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))
             variables:
               - template: /eng/pipelines/templates/variables/image.yml
             pool:
