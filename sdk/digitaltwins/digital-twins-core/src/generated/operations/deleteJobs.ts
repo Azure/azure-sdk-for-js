@@ -14,11 +14,11 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI.js";
 import {
-  SimplePollerLike,
+  PollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   DeleteJob,
   DeleteJobsListNextOptionalParams,
@@ -102,36 +102,27 @@ export class DeleteJobsImpl implements DeleteJobs {
   }
 
   /**
-   * Initiates a job which deletes all models, twins, and relationships on the instance. Does not delete
-   * any other types of entities.
-   * Status codes:
-   * * 202 Created
-   * * 400 Bad Request
-   *   * JobLimitReached - The maximum number of delete jobs allowed has been reached.
-   *   * ValidationFailed - Operation-Id already exists.
-   * @param options The options parameters.
-   */
-  async beginAdd(
-    options?: DeleteJobsAddOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DeleteJobsAddResponse>,
-      DeleteJobsAddResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<DeleteJobsAddResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
+ * Initiates a job which deletes all models, twins, and relationships on the instance. Does not delete
+ * any other types of entities.
+ * Status codes:
+ * * 202 Created
+ * * 400 Bad Request
+ *   * JobLimitReached - The maximum number of delete jobs allowed has been reached.
+ *   * ValidationFailed - Operation-Id already exists.
+ * @param options The options parameters.
+ */
+async beginAdd(
+  options?: DeleteJobsAddOptionalParams,
+): Promise<
+  PollerLike<OperationState<DeleteJobsAddResponse>, DeleteJobsAddResponse>
+> {
+  // Create the operation object for the HttpPoller
+  const operation = {
+    sendInitialRequest: async () => {
+      // Capture the raw response using a callback
+      let currentRawResponse: coreClient.FullOperationResponse | undefined;
+      const providedCallback = options?.onResponse;
+      
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
         flatResponse: unknown,
@@ -139,39 +130,102 @@ export class DeleteJobsImpl implements DeleteJobs {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
       };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { options },
-      spec: addOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      DeleteJobsAddResponse,
-      OperationState<DeleteJobsAddResponse>
-    >(lro, {
+      // Call the actual operation with the callback
+      const updatedOptions = {
+        ...options,
+        onResponse: callback,
+      };
+
+      const result = await this.client.sendOperationRequest(
+        { options: updatedOptions },
+        addOperationSpec
+      );
+
+      // Return the operation response in the expected format
+      return {
+        status: String(currentRawResponse?.status || 200),
+        result,
+        flatResponse: result,
+        rawResponse: {
+          statusCode: currentRawResponse?.status || 200,
+          request: {
+            url: currentRawResponse?.request?.url || addOperationSpec.path || "",
+            method: currentRawResponse?.request?.method || addOperationSpec.httpMethod,
+            headers: currentRawResponse?.request?.headers || {},
+            body: currentRawResponse?.request?.body
+          },
+          headers: currentRawResponse?.headers?.toJSON() || {},
+        }
+      };
+    },
+    
+    sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      // Capture the raw response using a callback
+      let currentRawResponse: coreClient.FullOperationResponse | undefined;
+      const providedCallback = options?.onResponse;
+      
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+
+      // Prepare options for the poll request
+      const updatedOptions = {
+        ...options,
+        onResponse: callback,
+        abortSignal: pollOptions?.abortSignal,
+      };
+
+      // Create a GET operation spec for polling
+      const pollOperationSpec: coreClient.OperationSpec = {
+        ...addOperationSpec,
+        path,
+        httpMethod: "GET"
+      };
+
+      // Send the poll request
+      const result = await this.client.sendOperationRequest(
+        { options: updatedOptions },
+        pollOperationSpec
+      );
+
+      // Return the poll response in the expected format
+      return {
+        status: String(currentRawResponse?.status || 200),
+        result,
+        flatResponse: result,
+        rawResponse: {
+          statusCode: currentRawResponse?.status || 200,
+          request: {
+            url: path,
+            method: "GET",
+            headers: currentRawResponse?.request?.headers || {},
+            body: undefined
+          },
+          headers: currentRawResponse?.headers?.toJSON() || {},
+        }
+      };
+    }
+  };
+
+  // Create the poller with the operation
+  const poller = createHttpPoller(
+    operation,
+    {
+      resolveOnUnsuccessful: false,
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
+      intervalInMs: options?.updateIntervalInMs
+    }
+  ) as PollerLike<OperationState<DeleteJobsAddResponse>, DeleteJobsAddResponse>;
+  
+  // Start polling
+  await poller.poll();
+  return poller;
+}
 
   /**
    * Initiates a job which deletes all models, twins, and relationships on the instance. Does not delete
@@ -186,7 +240,7 @@ export class DeleteJobsImpl implements DeleteJobs {
   async beginAddAndWait(
     options?: DeleteJobsAddOptionalParams,
   ): Promise<DeleteJobsAddResponse> {
-    const poller = await this.beginAdd(options);
+    const poller = await this.beginAdd(options) as PollerLike<OperationState<DeleteJobsAddResponse>, DeleteJobsAddResponse>;
     return poller.pollUntilDone();
   }
 
