@@ -8,30 +8,33 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { EventRoutes } from "../operationsInterfaces/index.js";
+import { ImportJobs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI.js";
 import {
-  EventRoute,
-  EventRoutesListNextOptionalParams,
-  EventRoutesListOptionalParams,
-  EventRoutesListResponse,
-  EventRoutesGetByIdOptionalParams,
-  EventRoutesGetByIdResponse,
-  EventRoutesAddOptionalParams,
-  EventRoutesDeleteOptionalParams,
-  EventRoutesListNextResponse,
+  ImportJob,
+  ImportJobsListNextOptionalParams,
+  ImportJobsListOptionalParams,
+  ImportJobsListResponse,
+  ImportJobsAddOptionalParams,
+  ImportJobsAddResponse,
+  ImportJobsGetByIdOptionalParams,
+  ImportJobsGetByIdResponse,
+  ImportJobsDeleteOptionalParams,
+  ImportJobsCancelOptionalParams,
+  ImportJobsCancelResponse,
+  ImportJobsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EventRoutes operations. */
-export class EventRoutesImpl implements EventRoutes {
+/** Class containing ImportJobs operations. */
+export class ImportJobsImpl implements ImportJobs {
   private readonly client: AzureDigitalTwinsAPI;
 
   /**
-   * Initialize a new instance of the class EventRoutes class.
+   * Initialize a new instance of the class ImportJobs class.
    * @param client Reference to the service client
    */
   constructor(client: AzureDigitalTwinsAPI) {
@@ -39,14 +42,14 @@ export class EventRoutesImpl implements EventRoutes {
   }
 
   /**
-   * Retrieves all event routes.
+   * Retrieves all import jobs.
    * Status codes:
    * * 200 OK
    * @param options The options parameters.
    */
   public list(
-    options?: EventRoutesListOptionalParams,
-  ): PagedAsyncIterableIterator<EventRoute> {
+    options?: ImportJobsListOptionalParams,
+  ): PagedAsyncIterableIterator<ImportJob> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -65,10 +68,10 @@ export class EventRoutesImpl implements EventRoutes {
   }
 
   private async *listPagingPage(
-    options?: EventRoutesListOptionalParams,
+    options?: ImportJobsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EventRoute[]> {
-    let result: EventRoutesListResponse;
+  ): AsyncIterableIterator<ImportJob[]> {
+    let result: ImportJobsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -87,38 +90,60 @@ export class EventRoutesImpl implements EventRoutes {
   }
 
   private async *listPagingAll(
-    options?: EventRoutesListOptionalParams,
-  ): AsyncIterableIterator<EventRoute> {
+    options?: ImportJobsListOptionalParams,
+  ): AsyncIterableIterator<ImportJob> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Retrieves all event routes.
+   * Retrieves all import jobs.
    * Status codes:
    * * 200 OK
    * @param options The options parameters.
    */
   private _list(
-    options?: EventRoutesListOptionalParams,
-  ): Promise<EventRoutesListResponse> {
+    options?: ImportJobsListOptionalParams,
+  ): Promise<ImportJobsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * Retrieves an event route.
+   * Creates an import job.
+   * Status codes:
+   * * 201 Created
+   * * 400 Bad Request
+   *   * JobLimitReached - The maximum number of import jobs allowed has been reached.
+   *   * ValidationFailed - The import job request is not valid.
+   * @param id The id for the import job. The id is unique within the service and case sensitive.
+   * @param importJob The import job being added.
+   * @param options The options parameters.
+   */
+  add(
+    id: string,
+    importJob: ImportJob,
+    options?: ImportJobsAddOptionalParams,
+  ): Promise<ImportJobsAddResponse> {
+    return this.client.sendOperationRequest(
+      { id, importJob, options },
+      addOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves an import job.
    * Status codes:
    * * 200 OK
    * * 404 Not Found
-   *   * EventRouteNotFound - The event route was not found.
-   * @param id The id for an event route. The id is unique within event routes and case sensitive.
+   *   * ImportJobNotFound - The import job was not found.
+   * @param id The id for the import job. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
   getById(
     id: string,
-    options?: EventRoutesGetByIdOptionalParams,
-  ): Promise<EventRoutesGetByIdResponse> {
+    options?: ImportJobsGetByIdOptionalParams,
+  ): Promise<ImportJobsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { id, options },
       getByIdOperationSpec,
@@ -126,42 +151,40 @@ export class EventRoutesImpl implements EventRoutes {
   }
 
   /**
-   * Adds or replaces an event route.
+   * Deletes an import job. This is simply used to remove a job id, so it may be reused later. It can not
+   * be used to stop entities from being imported.
    * Status codes:
    * * 204 No Content
    * * 400 Bad Request
-   *   * EventRouteEndpointInvalid - The endpoint provided does not exist or is not active.
-   *   * EventRouteFilterInvalid - The event route filter is invalid.
-   *   * EventRouteIdInvalid - The event route id is invalid.
-   *   * LimitExceeded - The maximum number of event routes allowed has been reached.
-   * @param id The id for an event route. The id is unique within event routes and case sensitive.
-   * @param eventRoute The event route data
+   *   * ValidationFailed - The import job request is not valid.
+   * @param id The id for the import job. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
-  add(
-    id: string,
-    eventRoute: EventRoute,
-    options?: EventRoutesAddOptionalParams,
-  ): Promise<void> {
+  delete(id: string, options?: ImportJobsDeleteOptionalParams): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, eventRoute, options },
-      addOperationSpec,
+      { id, options },
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Deletes an event route.
+   * Cancels an import job that is currently running. Service will stop any import operations triggered
+   * by the current import job that are in progress, and go to a cancelled state. Please note that this
+   * will leave your instance in an unknown state as there won't be any rollback operation.
    * Status codes:
-   * * 204 No Content
-   * * 404 Not Found
-   *   * EventRouteNotFound - The event route was not found.
-   * @param id The id for an event route. The id is unique within event routes and case sensitive.
+   * * 200 Request Accepted
+   * * 400 Bad Request
+   *   * ValidationFailed - The import job request is not valid.
+   * @param id The id for the import job. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
-  delete(id: string, options?: EventRoutesDeleteOptionalParams): Promise<void> {
+  cancel(
+    id: string,
+    options?: ImportJobsCancelOptionalParams,
+  ): Promise<ImportJobsCancelResponse> {
     return this.client.sendOperationRequest(
       { id, options },
-      deleteOperationSpec,
+      cancelOperationSpec,
     );
   }
 
@@ -172,8 +195,8 @@ export class EventRoutesImpl implements EventRoutes {
    */
   private _listNext(
     nextLink: string,
-    options?: EventRoutesListNextOptionalParams,
-  ): Promise<EventRoutesListNextResponse> {
+    options?: ImportJobsListNextOptionalParams,
+  ): Promise<ImportJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec,
@@ -184,15 +207,15 @@ export class EventRoutesImpl implements EventRoutes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/eventroutes",
+  path: "/jobs/imports",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventRouteCollection,
+      bodyMapper: Mappers.ImportJobCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EventRoutesListExceptionHeaders,
+      headersMapper: Mappers.ImportJobsListExceptionHeaders,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -200,16 +223,35 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.resultsPerPage],
   serializer,
 };
-const getByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/eventroutes/{id}",
-  httpMethod: "GET",
+const addOperationSpec: coreClient.OperationSpec = {
+  path: "/jobs/imports/{id}",
+  httpMethod: "PUT",
   responses: {
-    200: {
-      bodyMapper: Mappers.EventRoute,
+    201: {
+      bodyMapper: Mappers.ImportJob,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EventRoutesGetByIdExceptionHeaders,
+      headersMapper: Mappers.ImportJobsAddExceptionHeaders,
+    },
+  },
+  requestBody: Parameters.importJob,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/jobs/imports/{id}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportJob,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ImportJobsGetByIdExceptionHeaders,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -217,31 +259,31 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const addOperationSpec: coreClient.OperationSpec = {
-  path: "/eventroutes/{id}",
-  httpMethod: "PUT",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EventRoutesAddExceptionHeaders,
-    },
-  },
-  requestBody: Parameters.eventRoute,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/eventroutes/{id}",
+  path: "/jobs/imports/{id}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EventRoutesDeleteExceptionHeaders,
+      headersMapper: Mappers.ImportJobsDeleteExceptionHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.id],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/jobs/imports/{id}/cancel",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportJob,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ImportJobsCancelExceptionHeaders,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -254,11 +296,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventRouteCollection,
+      bodyMapper: Mappers.ImportJobCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.EventRoutesListNextExceptionHeaders,
+      headersMapper: Mappers.ImportJobsListNextExceptionHeaders,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
