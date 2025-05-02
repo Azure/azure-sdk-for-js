@@ -241,6 +241,7 @@ export function uploadFile(
   });
 }
 
+/** Uploads a file for use by other operations with polling */
 export function uploadFileAndPoll(
   context: Client,
   body: {

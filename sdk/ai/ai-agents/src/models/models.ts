@@ -4255,8 +4255,9 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(
-      item["chunking_strategy"],
+    chunkingStrategy: !item["chunking_strategy"]
+      ? item["chunking_strategy"]
+      : vectorStoreChunkingStrategyResponseUnionDeserializer(item["chunking_strategy"]
     ),
   };
 }
@@ -5246,8 +5247,6 @@ export type VectorStoreFileStatusFilter =
 
 /** Azure AI Agents API versions */
 export enum KnownVersions {
-  /** Azure AI API version 2025-05-01. */
-  V20250501 = "2025-05-01",
-  /** Azure AI API version v1. */
-  V1 = "v1",
+  /** Azure AI API version 2025-05-15. */
+_20250515Preview = "2025-05-15-preview"
 }

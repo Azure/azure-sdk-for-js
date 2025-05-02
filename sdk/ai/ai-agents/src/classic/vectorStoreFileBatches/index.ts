@@ -17,6 +17,7 @@ import {
   cancelVectorStoreFileBatch,
   getVectorStoreFileBatch,
   createVectorStoreFileBatch,
+  createVectorStoreFileBatchAndPoll,
 } from "../../api/vectorStoreFileBatches/operations.js";
 
 /** Interface representing a VectorStoreFileBatches operations. */
@@ -44,6 +45,11 @@ export interface VectorStoreFileBatchesOperations {
     vectorStoreId: string,
     options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatch>;
+  /** Create a vector store file batch and poll. */
+  createVectorStoreFileBatchAndPoll: (
+    vectorStoreId: string,
+    options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
+  ) => Promise<VectorStoreFileBatch>;
 }
 
 function _getVectorStoreFileBatches(context: AgentsContext) {
@@ -68,6 +74,10 @@ function _getVectorStoreFileBatches(context: AgentsContext) {
       vectorStoreId: string,
       options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
     ) => createVectorStoreFileBatch(context, vectorStoreId, options),
+    createVectorStoreFileBatchAndPoll: (
+      vectorStoreId: string,
+      options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
+    ) => createVectorStoreFileBatchAndPoll(context, vectorStoreId, options),
   };
 }
 

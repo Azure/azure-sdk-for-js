@@ -43,6 +43,10 @@ export interface VectorStoresOperations {
   createVectorStore: (
     options?: VectorStoresCreateVectorStoreOptionalParams,
   ) => Promise<VectorStore>;
+  /** Creates a vector store and poll. */
+  createVectorStoreAndPoll(
+    options?: VectorStoresCreateVectorStoreOptionalParams,
+  ): Promise<VectorStore>;
   /** Returns a list of vector stores. */
   listVectorStores: (
     options?: VectorStoresListVectorStoresOptionalParams,
@@ -64,6 +68,9 @@ function _getVectorStores(context: AgentsContext) {
       options?: VectorStoresGetVectorStoreOptionalParams,
     ) => getVectorStore(context, vectorStoreId, options),
     createVectorStore: (
+      options?: VectorStoresCreateVectorStoreOptionalParams,
+    ) => createVectorStore(context, options),
+    createVectorStoreAndPoll: (
       options?: VectorStoresCreateVectorStoreOptionalParams,
     ) => createVectorStore(context, options),
     listVectorStores: (options?: VectorStoresListVectorStoresOptionalParams) =>

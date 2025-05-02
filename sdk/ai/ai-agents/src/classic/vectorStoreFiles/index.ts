@@ -18,6 +18,7 @@ import {
   getVectorStoreFile,
   createVectorStoreFile,
   listVectorStoreFiles,
+  createVectorStoreFileAndPoll,
 } from "../../api/vectorStoreFiles/operations.js";
 
 /** Interface representing a VectorStoreFiles operations. */
@@ -36,6 +37,11 @@ export interface VectorStoreFilesOperations {
   ) => Promise<VectorStoreFile>;
   /** Create a vector store file by attaching a file to a vector store. */
   createVectorStoreFile: (
+    vectorStoreId: string,
+    options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
+  ) => Promise<VectorStoreFile>;
+  /** Create a vector store file by attaching a file to a vector store and poll. */
+  createVectorStoreFileAndPoll: (
     vectorStoreId: string,
     options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFile>;
@@ -62,6 +68,10 @@ function _getVectorStoreFiles(context: AgentsContext) {
       vectorStoreId: string,
       options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
     ) => createVectorStoreFile(context, vectorStoreId, options),
+    createVectorStoreFileAndPoll: (
+      vectorStoreId: string,
+      options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
+    ) => createVectorStoreFileAndPoll(context, vectorStoreId, options),
     listVectorStoreFiles: (
       vectorStoreId: string,
       options?: VectorStoreFilesListVectorStoreFilesOptionalParams,

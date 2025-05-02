@@ -4,6 +4,8 @@
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { AgentsClient } from "./agentsClient.js";
+export * from "./models/streamingModels.js";
+export * from "./utils.js";
 export {
   ToolDefinition,
   ToolDefinitionUnion,
@@ -241,6 +243,8 @@ export {
   GetAgentOptionalParams,
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
+  PollingOptionsParams,
+  PollingOptions,
 } from "./api/index.js";
 export {
   FilesGetFileContentOptionalParams,

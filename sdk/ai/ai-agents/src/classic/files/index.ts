@@ -21,7 +21,9 @@ import {
   deleteFile,
   uploadFile,
   listFiles,
+  uploadFileAndPoll,
 } from "../../api/files/operations.js";
+import { OperationState, PollerLike } from "@azure/core-lro";
 
 /** Interface representing a Files operations. */
 export interface FilesOperations {
@@ -46,6 +48,12 @@ export interface FilesOperations {
     purpose: FilePurpose,
     options: FilesUploadFileOptionalParams,
   ) => Promise<FileInfo>;
+  /** Uploads a file for use by other operations with polling */
+  uploadFileAndPoll: (
+    file: ReadableStream | NodeJS.ReadableStream,
+    purpose: FilePurpose,
+    options: FilesUploadFileOptionalParams,
+  ) => PollerLike<OperationState<FileInfo>, FileInfo>;
   /** Gets a list of previously uploaded files. */
   listFiles: (
     options?: FilesListFilesOptionalParams,
@@ -67,6 +75,11 @@ function _getFiles(context: AgentsContext) {
     purpose: FilePurpose,
     options: FilesUploadFileOptionalParams,
     ) => uploadFile(context, { file: file, purpose: purpose, filename: options.fileName }, options),
+    uploadFileAndPoll: (
+      file: ReadableStream | NodeJS.ReadableStream,
+      purpose: FilePurpose,
+      options: FilesUploadFileOptionalParams,
+    ) => uploadFileAndPoll(context, { file, purpose, filename: options.fileName }, options),
     listFiles: (options?: FilesListFilesOptionalParams) =>
       listFiles(context, options),
   };
