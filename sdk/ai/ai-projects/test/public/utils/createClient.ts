@@ -4,7 +4,7 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AIProjectsClient } from "../../../src/index.js";
+import { AIProjectClient } from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -12,6 +12,8 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 const replaceableVariables: Record<string, string> = {
   GENERIC_STRING: "Sanitized",
   ENDPOINT: "Sanitized.azure.com",
+  DEPLOYMENT_NAME: "DeepSeek-V3",
+  AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/project1",
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
   RESOURCE_GROUP_NAME: "00000",
   WORKSPACE_NAME: "00000",
@@ -95,11 +97,13 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 export function createProjectsClient(
   recorder?: Recorder,
   options?: ClientOptions,
-): AIProjectsClient {
+): AIProjectClient {
   const credential = createTestCredential();
-  const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
-  return AIProjectsClient.fromConnectionString(
-    connectionString,
+  const endpoint =
+    process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] ||
+    replaceableVariables.AZURE_AI_PROJECT_ENDPOINT;
+  return AIProjectClient.fromEndpoint(
+    endpoint,
     credential,
     recorder ? recorder.configureClientOptions(options ?? {}) : options,
   );
@@ -107,7 +111,7 @@ export function createProjectsClient(
 
 export function createMockProjectsClient(
   responseFn: (request: PipelineRequest) => Partial<PipelineResponse>,
-): AIProjectsClient {
+): AIProjectClient {
   const options: ClientOptions = { additionalPolicies: [] };
   options.additionalPolicies?.push({
     policy: {
@@ -125,6 +129,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
-  return AIProjectsClient.fromConnectionString(connectionString, credential, options);
+  const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "";
+  return AIProjectClient.fromEndpoint(endpoint, credential, options);
 }
