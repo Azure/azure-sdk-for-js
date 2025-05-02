@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
   const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createBingGroundingTool(connectionId);
+  const bingTool = ToolUtility.createBingGroundingTool([{connectionId: connectionId}]);
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {

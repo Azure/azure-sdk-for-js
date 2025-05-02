@@ -22,6 +22,8 @@ import type {
   MicrosoftFabricToolDefinition,
   BingCustomSearchToolDefinition,
   BingCustomSearchConfiguration,
+  SharepointToolDefinition,
+  BingGroundingSearchConfiguration,
 } from "./index.js";
 
 /**
@@ -87,6 +89,31 @@ export class ToolUtility {
   }
 
   /**
+   * Creates a sharepoint grounding search tool
+   *
+   * @param connectionId - The ID of the sharepoint search connection.
+   *
+   * @returns An object containing the definition and resources for the sharepoint grounding search tool
+   *
+   */
+  static createSharepointGroundingTool(connectionId: string): {
+    definition: SharepointToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "sharepoint_grounding",
+        sharepointGrounding: {
+          connectionList: [
+            {
+              connectionId: connectionId,
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  /**
    * Creates a bing grounding search tool
    *
    * @param connectionId - The ID of the bing search connection.
@@ -94,18 +121,20 @@ export class ToolUtility {
    * @returns An object containing the definition and resources for the bing grounding search tool
    *
    */
-  static createBingGroundingTool(connectionId: string): {
+  static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
     definition: BingGroundingToolDefinition;
   } {
     return {
       definition: {
         type: "bing_grounding",
         bingGrounding: {
-          searchConfigurations: [
-            {
-              connectionId: connectionId,
-            },
-          ],
+          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
+            connectionId: searchConfiguration.connectionId,
+            market: searchConfiguration?.market,
+            setLang: searchConfiguration?.setLang,
+            count: searchConfiguration?.count,
+            freshness: searchConfiguration?.freshness,
+          })),
         },
       },
     };
@@ -372,8 +401,8 @@ export class ToolSet {
    *
    * @returns An object containing the definition and resources for the bing grounding search tool
    */
-  addBingGroundingTool(connectionId: string): { definition: BingGroundingToolDefinition } {
-    const tool = ToolUtility.createBingGroundingTool(connectionId);
+  addBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): { definition: BingGroundingToolDefinition } {
+    const tool = ToolUtility.createBingGroundingTool(searchConfigurations);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }
@@ -389,4 +418,17 @@ export class ToolSet {
     this.toolDefinitions.push(tool.definition);
     return tool;
   }
+
+  /**
+   * Adds sharepoint grounding search tool to the tool set.
+   * 
+   * @param connectionId - The ID of the sharepoint search connection.
+   * 
+   * @returns An object containing the definition and resources for the sharepoint grounding search tool
+   */
+  addSharepointGroundingTool(connectionId: string): { definition: SharepointToolDefinition } {
+    const tool = ToolUtility.createSharepointGroundingTool(connectionId);
+    this.toolDefinitions.push(tool.definition);
+    return tool;
+}
 }

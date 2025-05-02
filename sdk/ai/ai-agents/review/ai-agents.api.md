@@ -1445,7 +1445,7 @@ export class ToolSet {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
-    addBingGroundingTool(connectionId: string): {
+    addBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
     };
     addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
@@ -1465,6 +1465,9 @@ export class ToolSet {
     addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
     };
+    addSharepointGroundingTool(connectionId: string): {
+        definition: SharepointToolDefinition;
+    };
     toolDefinitions: ToolDefinition[];
     toolResources: ToolResources;
 }
@@ -1478,7 +1481,7 @@ export class ToolUtility {
     static createBingCustomSearchTool(searchConfigurations: BingCustomSearchConfiguration[]): {
         definition: BingCustomSearchToolDefinition;
     };
-    static createBingGroundingTool(connectionId: string): {
+    static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
     };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
@@ -1500,6 +1503,9 @@ export class ToolUtility {
     };
     static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
+    };
+    static createSharepointGroundingTool(connectionId: string): {
+        definition: SharepointToolDefinition;
     };
 }
 

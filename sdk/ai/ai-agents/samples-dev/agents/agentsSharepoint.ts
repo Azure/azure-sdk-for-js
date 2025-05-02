@@ -26,9 +26,7 @@ export async function main(): Promise<void> {
   const connectionId = process.env["SHAREPOINT_CONNECTION_ID"] || "<connection-id>";
 
   // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = ToolUtility.createConnectionTool(connectionToolType.SharepointGrounding, [
-    connectionId,
-  ]);
+  const sharepointTool = ToolUtility.createSharepointGroundingTool(connectionToolType.SharepointGrounding);
 
   // Create agent with the Sharepoint tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {
