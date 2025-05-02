@@ -102,7 +102,11 @@ describe("Agents - Run", () => {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.messages.create(thread.id, "user", "Hello, tell me a joke");
+    const message = await projectsClient.messages.create(
+      thread.id,
+      "user",
+      "Hello, tell me a joke",
+    );
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
@@ -172,7 +176,11 @@ describe("Agents - Run", () => {
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.messages.create(thread.id, "user", "Hello, tell me a joke");
+    const message = await projectsClient.messages.create(
+      thread.id,
+      "user",
+      "Hello, tell me a joke",
+    );
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 

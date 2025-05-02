@@ -34,7 +34,7 @@ export async function main(): Promise<void> {
     topK: 3,
     filter: "",
     indexConnectionId: "",
-    indexName: ""
+    indexName: "",
   });
 
   // Create agent with the Azure AI search tool

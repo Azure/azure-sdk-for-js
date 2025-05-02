@@ -47,15 +47,13 @@ export function _deleteVectorStoreFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteVectorStoreFileDeserialize(
@@ -78,12 +76,7 @@ export async function deleteVectorStoreFile(
     requestOptions: {},
   },
 ): Promise<VectorStoreFileDeletionStatus> {
-  const result = await _deleteVectorStoreFileSend(
-    context,
-    vectorStoreId,
-    fileId,
-    options,
-  );
+  const result = await _deleteVectorStoreFileSend(context, vectorStoreId, fileId, options);
   return _deleteVectorStoreFileDeserialize(result);
 }
 
@@ -106,15 +99,13 @@ export function _getVectorStoreFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getVectorStoreFileDeserialize(
@@ -137,12 +128,7 @@ export async function getVectorStoreFile(
     requestOptions: {},
   },
 ): Promise<VectorStoreFile> {
-  const result = await _getVectorStoreFileSend(
-    context,
-    vectorStoreId,
-    fileId,
-    options,
-  );
+  const result = await _getVectorStoreFileSend(context, vectorStoreId, fileId, options);
   return _getVectorStoreFileDeserialize(result);
 }
 
@@ -163,27 +149,23 @@ export function _createVectorStoreFileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        file_id: options?.fileId,
-        data_source: !options?.dataSource
-          ? options?.dataSource
-          : vectorStoreDataSourceSerializer(options?.dataSource),
-        chunking_strategy: !options?.chunkingStrategy
-          ? options?.chunkingStrategy
-          : vectorStoreChunkingStrategyRequestUnionSerializer(
-              options?.chunkingStrategy,
-            ),
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      file_id: options?.fileId,
+      data_source: !options?.dataSource
+        ? options?.dataSource
+        : vectorStoreDataSourceSerializer(options?.dataSource),
+      chunking_strategy: !options?.chunkingStrategy
+        ? options?.chunkingStrategy
+        : vectorStoreChunkingStrategyRequestUnionSerializer(options?.chunkingStrategy),
+    },
+  });
 }
 
 export async function _createVectorStoreFileDeserialize(
@@ -279,15 +261,13 @@ export function _listVectorStoreFilesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listVectorStoreFilesDeserialize(
@@ -309,17 +289,11 @@ export async function listVectorStoreFiles(
     requestOptions: {},
   },
 ): Promise<OpenAIPageableListOfVectorStoreFile> {
-  const result = await _listVectorStoreFilesSend(
-    context,
-    vectorStoreId,
-    options,
-  );
+  const result = await _listVectorStoreFilesSend(context, vectorStoreId, options);
   return _listVectorStoreFilesDeserialize(result);
 }
 
-function getLroOperationStatus(
-  result: VectorStoreFile 
-): OperationStatus {
+function getLroOperationStatus(result: VectorStoreFile): OperationStatus {
   switch (result.status) {
     case "in_progress":
       return "running";

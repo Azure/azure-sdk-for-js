@@ -14,10 +14,9 @@ import type {
   MessageDeltaTextContent,
   MessageTextContent,
   MessageDeltaTextUrlCitationAnnotation,
-  
-
   MessageDeltaChunk,
-  ThreadRun} from "@azure/ai-agents";
+  ThreadRun,
+} from "@azure/ai-agents";
 import {
   AgentsClient,
   DoneEvent,

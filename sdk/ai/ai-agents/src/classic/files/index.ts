@@ -28,20 +28,11 @@ import { OperationState, PollerLike } from "@azure/core-lro";
 /** Interface representing a Files operations. */
 export interface FilesOperations {
   /** Retrieves the raw content of a specific file. */
-  getContent: (
-    fileId: string,
-    options?: FilesGetFileContentOptionalParams,
-  ) => Promise<Uint8Array>;
+  getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => Promise<Uint8Array>;
   /** Returns information about a specific file. Does not retrieve file content. */
-  get: (
-    fileId: string,
-    options?: FilesGetFileOptionalParams,
-  ) => Promise<FileInfo>;
+  get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
   /** Delete a previously uploaded file. */
-  delete: (
-    fileId: string,
-    options?: FilesDeleteFileOptionalParams,
-  ) => Promise<FileDeletionStatus>;
+  delete: (fileId: string, options?: FilesDeleteFileOptionalParams) => Promise<FileDeletionStatus>;
   /** Uploads a file for use by other operations. */
   upload: (
     file: ReadableStream | NodeJS.ReadableStream,
@@ -55,33 +46,28 @@ export interface FilesOperations {
     options: FilesUploadFileOptionalParams,
   ) => PollerLike<OperationState<FileInfo>, FileInfo>;
   /** Gets a list of previously uploaded files. */
-  list: (
-    options?: FilesListFilesOptionalParams,
-  ) => Promise<FileListResponse>;
+  list: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
 }
 
 function _getFiles(context: AgentsContext) {
   return {
-    getContent: (
-      fileId: string,
-      options?: FilesGetFileContentOptionalParams,
-    ) => getFileContent(context, fileId, options),
+    getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) =>
+      getFileContent(context, fileId, options),
     get: (fileId: string, options?: FilesGetFileOptionalParams) =>
       getFile(context, fileId, options),
     delete: (fileId: string, options?: FilesDeleteFileOptionalParams) =>
       deleteFile(context, fileId, options),
     upload: (
-     file: ReadableStream | NodeJS.ReadableStream,
-    purpose: FilePurpose,
-    options: FilesUploadFileOptionalParams,
+      file: ReadableStream | NodeJS.ReadableStream,
+      purpose: FilePurpose,
+      options: FilesUploadFileOptionalParams,
     ) => uploadFile(context, { file: file, purpose: purpose, filename: options.fileName }, options),
     uploadAndPoll: (
       file: ReadableStream | NodeJS.ReadableStream,
       purpose: FilePurpose,
       options: FilesUploadFileOptionalParams,
     ) => uploadFileAndPoll(context, { file, purpose, filename: options.fileName }, options),
-    list: (options?: FilesListFilesOptionalParams) =>
-      listFiles(context, options),
+    list: (options?: FilesListFilesOptionalParams) => listFiles(context, options),
   };
 }
 

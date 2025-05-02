@@ -50,20 +50,16 @@ export function _cancelRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _cancelRunDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThreadRun> {
+export async function _cancelRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -101,20 +97,18 @@ export function _submitToolOutputsToRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        tool_outputs: toolOutputArraySerializer(toolOutputs),
-        stream: options?.stream,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      tool_outputs: toolOutputArraySerializer(toolOutputs),
+      stream: options?.stream,
+    },
+  });
 }
 
 export async function _submitToolOutputsToRunDeserialize(
@@ -136,13 +130,7 @@ export async function submitToolOutputsToRun(
   toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<ThreadRun> {
-  const result = await _submitToolOutputsToRunSend(
-    context,
-    threadId,
-    runId,
-    toolOutputs,
-    options,
-  );
+  const result = await _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, options);
   return _submitToolOutputsToRunDeserialize(result);
 }
 
@@ -163,22 +151,18 @@ export function _updateRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { metadata: options?.metadata },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { metadata: options?.metadata },
+  });
 }
 
-export async function _updateRunDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThreadRun> {
+export async function _updateRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -215,20 +199,16 @@ export function _getRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getRunDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThreadRun> {
+export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -267,15 +247,13 @@ export function _listRunsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listRunsDeserialize(
@@ -320,49 +298,43 @@ export function _createRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        assistant_id: assistantId,
-        model: options?.model,
-        instructions: options?.instructions,
-        additional_instructions: options?.additionalInstructions,
-        additional_messages: !options?.additionalMessages
-          ? options?.additionalMessages
-          : threadMessageOptionsArraySerializer(options?.additionalMessages),
-        tools: !options?.tools
-          ? options?.tools
-          : toolDefinitionUnionArraySerializer(options?.tools),
-        stream: options?.stream,
-        temperature: options?.temperature,
-        top_p: options?.topP,
-        max_prompt_tokens: options?.maxPromptTokens,
-        max_completion_tokens: options?.maxCompletionTokens,
-        truncation_strategy: !options?.truncationStrategy
-          ? options?.truncationStrategy
-          : truncationObjectSerializer(options?.truncationStrategy),
-        tool_choice: !options?.toolChoice
-          ? options?.toolChoice
-          : agentsToolChoiceOptionSerializer(options?.toolChoice),
-        response_format: !options?.responseFormat
-          ? options?.responseFormat
-          : agentsResponseFormatOptionSerializer(options?.responseFormat),
-        parallel_tool_calls: options?.parallelToolCalls,
-        metadata: options?.metadata,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      assistant_id: assistantId,
+      model: options?.model,
+      instructions: options?.instructions,
+      additional_instructions: options?.additionalInstructions,
+      additional_messages: !options?.additionalMessages
+        ? options?.additionalMessages
+        : threadMessageOptionsArraySerializer(options?.additionalMessages),
+      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
+      stream: options?.stream,
+      temperature: options?.temperature,
+      top_p: options?.topP,
+      max_prompt_tokens: options?.maxPromptTokens,
+      max_completion_tokens: options?.maxCompletionTokens,
+      truncation_strategy: !options?.truncationStrategy
+        ? options?.truncationStrategy
+        : truncationObjectSerializer(options?.truncationStrategy),
+      tool_choice: !options?.toolChoice
+        ? options?.toolChoice
+        : agentsToolChoiceOptionSerializer(options?.toolChoice),
+      response_format: !options?.responseFormat
+        ? options?.responseFormat
+        : agentsResponseFormatOptionSerializer(options?.responseFormat),
+      parallel_tool_calls: options?.parallelToolCalls,
+      metadata: options?.metadata,
+    },
+  });
 }
 
-export async function _createRunDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ThreadRun> {
+export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);

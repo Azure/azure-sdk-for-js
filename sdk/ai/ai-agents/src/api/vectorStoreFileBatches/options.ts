@@ -35,7 +35,8 @@ export interface VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams
-  extends OperationOptions, PollingOptionsParams  {
+  extends OperationOptions,
+    PollingOptionsParams {
   /** List of file identifiers. */
   fileIds?: string[];
   /** List of Azure assets. */

@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  OpenAIPageableListOfVectorStoreFile,
-  VectorStoreFileBatch,
-} from "../../models/models.js";
+import { OpenAIPageableListOfVectorStoreFile, VectorStoreFileBatch } from "../../models/models.js";
 import {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
@@ -50,7 +47,7 @@ export interface VectorStoreFileBatchesOperations {
   createAndPoll: (
     vectorStoreId: string,
     options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
-  ) => PollerLike<OperationState<VectorStoreFileBatch>,VectorStoreFileBatch>;
+  ) => PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch>;
 }
 
 function _getVectorStoreFileBatches(context: AgentsContext) {
@@ -59,8 +56,7 @@ function _getVectorStoreFileBatches(context: AgentsContext) {
       vectorStoreId: string,
       batchId: string,
       options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
-    ) =>
-      listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, options),
+    ) => listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, options),
     cancel: (
       vectorStoreId: string,
       batchId: string,

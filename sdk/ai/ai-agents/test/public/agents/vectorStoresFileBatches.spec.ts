@@ -40,9 +40,12 @@ describe("projectsClient - vector stores file batches", () => {
     });
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(vectorStore.id, {
-      fileIds: [file1.id, file2.id],
-    });
+    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(
+      vectorStore.id,
+      {
+        fileIds: [file1.id, file2.id],
+      },
+    );
     assert.isNotNull(vectorStoreFileBatch);
     assert.isNotEmpty(vectorStoreFileBatch.id);
     assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
@@ -75,9 +78,12 @@ describe("projectsClient - vector stores file batches", () => {
     });
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(vectorStore.id, {
-      fileIds: [file1.id, file2.id],
-    });
+    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(
+      vectorStore.id,
+      {
+        fileIds: [file1.id, file2.id],
+      },
+    );
     console.log(
       `Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`,
     );
@@ -118,9 +124,12 @@ describe("projectsClient - vector stores file batches", () => {
     });
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(vectorStore.id, {
-      fileIds: [file1.id, file2.id],
-    });
+    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(
+      vectorStore.id,
+      {
+        fileIds: [file1.id, file2.id],
+      },
+    );
     console.log(
       `Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`,
     );
@@ -161,9 +170,12 @@ describe("projectsClient - vector stores file batches", () => {
     });
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(vectorStore.id, {
-      fileIds: [file1.id, file2.id],
-    });
+    const vectorStoreFileBatch = await projectsClient.vectorStoreFileBatches.create(
+      vectorStore.id,
+      {
+        fileIds: [file1.id, file2.id],
+      },
+    );
     console.log(
       `Created vector store file batch, vector store file batch ID: ${vectorStoreFileBatch.id}`,
     );

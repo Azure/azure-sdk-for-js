@@ -42,9 +42,7 @@ export interface VectorStoresOperations {
     options?: VectorStoresGetVectorStoreOptionalParams,
   ) => Promise<VectorStore>;
   /** Creates a vector store. */
-  create: (
-    options?: VectorStoresCreateVectorStoreOptionalParams,
-  ) => Promise<VectorStore>;
+  create: (options?: VectorStoresCreateVectorStoreOptionalParams) => Promise<VectorStore>;
   /** Creates a vector store and poll. */
   createAndPoll(
     options?: VectorStoresCreateVectorStoreOptionalParams,
@@ -57,32 +55,22 @@ export interface VectorStoresOperations {
 
 function _getVectorStores(context: AgentsContext) {
   return {
-    delete: (
-      vectorStoreId: string,
-      options?: VectorStoresDeleteVectorStoreOptionalParams,
-    ) => deleteVectorStore(context, vectorStoreId, options),
-    update: (
-      vectorStoreId: string,
-      options?: VectorStoresModifyVectorStoreOptionalParams,
-    ) => modifyVectorStore(context, vectorStoreId, options),
-    get: (
-      vectorStoreId: string,
-      options?: VectorStoresGetVectorStoreOptionalParams,
-    ) => getVectorStore(context, vectorStoreId, options),
-    create: (
-      options?: VectorStoresCreateVectorStoreOptionalParams,
-    ) => createVectorStore(context, options),
-    createAndPoll: (
-      options?: VectorStoresCreateVectorStoreOptionalParams,
-    ) => createVectorStoreAndPoll(context, options),
+    delete: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) =>
+      deleteVectorStore(context, vectorStoreId, options),
+    update: (vectorStoreId: string, options?: VectorStoresModifyVectorStoreOptionalParams) =>
+      modifyVectorStore(context, vectorStoreId, options),
+    get: (vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams) =>
+      getVectorStore(context, vectorStoreId, options),
+    create: (options?: VectorStoresCreateVectorStoreOptionalParams) =>
+      createVectorStore(context, options),
+    createAndPoll: (options?: VectorStoresCreateVectorStoreOptionalParams) =>
+      createVectorStoreAndPoll(context, options),
     list: (options?: VectorStoresListVectorStoresOptionalParams) =>
       listVectorStores(context, options),
   };
 }
 
-export function _getVectorStoresOperations(
-  context: AgentsContext,
-): VectorStoresOperations {
+export function _getVectorStoresOperations(context: AgentsContext): VectorStoresOperations {
   return {
     ..._getVectorStores(context),
   };

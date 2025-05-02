@@ -8,10 +8,7 @@ import {
   OpenAIPageableListOfRunStep,
   openAIPageableListOfRunStepDeserializer,
 } from "../../models/models.js";
-import {
-  RunStepsListRunStepsOptionalParams,
-  RunStepsGetRunStepOptionalParams,
-} from "./options.js";
+import { RunStepsListRunStepsOptionalParams, RunStepsGetRunStepOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -46,15 +43,13 @@ export function _listRunStepsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listRunStepsDeserialize(
@@ -103,20 +98,16 @@ export function _getRunStepSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getRunStepDeserialize(
-  result: PathUncheckedResponse,
-): Promise<RunStep> {
+export async function _getRunStepDeserialize(result: PathUncheckedResponse): Promise<RunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -133,12 +124,6 @@ export async function getRunStep(
   stepId: string,
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): Promise<RunStep> {
-  const result = await _getRunStepSend(
-    context,
-    threadId,
-    runId,
-    stepId,
-    options,
-  );
+  const result = await _getRunStepSend(context, threadId, runId, stepId, options);
   return _getRunStepDeserialize(result);
 }

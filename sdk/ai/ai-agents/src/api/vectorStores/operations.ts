@@ -45,15 +45,13 @@ export function _deleteVectorStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteVectorStoreDeserialize(
@@ -92,23 +90,21 @@ export function _modifyVectorStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        name: options?.name,
-        expires_after: !options?.expiresAfter
-          ? options?.expiresAfter
-          : vectorStoreExpirationPolicySerializer(options?.expiresAfter),
-        metadata: options?.metadata,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      name: options?.name,
+      expires_after: !options?.expiresAfter
+        ? options?.expiresAfter
+        : vectorStoreExpirationPolicySerializer(options?.expiresAfter),
+      metadata: options?.metadata,
+    },
+  });
 }
 
 export async function _modifyVectorStoreDeserialize(
@@ -147,15 +143,13 @@ export function _getVectorStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getVectorStoreDeserialize(
@@ -211,9 +205,7 @@ export function _createVectorStoreSend(
         : vectorStoreExpirationPolicySerializer(options?.expiresAfter),
       chunking_strategy: !options?.chunkingStrategy
         ? options?.chunkingStrategy
-        : vectorStoreChunkingStrategyRequestUnionSerializer(
-            options?.chunkingStrategy,
-          ),
+        : vectorStoreChunkingStrategyRequestUnionSerializer(options?.chunkingStrategy),
       metadata: options?.metadata,
     },
   });
@@ -292,15 +284,13 @@ export function _listVectorStoresSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listVectorStoresDeserialize(

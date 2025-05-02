@@ -45,7 +45,7 @@ export interface VectorStoreFilesOperations {
   createAndPoll: (
     vectorStoreId: string,
     options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
-  ) => PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>
+  ) => PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>;
   /** Returns a list of vector store files. */
   list: (
     vectorStoreId: string,
@@ -73,16 +73,12 @@ function _getVectorStoreFiles(context: AgentsContext) {
       vectorStoreId: string,
       options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
     ) => createVectorStoreFileAndPoll(context, vectorStoreId, options),
-    list: (
-      vectorStoreId: string,
-      options?: VectorStoreFilesListVectorStoreFilesOptionalParams,
-    ) => listVectorStoreFiles(context, vectorStoreId, options),
+    list: (vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams) =>
+      listVectorStoreFiles(context, vectorStoreId, options),
   };
 }
 
-export function _getVectorStoreFilesOperations(
-  context: AgentsContext,
-): VectorStoreFilesOperations {
+export function _getVectorStoreFilesOperations(context: AgentsContext): VectorStoreFilesOperations {
   return {
     ..._getVectorStoreFiles(context),
   };

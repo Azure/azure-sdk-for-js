@@ -30,47 +30,29 @@ export interface ThreadsOperations {
     options?: ThreadsDeleteThreadOptionalParams,
   ) => Promise<ThreadDeletionStatus>;
   /** Modifies an existing thread. */
-  update: (
-    threadId: string,
-    options?: ThreadsUpdateThreadOptionalParams,
-  ) => Promise<AgentThread>;
+  update: (threadId: string, options?: ThreadsUpdateThreadOptionalParams) => Promise<AgentThread>;
   /** Gets information about an existing thread. */
-  get: (
-    threadId: string,
-    options?: ThreadsGetThreadOptionalParams,
-  ) => Promise<AgentThread>;
+  get: (threadId: string, options?: ThreadsGetThreadOptionalParams) => Promise<AgentThread>;
   /** Gets a list of threads that were previously created. */
-  list: (
-    options?: ThreadsListThreadsOptionalParams,
-  ) => Promise<OpenAIPageableListOfAgentThread>;
+  list: (options?: ThreadsListThreadsOptionalParams) => Promise<OpenAIPageableListOfAgentThread>;
   /** Creates a new thread. Threads contain messages and can be run by agents. */
-  create: (
-    options?: ThreadsCreateThreadOptionalParams,
-  ) => Promise<AgentThread>;
+  create: (options?: ThreadsCreateThreadOptionalParams) => Promise<AgentThread>;
 }
 
 function _getThreads(context: AgentsContext) {
   return {
-    delete: (
-      threadId: string,
-      options?: ThreadsDeleteThreadOptionalParams,
-    ) => deleteThread(context, threadId, options),
-    update: (
-      threadId: string,
-      options?: ThreadsUpdateThreadOptionalParams,
-    ) => updateThread(context, threadId, options),
+    delete: (threadId: string, options?: ThreadsDeleteThreadOptionalParams) =>
+      deleteThread(context, threadId, options),
+    update: (threadId: string, options?: ThreadsUpdateThreadOptionalParams) =>
+      updateThread(context, threadId, options),
     get: (threadId: string, options?: ThreadsGetThreadOptionalParams) =>
       getThread(context, threadId, options),
-    list: (options?: ThreadsListThreadsOptionalParams) =>
-      listThreads(context, options),
-    create: (options?: ThreadsCreateThreadOptionalParams) =>
-      createThread(context, options),
+    list: (options?: ThreadsListThreadsOptionalParams) => listThreads(context, options),
+    create: (options?: ThreadsCreateThreadOptionalParams) => createThread(context, options),
   };
 }
 
-export function _getThreadsOperations(
-  context: AgentsContext,
-): ThreadsOperations {
+export function _getThreadsOperations(context: AgentsContext): ThreadsOperations {
   return {
     ..._getThreads(context),
   };

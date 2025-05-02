@@ -28,11 +28,8 @@ export interface RunStepsOperations {
 
 function _getRunSteps(context: AgentsContext) {
   return {
-    list: (
-      threadId: string,
-      runId: string,
-      options?: RunStepsListRunStepsOptionalParams,
-    ) => listRunSteps(context, threadId, runId, options),
+    list: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) =>
+      listRunSteps(context, threadId, runId, options),
     get: (
       threadId: string,
       runId: string,
@@ -42,9 +39,7 @@ function _getRunSteps(context: AgentsContext) {
   };
 }
 
-export function _getRunStepsOperations(
-  context: AgentsContext,
-): RunStepsOperations {
+export function _getRunStepsOperations(context: AgentsContext): RunStepsOperations {
   return {
     ..._getRunSteps(context),
   };

@@ -51,20 +51,12 @@ export interface MessagesOperations {
 
 function _getMessages(context: AgentsContext) {
   return {
-    update: (
-      threadId: string,
-      messageId: string,
-      options?: MessagesUpdateMessageOptionalParams,
-    ) => updateMessage(context, threadId, messageId, options),
-    get: (
-      threadId: string,
-      messageId: string,
-      options?: MessagesGetMessageOptionalParams,
-    ) => getMessage(context, threadId, messageId, options),
-    list: (
-      threadId: string,
-      options?: MessagesListMessagesOptionalParams,
-    ) => listMessages(context, threadId, options),
+    update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) =>
+      updateMessage(context, threadId, messageId, options),
+    get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) =>
+      getMessage(context, threadId, messageId, options),
+    list: (threadId: string, options?: MessagesListMessagesOptionalParams) =>
+      listMessages(context, threadId, options),
     create: (
       threadId: string,
       role: MessageRole,
@@ -74,9 +66,7 @@ function _getMessages(context: AgentsContext) {
   };
 }
 
-export function _getMessagesOperations(
-  context: AgentsContext,
-): MessagesOperations {
+export function _getMessagesOperations(context: AgentsContext): MessagesOperations {
   return {
     ..._getMessages(context),
   };

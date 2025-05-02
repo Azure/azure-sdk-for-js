@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  ThreadRun,
-  OpenAIPageableListOfThreadRun,
-  ToolOutput,
-} from "../../models/models.js";
+import { ThreadRun, OpenAIPageableListOfThreadRun, ToolOutput } from "../../models/models.js";
 import {
   RunsCancelRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
@@ -49,11 +45,7 @@ export interface RunsOperations {
     options?: RunsUpdateRunOptionalParams,
   ) => Promise<ThreadRun>;
   /** Gets an existing run from an existing thread. */
-  get: (
-    threadId: string,
-    runId: string,
-    options?: RunsGetRunOptionalParams,
-  ) => Promise<ThreadRun>;
+  get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) => Promise<ThreadRun>;
   /** Gets a list of runs for a specified thread. */
   list: (
     threadId: string,
@@ -74,38 +66,24 @@ export interface RunsOperations {
 
 function _getRuns(context: AgentsContext) {
   return {
-    cancel: (
-      threadId: string,
-      runId: string,
-      options?: RunsCancelRunOptionalParams,
-    ) => cancelRun(context, threadId, runId, options),
+    cancel: (threadId: string, runId: string, options?: RunsCancelRunOptionalParams) =>
+      cancelRun(context, threadId, runId, options),
     submitToolOutputs: (
       threadId: string,
       runId: string,
       toolOutputs: ToolOutput[],
       options?: RunsSubmitToolOutputsToRunOptionalParams,
     ) => submitToolOutputsToRun(context, threadId, runId, toolOutputs, options),
-    update: (
-      threadId: string,
-      runId: string,
-      options?: RunsUpdateRunOptionalParams,
-    ) => updateRun(context, threadId, runId, options),
-    get: (
-      threadId: string,
-      runId: string,
-      options?: RunsGetRunOptionalParams,
-    ) => getRun(context, threadId, runId, options),
+    update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) =>
+      updateRun(context, threadId, runId, options),
+    get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) =>
+      getRun(context, threadId, runId, options),
     list: (threadId: string, options?: RunsListRunsOptionalParams) =>
       listRuns(context, threadId, options),
-    create: (
-      threadId: string,
-      assistantId: string,
-      options?: RunsCreateRunOptionalParams,
-    ) => createRun(context, threadId, assistantId, options),
-    createThreadAndRun: (
-      assistantId: string,
-      options?: RunsCreateRunOptionalParams,
-    ) => createThreadAndRun(context, assistantId, options),
+    create: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) =>
+      createRun(context, threadId, assistantId, options),
+    createThreadAndRun: (assistantId: string, options?: RunsCreateRunOptionalParams) =>
+      createThreadAndRun(context, assistantId, options),
   };
 }
 
