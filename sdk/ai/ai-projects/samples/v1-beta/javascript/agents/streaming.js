@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to use agent operations in streaming from the Azure Agents service.
+ *
+ * @summary demonstrates how to use agent operations in streaming.
+ */
+
 const {
   AIProjectsClient,
   DoneEvent,
@@ -7,10 +16,11 @@ const {
 } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -18,7 +28,7 @@ async function main() {
     new DefaultAzureCredential(),
   );
 
-  const agent = await client.agents.createAgent("gpt-4-1106-preview", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "my-assistant",
     instructions: "You are helpful agent",
   });

@@ -8,14 +8,13 @@
  * @summary copy a model from one resource to another
  */
 
-import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const random = Date.now().toString();
   const destinationModelId =
@@ -26,13 +25,10 @@ async function main() {
   const authorization = await destinationClient.getCopyAuthorization(destinationModelId);
 
   const sourceEndpoint = process.env.FORM_RECOGNIZER_SOURCE_ENDPOINT || "<source endpoint>";
-  const sourceCredential = new AzureKeyCredential(
-    process.env.FORM_RECOGNIZER_SOURCE_API_KEY || "<source api key>",
-  );
   const sourceModelId = process.env.COPY_SOURCE_MODEL_ID || "<source model id>";
 
   // Then, the source resource can initiate the copy operation.
-  const sourceClient = new DocumentModelAdministrationClient(sourceEndpoint, sourceCredential);
+  const sourceClient = new DocumentModelAdministrationClient(sourceEndpoint, credential);
 
   const copyPoller = await sourceClient.beginCopyModelTo(sourceModelId, authorization);
   const model = await copyPoller.pollUntilDone();

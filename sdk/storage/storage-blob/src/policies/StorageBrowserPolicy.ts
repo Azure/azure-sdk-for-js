@@ -7,11 +7,10 @@ import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "./RequestPolicy";
-import { isNode } from "@azure/core-util";
-
-import { HeaderConstants, URLConstants } from "../utils/constants";
-import { setURLParameter } from "../utils/utils.common";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
+import { isNodeLike } from "@azure/core-util";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
+import { setURLParameter } from "../utils/utils.common.js";
 
 /**
  * StorageBrowserPolicy will handle differences between Node.js and browser runtime, including:
@@ -42,7 +41,7 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
    * @param request -
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    if (isNode) {
+    if (isNodeLike) {
       return this._nextPolicy.sendRequest(request);
     }
 

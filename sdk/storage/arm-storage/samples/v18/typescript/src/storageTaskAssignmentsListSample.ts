@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all the storage task assignments in an account
  *
  * @summary List all the storage task assignments in an account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsList/ListStorageTaskAssignmentsForAccount.json
  */
 async function listStorageTaskAssignmentsForAccount(): Promise<void> {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listStorageTaskAssignmentsForAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignments.list(
+  for await (const item of client.storageTaskAssignments.list(
     resourceGroupName,
     accountName,
   )) {
@@ -37,7 +37,7 @@ async function listStorageTaskAssignmentsForAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listStorageTaskAssignmentsForAccount();
+  await listStorageTaskAssignmentsForAccount();
 }
 
 main().catch(console.error);

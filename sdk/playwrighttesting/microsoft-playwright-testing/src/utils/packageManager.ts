@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PackageManager } from "../common/types";
+import type { PackageManager } from "../common/types.js";
 
 export class NPM implements PackageManager {
   runCommand = (command: string, args: string): string => {

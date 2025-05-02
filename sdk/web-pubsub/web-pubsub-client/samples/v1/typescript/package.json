@@ -28,11 +28,12 @@
   "dependencies": {
     "@azure/web-pubsub-client": "latest",
     "dotenv": "latest",
-    "@azure/web-pubsub": "^1.1.0"
+    "@azure/web-pubsub": "^1.1.3",
+    "@azure/identity": "^4.8.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "rimraf": "latest"
   }
 }

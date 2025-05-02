@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { JobResource } from "@azure/arm-databox";
-import { DataBoxManagementClient } from "@azure/arm-databox";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import { JobResource, DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,15 +16,17 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  *
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreate.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsCreate.json
  */
 async function jobsCreate(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResource: JobResource = {
     location: "westus",
-    sku: { name: "DataBox" },
+    sku: { name: "DataBox", model: "DataBox" },
     transferType: "ImportToAzure",
     details: {
       contactDetails: {
@@ -56,7 +59,11 @@ async function jobsCreate(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateAndWait(resourceGroupName, jobName, jobResource);
+  const result = await client.jobs.beginCreateAndWait(
+    resourceGroupName,
+    jobName,
+    jobResource,
+  );
   console.log(result);
 }
 
@@ -64,15 +71,17 @@ async function jobsCreate(): Promise<void> {
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  *
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateDevicePassword.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsCreateDevicePassword.json
  */
 async function jobsCreateDevicePassword(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResource: JobResource = {
     location: "westus",
-    sku: { name: "DataBox" },
+    sku: { name: "DataBox", model: "DataBox" },
     transferType: "ImportToAzure",
     details: {
       contactDetails: {
@@ -107,7 +116,11 @@ async function jobsCreateDevicePassword(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateAndWait(resourceGroupName, jobName, jobResource);
+  const result = await client.jobs.beginCreateAndWait(
+    resourceGroupName,
+    jobName,
+    jobResource,
+  );
   console.log(result);
 }
 
@@ -115,15 +128,17 @@ async function jobsCreateDevicePassword(): Promise<void> {
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  *
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateDoubleEncryption.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsCreateDoubleEncryption.json
  */
 async function jobsCreateDoubleEncryption(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResource: JobResource = {
     location: "westus",
-    sku: { name: "DataBox" },
+    sku: { name: "DataBox", model: "DataBox" },
     transferType: "ImportToAzure",
     details: {
       contactDetails: {
@@ -157,7 +172,11 @@ async function jobsCreateDoubleEncryption(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateAndWait(resourceGroupName, jobName, jobResource);
+  const result = await client.jobs.beginCreateAndWait(
+    resourceGroupName,
+    jobName,
+    jobResource,
+  );
   console.log(result);
 }
 
@@ -165,15 +184,17 @@ async function jobsCreateDoubleEncryption(): Promise<void> {
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  *
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateExport.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsCreateExport.json
  */
 async function jobsCreateExport(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResource: JobResource = {
     location: "westus",
-    sku: { name: "DataBox" },
+    sku: { name: "DataBox", model: "DataBox" },
     transferType: "ExportFromAzure",
     details: {
       contactDetails: {
@@ -216,7 +237,11 @@ async function jobsCreateExport(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateAndWait(resourceGroupName, jobName, jobResource);
+  const result = await client.jobs.beginCreateAndWait(
+    resourceGroupName,
+    jobName,
+    jobResource,
+  );
   console.log(result);
 }
 
@@ -224,11 +249,13 @@ async function jobsCreateExport(): Promise<void> {
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  *
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateWithUserAssignedIdentity.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsCreateWithUserAssignedIdentity.json
  */
 async function jobsCreateWithUserAssignedIdentity(): Promise<void> {
-  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId =
+    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName =
+    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResource: JobResource = {
     identity: {
@@ -239,7 +266,7 @@ async function jobsCreateWithUserAssignedIdentity(): Promise<void> {
       },
     },
     location: "westus",
-    sku: { name: "DataBox" },
+    sku: { name: "DataBox", model: "DataBox" },
     transferType: "ImportToAzure",
     details: {
       contactDetails: {
@@ -272,7 +299,11 @@ async function jobsCreateWithUserAssignedIdentity(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.beginCreateAndWait(resourceGroupName, jobName, jobResource);
+  const result = await client.jobs.beginCreateAndWait(
+    resourceGroupName,
+    jobName,
+    jobResource,
+  );
   console.log(result);
 }
 

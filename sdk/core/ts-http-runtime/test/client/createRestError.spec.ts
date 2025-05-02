@@ -86,4 +86,17 @@ describe("createRestError", () => {
     assert.equal(error.code, undefined);
     assert.equal(error.message, "error message");
   });
+
+  it("should create a rest error from an error response with an undefined body and no default message", () => {
+    const response = {
+      status: "400",
+      headers: {},
+      request: {} as PipelineRequest,
+      body: undefined,
+    };
+    const error = createRestError(response);
+    assert.equal(error.statusCode, 400);
+    assert.equal(error.code, undefined);
+    assert.equal(error.message, "Unexpected status code: 400");
+  });
 });

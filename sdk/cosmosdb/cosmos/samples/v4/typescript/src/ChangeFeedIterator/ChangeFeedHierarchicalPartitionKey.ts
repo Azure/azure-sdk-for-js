@@ -5,17 +5,14 @@
  * @summary Demonstrates using a ChangeFeed for a partition key
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { finish, handleError, logSampleHeader } from "../Shared/handleError";
+import "dotenv/config";
+import { finish, handleError, logSampleHeader } from "../Shared/handleError.js";
+import type { Container, ChangeFeedIteratorOptions } from "@azure/cosmos";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-  Container,
   StatusCodes,
-  ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
 } from "@azure/cosmos";
 
@@ -26,7 +23,7 @@ const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Change Feed");
 
-async function ingestData(container: Container, initialize: number, end: number) {
+async function ingestData(container: Container, initialize: number, end: number): Promise<void> {
   console.log("beginning data ingestion");
   for (let i = initialize; i < end; i++) {
     await container.items.create({ name: `sample${i}`, key1: 0, key2: "0" });

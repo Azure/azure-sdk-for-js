@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the storage account.
  *
  * @summary Deletes the specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountDeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountDeletePrivateEndpointConnection.json
  */
 async function storageAccountDeletePrivateEndpointConnection() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -34,7 +34,7 @@ async function storageAccountDeletePrivateEndpointConnection() {
 }
 
 async function main() {
-  storageAccountDeletePrivateEndpointConnection();
+  await storageAccountDeletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

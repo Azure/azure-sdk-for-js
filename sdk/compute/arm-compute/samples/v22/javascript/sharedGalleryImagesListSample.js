@@ -25,14 +25,14 @@ async function listSharedGalleryImages() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sharedGalleryImages.list(location, galleryUniqueName)) {
+  for await (const item of client.sharedGalleryImages.list(location, galleryUniqueName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listSharedGalleryImages();
+  await listSharedGalleryImages();
 }
 
 main().catch(console.error);

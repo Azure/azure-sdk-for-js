@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { isPipelineLike, newPipeline } from "./Pipeline";
+import { isNodeLike } from "@azure/core-util";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import type { Readable } from "stream";
-
-import { BufferScheduler } from "../../storage-common/src";
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { PathOperationsImpl as Path } from "./generated/src/operations";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { Readable } from "node:stream";
+import { BufferScheduler } from "@azure/storage-common";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
+import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
@@ -70,13 +70,13 @@ import type {
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
   UserDelegationKey,
-} from "./models";
-import type { PathSetAccessControlRecursiveMode } from "./models.internal";
+} from "./models.js";
+import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
 import {
   generateDataLakeSASQueryParameters,
   generateDataLakeSASQueryParametersInternal,
-} from "./sas/DataLakeSASSignatureValues";
-import { StorageClient } from "./StorageClient";
+} from "./sas/DataLakeSASSignatureValues.js";
+import { StorageClient } from "./StorageClient.js";
 import {
   toAccessControlChangeFailureArray,
   toAcl,
@@ -85,8 +85,8 @@ import {
   toPermissions,
   toPermissionsString,
   toProperties,
-} from "./transforms";
-import { Batch } from "./utils/Batch";
+} from "./transforms.js";
+import { Batch } from "./utils/Batch.js";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -95,9 +95,9 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "./utils/constants";
-import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { tracingClient } from "./utils/tracing";
+} from "./utils/constants.js";
+import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError.js";
+import { tracingClient } from "./utils/tracing.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -107,8 +107,8 @@ import {
   ParsePathGetPropertiesExtraHeaderValues,
   setURLPath,
   setURLQueries,
-} from "./utils/utils.common";
-import { fsCreateReadStream, fsStat } from "./utils/utils.node";
+} from "./utils/utils.common.js";
+import { fsCreateReadStream, fsStat } from "./utils/utils.js";
 import type {
   PathAppendDataHeaders,
   PathCreateHeaders,
@@ -117,7 +117,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -1276,15 +1276,33 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * * Example usage (Node.js):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
-   * console.log("Downloaded file content:", downloaded.toString());
+   * ```ts snippet:ReadmeSampleDownloadFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
+   * const account = "<account>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.readableStreamBody) {
+   *   const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   *   console.log("Downloaded file content:", downloaded.toString());
+   * }
+   *
+   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
    *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
@@ -1298,21 +1316,27 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (browser):
    *
-   * ```js
-   * // Download and convert a file to a string
-   * const downloadResponse = await fileClient.read();
-   * const downloaded = await blobToString(await downloadResponse.contentAsBlob);
-   * console.log("Downloaded file content", downloaded);
+   * ```ts snippet:ReadmeSampleDownloadFile_Browser
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
    *
-   * async function blobToString(blob: Blob): Promise<string> {
-   *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
+   * // Get file content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadResponse.contentAsBlob
+   * const downloadResponse = await fileClient.read();
+   * if (downloadResponse.contentAsBlob) {
+   *   const blob = await downloadResponse.contentAsBlob;
+   *   const downloaded = await blob.text();
+   *   console.log(`Downloaded file content ${downloaded}`);
    * }
    * ```
    *
@@ -1334,7 +1358,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const response = ParsePathGetPropertiesExtraHeaderValues(
         rawResponse as FileReadResponse,
       ) as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;
@@ -1470,7 +1494,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options: FileParallelUploadOptions = {},
   ): Promise<FileUploadResponse> {
     return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -1487,7 +1511,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as ArrayBuffer]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -1854,15 +1878,31 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleQueryFile_Node
+   * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   *
+   * const account = "<account>";
+   * const sas = "<sas token>";
+   * const datalakeServiceClient = new DataLakeServiceClient(
+   *   `https://${account}.dfs.core.windows.net${sas}`,
+   * );
+   *
+   * const fileSystemName = "<file system name>";
+   * const fileName = "<file name>";
+   * const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
+   * const fileClient = fileSystemClient.getFileClient(fileName);
+   *
    * // Query and convert a file to a string
    * const queryResponse = await fileClient.query("select * from BlobStorage");
-   * const downloaded = (await streamToBuffer(queryResponse.readableStreamBody)).toString();
-   * console.log("Query file content:", downloaded);
+   * if (queryResponse.readableStreamBody) {
+   *   const responseBuffer = await streamToBuffer(queryResponse.readableStreamBody);
+   *   const downloaded = responseBuffer.toString();
+   *   console.log(`Query file content: ${downloaded}`);
+   * }
    *
-   * async function streamToBuffer(readableStream) {
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
    *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
@@ -1884,7 +1924,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
       const response = rawResponse as FileReadResponse;
-      if (!isNode && !response.contentAsBlob) {
+      if (!isNodeLike && !response.contentAsBlob) {
         response.contentAsBlob = rawResponse.blobBody;
       }
       response.fileContentMD5 = rawResponse.blobContentMD5;

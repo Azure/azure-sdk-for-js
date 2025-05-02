@@ -14,13 +14,12 @@
  * @azsdk-weight 100
  */
 
-import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
+import type { ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Define connection string and related Service Bus entity names here
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
@@ -41,7 +40,7 @@ const secondSetOfMessages: ServiceBusMessage[] = [
   { body: "Nikolaus Kopernikus" },
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
 

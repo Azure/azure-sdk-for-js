@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import type { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import type { Resource } from "../Resource";
-import type { Conflict } from "./Conflict";
-import type { ConflictDefinition } from "./ConflictDefinition";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics.js";
+import type { CosmosHeaders } from "../../queryExecutionContext/index.js";
+import { ResourceResponse } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { Conflict } from "./Conflict.js";
+import type { ConflictDefinition } from "./ConflictDefinition.js";
 
 export class ConflictResponse extends ResourceResponse<ConflictDefinition & Resource> {
   constructor(

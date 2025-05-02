@@ -49,15 +49,15 @@ export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is stored in the HSM. */
-  EC_HSM = "EC-HSM",
+  ECHSM = "EC-HSM",
   /** RSA (https://tools.ietf.org/html/rfc3447) */
   RSA = "RSA",
   /** RSA with a private key which is stored in the HSM. */
-  RSA_HSM = "RSA-HSM",
+  RSAHSM = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys) */
-  oct = "oct",
+  Oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
-  oct_HSM = "oct-HSM",
+  OctHSM = "oct-HSM",
 }
 
 /**
@@ -130,6 +130,8 @@ export interface KeyAttributes {
   exportable?: boolean;
   /** The underlying HSM Platform. */
   readonly hsmPlatform?: string;
+  /** The key or key version attestation information. */
+  attestation?: KeyAttestation;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -142,6 +144,9 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
       ? item["expires"]
       : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
+    attestation: !item["attestation"]
+      ? item["attestation"]
+      : keyAttestationSerializer(item["attestation"]),
   };
 }
 
@@ -160,6 +165,9 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     recoveryLevel: item["recoveryLevel"],
     exportable: item["exportable"],
     hsmPlatform: item["hsmPlatform"],
+    attestation: !item["attestation"]
+      ? item["attestation"]
+      : keyAttestationDeserializer(item["attestation"]),
   };
 }
 
@@ -195,6 +203,54 @@ export enum KnownDeletionRecoveryLevel {
  * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
  */
 export type DeletionRecoveryLevel = string;
+
+/** The key attestation information. */
+export interface KeyAttestation {
+  /** A base64url-encoded string containing certificates in PEM format, used for attestation validation. */
+  certificatePemFile?: Uint8Array;
+  /** The attestation blob bytes encoded as base64url string corresponding to a private key. */
+  privateKeyAttestation?: Uint8Array;
+  /** The attestation blob bytes encoded as base64url string corresponding to a public key in case of asymmetric key. */
+  publicKeyAttestation?: Uint8Array;
+  /** The version of the attestation. */
+  version?: string;
+}
+
+export function keyAttestationSerializer(item: KeyAttestation): any {
+  return {
+    certificatePemFile: !item["certificatePemFile"]
+      ? item["certificatePemFile"]
+      : uint8ArrayToString(item["certificatePemFile"], "base64url"),
+    privateKeyAttestation: !item["privateKeyAttestation"]
+      ? item["privateKeyAttestation"]
+      : uint8ArrayToString(item["privateKeyAttestation"], "base64url"),
+    publicKeyAttestation: !item["publicKeyAttestation"]
+      ? item["publicKeyAttestation"]
+      : uint8ArrayToString(item["publicKeyAttestation"], "base64url"),
+    version: item["version"],
+  };
+}
+
+export function keyAttestationDeserializer(item: any): KeyAttestation {
+  return {
+    certificatePemFile: !item["certificatePemFile"]
+      ? item["certificatePemFile"]
+      : typeof item["certificatePemFile"] === "string"
+        ? stringToUint8Array(item["certificatePemFile"], "base64url")
+        : item["certificatePemFile"],
+    privateKeyAttestation: !item["privateKeyAttestation"]
+      ? item["privateKeyAttestation"]
+      : typeof item["privateKeyAttestation"] === "string"
+        ? stringToUint8Array(item["privateKeyAttestation"], "base64url")
+        : item["privateKeyAttestation"],
+    publicKeyAttestation: !item["publicKeyAttestation"]
+      ? item["publicKeyAttestation"]
+      : typeof item["publicKeyAttestation"] === "string"
+        ? stringToUint8Array(item["publicKeyAttestation"], "base64url")
+        : item["publicKeyAttestation"],
+    version: item["version"],
+  };
+}
 
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export enum KnownJsonWebKeyCurveName {
@@ -700,6 +756,10 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
   A192Cbcpad = "A192CBCPAD",
   /** 256-bit AES-CBC with PKCS padding. */
   A256Cbcpad = "A256CBCPAD",
+  /** CKM AES key wrap. */
+  CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
+  /** CKM AES key wrap with padding. */
+  CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
 }
 
 /**
@@ -722,6 +782,8 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
  * **A128CBCPAD**: 128-bit AES-CBC with PKCS padding. \
  * **A192CBCPAD**: 192-bit AES-CBC with PKCS padding. \
  * **A256CBCPAD**: 256-bit AES-CBC with PKCS padding. \
+ * **CKM_AES_KEY_WRAP**: CKM AES key wrap. \
+ * **CKM_AES_KEY_WRAP_PAD**: CKM AES key wrap with padding.
  */
 export type JsonWebKeyEncryptionAlgorithm = string;
 
@@ -794,6 +856,12 @@ export enum KnownJsonWebKeySignatureAlgorithm {
   RS384 = "RS384",
   /** RSASSA-PKCS1-v1_5 using SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   RS512 = "RS512",
+  /** HMAC using SHA-256, as described in  https://tools.ietf.org/html/rfc7518 */
+  HS256 = "HS256",
+  /** HMAC using SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
+  HS384 = "HS384",
+  /** HMAC using SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
+  HS512 = "HS512",
   /** Reserved */
   Rsnull = "RSNULL",
   /** ECDSA using P-256 and SHA-256, as described in https://tools.ietf.org/html/rfc7518. */
@@ -817,6 +885,9 @@ export enum KnownJsonWebKeySignatureAlgorithm {
  * **RS256**: RSASSA-PKCS1-v1_5 using SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RS384**: RSASSA-PKCS1-v1_5 using SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RS512**: RSASSA-PKCS1-v1_5 using SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **HS256**: HMAC using SHA-256, as described in  https:\//tools.ietf.org\/html\/rfc7518 \
+ * **HS384**: HMAC using SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
+ * **HS512**: HMAC using SHA-512, as described in https:\//tools.ietf.org\/html\/rfc7518 \
  * **RSNULL**: Reserved \
  * **ES256**: ECDSA using P-256 and SHA-256, as described in https:\//tools.ietf.org\/html\/rfc7518. \
  * **ES384**: ECDSA using P-384 and SHA-384, as described in https:\//tools.ietf.org\/html\/rfc7518 \
@@ -878,11 +949,11 @@ export function keyReleaseParametersSerializer(
 /** The encryption algorithm to use to protected the exported key material */
 export enum KnownKeyEncryptionAlgorithm {
   /** The CKM_RSA_AES_KEY_WRAP key wrap mechanism. */
-  CKM_RSA_AES_KEY_WRAP = "CKM_RSA_AES_KEY_WRAP",
+  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
   /** The RSA_AES_KEY_WRAP_256 key wrap mechanism. */
-  RSA_AES_KEY_WRAP_256 = "RSA_AES_KEY_WRAP_256",
+  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
   /** The RSA_AES_KEY_WRAP_384 key wrap mechanism. */
-  RSA_AES_KEY_WRAP_384 = "RSA_AES_KEY_WRAP_384",
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
 }
 
 /**
@@ -1158,6 +1229,6 @@ export function randomBytesDeserializer(item: any): RandomBytes {
 export enum KnownVersions {
   /** The 7.5 API version. */
   "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  /** The 7.6-preview.2 API version. */
+  "v7.6_preview.2" = "7.6-preview.2",
 }

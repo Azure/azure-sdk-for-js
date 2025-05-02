@@ -2,27 +2,32 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { DocumentTranslationClient } from "../../src";
-import { isUnexpected } from "../../src";
-import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import type { DocumentTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("GetSupportedFormats tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("all formats", async () => {
-    const response = await client.path("/document/formats").get();
+    const options = {
+      queryParameters: {
+        type: "",
+      },
+    };
+
+    const response = await client.path("/document/formats").get(options);
     if (isUnexpected(response)) {
       throw response.body;
     }

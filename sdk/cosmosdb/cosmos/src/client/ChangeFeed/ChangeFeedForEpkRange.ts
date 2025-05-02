@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ChangeFeedRange } from "./ChangeFeedRange";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import type { PartitionKeyRangeCache } from "../../routing";
-import { QueryRange } from "../../routing";
-import { FeedRangeQueue } from "./FeedRangeQueue";
-import { ClientContext } from "../../ClientContext";
-import { Container, Resource } from "../../client";
-import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
-import { Response, FeedOptions, ErrorResponse } from "../../request";
-import { CompositeContinuationToken } from "./CompositeContinuationToken";
-import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils";
-import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { ChangeFeedMode } from "./ChangeFeedMode";
+import { ChangeFeedRange } from "./ChangeFeedRange.js";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { PartitionKeyRangeCache } from "../../routing/index.js";
+import { QueryRange } from "../../routing/index.js";
+import { FeedRangeQueue } from "./FeedRangeQueue.js";
+import type { ClientContext } from "../../ClientContext.js";
+import type { Container, Resource } from "../../client/index.js";
+import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common/index.js";
+import type { Response, FeedOptions } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
+import { CompositeContinuationToken } from "./CompositeContinuationToken.js";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils.js";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { ChangeFeedMode } from "./ChangeFeedMode.js";
 /**
  * @hidden
  * Provides iterator for change feed for entire container or an epk range.
@@ -431,9 +432,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
-      if (!this.container.isEncryptionInitialized) {
-        await this.container.initializeEncryption();
-      }
+      await this.container.checkAndInitializeEncryption();
       feedOptions.containerRid = this.container._rid;
     }
     try {

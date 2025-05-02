@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * A bunch of embeddings to be used in the samples.
+ */
+
 // An embedding of Fancy Stay's English description
 const fancyStayEnVector = [
   -0.0038569495, 0.028041067, -0.014854468, -0.02942227, -0.003537709, 0.020001411, -0.03426952,

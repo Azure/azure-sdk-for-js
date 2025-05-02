@@ -13,8 +13,7 @@
 const { ServiceBusClient, delay, isServiceBusError } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
-
+require("dotenv/config");
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.

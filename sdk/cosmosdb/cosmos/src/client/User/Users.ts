@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Database } from "../Database";
-import type { Resource } from "../Resource";
-import { User } from "./User";
-import type { UserDefinition } from "./UserDefinition";
-import { UserResponse } from "./UserResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Database } from "../Database/index.js";
+import type { Resource } from "../Resource.js";
+import { User } from "./User.js";
+import type { UserDefinition } from "./UserDefinition.js";
+import { UserResponse } from "./UserResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Used to create, upsert, query, and read all users.
@@ -36,6 +41,21 @@ export class Users {
   /**
    * Query all users.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @example Query user with id.
+   * ```ts snippet:UsersQuery
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const querySpec: SqlQuerySpec = {
+   *   query: `SELECT * FROM root r WHERE r.id = @user`,
+   *   parameters: [{ name: "@user", value: "<user-id>" }],
+   * };
+   * const { resources: permisssion } = await database.users.query(querySpec).fetchAll();
+   * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -57,8 +77,16 @@ export class Users {
   /**
    * Read all users.-
    * @example Read all users to array.
-   * ```typescript
-   * const {body: usersList} = await database.users.readAll().fetchAll();
+   * ```ts snippet:UsersReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: usersList } = await database.users.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource> {
@@ -68,6 +96,17 @@ export class Users {
   /**
    * Create a database user with the specified {@link UserDefinition}.
    * @param body - The specified {@link UserDefinition}.
+   * @example
+   * ```ts snippet:UsersCreate
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * await database.users.create({ id: "<user-id>" });
+   * ```
    */
   public async create(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
@@ -100,6 +139,17 @@ export class Users {
   /**
    * Upsert a database user with a specified {@link UserDefinition}.
    * @param body - The specified {@link UserDefinition}.
+   * @example
+   * ```ts snippet:UsersUpsert
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * await database.users.upsert({ id: "<user-id>" });
+   * ```
    */
   public async upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

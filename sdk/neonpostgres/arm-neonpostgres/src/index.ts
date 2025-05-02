@@ -10,6 +10,15 @@ import {
 export { PostgresClient } from "./postgresClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   OrganizationResource,
   OrganizationProperties,
   MarketplaceDetails,
@@ -29,23 +38,92 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
+  Project,
+  ProxyResource,
+  Branch,
+  Compute,
+  NeonDatabase,
+  NeonRole,
+  Endpoint,
   KnownVersions,
 } from "./models/index.js";
 export {
-  OperationsListOptionalParams,
-  OrganizationsGetOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
+  ProjectProperties,
+  Attributes,
+  DefaultEndpointSettings,
+  BranchProperties,
+  NeonRoleProperties,
+  NeonDatabaseProperties,
+  EndpointProperties,
+  KnownEndpointType,
+  EndpointType,
+  PgVersion,
+  PgVersionsResult,
+  ConnectionUriProperties,
+  ComputeProperties,
+} from "./models/models/index.js";
+export { PostgresClientOptionalParams } from "./api/index.js";
+export {
+  BranchesListOptionalParams,
+  BranchesDeleteOptionalParams,
+  BranchesUpdateOptionalParams,
+  BranchesCreateOrUpdateOptionalParams,
+  BranchesGetOptionalParams,
+} from "./api/branches/index.js";
+export {
+  ComputesListOptionalParams,
+  ComputesDeleteOptionalParams,
+  ComputesUpdateOptionalParams,
+  ComputesCreateOrUpdateOptionalParams,
+  ComputesGetOptionalParams,
+} from "./api/computes/index.js";
+export {
+  EndpointsListOptionalParams,
+  EndpointsDeleteOptionalParams,
+  EndpointsUpdateOptionalParams,
+  EndpointsCreateOrUpdateOptionalParams,
+  EndpointsGetOptionalParams,
+} from "./api/endpoints/index.js";
+export {
+  NeonDatabasesListOptionalParams,
+  NeonDatabasesDeleteOptionalParams,
+  NeonDatabasesUpdateOptionalParams,
+  NeonDatabasesCreateOrUpdateOptionalParams,
+  NeonDatabasesGetOptionalParams,
+} from "./api/neonDatabases/index.js";
+export {
+  NeonRolesListOptionalParams,
+  NeonRolesDeleteOptionalParams,
+  NeonRolesUpdateOptionalParams,
+  NeonRolesCreateOrUpdateOptionalParams,
+  NeonRolesGetOptionalParams,
+} from "./api/neonRoles/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export {
+  OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
-  PostgresClientOptionalParams,
-} from "./api/index.js";
-export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+} from "./api/organizations/index.js";
+export {
+  ProjectsGetConnectionUriOptionalParams,
+  ProjectsListOptionalParams,
+  ProjectsDeleteOptionalParams,
+  ProjectsUpdateOptionalParams,
+  ProjectsCreateOrUpdateOptionalParams,
+  ProjectsGetOptionalParams,
+} from "./api/projects/index.js";
+export {
+  BranchesOperations,
+  ComputesOperations,
+  EndpointsOperations,
+  NeonDatabasesOperations,
+  NeonRolesOperations,
+  OperationsOperations,
+  OrganizationsOperations,
+  ProjectsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

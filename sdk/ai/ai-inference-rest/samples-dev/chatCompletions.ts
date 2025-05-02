@@ -10,6 +10,7 @@
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
+import { createRestError } from "@azure-rest/core-client";
 
 // Load the .env file if it exists
 import "dotenv/config";
@@ -35,7 +36,7 @@ export async function main(): Promise<void> {
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
 
   for (const choice of response.body.choices) {

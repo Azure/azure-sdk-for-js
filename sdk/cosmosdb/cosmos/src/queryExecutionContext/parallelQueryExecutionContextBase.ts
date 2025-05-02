@@ -2,20 +2,23 @@
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import type { ClientContext } from "../ClientContext";
+import type { ClientContext } from "../ClientContext.js";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
-import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import type { FeedOptions, Response } from "../request";
-import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
-import { QueryRange } from "../routing/QueryRange";
-import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
-import type { CosmosHeaders } from "./CosmosHeaders";
-import { DocumentProducer } from "./documentProducer";
-import type { ExecutionContext } from "./ExecutionContext";
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import type { SqlQuerySpec } from "./SqlQuerySpec";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
+import type { FeedOptions, Response } from "../request/index.js";
+import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
+import { QueryRange } from "../routing/QueryRange.js";
+import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
+import type { CosmosHeaders } from "./CosmosHeaders.js";
+import { DocumentProducer } from "./documentProducer.js";
+import type { ExecutionContext } from "./ExecutionContext.js";
+import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../diagnostics/DiagnosticNodeInternal.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -400,7 +403,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               documentProducer = this.unfilledDocumentProducersQueue.deq();
             } catch (e: any) {
               this.err = e;
-              this.sem.leave();
               this.err.headers = this._getAndResetActiveResponseHeaders();
               reject(this.err);
               return;
@@ -433,7 +435,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 resolve();
               } else {
                 this.err = err;
-                this.sem.leave();
                 this.err.headers = this._getAndResetActiveResponseHeaders();
                 reject(err);
               }
@@ -449,15 +450,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.err.headers = this._getAndResetActiveResponseHeaders();
             reject(err);
             return;
-          } finally {
-            this.sem.leave();
           }
           resolve();
         } catch (err) {
-          this.sem.leave();
           this.err = err;
           this.err.headers = this._getAndResetActiveResponseHeaders();
           reject(err);
+        } finally {
+          this.sem.leave();
         }
       });
     });

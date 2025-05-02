@@ -19,27 +19,27 @@ import {
 export interface ReplicationEvents {
   /**
    * Gets the list of Azure Site Recovery events for the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationEventsListOptionalParams,
   ): PagedAsyncIterableIterator<Event>;
   /**
    * The operation to get the details of an Azure Site recovery event.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param eventName The name of the Azure Site Recovery event.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     eventName: string,
     options?: ReplicationEventsGetOptionalParams,
   ): Promise<ReplicationEventsGetResponse>;

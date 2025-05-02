@@ -3,11 +3,11 @@
 
 import { KeyVaultClient } from "./keyVaultClient.js";
 import {
-  _fullBackupDeserialize,
-  _preFullBackupDeserialize,
-  _preFullRestoreOperationDeserialize,
-  _fullRestoreOperationDeserialize,
   _selectiveKeyRestoreOperationDeserialize,
+  _fullRestoreOperationDeserialize,
+  _preFullRestoreOperationDeserialize,
+  _preFullBackupDeserialize,
+  _fullBackupDeserialize,
 } from "./api/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import {
@@ -87,24 +87,24 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "POST /backup": {
-    deserializer: _fullBackupDeserialize,
-    expectedStatuses: ["202", "200"],
-  },
-  "POST /prebackup": {
-    deserializer: _preFullBackupDeserialize,
-    expectedStatuses: ["202", "200"],
-  },
-  "PUT /prerestore": {
-    deserializer: _preFullRestoreOperationDeserialize,
+  "PUT /keys/{keyName}/restore": {
+    deserializer: _selectiveKeyRestoreOperationDeserialize,
     expectedStatuses: ["202", "200"],
   },
   "PUT /restore": {
     deserializer: _fullRestoreOperationDeserialize,
     expectedStatuses: ["202", "200"],
   },
-  "PUT /keys/{keyName}/restore": {
-    deserializer: _selectiveKeyRestoreOperationDeserialize,
+  "PUT /prerestore": {
+    deserializer: _preFullRestoreOperationDeserialize,
+    expectedStatuses: ["202", "200"],
+  },
+  "POST /prebackup": {
+    deserializer: _preFullBackupDeserialize,
+    expectedStatuses: ["202", "200"],
+  },
+  "POST /backup": {
+    deserializer: _fullBackupDeserialize,
     expectedStatuses: ["202", "200"],
   },
 };

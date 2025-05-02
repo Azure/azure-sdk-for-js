@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to The List operation gets information about the private endpoint connections associated with the vault.
  *
  * @summary The List operation gets information about the private endpoint connections associated with the vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listPrivateEndpointConnection.json
  */
 async function keyVaultListPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -28,9 +28,9 @@ async function keyVaultListPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByResource(
+  for await (const item of client.privateEndpointConnections.listByResource(
     resourceGroupName,
-    vaultName
+    vaultName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function keyVaultListPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  keyVaultListPrivateEndpointConnection();
+  await keyVaultListPrivateEndpointConnection();
 }
 
 main().catch(console.error);

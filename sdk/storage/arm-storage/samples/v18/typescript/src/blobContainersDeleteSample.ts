@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes specified container under its account.
  *
  * @summary Deletes specified container under its account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersDelete.json
  */
 async function deleteContainers(): Promise<void> {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function deleteContainers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteContainers();
+  await deleteContainers();
 }
 
 main().catch(console.error);

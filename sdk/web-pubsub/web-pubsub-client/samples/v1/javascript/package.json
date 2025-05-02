@@ -24,6 +24,7 @@
   "dependencies": {
     "@azure/web-pubsub-client": "latest",
     "dotenv": "latest",
-    "@azure/web-pubsub": "^1.1.0"
+    "@azure/web-pubsub": "^1.1.3",
+    "@azure/identity": "^4.8.0"
   }
 }

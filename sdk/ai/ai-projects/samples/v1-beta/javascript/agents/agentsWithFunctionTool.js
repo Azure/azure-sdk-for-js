@@ -1,11 +1,25 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/* eslint-disable @typescript-eslint/no-unsafe-function-type
+ */
+
+/**
+ * This sample demonstrates how to use basic agent operations with function tool from the Azure Agents service.
+ *
+ * @summary demonstrates how to use basic agent operations using function tool.
+ *
+ */
+
 const { AIProjectsClient, ToolUtility, isOutputOfType } = require("@azure/ai-projects");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-require("dotenv").config();
+require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -104,7 +118,7 @@ async function main() {
 
   const functionToolExecutor = new FunctionToolExecutor();
   const functionTools = functionToolExecutor.getFunctionDefinitions();
-  const agent = await agents.createAgent("gpt-4o", {
+  const agent = await agents.createAgent(modelDeploymentName, {
     name: "my-agent",
     instructions:
       "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
@@ -155,7 +169,7 @@ async function main() {
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await agents.listMessages(thread.id);
-  messages.data.forEach((threadMessage) => {
+  await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
@@ -170,7 +184,7 @@ async function main() {
     });
   });
   // Delete agent
-  agents.deleteAgent(agent.id);
+  await agents.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 

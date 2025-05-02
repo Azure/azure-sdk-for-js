@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -33,7 +33,7 @@ import {
   CredentialSetUpdateParameters,
   CredentialSetsUpdateOptionalParams,
   CredentialSetsUpdateResponse,
-  CredentialSetsListNextResponse
+  CredentialSetsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class CredentialSetsImpl implements CredentialSets {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: CredentialSetsListOptionalParams
+    options?: CredentialSetsListOptionalParams,
   ): PagedAsyncIterableIterator<CredentialSet> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -76,9 +76,9 @@ export class CredentialSetsImpl implements CredentialSets {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class CredentialSetsImpl implements CredentialSets {
     resourceGroupName: string,
     registryName: string,
     options?: CredentialSetsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CredentialSet[]> {
     let result: CredentialSetsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class CredentialSetsImpl implements CredentialSets {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class CredentialSetsImpl implements CredentialSets {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: CredentialSetsListOptionalParams
+    options?: CredentialSetsListOptionalParams,
   ): AsyncIterableIterator<CredentialSet> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class CredentialSetsImpl implements CredentialSets {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: CredentialSetsListOptionalParams
+    options?: CredentialSetsListOptionalParams,
   ): Promise<CredentialSetsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class CredentialSetsImpl implements CredentialSets {
     resourceGroupName: string,
     registryName: string,
     credentialSetName: string,
-    options?: CredentialSetsGetOptionalParams
+    options?: CredentialSetsGetOptionalParams,
   ): Promise<CredentialSetsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, credentialSetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class CredentialSetsImpl implements CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetCreateParameters: CredentialSet,
-    options?: CredentialSetsCreateOptionalParams
+    options?: CredentialSetsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CredentialSetsCreateResponse>,
@@ -183,21 +183,20 @@ export class CredentialSetsImpl implements CredentialSets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CredentialSetsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class CredentialSetsImpl implements CredentialSets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,8 +214,8 @@ export class CredentialSetsImpl implements CredentialSets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -227,9 +226,9 @@ export class CredentialSetsImpl implements CredentialSets {
         registryName,
         credentialSetName,
         credentialSetCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       CredentialSetsCreateResponse,
@@ -237,7 +236,7 @@ export class CredentialSetsImpl implements CredentialSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -256,14 +255,14 @@ export class CredentialSetsImpl implements CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetCreateParameters: CredentialSet,
-    options?: CredentialSetsCreateOptionalParams
+    options?: CredentialSetsCreateOptionalParams,
   ): Promise<CredentialSetsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       credentialSetName,
       credentialSetCreateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -279,7 +278,7 @@ export class CredentialSetsImpl implements CredentialSets {
     resourceGroupName: string,
     registryName: string,
     credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams
+    options?: CredentialSetsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CredentialSetsDeleteResponse>,
@@ -288,21 +287,20 @@ export class CredentialSetsImpl implements CredentialSets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CredentialSetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +309,8 @@ export class CredentialSetsImpl implements CredentialSets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,15 +318,15 @@ export class CredentialSetsImpl implements CredentialSets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, credentialSetName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       CredentialSetsDeleteResponse,
@@ -336,7 +334,7 @@ export class CredentialSetsImpl implements CredentialSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -353,13 +351,13 @@ export class CredentialSetsImpl implements CredentialSets {
     resourceGroupName: string,
     registryName: string,
     credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams
+    options?: CredentialSetsDeleteOptionalParams,
   ): Promise<CredentialSetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       credentialSetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -377,7 +375,7 @@ export class CredentialSetsImpl implements CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
-    options?: CredentialSetsUpdateOptionalParams
+    options?: CredentialSetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CredentialSetsUpdateResponse>,
@@ -386,21 +384,20 @@ export class CredentialSetsImpl implements CredentialSets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CredentialSetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -409,8 +406,8 @@ export class CredentialSetsImpl implements CredentialSets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -418,8 +415,8 @@ export class CredentialSetsImpl implements CredentialSets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -430,9 +427,9 @@ export class CredentialSetsImpl implements CredentialSets {
         registryName,
         credentialSetName,
         credentialSetUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       CredentialSetsUpdateResponse,
@@ -440,7 +437,7 @@ export class CredentialSetsImpl implements CredentialSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -459,14 +456,14 @@ export class CredentialSetsImpl implements CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
-    options?: CredentialSetsUpdateOptionalParams
+    options?: CredentialSetsUpdateOptionalParams,
   ): Promise<CredentialSetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       registryName,
       credentialSetName,
       credentialSetUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -482,11 +479,11 @@ export class CredentialSetsImpl implements CredentialSets {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: CredentialSetsListNextOptionalParams
+    options?: CredentialSetsListNextOptionalParams,
   ): Promise<CredentialSetsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -494,38 +491,15 @@ export class CredentialSetsImpl implements CredentialSets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialSetListResult
+      bodyMapper: Mappers.CredentialSetListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -533,31 +507,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.credentialSetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CredentialSet,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.credentialSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     201: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     202: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     204: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.credentialSetCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -566,32 +560,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.credentialSetName
+    Parameters.credentialSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.CredentialSetsDeleteHeaders
+      headersMapper: Mappers.CredentialSetsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -599,31 +592,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.credentialSetName
+    Parameters.credentialSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/credentialSets/{credentialSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     201: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     202: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     204: {
-      bodyMapper: Mappers.CredentialSet
+      bodyMapper: Mappers.CredentialSet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.credentialSetUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -632,30 +624,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.credentialSetName
+    Parameters.credentialSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialSetListResult
+      bodyMapper: Mappers.CredentialSetListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

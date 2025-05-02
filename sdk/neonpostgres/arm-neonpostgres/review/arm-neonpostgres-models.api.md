@@ -8,6 +8,11 @@
 export type ActionType = string;
 
 // @public
+export interface Branch extends ProxyResource {
+    properties?: BranchProperties;
+}
+
+// @public
 export interface CompanyDetails {
     businessPhone?: string;
     companyName?: string;
@@ -18,7 +23,37 @@ export interface CompanyDetails {
 }
 
 // @public
+export interface Compute extends ProxyResource {
+    properties?: ComputeProperties;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface Endpoint extends ProxyResource {
+    properties?: EndpointProperties;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export enum KnownActionType {
@@ -64,7 +99,7 @@ export enum KnownSingleSignOnStates {
 
 // @public
 export enum KnownVersions {
-    V1_Preview = "2024-08-01-preview"
+    V20250301 = "2025-03-01"
 }
 
 // @public
@@ -78,6 +113,16 @@ export interface MarketplaceDetails {
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
+export interface NeonDatabase extends ProxyResource {
+    properties?: NeonDatabaseProperties;
+}
+
+// @public
+export interface NeonRole extends ProxyResource {
+    properties?: NeonRoleProperties;
+}
+
+// @public
 export interface OfferDetails {
     offerId: string;
     planId: string;
@@ -89,8 +134,8 @@ export interface OfferDetails {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -109,6 +154,7 @@ export interface OrganizationProperties {
     companyDetails: CompanyDetails;
     marketplaceDetails: MarketplaceDetails;
     partnerOrganizationProperties?: PartnerOrganizationProperties;
+    projectProperties?: ProjectProperties;
     readonly provisioningState?: ResourceProvisioningState;
     userDetails: UserDetails;
 }
@@ -126,6 +172,15 @@ export interface PartnerOrganizationProperties {
     organizationId?: string;
     organizationName: string;
     singleSignOnProperties?: SingleSignOnProperties;
+}
+
+// @public
+export interface Project extends ProxyResource {
+    properties?: ProjectProperties;
+}
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public

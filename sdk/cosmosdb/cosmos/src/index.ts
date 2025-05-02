@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
-export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common";
-export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
+export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys.js";
+export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common/index.js";
+export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth.js";
 export {
   Operation,
   OperationResponse,
@@ -24,14 +24,14 @@ export {
   DeleteOperationInput,
   PatchOperationInput,
   BulkPatchOperation,
-} from "./utils/batch";
+} from "./utils/batch.js";
 export {
   PatchOperation,
   PatchOperationType,
   ExistingKeyOperation,
   RemoveOperation,
   PatchRequestBody,
-} from "./utils/patch";
+} from "./utils/patch.js";
 export {
   ConnectionMode,
   ConsistencyLevel,
@@ -71,19 +71,19 @@ export {
   FullTextIndex,
   FullTextPolicy,
   FullTextPath,
-} from "./documents";
+} from "./documents/index.js";
 
-export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
-export { ContainerRequest } from "./client/Container/ContainerRequest";
-export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
-export { RetryOptions } from "./retry";
-export * from "./request";
+export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy.js";
+export { ContainerRequest } from "./client/Container/ContainerRequest.js";
+export { Constants, OperationType, ResourceType, HTTPMethod } from "./common/index.js";
+export { RetryOptions } from "./retry/index.js";
+export * from "./request/index.js";
 
 export {
   DiagnosticNodeInternal,
   DiagnosticDataValue,
   DiagnosticNodeType,
-} from "./diagnostics/DiagnosticNodeInternal";
+} from "./diagnostics/DiagnosticNodeInternal.js";
 
 export {
   CosmosHeaders,
@@ -92,20 +92,20 @@ export {
   JSONValue,
   JSONArray,
   JSONObject,
-} from "./queryExecutionContext";
-export { QueryIterator } from "./queryIterator";
-export * from "./queryMetrics";
-export { CosmosClient } from "./CosmosClient";
-export { CosmosClientOptions, Agent } from "./CosmosClientOptions";
-export * from "./client";
-export { Scripts } from "./client/Script/Scripts";
-export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin";
-export { TokenProvider, RequestInfo } from "./auth";
+} from "./queryExecutionContext/index.js";
+export { QueryIterator } from "./queryIterator.js";
+export * from "./queryMetrics/index.js";
+export { CosmosClient } from "./CosmosClient.js";
+export { CosmosClientOptions, Agent } from "./CosmosClientOptions.js";
+export * from "./client/index.js";
+export { Scripts } from "./client/Script/Scripts.js";
+export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin.js";
+export { TokenProvider, RequestInfo } from "./auth.js";
 
-export { ChangeFeedIterator } from "./ChangeFeedIterator";
-export { ChangeFeedOptions } from "./ChangeFeedOptions";
-export { ChangeFeedResponse } from "./ChangeFeedResponse";
-export { ClientContext } from "./ClientContext";
+export { ChangeFeedIterator } from "./ChangeFeedIterator.js";
+export { ChangeFeedOptions } from "./ChangeFeedOptions.js";
+export { ChangeFeedResponse } from "./ChangeFeedResponse.js";
+export { ClientContext } from "./ClientContext.js";
 
 export {
   CosmosDiagnostics,
@@ -119,7 +119,7 @@ export {
   ClientConfigDiagnostic,
   DiagnosticNode,
   EncryptionDiagnostics,
-} from "./CosmosDiagnostics";
+} from "./CosmosDiagnostics.js";
 
 export {
   ChangeFeedPullModelIterator,
@@ -130,17 +130,17 @@ export {
   ChangeFeedMode,
   ChangeFeedPolicy,
   ChangeFeedRetentionTimeSpan,
-} from "./client/ChangeFeed";
-export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+} from "./client/ChangeFeed/index.js";
+export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 
-export { GlobalEndpointManager } from "./globalEndpointManager";
-export { SasTokenPermissionKind } from "./common/constants";
-export { createAuthorizationSasToken } from "./utils/SasToken";
+export { GlobalEndpointManager } from "./globalEndpointManager.js";
+export { SasTokenPermissionKind } from "./common/constants.js";
+export { createAuthorizationSasToken } from "./utils/SasToken.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AbortError } from "@azure/abort-controller";
-export * from "./encryption/enums";
-export * from "./encryption/ClientEncryptionKey";
-export * from "./encryption/EncryptionKeyResolver";
+export * from "./encryption/enums/index.js";
+export * from "./encryption/ClientEncryptionKey/index.js";
+export * from "./encryption/EncryptionKeyResolver/index.js";
 export {
   ClientEncryptionIncludedPath,
   ClientEncryptionPolicy,
@@ -149,12 +149,12 @@ export {
   EncryptionQueryBuilder,
   ClientEncryptionKeyRequest,
   ClientEncryptionKeyResponse,
-  ClientEncryptionKeyDefinition,
   EncryptionKeyResolver,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionType,
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
-  EncryptionTimeToLive,
-  EncryptionPolicy,
-} from "./encryption";
+  ClientEncryptionOptions,
+  CosmosEncryptedNumber,
+  CosmosEncryptedNumberType,
+} from "./encryption/index.js";

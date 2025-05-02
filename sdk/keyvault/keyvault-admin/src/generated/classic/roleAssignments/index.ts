@@ -3,16 +3,16 @@
 
 import { KeyVaultContext } from "../../api/keyVaultContext.js";
 import {
-  RoleAssignmentsDeleteOptionalParams,
-  RoleAssignmentsCreateOptionalParams,
-  RoleAssignmentsGetOptionalParams,
   RoleAssignmentsListForScopeOptionalParams,
+  RoleAssignmentsGetOptionalParams,
+  RoleAssignmentsCreateOptionalParams,
+  RoleAssignmentsDeleteOptionalParams,
 } from "../../api/options.js";
 import {
-  $delete,
-  create,
-  get,
   listForScope,
+  get,
+  create,
+  $delete,
 } from "../../api/roleAssignments/index.js";
 import {
   RoleAssignment,
@@ -22,6 +22,24 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a RoleAssignments operations. */
 export interface RoleAssignmentsOperations {
+  /** Gets role assignments for a scope. */
+  listForScope: (
+    scope: string,
+    options?: RoleAssignmentsListForScopeOptionalParams,
+  ) => PagedAsyncIterableIterator<RoleAssignment>;
+  /** Get the specified role assignment. */
+  get: (
+    scope: string,
+    roleAssignmentName: string,
+    options?: RoleAssignmentsGetOptionalParams,
+  ) => Promise<RoleAssignment>;
+  /** Creates a role assignment. */
+  create: (
+    scope: string,
+    roleAssignmentName: string,
+    parameters: RoleAssignmentCreateParameters,
+    options?: RoleAssignmentsCreateOptionalParams,
+  ) => Promise<RoleAssignment>;
   /** Deletes a role assignment. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -33,55 +51,37 @@ export interface RoleAssignmentsOperations {
     roleAssignmentName: string,
     options?: RoleAssignmentsDeleteOptionalParams,
   ) => Promise<RoleAssignment>;
-  /** Creates a role assignment. */
-  create: (
-    scope: string,
-    roleAssignmentName: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsCreateOptionalParams,
-  ) => Promise<RoleAssignment>;
-  /** Get the specified role assignment. */
-  get: (
-    scope: string,
-    roleAssignmentName: string,
-    options?: RoleAssignmentsGetOptionalParams,
-  ) => Promise<RoleAssignment>;
-  /** Gets role assignments for a scope. */
-  listForScope: (
-    scope: string,
-    options?: RoleAssignmentsListForScopeOptionalParams,
-  ) => PagedAsyncIterableIterator<RoleAssignment>;
 }
 
-export function getRoleAssignments(context: KeyVaultContext) {
+function _getRoleAssignments(context: KeyVaultContext) {
   return {
-    delete: (
+    listForScope: (
+      scope: string,
+      options?: RoleAssignmentsListForScopeOptionalParams,
+    ) => listForScope(context, scope, options),
+    get: (
       scope: string,
       roleAssignmentName: string,
-      options?: RoleAssignmentsDeleteOptionalParams,
-    ) => $delete(context, scope, roleAssignmentName, options),
+      options?: RoleAssignmentsGetOptionalParams,
+    ) => get(context, scope, roleAssignmentName, options),
     create: (
       scope: string,
       roleAssignmentName: string,
       parameters: RoleAssignmentCreateParameters,
       options?: RoleAssignmentsCreateOptionalParams,
     ) => create(context, scope, roleAssignmentName, parameters, options),
-    get: (
+    delete: (
       scope: string,
       roleAssignmentName: string,
-      options?: RoleAssignmentsGetOptionalParams,
-    ) => get(context, scope, roleAssignmentName, options),
-    listForScope: (
-      scope: string,
-      options?: RoleAssignmentsListForScopeOptionalParams,
-    ) => listForScope(context, scope, options),
+      options?: RoleAssignmentsDeleteOptionalParams,
+    ) => $delete(context, scope, roleAssignmentName, options),
   };
 }
 
-export function getRoleAssignmentsOperations(
+export function _getRoleAssignmentsOperations(
   context: KeyVaultContext,
 ): RoleAssignmentsOperations {
   return {
-    ...getRoleAssignments(context),
+    ..._getRoleAssignments(context),
   };
 }

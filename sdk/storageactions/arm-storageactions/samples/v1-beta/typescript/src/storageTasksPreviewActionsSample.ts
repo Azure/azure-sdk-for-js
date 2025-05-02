@@ -82,7 +82,7 @@ async function performStorageTaskActionsPreview(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  performStorageTaskActionsPreview();
+  await performStorageTaskActionsPreview();
 }
 
 main().catch(console.error);

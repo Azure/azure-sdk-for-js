@@ -6,12 +6,12 @@
  * Queries with inputs should be parameterized to protect against SQL injection.
  *
  * @example Parameterized SQL Query
- * ```typescript
+ * ```ts snippet:SqlQuerySpecParameterizedSqlQuery
+ * import { SqlQuerySpec } from "@azure/cosmos";
+ *
  * const query: SqlQuerySpec = {
- *   query: "SELECT * FROM Families f where f.lastName = @lastName",
- *   parameters: [
- *     {name: "@lastName", value: "Wakefield"}
- *   ]
+ *   query: `SELECT * FROM Families f where f.lastName = @lastName`,
+ *   parameters: [{ name: "@lastName", value: "Wakefield" }],
  * };
  * ```
  */

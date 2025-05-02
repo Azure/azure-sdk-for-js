@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
  *
  * @summary Gets a list of ElasticSan in a resource group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function elasticSansListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function elasticSansListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listByResourceGroup(
+  for await (const item of client.elasticSans.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -38,7 +38,7 @@ async function elasticSansListByResourceGroupMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
  *
  * @summary Gets a list of ElasticSan in a resource group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function elasticSansListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function elasticSansListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listByResourceGroup(
+  for await (const item of client.elasticSans.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -57,8 +57,8 @@ async function elasticSansListByResourceGroupMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  elasticSansListByResourceGroupMaximumSetGen();
-  elasticSansListByResourceGroupMinimumSetGen();
+  await elasticSansListByResourceGroupMaximumSetGen();
+  await elasticSansListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -347,6 +347,188 @@ export interface Multichannel {
   enabled?: boolean;
 }
 
+/** List file service usages schema. */
+export interface FileServiceUsages {
+  /**
+   * List of file service usages returned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: FileServiceUsage[];
+  /**
+   * Request URL that can be used to query next page of file service usages. Returned when total number of requested file service usages exceed maximum page size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** File service usage in storage account including account limits, file share limits and constants used in recommendations and bursting formula. */
+export interface FileServiceUsageProperties {
+  /**
+   * Maximum provisioned storage, IOPS, bandwidth and number of file shares limits for the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccountLimits?: AccountLimits;
+  /**
+   * Minimum and maximum provisioned storage, IOPS and bandwidth limits for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileShareLimits?: FileShareLimits;
+  /**
+   * Constants used for calculating recommended provisioned IOPS and bandwidth for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileShareRecommendations?: FileShareRecommendations;
+  /**
+   * Constants used for calculating included burst IOPS and maximum burst credits for IOPS for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly burstingConstants?: BurstingConstants;
+  /**
+   * Usage of provisioned storage, IOPS, bandwidth and number of file shares across all live shares and soft-deleted shares in the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccountUsage?: AccountUsage;
+}
+
+/** Maximum provisioned storage, IOPS, bandwidth and number of file shares limits for the storage account. */
+export interface AccountLimits {
+  /**
+   * The maximum number of file shares limit for the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxFileShares?: number;
+  /**
+   * The maximum provisioned storage quota limit in gibibytes for the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxProvisionedStorageGiB?: number;
+  /**
+   * The maximum provisioned IOPS limit for the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxProvisionedIops?: number;
+  /**
+   * The maximum provisioned bandwidth limit in mebibytes per second for the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxProvisionedBandwidthMiBPerSec?: number;
+}
+
+/** Minimum and maximum provisioned storage, IOPS and bandwidth limits for a file share in the storage account. */
+export interface FileShareLimits {
+  /**
+   * The minimum provisioned storage quota limit in gibibytes for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minProvisionedStorageGiB?: number;
+  /**
+   * The maximum provisioned storage quota limit in gibibytes for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxProvisionedStorageGiB?: number;
+  /**
+   * The minimum provisioned IOPS limit for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minProvisionedIops?: number;
+  /**
+   * The maximum provisioned IOPS limit for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxProvisionedIops?: number;
+  /**
+   * The minimum provisioned bandwidth limit in mebibytes per second for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minProvisionedBandwidthMiBPerSec?: number;
+  /**
+   * The maximum provisioned bandwidth limit in mebibytes per second for a file share in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxProvisionedBandwidthMiBPerSec?: number;
+}
+
+/** Constants used for calculating recommended provisioned IOPS and bandwidth for a file share in the storage account. */
+export interface FileShareRecommendations {
+  /**
+   * The base IOPS in the file share provisioned IOPS recommendation formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly baseIops?: number;
+  /**
+   * The scalar for IO in the file share provisioned IOPS recommendation formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ioScalar?: number;
+  /**
+   * The base bandwidth in the file share provisioned bandwidth recommendation formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly baseBandwidthMiBPerSec?: number;
+  /**
+   * The scalar for bandwidth in the file share provisioned bandwidth recommendation formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bandwidthScalar?: number;
+}
+
+/** Constants used for calculating included burst IOPS and maximum burst credits for IOPS for a file share in the storage account. */
+export interface BurstingConstants {
+  /**
+   * The guaranteed floor of burst IOPS for small file shares.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly burstFloorIops?: number;
+  /**
+   * The scalar against provisioned IOPS in the file share included burst IOPS formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly burstIOScalar?: number;
+  /**
+   * The time frame for bursting in seconds in the file share maximum burst credits for IOPS formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly burstTimeframeSeconds?: number;
+}
+
+/** Usage of provisioned storage, IOPS, bandwidth and number of file shares across all live shares and soft-deleted shares in the account. */
+export interface AccountUsage {
+  /**
+   * Usage of provisioned storage, IOPS, bandwidth and number of file shares across all live shares or soft-deleted shares in the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly liveShares?: AccountUsageElements;
+  /**
+   * Usage of provisioned storage, IOPS, bandwidth and number of file shares across all live shares or soft-deleted shares in the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly softDeletedShares?: AccountUsageElements;
+}
+
+/** Usage of provisioned storage, IOPS, bandwidth and number of file shares across all live shares or soft-deleted shares in the account. */
+export interface AccountUsageElements {
+  /**
+   * The total number of file shares.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileShareCount?: number;
+  /**
+   * The total provisioned storage quota in gibibytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedStorageGiB?: number;
+  /**
+   * The total provisioned IOPS.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedIops?: number;
+  /**
+   * The total provisioned bandwidth in mebibytes per second.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedBandwidthMiBPerSec?: number;
+}
+
 /** Response schema. Contains list of shares returned, and if paging is requested or required, a URL to next page of shares. */
 export interface FileShareItems {
   /**
@@ -375,6 +557,16 @@ export interface AccessPolicy {
   expiryTime?: Date;
   /** List of abbreviated permissions. */
   permission?: string;
+}
+
+/** File Share Paid Bursting properties. */
+export interface FileSharePropertiesFileSharePaidBursting {
+  /** Indicates whether paid bursting is enabled for the share. This property is only for file shares created under Files Provisioned v1 SSD account type. */
+  paidBurstingEnabled?: boolean;
+  /** The maximum paid bursting IOPS for the share. This property is only for file shares created under Files Provisioned v1 SSD account type. The maximum allowed value is 102400 which is the maximum allowed IOPS for a share. */
+  paidBurstingMaxIops?: number;
+  /** The maximum paid bursting bandwidth for the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v1 SSD account type. The maximum allowed value is 10340 which is the maximum allowed bandwidth for a share. */
+  paidBurstingMaxBandwidthMibps?: number;
 }
 
 /** The deleted share to be restored. */
@@ -1444,9 +1636,9 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
+/** The Storage Account ManagementPolicies Rules. See more details in: https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview. */
 export interface ManagementPolicySchema {
-  /** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
+  /** The Storage Account ManagementPolicies Rules. See more details in: https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview. */
   rules: ManagementPolicyRule[];
 }
 
@@ -1690,6 +1882,12 @@ export interface ObjectReplicationPolicyFilter {
   prefixMatch?: string[];
   /** Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z */
   minCreationTime?: string;
+}
+
+/** Optional. The object replication policy metrics feature options. */
+export interface ObjectReplicationPolicyPropertiesMetrics {
+  /** Indicates whether object replication metrics feature is enabled for the policy. */
+  enabled?: boolean;
 }
 
 /** List of local users requested, and if paging is required, a URL to the next page of local users. */
@@ -2012,32 +2210,32 @@ export interface StorageTaskReportProperties {
    */
   readonly storageAccountId?: string;
   /**
-   * Start time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Start time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly startTime?: string;
   /**
-   * End time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * End time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly finishTime?: string;
   /**
-   * Total number of objects that meet the condition as defined in the storage task assignment execution context. Filter options such as objectsTargetedCount gt 50 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects that meet the condition as defined in the storage task assignment execution context. Filter options such as objectsTargetedCount gt 50 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectsTargetedCount?: string;
   /**
-   * Total number of objects that meet the storage tasks condition and were operated upon. Filter options such as objectsOperatedOnCount ge 100 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects that meet the storage tasks condition and were operated upon. Filter options such as objectsOperatedOnCount ge 100 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectsOperatedOnCount?: string;
   /**
-   * Total number of objects where task operation failed when was attempted. Filter options such as objectFailedCount eq 0 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects where task operation failed when was attempted. Filter options such as objectFailedCount eq 0 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectFailedCount?: string;
   /**
-   * Total number of objects where task operation succeeded when was attempted.Filter options such as objectsSucceededCount gt 150 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects where task operation succeeded when was attempted.Filter options such as objectsSucceededCount gt 150 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectsSucceededCount?: string;
@@ -2218,6 +2416,15 @@ export interface FileServiceProperties extends Resource {
   protocolSettings?: ProtocolSettings;
 }
 
+/** The usage of file service in storage account. */
+export interface FileServiceUsage extends Resource {
+  /**
+   * File service usage in storage account including account limits, file share limits and constants used in recommendations and bursting formula.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: FileServiceUsageProperties;
+}
+
 /** The properties of a storage account’s Queue service. */
 export interface QueueServiceProperties extends Resource {
   /** Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Queue service. */
@@ -2270,7 +2477,7 @@ export interface ManagementPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTime?: Date;
-  /** The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
+  /** The Storage Account ManagementPolicy, in JSON format. See more details in: https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview. */
   policy?: ManagementPolicySchema;
 }
 
@@ -2324,6 +2531,8 @@ export interface ObjectReplicationPolicy extends Resource {
   destinationAccount?: string;
   /** The storage account object replication rules. */
   rules?: ObjectReplicationPolicyRule[];
+  /** Optional. The object replication policy metrics feature options. */
+  metrics?: ObjectReplicationPolicyPropertiesMetrics;
 }
 
 /** The local user associated with the storage accounts. */
@@ -2593,8 +2802,37 @@ export interface FileShareItem extends AzureEntityResource {
   readonly lastModifiedTime?: Date;
   /** A name-value pair to associate with the share as metadata. */
   metadata?: { [propertyName: string]: string };
-  /** The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400. */
+  /** The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account type, please refer to the GetFileServiceUsage API response for the minimum and maximum allowed provisioned storage size. */
   shareQuota?: number;
+  /** The provisioned IOPS of the share. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned IOPS. */
+  provisionedIops?: number;
+  /** The provisioned bandwidth of the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned bandwidth. */
+  provisionedBandwidthMibps?: number;
+  /**
+   * The calculated burst IOPS of the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly includedBurstIops?: number;
+  /**
+   * The calculated maximum burst credits for the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxBurstCreditsForIops?: number;
+  /**
+   * Returns the next allowed provisioned storage size downgrade time for the share. This property is only for file shares created under Files Provisioned v1 SSD and Files Provisioned v2 account type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextAllowedQuotaDowngradeTime?: Date;
+  /**
+   * Returns the next allowed provisioned IOPS downgrade time for the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextAllowedProvisionedIopsDowngradeTime?: Date;
+  /**
+   * Returns the next allowed provisioned bandwidth downgrade time for the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   /** The authentication protocol that is used for the file share. Can only be specified when creating a share. */
   enabledProtocols?: EnabledProtocols;
   /** The property is for NFS share only. The default is NoRootSquash. */
@@ -2658,6 +2896,8 @@ export interface FileShareItem extends AzureEntityResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly snapshotTime?: Date;
+  /** File Share Paid Bursting properties. */
+  fileSharePaidBursting?: FileSharePropertiesFileSharePaidBursting;
 }
 
 /** Properties of the file share, including Id, resource name, resource type, Etag. */
@@ -2669,8 +2909,37 @@ export interface FileShare extends AzureEntityResource {
   readonly lastModifiedTime?: Date;
   /** A name-value pair to associate with the share as metadata. */
   metadata?: { [propertyName: string]: string };
-  /** The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400. */
+  /** The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account type, please refer to the GetFileServiceUsage API response for the minimum and maximum allowed provisioned storage size. */
   shareQuota?: number;
+  /** The provisioned IOPS of the share. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned IOPS. */
+  provisionedIops?: number;
+  /** The provisioned bandwidth of the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned bandwidth. */
+  provisionedBandwidthMibps?: number;
+  /**
+   * The calculated burst IOPS of the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly includedBurstIops?: number;
+  /**
+   * The calculated maximum burst credits for the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxBurstCreditsForIops?: number;
+  /**
+   * Returns the next allowed provisioned storage size downgrade time for the share. This property is only for file shares created under Files Provisioned v1 SSD and Files Provisioned v2 account type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextAllowedQuotaDowngradeTime?: Date;
+  /**
+   * Returns the next allowed provisioned IOPS downgrade time for the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextAllowedProvisionedIopsDowngradeTime?: Date;
+  /**
+   * Returns the next allowed provisioned bandwidth downgrade time for the share. This property is only for file shares created under Files Provisioned v2 account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextAllowedProvisionedBandwidthDowngradeTime?: Date;
   /** The authentication protocol that is used for the file share. Can only be specified when creating a share. */
   enabledProtocols?: EnabledProtocols;
   /** The property is for NFS share only. The default is NoRootSquash. */
@@ -2734,6 +3003,8 @@ export interface FileShare extends AzureEntityResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly snapshotTime?: Date;
+  /** File Share Paid Bursting properties. */
+  fileSharePaidBursting?: FileSharePropertiesFileSharePaidBursting;
 }
 
 /** The storage account. */
@@ -3103,6 +3374,18 @@ export enum KnownSkuName {
   StandardGzrs = "Standard_GZRS",
   /** StandardRagzrs */
   StandardRagzrs = "Standard_RAGZRS",
+  /** StandardV2LRS */
+  StandardV2LRS = "StandardV2_LRS",
+  /** StandardV2GRS */
+  StandardV2GRS = "StandardV2_GRS",
+  /** StandardV2ZRS */
+  StandardV2ZRS = "StandardV2_ZRS",
+  /** StandardV2Gzrs */
+  StandardV2Gzrs = "StandardV2_GZRS",
+  /** PremiumV2LRS */
+  PremiumV2LRS = "PremiumV2_LRS",
+  /** PremiumV2ZRS */
+  PremiumV2ZRS = "PremiumV2_ZRS",
 }
 
 /**
@@ -3117,7 +3400,13 @@ export enum KnownSkuName {
  * **Premium_LRS** \
  * **Premium_ZRS** \
  * **Standard_GZRS** \
- * **Standard_RAGZRS**
+ * **Standard_RAGZRS** \
+ * **StandardV2_LRS** \
+ * **StandardV2_GRS** \
+ * **StandardV2_ZRS** \
+ * **StandardV2_GZRS** \
+ * **PremiumV2_LRS** \
+ * **PremiumV2_ZRS**
  */
 export type SkuName = string;
 
@@ -4427,6 +4716,7 @@ export type ProvisioningState =
   | "Succeeded"
   | "ValidateSubscriptionQuotaBegin"
   | "ValidateSubscriptionQuotaEnd"
+  | "Accepted"
   | "Deleting"
   | "Canceled"
   | "Failed";
@@ -4528,7 +4818,7 @@ export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
   extends coreClient.OperationOptions {
   /** The ImmutabilityPolicy Properties that will be created or updated to a blob container. */
   parameters?: ImmutabilityPolicy;
-  /** The entity state (ETag) version of the immutability policy to update. A value of "*" can be used to apply the operation only if the immutability policy already exists. If omitted, this operation will always be applied. */
+  /** The entity state (ETag) version of the immutability policy to update must be returned to the server for all update operations. The ETag value must include the leading and trailing double quotes as returned by the service. */
   ifMatch?: string;
 }
 
@@ -4539,7 +4829,7 @@ export type BlobContainersCreateOrUpdateImmutabilityPolicyResponse =
 /** Optional parameters. */
 export interface BlobContainersGetImmutabilityPolicyOptionalParams
   extends coreClient.OperationOptions {
-  /** The entity state (ETag) version of the immutability policy to update. A value of "*" can be used to apply the operation only if the immutability policy already exists. If omitted, this operation will always be applied. */
+  /** The entity state (ETag) version of the immutability policy to update must be returned to the server for all update operations. The ETag value must include the leading and trailing double quotes as returned by the service. */
   ifMatch?: string;
 }
 
@@ -4620,6 +4910,30 @@ export interface FileServicesGetServicePropertiesOptionalParams
 
 /** Contains response data for the getServiceProperties operation. */
 export type FileServicesGetServicePropertiesResponse = FileServiceProperties;
+
+/** Optional parameters. */
+export interface FileServicesListServiceUsagesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of file service usages to be included in the list response. */
+  maxpagesize?: number;
+}
+
+/** Contains response data for the listServiceUsages operation. */
+export type FileServicesListServiceUsagesResponse = FileServiceUsages;
+
+/** Optional parameters. */
+export interface FileServicesGetServiceUsageOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getServiceUsage operation. */
+export type FileServicesGetServiceUsageResponse = FileServiceUsage;
+
+/** Optional parameters. */
+export interface FileServicesListServiceUsagesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listServiceUsagesNext operation. */
+export type FileServicesListServiceUsagesNextResponse = FileServiceUsages;
 
 /** Optional parameters. */
 export interface FileSharesListOptionalParams
@@ -5307,7 +5621,7 @@ export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
 /** Optional parameters. */
 export interface StorageTaskAssignmentsInstancesReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
+  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
   filter?: string;
   /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
   maxpagesize?: number;
@@ -5328,7 +5642,7 @@ export type StorageTaskAssignmentsInstancesReportListNextResponse =
 /** Optional parameters. */
 export interface StorageTaskAssignmentInstancesReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
+  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
   filter?: string;
   /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
   maxpagesize?: number;

@@ -18,19 +18,16 @@ export const reducedDependencyTestMatrix = {
     "@azure/template",
   ],
   "test-utils": [
-    "@azure-tests/perf-storage-blob",
     "@azure/arm-eventgrid",
     "@azure/ai-text-analytics",
     "@azure/identity",
     "@azure/template",
   ],
   identity: [
-    "@azure-tests/perf-storage-blob",
     "@azure/ai-text-analytics",
     "@azure/arm-resources",
     "@azure/identity-cache-persistence",
     "@azure/identity-vscode",
-    "@azure/storage-blob",
     "@azure/template",
   ],
 };
@@ -57,7 +54,6 @@ export const restrictedToPackages = [
   "@azure-tools/test-perf",
   "@azure-tools/test-recorder",
   "@azure-tools/test-credential",
-  "@azure-tools/test-utils",
   "@azure-tools/test-utils-vitest",
 ];
 

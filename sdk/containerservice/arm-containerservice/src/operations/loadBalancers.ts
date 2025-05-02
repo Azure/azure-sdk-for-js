@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { LoadBalancers } from "../operationsInterfaces/index.js";
+import type { LoadBalancers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerServiceClient } from "../containerServiceClient.js";
-import {
+import type { ContainerServiceClient } from "../containerServiceClient.js";
+import type {
   SimplePollerLike,
-  OperationState,
+  OperationState} from "@azure/core-lro";
+import {
   createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   LoadBalancer,
   LoadBalancersListByManagedClusterNextOptionalParams,
   LoadBalancersListByManagedClusterOptionalParams,
@@ -97,7 +98,7 @@ export class LoadBalancersImpl implements LoadBalancers {
         resourceName,
         options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -110,7 +111,7 @@ export class LoadBalancersImpl implements LoadBalancers {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -171,16 +172,24 @@ export class LoadBalancersImpl implements LoadBalancers {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param loadBalancerName The name of the load balancer.
+   * @param parameters The load balancer to create or update.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     resourceName: string,
     loadBalancerName: string,
+    parameters: LoadBalancer,
     options?: LoadBalancersCreateOrUpdateOptionalParams,
   ): Promise<LoadBalancersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, loadBalancerName, options },
+      {
+        resourceGroupName,
+        resourceName,
+        loadBalancerName,
+        parameters,
+        options,
+      },
       createOrUpdateOperationSpec,
     );
   }
@@ -358,17 +367,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      primaryAgentPoolName: ["options", "primaryAgentPoolName"],
-      allowServicePlacement: ["options", "allowServicePlacement"],
-      serviceLabelSelector: ["options", "serviceLabelSelector"],
-      serviceNamespaceSelector: ["options", "serviceNamespaceSelector"],
-      nodeSelector: ["options", "nodeSelector"],
-    },
-    mapper: { ...Mappers.LoadBalancer, required: true },
-  },
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

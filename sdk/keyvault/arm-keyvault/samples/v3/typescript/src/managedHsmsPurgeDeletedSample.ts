@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Permanently deletes the specified managed HSM.
  *
  * @summary Permanently deletes the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/DeletedManagedHsm_Purge.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/DeletedManagedHsm_Purge.json
  */
 async function purgeAManagedHsmPool(): Promise<void> {
   const subscriptionId =
@@ -28,13 +28,13 @@ async function purgeAManagedHsmPool(): Promise<void> {
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.managedHsms.beginPurgeDeletedAndWait(
     name,
-    location
+    location,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  purgeAManagedHsmPool();
+  await purgeAManagedHsmPool();
 }
 
 main().catch(console.error);

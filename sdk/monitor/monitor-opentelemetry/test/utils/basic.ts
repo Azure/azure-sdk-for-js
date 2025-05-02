@@ -16,8 +16,9 @@ import type { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { LoggerProvider } from "@opentelemetry/sdk-logs";
 
-import { useAzureMonitor } from "../../src";
-import type { Expectation, Scenario } from "./types";
+import { useAzureMonitor } from "../../src/index.js";
+import type { Expectation, Scenario } from "./types.js";
+import type { HttpClient } from "@azure/core-rest-pipeline";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -32,7 +33,7 @@ const COMMON_ENVELOPE_PARAMS: any = {
 export class TraceBasicScenario implements Scenario {
   private _tracerProvider: NodeTracerProvider | undefined;
 
-  prepare(): void {
+  prepare(httpClient?: HttpClient): void {
     const resource = new Resource({
       "service.name": "testServiceName",
       "k8s.cluster.name": "testClusterName",
@@ -43,6 +44,7 @@ export class TraceBasicScenario implements Scenario {
     useAzureMonitor({
       azureMonitorExporterOptions: {
         connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+        httpClient,
       },
       resource: resource,
     });
@@ -194,7 +196,7 @@ export class TraceBasicScenario implements Scenario {
 }
 
 export class MetricBasicScenario implements Scenario {
-  prepare(): void {
+  prepare(httpClient?: HttpClient): void {
     const testResource = new Resource({
       [SEMRESATTRS_SERVICE_NAME]: "my-helloworld-service",
       [SEMRESATTRS_SERVICE_NAMESPACE]: "my-namespace",
@@ -203,6 +205,7 @@ export class MetricBasicScenario implements Scenario {
     useAzureMonitor({
       azureMonitorExporterOptions: {
         connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+        httpClient,
       },
       resource: testResource,
     });
@@ -385,10 +388,11 @@ export class MetricBasicScenario implements Scenario {
 }
 
 export class LogBasicScenario implements Scenario {
-  prepare(): void {
+  prepare(httpClient?: HttpClient): void {
     useAzureMonitor({
       azureMonitorExporterOptions: {
         connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+        httpClient,
       },
     });
   }

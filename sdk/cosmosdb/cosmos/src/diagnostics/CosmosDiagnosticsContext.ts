@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../common";
+import { Constants } from "../common/index.js";
 import type {
   ClientSideRequestStatistics,
   EncryptionDiagnostics,
@@ -9,8 +9,8 @@ import type {
   GatewayStatistics,
   MetadataLookUpDiagnostic,
   MetadataLookUpType,
-} from "../CosmosDiagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
+} from "../CosmosDiagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
 /**
  * @hidden
  * Internal class to hold CosmosDiagnostic aggregate information all through the lifecycle of a request.

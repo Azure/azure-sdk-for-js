@@ -22,7 +22,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [analyzeOrchestrationDirectTarget.ts][analyzeorchestrationdirecttarget]       | Orchestration project with direct target                          |
 | [convPiiTranscriptInput.ts][convpiitranscriptinput]                           | PII conversational analysis                                       |
 | [convSummarization.ts][convsummarization]                                     | Conversation Summarization                                        |
-| [authentication.ts][authentication]                                           | authenticates a service client using an API key                   |
 
 ## Prerequisites
 
@@ -69,7 +68,7 @@ node dist/analyzeConversationApp.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_CONVERSATIONS_ENDPOINT="<azure conversations endpoint>" AZURE_CONVERSATIONS_KEY="<azure conversations key>" AZURE_CONVERSATIONS_PROJECT_NAME="<azure conversations project name>" AZURE_CONVERSATIONS_DEPLOYMENT_NAME="<azure conversations deployment name>" node dist/analyzeConversationApp.js
+npx dev-tool run vendored cross-env LANGUAGE_ENDPOINT="<language endpoint>" AZURE_CONVERSATIONS_PROJECT_NAME="<azure conversations project name>" AZURE_CONVERSATIONS_DEPLOYMENT_NAME="<azure conversations deployment name>" node dist/analyzeConversationApp.js
 ```
 
 ## Next Steps
@@ -83,8 +82,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [analyzeorchestrationdirecttarget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/analyzeOrchestrationDirectTarget.ts
 [convpiitranscriptinput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/convPiiTranscriptInput.ts
 [convsummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/convSummarization.ts
-[authentication]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/typescript/src/authentication.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-language-conversations
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-language-conversations?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md

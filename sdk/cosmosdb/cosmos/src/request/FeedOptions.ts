@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PartitionKey } from "../documents";
-import type { SharedOptions } from "./SharedOptions";
+import type { PartitionKey } from "../documents/index.js";
+import type { SharedOptions } from "./SharedOptions.js";
 
 /**
  * The feed options and query methods.

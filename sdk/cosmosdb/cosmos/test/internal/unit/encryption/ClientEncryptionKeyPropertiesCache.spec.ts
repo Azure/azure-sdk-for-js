@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { ClientEncryptionKeyPropertiesCache } from "../../../../src/encryption/Cache/ClientEncryptionKeyPropertiesCache";
-import {
+import { ClientEncryptionKeyPropertiesCache } from "../../../../src/encryption/Cache/ClientEncryptionKeyPropertiesCache.js";
+import type {
   ClientEncryptionKeyProperties,
-  EncryptionKeyResolverName,
   EncryptionKeyWrapMetadata,
-  KeyEncryptionAlgorithm,
-} from "../../../../src";
+} from "../../../../src/index.js";
+import { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "../../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("ClientEncryptionKeyPropertiesCache", () => {
   it("should create an instance of ClientEncryptionKeyPropertiesCache", () => {
@@ -21,12 +20,12 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
     const encryptionAlgorithm = "testEncryptionAlgorithm";
     const etag = "testEtag";
     const wrappedDataEncryptionKey = Buffer.from("testWrappedDataEncryptionKey");
-    const encryptionKeyWrapMetadata = new EncryptionKeyWrapMetadata(
-      EncryptionKeyResolverName.AzureKeyVault,
-      "testName",
-      "testValue",
-      KeyEncryptionAlgorithm.RSA_OAEP,
-    );
+    const encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata = {
+      type: EncryptionKeyResolverName.AzureKeyVault,
+      name: "testName",
+      value: "testValue",
+      algorithm: KeyEncryptionAlgorithm.RSA_OAEP,
+    };
     const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
       id: id,
       encryptionAlgorithm,

@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { useFakeTimers } from "sinon";
-
 import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
-} from "../src";
-import { DataLakeFileSystemClient, DataLakeFileClient, DataLakeDirectoryClient } from "../src";
+} from "../src/index.js";
+import {
+  DataLakeFileSystemClient,
+  DataLakeFileClient,
+  DataLakeDirectoryClient,
+} from "../src/index.js";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,
@@ -18,8 +20,12 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { Context } from "mocha";
+} from "./utils/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
+
+expect.extend({ toSupportTracing });
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -28,8 +34,8 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     serviceClient = getDataLakeServiceClient(recorder);
@@ -38,7 +44,7 @@ describe("DataLakeFileSystemClient", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -56,17 +62,14 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("setMetadata with tracing", async () => {
-    await assert.supportsTracing(
-      async (options) => {
-        const metadata = {
-          key0: "val0",
-          keya: "vala",
-          keyb: "valb",
-        };
-        await fileSystemClient.setMetadata(metadata, options);
-      },
-      ["DataLakeFileSystemClient-setMetadata"],
-    );
+    await expect(async (options: OperationOptions) => {
+      const metadata = {
+        key0: "val0",
+        keya: "vala",
+        keyb: "valb",
+      };
+      await fileSystemClient.setMetadata(metadata, options);
+    }).toSupportTracing(["DataLakeFileSystemClient-setMetadata"]);
   });
 
   it("getProperties", async () => {
@@ -83,9 +86,8 @@ describe("DataLakeFileSystemClient", () => {
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
   });
 
-  it("create with default parameters", (done) => {
+  it("create with default parameters", () => {
     // create() with default parameters has been tested in beforeEach
-    done();
   });
 
   it("create with all parameters configured", async () => {
@@ -100,12 +102,12 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("create with encryption scope", async function (this: Context) {
+  it("create with encryption scope", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -122,12 +124,12 @@ describe("DataLakeFileSystemClient", () => {
     await cClient.delete();
   });
 
-  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (this: Context) {
+  it("create with encryption scope - preventEncryptionScopeOverride : false", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -172,9 +174,8 @@ describe("DataLakeFileSystemClient", () => {
     assert.ok(res2.succeeded);
   });
 
-  it("delete", (done) => {
+  it("delete", () => {
     // delete() with default parameters has been tested in afterEach
-    done();
   });
 
   it("listPaths with default parameters", async () => {
@@ -207,12 +208,12 @@ describe("DataLakeFileSystemClient", () => {
     }
   });
 
-  it("listPaths - Encryption Scope", async function (this: Context) {
+  it("listPaths - Encryption Scope", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -241,7 +242,7 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
-  it("listPaths - Encryption context", async function (this: Context) {
+  it("listPaths - Encryption context", async () => {
     const encryptionContext = "EncryptionContext";
 
     const cClient = serviceClient.getFileSystemClient(
@@ -265,12 +266,12 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
-  it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (this: Context) {
+  it("listPaths - PagedAsyncIterableIterator with Encryption Scope", async function (ctx) {
     let encryptionScopeName;
     try {
       encryptionScopeName = getEncryptionScope();
     } catch {
-      this.skip();
+      ctx.skip();
     }
 
     const cClient = serviceClient.getFileSystemClient(
@@ -321,12 +322,13 @@ describe("DataLakeFileSystemClient", () => {
     await fileClient.create();
     await fileClient.append(content, 0, content.length);
     await fileClient.flush(content.length);
-    const clock = useFakeTimers(now);
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
     let setExpiryPromise: Promise<unknown>;
     try {
       setExpiryPromise = fileClient.setExpiry("Absolute", { expiresOn });
     } finally {
-      clock.restore();
+      vi.useRealTimers();
     }
     await setExpiryPromise;
 
@@ -646,20 +648,20 @@ describe("DataLakeFileSystemClient with soft delete", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
-      this.skip();
+      ctx.skip();
     }
 
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
 
     try {
       serviceClient = getGenericDataLakeServiceClient(recorder, "DFS_SOFT_DELETE_");
     } catch (err: any) {
-      this.skip();
+      ctx.skip();
     }
 
     fileSystemClient = serviceClient.getFileSystemClient(
@@ -668,7 +670,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (fileSystemClient) {
       await fileSystemClient.deleteIfExists();
     }

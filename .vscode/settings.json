@@ -5,7 +5,11 @@
   "editor.formatOnSave": true,
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
-  "eslint.workingDirectories": [{ "pattern": "./sdk/*/*/" }],
+  "eslint.workingDirectories": [
+    {
+      "pattern": "./sdk/*/*/"
+    }
+  ],
   "eslint.useFlatConfig": true,
   "files.exclude": {
     "**/.git": true,
@@ -39,5 +43,6 @@
   "vitest.vitestPackagePath": "common/tools/dev-tool/node_modules/vitest/package.json",
   "vitest.experimentalStaticAstCollect": true,
   "vitest.configSearchPatternExclude": "{**/node_modules/**,**/.*/**,**/*.d.ts,eng/**,samples/**}",
-  "vitest.nodeEnv": {}
+  "vitest.nodeEnv": {},
+  "azure-pipelines.1ESPipelineTemplatesSchemaFile": true
 }

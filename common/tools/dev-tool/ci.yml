@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - common/tools/dev-tool/
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+
+  paths:
+    include:
+      - common/tools/dev-tool/
+
+jobs:
+  - job: 'DevTool'
+    displayName: 'Dev-tool validation'
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+
+    pool:
+      vmImage: 'Ubuntu 20.04'
+
+    steps:
+      - template: /eng/pipelines/templates/steps/common.yml
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install library dependencies"
+
+      - script: |
+          node common/scripts/install-run-rush.js build -t @azure/dev-tool
+        displayName: "Build dev-tool"
+
+      - script: |
+          node common/scripts/install-run-rush.js check-format -t @azure/dev-tool
+        displayName: "Check format for dev-tool"
+
+      - script: |
+          node common/scripts/install-run-rush.js lint -t @azure/dev-tool
+        displayName: "linting dev-tool"
+
+      - script: |
+          node common/scripts/install-run-rush.js unit-test:node -t @azure/dev-tool
+        displayName: "running dev-tool unit tests"

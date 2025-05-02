@@ -25,7 +25,7 @@ async function organizationsUpdateMaximumSet() {
 }
 
 async function main() {
-  organizationsUpdateMaximumSet();
+  await organizationsUpdateMaximumSet();
 }
 
 main().catch(console.error);

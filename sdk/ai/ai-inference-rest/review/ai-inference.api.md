@@ -6,6 +6,7 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
@@ -14,6 +15,9 @@ import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export type AudioContentFormat = string;
 
 // @public
 export interface ChatChoiceOutput {
@@ -99,7 +103,19 @@ export interface ChatCompletionsToolDefinition {
 }
 
 // @public
-export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem;
+export interface ChatMessageAudioDataContentItem extends ChatMessageContentItemParent {
+    input_audio: ChatMessageInputAudio;
+    type: "input_audio";
+}
+
+// @public
+export interface ChatMessageAudioUrlContentItem extends ChatMessageContentItemParent {
+    audio_url: ChatMessageInputAudioUrl;
+    type: "audio_url";
+}
+
+// @public
+export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem | ChatMessageAudioUrlContentItem | ChatMessageAudioDataContentItem;
 
 // @public
 export interface ChatMessageContentItemParent {
@@ -123,6 +139,17 @@ export interface ChatMessageImageUrl {
 }
 
 // @public
+export interface ChatMessageInputAudio {
+    data: string;
+    format: AudioContentFormat;
+}
+
+// @public
+export interface ChatMessageInputAudioUrl {
+    url: string;
+}
+
+// @public
 export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
     text: string;
     type: "text";
@@ -136,7 +163,13 @@ export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
 }
 
 // @public
-export type ChatRequestMessage = ChatRequestMessageParent | ChatRequestSystemMessage | ChatRequestUserMessage | ChatRequestAssistantMessage | ChatRequestToolMessage;
+export interface ChatRequestDeveloperMessage extends ChatRequestMessageParent {
+    content: string;
+    role: "developer";
+}
+
+// @public
+export type ChatRequestMessage = ChatRequestMessageParent | ChatRequestSystemMessage | ChatRequestDeveloperMessage | ChatRequestUserMessage | ChatRequestAssistantMessage | ChatRequestToolMessage;
 
 // @public
 export interface ChatRequestMessageParent {
@@ -216,6 +249,8 @@ export interface EmbeddingsUsageOutput {
     total_tokens: number;
 }
 
+export { ErrorModel }
+
 // @public
 export type ExtraParameters = string;
 
@@ -254,7 +289,7 @@ export interface GetChatCompletions200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetChatCompletionsBodyParam {
     // (undocumented)
-    body?: {
+    body: {
         messages: Array<ChatRequestMessage>;
         frequency_penalty?: number;
         stream?: boolean;
@@ -302,7 +337,7 @@ export type GetChatCompletionsParameters = GetChatCompletionsHeaderParam & GetCh
 
 // @public (undocumented)
 export interface GetEmbeddings {
-    post(options?: GetEmbeddingsParameters): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
+    post(options: GetEmbeddingsParameters): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
 // @public

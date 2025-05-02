@@ -7,16 +7,14 @@
  */
 
 import { odata, TableServiceClient } from "@azure/data-tables";
-
-// Load the .env file if it exists
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
-const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 
+const endpoint = process.env.TABLES_URL || "";
 async function queryTables(): Promise<void> {
   console.log("== Query tables Sample ==");
 
-  // See authenticationMethods sample for other options of creating a new client
-  const serviceClient = TableServiceClient.fromConnectionString(accountConnectionString);
+  const serviceClient = new TableServiceClient(endpoint, new DefaultAzureCredential());
 
   // Create a new table
   const tableName = `queryTables`;
@@ -26,7 +24,7 @@ async function queryTables(): Promise<void> {
   // odata is a helper function that takes care of encoding the query
   // filter, in this sample it will add quotes around tableName
   const queryTableResults = serviceClient.listTables({
-    queryOptions: { filter: odata`TableName eq ${tableName}` }
+    queryOptions: { filter: odata`TableName eq ${tableName}` },
   });
 
   // Iterate the results

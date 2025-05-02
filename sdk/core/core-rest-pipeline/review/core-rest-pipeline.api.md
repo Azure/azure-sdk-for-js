@@ -279,6 +279,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
@@ -303,6 +304,7 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     tlsSettings?: TlsSettings;
@@ -376,8 +378,6 @@ export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStre
 // @public
 export class RestError extends Error {
     constructor(message: string, options?: RestErrorOptions);
-    // (undocumented)
-    [x: symbol]: () => string;
     code?: string;
     details?: unknown;
     static readonly PARSE_ERROR: string;

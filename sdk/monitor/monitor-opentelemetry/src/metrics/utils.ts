@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 import type { Attributes } from "@opentelemetry/api";
 import { SpanStatusCode } from "@opentelemetry/api";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
@@ -28,22 +27,24 @@ import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
+import { StandardMetricIds, StandardMetricPropertyNames } from "./types.js";
 import type {
   MetricDependencyDimensions,
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-} from "./types";
-import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
+} from "./types.js";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type { Resource } from "@opentelemetry/resources";
-import * as os from "os";
 import {
   getHttpStatusCode,
   getNetHostPort,
   getNetPeerName,
   getUserAgent,
-} from "./quickpulse/utils";
+} from "./quickpulse/utils.js";
+import { Logger } from "../shared/logging/logger.js";
+import * as os from "node:os";
+import * as process from "node:process";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -175,7 +176,12 @@ export function convertDimensions(
 
 // to get physical memory bytes
 export function getPhysicalMemory(): number {
-  return process.memoryUsage.rss();
+  if (process?.memoryUsage) {
+    return process.memoryUsage.rss();
+  } else {
+    Logger.getInstance().debug("process.memoryUsage is not available");
+    return 0;
+  }
 }
 
 // This function can get the normalized cpu, but it assumes that after this function is called,
@@ -197,14 +203,32 @@ export function getProcessorTimeNormalized(
   return (usageDifMs / elapsedTimeMs / numCpus) * 100;
 }
 
+// This function can get the cpu %, but it assumes that after this function is called,
+// that the process.hrtime.bigint() & process.cpuUsage() are called/stored to be used as the
+// parameters for the next call.
+export function getProcessorTime(lastHrTime: bigint, lastCpuUsage: NodeJS.CpuUsage): number {
+  if (process?.cpuUsage) {
+    const usageDif = process.cpuUsage(lastCpuUsage);
+    const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+
+    const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+    const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+
+    return (usageDifMs / elapsedTimeMs) * 100;
+  } else {
+    Logger.getInstance().debug("process.cpuUsage is not available");
+    return 0;
+  }
+}
+
 /**
  * Gets the cloud role name based on the resource attributes
  */
 export function getCloudRole(resource: Resource): string {
   let cloudRole = "";
   // Service attributes
-  const serviceName = resource.attributes[SEMRESATTRS_SERVICE_NAME];
-  const serviceNamespace = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE];
+  const serviceName: string = resource.attributes[SEMRESATTRS_SERVICE_NAME] as string;
+  const serviceNamespace: string = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] as string;
   if (serviceName) {
     // Custom Service name provided by customer is highest precedence
     if (!String(serviceName).startsWith("unknown_service")) {

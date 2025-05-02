@@ -396,9 +396,9 @@ export class BlobContainersImpl implements BlobContainers {
    *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
    *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    *                      number.
-   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of "*"
-   *                can be used to apply the operation only if the immutability policy already exists. If omitted, this
-   *                operation will always be applied.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update must be returned
+   *                to the server for all update operations. The ETag value must include the leading and trailing double
+   *                quotes as returned by the service.
    * @param options The options parameters.
    */
   deleteImmutabilityPolicy(
@@ -426,9 +426,9 @@ export class BlobContainersImpl implements BlobContainers {
    *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
    *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    *                      number.
-   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of "*"
-   *                can be used to apply the operation only if the immutability policy already exists. If omitted, this
-   *                operation will always be applied.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update must be returned
+   *                to the server for all update operations. The ETag value must include the leading and trailing double
+   *                quotes as returned by the service.
    * @param options The options parameters.
    */
   lockImmutabilityPolicy(
@@ -456,9 +456,9 @@ export class BlobContainersImpl implements BlobContainers {
    *                      container names must be between 3 and 63 characters in length and use numbers, lower-case letters
    *                      and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    *                      number.
-   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of "*"
-   *                can be used to apply the operation only if the immutability policy already exists. If omitted, this
-   *                operation will always be applied.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update must be returned
+   *                to the server for all update operations. The ETag value must include the leading and trailing double
+   *                quotes as returned by the service.
    * @param options The options parameters.
    */
   extendImmutabilityPolicy(

@@ -10,9 +10,8 @@
 
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 import { Readable } from "stream";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
@@ -37,19 +36,39 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
-  // Set up abort controller (optional)
-  // Polling can then be stopped using abortController.abort()
-  const abortController = new AbortController();
+  // (Optional) Define an onResponse callback to monitor the progress of polling
+  function onResponse(response: any): void {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
+  }
 
-  // Create vector store file
-  const vectorStoreFileOptions = {
+  // Create vector store file, which will automatically poll until the operation is complete
+  const vectorStoreFile1 = await client.agents.createVectorStoreFile(vectorStore.id, {
     fileId: file.id,
-    pollingOptions: { sleepIntervalInMs: 2000, abortSignal: abortController.signal },
-  };
-  const poller = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions);
-  const vectorStoreFile = await poller.pollUntilDone();
+    pollingOptions: {
+      sleepIntervalInMs: 2000,
+    },
+    onResponse: onResponse,
+  });
   console.log(
-    `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
+    `Created vector store file with status ${vectorStoreFile1.status}, vector store file ID: ${vectorStoreFile1.id}`,
+  );
+
+  // Alternatively, polling can be done using .poll() and .pollUntilDone() methods.
+  // This approach allows for more control over the polling process.
+  // (Optional) AbortController can be used to stop polling if needed.
+  const abortController = new AbortController();
+  const vectorStoreFilePoller = client.agents.createVectorStoreFile(vectorStore.id, {
+    fileId: file.id,
+    pollingOptions: {
+      sleepIntervalInMs: 2000,
+    },
+    onResponse: onResponse,
+  });
+  const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
+    abortSignal: abortController.signal,
+  });
+  console.log(
+    `Created vector store file with status ${vectorStoreFile2.status}, vector store file ID: ${vectorStoreFile2.id}`,
   );
 
   // Delete file

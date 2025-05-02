@@ -13,8 +13,7 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
-
+require("dotenv/config");
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];

@@ -80,13 +80,25 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-07-01-preview",
+    defaultValue: "2025-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String",
     },
   },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -201,6 +213,17 @@ export const networkFeatures: OperationParameter = {
   mapper: UpdateNetworkSiblingSetRequestMapper,
 };
 
+export const usageType: OperationURLParameter = {
+  parameterPath: "usageType",
+  mapper: {
+    serializedName: "usageType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const quotaLimitName: OperationURLParameter = {
   parameterPath: "quotaLimitName",
   mapper: {
@@ -210,18 +233,6 @@ export const quotaLimitName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {

@@ -8,14 +8,14 @@
  * @summary extracts a summary from an article
  */
 
-const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   `
@@ -34,7 +34,7 @@ const documents = [
 async function main() {
   console.log("== Extractive Summarization Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions = [
     {
       kind: "ExtractiveSummarization",
@@ -45,7 +45,7 @@ async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );
   });
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);

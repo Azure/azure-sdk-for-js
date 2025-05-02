@@ -29,14 +29,14 @@ import type {
   MessagesClearHeaders,
   MessageIdDeleteHeaders,
   MessageIdUpdateHeaders,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient, getStorageClientContext } from "./StorageClient";
-import type { WithResponse } from "./utils/utils.common";
+import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient, getStorageClientContext } from "./StorageClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   extractConnectionStringParts,
@@ -44,18 +44,18 @@ import {
   truncatedISO8061Date,
   appendToURLQuery,
   assertResponse,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { Metadata } from "./models";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { Metadata } from "./models.js";
 import {
   generateQueueSASQueryParameters,
   generateQueueSASQueryParametersInternal,
-} from "./QueueSASSignatureValues";
-import type { SasIPRange } from "./SasIPRange";
-import type { QueueSASPermissions } from "./QueueSASPermissions";
-import type { SASProtocol } from "./SASQueryParameters";
+} from "./QueueSASSignatureValues.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import type { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
@@ -590,9 +590,22 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
-   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * ```ts snippet:ReadmeSampleCreateQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const createQueueResponse = await queueClient.create();
+   * console.log(
+   *   `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+   * );
    * ```
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
@@ -686,10 +699,21 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleDeleteQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const deleteQueueResponse = await queueClient.delete();
    * console.log(
-   *   "Delete queue successfully, service assigned request Id:", deleteQueueResponse.requestId
+   *   `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
    * );
    * ```
    */
@@ -913,11 +937,22 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleSendMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
+   * // Send a message into the queue using the sendMessage method.
    * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
    * console.log(
-   *   "Sent message successfully, service assigned message Id:", sendMessageResponse.messageId,
-   *   "service assigned request Id:", sendMessageResponse.requestId
+   *   `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`,
    * );
    * ```
    */
@@ -964,18 +999,28 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleReceiveMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const response = await queueClient.receiveMessages();
-   * if (response.receivedMessageItems.length == 1) {
+   * if (response.receivedMessageItems.length === 1) {
    *   const receivedMessageItem = response.receivedMessageItems[0];
-   *   console.log("Processing & deleting message with content:", receivedMessageItem.messageText);
+   *   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
    *   const deleteMessageResponse = await queueClient.deleteMessage(
    *     receivedMessageItem.messageId,
-   *     receivedMessageItem.popReceipt
+   *     receivedMessageItem.popReceipt,
    *   );
    *   console.log(
-   *     "Delete message successfully, service assigned request Id:",
-   *     deleteMessageResponse.requestId
+   *     `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`,
    *   );
    * }
    * ```
@@ -1021,9 +1066,20 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSamplePeekMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const peekMessagesResponse = await queueClient.peekMessages();
-   * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);
+   * console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
    * ```
    */
   public async peekMessages(

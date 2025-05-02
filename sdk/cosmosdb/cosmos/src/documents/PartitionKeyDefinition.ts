@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PartitionKeyDefinitionVersion } from "./PartitionKeyDefinitionVersion";
-import type { PartitionKeyKind } from "./PartitionKeyKind";
+import type { PartitionKeyDefinitionVersion } from "./PartitionKeyDefinitionVersion.js";
+import type { PartitionKeyKind } from "./PartitionKeyKind.js";
 
 export interface PartitionKeyDefinition {
   /**
