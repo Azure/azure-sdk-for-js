@@ -23,17 +23,17 @@ export async function main(): Promise<void> {
   // Upload local file
   const filePath = "./data/localFile.txt";
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.uploadFile(localFileStream, "assistants");
+  const localFile = await client.files.upload(localFileStream, "assistants");
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
   // Retrieve local file
-  const retrievedLocalFile = await client.getFile(localFile.id);
+  const retrievedLocalFile = await client.files.get(localFile.id);
 
   console.log(`Retrieved local file, file ID : ${retrievedLocalFile.id}`);
 
   // Delete local file
-  await client.deleteFile(localFile.id);
+  await client.files.delete(localFile.id);
 
   console.log(`Deleted local file, file ID : ${localFile.id}`);
 }

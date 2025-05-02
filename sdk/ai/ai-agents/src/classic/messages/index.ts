@@ -24,24 +24,24 @@ import {
 /** Interface representing a Messages operations. */
 export interface MessagesOperations {
   /** Modifies an existing message on an existing thread. */
-  updateMessage: (
+  update: (
     threadId: string,
     messageId: string,
     options?: MessagesUpdateMessageOptionalParams,
   ) => Promise<ThreadMessage>;
   /** Retrieves an existing message. */
-  getMessage: (
+  get: (
     threadId: string,
     messageId: string,
     options?: MessagesGetMessageOptionalParams,
   ) => Promise<ThreadMessage>;
   /** Gets a list of messages that exist on a thread. */
-  listMessages: (
+  list: (
     threadId: string,
     options?: MessagesListMessagesOptionalParams,
   ) => Promise<OpenAIPageableListOfThreadMessage>;
   /** Creates a new message on a specified thread. */
-  createMessage: (
+  create: (
     threadId: string,
     role: MessageRole,
     content: MessageInputContent,
@@ -51,21 +51,21 @@ export interface MessagesOperations {
 
 function _getMessages(context: AgentsContext) {
   return {
-    updateMessage: (
+    update: (
       threadId: string,
       messageId: string,
       options?: MessagesUpdateMessageOptionalParams,
     ) => updateMessage(context, threadId, messageId, options),
-    getMessage: (
+    get: (
       threadId: string,
       messageId: string,
       options?: MessagesGetMessageOptionalParams,
     ) => getMessage(context, threadId, messageId, options),
-    listMessages: (
+    list: (
       threadId: string,
       options?: MessagesListMessagesOptionalParams,
     ) => listMessages(context, threadId, options),
-    createMessage: (
+    create: (
       threadId: string,
       role: MessageRole,
       content: MessageInputContent,

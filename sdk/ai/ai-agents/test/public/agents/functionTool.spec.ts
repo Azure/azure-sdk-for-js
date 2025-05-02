@@ -73,13 +73,13 @@ describe("Agents - function tool", () => {
     assert.equal((agent.tools[0] as FunctionToolDefinition).function.name, "getCurrentDateTime");
 
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(
+    const message = await projectsClient.messages.create(
       thread.id,
       "user",
       "Hello, what's the time?",
@@ -88,14 +88,14 @@ describe("Agents - function tool", () => {
     console.log(`Created message, message ID ${message.id}`);
 
     // Create run
-    let run = await projectsClient.createRun(thread.id, agent.id);
+    let run = await projectsClient.runs.create(thread.id, agent.id);
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
     let toolCalled = false;
     while (["queued", "in_progress", "requires_action"].includes(run.status)) {
       await delay(1000);
-      run = await projectsClient.getRun(thread.id, run.id);
+      run = await projectsClient.runs.get(thread.id, run.id);
       if (run.status === "failed") {
         console.log(`Run failed - ${run.lastError?.code} - ${run.lastError?.message}`);
         break;
@@ -112,7 +112,7 @@ describe("Agents - function tool", () => {
               console.log(`Function tool call - ${functionOutput.function.name}`);
               const toolResponse = getCurrentDateTime();
               toolCalled = true;
-              run = await projectsClient.submitToolOutputsToRun(thread.id, run.id, [
+              run = await projectsClient.runs.submitToolOutputs(thread.id, run.id, [
                 { toolCallId: toolCall.id, output: JSON.stringify(toolResponse) },
               ]);
               console.log(`Submitted tool response - ${run.status}`);
@@ -124,7 +124,7 @@ describe("Agents - function tool", () => {
     assert.oneOf(run.status, ["cancelled", "failed", "completed", "expired"]);
     assert.isTrue(toolCalled);
     console.log(`Run status - ${run.status}, run ID: ${run.id}`);
-    const messages = await projectsClient.listMessages(thread.id);
+    const messages = await projectsClient.messages.list(thread.id);
     messages.data.forEach((threadMessage) => {
       console.log(
         `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,

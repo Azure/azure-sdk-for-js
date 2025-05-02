@@ -25,41 +25,42 @@ import {
 } from "../../api/runs/operations.js";
 import { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
+import { CreateThreadAndRunOptionalParams } from "../../api/options.js";
 
 /** Interface representing a Runs operations. */
 export interface RunsOperations {
   /** Cancels a run of an in‐progress thread. */
-  cancelRun: (
+  cancel: (
     threadId: string,
     runId: string,
     options?: RunsCancelRunOptionalParams,
   ) => Promise<ThreadRun>;
   /** Submits outputs from tools as requested by tool calls in a run. */
-  submitToolOutputsToRun: (
+  submitToolOutputs: (
     threadId: string,
     runId: string,
     toolOutputs: ToolOutput[],
     options?: RunsSubmitToolOutputsToRunOptionalParams,
   ) => Promise<ThreadRun>;
   /** Modifies an existing thread run. */
-  updateRun: (
+  update: (
     threadId: string,
     runId: string,
     options?: RunsUpdateRunOptionalParams,
   ) => Promise<ThreadRun>;
   /** Gets an existing run from an existing thread. */
-  getRun: (
+  get: (
     threadId: string,
     runId: string,
     options?: RunsGetRunOptionalParams,
   ) => Promise<ThreadRun>;
   /** Gets a list of runs for a specified thread. */
-  listRuns: (
+  list: (
     threadId: string,
     options?: RunsListRunsOptionalParams,
   ) => Promise<OpenAIPageableListOfThreadRun>;
   /** Creates a new run for an agent thread. */
-  createRun: (
+  create: (
     threadId: string,
     assistantId: string,
     options?: RunsCreateRunOptionalParams,
@@ -67,36 +68,36 @@ export interface RunsOperations {
   /** Creates a new thread and run for an agent. */
   createThreadAndRun: (
     assistantId: string,
-    options?: RunsCreateRunOptionalParams,
+    options?: CreateThreadAndRunOptionalParams,
   ) => AgentRunResponse;
 }
 
 function _getRuns(context: AgentsContext) {
   return {
-    cancelRun: (
+    cancel: (
       threadId: string,
       runId: string,
       options?: RunsCancelRunOptionalParams,
     ) => cancelRun(context, threadId, runId, options),
-    submitToolOutputsToRun: (
+    submitToolOutputs: (
       threadId: string,
       runId: string,
       toolOutputs: ToolOutput[],
       options?: RunsSubmitToolOutputsToRunOptionalParams,
     ) => submitToolOutputsToRun(context, threadId, runId, toolOutputs, options),
-    updateRun: (
+    update: (
       threadId: string,
       runId: string,
       options?: RunsUpdateRunOptionalParams,
     ) => updateRun(context, threadId, runId, options),
-    getRun: (
+    get: (
       threadId: string,
       runId: string,
       options?: RunsGetRunOptionalParams,
     ) => getRun(context, threadId, runId, options),
-    listRuns: (threadId: string, options?: RunsListRunsOptionalParams) =>
+    list: (threadId: string, options?: RunsListRunsOptionalParams) =>
       listRuns(context, threadId, options),
-    createRun: (
+    create: (
       threadId: string,
       assistantId: string,
       options?: RunsCreateRunOptionalParams,

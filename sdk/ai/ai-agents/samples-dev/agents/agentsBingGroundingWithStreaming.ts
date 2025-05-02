@@ -14,7 +14,10 @@ import type {
   MessageDeltaTextContent,
   MessageTextContent,
   MessageDeltaTextUrlCitationAnnotation,
-} from "@azure/ai-agents";
+  
+
+  MessageDeltaChunk,
+  ThreadRun} from "@azure/ai-agents";
 import {
   AgentsClient,
   DoneEvent,
@@ -25,8 +28,6 @@ import {
   ToolUtility,
   connectionToolType,
   isOutputOfType,
-  MessageDeltaChunk,
-  ThreadRun,
   RunStepDeltaChunk,
   ThreadMessage,
   RunStep,
@@ -55,11 +56,11 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "How does wikipedia explain Euler's Identity?",
@@ -67,14 +68,14 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools
-  const streamEventMessages = await client.createRun(thread.id, agent.id);
+  const streamEventMessages = await client.runs.create(thread.id, agent.id);
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
-      case "thread.run.created":
+      case RunStreamEvent.ThreadRunCreated:
         console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
         break;
-      case "thread.message.delta":
+      case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data as MessageDeltaChunk;
           messageDelta.delta.content.forEach((contentPart) => {
@@ -87,13 +88,13 @@ export async function main(): Promise<void> {
         }
         break;
 
-      case "thread.run.completed":
+      case RunStreamEvent.ThreadRunCompleted:
         console.log("Thread Run Completed");
         break;
-      case "error":
+      case ErrorEvent.Error:
         console.log(`An error occurred. Data ${eventMessage.data}`);
         break;
-      case "done":
+      case DoneEvent.Done:
         console.log("Stream completed.");
         break;
     }
@@ -104,7 +105,7 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.listMessages(thread.id);
+  const messages = await client.messages.list(thread.id);
   console.log(`Messages:`);
   const agentMessage: MessageContent = messages.data[0].content[0];
   if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {

@@ -38,15 +38,15 @@ export async function main(): Promise<void> {
 
   console.log(`Created agent, agent ID : ${agent.id}`);
 
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
 
   console.log(`Created thread, thread ID : ${thread.id}`);
 
-  await client.createMessage(thread.id, "user", "Hello, tell me a joke");
+  await client.messages.create(thread.id, "user", "Hello, tell me a joke");
 
   console.log(`Created message, thread ID : ${thread.id}`);
 
-  const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {

@@ -33,6 +33,8 @@ export async function main(): Promise<void> {
     queryType: "simple",
     topK: 3,
     filter: "",
+    indexConnectionId: "",
+    indexName: ""
   });
 
   // Create agent with the Azure AI search tool
@@ -45,11 +47,11 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "What is the temperature rating of the cozynights sleeping bag?",
@@ -57,10 +59,10 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run in thread with tools
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   while (run.status === "queued" || run.status === "in_progress") {
     await delay(1000);
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
   }
   if (run.status === "failed") {
     console.log(`Run failed:`, JSON.stringify(run, null, 2));
@@ -68,7 +70,7 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Fetch run steps to get the details of agent run
-  const { data: runSteps } = await client.listRunSteps(thread.id, run.id);
+  const { data: runSteps } = await client.runSteps.list(thread.id, run.id);
 
   for (const step of runSteps) {
     console.log(`Step ID: ${step.id}, Status: ${step.status}`);
@@ -94,7 +96,7 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.listMessages(thread.id);
+  const messages = await client.messages.list(thread.id);
   console.log(`Messages:`);
   const agentMessage: MessageContent = messages.data[0].content[0];
   if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {

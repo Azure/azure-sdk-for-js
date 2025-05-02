@@ -20,33 +20,34 @@ import {
   listVectorStoreFiles,
   createVectorStoreFileAndPoll,
 } from "../../api/vectorStoreFiles/operations.js";
+import { OperationState, PollerLike } from "@azure/core-lro";
 
 /** Interface representing a VectorStoreFiles operations. */
 export interface VectorStoreFilesOperations {
   /** Deletes a vector store file. This removes the file‐to‐store link (does not delete the file itself). */
-  deleteVectorStoreFile: (
+  delete: (
     vectorStoreId: string,
     fileId: string,
     options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFileDeletionStatus>;
   /** Retrieves a vector store file. */
-  getVectorStoreFile: (
+  get: (
     vectorStoreId: string,
     fileId: string,
     options?: VectorStoreFilesGetVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFile>;
   /** Create a vector store file by attaching a file to a vector store. */
-  createVectorStoreFile: (
+  create: (
     vectorStoreId: string,
     options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
   ) => Promise<VectorStoreFile>;
   /** Create a vector store file by attaching a file to a vector store and poll. */
-  createVectorStoreFileAndPoll: (
+  createAndPoll: (
     vectorStoreId: string,
     options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
-  ) => Promise<VectorStoreFile>;
+  ) => PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>
   /** Returns a list of vector store files. */
-  listVectorStoreFiles: (
+  list: (
     vectorStoreId: string,
     options?: VectorStoreFilesListVectorStoreFilesOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreFile>;
@@ -54,25 +55,25 @@ export interface VectorStoreFilesOperations {
 
 function _getVectorStoreFiles(context: AgentsContext) {
   return {
-    deleteVectorStoreFile: (
+    delete: (
       vectorStoreId: string,
       fileId: string,
       options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams,
     ) => deleteVectorStoreFile(context, vectorStoreId, fileId, options),
-    getVectorStoreFile: (
+    get: (
       vectorStoreId: string,
       fileId: string,
       options?: VectorStoreFilesGetVectorStoreFileOptionalParams,
     ) => getVectorStoreFile(context, vectorStoreId, fileId, options),
-    createVectorStoreFile: (
+    create: (
       vectorStoreId: string,
       options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
     ) => createVectorStoreFile(context, vectorStoreId, options),
-    createVectorStoreFileAndPoll: (
+    createAndPoll: (
       vectorStoreId: string,
       options?: VectorStoreFilesCreateVectorStoreFileOptionalParams,
     ) => createVectorStoreFileAndPoll(context, vectorStoreId, options),
-    listVectorStoreFiles: (
+    list: (
       vectorStoreId: string,
       options?: VectorStoreFilesListVectorStoreFilesOptionalParams,
     ) => listVectorStoreFiles(context, vectorStoreId, options),

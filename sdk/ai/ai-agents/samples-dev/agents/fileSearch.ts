@@ -26,13 +26,13 @@ export async function main(): Promise<void> {
   // Upload file
   const filePath = "./data/sampleFileForUpload.txt";
   const localFileStream = fs.createReadStream(filePath);
-  const file = await client.uploadFile(localFileStream, "assistants", {
+  const file = await client.files.upload(localFileStream, "assistants", {
     fileName: "sampleFileForUpload.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store
-  const vectorStore = await client.createVectorStore({
+  const vectorStore = await client.vectorStores.create({
     fileIds: [file.id],
     name: "myVectorStore",
   });
@@ -51,11 +51,11 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "Can you give me the documented codes for 'banana' and 'orange'?",
@@ -63,15 +63,15 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create run
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   while (["queued", "in_progress"].includes(run.status)) {
     await delay(500);
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   }
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
-  const messages = await client.listMessages(thread.id);
+  const messages = await client.messages.list(thread.id);
   await messages.data.forEach((threadMessage) => {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,

@@ -29,15 +29,15 @@ describe("Agents - streaming", () => {
     console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user", "Hello, tell me a joke");
+    const message = await projectsClient.messages.create(thread.id, "user", "Hello, tell me a joke");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Run streaming
-    const streamEventMessages = await projectsClient.createRun(thread.id, agent.id).stream();
+    const streamEventMessages = await projectsClient.runs.create(thread.id, agent.id).stream();
     let hasEventMessages = false;
 
     for await (const eventMessage of streamEventMessages) {
@@ -60,7 +60,7 @@ describe("Agents - streaming", () => {
     // Delete agent and thread
     await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
@@ -75,7 +75,7 @@ describe("Agents - streaming", () => {
 
     // Create thread and run streaming
     const streamEventMessages = await projectsClient
-      .createThreadAndRun(agent.id, {
+      .runs.createThreadAndRun(agent.id, {
         thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
       })
       .stream();

@@ -12,13 +12,13 @@ import { listRunSteps, getRunStep } from "../../api/runSteps/operations.js";
 /** Interface representing a RunSteps operations. */
 export interface RunStepsOperations {
   /** Gets a list of run steps from a thread run. */
-  listRunSteps: (
+  list: (
     threadId: string,
     runId: string,
     options?: RunStepsListRunStepsOptionalParams,
   ) => Promise<OpenAIPageableListOfRunStep>;
   /** Retrieves a single run step from a thread run. */
-  getRunStep: (
+  get: (
     threadId: string,
     runId: string,
     stepId: string,
@@ -28,12 +28,12 @@ export interface RunStepsOperations {
 
 function _getRunSteps(context: AgentsContext) {
   return {
-    listRunSteps: (
+    list: (
       threadId: string,
       runId: string,
       options?: RunStepsListRunStepsOptionalParams,
     ) => listRunSteps(context, threadId, runId, options),
-    getRunStep: (
+    get: (
       threadId: string,
       runId: string,
       stepId: string,

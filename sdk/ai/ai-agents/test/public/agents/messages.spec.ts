@@ -25,28 +25,28 @@ describe("Agents - messages", () => {
 
   it("should create message", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user", "hello, world!");
+    const message = await projectsClient.messages.create(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
     assert.isNotNull(message);
     assert.isNotNull(message.id);
 
     // Delete thread
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should list messages", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create messages
-    const firstMessage = await projectsClient.createMessage(thread.id, "user", "knock knock");
-    const secondMessage = await projectsClient.createMessage(
+    const firstMessage = await projectsClient.messages.create(thread.id, "user", "knock knock");
+    const secondMessage = await projectsClient.messages.create(
       thread.id,
       "assistant",
       "who's there?",
@@ -54,7 +54,7 @@ describe("Agents - messages", () => {
     console.log(`Created messages, message IDs: ${firstMessage.id}, ${secondMessage.id}`);
 
     // List messages
-    const messages = await projectsClient.listMessages(thread.id);
+    const messages = await projectsClient.messages.list(thread.id);
     assert.isNotEmpty(messages);
     assert.equal(messages.data.length, 2);
     assert.equal(messages.data[1].id, firstMessage.id);
@@ -62,21 +62,21 @@ describe("Agents - messages", () => {
     console.log(`Listed ${messages.data.length} messages, thread ID: ${thread.id}`);
 
     // Delete thread
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should update message", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user", "hello, world!");
+    const message = await projectsClient.messages.create(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
     // Update message
-    const updatedMessage = await projectsClient.updateMessage(thread.id, message.id, {
+    const updatedMessage = await projectsClient.messages.update(thread.id, message.id, {
       metadata: { key: "value" },
     });
     assert.isNotNull(updatedMessage);
@@ -87,7 +87,7 @@ describe("Agents - messages", () => {
     );
 
     // Delete thread
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 });

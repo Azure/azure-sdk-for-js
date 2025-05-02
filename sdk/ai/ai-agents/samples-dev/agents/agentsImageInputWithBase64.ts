@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
 
   // Create a thread
   console.log("Creating thread...");
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message with text and image content using base64
@@ -75,12 +75,12 @@ export async function main(): Promise<void> {
     },
   ];
 
-  const message = await client.createMessage(thread.id, "user", content);
+  const message = await client.messages.create(thread.id, "user", content);
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and poll a run
   console.log("Creating run...");
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
 
   // Poll the run as long as run status is queued or in progress
   while (
@@ -91,7 +91,7 @@ export async function main(): Promise<void> {
     // Wait for a second
     console.log(`Run status: ${run.status}, waiting...`);
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
   }
   console.log(`Run complete with status: ${run.status}`);
 
@@ -100,7 +100,7 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // List messages
-  const messages = await client.listMessages(thread.id, {
+  const messages = await client.messages.list(thread.id, {
     order: "asc",
   });
 

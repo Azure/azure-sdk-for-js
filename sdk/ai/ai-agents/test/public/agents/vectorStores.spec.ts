@@ -25,64 +25,64 @@ describe("projectsClient - vector stores", () => {
 
   it("should create vector store", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     assert.isNotNull(vectorStore);
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Delete vector store
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should delete vector store", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Delete vector store
-    const deletionStatus = await projectsClient.deleteVectorStore(vectorStore.id);
+    const deletionStatus = await projectsClient.vectorStores.delete(vectorStore.id);
     assert.isTrue(deletionStatus.deleted);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("get vector store", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Retrieve vector store
-    const _vectorStore = await projectsClient.getVectorStore(vectorStore.id);
+    const _vectorStore = await projectsClient.vectorStores.get(vectorStore.id);
     assert.equal(_vectorStore.id, vectorStore.id);
     console.log(`Retrieved vector store, vector store ID: ${_vectorStore.id}`);
 
     // Delete vector store
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("list vector stores", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // List vector stores
-    const vectorStores = await projectsClient.listVectorStores();
+    const vectorStores = await projectsClient.vectorStores.list();
     assert.isNotNull(vectorStores);
     assert.isAtLeast(vectorStores.data.length, 1);
     console.log(`Listed ${vectorStores.data.length} vector stores`);
 
     // Delete vector store
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("modify vector store", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Modify vector store
-    const updatedVectorStore = await projectsClient.modifyVectorStore(vectorStore.id, {
+    const updatedVectorStore = await projectsClient.vectorStores.update(vectorStore.id, {
       name: "updated",
     });
     assert.equal(updatedVectorStore.id, vectorStore.id);
@@ -92,13 +92,13 @@ describe("projectsClient - vector stores", () => {
     );
 
     // Delete vector store
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should create vector store and poll (through original method)", async function () {
     // Create vector store
-    const vectorStorePoller = projectsClient.createVectorStoreAndPoll();
+    const vectorStorePoller = projectsClient.vectorStores.createAndPoll();
     const initialState = vectorStorePoller.poll();
     assert.isNotNull(initialState);
     const vectorStore = await vectorStorePoller.pollUntilDone();
@@ -109,13 +109,13 @@ describe("projectsClient - vector stores", () => {
     );
 
     // Delete vector store
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should create vector store and poll (through creation method)", async function () {
     // Create vector store
-    const vectorStorePoller = projectsClient.createVectorStoreAndPoll({
+    const vectorStorePoller = projectsClient.vectorStores.createAndPoll({
       pollingOptions: { intervalInMs: 2000 },
     });
     const initialState = vectorStorePoller.poll();
@@ -128,7 +128,7 @@ describe("projectsClient - vector stores", () => {
     );
 
     // Delete vector store
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 });

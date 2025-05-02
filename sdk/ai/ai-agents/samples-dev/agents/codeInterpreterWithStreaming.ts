@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
   // Upload file and wait for it to be processed
   const filePath = "./data/nifty500QuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.uploadFile(localFileStream, "assistants", {
+  const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "myLocalFile",
   });
 
@@ -60,11 +60,11 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create a thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
@@ -73,7 +73,7 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and execute a run
-  const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
@@ -106,11 +106,11 @@ export async function main(): Promise<void> {
   }
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
-  await client.deleteFile(localFile.id);
+  await client.files.delete(localFile.id);
   console.log(`Deleted file, file ID : ${localFile.id}`);
 
   // Print the messages from the agent
-  const messages = await client.listMessages(thread.id);
+  const messages = await client.messages.list(thread.id);
   console.log("Messages:", messages);
 
   // Get most recent message from the assistant
@@ -129,11 +129,11 @@ export async function main(): Promise<void> {
   const imageFileOutput = messages.data[0].content[0] as MessageImageFileContent;
   const imageFile = imageFileOutput.imageFile.fileId;
   const imageFileName = path.resolve(
-    "./data/" + (await client.getFile(imageFile)).filename + "ImageFile.png",
+    "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
   );
   console.log(`Image file name : ${imageFileName}`);
 
-  const fileContent = await (await client.getFileContent(imageFile).asNodeStream()).body;
+  const fileContent = await (await client.files.getContent(imageFile).asNodeStream()).body;
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {

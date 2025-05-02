@@ -20,60 +20,62 @@ import {
   getVectorStore,
   createVectorStore,
   listVectorStores,
+  createVectorStoreAndPoll,
 } from "../../api/vectorStores/operations.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VectorStores operations. */
 export interface VectorStoresOperations {
   /** Deletes the vector store object matching the specified ID. */
-  deleteVectorStore: (
+  delete: (
     vectorStoreId: string,
     options?: VectorStoresDeleteVectorStoreOptionalParams,
   ) => Promise<VectorStoreDeletionStatus>;
   /** Modifies an existing vector store. */
-  modifyVectorStore: (
+  update: (
     vectorStoreId: string,
     options?: VectorStoresModifyVectorStoreOptionalParams,
   ) => Promise<VectorStore>;
   /** Returns the vector store object matching the specified ID. */
-  getVectorStore: (
+  get: (
     vectorStoreId: string,
     options?: VectorStoresGetVectorStoreOptionalParams,
   ) => Promise<VectorStore>;
   /** Creates a vector store. */
-  createVectorStore: (
+  create: (
     options?: VectorStoresCreateVectorStoreOptionalParams,
   ) => Promise<VectorStore>;
   /** Creates a vector store and poll. */
-  createVectorStoreAndPoll(
+  createAndPoll(
     options?: VectorStoresCreateVectorStoreOptionalParams,
-  ): Promise<VectorStore>;
+  ): PollerLike<OperationState<VectorStore>, VectorStore>;
   /** Returns a list of vector stores. */
-  listVectorStores: (
+  list: (
     options?: VectorStoresListVectorStoresOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStore>;
 }
 
 function _getVectorStores(context: AgentsContext) {
   return {
-    deleteVectorStore: (
+    delete: (
       vectorStoreId: string,
       options?: VectorStoresDeleteVectorStoreOptionalParams,
     ) => deleteVectorStore(context, vectorStoreId, options),
-    modifyVectorStore: (
+    update: (
       vectorStoreId: string,
       options?: VectorStoresModifyVectorStoreOptionalParams,
     ) => modifyVectorStore(context, vectorStoreId, options),
-    getVectorStore: (
+    get: (
       vectorStoreId: string,
       options?: VectorStoresGetVectorStoreOptionalParams,
     ) => getVectorStore(context, vectorStoreId, options),
-    createVectorStore: (
+    create: (
       options?: VectorStoresCreateVectorStoreOptionalParams,
     ) => createVectorStore(context, options),
-    createVectorStoreAndPoll: (
+    createAndPoll: (
       options?: VectorStoresCreateVectorStoreOptionalParams,
-    ) => createVectorStore(context, options),
-    listVectorStores: (options?: VectorStoresListVectorStoresOptionalParams) =>
+    ) => createVectorStoreAndPoll(context, options),
+    list: (options?: VectorStoresListVectorStoresOptionalParams) =>
       listVectorStores(context, options),
   };
 }

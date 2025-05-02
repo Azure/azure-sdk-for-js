@@ -19,62 +19,63 @@ import {
   createVectorStoreFileBatch,
   createVectorStoreFileBatchAndPoll,
 } from "../../api/vectorStoreFileBatches/operations.js";
+import { OperationState, PollerLike } from "@azure/core-lro";
 
 /** Interface representing a VectorStoreFileBatches operations. */
 export interface VectorStoreFileBatchesOperations {
   /** Returns a list of vector store files in a batch. */
-  listVectorStoreFileBatchFiles: (
+  list: (
     vectorStoreId: string,
     batchId: string,
     options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreFile>;
   /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
-  cancelVectorStoreFileBatch: (
+  cancel: (
     vectorStoreId: string,
     batchId: string,
     options?: VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatch>;
   /** Retrieve a vector store file batch. */
-  getVectorStoreFileBatch: (
+  get: (
     vectorStoreId: string,
     batchId: string,
     options?: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatch>;
   /** Create a vector store file batch. */
-  createVectorStoreFileBatch: (
+  create: (
     vectorStoreId: string,
     options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
   ) => Promise<VectorStoreFileBatch>;
   /** Create a vector store file batch and poll. */
-  createVectorStoreFileBatchAndPoll: (
+  createAndPoll: (
     vectorStoreId: string,
     options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
-  ) => Promise<VectorStoreFileBatch>;
+  ) => PollerLike<OperationState<VectorStoreFileBatch>,VectorStoreFileBatch>;
 }
 
 function _getVectorStoreFileBatches(context: AgentsContext) {
   return {
-    listVectorStoreFileBatchFiles: (
+    list: (
       vectorStoreId: string,
       batchId: string,
       options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
     ) =>
       listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, options),
-    cancelVectorStoreFileBatch: (
+    cancel: (
       vectorStoreId: string,
       batchId: string,
       options?: VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
     ) => cancelVectorStoreFileBatch(context, vectorStoreId, batchId, options),
-    getVectorStoreFileBatch: (
+    get: (
       vectorStoreId: string,
       batchId: string,
       options?: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
     ) => getVectorStoreFileBatch(context, vectorStoreId, batchId, options),
-    createVectorStoreFileBatch: (
+    create: (
       vectorStoreId: string,
       options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
     ) => createVectorStoreFileBatch(context, vectorStoreId, options),
-    createVectorStoreFileBatchAndPoll: (
+    createAndPoll: (
       vectorStoreId: string,
       options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
     ) => createVectorStoreFileBatchAndPoll(context, vectorStoreId, options),

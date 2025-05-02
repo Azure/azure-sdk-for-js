@@ -19,15 +19,15 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
 
   console.log(`Created thread, thread ID : ${thread.id}`);
 
-  const _thread = await client.getThread(thread.id);
+  const _thread = await client.threads.get(thread.id);
 
   console.log(`Retrieved thread, thread ID : ${_thread.id}`);
 
-  await client.deleteThread(thread.id);
+  await client.threads.delete(thread.id);
 
   console.log(`Deleted thread, thread ID : ${_thread.id}`);
 }

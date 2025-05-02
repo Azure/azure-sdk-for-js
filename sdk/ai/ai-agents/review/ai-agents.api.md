@@ -57,57 +57,17 @@ export type AgentRunResponse = PromiseLike<ThreadRun> & {
 // @public (undocumented)
 export class AgentsClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: AgentsClientOptionalParams);
-    cancelRun(threadId: string, runId: string, options?: RunsCancelRunOptionalParams): Promise<ThreadRun>;
-    cancelVectorStoreFileBatch(vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams): Promise<VectorStoreFileBatch>;
     createAgent(model: string, options?: CreateAgentOptionalParams): Promise<Agent>;
-    createMessage(threadId: string, role: MessageRole, content: MessageInputContent, options?: MessagesCreateMessageOptionalParams): Promise<ThreadMessage>;
-    createRun(threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams): AgentRunResponse;
-    createThread(options?: ThreadsCreateThreadOptionalParams): Promise<AgentThread>;
-    createThreadAndRun(assistantId: string, options?: CreateThreadAndRunOptionalParams): AgentRunResponse;
-    createVectorStore(options?: VectorStoresCreateVectorStoreOptionalParams): Promise<VectorStore>;
-    createVectorStoreAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): PollerLike<OperationState<VectorStore>, VectorStore>;
-    createVectorStoreFile(vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams): Promise<VectorStoreFile>;
-    createVectorStoreFileAndPoll(vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams): PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>;
-    createVectorStoreFileBatch(vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams): Promise<VectorStoreFileBatch>;
-    createVectorStoreFileBatchAndPoll(vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams): PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch>;
     deleteAgent(assistantId: string, options?: DeleteAgentOptionalParams): Promise<AgentDeletionStatus>;
-    deleteFile(fileId: string, options?: FilesDeleteFileOptionalParams): Promise<FileDeletionStatus>;
-    deleteThread(threadId: string, options?: ThreadsDeleteThreadOptionalParams): Promise<ThreadDeletionStatus>;
-    deleteVectorStore(vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams): Promise<VectorStoreDeletionStatus>;
-    deleteVectorStoreFile(vectorStoreId: string, fileId: string, options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams): Promise<VectorStoreFileDeletionStatus>;
     readonly files: FilesOperations;
     getAgent(assistantId: string, options?: GetAgentOptionalParams): Promise<Agent>;
-    getFile(fileId: string, options?: FilesGetFileOptionalParams): Promise<FileInfo>;
-    getFileContent(fileId: string, options?: FilesGetFileContentOptionalParams): Promise<Uint8Array>;
-    getMessage(threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams): Promise<ThreadMessage>;
-    getRun(threadId: string, runId: string, options?: RunsGetRunOptionalParams): Promise<ThreadRun>;
-    getRunStep(threadId: string, runId: string, stepId: string, options?: RunStepsGetRunStepOptionalParams): Promise<RunStep>;
-    getThread(threadId: string, options?: ThreadsGetThreadOptionalParams): Promise<AgentThread>;
-    getVectorStore(vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams): Promise<VectorStore>;
-    getVectorStoreFile(vectorStoreId: string, fileId: string, options?: VectorStoreFilesGetVectorStoreFileOptionalParams): Promise<VectorStoreFile>;
-    getVectorStoreFileBatch(vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams): Promise<VectorStoreFileBatch>;
     listAgents(options?: ListAgentsOptionalParams): Promise<OpenAIPageableListOfAgent>;
-    listFiles(options?: FilesListFilesOptionalParams): Promise<FileListResponse>;
-    listMessages(threadId: string, options?: MessagesListMessagesOptionalParams): Promise<OpenAIPageableListOfThreadMessage>;
-    listRuns(threadId: string, options?: RunsListRunsOptionalParams): Promise<OpenAIPageableListOfThreadRun>;
-    listRunSteps(threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams): Promise<OpenAIPageableListOfRunStep>;
-    listThreads(options?: ThreadsListThreadsOptionalParams): Promise<OpenAIPageableListOfAgentThread>;
-    listVectorStoreFileBatchFiles(vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams): Promise<OpenAIPageableListOfVectorStoreFile>;
-    listVectorStoreFiles(vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams): Promise<OpenAIPageableListOfVectorStoreFile>;
-    listVectorStores(options?: VectorStoresListVectorStoresOptionalParams): Promise<OpenAIPageableListOfVectorStore>;
     readonly messages: MessagesOperations;
-    modifyVectorStore(vectorStoreId: string, options?: VectorStoresModifyVectorStoreOptionalParams): Promise<VectorStore>;
     readonly pipeline: Pipeline;
     readonly runs: RunsOperations;
     readonly runSteps: RunStepsOperations;
-    submitToolOutputsToRun(threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams): Promise<ThreadRun>;
     readonly threads: ThreadsOperations;
     updateAgent(assistantId: string, options?: UpdateAgentOptionalParams): Promise<Agent>;
-    updateMessage(threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams): Promise<ThreadMessage>;
-    updateRun(threadId: string, runId: string, options?: RunsUpdateRunOptionalParams): Promise<ThreadRun>;
-    updateThread(threadId: string, options?: ThreadsUpdateThreadOptionalParams): Promise<AgentThread>;
-    uploadFile(file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: FilesUploadFileOptionalParams): Promise<FileInfo>;
-    uploadFileAndPoll(file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: FilesUploadFileOptionalParams): PollerLike<OperationState<FileInfo>, FileInfo>;
     readonly vectorStoreFileBatches: VectorStoreFileBatchesOperations;
     readonly vectorStoreFiles: VectorStoreFilesOperations;
     readonly vectorStores: VectorStoresOperations;
@@ -408,12 +368,12 @@ export interface FilesListFilesOptionalParams extends OperationOptions {
 
 // @public
 export interface FilesOperations {
-    deleteFile: (fileId: string, options?: FilesDeleteFileOptionalParams) => Promise<FileDeletionStatus>;
-    getFile: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
-    getFileContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => Promise<Uint8Array>;
-    listFiles: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
-    uploadFile: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
-    uploadFileAndPoll: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
+    delete: (fileId: string, options?: FilesDeleteFileOptionalParams) => Promise<FileDeletionStatus>;
+    get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
+    getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => Promise<Uint8Array>;
+    list: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
+    upload: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
+    uploadAndPoll: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
 }
 
 // @public
@@ -680,10 +640,10 @@ export interface MessagesListMessagesOptionalParams extends OperationOptions {
 
 // @public
 export interface MessagesOperations {
-    createMessage: (threadId: string, role: MessageRole, content: MessageInputContent, options?: MessagesCreateMessageOptionalParams) => Promise<ThreadMessage>;
-    getMessage: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) => Promise<ThreadMessage>;
-    listMessages: (threadId: string, options?: MessagesListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessage>;
-    updateMessage: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) => Promise<ThreadMessage>;
+    create: (threadId: string, role: MessageRole, content: MessageInputContent, options?: MessagesCreateMessageOptionalParams) => Promise<ThreadMessage>;
+    get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) => Promise<ThreadMessage>;
+    list: (threadId: string, options?: MessagesListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessage>;
+    update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) => Promise<ThreadMessage>;
 }
 
 // @public
@@ -991,13 +951,13 @@ export interface RunsListRunsOptionalParams extends OperationOptions {
 
 // @public
 export interface RunsOperations {
-    cancelRun: (threadId: string, runId: string, options?: RunsCancelRunOptionalParams) => Promise<ThreadRun>;
-    createRun: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) => AgentRunResponse;
-    createThreadAndRun: (assistantId: string, options?: RunsCreateRunOptionalParams) => AgentRunResponse;
-    getRun: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) => Promise<ThreadRun>;
-    listRuns: (threadId: string, options?: RunsListRunsOptionalParams) => Promise<OpenAIPageableListOfThreadRun>;
-    submitToolOutputsToRun: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams) => Promise<ThreadRun>;
-    updateRun: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) => Promise<ThreadRun>;
+    cancel: (threadId: string, runId: string, options?: RunsCancelRunOptionalParams) => Promise<ThreadRun>;
+    create: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) => AgentRunResponse;
+    createThreadAndRun: (assistantId: string, options?: CreateThreadAndRunOptionalParams) => AgentRunResponse;
+    get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) => Promise<ThreadRun>;
+    list: (threadId: string, options?: RunsListRunsOptionalParams) => Promise<OpenAIPageableListOfThreadRun>;
+    submitToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams) => Promise<ThreadRun>;
+    update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) => Promise<ThreadRun>;
 }
 
 // @public
@@ -1289,8 +1249,8 @@ export interface RunStepsListRunStepsOptionalParams extends OperationOptions {
 
 // @public
 export interface RunStepsOperations {
-    getRunStep: (threadId: string, runId: string, stepId: string, options?: RunStepsGetRunStepOptionalParams) => Promise<RunStep>;
-    listRunSteps: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) => Promise<OpenAIPageableListOfRunStep>;
+    get: (threadId: string, runId: string, stepId: string, options?: RunStepsGetRunStepOptionalParams) => Promise<RunStep>;
+    list: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) => Promise<OpenAIPageableListOfRunStep>;
 }
 
 // @public
@@ -1432,11 +1392,11 @@ export interface ThreadsListThreadsOptionalParams extends OperationOptions {
 
 // @public
 export interface ThreadsOperations {
-    createThread: (options?: ThreadsCreateThreadOptionalParams) => Promise<AgentThread>;
-    deleteThread: (threadId: string, options?: ThreadsDeleteThreadOptionalParams) => Promise<ThreadDeletionStatus>;
-    getThread: (threadId: string, options?: ThreadsGetThreadOptionalParams) => Promise<AgentThread>;
-    listThreads: (options?: ThreadsListThreadsOptionalParams) => Promise<OpenAIPageableListOfAgentThread>;
-    updateThread: (threadId: string, options?: ThreadsUpdateThreadOptionalParams) => Promise<AgentThread>;
+    create: (options?: ThreadsCreateThreadOptionalParams) => Promise<AgentThread>;
+    delete: (threadId: string, options?: ThreadsDeleteThreadOptionalParams) => Promise<ThreadDeletionStatus>;
+    get: (threadId: string, options?: ThreadsGetThreadOptionalParams) => Promise<AgentThread>;
+    list: (options?: ThreadsListThreadsOptionalParams) => Promise<OpenAIPageableListOfAgentThread>;
+    update: (threadId: string, options?: ThreadsUpdateThreadOptionalParams) => Promise<AgentThread>;
 }
 
 // @public
@@ -1714,11 +1674,11 @@ export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalPara
 
 // @public
 export interface VectorStoreFileBatchesOperations {
-    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
-    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
-    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
+    cancel: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
+    create: (vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
+    createAndPoll: (vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch>;
+    get: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
+    list: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
 }
 
 // @public
@@ -1775,11 +1735,11 @@ export interface VectorStoreFilesListVectorStoreFilesOptionalParams extends Oper
 
 // @public
 export interface VectorStoreFilesOperations {
-    createVectorStoreFile: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatus>;
-    getVectorStoreFile: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesGetVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
-    listVectorStoreFiles: (vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
+    create: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
+    createAndPoll: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
+    delete: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatus>;
+    get: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesGetVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
+    list: (vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
 }
 
 // @public
@@ -1823,12 +1783,12 @@ export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOp
 
 // @public
 export interface VectorStoresOperations {
-    createVectorStore: (options?: VectorStoresCreateVectorStoreOptionalParams) => Promise<VectorStore>;
-    createVectorStoreAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): Promise<VectorStore>;
-    deleteVectorStore: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatus>;
-    getVectorStore: (vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams) => Promise<VectorStore>;
-    listVectorStores: (options?: VectorStoresListVectorStoresOptionalParams) => Promise<OpenAIPageableListOfVectorStore>;
-    modifyVectorStore: (vectorStoreId: string, options?: VectorStoresModifyVectorStoreOptionalParams) => Promise<VectorStore>;
+    create: (options?: VectorStoresCreateVectorStoreOptionalParams) => Promise<VectorStore>;
+    createAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): Promise<VectorStore>;
+    delete: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatus>;
+    get: (vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams) => Promise<VectorStore>;
+    list: (options?: VectorStoresListVectorStoresOptionalParams) => Promise<OpenAIPageableListOfVectorStore>;
+    update: (vectorStoreId: string, options?: VectorStoresModifyVectorStoreOptionalParams) => Promise<VectorStore>;
 }
 
 // @public

@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
   // Upload file for code interpreter tool
   const filePath1 = "./data/nifty500QuarterlyResults.csv";
   const fileStream1 = fs.createReadStream(filePath1);
-  const codeInterpreterFile = await client.uploadFile(fileStream1, "assistants", {
+  const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
     fileName: "myLocalFile",
   });
 
@@ -34,7 +34,7 @@ export async function main(): Promise<void> {
   // Upload file for file search tool
   const filePath2 = "./data/sampleFileForUpload.txt";
   const fileStream2 = fs.createReadStream(filePath2);
-  const fileSearchFile = await client.uploadFile(fileStream2, "assistants", {
+  const fileSearchFile = await client.files.upload(fileStream2, "assistants", {
     fileName: "sampleFileForUpload.txt",
   });
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
