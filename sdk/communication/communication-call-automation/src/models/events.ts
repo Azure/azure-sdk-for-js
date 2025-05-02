@@ -58,6 +58,7 @@ export type CallAutomationEvent =
   | CallTransferFailed
   | ParticipantsUpdated
   | RecordingStateChanged
+  | PlayStarted
   | PlayCompleted
   | PlayFailed
   | PlayCanceled
@@ -71,19 +72,18 @@ export type CallAutomationEvent =
   | SendDtmfTonesFailed
   | CancelAddParticipantSucceeded
   | CancelAddParticipantFailed
+  | ConnectFailed
   | TranscriptionStarted
   | TranscriptionStopped
   | TranscriptionUpdated
-  | TranscriptionFailed
-  | CreateCallFailed
-  | AnswerFailed
+  | TranscriptionFailed  
   | HoldFailed
-  | ConnectFailed
   | MediaStreamingStarted
   | MediaStreamingStopped
   | MediaStreamingFailed
-  | StartRecordingFailed
-  | PlayStarted;
+  | CreateCallFailed
+  | AnswerFailed
+  | StartRecordingFailed;
 
   export {
     RestAddParticipantSucceeded,
@@ -347,7 +347,7 @@ export interface PlayStarted
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "RecordingStateChanged";
+  kind: "PlayStarted";
 }
 
 /** Event when Media play was successfully completed. */
@@ -677,7 +677,7 @@ export interface CreateCallFailed
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CreateCallFailed";
 }
@@ -694,7 +694,7 @@ export interface AnswerFailed
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "AnswerFailed";
 }
@@ -711,7 +711,7 @@ export interface HoldFailed
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "HoldFailed";
 }
@@ -723,12 +723,10 @@ export interface ConnectFailed
   > {
   /** Call connection ID. */
   callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "ConnectFailed";
 }
@@ -799,22 +797,4 @@ export interface StartRecordingFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "StartRecordingFailed";
-}
-
-/** Event when Media play was successfully started. */
-export interface PlayStarted
-  extends Omit<
-    RestPlayStarted,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /** kind of this event. */
-  kind: "PlayStarted";
 }

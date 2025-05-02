@@ -364,11 +364,6 @@ export interface StartTranscriptionOptions extends OperationOptions {
   operationContext?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
-  /**
-   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUrl?: string;
 }
 
 /**
@@ -377,11 +372,6 @@ export interface StartTranscriptionOptions extends OperationOptions {
 export interface StopTranscriptionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /**
-   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUrl?: string;
 }
 
 /**
@@ -448,9 +438,4 @@ export interface UpdateTranscriptionOptions extends OperationOptions {
   speechRecognitionModelEndpointId?: string;
   /** The value to identify context of the operation. */
   operationContext?: string;
-  /**
-   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUrl?: string;
 }

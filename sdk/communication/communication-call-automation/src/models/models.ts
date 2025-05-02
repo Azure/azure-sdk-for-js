@@ -26,14 +26,17 @@ export {
   MediaStreamingOptions,
   MediaStreamingContentType,
   MediaStreamingTransportType,
+  MediaStreamingSubscription,
   TranscriptionOptions,
   TranscriptionTransportType,
+  TranscriptionSubscription,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
   SpeechResult,
   RecordingState,
   Tone,
+  AudioFormat,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */

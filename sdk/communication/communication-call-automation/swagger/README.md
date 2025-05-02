@@ -21,7 +21,7 @@ typescript: true
 azure-arm: false
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.34"
+  "@autorest/typescript": "latest"
 directive:
   - rename-model:
       from: CallParticipant

@@ -6,37 +6,34 @@ import type { CallConnectionProperties, CallParticipant } from "./models.js";
 import { RecordingState, RecordingKind } from "../generated/src/index.js";
 
 /**
- * CreateCall result
+ * The interface used as parent of [action]CallResult
  */
-export interface CreateCallResult {
-  /** The callConnectionProperties */
+interface CallResult {
+  /*
+   * The callConnectionProperties
+   */
   callConnectionProperties: CallConnectionProperties;
 
-  /** The callConnection */
+  /*
+   * The callConnection
+   */
   callConnection: CallConnection;
 }
+
+/**
+ * CreateCall result
+ */
+export type CreateCallResult = CallResult;
 
 /**
  * AnswerCall result
  */
-export interface AnswerCallResult {
-  /** The callConnectionProperties */
-  callConnectionProperties: CallConnectionProperties;
-
-  /** The callConnection */
-  callConnection: CallConnection;
-}
+export type AnswerCallResult = CallResult;
 
 /**
  * ConnectCall result
  */
-export interface ConnectCallResult {
-  /** The callConnectionProperties */
-  callConnectionProperties: CallConnectionProperties;
-
-  /** The callConnection */
-  callConnection: CallConnection;
-}
+export type ConnectCallResult = CallResult;
 
 /** The response payload for getting participants of the call. */
 export interface ListParticipantsResult {
