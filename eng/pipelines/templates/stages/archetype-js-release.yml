@@ -249,7 +249,7 @@ stages:
               Write-Host "variables.System.TeamProject: $(System.TeamProject)"
             displayName: Dumping Values
       - ${{ each artifact in parameters.Artifacts }}:
-        - job: Dump${{ artifact.name }}
+        - job: Dump${{ artifact.safename }}
           displayName: Dump values for ${{ artifact.name }}
           pool:
             name: $(LINUXPOOL)
