@@ -26,7 +26,10 @@ extends:
     Artifacts:
       - name: azure-ai-agents
         safeName: azureaaiagents
+        skipPublishDevFeed: false
       - name: azure-rest-ai-inference
         safeName: azurerestaiinference
+        skipPublishDevFeed: false
       - name: azure-ai-projects
         safeName: azureaaiprojects
+        skipPublishDevFeed: false
