@@ -57,6 +57,8 @@ jobs:
     ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
       timeoutInMinutes: 240
 
+    condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
+
     pool:
       name: $(LINUXPOOL)
       image: $(LINUXVMIMAGE)
