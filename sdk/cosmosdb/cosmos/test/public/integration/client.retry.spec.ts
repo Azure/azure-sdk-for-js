@@ -123,9 +123,6 @@ describe("RetryPolicy", () => {
       const options = {
         endpoint,
         key: masterKey,
-        connectionPolicy: {
-          useMultipleWriteLocations: true,
-        },
       };
       const plugins = getPlugins(responses, lastEndpointCalled);
       const client = new CosmosClient(Object.assign(Object.assign({}, options), { plugins }));
