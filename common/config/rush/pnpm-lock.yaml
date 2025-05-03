@@ -3601,7 +3601,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
-    resolution: {integrity: sha512-9Z6zAbAo3TDN7WboMoS1dmnoQ83bneVt18VRKCPl5qc09CYNkU96jM9FoACmLwBPTtxYbnzQHUZCjif0weD4Wg==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-xku+/lyao4bDhF5UwcRne/gPmGlWoKwacbzR2wSdwI/yt2Kd/rxpQ3pzDGOOkjG/yXXGFtv+xzQf1cIQzJN03A==, tarball: file:projects/digital-twins-core.tgz}
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
@@ -19793,6 +19793,7 @@ snapshots:
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
