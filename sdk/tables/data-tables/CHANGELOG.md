@@ -2,12 +2,13 @@
 
 # Release History
 
-## 13.3.1 (2025-01-14)
+## 13.3.1 (2025-05-06)
 
 ### Bugs Fixed
 
 - Fix issue [#28624](https://github.com/Azure/azure-sdk-for-js/issues/28624) where request options were not available when submitting a transaction operation.
 - Fix issue [#32239](https://github.com/Azure/azure-sdk-for-js/issues/32239) where Azurite emulator endpoint with a non-default port was treated as Cosmos endpoint.
+- Add `partitionKey` and `rowKey` validation for `TableClient` methods.
 
 ## 13.3.0 (2024-11-18)
 
