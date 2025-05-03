@@ -7,73 +7,33 @@
  */
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { createHttpPoller, PollerLike, OperationState, OperationResponse, RawRequest } from "@azure/core-lro";
+import { LongRunningOperation, LroResponse } from "@azure/core-lro";
 
 export function createLroSpec<T>(inputs: {
-  sendOperationFn: (args: any, spec: any) => Promise<{ 
-    flatResponse: T;
-    rawResponse: {
-      statusCode: number;
-      request?: RawRequest;
-      headers: Record<string, string>;
-    }
-  }>;
+  sendOperationFn: (args: any, spec: any) => Promise<LroResponse<T>>;
   args: Record<string, unknown>;
   spec: {
     readonly requestBody?: unknown;
     readonly path?: string;
     readonly httpMethod: string;
   } & Record<string, any>;
-}): PollerLike<OperationState<T>, T> {
+}): LongRunningOperation<T> {
   const { args, spec, sendOperationFn } = inputs;
-
-  return createHttpPoller(
-    {
-      sendInitialRequest: async () => {
-        const response = await sendOperationFn(args, spec);
-        
-        return {
-          status: String(response.rawResponse.statusCode),
-          result: response.flatResponse,
-          flatResponse: response.flatResponse,
-          rawResponse: {
-            statusCode: response.rawResponse.statusCode,
-            request: {
-              url: spec.path || "",
-              method: spec.httpMethod || "GET",
-              headers: {},
-              body: spec.requestBody
-            } as RawRequest,
-            headers: response.rawResponse.headers || {}
-          }
-        } as OperationResponse<T, RawRequest>;
-      },
-      sendPollRequest: async (path: string, options?: { abortSignal?: AbortSignalLike }) => {
-        const { requestBody, ...restSpec } = spec;
-        const response = await sendOperationFn(args, {
-          ...restSpec,
-          httpMethod: "GET",
-          path,
-          abortSignal: options?.abortSignal,
-        });
-
-        return {
-          status: String(response.rawResponse.statusCode),
-          result: response.flatResponse,
-          flatResponse: response.flatResponse,
-          rawResponse: {
-            statusCode: response.rawResponse.statusCode,
-            request: {
-              url: path,
-              method: "GET",
-              headers: {},
-              body: undefined
-            } as RawRequest,
-            headers: response.rawResponse.headers || {},
-          }
-        } as OperationResponse<T, RawRequest>;
-      },
+  return {
+    requestMethod: spec.httpMethod,
+    requestPath: spec.path!,
+    sendInitialRequest: () => sendOperationFn(args, spec),
+    sendPollRequest: (
+      path: string,
+      options?: { abortSignal?: AbortSignalLike },
+    ) => {
+      const { requestBody, ...restSpec } = spec;
+      return sendOperationFn(args, {
+        ...restSpec,
+        httpMethod: "GET",
+        path,
+        abortSignal: options?.abortSignal,
+      });
     },
-    { resolveOnUnsuccessful: false }
-  );
+  };
 }

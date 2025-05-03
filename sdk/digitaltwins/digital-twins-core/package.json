@@ -60,7 +60,7 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^3.2.0",
+    "@azure/core-lro": "^2.0.0",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-tracing": "^1.2.0",
