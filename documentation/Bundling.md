@@ -81,7 +81,7 @@ Now invoke webpack on the command-line:
 webpack --mode=development
 ```
 
-This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/main.js` by default.
+This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the browser-compatible bundle to `dist/main.js` by default.
 
 Now, you can use this bundle inside an html page via a script tag:
 
@@ -274,7 +274,7 @@ Now that we have our config file and necessary plugins installed, we can run rol
 rollup --config
 ```
 
-This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/bundle.js` as configured above.
+This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the browser-compatible bundle to `dist/bundle.js` as configured above.
 
 Now, you can use this bundle inside an html page via a script tag:
 
@@ -374,7 +374,7 @@ Now that we have our config file and necessary plugins installed, we can run rol
 rollup --config
 ```
 
-This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/bundle.js` as configured above.
+This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the browser-compatible bundle to `dist/bundle.js` as configured above.
 
 Now you can use this bundled output file inside an html page via a script tag:
 
