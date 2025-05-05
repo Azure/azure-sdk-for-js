@@ -190,10 +190,12 @@ function findGuidance(res: any): void {
                 console.log("   Recommendation Proposal: ", proposal.kind);
                 console.log("      Recommendation Procedure: ", proposal.recommendedProcedure.kind);
                 if ("imagingProcedures" in proposal.recommendedProcedure) {
-                  proposal.recommendedProcedure.imagingProcedures?.forEach((imagingProcedure: any) => {
-                    console.log("      Recommended Imaging Procedure Codes: ");
-                    displayImaging(imagingProcedure);
-                  });
+                  proposal.recommendedProcedure.imagingProcedures?.forEach(
+                    (imagingProcedure: any) => {
+                      console.log("      Recommended Imaging Procedure Codes: ");
+                      displayImaging(imagingProcedure);
+                    },
+                  );
                 }
               });
             }
@@ -296,7 +298,6 @@ function findGuidance(res: any): void {
       displayCodes(images.view.code);
     }
   }
-
 }
 
 describe("Guidance Inference Test", () => {

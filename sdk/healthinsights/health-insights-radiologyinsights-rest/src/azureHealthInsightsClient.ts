@@ -56,7 +56,7 @@ export default function createClient(
         return next(newReq);
       }
       return next(req);
-    }
+    },
   });
 
   return client;

@@ -508,10 +508,14 @@ describe("snippets", () => {
               const recommendationProposals = guidanceInference.recommendationProposals;
               for (const proposal of recommendationProposals) {
                 console.log(`   Recommended Proposal: ${proposal.kind}`);
-                console.log(`      Recommendation Procedure:  ${proposal.recommendedProcedure.kind}`);
+                console.log(
+                  `      Recommendation Procedure:  ${proposal.recommendedProcedure.kind}`,
+                );
                 let imagingprocedure;
                 if (proposal.recommendedProcedure.kind === "imagingProcedureRecommendation") {
-                  imagingprocedure = (proposal.recommendedProcedure as ImagingProcedureRecommendation).imagingProcedures;
+                  imagingprocedure = (
+                    proposal.recommendedProcedure as ImagingProcedureRecommendation
+                  ).imagingProcedures;
                   if (imagingprocedure) {
                     console.log("   Imaging Procedure Codes: ");
                     for (const imagingProcedure of imagingprocedure) {

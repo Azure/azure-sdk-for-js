@@ -142,7 +142,10 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
     },
   };
 
-  const mergedOptions = { ...options, resolveOnUnsuccessful: options?.resolveOnUnsuccessful ?? true };
+  const mergedOptions = {
+    ...options,
+    resolveOnUnsuccessful: options?.resolveOnUnsuccessful ?? true,
+  };
   const httpPoller = createHttpPoller(poller, mergedOptions);
   const simplePoller: SimplePollerLike<OperationState<TResult>, TResult> = {
     isDone() {
