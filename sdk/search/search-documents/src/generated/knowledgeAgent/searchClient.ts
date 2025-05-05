@@ -12,8 +12,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { DocumentsImpl } from "./operations/index.js";
-import { Documents } from "./operationsInterfaces/index.js";
+import { KnowledgeRetrievalImpl } from "./operations/index.js";
+import { KnowledgeRetrieval } from "./operationsInterfaces/index.js";
 import {
   ApiVersion20250501Preview,
   SearchClientOptionalParams,
@@ -22,27 +22,27 @@ import {
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  indexName: string;
+  agentName: string;
   apiVersion: ApiVersion20250501Preview;
 
   /**
    * Initializes a new instance of the SearchClient class.
    * @param endpoint The endpoint URL of the search service.
-   * @param indexName The name of the index.
+   * @param agentName The name of the agent.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
     endpoint: string,
-    indexName: string,
+    agentName: string,
     apiVersion: ApiVersion20250501Preview,
     options?: SearchClientOptionalParams,
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
-    if (indexName === undefined) {
-      throw new Error("'indexName' cannot be null");
+    if (agentName === undefined) {
+      throw new Error("'agentName' cannot be null");
     }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
@@ -71,14 +71,14 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       endpoint:
         options.endpoint ??
         options.baseUri ??
-        "{endpoint}/indexes('{indexName}')",
+        "{endpoint}/agents('{agentName}')",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
-    this.indexName = indexName;
+    this.agentName = agentName;
     this.apiVersion = apiVersion;
-    this.documents = new DocumentsImpl(this);
+    this.knowledgeRetrieval = new KnowledgeRetrievalImpl(this);
     this.addCustomApiVersionPolicy(apiVersion);
   }
 
@@ -110,5 +110,5 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  documents: Documents;
+  knowledgeRetrieval: KnowledgeRetrieval;
 }

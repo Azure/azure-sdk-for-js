@@ -23,6 +23,7 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
+  KnowledgeAgent as GeneratedKnowledgeAgent,
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
@@ -57,6 +58,7 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
+import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
 import { logger } from "./logger.js";
 import type {
   AIServicesVisionVectorizer,
@@ -109,9 +111,10 @@ import type {
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 
-export const defaultServiceVersion = "2024-09-01-Preview";
+export const defaultServiceVersion = "2025-05-01-Preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
+  "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
   "#Microsoft.Skills.Custom.WebApiSkill": true,
   "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill": true,
   "#Microsoft.Skills.Text.CustomEntityLookupSkill": true,
@@ -647,14 +650,16 @@ export function generatedSearchResultToPublicSearchResult<
         _score: score,
         _highlights: highlights,
         _rerankerScore: rerankerScore,
+        _rerankerBoostedScore: rerankerBoostedScore,
         _captions: captions,
-        documentDebugInfo: documentDebugInfo,
+        _documentDebugInfo: documentDebugInfo,
         ...restProps
       } = result;
       const obj = {
         score,
         highlights,
         rerankerScore,
+        rerankerBoostedScore,
         captions,
         documentDebugInfo,
         document: restProps,
@@ -923,5 +928,31 @@ export function convertSearchIndexerCacheToPublic(
   return {
     ...cache,
     identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
+  };
+}
+
+export function convertKnowledgeAgentToPublic(
+  knowledgeAgent: GeneratedKnowledgeAgent | undefined,
+): KnowledgeAgent | undefined {
+  if (!knowledgeAgent) {
+    return knowledgeAgent;
+  }
+
+  return {
+    ...knowledgeAgent,
+    encryptionKey: convertEncryptionKeyToPublic(knowledgeAgent.encryptionKey),
+  };
+}
+
+export function convertKnowledgeAgentToGenerated(
+  knowledgeAgent: KnowledgeAgent | undefined,
+): GeneratedKnowledgeAgent | undefined {
+  if (!knowledgeAgent) {
+    return knowledgeAgent;
+  }
+
+  return {
+    ...knowledgeAgent,
+    encryptionKey: convertEncryptionKeyToGenerated(knowledgeAgent.encryptionKey),
   };
 }
