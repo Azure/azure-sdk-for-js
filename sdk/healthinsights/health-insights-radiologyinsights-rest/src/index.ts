@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import AzureHealthInsightsClient from "./azureHealthInsightsClient.js";
+import { AzureHealthInsightsClient } from "./clientDefinitions.js";
+
 
 export * from "./azureHealthInsightsClient.js";
 export * from "./parameters.js";
