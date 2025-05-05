@@ -33,6 +33,27 @@ export {
   SpeechResult,
   RecordingState,
   Tone,
+  MediaStreamingUpdate,
+  MediaStreamingStatus,
+  MediaStreamingStatusDetails,
+  AudioFormat,
+  TranscriptionResultState,
+  TranscriptionUpdate,
+  TranscriptionStatus,
+  TranscriptionStatusDetails,
+  CustomCallingContextInternal,
+  CommunicationIdentifierModel,
+  CommunicationUserIdentifierModel,
+  CommunicationIdentifierModelKind,
+  MicrosoftTeamsAppIdentifierModel,
+  MicrosoftTeamsUserIdentifierModel,
+  PhoneNumberIdentifierModel,
+  CommunicationCloudEnvironmentModel,
+  CallAutomationApiClientOptionalParams,
+  MediaStreamingSubscription,
+  TranscriptionSubscription,
+  MediaStreamingSubscriptionState,
+  TranscriptionSubscriptionState,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -230,7 +251,7 @@ export interface RecordingStorage {
   recordingDestinationContainerUrl?: string;
 }
 
-interface CustomCallingContextHeader {
+export interface CustomCallingContextHeader {
   key: string;
   value: string;
 }

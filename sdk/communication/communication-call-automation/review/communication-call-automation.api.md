@@ -103,12 +103,21 @@ interface AudioData_2 {
 export { AudioData_2 as AudioData }
 
 // @public
+export type AudioFormat = string;
+
+// @public
 export interface AudioMetadata {
     channels: Channel;
     encoding: string;
     length: number;
     sampleRate: number;
     subscriptionId: string;
+}
+
+// @public
+export interface CallAutomationApiClientOptionalParams extends coreClient.ServiceClientOptions {
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -155,7 +164,6 @@ export interface CallConnected {
 
 // @public
 export class CallConnection {
-    // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, eventProcessor: CallAutomationEventProcessor, options?: CallAutomationApiClientOptionalParams);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
     cancelAddParticipantOperation(invitationId: string, options?: CancelAddParticipantOperationOptions): Promise<CancelAddParticipantOperationResult>;
@@ -177,7 +185,6 @@ export interface CallConnectionProperties {
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     correlationId?: string;
-    // Warning: (ae-forgotten-export) The symbol "MediaStreamingSubscription" needs to be exported by the entry point index.d.ts
     mediaStreamingSubscription?: MediaStreamingSubscription;
     mediaSubscriptionId?: string;
     serverCallId?: string;
@@ -185,7 +192,6 @@ export interface CallConnectionProperties {
     sourceCallerIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
     targetParticipants?: CommunicationIdentifier[];
-    // Warning: (ae-forgotten-export) The symbol "TranscriptionSubscription" needs to be exported by the entry point index.d.ts
     transcriptionSubscription?: TranscriptionSubscription;
 }
 
@@ -423,6 +429,27 @@ export interface ChoiceResult {
 }
 
 // @public
+export type CommunicationCloudEnvironmentModel = string;
+
+// @public
+export interface CommunicationIdentifierModel {
+    communicationUser?: CommunicationUserIdentifierModel;
+    kind?: CommunicationIdentifierModelKind;
+    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
+    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+    phoneNumber?: PhoneNumberIdentifierModel;
+    rawId?: string;
+}
+
+// @public
+export type CommunicationIdentifierModelKind = string;
+
+// @public
+export interface CommunicationUserIdentifierModel {
+    id: string;
+}
+
+// @public
 export interface ConnectCallEventResult {
     failureResult?: ConnectFailed;
     isSuccess: boolean;
@@ -530,6 +557,24 @@ export interface CreateCallResult {
 
 // @public
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+
+// @public (undocumented)
+export interface CustomCallingContextHeader {
+    // (undocumented)
+    key: string;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export interface CustomCallingContextInternal {
+    sipHeaders?: {
+        [propertyName: string]: string;
+    };
+    voipHeaders?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -651,14 +696,12 @@ export interface IncomingCall {
     callConnectionId: string;
     callerDisplayName?: string;
     correlationId: string;
-    // Warning: (ae-forgotten-export) The symbol "CustomCallingContextInternal" needs to be exported by the entry point index.d.ts
     customContext?: CustomCallingContextInternal;
     from?: CommunicationIdentifierModel;
     incomingCallContext?: string;
     kind: "IncomingCall";
     onBehalfOfCallee?: CommunicationIdentifierModel;
     resultInformation?: ResultInformation;
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     to?: CommunicationIdentifierModel;
 }
 
@@ -713,7 +756,6 @@ export interface MediaStreamingFailed {
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingFailed";
-    // Warning: (ae-forgotten-export) The symbol "MediaStreamingUpdate" needs to be exported by the entry point index.d.ts
     mediaStreamingUpdate?: MediaStreamingUpdate;
     operationContext?: string;
     resultInformation?: ResultInformation;
@@ -723,7 +765,6 @@ export interface MediaStreamingFailed {
 // @public
 export interface MediaStreamingOptions {
     audioChannelType: MediaStreamingAudioChannelType;
-    // Warning: (ae-forgotten-export) The symbol "AudioFormat" needs to be exported by the entry point index.d.ts
     audioFormat?: AudioFormat;
     contentType: MediaStreamingContentType;
     enableBidirectional?: boolean;
@@ -743,6 +784,12 @@ export interface MediaStreamingStarted {
     serverCallId: string;
 }
 
+// @public
+export type MediaStreamingStatus = string;
+
+// @public
+export type MediaStreamingStatusDetails = string;
+
 // @public (undocumented)
 export interface MediaStreamingStopped {
     callConnectionId: string;
@@ -755,7 +802,40 @@ export interface MediaStreamingStopped {
 }
 
 // @public
+export interface MediaStreamingSubscription {
+    id?: string;
+    state?: MediaStreamingSubscriptionState;
+    subscribedContentTypes?: MediaStreamingContentType[];
+}
+
+// @public
+export type MediaStreamingSubscriptionState = string;
+
+// @public
 export type MediaStreamingTransportType = string;
+
+// @public (undocumented)
+export interface MediaStreamingUpdate {
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    mediaStreamingStatus?: MediaStreamingStatus;
+    // (undocumented)
+    mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
+}
+
+// @public
+export interface MicrosoftTeamsAppIdentifierModel {
+    appId: string;
+    cloud?: CommunicationCloudEnvironmentModel;
+}
+
+// @public
+export interface MicrosoftTeamsUserIdentifierModel {
+    cloud?: CommunicationCloudEnvironmentModel;
+    isAnonymous?: boolean;
+    userId: string;
+}
 
 // @public
 export interface MuteParticipantOption extends OperationOptions {
@@ -793,6 +873,11 @@ export interface ParticipantsUpdated {
 
 // @public
 export type PauseRecordingOptions = OperationOptions;
+
+// @public
+export interface PhoneNumberIdentifierModel {
+    value: string;
+}
 
 // @public
 export interface PlayCanceled {
@@ -1040,10 +1125,8 @@ export interface RemoveParticipantSucceeded {
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestResultInformation" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export interface ResultInformation extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
+export interface ResultInformation {
     code: number;
     message: string;
     subCode: number;
@@ -1091,8 +1174,6 @@ export interface SendDtmfTonesResult {
     waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<SendDtmfEventResult>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CustomCallingContextHeader" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface SipCustomHeader extends CustomCallingContextHeader {
     // (undocumented)
@@ -1247,7 +1328,6 @@ export interface TranscriptionData {
     format: TextFormat;
     offsetInTicks: number;
     participant: CommunicationIdentifier;
-    // Warning: (ae-forgotten-export) The symbol "TranscriptionResultState" needs to be exported by the entry point index.d.ts
     resultState: TranscriptionResultState;
     text: string;
     words: WordData[];
@@ -1261,7 +1341,6 @@ export interface TranscriptionFailed {
     operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
-    // Warning: (ae-forgotten-export) The symbol "TranscriptionUpdate" needs to be exported by the entry point index.d.ts
     transcriptionUpdate?: TranscriptionUpdate;
 }
 
@@ -1283,6 +1362,9 @@ export interface TranscriptionOptions {
     transportUrl: string;
 }
 
+// @public
+export type TranscriptionResultState = string;
+
 // @public (undocumented)
 export interface TranscriptionStarted {
     callConnectionId: string;
@@ -1293,6 +1375,12 @@ export interface TranscriptionStarted {
     serverCallId: string;
     transcriptionUpdate?: TranscriptionUpdate;
 }
+
+// @public
+export type TranscriptionStatus = string;
+
+// @public
+export type TranscriptionStatusDetails = string;
 
 // @public (undocumented)
 export interface TranscriptionStopped {
@@ -1306,7 +1394,25 @@ export interface TranscriptionStopped {
 }
 
 // @public
+export interface TranscriptionSubscription {
+    id?: string;
+    state?: TranscriptionSubscriptionState;
+    subscribedResultStates?: TranscriptionResultState[];
+}
+
+// @public
+export type TranscriptionSubscriptionState = string;
+
+// @public
 export type TranscriptionTransportType = string;
+
+// @public (undocumented)
+export interface TranscriptionUpdate {
+    // (undocumented)
+    transcriptionStatus?: TranscriptionStatus;
+    // (undocumented)
+    transcriptionStatusDetails?: TranscriptionStatusDetails;
+}
 
 // @public (undocumented)
 export interface TranscriptionUpdated {

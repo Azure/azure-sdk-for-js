@@ -4,7 +4,6 @@
 import type { CommunicationIdentifier } from "@azure/communication-common";
 
 import type {
-  RestResultInformation,
   Tone,
   CustomCallingContextInternal,
   CommunicationIdentifierModel,
@@ -12,11 +11,15 @@ import type {
   DtmfResult,
   RecognitionType,
   SpeechResult,
-  TranscriptionUpdate,
-  MediaStreamingUpdate,
 } from "../generated/src/models/index.js";
 
-import type { CallParticipant, RecordingKind, RecordingState } from "./models.js";
+import type {
+  CallParticipant,
+  RecordingKind,
+  RecordingState,
+  MediaStreamingUpdate,
+  TranscriptionUpdate,
+} from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
@@ -64,8 +67,7 @@ export type CallAutomationEvent =
   | HoldAudioCompleted
   | IncomingCall;
 
-export interface ResultInformation
-  extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
+export interface ResultInformation {
   /** The error code. */
   code: number;
   /** The sub code of error. */
