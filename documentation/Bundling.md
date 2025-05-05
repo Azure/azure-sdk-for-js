@@ -404,6 +404,14 @@ Parcel uses [browserslist](https://github.com/browserslist/browserslist) to conf
   ],
 ```
 
+Also add the following to your package.json to enable exports map
+
+```json
+  "@parcel/resolver-default": {
+    "packageExports": true
+  }
+```
+
 In order to use Azure SDK libraries inside JS, you need to import code from the package you installed earlier.
 
 To accomplish this, let's create two files, `index.js` and `index.html`:
