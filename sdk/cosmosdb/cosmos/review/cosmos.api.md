@@ -1191,6 +1191,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableHybridSearchQueryPlanOptimization?: boolean;
     disableNonStreamingOrderByQuery?: boolean;
     enableQueryControl?: boolean;
     enableScanInQuery?: boolean;
@@ -1321,6 +1322,7 @@ export enum HTTPMethod {
 // @public
 export interface HybridSearchQueryInfo {
     componentQueryInfos: QueryInfo[];
+    componentWeights?: number[];
     globalStatisticsQuery: string;
     requiresGlobalStatistics: boolean;
     skip: number;
