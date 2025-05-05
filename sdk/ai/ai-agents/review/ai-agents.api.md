@@ -365,10 +365,16 @@ export interface DeleteVectorStoreOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DoneEvent = "done";
+export enum DoneEvent {
+    // (undocumented)
+    Done = "done"
+}
 
 // @public
-type ErrorEvent_2 = "error";
+enum ErrorEvent_2 {
+    // (undocumented)
+    Error = "error"
+}
 export { ErrorEvent_2 as ErrorEvent }
 
 // @public
@@ -764,7 +770,18 @@ export type MessageRole = "user" | "assistant";
 export type MessageStatus = "in_progress" | "incomplete" | "completed";
 
 // @public
-export type MessageStreamEvent = "thread.message.created" | "thread.message.in_progress" | "thread.message.delta" | "thread.message.completed" | "thread.message.incomplete";
+export enum MessageStreamEvent {
+    // (undocumented)
+    ThreadMessageCompleted = "thread.message.completed",
+    // (undocumented)
+    ThreadMessageCreated = "thread.message.created",
+    // (undocumented)
+    ThreadMessageDelta = "thread.message.delta",
+    // (undocumented)
+    ThreadMessageIncomplete = "thread.message.incomplete",
+    // (undocumented)
+    ThreadMessageInProgress = "thread.message.in_progress"
+}
 
 // @public
 export interface MessageTextAnnotation {
@@ -1314,7 +1331,22 @@ export interface RunStepSharepointToolCall extends RunStepToolCall {
 export type RunStepStatus = "in_progress" | "cancelled" | "failed" | "completed" | "expired";
 
 // @public
-export type RunStepStreamEvent = "thread.run.step.created" | "thread.run.step.in_progress" | "thread.run.step.delta" | "thread.run.step.completed" | "thread.run.step.failed" | "thread.run.step.cancelled" | "thread.run.step.expired";
+export enum RunStepStreamEvent {
+    // (undocumented)
+    ThreadRunStepCancelled = "thread.run.step.cancelled",
+    // (undocumented)
+    ThreadRunStepCompleted = "thread.run.step.completed",
+    // (undocumented)
+    ThreadRunStepCreated = "thread.run.step.created",
+    // (undocumented)
+    ThreadRunStepDelta = "thread.run.step.delta",
+    // (undocumented)
+    ThreadRunStepExpired = "thread.run.step.expired",
+    // (undocumented)
+    ThreadRunStepFailed = "thread.run.step.failed",
+    // (undocumented)
+    ThreadRunStepInProgress = "thread.run.step.in_progress"
+}
 
 // @public
 export interface RunStepToolCall {

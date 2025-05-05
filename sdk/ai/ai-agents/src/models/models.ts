@@ -4616,25 +4616,27 @@ export type RunStreamEvent =
   | "thread.run.cancelled"
   | "thread.run.expired";
 /** Run step operation related streaming events */
-export type RunStepStreamEvent =
-  | "thread.run.step.created"
-  | "thread.run.step.in_progress"
-  | "thread.run.step.delta"
-  | "thread.run.step.completed"
-  | "thread.run.step.failed"
-  | "thread.run.step.cancelled"
-  | "thread.run.step.expired";
+export enum RunStepStreamEvent {
+  ThreadRunStepCreated = "thread.run.step.created",
+  ThreadRunStepInProgress = "thread.run.step.in_progress",
+  ThreadRunStepDelta = "thread.run.step.delta",
+  ThreadRunStepCompleted = "thread.run.step.completed",
+  ThreadRunStepFailed = "thread.run.step.failed",
+  ThreadRunStepCancelled = "thread.run.step.cancelled",
+  ThreadRunStepExpired = "thread.run.step.expired"
+}
 /** Message operation related streaming events */
-export type MessageStreamEvent =
-  | "thread.message.created"
-  | "thread.message.in_progress"
-  | "thread.message.delta"
-  | "thread.message.completed"
-  | "thread.message.incomplete";
+export enum MessageStreamEvent {
+  ThreadMessageCreated = "thread.message.created",
+  ThreadMessageInProgress = "thread.message.in_progress",
+  ThreadMessageDelta = "thread.message.delta",
+  ThreadMessageCompleted = "thread.message.completed",
+  ThreadMessageIncomplete = "thread.message.incomplete"
+}
 /** Terminal event indicating a server side error while streaming. */
-export type ErrorEvent = "error";
+export enum ErrorEvent{ Error= "error"};
 /** Terminal event indicating the successful end of a stream. */
-export type DoneEvent = "done";
+export enum DoneEvent { Done= "done"};
 /** The available sorting options when requesting a list of response objects. */
 export type ListSortOrder = "asc" | "desc";
 /** A list of additional fields to include in the response. */

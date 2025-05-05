@@ -917,7 +917,7 @@ export function _getFileContentSend(
 
 export async function _getFileContentDeserialize(
   result: PathUncheckedResponse,
-): Promise<Uint8Array> {
+): Promise<Uint8Array>  {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -931,7 +931,7 @@ export async function getFileContent(
   context: Client,
   fileId: string,
   options: GetFileContentOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
+):  Promise<Uint8Array>  {
   const result = await _getFileContentSend(context, fileId, options);
   return _getFileContentDeserialize(result);
 }
