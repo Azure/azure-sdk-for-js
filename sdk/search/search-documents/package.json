@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.2.0-beta.2",
+  "version": "12.2.0-beta.3",
   "description": "Azure client library to use AI Search for node.js and browser.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -14,7 +14,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & wait",
+    "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & autorest --typescript swagger/KnowledgeAgent.md & wait",
     "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
