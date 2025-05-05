@@ -26,6 +26,7 @@ import { ItemResponse } from "./ItemResponse.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 import { setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
 import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { PartitionKeyRangeCache } from "../../routing/partitionKeyRangeCache.js";
 
 /**
  * Used to perform operations on a specific item.
@@ -34,6 +35,7 @@ import { readPartitionKeyDefinition } from "../ClientUtils.js";
  */
 export class Item {
   private partitionKey: PartitionKeyInternal;
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -55,6 +57,7 @@ export class Item {
   ) {
     this.partitionKey =
       partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
 
   /**
@@ -277,6 +280,7 @@ export class Item {
           partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
+            this.partitionKeyRangeCache,
             diagnosticNode,
           );
         }
@@ -406,6 +410,7 @@ export class Item {
           partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
+            this.partitionKeyRangeCache,
             diagnosticNode,
           );
         }
@@ -549,6 +554,7 @@ export class Item {
           partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
+            this.partitionKeyRangeCache,
             diagnosticNode,
           );
         }

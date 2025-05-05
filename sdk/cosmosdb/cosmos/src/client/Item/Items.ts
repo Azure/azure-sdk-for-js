@@ -527,6 +527,7 @@ export class Items {
           partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
+            this.partitionKeyRangeCache,
             diagnosticNode,
           );
         }
@@ -692,6 +693,7 @@ export class Items {
           partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
+            this.partitionKeyRangeCache,
             diagnosticNode,
           );
         }
@@ -1149,6 +1151,7 @@ export class Items {
           partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
+            this.partitionKeyRangeCache,
             diagnosticNode,
           );
         }

@@ -14,6 +14,7 @@ import {
 import { EncryptionType } from "../encryption/enums/EncryptionType.js";
 import { TypeMarker } from "../encryption/enums/TypeMarker.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
+import { PartitionKeyRangeCache } from "../routing/partitionKeyRangeCache.js";
 import { isKeyInRange } from "../utils/batch.js";
 import { hashPartitionKey } from "../utils/hashing/hash.js";
 import { OperationType, ResourceType } from "./constants.js";
@@ -549,11 +550,12 @@ export function validateClientEncryptionPolicy(
 export async function getPartitionKeyRangeIdFromPartitionKey(
   partitionKey: PartitionKeyInternal,
   partitionKeyDefinition: PartitionKeyDefinition,
+  partitionKeyRangeCache: PartitionKeyRangeCache,
   diagnosticNode: DiagnosticNodeInternal,
 ): Promise<string> {
   const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
   const partitionKeyRanges = (
-    await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
+    await partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
   ).getOrderedParitionKeyRanges();
 
   for (const partitionKeyRange of partitionKeyRanges) {
