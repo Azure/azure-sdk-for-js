@@ -23,5 +23,6 @@ extends:
         - Pool=.*LINUXNEXTPOOL.*/azsdk-pool-mms-ubuntu-2204-identitymsi
         - OSVmImage=.*LINUXNEXTVMIMAGE.*/azsdk-pool-mms-ubuntu-2204-1espt
       EnvVars:
-        AZURE_CLIENT_ID: $(IDENTITY_CLIENT_ID)
-        AZURE_TENANT_ID: $(IDENTITY_TENANT_ID)
+        AZURE_CLIENT_ID: $(IDENTITY_SP_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(IDENTITY_SP_CLIENT_SECRET)
+        AZURE_TENANT_ID: $(IDENTITY_SP_TENANT_ID)
