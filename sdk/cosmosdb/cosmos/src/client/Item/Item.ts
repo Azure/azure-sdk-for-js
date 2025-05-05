@@ -275,7 +275,7 @@ export class Item {
           this.container,
         );
         let partitionKeyRangeId: string;
-        if (partitionKey && partitionKey.length > 0) {
+        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
           partitionKeyRangeId =
             await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
               this.container.url,
@@ -406,7 +406,7 @@ export class Item {
           this.container,
         );
         let partitionKeyRangeId: string;
-        if (partitionKey && partitionKey.length > 0) {
+        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
           partitionKeyRangeId =
             await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
               this.container.url,
@@ -551,7 +551,7 @@ export class Item {
           this.container,
         );
         let partitionKeyRangeId: string;
-        if (partitionKey && partitionKey.length > 0) {
+        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
           partitionKeyRangeId =
             await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
               this.container.url,
