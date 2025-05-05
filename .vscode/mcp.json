@@ -1,9 +1,9 @@
 {
-	"servers": {
-		"ESLint": {
-			"type": "stdio",
-			"command": "npx",
-			"args": ["eslint", "--mcp"]
-		}
-	}
+  "servers": {
+    "ESLint": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["eslint", "--mcp"]
+    }
+  }
 }
