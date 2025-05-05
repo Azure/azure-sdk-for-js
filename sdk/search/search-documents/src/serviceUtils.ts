@@ -23,6 +23,7 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
+  KnowledgeAgent as GeneratedKnowledgeAgent,
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
@@ -57,6 +58,7 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
+import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
 import { logger } from "./logger.js";
 import type {
   AIServicesVisionVectorizer,
@@ -77,7 +79,6 @@ import type {
   IndexingParametersConfiguration,
   KeyAuthAzureMachineLearningVectorizerParameters,
   LexicalAnalyzer,
-  LexicalNormalizer,
   LexicalTokenizer,
   NoAuthAzureMachineLearningVectorizerParameters,
   PatternAnalyzer,
@@ -109,9 +110,10 @@ import type {
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 
-export const defaultServiceVersion = "2024-09-01-Preview";
+export const defaultServiceVersion = "2025-05-01-Preview";
 
 const knownSkills: Record<`${SearchIndexerSkillUnion["odatatype"]}`, true> = {
+  "#Microsoft.Skills.Custom.ChatCompletionSkill": true,
   "#Microsoft.Skills.Custom.WebApiSkill": true,
   "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill": true,
   "#Microsoft.Skills.Text.CustomEntityLookupSkill": true,
@@ -467,23 +469,29 @@ function convertEncryptionKeyToGenerated(
 }
 
 export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex): SearchIndex {
+  const {
+    charFilters,
+    tokenFilters,
+    scoringProfiles,
+    encryptionKey,
+    analyzers,
+    tokenizers,
+    fields,
+    similarity,
+    vectorSearch,
+    ...rest
+  } = generatedIndex;
   return {
-    name: generatedIndex.name,
-    defaultScoringProfile: generatedIndex.defaultScoringProfile,
-    corsOptions: generatedIndex.corsOptions,
-    suggesters: generatedIndex.suggesters,
-    encryptionKey: convertEncryptionKeyToPublic(generatedIndex.encryptionKey),
-    etag: generatedIndex.etag,
-    analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
-    tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
-    tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
-    charFilters: generatedIndex.charFilters as CharFilter[],
-    normalizers: generatedIndex.normalizers as LexicalNormalizer[],
-    scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
-    fields: convertFieldsToPublic(generatedIndex.fields),
-    similarity: convertSimilarityToPublic(generatedIndex.similarity),
-    semanticSearch: generatedIndex.semanticSearch,
-    vectorSearch: generatedVectorSearchToPublicVectorSearch(generatedIndex.vectorSearch),
+    ...rest,
+    scoringProfiles: scoringProfiles as ScoringProfile[],
+    tokenFilters: tokenFilters as TokenFilter[],
+    charFilters: charFilters as CharFilter[],
+    encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
+    analyzers: convertAnalyzersToPublic(analyzers),
+    tokenizers: convertTokenizersToPublic(tokenizers),
+    fields: convertFieldsToPublic(fields),
+    similarity: convertSimilarityToPublic(similarity),
+    vectorSearch: generatedVectorSearchToPublicVectorSearch(vectorSearch),
   };
 }
 
@@ -647,14 +655,16 @@ export function generatedSearchResultToPublicSearchResult<
         _score: score,
         _highlights: highlights,
         _rerankerScore: rerankerScore,
+        _rerankerBoostedScore: rerankerBoostedScore,
         _captions: captions,
-        documentDebugInfo: documentDebugInfo,
+        _documentDebugInfo: documentDebugInfo,
         ...restProps
       } = result;
       const obj = {
         score,
         highlights,
         rerankerScore,
+        rerankerBoostedScore,
         captions,
         documentDebugInfo,
         document: restProps,
@@ -923,5 +933,31 @@ export function convertSearchIndexerCacheToPublic(
   return {
     ...cache,
     identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
+  };
+}
+
+export function convertKnowledgeAgentToPublic(
+  knowledgeAgent: GeneratedKnowledgeAgent | undefined,
+): KnowledgeAgent | undefined {
+  if (!knowledgeAgent) {
+    return knowledgeAgent;
+  }
+
+  return {
+    ...knowledgeAgent,
+    encryptionKey: convertEncryptionKeyToPublic(knowledgeAgent.encryptionKey),
+  };
+}
+
+export function convertKnowledgeAgentToGenerated(
+  knowledgeAgent: KnowledgeAgent | undefined,
+): GeneratedKnowledgeAgent | undefined {
+  if (!knowledgeAgent) {
+    return knowledgeAgent;
+  }
+
+  return {
+    ...knowledgeAgent,
+    encryptionKey: convertEncryptionKeyToGenerated(knowledgeAgent.encryptionKey),
   };
 }

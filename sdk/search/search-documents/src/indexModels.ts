@@ -18,6 +18,7 @@ import type {
   QueryCaptionResult,
   QueryDebugMode,
   QueryLanguage,
+  QueryResultDocumentInnerHit,
   QueryResultDocumentRerankerInput,
   QuerySpellerType as QuerySpeller,
   QueryType,
@@ -103,6 +104,10 @@ export interface GetDocumentOptions<
    * the returned document.
    */
   selectedFields?: SelectArray<TFields>;
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
+   */
+  xMsQuerySourceAuthorization?: string;
 }
 
 /**
@@ -242,6 +247,10 @@ export interface BaseVectorQuery<TModel extends object> {
    * the top level filter parameter is used instead.
    */
   filterOverride?: string;
+  /**
+   * Controls how many vectors can be matched from each document in a vector search query. Setting it to 1 ensures at most one vector per document is matched, guaranteeing results come from distinct documents. Setting it to 0 (unlimited) allows multiple relevant vectors from the same document to be matched. Default is 0.
+   */
+  perDocumentVectorLimit?: number;
 }
 
 /**
@@ -430,11 +439,14 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-
   /**
    * The query parameters to configure hybrid search behaviors.
    */
   hybridSearch?: HybridSearch;
+  /**
+   * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
+   */
+  xMsQuerySourceAuthorization?: string;
 }
 
 /**
@@ -472,6 +484,11 @@ export type SearchResult<
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly rerankerScore?: number;
+  /**
+   * The relevance score computed by boosting the Reranker Score. Search results are sorted by the RerankerScore/RerankerBoostedScore based on useScoringProfileBoostedRanking in the Semantic Config. RerankerBoostedScore is only returned for queries of type 'semantic'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerBoostedScore?: number;
   /**
    * Text fragments from the document that indicate the matching search terms, organized by each
    * applicable field; null if hit highlighting was not enabled for the query.
@@ -928,21 +945,22 @@ export type SuggestNarrowedModel<
     : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
       ? TModel
       : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-        ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
-          // service by default
+        ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by
+          // the service by default
           keyof ExtractDocumentKey<TModel> extends never
           ? // Return the original model if none of the properties are non-nullable
             TModel
           : ExtractDocumentKey<TModel>
-        : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
-          // here
+        : // TFields isn't narrowed to exclude null by the first condition, so it needs to be
+          // narrowed here
           TFields extends SelectFields<TModel>
           ? NarrowedModel<TModel, TFields>
           : // Unreachable by construction
             never;
 
 /**
- * Description of fields that were sent to the semantic enrichment process, as well as how they were used
+ * Description of fields that were sent to the semantic enrichment process, as well as how they were
+ * used
  */
 export interface QueryResultDocumentSemanticField {
   /**
@@ -951,7 +969,8 @@ export interface QueryResultDocumentSemanticField {
    */
   readonly name?: string;
   /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
+   * The way the field was used for the semantic enrichment process (fully used, partially used, or
+   * unused)
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: SemanticFieldState;
@@ -971,6 +990,13 @@ export interface DocumentDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vectors?: VectorsDebugInfo;
+  /**
+   * Contains debugging information specific to vectors matched within a collection of complex types.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerHits?: {
+    [propertyName: string]: QueryResultDocumentInnerHit[];
+  };
 }
 
 /**
@@ -1140,7 +1166,10 @@ export interface BaseVectorThreshold {
 }
 
 /**
- * The results of the vector query will be filtered based on the vector similarity metric. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field.
+ * The results of the vector query will be filtered based on the vector similarity metric. Note this
+ * is the canonical definition of similarity metric, not the 'distance' version. The threshold
+ * direction (larger or smaller) will be chosen automatically according to the metric used by the
+ * field.
  */
 export interface VectorSimilarityThreshold extends BaseVectorThreshold {
   /**
@@ -1148,13 +1177,17 @@ export interface VectorSimilarityThreshold extends BaseVectorThreshold {
    */
   kind: "vectorSimilarity";
   /**
-   * The threshold will filter based on the similarity metric value. Note this is the canonical definition of similarity metric, not the 'distance' version. The threshold direction (larger or smaller) will be chosen automatically according to the metric used by the field.
+   * The threshold will filter based on the similarity metric value. Note this is the canonical
+   * definition of similarity metric, not the 'distance' version. The threshold direction (larger or
+   * smaller) will be chosen automatically according to the metric used by the field.
    */
   value: number;
 }
 
 /**
- * The results of the vector query will filter based on the '\@search.score' value. Note this is the \@search.score returned as part of the search response. The threshold direction will be chosen for higher \@search.score.
+ * The results of the vector query will filter based on the '\@search.score' value. Note this is the
+ * \@search.score returned as part of the search response. The threshold direction will be chosen
+ * for higher \@search.score.
  */
 export interface SearchScoreThreshold extends BaseVectorThreshold {
   /**
@@ -1162,7 +1195,9 @@ export interface SearchScoreThreshold extends BaseVectorThreshold {
    */
   kind: "searchScore";
   /**
-   * The threshold will filter based on the '\@search.score' value. Note this is the \@search.score returned as part of the search response. The threshold direction will be chosen for higher \@search.score.
+   * The threshold will filter based on the '\@search.score' value. Note this is the \@search.score
+   * returned as part of the search response. The threshold direction will be chosen for higher
+   * \@search.score.
    */
   value: number;
 }

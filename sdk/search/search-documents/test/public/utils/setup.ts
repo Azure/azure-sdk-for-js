@@ -327,6 +327,7 @@ export async function createIndex(
       profiles: vectorSearchProfiles,
     },
     semanticSearch: {
+      defaultConfigurationName: "semantic-configuration",
       configurations: [
         {
           name: "semantic-configuration",
@@ -556,13 +557,9 @@ export async function populateIndex(
 
   await client.uploadDocuments(testDocuments);
 
-  let count = await client.getDocumentsCount();
-  while (count !== testDocuments.length) {
+  while ((await client.getDocumentsCount()) !== testDocuments.length) {
     await delay(WAIT_TIME);
-    count = await client.getDocumentsCount();
   }
-
-  await delay(WAIT_TIME);
 }
 
 async function addVectorDescriptions(

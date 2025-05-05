@@ -6,10 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./knowledgeAgents.js";
-export * from "./dataSources.js";
-export * from "./indexers.js";
-export * from "./skillsets.js";
-export * from "./synonymMaps.js";
-export * from "./indexes.js";
-export * from "./aliases.js";
+export * from "./models/index.js";
+export { SearchClient } from "./searchClient.js";
+export * from "./operationsInterfaces/index.js";
