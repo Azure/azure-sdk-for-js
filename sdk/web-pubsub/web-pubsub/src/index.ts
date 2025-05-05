@@ -38,5 +38,7 @@ export {
   GroupRemoveUserOptions,
   GroupSendTextToAllOptions,
   GroupSendToAllOptions,
+  WebPubSubGroupMember,
+  GroupListConnectionsOptions,
 } from "./groupClient.js";
 export { odata } from "./utils.js";

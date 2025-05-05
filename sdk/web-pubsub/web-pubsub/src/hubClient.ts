@@ -318,7 +318,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2024-01-01";
+  public readonly apiVersion: string = "2024-12-01";
 
   /**
    * The Web PubSub endpoint this client is connected to

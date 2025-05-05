@@ -50,7 +50,7 @@ function toStream(
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlob(source)) {
-    return toStream(source);
+    return ensureNodeStream(source.stream());
   } else {
     return ensureNodeStream(source);
   }

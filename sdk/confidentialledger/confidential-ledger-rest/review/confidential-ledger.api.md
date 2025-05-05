@@ -147,6 +147,35 @@ export interface CreateLedgerEntryQueryParamProperties {
 }
 
 // @public
+export interface CreateOrUpdateLedgerUser200Response extends HttpResponse {
+    // (undocumented)
+    body: LedgerUserMultipleRolesOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateOrUpdateLedgerUserBodyParam {
+    body: LedgerUserMultipleRolesResourceMergeAndPatch;
+}
+
+// @public
+export interface CreateOrUpdateLedgerUserDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateOrUpdateLedgerUserMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type CreateOrUpdateLedgerUserParameters = CreateOrUpdateLedgerUserMediaTypesParam & CreateOrUpdateLedgerUserBodyParam & RequestParameters;
+
+// @public
 export interface CreateOrUpdateUser200Response extends HttpResponse {
     // (undocumented)
     body: LedgerUserOutput;
@@ -203,6 +232,108 @@ export interface CreateUserDefinedEndpointMediaTypesParam {
 export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointMediaTypesParam & CreateUserDefinedEndpointBodyParam & RequestParameters;
 
 // @public (undocumented)
+export interface CreateUserDefinedFunction200Headers {
+    "x-ms-ccf-transaction-id"?: string;
+}
+
+// @public
+export interface CreateUserDefinedFunction200Response extends HttpResponse {
+    // (undocumented)
+    body: UserDefinedFunctionOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CreateUserDefinedFunction200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedFunction201Headers {
+    "x-ms-ccf-transaction-id"?: string;
+}
+
+// @public
+export interface CreateUserDefinedFunction201Response extends HttpResponse {
+    // (undocumented)
+    body: UserDefinedFunctionOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & CreateUserDefinedFunction201Headers;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedFunctionBodyParam {
+    body: UserDefinedFunction;
+}
+
+// @public
+export interface CreateUserDefinedFunctionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedFunctionMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type CreateUserDefinedFunctionParameters = CreateUserDefinedFunctionMediaTypesParam & CreateUserDefinedFunctionBodyParam & RequestParameters;
+
+// @public
+export interface CreateUserDefinedRole200Response extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedRoleBodyParam {
+    body: Array<Role>;
+}
+
+// @public
+export interface CreateUserDefinedRoleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedRoleMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type CreateUserDefinedRoleParameters = CreateUserDefinedRoleMediaTypesParam & CreateUserDefinedRoleBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeleteLedgerUser {
+    delete(options?: DeleteLedgerUserParameters): StreamableMethod<DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse>;
+    get(options?: GetLedgerUserParameters): StreamableMethod<GetLedgerUser200Response | GetLedgerUserDefaultResponse>;
+    patch(options: CreateOrUpdateLedgerUserParameters): StreamableMethod<CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse>;
+}
+
+// @public
+export interface DeleteLedgerUser204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface DeleteLedgerUserDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeleteLedgerUserParameters = RequestParameters;
+
+// @public (undocumented)
 export interface DeleteUser {
     delete(options?: DeleteUserParameters): StreamableMethod<DeleteUser204Response | DeleteUserDefaultResponse>;
     get(options?: GetUserParameters): StreamableMethod<GetUser200Response | GetUserDefaultResponse>;
@@ -221,6 +352,58 @@ export interface DeleteUserDefaultResponse extends HttpResponse {
     body: ConfidentialLedgerErrorOutput;
     // (undocumented)
     status: string;
+}
+
+// @public (undocumented)
+export interface DeleteUserDefinedFunction {
+    delete(options?: DeleteUserDefinedFunctionParameters): StreamableMethod<DeleteUserDefinedFunction204Response | DeleteUserDefinedFunctionDefaultResponse>;
+    get(options?: GetUserDefinedFunctionParameters): StreamableMethod<GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse>;
+    put(options: CreateUserDefinedFunctionParameters): StreamableMethod<CreateUserDefinedFunction200Response | CreateUserDefinedFunction201Response | CreateUserDefinedFunctionDefaultResponse>;
+}
+
+// @public
+export interface DeleteUserDefinedFunction204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface DeleteUserDefinedFunctionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeleteUserDefinedFunctionParameters = RequestParameters;
+
+// @public
+export interface DeleteUserDefinedRole200Response extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeleteUserDefinedRoleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeleteUserDefinedRoleParameters = DeleteUserDefinedRoleQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeleteUserDefinedRoleQueryParam {
+    // (undocumented)
+    queryParameters: DeleteUserDefinedRoleQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeleteUserDefinedRoleQueryParamProperties {
+    roleName: string;
 }
 
 // @public (undocumented)
@@ -275,6 +458,40 @@ export interface EndpointPropertiesOutput {
     // (undocumented)
     redirection_strategy?: "none" | "to_primary" | "to_backup";
 }
+
+// @public (undocumented)
+export interface ExecuteUserDefinedFunction {
+    post(options?: ExecuteUserDefinedFunctionParameters): StreamableMethod<ExecuteUserDefinedFunction200Response | ExecuteUserDefinedFunctionDefaultResponse>;
+}
+
+// @public
+export interface ExecuteUserDefinedFunction200Response extends HttpResponse {
+    // (undocumented)
+    body: UserDefinedFunctionExecutionResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ExecuteUserDefinedFunctionBodyParam {
+    body?: UserDefinedFunctionExecutionProperties;
+}
+
+// @public
+export interface ExecuteUserDefinedFunctionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ExecuteUserDefinedFunctionMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type ExecuteUserDefinedFunctionParameters = ExecuteUserDefinedFunctionMediaTypesParam & ExecuteUserDefinedFunctionBodyParam & RequestParameters;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -401,6 +618,25 @@ export interface GetLedgerEntryQueryParamProperties {
 export function getLedgerIdentity(ledgerId: string, identityServiceBaseUrl?: string): Promise<LedgerIdentity>;
 
 // @public
+export interface GetLedgerUser200Response extends HttpResponse {
+    // (undocumented)
+    body: LedgerUserMultipleRolesOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetLedgerUserDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetLedgerUserParameters = RequestParameters;
+
+// @public
 export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
@@ -429,6 +665,31 @@ export interface GetReceiptDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type GetReceiptParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetRuntimeOptions {
+    get(options?: GetRuntimeOptionsParameters): StreamableMethod<GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse>;
+    patch(options: UpdateRuntimeOptionsParameters): StreamableMethod<UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse>;
+}
+
+// @public
+export interface GetRuntimeOptions200Response extends HttpResponse {
+    // (undocumented)
+    body: JSRuntimeOptionsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetRuntimeOptionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetRuntimeOptionsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetTransactionStatus {
@@ -496,6 +757,98 @@ export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
 export type GetUserDefinedEndpointParameters = RequestParameters;
 
 // @public (undocumented)
+export interface GetUserDefinedEndpointsModule {
+    get(options: GetUserDefinedEndpointsModuleParameters): StreamableMethod<GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse>;
+}
+
+// @public
+export interface GetUserDefinedEndpointsModule200Response extends HttpResponse {
+    // (undocumented)
+    body: ModuleDefOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetUserDefinedEndpointsModuleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetUserDefinedEndpointsModuleParameters = GetUserDefinedEndpointsModuleQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetUserDefinedEndpointsModuleQueryParam {
+    // (undocumented)
+    queryParameters: GetUserDefinedEndpointsModuleQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetUserDefinedEndpointsModuleQueryParamProperties {
+    module_name: string;
+}
+
+// @public
+export interface GetUserDefinedFunction200Response extends HttpResponse {
+    // (undocumented)
+    body: UserDefinedFunctionOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetUserDefinedFunctionDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetUserDefinedFunctionParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetUserDefinedRole {
+    delete(options: DeleteUserDefinedRoleParameters): StreamableMethod<DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse>;
+    get(options: GetUserDefinedRoleParameters): StreamableMethod<GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse>;
+    patch(options: UpdateUserDefinedRoleParameters): StreamableMethod<UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse>;
+    put(options: CreateUserDefinedRoleParameters): StreamableMethod<CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse>;
+}
+
+// @public
+export interface GetUserDefinedRole200Response extends HttpResponse {
+    // (undocumented)
+    body: Array<RoleOutput>;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetUserDefinedRoleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetUserDefinedRoleParameters = GetUserDefinedRoleQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface GetUserDefinedRoleQueryParam {
+    // (undocumented)
+    queryParameters: GetUserDefinedRoleQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetUserDefinedRoleQueryParamProperties {
+    roleName: string;
+}
+
+// @public (undocumented)
 export type GetUserParameters = RequestParameters;
 
 // @public (undocumented)
@@ -553,8 +906,42 @@ export function isUnexpected(response: GetUser200Response | GetUserDefaultRespon
 export function isUnexpected(response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse): response is CreateOrUpdateUserDefaultResponse;
 
 // @public
+export interface JSRuntimeOptions {
+    // (undocumented)
+    log_exception_details?: boolean;
+    // (undocumented)
+    max_cached_interpreters?: number;
+    // (undocumented)
+    max_execution_time_ms?: number;
+    // (undocumented)
+    max_heap_bytes?: number;
+    // (undocumented)
+    max_stack_bytes?: number;
+    // (undocumented)
+    return_exception_details?: boolean;
+}
+
+// @public
+export interface JSRuntimeOptionsOutput {
+    // (undocumented)
+    log_exception_details?: boolean;
+    // (undocumented)
+    max_cached_interpreters?: number;
+    // (undocumented)
+    max_execution_time_ms?: number;
+    // (undocumented)
+    max_heap_bytes?: number;
+    // (undocumented)
+    max_stack_bytes?: number;
+    // (undocumented)
+    return_exception_details?: boolean;
+}
+
+// @public
 export interface LedgerEntry {
     contents: string;
+    postHooks?: Array<UserDefinedFunctionHook>;
+    preHooks?: Array<UserDefinedFunctionHook>;
 }
 
 // @public
@@ -570,6 +957,8 @@ export interface LedgerEntryOutput {
     // (undocumented)
     readonly collectionId?: string;
     contents: string;
+    postHooks?: Array<UserDefinedFunctionHookOutput>;
+    preHooks?: Array<UserDefinedFunctionHookOutput>;
     readonly transactionId?: string;
 }
 
@@ -591,6 +980,20 @@ export interface LedgerQueryResultOutput {
 export interface LedgerUser {
     assignedRole: "Administrator" | "Contributor" | "Reader";
 }
+
+// @public
+export interface LedgerUserMultipleRoles {
+    assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
+}
+
+// @public
+export interface LedgerUserMultipleRolesOutput {
+    assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
+    readonly userId?: string;
+}
+
+// @public
+export type LedgerUserMultipleRolesResourceMergeAndPatch = Partial<LedgerUserMultipleRoles>;
 
 // @public
 export interface LedgerUserOutput {
@@ -694,6 +1097,30 @@ export interface ListLedgerEntriesQueryParamProperties {
 }
 
 // @public (undocumented)
+export interface ListLedgerUsers {
+    get(options?: ListLedgerUsersParameters): StreamableMethod<ListLedgerUsers200Response | ListLedgerUsersDefaultResponse>;
+}
+
+// @public
+export interface ListLedgerUsers200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedLedgerUsersOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ListLedgerUsersDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListLedgerUsersParameters = RequestParameters;
+
+// @public (undocumented)
 export interface ListUserDefinedFunctions {
     get(options?: ListUserDefinedFunctionsParameters): StreamableMethod<ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse>;
 }
@@ -775,6 +1202,14 @@ export interface MethodToEndpointPropertiesOutput {
     put?: EndpointPropertiesOutput;
 }
 
+// @public (undocumented)
+export interface ModuleDefOutput {
+    // (undocumented)
+    module: string;
+    // (undocumented)
+    name: string;
+}
+
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
@@ -794,6 +1229,13 @@ export interface PagedLedgerEntriesOutput {
     entries: Array<LedgerEntryOutput>;
     nextLink?: string;
     state: "Loading" | "Ready";
+}
+
+// @public
+export interface PagedLedgerUsersOutput {
+    // (undocumented)
+    ledgerUsers?: Array<LedgerUserMultipleRolesOutput>;
+    nextLink?: string;
 }
 
 // @public
@@ -884,6 +1326,20 @@ export interface ReceiptLeafComponentsOutput {
     writeSetDigest?: string;
 }
 
+// @public
+export interface Role {
+    // (undocumented)
+    roleActions?: Array<string>;
+    roleName?: string;
+}
+
+// @public
+export interface RoleOutput {
+    // (undocumented)
+    roleActions?: Array<string>;
+    roleName?: string;
+}
+
 // @public (undocumented)
 export interface Routes {
     (path: "/app/governance/constitution"): GetConstitution;
@@ -896,9 +1352,16 @@ export interface Routes {
     (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
     (path: "/app/transactions/current"): GetCurrentLedgerEntry;
     (path: "/app/users"): ListUsers;
+    (path: "/app/ledgerUsers"): ListLedgerUsers;
     (path: "/app/users/{userId}", userId: string): DeleteUser;
+    (path: "/app/ledgerUsers/{userId}", userId: string): DeleteLedgerUser;
     (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
+    (path: "/app/userDefinedEndpoints/runtimeOptions"): GetRuntimeOptions;
+    (path: "/app/userDefinedEndpoints/modules"): GetUserDefinedEndpointsModule;
     (path: "/app/userDefinedFunctions"): ListUserDefinedFunctions;
+    (path: "/app/userDefinedFunctions/{functionId}", functionId: string): DeleteUserDefinedFunction;
+    (path: "/app/userDefinedFunctions/{functionId}:execute", functionId: string): ExecuteUserDefinedFunction;
+    (path: "/app/roles"): GetUserDefinedRole;
 }
 
 // @public
@@ -914,6 +1377,110 @@ export interface TransactionReceiptOutput {
 export interface TransactionStatusOutput {
     state: "Committed" | "Pending";
     transactionId: string;
+}
+
+// @public
+export interface UpdateRuntimeOptions200Response extends HttpResponse {
+    // (undocumented)
+    body: JSRuntimeOptionsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface UpdateRuntimeOptionsBodyParam {
+    body: JSRuntimeOptions;
+}
+
+// @public
+export interface UpdateRuntimeOptionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface UpdateRuntimeOptionsMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type UpdateRuntimeOptionsParameters = UpdateRuntimeOptionsMediaTypesParam & UpdateRuntimeOptionsBodyParam & RequestParameters;
+
+// @public
+export interface UpdateUserDefinedRole200Response extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface UpdateUserDefinedRoleBodyParam {
+    body: Array<Role>;
+}
+
+// @public
+export interface UpdateUserDefinedRoleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface UpdateUserDefinedRoleMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type UpdateUserDefinedRoleParameters = UpdateUserDefinedRoleMediaTypesParam & UpdateUserDefinedRoleBodyParam & RequestParameters;
+
+// @public
+export interface UserDefinedFunction {
+    code: string;
+}
+
+// @public
+export interface UserDefinedFunctionExecutionErrorOutput {
+    message?: string;
+}
+
+// @public
+export interface UserDefinedFunctionExecutionProperties {
+    arguments?: Array<string>;
+    exportedFunctionName?: string;
+    runtimeOptions?: JSRuntimeOptions;
+}
+
+// @public
+export interface UserDefinedFunctionExecutionPropertiesOutput {
+    arguments?: Array<string>;
+    exportedFunctionName?: string;
+    runtimeOptions?: JSRuntimeOptionsOutput;
+}
+
+// @public
+export interface UserDefinedFunctionExecutionResponseOutput {
+    error?: UserDefinedFunctionExecutionErrorOutput;
+    result?: UserDefinedFunctionExecutionResultOutput;
+    status: "Succeeded" | "Failed";
+}
+
+// @public
+export interface UserDefinedFunctionExecutionResultOutput {
+    returnValue?: string;
+}
+
+// @public
+export interface UserDefinedFunctionHook {
+    functionId: string;
+    properties?: UserDefinedFunctionExecutionProperties;
+}
+
+// @public
+export interface UserDefinedFunctionHookOutput {
+    functionId: string;
+    properties?: UserDefinedFunctionExecutionPropertiesOutput;
 }
 
 // @public
