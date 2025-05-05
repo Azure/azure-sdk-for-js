@@ -37,8 +37,8 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
   /**
    * List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image
    * version of an image.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Gallery in which the soft-deleted resources resides.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param artifactType The type of the artifact to be listed, such as gallery image version.
    * @param artifactName The artifact name to be listed. If artifact type is Images, then the artifact
    *                     name should be the gallery image name.
@@ -141,8 +141,8 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
   /**
    * List soft-deleted resources of an artifact in the gallery, such as soft-deleted gallery image
    * version of an image.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Gallery in which the soft-deleted resources resides.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param artifactType The type of the artifact to be listed, such as gallery image version.
    * @param artifactName The artifact name to be listed. If artifact type is Images, then the artifact
    *                     name should be the gallery image name.
@@ -163,8 +163,8 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
 
   /**
    * ListByArtifactNameNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Gallery in which the soft-deleted resources resides.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param artifactType The type of the artifact to be listed, such as gallery image version.
    * @param artifactName The artifact name to be listed. If artifact type is Images, then the artifact
    *                     name should be the gallery image name.
@@ -196,7 +196,7 @@ export class SoftDeletedResourceImpl implements SoftDeletedResource {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByArtifactNameOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/softDeletedArtifactTypes/{artifactType}/artifacts/{artifactName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/softdeletedartifacttypes/{artifactType}/artifacts/{artifactName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
@@ -211,7 +211,7 @@ const listByArtifactNameOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.artifactType,
     Parameters.artifactName,
   ],
@@ -231,10 +231,10 @@ const listByArtifactNameNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.artifactType,
     Parameters.artifactName,
   ],

@@ -61,6 +61,9 @@ export interface AccessUri {
 }
 
 // @public
+export type ActionType = string;
+
+// @public
 export interface AdditionalCapabilities {
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
@@ -161,7 +164,7 @@ export interface AutomaticZoneRebalancingPolicy {
 }
 
 // @public
-export interface AvailabilitySet extends Resource {
+export interface AvailabilitySet extends TrackedResource {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResource;
@@ -180,8 +183,8 @@ export interface AvailabilitySetListResult {
 
 // @public
 export interface AvailabilitySets {
-    beginConvertToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginConvertToVirtualMachineScaleSetAndWait(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<void>;
+    beginConvertToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>, AvailabilitySetsConvertToVirtualMachineScaleSetResponse>>;
+    beginConvertToVirtualMachineScaleSetAndWait(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams): Promise<AvailabilitySetsConvertToVirtualMachineScaleSetResponse>;
     cancelMigrationToVirtualMachineScaleSet(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams): Promise<AvailabilitySetsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
@@ -199,11 +202,20 @@ export interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptional
 }
 
 // @public
+export interface AvailabilitySetsConvertToVirtualMachineScaleSetHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams extends coreClient.OperationOptions {
     parameters?: ConvertToVirtualMachineScaleSetInput;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AvailabilitySetsConvertToVirtualMachineScaleSetResponse = AvailabilitySetsConvertToVirtualMachineScaleSetHeaders;
 
 // @public
 export interface AvailabilitySetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -225,6 +237,13 @@ export type AvailabilitySetsGetResponse = AvailabilitySet;
 
 // @public
 export type AvailabilitySetSkuTypes = string;
+
+// @public
+export interface AvailabilitySetsListAvailableSizesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AvailabilitySetsListAvailableSizesNextResponse = VirtualMachineSizeListResult;
 
 // @public
 export interface AvailabilitySetsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
@@ -323,7 +342,7 @@ export interface BootDiagnosticsInstanceView {
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
-export interface CapacityReservation extends Resource {
+export interface CapacityReservation extends TrackedResource {
     readonly instanceView?: CapacityReservationInstanceView;
     readonly platformFaultDomainCount?: number;
     readonly provisioningState?: string;
@@ -336,7 +355,7 @@ export interface CapacityReservation extends Resource {
 }
 
 // @public
-export interface CapacityReservationGroup extends Resource {
+export interface CapacityReservationGroup extends TrackedResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
     sharingProfile?: ResourceSharingProfile;
@@ -472,6 +491,12 @@ export interface CapacityReservations {
 }
 
 // @public
+export interface CapacityReservationsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface CapacityReservationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -479,6 +504,12 @@ export interface CapacityReservationsCreateOrUpdateOptionalParams extends coreCl
 
 // @public
 export type CapacityReservationsCreateOrUpdateResponse = CapacityReservation;
+
+// @public
+export interface CapacityReservationsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface CapacityReservationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -507,6 +538,12 @@ export interface CapacityReservationsListByCapacityReservationGroupOptionalParam
 
 // @public
 export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
+
+// @public
+export interface CapacityReservationsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface CapacityReservationsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -546,7 +583,7 @@ export interface CloudService {
     location: string;
     readonly name?: string;
     properties?: CloudServiceProperties;
-    systemData?: SystemData;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1277,21 +1314,6 @@ export interface ComputeManagementClientOptionalParams extends coreClient.Servic
 }
 
 // @public
-export interface ComputeOperationListResult {
-    readonly value?: ComputeOperationValue[];
-}
-
-// @public
-export interface ComputeOperationValue {
-    readonly description?: string;
-    readonly name?: string;
-    readonly operation?: string;
-    readonly origin?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
 export type ConfidentialVMEncryptionType = string;
 
 // @public
@@ -1310,6 +1332,9 @@ export interface CopyCompletionError {
 
 // @public
 export type CopyCompletionErrorReason = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CreationData {
@@ -1377,7 +1402,7 @@ export interface DataDisksToDetach {
 }
 
 // @public
-export interface DedicatedHost extends Resource {
+export interface DedicatedHost extends TrackedResource {
     autoReplaceOnFailure?: boolean;
     readonly hostId?: string;
     readonly instanceView?: DedicatedHostInstanceView;
@@ -1402,7 +1427,7 @@ export interface DedicatedHostAvailableCapacity {
 }
 
 // @public
-export interface DedicatedHostGroup extends Resource {
+export interface DedicatedHostGroup extends TrackedResource {
     additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
@@ -1530,13 +1555,19 @@ export interface DedicatedHosts {
     beginDeleteAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<void>;
     beginRedeploy(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsRedeployResponse>, DedicatedHostsRedeployResponse>>;
     beginRedeployAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<DedicatedHostsRedeployResponse>;
-    beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<void>;
+    beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsRestartResponse>, DedicatedHostsRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<DedicatedHostsRestartResponse>;
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<DedicatedHostsUpdateResponse>;
     get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams): Promise<DedicatedHostsGetResponse>;
     listAvailableSizes(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<string>;
     listByHostGroup(resourceGroupName: string, hostGroupName: string, options?: DedicatedHostsListByHostGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHost>;
+}
+
+// @public
+export interface DedicatedHostsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1547,6 +1578,12 @@ export interface DedicatedHostsCreateOrUpdateOptionalParams extends coreClient.O
 
 // @public
 export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost;
+
+// @public
+export interface DedicatedHostsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DedicatedHostsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1564,8 +1601,16 @@ export type DedicatedHostsGetResponse = DedicatedHost;
 
 // @public
 export interface DedicatedHostSizeListResult {
+    nextLink?: string;
     value?: string[];
 }
+
+// @public
+export interface DedicatedHostsListAvailableSizesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DedicatedHostsListAvailableSizesNextResponse = DedicatedHostSizeListResult;
 
 // @public
 export interface DedicatedHostsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
@@ -1590,8 +1635,8 @@ export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
 
 // @public
 export interface DedicatedHostsRedeployHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1604,9 +1649,24 @@ export interface DedicatedHostsRedeployOptionalParams extends coreClient.Operati
 export type DedicatedHostsRedeployResponse = DedicatedHostsRedeployHeaders;
 
 // @public
+export interface DedicatedHostsRestartHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DedicatedHostsRestartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type DedicatedHostsRestartResponse = DedicatedHostsRestartHeaders;
+
+// @public
+export interface DedicatedHostsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1616,7 +1676,7 @@ export interface DedicatedHostsUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type DedicatedHostsUpdateResponse = DedicatedHost;
+export type DedicatedHostsUpdateResponse = DedicatedHostsUpdateHeaders & DedicatedHost;
 
 // @public
 export interface DedicatedHostUpdate extends UpdateResource {
@@ -1669,7 +1729,7 @@ export interface DisallowedConfiguration {
 }
 
 // @public
-export interface Disk extends Resource {
+export interface Disk extends TrackedResource {
     burstingEnabled?: boolean;
     readonly burstingEnabledTime?: Date;
     completionPercent?: number;
@@ -1710,7 +1770,7 @@ export interface Disk extends Resource {
 }
 
 // @public
-export interface DiskAccess extends Resource {
+export interface DiskAccess extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
@@ -1738,6 +1798,12 @@ export interface DiskAccesses {
 }
 
 // @public
+export interface DiskAccessesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiskAccessesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1747,9 +1813,21 @@ export interface DiskAccessesCreateOrUpdateOptionalParams extends coreClient.Ope
 export type DiskAccessesCreateOrUpdateResponse = DiskAccess;
 
 // @public
+export interface DiskAccessesDeleteAPrivateEndpointConnectionHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiskAccessesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1822,6 +1900,12 @@ export type DiskAccessesListPrivateEndpointConnectionsResponse = PrivateEndpoint
 export type DiskAccessesListResponse = DiskAccessList;
 
 // @public
+export interface DiskAccessesUpdateAPrivateEndpointConnectionHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1829,6 +1913,12 @@ export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams exte
 
 // @public
 export type DiskAccessesUpdateAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+// @public
+export interface DiskAccessesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DiskAccessesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1868,7 +1958,7 @@ export type DiskDeleteOptionTypes = string;
 export type DiskDetachOptionTypes = string;
 
 // @public
-export interface DiskEncryptionSet extends Resource {
+export interface DiskEncryptionSet extends TrackedResource {
     activeKey?: KeyForDiskEncryptionSet;
     readonly autoKeyRotationError?: ApiError;
     encryptionType?: DiskEncryptionSetType;
@@ -1908,6 +1998,12 @@ export interface DiskEncryptionSets {
 }
 
 // @public
+export interface DiskEncryptionSetsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1915,6 +2011,12 @@ export interface DiskEncryptionSetsCreateOrUpdateOptionalParams extends coreClie
 
 // @public
 export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet;
+
+// @public
+export interface DiskEncryptionSetsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DiskEncryptionSetsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1970,6 +2072,12 @@ export interface DiskEncryptionSetsListOptionalParams extends coreClient.Operati
 
 // @public
 export type DiskEncryptionSetsListResponse = DiskEncryptionSetList;
+
+// @public
+export interface DiskEncryptionSetsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DiskEncryptionSetsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2029,7 +2137,7 @@ export interface DiskPurchasePlan {
 }
 
 // @public
-export interface DiskRestorePoint extends ProxyOnlyResource {
+export interface DiskRestorePoint extends ProxyResource {
     completionPercent?: number;
     diskAccessId?: string;
     readonly encryption?: Encryption;
@@ -2062,6 +2170,12 @@ export interface DiskRestorePointGetOptionalParams extends coreClient.OperationO
 
 // @public
 export type DiskRestorePointGetResponse = DiskRestorePoint;
+
+// @public
+export interface DiskRestorePointGrantAccessHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DiskRestorePointGrantAccessOptionalParams extends coreClient.OperationOptions {
@@ -2115,6 +2229,12 @@ export interface DiskRestorePointReplicationStatus {
 }
 
 // @public
+export interface DiskRestorePointRevokeAccessHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiskRestorePointRevokeAccessOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2138,6 +2258,12 @@ export interface Disks {
 }
 
 // @public
+export interface DisksCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DisksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2145,6 +2271,12 @@ export interface DisksCreateOrUpdateOptionalParams extends coreClient.OperationO
 
 // @public
 export type DisksCreateOrUpdateResponse = Disk;
+
+// @public
+export interface DisksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DisksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2167,6 +2299,12 @@ export interface DisksGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type DisksGetResponse = Disk;
+
+// @public
+export interface DisksGrantAccessHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DisksGrantAccessOptionalParams extends coreClient.OperationOptions {
@@ -2212,6 +2350,12 @@ export interface DisksListOptionalParams extends coreClient.OperationOptions {
 export type DisksListResponse = DiskList;
 
 // @public
+export interface DisksRevokeAccessHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DisksRevokeAccessOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2222,6 +2366,12 @@ export type DiskState = string;
 
 // @public
 export type DiskStorageAccountTypes = string;
+
+// @public
+export interface DisksUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DisksUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2316,6 +2466,26 @@ export type EndpointAccess = string;
 export type EndpointTypes = "WireServer" | "IMDS";
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface EventGridAndResourceGraph {
     enable?: boolean;
 }
@@ -2333,6 +2503,9 @@ export type ExecutionState = string;
 
 // @public
 export type Expand = string;
+
+// @public
+export type ExpandAutoGenerated = string;
 
 // @public
 export type ExpandTypeForListVMs = string;
@@ -2381,6 +2554,12 @@ export interface Galleries {
 }
 
 // @public
+export interface GalleriesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2388,6 +2567,12 @@ export interface GalleriesCreateOrUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type GalleriesCreateOrUpdateResponse = Gallery;
+
+// @public
+export interface GalleriesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface GalleriesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2433,16 +2618,22 @@ export interface GalleriesListOptionalParams extends coreClient.OperationOptions
 export type GalleriesListResponse = GalleryList;
 
 // @public
+export interface GalleriesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleriesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleriesUpdateResponse = Gallery;
+export type GalleriesUpdateResponse = GalleriesUpdateHeaders & Gallery;
 
 // @public
-export interface Gallery extends Resource {
+export interface Gallery extends TrackedResource {
     description?: string;
     identifier?: GalleryIdentifier;
     identity?: GalleryIdentity;
@@ -2453,7 +2644,7 @@ export interface Gallery extends Resource {
 }
 
 // @public
-export interface GalleryApplication extends Resource {
+export interface GalleryApplication extends TrackedResource {
     customActions?: GalleryApplicationCustomAction[];
     description?: string;
     endOfLifeDate?: Date;
@@ -2502,6 +2693,12 @@ export interface GalleryApplications {
 }
 
 // @public
+export interface GalleryApplicationsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryApplicationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2512,6 +2709,12 @@ export type GalleryApplicationsCreateOrUpdateResponse = GalleryApplication;
 
 // @public
 export type GalleryApplicationScriptRebootBehavior = string;
+
+// @public
+export interface GalleryApplicationsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface GalleryApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2541,13 +2744,19 @@ export interface GalleryApplicationsListByGalleryOptionalParams extends coreClie
 export type GalleryApplicationsListByGalleryResponse = GalleryApplicationList;
 
 // @public
+export interface GalleryApplicationsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryApplicationsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryApplicationsUpdateResponse = GalleryApplication;
+export type GalleryApplicationsUpdateResponse = GalleryApplicationsUpdateHeaders & GalleryApplication;
 
 // @public
 export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
@@ -2561,7 +2770,7 @@ export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
 }
 
 // @public
-export interface GalleryApplicationVersion extends Resource {
+export interface GalleryApplicationVersion extends TrackedResource {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
@@ -2604,6 +2813,12 @@ export interface GalleryApplicationVersionSafetyProfile extends GalleryArtifactS
 }
 
 // @public
+export interface GalleryApplicationVersionsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2611,6 +2826,12 @@ export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams extends 
 
 // @public
 export type GalleryApplicationVersionsCreateOrUpdateResponse = GalleryApplicationVersion;
+
+// @public
+export interface GalleryApplicationVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface GalleryApplicationVersionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2641,13 +2862,19 @@ export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParam
 export type GalleryApplicationVersionsListByGalleryApplicationResponse = GalleryApplicationVersionList;
 
 // @public
+export interface GalleryApplicationVersionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryApplicationVersionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersion;
+export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersionsUpdateHeaders & GalleryApplicationVersion;
 
 // @public
 export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
@@ -2672,11 +2899,6 @@ export interface GalleryArtifactPublishingProfileBase {
 // @public
 export interface GalleryArtifactSafetyProfileBase {
     allowDeletionOfReplicatedLocations?: boolean;
-}
-
-// @public
-export interface GalleryArtifactSource {
-    managedImage: ManagedArtifact;
 }
 
 // @public
@@ -2737,7 +2959,7 @@ export interface GalleryIdentity {
 }
 
 // @public
-export interface GalleryImage extends Resource {
+export interface GalleryImage extends TrackedResource {
     allowUpdateImage?: boolean;
     architecture?: Architecture;
     description?: string;
@@ -2789,6 +3011,12 @@ export interface GalleryImages {
 }
 
 // @public
+export interface GalleryImagesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2796,6 +3024,12 @@ export interface GalleryImagesCreateOrUpdateOptionalParams extends coreClient.Op
 
 // @public
 export type GalleryImagesCreateOrUpdateResponse = GalleryImage;
+
+// @public
+export interface GalleryImagesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface GalleryImagesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2825,13 +3059,19 @@ export interface GalleryImagesListByGalleryOptionalParams extends coreClient.Ope
 export type GalleryImagesListByGalleryResponse = GalleryImageList;
 
 // @public
+export interface GalleryImagesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryImagesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryImagesUpdateResponse = GalleryImage;
+export type GalleryImagesUpdateResponse = GalleryImagesUpdateHeaders & GalleryImage;
 
 // @public
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
@@ -2854,7 +3094,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
 }
 
 // @public
-export interface GalleryImageVersion extends Resource {
+export interface GalleryImageVersion extends TrackedResource {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
@@ -2895,6 +3135,12 @@ export interface GalleryImageVersionSafetyProfile extends GalleryArtifactSafetyP
 }
 
 // @public
+export interface GalleryImageVersionsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2902,6 +3148,12 @@ export interface GalleryImageVersionsCreateOrUpdateOptionalParams extends coreCl
 
 // @public
 export type GalleryImageVersionsCreateOrUpdateResponse = GalleryImageVersion;
+
+// @public
+export interface GalleryImageVersionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface GalleryImageVersionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2939,13 +3191,19 @@ export interface GalleryImageVersionStorageProfile {
 }
 
 // @public
+export interface GalleryImageVersionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
+export type GalleryImageVersionsUpdateResponse = GalleryImageVersionsUpdateHeaders & GalleryImageVersion;
 
 // @public
 export interface GalleryImageVersionUefiSettings {
@@ -2966,7 +3224,7 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
 }
 
 // @public
-export interface GalleryInVMAccessControlProfile extends Resource {
+export interface GalleryInVMAccessControlProfile extends TrackedResource {
     properties?: GalleryInVMAccessControlProfileProperties;
 }
 
@@ -2996,6 +3254,12 @@ export interface GalleryInVMAccessControlProfiles {
 }
 
 // @public
+export interface GalleryInVMAccessControlProfilesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3006,9 +3270,7 @@ export type GalleryInVMAccessControlProfilesCreateOrUpdateResponse = GalleryInVM
 
 // @public
 export interface GalleryInVMAccessControlProfilesDeleteHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
 }
 
@@ -3043,13 +3305,19 @@ export interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams ext
 export type GalleryInVMAccessControlProfilesListByGalleryResponse = GalleryInVMAccessControlProfileList;
 
 // @public
+export interface GalleryInVMAccessControlProfilesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryInVMAccessControlProfilesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfilesUpdateResponse = GalleryInVMAccessControlProfile;
+export type GalleryInVMAccessControlProfilesUpdateResponse = GalleryInVMAccessControlProfilesUpdateHeaders & GalleryInVMAccessControlProfile;
 
 // @public
 export interface GalleryInVMAccessControlProfileUpdate extends UpdateResourceDefinition {
@@ -3057,7 +3325,7 @@ export interface GalleryInVMAccessControlProfileUpdate extends UpdateResourceDef
 }
 
 // @public
-export interface GalleryInVMAccessControlProfileVersion extends Resource {
+export interface GalleryInVMAccessControlProfileVersion extends TrackedResource {
     defaultAccess?: EndpointAccess;
     excludeFromLatest?: boolean;
     mode?: AccessControlRulesMode;
@@ -3094,6 +3362,12 @@ export interface GalleryInVMAccessControlProfileVersions {
 }
 
 // @public
+export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3104,9 +3378,7 @@ export type GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse = Gall
 
 // @public
 export interface GalleryInVMAccessControlProfileVersionsDeleteHeaders {
-    // (undocumented)
     azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
 }
 
@@ -3141,13 +3413,19 @@ export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessC
 export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse = GalleryInVMAccessControlProfileVersionList;
 
 // @public
+export interface GalleryInVMAccessControlProfileVersionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type GalleryInVMAccessControlProfileVersionsUpdateResponse = GalleryInVMAccessControlProfileVersion;
+export type GalleryInVMAccessControlProfileVersionsUpdateResponse = GalleryInVMAccessControlProfileVersionsUpdateHeaders & GalleryInVMAccessControlProfileVersion;
 
 // @public
 export interface GalleryInVMAccessControlProfileVersionUpdate extends UpdateResourceDefinition {
@@ -3199,6 +3477,12 @@ export interface GallerySharingProfile {
 }
 
 // @public
+export interface GallerySharingProfileUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface GallerySharingProfileUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3208,7 +3492,7 @@ export interface GallerySharingProfileUpdateOptionalParams extends coreClient.Op
 export type GallerySharingProfileUpdateResponse = SharingUpdate;
 
 // @public
-export interface GallerySoftDeletedResource extends Resource {
+export interface GallerySoftDeletedResource extends TrackedResource {
     resourceArmId?: string;
     softDeletedArtifactType?: SoftDeletedArtifactTypes;
     softDeletedTime?: string;
@@ -3245,7 +3529,6 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GrantAccessData {
-    // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
     fileFormat?: FileFormat;
@@ -3277,7 +3560,7 @@ export type HyperVGenerationType = string;
 export type HyperVGenerationTypes = string;
 
 // @public
-interface Image_2 extends Resource {
+interface Image_2 extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGenerationTypes;
     readonly provisioningState?: string;
@@ -3361,6 +3644,12 @@ export interface Images {
 }
 
 // @public
+export interface ImagesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3368,6 +3657,12 @@ export interface ImagesCreateOrUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type ImagesCreateOrUpdateResponse = Image_2;
+
+// @public
+export interface ImagesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ImagesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3419,6 +3714,12 @@ export interface ImageStorageProfile {
     dataDisks?: ImageDataDisk[];
     osDisk?: ImageOSDisk;
     zoneResilient?: boolean;
+}
+
+// @public
+export interface ImagesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -3526,6 +3827,11 @@ export enum KnownAccessLevel {
 }
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownAggregatedReplicationState {
     Completed = "Completed",
     Failed = "Failed",
@@ -3606,6 +3912,14 @@ export enum KnownConsistencyModeTypes {
 // @public
 export enum KnownCopyCompletionErrorReason {
     CopySourceNotFound = "CopySourceNotFound"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -3762,6 +4076,11 @@ export enum KnownExecutionState {
 
 // @public
 export enum KnownExpand {
+    Properties = "Properties"
+}
+
+// @public
+export enum KnownExpandAutoGenerated {
     Properties = "Properties"
 }
 
@@ -3949,8 +4268,7 @@ export enum KnownOrchestrationMode {
 
 // @public
 export enum KnownOrchestrationServiceNames {
-    AutomaticRepairs = "AutomaticRepairs",
-    DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
+    AutomaticRepairs = "AutomaticRepairs"
 }
 
 // @public
@@ -3964,6 +4282,13 @@ export enum KnownOrchestrationServiceState {
 export enum KnownOrchestrationServiceStateAction {
     Resume = "Resume",
     Suspend = "Suspend"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -4516,12 +4841,6 @@ export interface LastPatchInstallationSummary {
 }
 
 // @public
-export interface LatestGalleryImageVersion {
-    latestVersionName?: string;
-    location?: string;
-}
-
-// @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
     enableVMAgentPlatformUpdates?: boolean;
@@ -4600,6 +4919,12 @@ export interface LogAnalytics {
 }
 
 // @public
+export interface LogAnalyticsExportRequestRateByIntervalHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface LogAnalyticsExportRequestRateByIntervalOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -4607,6 +4932,12 @@ export interface LogAnalyticsExportRequestRateByIntervalOptionalParams extends c
 
 // @public
 export type LogAnalyticsExportRequestRateByIntervalResponse = LogAnalyticsOperationResult;
+
+// @public
+export interface LogAnalyticsExportThrottledRequestsHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface LogAnalyticsExportThrottledRequestsOptionalParams extends coreClient.OperationOptions {
@@ -4651,11 +4982,6 @@ export interface MaintenanceRedeployStatus {
     maintenanceWindowStartTime?: Date;
     preMaintenanceWindowEndTime?: Date;
     preMaintenanceWindowStartTime?: Date;
-}
-
-// @public
-export interface ManagedArtifact {
-    id: string;
 }
 
 // @public
@@ -4718,16 +5044,46 @@ export type OperatingSystemType = string;
 export type OperatingSystemTypes = "Windows" | "Linux";
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ComputeOperationValue>;
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
+}
+
+// @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = ComputeOperationListResult;
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type OrchestrationMode = string;
@@ -4752,6 +5108,9 @@ export interface OrchestrationServiceSummary {
     readonly serviceName?: OrchestrationServiceNames;
     readonly serviceState?: OrchestrationServiceState;
 }
+
+// @public
+export type Origin = string;
 
 // @public
 export interface OSDisk {
@@ -4953,19 +5312,16 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection {
-    readonly id?: string;
-    readonly name?: string;
+export interface PrivateEndpointConnection extends ProxyResource {
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-    readonly type?: string;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResult {
     nextLink?: string;
-    value?: PrivateEndpointConnection[];
+    value: PrivateEndpointConnection[];
 }
 
 // @public
@@ -5008,7 +5364,7 @@ export type ProtocolTypes = "Http" | "Https";
 export type ProvisionedBandwidthCopyOption = string;
 
 // @public
-export interface ProximityPlacementGroup extends Resource {
+export interface ProximityPlacementGroup extends TrackedResource {
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
     intent?: ProximityPlacementGroupPropertiesIntent;
@@ -5110,17 +5466,7 @@ export interface ProxyAgentSettings {
 }
 
 // @public
-export interface ProxyOnlyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -5227,11 +5573,8 @@ export type ResilientVMDeletionStatus = string;
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -5393,7 +5736,7 @@ export interface RestorePoint extends ProxyResource {
 }
 
 // @public
-export interface RestorePointCollection extends Resource {
+export interface RestorePointCollection extends TrackedResource {
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -5406,7 +5749,7 @@ export type RestorePointCollectionExpandOptions = string;
 // @public
 export interface RestorePointCollectionListResult {
     nextLink?: string;
-    value?: RestorePointCollection[];
+    value: RestorePointCollection[];
 }
 
 // @public
@@ -5426,6 +5769,12 @@ export interface RestorePointCollectionsCreateOrUpdateOptionalParams extends cor
 
 // @public
 export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection;
+
+// @public
+export interface RestorePointCollectionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface RestorePointCollectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -5518,13 +5867,25 @@ export interface RestorePoints {
 }
 
 // @public
+export interface RestorePointsCreateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface RestorePointsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type RestorePointsCreateResponse = RestorePoint;
+export type RestorePointsCreateResponse = RestorePointsCreateHeaders & RestorePoint;
+
+// @public
+export interface RestorePointsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface RestorePointsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -5675,7 +6036,7 @@ export interface RollingUpgradeRunningStatus {
 export type RollingUpgradeStatusCode = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
 
 // @public
-export interface RollingUpgradeStatusInfo extends Resource {
+export interface RollingUpgradeStatusInfo extends TrackedResource {
     readonly error?: ApiError;
     readonly policy?: RollingUpgradePolicy;
     readonly progress?: RollingUpgradeProgressInfo;
@@ -6025,7 +6386,7 @@ export interface SkuProfileVMSize {
 }
 
 // @public
-export interface Snapshot extends Resource {
+export interface Snapshot extends TrackedResource {
     completionPercent?: number;
     copyCompletionError?: CopyCompletionError;
     creationData?: CreationData;
@@ -6078,6 +6439,12 @@ export interface Snapshots {
 }
 
 // @public
+export interface SnapshotsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SnapshotsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -6085,6 +6452,12 @@ export interface SnapshotsCreateOrUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type SnapshotsCreateOrUpdateResponse = Snapshot;
+
+// @public
+export interface SnapshotsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface SnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -6098,6 +6471,12 @@ export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type SnapshotsGetResponse = Snapshot;
+
+// @public
+export interface SnapshotsGrantAccessHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface SnapshotsGrantAccessOptionalParams extends coreClient.OperationOptions {
@@ -6143,6 +6522,12 @@ export interface SnapshotsListOptionalParams extends coreClient.OperationOptions
 export type SnapshotsListResponse = SnapshotList;
 
 // @public
+export interface SnapshotsRevokeAccessHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SnapshotsRevokeAccessOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -6150,6 +6535,12 @@ export interface SnapshotsRevokeAccessOptionalParams extends coreClient.Operatio
 
 // @public
 export type SnapshotStorageAccountTypes = string;
+
+// @public
+export interface SnapshotsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -6243,7 +6634,7 @@ export interface SshPublicKeyGenerateKeyPairResult {
 }
 
 // @public
-export interface SshPublicKeyResource extends Resource {
+export interface SshPublicKeyResource extends TrackedResource {
     publicKey?: string;
 }
 
@@ -6378,8 +6769,12 @@ export interface SupportedCapabilities {
 
 // @public
 export interface SystemData {
-    readonly createdAt?: Date;
-    readonly lastModifiedAt?: Date;
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -6400,6 +6795,14 @@ export interface TerminateNotificationProfile {
 
 // @public
 export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -6595,7 +6998,7 @@ export interface VirtualHardDisk {
 }
 
 // @public
-export interface VirtualMachine extends Resource {
+export interface VirtualMachine extends TrackedResource {
     additionalCapabilities?: AdditionalCapabilities;
     applicationProfile?: ApplicationProfile;
     availabilitySet?: SubResource;
@@ -6671,7 +7074,7 @@ export interface VirtualMachineCaptureResult extends SubResource {
 export type VirtualMachineEvictionPolicyTypes = string;
 
 // @public
-export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
+export interface VirtualMachineExtension extends TrackedResource {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
@@ -6695,7 +7098,7 @@ export interface VirtualMachineExtensionHandlerInstanceView {
 }
 
 // @public
-export interface VirtualMachineExtensionImage extends Resource {
+export interface VirtualMachineExtensionImage extends TrackedResource {
     computeRole?: string;
     handlerSchema?: string;
     operatingSystem?: string;
@@ -6727,9 +7130,7 @@ export type VirtualMachineExtensionImagesListTypesResponse = VirtualMachineExten
 // @public
 export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends coreClient.OperationOptions {
     filter?: string;
-    // (undocumented)
     orderby?: string;
-    // (undocumented)
     top?: number;
 }
 
@@ -6758,6 +7159,12 @@ export interface VirtualMachineExtensions {
 }
 
 // @public
+export interface VirtualMachineExtensionsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -6765,6 +7172,12 @@ export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams extends co
 
 // @public
 export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExtension;
+
+// @public
+export interface VirtualMachineExtensionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualMachineExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -6794,13 +7207,19 @@ export interface VirtualMachineExtensionsListResult {
 }
 
 // @public
+export interface VirtualMachineExtensionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtension;
+export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtensionsUpdateHeaders & VirtualMachineExtension;
 
 // @public
 export interface VirtualMachineExtensionUpdate extends UpdateResource {
@@ -6835,7 +7254,6 @@ export interface VirtualMachineIdentity {
 export interface VirtualMachineImage extends VirtualMachineImageResource {
     architecture?: ArchitectureTypes;
     automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
-    // (undocumented)
     dataDiskImages?: DataDiskImage[];
     disallowed?: DisallowedConfiguration;
     // (undocumented)
@@ -6945,9 +7363,7 @@ export type VirtualMachineImagesListOffersResponse = VirtualMachineImageResource
 // @public
 export interface VirtualMachineImagesListOptionalParams extends coreClient.OperationOptions {
     expand?: string;
-    // (undocumented)
     orderby?: string;
-    // (undocumented)
     top?: number;
 }
 
@@ -6977,9 +7393,7 @@ export type VirtualMachineImagesListWithPropertiesNextResponse = VirtualMachineI
 
 // @public
 export interface VirtualMachineImagesListWithPropertiesOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
     orderby?: string;
-    // (undocumented)
     top?: number;
 }
 
@@ -7121,7 +7535,7 @@ export interface VirtualMachineReimageParameters {
 }
 
 // @public
-export interface VirtualMachineRunCommand extends Resource {
+export interface VirtualMachineRunCommand extends TrackedResource {
     asyncExecution?: boolean;
     errorBlobManagedIdentity?: RunCommandManagedIdentity;
     errorBlobUri?: string;
@@ -7165,6 +7579,12 @@ export interface VirtualMachineRunCommands {
 }
 
 // @public
+export interface VirtualMachineRunCommandsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineRunCommandsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -7179,6 +7599,12 @@ export interface VirtualMachineRunCommandScriptSource {
     script?: string;
     scriptUri?: string;
     scriptUriManagedIdentity?: RunCommandManagedIdentity;
+}
+
+// @public
+export interface VirtualMachineRunCommandsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7238,13 +7664,19 @@ export interface VirtualMachineRunCommandsListResult {
 }
 
 // @public
+export interface VirtualMachineRunCommandsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineRunCommandsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineRunCommandsUpdateResponse = VirtualMachineRunCommand;
+export type VirtualMachineRunCommandsUpdateResponse = VirtualMachineRunCommandsUpdateHeaders & VirtualMachineRunCommand;
 
 // @public
 export interface VirtualMachineRunCommandUpdate extends UpdateResource {
@@ -7282,8 +7714,8 @@ export interface VirtualMachines {
     beginDeleteAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
     beginInstallPatches(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesInstallPatchesResponse>, VirtualMachinesInstallPatchesResponse>>;
     beginInstallPatchesAndWait(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<VirtualMachinesInstallPatchesResponse>;
-    beginMigrateToVMScaleSet(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginMigrateToVMScaleSetAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<void>;
+    beginMigrateToVMScaleSet(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesMigrateToVMScaleSetResponse>, VirtualMachinesMigrateToVMScaleSetResponse>>;
+    beginMigrateToVMScaleSetAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesMigrateToVMScaleSetOptionalParams): Promise<VirtualMachinesMigrateToVMScaleSetResponse>;
     beginPerformMaintenance(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPerformMaintenanceAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<void>;
     beginPowerOff(resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -7314,6 +7746,12 @@ export interface VirtualMachines {
 }
 
 // @public
+export interface VirtualMachinesAssessPatchesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesAssessPatchesOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -7324,8 +7762,8 @@ export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesRe
 
 // @public
 export interface VirtualMachinesAttachDetachDataDisksHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7338,7 +7776,7 @@ export interface VirtualMachinesAttachDetachDataDisksOptionalParams extends core
 export type VirtualMachinesAttachDetachDataDisksResponse = StorageProfile;
 
 // @public
-export interface VirtualMachineScaleSet extends Resource {
+export interface VirtualMachineScaleSet extends TrackedResource {
     additionalCapabilities?: AdditionalCapabilities;
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
     constrainedMaximumCapacity?: boolean;
@@ -7389,7 +7827,6 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    name?: string;
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
@@ -7400,6 +7837,7 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     readonly type?: string;
     typeHandlerVersion?: string;
     typePropertiesType?: string;
+    vmName?: string;
 }
 
 // @public
@@ -7427,6 +7865,12 @@ export interface VirtualMachineScaleSetExtensions {
 }
 
 // @public
+export interface VirtualMachineScaleSetExtensionsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -7434,6 +7878,12 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams ex
 
 // @public
 export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetExtension;
+
+// @public
+export interface VirtualMachineScaleSetExtensionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualMachineScaleSetExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -7462,6 +7912,12 @@ export interface VirtualMachineScaleSetExtensionsListOptionalParams extends core
 
 // @public
 export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSetExtensionListResult;
+
+// @public
+export interface VirtualMachineScaleSetExtensionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualMachineScaleSetExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -7665,6 +8121,12 @@ export interface VirtualMachineScaleSetRollingUpgrades {
 }
 
 // @public
+export interface VirtualMachineScaleSetRollingUpgradesCancelHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -7678,9 +8140,21 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams ex
 export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgradeStatusInfo;
 
 // @public
+export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7736,8 +8210,8 @@ export interface VirtualMachineScaleSets {
 
 // @public
 export interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7758,6 +8232,12 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalPar
 }
 
 // @public
+export interface VirtualMachineScaleSetsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -7769,11 +8249,29 @@ export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends cor
 export type VirtualMachineScaleSetsCreateOrUpdateResponse = VirtualMachineScaleSet;
 
 // @public
+export interface VirtualMachineScaleSetsDeallocateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsDeallocateOptionalParams extends coreClient.OperationOptions {
     hibernate?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+// @public
+export interface VirtualMachineScaleSetsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetsDeleteInstancesHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7903,10 +8401,22 @@ export interface VirtualMachineScaleSetsListSkusOptionalParams extends coreClien
 export type VirtualMachineScaleSetsListSkusResponse = VirtualMachineScaleSetListSkusResult;
 
 // @public
+export interface VirtualMachineScaleSetsPerformMaintenanceHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+// @public
+export interface VirtualMachineScaleSetsPowerOffHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7919,14 +8429,20 @@ export interface VirtualMachineScaleSetsPowerOffOptionalParams extends coreClien
 
 // @public
 export interface VirtualMachineScaleSetsReapplyHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface VirtualMachineScaleSetsReapplyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetsRedeployHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7937,10 +8453,22 @@ export interface VirtualMachineScaleSetsRedeployOptionalParams extends coreClien
 }
 
 // @public
+export interface VirtualMachineScaleSetsReimageAllHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsReimageAllOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
     vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+// @public
+export interface VirtualMachineScaleSetsReimageHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7951,6 +8479,12 @@ export interface VirtualMachineScaleSetsReimageOptionalParams extends coreClient
 }
 
 // @public
+export interface VirtualMachineScaleSetsRestartHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsRestartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -7958,9 +8492,21 @@ export interface VirtualMachineScaleSetsRestartOptionalParams extends coreClient
 }
 
 // @public
+export interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetsStartHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7973,10 +8519,21 @@ export interface VirtualMachineScaleSetsStartOptionalParams extends coreClient.O
 // @public
 export interface VirtualMachineScaleSetStorageProfile {
     dataDisks?: VirtualMachineScaleSetDataDisk[];
-    // (undocumented)
-    diskControllerType?: string;
+    diskControllerType?: DiskControllerTypes;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetOSDisk;
+}
+
+// @public
+export interface VirtualMachineScaleSetsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetsUpdateInstancesHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -7994,7 +8551,7 @@ export interface VirtualMachineScaleSetsUpdateOptionalParams extends coreClient.
 }
 
 // @public
-export type VirtualMachineScaleSetsUpdateResponse = VirtualMachineScaleSet;
+export type VirtualMachineScaleSetsUpdateResponse = VirtualMachineScaleSetsUpdateHeaders & VirtualMachineScaleSet;
 
 // @public
 export interface VirtualMachineScaleSetUpdate extends UpdateResource {
@@ -8086,8 +8643,7 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetUpdateStorageProfile {
     dataDisks?: VirtualMachineScaleSetDataDisk[];
-    // (undocumented)
-    diskControllerType?: string;
+    diskControllerType?: DiskControllerTypes;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetUpdateOSDisk;
 }
@@ -8109,7 +8665,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
 }
 
 // @public
-export interface VirtualMachineScaleSetVM extends Resource {
+export interface VirtualMachineScaleSetVM extends TrackedResource {
     additionalCapabilities?: AdditionalCapabilities;
     availabilitySet?: SubResource;
     diagnosticsProfile?: DiagnosticsProfile;
@@ -8145,7 +8701,6 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     location?: string;
-    readonly name?: string;
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
@@ -8156,6 +8711,7 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     readonly type?: string;
     typeHandlerVersion?: string;
     typePropertiesType?: string;
+    readonly vmName?: string;
 }
 
 // @public
@@ -8171,6 +8727,12 @@ export interface VirtualMachineScaleSetVMExtensions {
 }
 
 // @public
+export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -8178,6 +8740,12 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams 
 
 // @public
 export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetVMExtension;
+
+// @public
+export interface VirtualMachineScaleSetVMExtensionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -8213,13 +8781,19 @@ export interface VirtualMachineScaleSetVMExtensionsSummary {
 }
 
 // @public
+export interface VirtualMachineScaleSetVMExtensionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineScaleSetVMExtension;
+export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineScaleSetVMExtensionsUpdateHeaders & VirtualMachineScaleSetVMExtension;
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceReadOnly {
@@ -8324,6 +8898,12 @@ export interface VirtualMachineScaleSetVMRunCommands {
 }
 
 // @public
+export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -8331,6 +8911,12 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams
 
 // @public
 export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand;
+
+// @public
+export interface VirtualMachineScaleSetVMRunCommandsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -8362,13 +8948,19 @@ export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends c
 export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunCommandsListResult;
 
 // @public
+export interface VirtualMachineScaleSetVMRunCommandsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRunCommand;
+export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineScaleSetVMRunCommandsUpdateHeaders & VirtualMachineRunCommand;
 
 // @public
 export interface VirtualMachineScaleSetVMs {
@@ -8407,8 +8999,8 @@ export interface VirtualMachineScaleSetVMs {
 
 // @public
 export interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8422,8 +9014,8 @@ export type VirtualMachineScaleSetVMsApproveRollingUpgradeResponse = VirtualMach
 
 // @public
 export interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8436,9 +9028,21 @@ export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams ex
 export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse = StorageProfile;
 
 // @public
+export interface VirtualMachineScaleSetVMsDeallocateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMsDeallocateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8481,9 +9085,21 @@ export interface VirtualMachineScaleSetVMsListOptionalParams extends coreClient.
 export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMListResult;
 
 // @public
+export interface VirtualMachineScaleSetVMsPerformMaintenanceHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsPowerOffHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8494,9 +9110,21 @@ export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends coreCli
 }
 
 // @public
+export interface VirtualMachineScaleSetVMsRedeployHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMsRedeployOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsReimageAllHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8506,10 +9134,22 @@ export interface VirtualMachineScaleSetVMsReimageAllOptionalParams extends coreC
 }
 
 // @public
+export interface VirtualMachineScaleSetVMsReimageHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMsReimageOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
     vmScaleSetVMReimageInput?: VirtualMachineScaleSetVMReimageParameters;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsRestartHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8527,6 +9167,12 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalPar
 export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
 
 // @public
+export interface VirtualMachineScaleSetVMsRunCommandHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMsRunCommandOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -8540,9 +9186,21 @@ export interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams extends
 }
 
 // @public
+export interface VirtualMachineScaleSetVMsStartHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachineScaleSetVMsStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8557,6 +9215,12 @@ export interface VirtualMachineScaleSetVMsUpdateOptionalParams extends coreClien
 export type VirtualMachineScaleSetVMsUpdateResponse = VirtualMachineScaleSetVM;
 
 // @public
+export interface VirtualMachinesCaptureHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesCaptureOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -8566,9 +9230,21 @@ export interface VirtualMachinesCaptureOptionalParams extends coreClient.Operati
 export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult;
 
 // @public
+export interface VirtualMachinesConvertToManagedDisksHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesConvertToManagedDisksOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8583,10 +9259,22 @@ export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.
 export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
 
 // @public
+export interface VirtualMachinesDeallocateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesDeallocateOptionalParams extends coreClient.OperationOptions {
     hibernate?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8607,6 +9295,12 @@ export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type VirtualMachinesGetResponse = VirtualMachine;
+
+// @public
+export interface VirtualMachinesInstallPatchesHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface VirtualMachinesInstallPatchesOptionalParams extends coreClient.OperationOptions {
@@ -8636,6 +9330,7 @@ export interface VirtualMachineSize {
 
 // @public
 export interface VirtualMachineSizeListResult {
+    nextLink?: string;
     value?: VirtualMachineSize[];
 }
 
@@ -8643,6 +9338,13 @@ export interface VirtualMachineSizeListResult {
 export interface VirtualMachineSizes {
     list(location: string, options?: VirtualMachineSizesListOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
 }
+
+// @public
+export interface VirtualMachineSizesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineSizesListNextResponse = VirtualMachineSizeListResult;
 
 // @public
 export interface VirtualMachineSizesListOptionalParams extends coreClient.OperationOptions {
@@ -8670,6 +9372,13 @@ export interface VirtualMachinesListAllOptionalParams extends coreClient.Operati
 
 // @public
 export type VirtualMachinesListAllResponse = VirtualMachineListResult;
+
+// @public
+export interface VirtualMachinesListAvailableSizesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachinesListAvailableSizesNextResponse = VirtualMachineSizeListResult;
 
 // @public
 export interface VirtualMachinesListAvailableSizesOptionalParams extends coreClient.OperationOptions {
@@ -8709,11 +9418,20 @@ export interface VirtualMachinesListOptionalParams extends coreClient.OperationO
 export type VirtualMachinesListResponse = VirtualMachineListResult;
 
 // @public
+export interface VirtualMachinesMigrateToVMScaleSetHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesMigrateToVMScaleSetOptionalParams extends coreClient.OperationOptions {
     parameters?: MigrateVMToVirtualMachineScaleSetInput;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type VirtualMachinesMigrateToVMScaleSetResponse = VirtualMachinesMigrateToVMScaleSetHeaders;
 
 // @public
 export interface VirtualMachineSoftwarePatchProperties {
@@ -8730,9 +9448,21 @@ export interface VirtualMachineSoftwarePatchProperties {
 }
 
 // @public
+export interface VirtualMachinesPerformMaintenanceHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesPerformMaintenanceOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesPowerOffHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8743,9 +9473,21 @@ export interface VirtualMachinesPowerOffOptionalParams extends coreClient.Operat
 }
 
 // @public
+export interface VirtualMachinesReapplyHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesReapplyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesRedeployHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8755,10 +9497,22 @@ export interface VirtualMachinesRedeployOptionalParams extends coreClient.Operat
 }
 
 // @public
+export interface VirtualMachinesReimageHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesReimageOptionalParams extends coreClient.OperationOptions {
     parameters?: VirtualMachineReimageParameters;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesRestartHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8776,6 +9530,12 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extend
 export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
 
 // @public
+export interface VirtualMachinesRunCommandHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesRunCommandOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -8786,6 +9546,12 @@ export type VirtualMachinesRunCommandResponse = RunCommandResult;
 
 // @public
 export interface VirtualMachinesSimulateEvictionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface VirtualMachinesStartHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -8801,6 +9567,12 @@ export interface VirtualMachineStatusCodeCount {
 }
 
 // @public
+export interface VirtualMachinesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -8809,7 +9581,7 @@ export interface VirtualMachinesUpdateOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type VirtualMachinesUpdateResponse = VirtualMachine;
+export type VirtualMachinesUpdateResponse = VirtualMachinesUpdateHeaders & VirtualMachine;
 
 // @public
 export interface VirtualMachineUpdate extends UpdateResource {

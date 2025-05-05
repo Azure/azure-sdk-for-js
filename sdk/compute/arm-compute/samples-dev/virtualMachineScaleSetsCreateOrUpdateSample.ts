@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   VirtualMachineScaleSet,
   ComputeManagementClient,
@@ -43,7 +41,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
       extensionProfile: {
         extensions: [
           {
-            name: "{extension-name}",
+            vmName: "{extension-name}",
             typePropertiesType: "{extension-Type}",
             autoUpgradeMinorVersion: false,
             publisher: "{extension-Publisher}",
@@ -129,7 +127,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
       extensionProfile: {
         extensions: [
           {
-            name: "{extension-name}",
+            vmName: "{extension-name}",
             typePropertiesType: "{extension-Type}",
             autoUpgradeMinorVersion: false,
             protectedSettingsFromKeyVault: {
@@ -2471,7 +2469,7 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
         extensionsTimeBudget: "PT1H20M",
         extensions: [
           {
-            name: "{extension-name}",
+            vmName: "{extension-name}",
             typePropertiesType: "{extension-Type}",
             autoUpgradeMinorVersion: false,
             publisher: "{extension-Publisher}",

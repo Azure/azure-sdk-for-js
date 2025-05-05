@@ -139,7 +139,7 @@ describe("Compute test", () => {
     const res = await client.availabilitySets.createOrUpdate(resourceGroupName, availabilitySetName, {
       platformFaultDomainCount: 2,
       platformUpdateDomainCount: 20,
-      location: location,
+      location: "eastus",
     })
     assert.equal(res.name, availabilitySetName);
   });
@@ -163,6 +163,14 @@ describe("Compute test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it.only("availabilitySets list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.availabilitySets.listAvailableSizes(resourceGroupName, availabilitySetName).byPage({ maxPageSize: 5 })) {
+      resArray.push(item);
+    }
+    assert.ok(resArray);
   });
 
   it("availabilitySets delete test", async function () {

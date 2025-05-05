@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMsListOptionalParams,
   ComputeManagementClient,
@@ -83,7 +81,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen(): Promise<void> {
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
-  const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  const virtualMachineScaleSetName = "aaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();

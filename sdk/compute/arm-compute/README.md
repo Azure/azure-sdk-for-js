@@ -6,7 +6,7 @@ Compute Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-compute) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-compute) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-compute?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -105,6 +105,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

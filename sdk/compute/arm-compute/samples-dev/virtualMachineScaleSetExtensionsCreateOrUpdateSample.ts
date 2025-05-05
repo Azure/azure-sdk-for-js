@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   VirtualMachineScaleSetExtension,
   ComputeManagementClient,
@@ -29,7 +27,7 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Pro
   const vmScaleSetName = "aaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaa";
   const extensionParameters: VirtualMachineScaleSetExtension = {
-    name: "{extension-name}",
+    vmName: "{extension-name}",
     typePropertiesType: "{extension-Type}",
     autoUpgradeMinorVersion: true,
     enableAutomaticUpgrade: true,

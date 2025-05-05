@@ -6,16 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets a list of compute operations.
+ * This sample demonstrates how to List the operations for the provider
  *
- * @summary Gets a list of compute operations.
+ * @summary List the operations for the provider
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen(): Promise<void> {
@@ -32,9 +30,9 @@ async function operationsListMaximumSetGen(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to Gets a list of compute operations.
+ * This sample demonstrates how to List the operations for the provider
  *
- * @summary Gets a list of compute operations.
+ * @summary List the operations for the provider
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen(): Promise<void> {

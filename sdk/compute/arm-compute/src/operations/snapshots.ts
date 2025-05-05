@@ -21,26 +21,26 @@ import {
 import { createLroSpec } from "../lroImpl.js";
 import {
   Snapshot,
-  SnapshotsListByResourceGroupNextOptionalParams,
-  SnapshotsListByResourceGroupOptionalParams,
-  SnapshotsListByResourceGroupResponse,
   SnapshotsListNextOptionalParams,
   SnapshotsListOptionalParams,
   SnapshotsListResponse,
+  SnapshotsListByResourceGroupNextOptionalParams,
+  SnapshotsListByResourceGroupOptionalParams,
+  SnapshotsListByResourceGroupResponse,
+  SnapshotsGetOptionalParams,
+  SnapshotsGetResponse,
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsCreateOrUpdateResponse,
   SnapshotUpdate,
   SnapshotsUpdateOptionalParams,
   SnapshotsUpdateResponse,
-  SnapshotsGetOptionalParams,
-  SnapshotsGetResponse,
   SnapshotsDeleteOptionalParams,
   GrantAccessData,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsGrantAccessResponse,
   SnapshotsRevokeAccessOptionalParams,
-  SnapshotsListByResourceGroupNextResponse,
   SnapshotsListNextResponse,
+  SnapshotsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,8 +57,62 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
+   * Lists snapshots under a subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: SnapshotsListOptionalParams,
+  ): PagedAsyncIterableIterator<Snapshot> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: SnapshotsListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Snapshot[]> {
+    let result: SnapshotsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: SnapshotsListOptionalParams,
+  ): AsyncIterableIterator<Snapshot> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists snapshots under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -129,59 +183,49 @@ export class SnapshotsImpl implements Snapshots {
    * Lists snapshots under a subscription.
    * @param options The options parameters.
    */
-  public list(
+  private _list(
     options?: SnapshotsListOptionalParams,
-  ): PagedAsyncIterableIterator<Snapshot> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
+  ): Promise<SnapshotsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
-  private async *listPagingPage(
-    options?: SnapshotsListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Snapshot[]> {
-    let result: SnapshotsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Lists snapshots under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: SnapshotsListByResourceGroupOptionalParams,
+  ): Promise<SnapshotsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
-  private async *listPagingAll(
-    options?: SnapshotsListOptionalParams,
-  ): AsyncIterableIterator<Snapshot> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Gets information about a snapshot.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
+   *                     length is 80 characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    snapshotName: string,
+    options?: SnapshotsGetOptionalParams,
+  ): Promise<SnapshotsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, snapshotName, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Creates or updates a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -248,6 +292,7 @@ export class SnapshotsImpl implements Snapshots {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -255,7 +300,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Creates or updates a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -279,7 +324,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Updates (patches) a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -346,6 +391,7 @@ export class SnapshotsImpl implements Snapshots {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -353,7 +399,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Updates (patches) a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -376,27 +422,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Gets information about a snapshot.
-   * @param resourceGroupName The name of the resource group.
-   * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
-   *                     length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: SnapshotsGetOptionalParams,
-  ): Promise<SnapshotsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, snapshotName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -453,6 +480,7 @@ export class SnapshotsImpl implements Snapshots {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -460,7 +488,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Deletes a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -480,33 +508,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Lists snapshots under a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams,
-  ): Promise<SnapshotsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists snapshots under a subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: SnapshotsListOptionalParams,
-  ): Promise<SnapshotsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
    * Grants access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -581,7 +584,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Grants access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -605,7 +608,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Revokes access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -670,7 +673,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Revokes access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -690,23 +693,6 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: SnapshotsListByResourceGroupNextOptionalParams,
-  ): Promise<SnapshotsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -720,10 +706,84 @@ export class SnapshotsImpl implements Snapshots {
       listNextOperationSpec,
     );
   }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: SnapshotsListByResourceGroupNextOptionalParams,
+  ): Promise<SnapshotsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.snapshotName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
   httpMethod: "PUT",
@@ -739,6 +799,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.Snapshot,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.snapshot,
@@ -769,6 +832,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Snapshot,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.snapshot1,
   queryParameters: [Parameters.apiVersion1],
@@ -782,28 +848,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Snapshot,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.snapshotName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -811,35 +867,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.snapshotName,
   ],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SnapshotList,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/snapshots",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SnapshotList,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -859,6 +886,9 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.AccessUri,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.grantAccessData,
   queryParameters: [Parameters.apiVersion1],
@@ -873,31 +903,23 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const revokeAccessOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endgetaccess",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.snapshotName,
-  ],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SnapshotList,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -909,11 +931,34 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SnapshotList,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

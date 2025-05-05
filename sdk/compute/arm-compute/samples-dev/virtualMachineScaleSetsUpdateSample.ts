@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   VirtualMachineScaleSetUpdate,
   ComputeManagementClient,
@@ -80,7 +78,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen(): Promise<void> {
         extensionsTimeBudget: "PT1H20M",
         extensions: [
           {
-            name: "{extension-name}",
+            vmName: "{extension-name}",
             typePropertiesType: "{extension-Type}",
             autoUpgradeMinorVersion: true,
             enableAutomaticUpgrade: true,

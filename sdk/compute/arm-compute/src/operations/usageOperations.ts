@@ -37,7 +37,7 @@ export class UsageOperationsImpl implements UsageOperations {
   /**
    * Gets, for the specified location, the current compute resource usage information as well as the
    * limits for compute resources under the subscription.
-   * @param location The location for which resource usage is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -96,7 +96,7 @@ export class UsageOperationsImpl implements UsageOperations {
   /**
    * Gets, for the specified location, the current compute resource usage information as well as the
    * limits for compute resources under the subscription.
-   * @param location The location for which resource usage is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -111,7 +111,7 @@ export class UsageOperationsImpl implements UsageOperations {
 
   /**
    * ListNext
-   * @param location The location for which resource usage is queried.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -143,8 +143,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -162,9 +162,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

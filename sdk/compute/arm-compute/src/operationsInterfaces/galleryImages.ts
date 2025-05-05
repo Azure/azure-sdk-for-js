@@ -11,13 +11,13 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GalleryImage,
   GalleryImagesListByGalleryOptionalParams,
+  GalleryImagesGetOptionalParams,
+  GalleryImagesGetResponse,
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesCreateOrUpdateResponse,
   GalleryImageUpdate,
   GalleryImagesUpdateOptionalParams,
   GalleryImagesUpdateResponse,
-  GalleryImagesGetOptionalParams,
-  GalleryImagesGetResponse,
   GalleryImagesDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -26,9 +26,8 @@ import {
 export interface GalleryImages {
   /**
    * List gallery image definitions in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be
-   *                    listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param options The options parameters.
    */
   listByGallery(
@@ -37,13 +36,23 @@ export interface GalleryImages {
     options?: GalleryImagesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryImage>;
   /**
+   * Retrieves information about a gallery image definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    options?: GalleryImagesGetOptionalParams,
+  ): Promise<GalleryImagesGetResponse>;
+  /**
    * Create or update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    created.
-   * @param galleryImageName The name of the gallery image definition to be created or updated. The
-   *                         allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                         The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the create or update gallery image operation.
    * @param options The options parameters.
    */
@@ -61,12 +70,9 @@ export interface GalleryImages {
   >;
   /**
    * Create or update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    created.
-   * @param galleryImageName The name of the gallery image definition to be created or updated. The
-   *                         allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                         The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the create or update gallery image operation.
    * @param options The options parameters.
    */
@@ -79,12 +85,9 @@ export interface GalleryImages {
   ): Promise<GalleryImagesCreateOrUpdateResponse>;
   /**
    * Update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    updated.
-   * @param galleryImageName The name of the gallery image definition to be updated. The allowed
-   *                         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-   *                         maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the update gallery image operation.
    * @param options The options parameters.
    */
@@ -102,12 +105,9 @@ export interface GalleryImages {
   >;
   /**
    * Update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    updated.
-   * @param galleryImageName The name of the gallery image definition to be updated. The allowed
-   *                         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-   *                         maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the update gallery image operation.
    * @param options The options parameters.
    */
@@ -119,25 +119,10 @@ export interface GalleryImages {
     options?: GalleryImagesUpdateOptionalParams,
   ): Promise<GalleryImagesUpdateResponse>;
   /**
-   * Retrieves information about a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be
-   *                    retrieved.
-   * @param galleryImageName The name of the gallery image definition to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams,
-  ): Promise<GalleryImagesGetResponse>;
-  /**
    * Delete a gallery image.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    deleted.
-   * @param galleryImageName The name of the gallery image definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param options The options parameters.
    */
   beginDelete(
@@ -148,10 +133,9 @@ export interface GalleryImages {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a gallery image.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    deleted.
-   * @param galleryImageName The name of the gallery image definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
