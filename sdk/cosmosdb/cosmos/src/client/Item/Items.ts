@@ -8,7 +8,6 @@ import {
   Constants,
   copyObject,
   getIdFromLink,
-  getPartitionKeyRangeIdFromPartitionKey,
   getPathFromLink,
   isItemResourceValid,
   ResourceType,
@@ -524,12 +523,13 @@ export class Items {
 
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
-            partitionKey,
-            partitionKeyDefinition,
-            this.partitionKeyRangeCache,
-            diagnosticNode,
-          );
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
         }
 
         response = await this.clientContext.create<T>({
@@ -690,12 +690,13 @@ export class Items {
 
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
-            partitionKey,
-            partitionKeyDefinition,
-            this.partitionKeyRangeCache,
-            diagnosticNode,
-          );
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
         }
 
         response = await this.clientContext.upsert<T>({
@@ -1148,12 +1149,13 @@ export class Items {
         );
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
-            partitionKey,
-            partitionKeyDefinition,
-            this.partitionKeyRangeCache,
-            diagnosticNode,
-          );
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
         }
 
         response = await this.clientContext.batch({

@@ -7,7 +7,6 @@ import {
   copyObject,
   createDocumentUri,
   getIdFromLink,
-  getPartitionKeyRangeIdFromPartitionKey,
   getPathFromLink,
   isItemResourceValid,
   ResourceType,
@@ -277,12 +276,13 @@ export class Item {
         );
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
-            partitionKey,
-            partitionKeyDefinition,
-            this.partitionKeyRangeCache,
-            diagnosticNode,
-          );
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
         }
 
         response = await this.clientContext.replace<T>({
@@ -407,12 +407,13 @@ export class Item {
         );
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
-            partitionKey,
-            partitionKeyDefinition,
-            this.partitionKeyRangeCache,
-            diagnosticNode,
-          );
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
         }
 
         response = await this.clientContext.delete<T>({
@@ -551,12 +552,13 @@ export class Item {
         );
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
-            partitionKey,
-            partitionKeyDefinition,
-            this.partitionKeyRangeCache,
-            diagnosticNode,
-          );
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
         }
 
         response = await this.clientContext.patch<T>({
