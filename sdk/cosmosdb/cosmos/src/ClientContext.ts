@@ -411,7 +411,6 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
-        partitionKeyRangeId,
       };
       diagnosticNode.addData({
         operationType: OperationType.Patch,
