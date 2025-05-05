@@ -1267,6 +1267,9 @@ importers:
       '@rush-temp/web-pubsub-express':
         specifier: file:./projects/web-pubsub-express.tgz
         version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+      pg-protocol:
+        specifier: 1.8.0
+        version: 1.8.0
 
 packages:
 
@@ -6149,8 +6152,8 @@ packages:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
 
-  pg-protocol@1.9.5:
-    resolution: {integrity: sha512-DYTWtWpfd5FOro3UnAfwvhD8jh59r2ig8bPtc9H8Ds7MscE/9NYruUQWFAOuraRl29jwcT2kyMFQ3MxeaVjUhg==}
+  pg-protocol@1.8.0:
+    resolution: {integrity: sha512-jvuYlEkL03NRvOoyoRktBK7+qU5kOvlAwvmrH8sr3wbLrOdVWsRxQfz8mMy9sZFsqJ1hEWNfdWKI4SAmoL+j7g==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -23060,7 +23063,7 @@ snapshots:
   '@types/pg@8.6.1':
     dependencies:
       '@types/node': 18.19.87
-      pg-protocol: 1.9.5
+      pg-protocol: 1.8.0
       pg-types: 2.2.0
 
   '@types/priorityqueuejs@1.0.4': {}
@@ -25184,7 +25187,7 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
-  pg-protocol@1.9.5: {}
+  pg-protocol@1.8.0: {}
 
   pg-types@2.2.0:
     dependencies:
