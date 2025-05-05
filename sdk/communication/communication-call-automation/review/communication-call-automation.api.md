@@ -210,6 +210,7 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallIntelligenceOptions {
+    backupCognitiveServicesEndpoint?: string;
     cognitiveServicesEndpoint?: string;
 }
 

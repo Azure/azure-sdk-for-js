@@ -240,6 +240,12 @@ export const CallIntelligenceOptionsInternal: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      backupCognitiveServicesEndpoint: {
+        serializedName: "backupCognitiveServicesEndpoint",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
