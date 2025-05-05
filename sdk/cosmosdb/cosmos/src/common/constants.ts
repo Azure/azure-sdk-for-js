@@ -523,6 +523,8 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
+  WeightedRankFusion = "WeightedRankFusion",
+  HybridSearchSkipOrderByRewrite = "HybridSearchSkipOrderByRewrite",
 }
 
 export enum SDKSupportedCapabilities {
