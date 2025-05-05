@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { CosmosClientOptions } from "../CosmosClientOptions.js";
-import { PartitionKeyDefinition } from "../documents/index.js";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { PartitionKeyDefinition, PartitionKeyInternal } from "../documents/index.js";
 import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
 import {
   Serializer,
@@ -13,6 +14,8 @@ import {
 import { EncryptionType } from "../encryption/enums/EncryptionType.js";
 import { TypeMarker } from "../encryption/enums/TypeMarker.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
+import { isKeyInRange } from "../utils/batch.js";
+import { hashPartitionKey } from "../utils/hashing/hash.js";
 import { OperationType, ResourceType } from "./constants.js";
 
 const trimLeftSlashes = new RegExp("^[/]+");
@@ -537,5 +540,31 @@ export function validateClientEncryptionPolicy(
     throw new ErrorResponse(
       "Encryption of partition key or id is only supported with policy format version 2.",
     );
+  }
+}
+
+/**
+ * @hidden
+ */
+export async function getPartitionKeyRangeIdFromPartitionKey(
+  partitionKey: PartitionKeyInternal,
+  partitionKeyDefinition: PartitionKeyDefinition,
+  diagnosticNode: DiagnosticNodeInternal,
+): Promise<string> {
+  const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
+  const partitionKeyRanges = (
+    await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
+  ).getOrderedParitionKeyRanges();
+
+  for (const partitionKeyRange of partitionKeyRanges) {
+    if (
+      isKeyInRange(
+        partitionKeyRange.minInclusive,
+        partitionKeyRange.maxExclusive,
+        hashedPartitionKey,
+      )
+    ) {
+      return partitionKeyRange.id;
+    }
   }
 }

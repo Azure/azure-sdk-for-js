@@ -8,6 +8,7 @@ import {
   Constants,
   copyObject,
   getIdFromLink,
+  getPartitionKeyRangeIdFromPartitionKey,
   getPathFromLink,
   isItemResourceValid,
   ResourceType,
@@ -40,11 +41,7 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type {
-  PartitionKey,
-  PartitionKeyDefinition,
-  PartitionKeyInternal,
-} from "../../documents/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -527,7 +524,7 @@ export class Items {
 
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
+          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
             diagnosticNode,
@@ -692,7 +689,7 @@ export class Items {
 
         let partitionKeyRangeId: string;
         if (partitionKey && partitionKey.length > 0) {
-          partitionKeyRangeId = await this.getPartitionKeyRangeIdFromPartitionKey(
+          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
             partitionKey,
             partitionKeyDefinition,
             diagnosticNode,
@@ -1143,6 +1140,19 @@ export class Items {
           );
         }
 
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        let partitionKeyRangeId: string;
+        if (partitionKey && partitionKey.length > 0) {
+          partitionKeyRangeId = await getPartitionKeyRangeIdFromPartitionKey(
+            partitionKey,
+            partitionKeyDefinition,
+            diagnosticNode,
+          );
+        }
+
         response = await this.clientContext.batch({
           body: operations,
           partitionKey,
@@ -1150,6 +1160,7 @@ export class Items {
           resourceId: this.container.url,
           options,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {
@@ -1251,28 +1262,5 @@ export class Items {
       }
     }
     return { operations, totalPropertiesEncryptedCount };
-  }
-
-  private async getPartitionKeyRangeIdFromPartitionKey(
-    partitionKey: PartitionKeyInternal,
-    partitionKeyDefinition: PartitionKeyDefinition,
-    diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<string> {
-    const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
-    const partitionKeyRanges = (
-      await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
-    ).getOrderedParitionKeyRanges();
-
-    for (const partitionKeyRange of partitionKeyRanges) {
-      if (
-        isKeyInRange(
-          partitionKeyRange.minInclusive,
-          partitionKeyRange.maxExclusive,
-          hashedPartitionKey,
-        )
-      ) {
-        return partitionKeyRange.id;
-      }
-    }
   }
 }

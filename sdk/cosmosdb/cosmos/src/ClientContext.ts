@@ -326,6 +326,7 @@ export class ClientContext {
     partitionKey,
     method = HTTPMethod.delete,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -334,6 +335,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     method?: HTTPMethod;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -351,6 +353,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -384,6 +389,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: any;
     path: string;
@@ -392,6 +398,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -404,12 +411,16 @@ export class ClientContext {
         resourceId,
         options,
         partitionKey,
+        partitionKeyRangeId,
       };
       diagnosticNode.addData({
         operationType: OperationType.Patch,
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
@@ -549,6 +560,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: any;
     path: string;
@@ -557,6 +569,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -575,6 +588,9 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
@@ -665,12 +681,14 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     sprocLink: string;
     params?: any[];
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T>> {
     // Accept a single parameter or an array of parameters.
     // Didn't add type annotation for this because we should legacy this behavior
@@ -696,6 +714,9 @@ export class ClientContext {
       resourceType: ResourceType.sproc,
     });
     request.headers = await this.buildHeaders(request);
+    if (partitionKeyRangeId) {
+      request.partitionKeyRangeId = partitionKeyRangeId;
+    }
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
@@ -776,6 +797,7 @@ export class ClientContext {
     resourceId,
     options = {},
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -783,6 +805,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
@@ -801,6 +824,9 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.IsBatchAtomic] = true;
 
@@ -859,6 +885,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
