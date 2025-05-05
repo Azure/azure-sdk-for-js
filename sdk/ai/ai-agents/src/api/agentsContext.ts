@@ -48,7 +48,7 @@ export function createAgents(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? ["https://ai.azure.com/.default"],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
@@ -63,7 +63,7 @@ export function createAgents(
     });
   }
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-07-01-preview";
+  const apiVersion = options.apiVersion ?? "2025-05-15-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
