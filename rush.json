@@ -824,8 +824,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/js-mcp-server",
-      "projectFolder": "common/tools/js-mcp-server",
+      "packageName": "@azure-tools/mcp-server",
+      "projectFolder": "common/tools/mcp-server",
       "versionPolicyName": "utility"
     },
     {

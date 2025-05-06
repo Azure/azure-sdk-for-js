@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 
@@ -9,7 +12,7 @@ export const helloWorldSchema = z.object({
 
 export type HelloWorldSchema = z.infer<typeof helloWorldSchema>;
 
-export async function helloWorld(args: HelloWorldSchema): Promise<CallToolResult> {
+export async function helloWorld(_args: HelloWorldSchema): Promise<CallToolResult> {
   return {
     content: [
       {

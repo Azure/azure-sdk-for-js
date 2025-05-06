@@ -20,7 +20,7 @@ The MCP server can be enabled by adding the following entry under the root ./.vs
     "Azure SDK": {
       "type": "stdio",
       "command": "npx",
-      "args": ["tsx", "${workspaceFolder}/common/tools/js-mcp-server/src/index.ts"],
+      "args": ["tsx", "${workspaceFolder}/common/tools/mcp-server/src/index.ts"],
     }
   }
 }
@@ -44,8 +44,8 @@ To use the MCP inspector, simply run `rushx start:inspect` from this directory a
 
 The `hello_world` tool demonstrates a simple implementation:
 
-```typescript
-import { helloWorldSchema, helloWorld } from "./tools/helloWorld.js";
+```ts snippet:ReadmeSampleHelloWorld
+import { helloWorldSchema, helloWorld } from "../src/tools/helloWorld.js";
 
 server.tool(
   "hello_world",

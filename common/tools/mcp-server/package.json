@@ -1,5 +1,5 @@
 {
-  "name": "@azure-tools/js-mcp-server",
+  "name": "@azure-tools/mcp-server",
   "version": "1.0.0-beta.1",
   "description": "An MCP server for developers working on the Azure SDK for JavaScript.",
   "sdk-type": "utility",
