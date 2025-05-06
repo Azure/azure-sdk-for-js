@@ -1,4 +1,4 @@
-# Azure SDK MCP Server
+# Azure SDK for JS MCP Server
 
 A Model Context Protocol (MCP) server implementation for the Azure SDK repository. This server is designed to facilitate the development and testing of tools that communicate using the MCP.
 
@@ -8,8 +8,7 @@ A Model Context Protocol (MCP) server implementation for the Azure SDK repositor
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org) (version 16 or later is recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Activation
 
