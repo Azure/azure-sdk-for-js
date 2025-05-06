@@ -115,12 +115,6 @@ export interface AudioMetadata {
 }
 
 // @public
-export interface CallAutomationApiClientOptionalParams extends coreClient.ServiceClientOptions {
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
@@ -164,6 +158,7 @@ export interface CallConnected {
 
 // @public
 export class CallConnection {
+    // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, eventProcessor: CallAutomationEventProcessor, options?: CallAutomationApiClientOptionalParams);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
     cancelAddParticipantOperation(invitationId: string, options?: CancelAddParticipantOperationOptions): Promise<CancelAddParticipantOperationResult>;
@@ -711,10 +706,43 @@ export interface InterruptAudioAndAnnounceOptions extends OperationOptions {
 }
 
 // @public
+export enum KnownAudioFormat {
+    Pcm16KMono = "Pcm16KMono",
+    Pcm24KMono = "Pcm24KMono"
+}
+
+// @public
+export enum KnownCallConnectionStateModel {
+    Connected = "connected",
+    Connecting = "connecting",
+    Disconnected = "disconnected",
+    Disconnecting = "disconnecting",
+    TransferAccepted = "transferAccepted",
+    Transferring = "transferring",
+    Unknown = "unknown"
+}
+
+// @public
 export enum KnownCallRejectReason {
     Busy = "busy",
     Forbidden = "forbidden",
     None = "none"
+}
+
+// @public
+export enum KnownCommunicationCloudEnvironmentModel {
+    Dod = "dod",
+    Gcch = "gcch",
+    Public = "public"
+}
+
+// @public
+export enum KnownCommunicationIdentifierModelKind {
+    CommunicationUser = "communicationUser",
+    MicrosoftTeamsApp = "microsoftTeamsApp",
+    MicrosoftTeamsUser = "microsoftTeamsUser",
+    PhoneNumber = "phoneNumber",
+    Unknown = "unknown"
 }
 
 // @public
@@ -729,7 +757,125 @@ export enum KnownMediaStreamingContentType {
 }
 
 // @public
+export enum KnownMediaStreamingStatus {
+    MediaStreamingFailed = "mediaStreamingFailed",
+    MediaStreamingStarted = "mediaStreamingStarted",
+    MediaStreamingStopped = "mediaStreamingStopped",
+    UnspecifiedError = "unspecifiedError"
+}
+
+// @public
+export enum KnownMediaStreamingStatusDetails {
+    AuthenticationFailure = "authenticationFailure",
+    BadRequest = "badRequest",
+    Forbidden = "forbidden",
+    InitialWebSocketConnectionFailed = "initialWebSocketConnectionFailed",
+    ServiceShutdown = "serviceShutdown",
+    ServiceTimeout = "serviceTimeout",
+    SpeechServicesConnectionError = "speechServicesConnectionError",
+    StreamConnectionInterrupted = "streamConnectionInterrupted",
+    StreamConnectionReestablished = "streamConnectionReestablished",
+    StreamConnectionUnsuccessful = "streamConnectionUnsuccessful",
+    StreamUrlMissing = "streamUrlMissing",
+    SubscriptionStarted = "subscriptionStarted",
+    SubscriptionStopped = "subscriptionStopped",
+    TooManyRequests = "tooManyRequests",
+    UnspecifiedError = "unspecifiedError"
+}
+
+// @public
+export enum KnownMediaStreamingSubscriptionState {
+    Active = "active",
+    Disabled = "disabled",
+    Inactive = "inactive"
+}
+
+// @public
 export enum KnownMediaStreamingTransportType {
+    Websocket = "websocket"
+}
+
+// @public
+export enum KnownRecognitionType {
+    Choices = "choices",
+    Dtmf = "dtmf",
+    Speech = "speech"
+}
+
+// @public
+export enum KnownRecordingState {
+    Active = "active",
+    Inactive = "inactive"
+}
+
+// @public
+export enum KnownTone {
+    // (undocumented)
+    A = "a",
+    Asterisk = "asterisk",
+    // (undocumented)
+    B = "b",
+    // (undocumented)
+    C = "c",
+    // (undocumented)
+    D = "d",
+    Eight = "eight",
+    Five = "five",
+    Four = "four",
+    Nine = "nine",
+    One = "one",
+    Pound = "pound",
+    Seven = "seven",
+    Six = "six",
+    Three = "three",
+    Two = "two",
+    Zero = "zero"
+}
+
+// @public
+export enum KnownTranscriptionResultState {
+    Final = "final",
+    Intermediate = "intermediate"
+}
+
+// @public
+export enum KnownTranscriptionStatus {
+    TranscriptionFailed = "transcriptionFailed",
+    TranscriptionResumed = "transcriptionResumed",
+    TranscriptionStarted = "transcriptionStarted",
+    TranscriptionStopped = "transcriptionStopped",
+    TranscriptionUpdated = "transcriptionUpdated",
+    UnspecifiedError = "unspecifiedError"
+}
+
+// @public
+export enum KnownTranscriptionStatusDetails {
+    AuthenticationFailure = "authenticationFailure",
+    BadRequest = "badRequest",
+    Forbidden = "forbidden",
+    ServiceShutdown = "serviceShutdown",
+    ServiceTimeout = "serviceTimeout",
+    SpeechServicesConnectionError = "speechServicesConnectionError",
+    StreamConnectionInterrupted = "streamConnectionInterrupted",
+    StreamConnectionReestablished = "streamConnectionReestablished",
+    StreamConnectionUnsuccessful = "streamConnectionUnsuccessful",
+    StreamUrlMissing = "streamUrlMissing",
+    SubscriptionStarted = "subscriptionStarted",
+    SubscriptionStopped = "subscriptionStopped",
+    TooManyRequests = "tooManyRequests",
+    TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
+    UnspecifiedError = "unspecifiedError"
+}
+
+// @public
+export enum KnownTranscriptionSubscriptionState {
+    Active = "active",
+    Disabled = "disabled",
+    Inactive = "inactive"
+}
+
+// @public
+export enum KnownTranscriptionTransportType {
     Websocket = "websocket"
 }
 
