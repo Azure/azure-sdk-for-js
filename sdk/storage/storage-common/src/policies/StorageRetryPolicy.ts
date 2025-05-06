@@ -10,13 +10,13 @@ import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "@azure/storage-common";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-
-import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { URLConstants } from "../utils/constants.js";
-import { delay, setURLParameter } from "../utils/utils.common.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";
+import { StorageRetryPolicyType } from "./StorageRetryPolicyType.js";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -31,26 +31,13 @@ export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): Reque
   };
 }
 
-/**
- * RetryPolicy types.
- */
-export enum StorageRetryPolicyType {
-  /**
-   * Exponential retry. Retry time delay grows exponentially.
-   */
-  EXPONENTIAL,
-  /**
-   * Linear retry. Retry time delay grows linearly.
-   */
-  FIXED,
-}
-
 // Default values of StorageRetryOptions
 const DEFAULT_RETRY_OPTIONS: StorageRetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
   retryPolicyType: StorageRetryPolicyType.EXPONENTIAL,
+  secondaryHost: "",
   tryTimeoutInMs: undefined, // Use server side default timeout strategy
 };
 
@@ -109,6 +96,10 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         retryOptions.maxRetryDelayInMs && retryOptions.maxRetryDelayInMs >= 0
           ? retryOptions.maxRetryDelayInMs
           : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs,
+
+      secondaryHost: retryOptions.secondaryHost
+        ? retryOptions.secondaryHost
+        : DEFAULT_RETRY_OPTIONS.secondaryHost,
     };
   }
 
@@ -138,7 +129,15 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   ): Promise<HttpOperationResponse> {
     const newRequest: WebResource = request.clone();
 
-    const isPrimaryRetry = true;
+    const isPrimaryRetry =
+      secondaryHas404 ||
+      !this.retryOptions.secondaryHost ||
+      !(request.method === "GET" || request.method === "HEAD" || request.method === "OPTIONS") ||
+      attempt % 2 === 1;
+
+    if (!isPrimaryRetry) {
+      newRequest.url = setURLHost(newRequest.url, this.retryOptions.secondaryHost!);
+    }
 
     // Set the server-side timeout query parameter "timeout=[seconds]"
     if (this.retryOptions.tryTimeoutInMs) {
@@ -240,12 +239,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     //   if (response?.status >= 400) {
     //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
     //     if (copySourceError !== undefined) {
-    //       switch (copySourceError)
-    //       {
-    //           case "InternalError":
-    //           case "OperationTimedOut":
-    //           case "ServerBusy":
-    //               return true;
+    //       switch (copySourceError) {
+    //         case "InternalError":
+    //         case "OperationTimedOut":
+    //         case "ServerBusy":
+    //           return true;
     //       }
     //     }
     //   }
