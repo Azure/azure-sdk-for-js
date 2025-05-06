@@ -20,13 +20,18 @@ The MCP server can be enabled by adding the following entry under the root ./.vs
   "servers": {
     "Azure SDK": {
       "type": "stdio",
-      "command": "rush",
-      "args": ["--only", "@azure-tools/js-mcp-server", "start"],
-      "env": {}
+      "command": "npx",
+      "args": ["tsx", "${workspaceFolder}/common/tools/js-mcp-server/src/index.ts"],
     }
   }
 }
 ```
+
+### Using the MCP Inspector
+
+The [MCP inspector](https://github.com/modelcontextprotocol/inspector) is a developer tool for testing and debugging MCP servers. It can be used to test the MCP server functionality without the non-determinism of an LLM.
+
+To use the MCP inspector, simply run `rushx start:inspect` from this directory and navigate to `http://localhost:<port>` in your web browser. The port number will be displayed in the console output.
 
 ## Key Concepts
 
@@ -50,14 +55,6 @@ server.tool(
   async (args) => await helloWorld(args),
 );
 ```
-
-## Troubleshooting
-
-If you encounter issues:
-
-1. Ensure all dependencies are installed: `npm install`
-2. Verify the Node.js version: `node -v`
-3. Check for build errors: `npm run build`
 
 ## Next Steps
 

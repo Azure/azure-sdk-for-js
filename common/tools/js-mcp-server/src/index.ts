@@ -18,10 +18,10 @@ server.tool("hello_world", "Prints hello world", helloWorldSchema.shape, (args) 
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Server started");
+  console.log("Server started");
 }
 
 main().catch((error) => {
-  console.error("Fatal error running server:", error);
+  console.log("Fatal error running server:", error);
   process.exit(1);
 });
