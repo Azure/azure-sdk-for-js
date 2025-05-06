@@ -17,6 +17,6 @@ export interface Tenants {
    * @param options The options parameters.
    */
   list(
-    options?: TenantsListOptionalParams
+    options?: TenantsListOptionalParams,
   ): PagedAsyncIterableIterator<TenantIdDescription>;
 }

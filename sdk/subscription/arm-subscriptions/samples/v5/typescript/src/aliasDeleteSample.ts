@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete Alias.
@@ -25,4 +26,8 @@ async function deleteAlias(): Promise<void> {
   console.log(result);
 }
 
-deleteAlias().catch(console.error);
+async function main(): Promise<void> {
+  await deleteAlias();
+}
+
+main().catch(console.error);

@@ -13,19 +13,21 @@ import {
   SubscriptionsImpl,
   TenantsImpl,
   SubscriptionOperationsImpl,
+  SubscriptionOperationImpl,
   OperationsImpl,
   AliasImpl,
   SubscriptionPolicyImpl,
-  BillingAccountImpl
+  BillingAccountImpl,
 } from "./operations/index.js";
 import {
   Subscriptions,
   Tenants,
   SubscriptionOperations,
+  SubscriptionOperation,
   Operations,
   Alias,
   SubscriptionPolicy,
-  BillingAccount
+  BillingAccount,
 } from "./operationsInterfaces/index.js";
 import { SubscriptionClientOptionalParams } from "./models/index.js";
 
@@ -39,7 +41,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: SubscriptionClientOptionalParams
+    options?: SubscriptionClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -51,10 +53,10 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     }
     const defaults: SubscriptionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-subscriptions/5.1.1`;
+    const packageDetails = `azsdk-js-arm-subscriptions/5.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -64,20 +66,21 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -87,7 +90,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -97,9 +100,9 @@ export class SubscriptionClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
@@ -108,6 +111,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     this.subscriptions = new SubscriptionsImpl(this);
     this.tenants = new TenantsImpl(this);
     this.subscriptionOperations = new SubscriptionOperationsImpl(this);
+    this.subscriptionOperation = new SubscriptionOperationImpl(this);
     this.operations = new OperationsImpl(this);
     this.alias = new AliasImpl(this);
     this.subscriptionPolicy = new SubscriptionPolicyImpl(this);
@@ -117,6 +121,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
   subscriptions: Subscriptions;
   tenants: Tenants;
   subscriptionOperations: SubscriptionOperations;
+  subscriptionOperation: SubscriptionOperation;
   operations: Operations;
   alias: Alias;
   subscriptionPolicy: SubscriptionPolicy;

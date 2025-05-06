@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets all subscriptions for a tenant.
@@ -21,10 +22,14 @@ async function listSubscriptions() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.list()) {
+  for await (const item of client.subscriptions.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listSubscriptions().catch(console.error);
+async function main() {
+  await listSubscriptions();
+}
+
+main().catch(console.error);

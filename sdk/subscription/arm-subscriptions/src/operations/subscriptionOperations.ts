@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SubscriptionClient } from "../subscriptionClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SubscriptionCancelOptionalParams,
   SubscriptionCancelResponse,
@@ -25,7 +29,7 @@ import {
   SubscriptionAcceptOwnershipOptionalParams,
   SubscriptionAcceptOwnershipResponse,
   SubscriptionAcceptOwnershipStatusOptionalParams,
-  SubscriptionAcceptOwnershipStatusResponse
+  SubscriptionAcceptOwnershipStatusResponse,
 } from "../models/index.js";
 
 /** Class containing SubscriptionOperations operations. */
@@ -47,11 +51,11 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
    */
   cancel(
     subscriptionId: string,
-    options?: SubscriptionCancelOptionalParams
+    options?: SubscriptionCancelOptionalParams,
   ): Promise<SubscriptionCancelResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -64,11 +68,11 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
   rename(
     subscriptionId: string,
     body: SubscriptionName,
-    options?: SubscriptionRenameOptionalParams
+    options?: SubscriptionRenameOptionalParams,
   ): Promise<SubscriptionRenameResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, body, options },
-      renameOperationSpec
+      renameOperationSpec,
     );
   }
 
@@ -79,11 +83,11 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
    */
   enable(
     subscriptionId: string,
-    options?: SubscriptionEnableOptionalParams
+    options?: SubscriptionEnableOptionalParams,
   ): Promise<SubscriptionEnableResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, options },
-      enableOperationSpec
+      enableOperationSpec,
     );
   }
 
@@ -96,30 +100,29 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
   async beginAcceptOwnership(
     subscriptionId: string,
     body: AcceptOwnershipRequest,
-    options?: SubscriptionAcceptOwnershipOptionalParams
+    options?: SubscriptionAcceptOwnershipOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionAcceptOwnershipResponse>,
+    SimplePollerLike<
+      OperationState<SubscriptionAcceptOwnershipResponse>,
       SubscriptionAcceptOwnershipResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SubscriptionAcceptOwnershipResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -128,8 +131,8 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -137,19 +140,22 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { subscriptionId, body, options },
-      acceptOwnershipOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { subscriptionId, body, options },
+      spec: acceptOwnershipOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SubscriptionAcceptOwnershipResponse,
+      OperationState<SubscriptionAcceptOwnershipResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -164,12 +170,12 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
   async beginAcceptOwnershipAndWait(
     subscriptionId: string,
     body: AcceptOwnershipRequest,
-    options?: SubscriptionAcceptOwnershipOptionalParams
+    options?: SubscriptionAcceptOwnershipOptionalParams,
   ): Promise<SubscriptionAcceptOwnershipResponse> {
     const poller = await this.beginAcceptOwnership(
       subscriptionId,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -181,11 +187,11 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
    */
   acceptOwnershipStatus(
     subscriptionId: string,
-    options?: SubscriptionAcceptOwnershipStatusOptionalParams
+    options?: SubscriptionAcceptOwnershipStatusOptionalParams,
   ): Promise<SubscriptionAcceptOwnershipStatusResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, options },
-      acceptOwnershipStatusOperationSpec
+      acceptOwnershipStatusOperationSpec,
     );
   }
 }
@@ -193,100 +199,95 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/cancel",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CanceledSubscriptionId
+      bodyMapper: Mappers.CanceledSubscriptionId,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const renameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/rename",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/rename",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RenamedSubscriptionId
+      bodyMapper: Mappers.RenamedSubscriptionId,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const enableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/enable",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Subscription/enable",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EnabledSubscriptionId
+      bodyMapper: Mappers.EnabledSubscriptionId,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const acceptOwnershipOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnership",
+  path: "/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnership",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders
+      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders,
     },
     201: {
-      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders
+      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders,
     },
     202: {
-      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders
+      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders,
     },
     204: {
-      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders
+      headersMapper: Mappers.SubscriptionAcceptOwnershipHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const acceptOwnershipStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnershipStatus",
+  path: "/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnershipStatus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcceptOwnershipStatusResponse
+      bodyMapper: Mappers.AcceptOwnershipStatusResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

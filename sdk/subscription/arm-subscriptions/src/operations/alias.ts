@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SubscriptionClient } from "../subscriptionClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PutAliasRequest,
   AliasCreateOptionalParams,
@@ -21,7 +25,7 @@ import {
   AliasGetResponse,
   AliasDeleteOptionalParams,
   AliasListOptionalParams,
-  AliasListResponse
+  AliasListResponse,
 } from "../models/index.js";
 
 /** Class containing Alias operations. */
@@ -47,27 +51,26 @@ export class AliasImpl implements Alias {
   async beginCreate(
     aliasName: string,
     body: PutAliasRequest,
-    options?: AliasCreateOptionalParams
+    options?: AliasCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<AliasCreateResponse>, AliasCreateResponse>
+    SimplePollerLike<OperationState<AliasCreateResponse>, AliasCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AliasCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -76,8 +79,8 @@ export class AliasImpl implements Alias {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -85,19 +88,22 @@ export class AliasImpl implements Alias {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { aliasName, body, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { aliasName, body, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AliasCreateResponse,
+      OperationState<AliasCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -114,7 +120,7 @@ export class AliasImpl implements Alias {
   async beginCreateAndWait(
     aliasName: string,
     body: PutAliasRequest,
-    options?: AliasCreateOptionalParams
+    options?: AliasCreateOptionalParams,
   ): Promise<AliasCreateResponse> {
     const poller = await this.beginCreate(aliasName, body, options);
     return poller.pollUntilDone();
@@ -129,11 +135,11 @@ export class AliasImpl implements Alias {
    */
   get(
     aliasName: string,
-    options?: AliasGetOptionalParams
+    options?: AliasGetOptionalParams,
   ): Promise<AliasGetResponse> {
     return this.client.sendOperationRequest(
       { aliasName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -146,11 +152,11 @@ export class AliasImpl implements Alias {
    */
   delete(
     aliasName: string,
-    options?: AliasDeleteOptionalParams
+    options?: AliasDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { aliasName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -170,43 +176,43 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionAliasResponse
+      bodyMapper: Mappers.SubscriptionAliasResponse,
     },
     201: {
-      bodyMapper: Mappers.SubscriptionAliasResponse
+      bodyMapper: Mappers.SubscriptionAliasResponse,
     },
     202: {
-      bodyMapper: Mappers.SubscriptionAliasResponse
+      bodyMapper: Mappers.SubscriptionAliasResponse,
     },
     204: {
-      bodyMapper: Mappers.SubscriptionAliasResponse
+      bodyMapper: Mappers.SubscriptionAliasResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.aliasName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Subscription/aliases/{aliasName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionAliasResponse
+      bodyMapper: Mappers.SubscriptionAliasResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.aliasName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Subscription/aliases/{aliasName}",
@@ -215,27 +221,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.aliasName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Subscription/aliases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionAliasListResult
+      bodyMapper: Mappers.SubscriptionAliasListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseBody
-    }
+      bodyMapper: Mappers.ErrorResponseBody,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

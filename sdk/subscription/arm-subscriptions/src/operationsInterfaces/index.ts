@@ -9,6 +9,7 @@
 export * from "./subscriptions.js";
 export * from "./tenants.js";
 export * from "./subscriptionOperations.js";
+export * from "./subscriptionOperation.js";
 export * from "./operations.js";
 export * from "./alias.js";
 export * from "./subscriptionPolicy.js";

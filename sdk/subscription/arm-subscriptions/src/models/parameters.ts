@@ -9,13 +9,13 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SubscriptionName as SubscriptionNameMapper,
   AcceptOwnershipRequest as AcceptOwnershipRequestMapper,
   PutAliasRequest as PutAliasRequestMapper,
-  PutTenantPolicyRequestProperties as PutTenantPolicyRequestPropertiesMapper
+  PutTenantPolicyRequestProperties as PutTenantPolicyRequestPropertiesMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -25,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -36,10 +36,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -48,9 +48,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -60,9 +60,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -71,10 +71,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion1: OperationQueryParameter = {
@@ -84,9 +84,9 @@ export const apiVersion1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -96,24 +96,35 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: SubscriptionNameMapper
+  mapper: SubscriptionNameMapper,
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: AcceptOwnershipRequestMapper
+  mapper: AcceptOwnershipRequestMapper,
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: PutAliasRequestMapper
+  mapper: PutAliasRequestMapper,
 };
 
 export const aliasName: OperationURLParameter = {
@@ -122,14 +133,14 @@ export const aliasName: OperationURLParameter = {
     serializedName: "aliasName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: PutTenantPolicyRequestPropertiesMapper
+  mapper: PutTenantPolicyRequestPropertiesMapper,
 };
 
 export const billingAccountId: OperationURLParameter = {
@@ -138,7 +149,7 @@ export const billingAccountId: OperationURLParameter = {
     serializedName: "billingAccountId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

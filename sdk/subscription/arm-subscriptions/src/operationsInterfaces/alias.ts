@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PutAliasRequest,
   AliasCreateOptionalParams,
@@ -15,7 +15,7 @@ import {
   AliasGetResponse,
   AliasDeleteOptionalParams,
   AliasListOptionalParams,
-  AliasListResponse
+  AliasListResponse,
 } from "../models/index.js";
 
 /** Interface representing a Alias. */
@@ -31,9 +31,9 @@ export interface Alias {
   beginCreate(
     aliasName: string,
     body: PutAliasRequest,
-    options?: AliasCreateOptionalParams
+    options?: AliasCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<AliasCreateResponse>, AliasCreateResponse>
+    SimplePollerLike<OperationState<AliasCreateResponse>, AliasCreateResponse>
   >;
   /**
    * Create Alias Subscription.
@@ -46,7 +46,7 @@ export interface Alias {
   beginCreateAndWait(
     aliasName: string,
     body: PutAliasRequest,
-    options?: AliasCreateOptionalParams
+    options?: AliasCreateOptionalParams,
   ): Promise<AliasCreateResponse>;
   /**
    * Get Alias Subscription.
@@ -57,7 +57,7 @@ export interface Alias {
    */
   get(
     aliasName: string,
-    options?: AliasGetOptionalParams
+    options?: AliasGetOptionalParams,
   ): Promise<AliasGetResponse>;
   /**
    * Delete Alias.

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List Alias Subscription.
@@ -24,4 +25,8 @@ async function listAlias() {
   console.log(result);
 }
 
-listAlias().catch(console.error);
+async function main() {
+  await listAlias();
+}
+
+main().catch(console.error);

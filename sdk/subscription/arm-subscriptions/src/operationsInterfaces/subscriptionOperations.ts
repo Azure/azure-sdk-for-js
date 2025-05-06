@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SubscriptionCancelOptionalParams,
   SubscriptionCancelResponse,
@@ -19,7 +19,7 @@ import {
   SubscriptionAcceptOwnershipOptionalParams,
   SubscriptionAcceptOwnershipResponse,
   SubscriptionAcceptOwnershipStatusOptionalParams,
-  SubscriptionAcceptOwnershipStatusResponse
+  SubscriptionAcceptOwnershipStatusResponse,
 } from "../models/index.js";
 
 /** Interface representing a SubscriptionOperations. */
@@ -31,7 +31,7 @@ export interface SubscriptionOperations {
    */
   cancel(
     subscriptionId: string,
-    options?: SubscriptionCancelOptionalParams
+    options?: SubscriptionCancelOptionalParams,
   ): Promise<SubscriptionCancelResponse>;
   /**
    * The operation to rename a subscription
@@ -42,7 +42,7 @@ export interface SubscriptionOperations {
   rename(
     subscriptionId: string,
     body: SubscriptionName,
-    options?: SubscriptionRenameOptionalParams
+    options?: SubscriptionRenameOptionalParams,
   ): Promise<SubscriptionRenameResponse>;
   /**
    * The operation to enable a subscription
@@ -51,7 +51,7 @@ export interface SubscriptionOperations {
    */
   enable(
     subscriptionId: string,
-    options?: SubscriptionEnableOptionalParams
+    options?: SubscriptionEnableOptionalParams,
   ): Promise<SubscriptionEnableResponse>;
   /**
    * Accept subscription ownership.
@@ -62,10 +62,10 @@ export interface SubscriptionOperations {
   beginAcceptOwnership(
     subscriptionId: string,
     body: AcceptOwnershipRequest,
-    options?: SubscriptionAcceptOwnershipOptionalParams
+    options?: SubscriptionAcceptOwnershipOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SubscriptionAcceptOwnershipResponse>,
+    SimplePollerLike<
+      OperationState<SubscriptionAcceptOwnershipResponse>,
       SubscriptionAcceptOwnershipResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface SubscriptionOperations {
   beginAcceptOwnershipAndWait(
     subscriptionId: string,
     body: AcceptOwnershipRequest,
-    options?: SubscriptionAcceptOwnershipOptionalParams
+    options?: SubscriptionAcceptOwnershipOptionalParams,
   ): Promise<SubscriptionAcceptOwnershipResponse>;
   /**
    * Accept subscription ownership status.
@@ -87,6 +87,6 @@ export interface SubscriptionOperations {
    */
   acceptOwnershipStatus(
     subscriptionId: string,
-    options?: SubscriptionAcceptOwnershipStatusOptionalParams
+    options?: SubscriptionAcceptOwnershipStatusOptionalParams,
   ): Promise<SubscriptionAcceptOwnershipStatusResponse>;
 }

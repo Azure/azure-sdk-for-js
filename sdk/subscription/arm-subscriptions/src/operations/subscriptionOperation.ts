@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BillingAccount } from "../operationsInterfaces/index.js";
+import { SubscriptionOperation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SubscriptionClient } from "../subscriptionClient.js";
 import {
-  BillingAccountGetPolicyOptionalParams,
-  BillingAccountGetPolicyResponse,
+  SubscriptionOperationGetOptionalParams,
+  SubscriptionOperationGetResponse,
 } from "../models/index.js";
 
-/** Class containing BillingAccount operations. */
-export class BillingAccountImpl implements BillingAccount {
+/** Class containing SubscriptionOperation operations. */
+export class SubscriptionOperationImpl implements SubscriptionOperation {
   private readonly client: SubscriptionClient;
 
   /**
-   * Initialize a new instance of the class BillingAccount class.
+   * Initialize a new instance of the class SubscriptionOperation class.
    * @param client Reference to the service client
    */
   constructor(client: SubscriptionClient) {
@@ -29,36 +29,40 @@ export class BillingAccountImpl implements BillingAccount {
   }
 
   /**
-   * Get Billing Account Policy.
-   * @param billingAccountId Billing Account Id.
+   * Get the status of the pending Microsoft.Subscription API operations.
+   * @param operationId The operation ID, which can be found from the Location field in the generate
+   *                    recommendation response header.
    * @param options The options parameters.
    */
-  getPolicy(
-    billingAccountId: string,
-    options?: BillingAccountGetPolicyOptionalParams,
-  ): Promise<BillingAccountGetPolicyResponse> {
+  get(
+    operationId: string,
+    options?: SubscriptionOperationGetOptionalParams,
+  ): Promise<SubscriptionOperationGetResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountId, options },
-      getPolicyOperationSpec,
+      { operationId, options },
+      getOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getPolicyOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Subscription/policies/default",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Subscription/subscriptionOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingAccountPoliciesResponse,
+      bodyMapper: Mappers.SubscriptionCreationResult,
+    },
+    202: {
+      headersMapper: Mappers.SubscriptionOperationGetHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseBody,
     },
   },
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.billingAccountId],
+  urlParameters: [Parameters.$host, Parameters.operationId],
   headerParameters: [Parameters.accept],
   serializer,
 };

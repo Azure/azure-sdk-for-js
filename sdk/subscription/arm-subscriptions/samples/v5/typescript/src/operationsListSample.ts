@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available Microsoft.Subscription API operations.
@@ -21,10 +22,14 @@ async function getOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-getOperations().catch(console.error);
+async function main(): Promise<void> {
+  await getOperations();
+}
+
+main().catch(console.error);

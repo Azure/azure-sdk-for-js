@@ -13,21 +13,21 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to The operation to enable a subscription
+ * This sample demonstrates how to Get the status of the pending Microsoft.Subscription API operations.
  *
- * @summary The operation to enable a subscription
- * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/enableSubscription.json
+ * @summary Get the status of the pending Microsoft.Subscription API operations.
+ * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/getSubscriptionOperation.json
  */
-async function enableSubscription(): Promise<void> {
-  const subscriptionId = "7948bcee-488c-47ce-941c-38e20ede803d";
+async function getPendingSubscriptionOperations(): Promise<void> {
+  const operationId = "e4b8d068-f574-462a-a76f-6fa0afc613c9";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
-  const result = await client.subscriptionOperations.enable(subscriptionId);
+  const result = await client.subscriptionOperation.get(operationId);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await enableSubscription();
+  await getPendingSubscriptionOperations();
 }
 
 main().catch(console.error);

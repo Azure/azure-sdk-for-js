@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the subscription tenant policy for the user's tenant.
@@ -24,4 +25,8 @@ async function getTenantPolicy() {
   console.log(result);
 }
 
-getTenantPolicy().catch(console.error);
+async function main() {
+  await getTenantPolicy();
+}
+
+main().catch(console.error);

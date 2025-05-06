@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SubscriptionClient } = require("@azure/arm-subscriptions");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The operation to rename a subscription
@@ -26,4 +27,8 @@ async function renameSubscription() {
   console.log(result);
 }
 
-renameSubscription().catch(console.error);
+async function main() {
+  await renameSubscription();
+}
+
+main().catch(console.error);

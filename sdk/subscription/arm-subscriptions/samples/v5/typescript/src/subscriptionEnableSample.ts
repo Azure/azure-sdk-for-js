@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to enable a subscription
@@ -25,4 +26,8 @@ async function enableSubscription(): Promise<void> {
   console.log(result);
 }
 
-enableSubscription().catch(console.error);
+async function main(): Promise<void> {
+  await enableSubscription();
+}
+
+main().catch(console.error);
