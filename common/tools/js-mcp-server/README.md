@@ -20,8 +20,8 @@ The MCP server can be enabled by adding the following entry under the root ./.vs
   "servers": {
     "Azure SDK": {
       "type": "stdio",
-      "command": "${workspaceFolder}/common/tools/dev-tool/launch.js",
-      "args": ["run", "start-mcp-server"],
+      "command": "rush",
+      "args": ["--only", "@azure-tools/js-mcp-server", "start"],
       "env": {}
     }
   }
