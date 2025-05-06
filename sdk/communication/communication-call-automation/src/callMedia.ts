@@ -170,6 +170,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || {
         loop: false,
       };
+      playRequest.interruptCallMediaOperation = options.interruptCallMediaOperation;
     }
 
     return this.callMedia.play(this.callConnectionId, playRequest, options);
