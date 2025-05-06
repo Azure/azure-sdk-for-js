@@ -5,4 +5,3 @@ extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
   parameters:
     PackageName: "@azure-tools/js-mcp-server"
-    ServiceDirectory: template
