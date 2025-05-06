@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2025-01-01-preview", ...options }: SustainabilityServicesClientOptions = {},
 ): SustainabilityServicesClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-sustainabilityservices-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-@azure-rest/sustainabilityservices-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
