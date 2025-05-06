@@ -9,9 +9,6 @@
     "build:samples": {
       "cache": false
     },
-    "build:test": {
-      "cache": false
-    },
     "check-format": {
       "cache": false
     },
@@ -20,12 +17,6 @@
     },
     "format": {
       "cache": false
-    },
-    "integration-test": {
-    },
-    "integration-test:browser": {
-    },
-    "integration-test:node": {
     },
     "lint": {
       "cache": false
@@ -37,17 +28,16 @@
       "dependsOn": ["build"],
       "cache": false
     },
-    "test": {
-    },
     "typecheck": {
       "dependsOn": ["^build"]
     },
-    "unit-test": {
-    },
-    "unit-test:browser": {
+    "test": {
       "dependsOn": ["build"]
     },
-    "unit-test:node": {
+    "test:browser": {
+      "dependsOn": ["build"]
+    },
+    "test:node": {
       "dependsOn": ["build"]
     },
     "update-snippets": {
