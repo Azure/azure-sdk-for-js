@@ -22,10 +22,7 @@ export interface SustainabilityServicesClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2025-01-01-preview",
-    ...options
-  }: SustainabilityServicesClientOptions = {},
+  { apiVersion = "2025-01-01-preview", ...options }: SustainabilityServicesClientOptions = {},
 ): SustainabilityServicesClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-sustainabilityservices-rest/1.0.0-beta.1`;
@@ -45,11 +42,7 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as SustainabilityServicesClient;
+  const client = getClient(endpointUrl, credentials, options) as SustainabilityServicesClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

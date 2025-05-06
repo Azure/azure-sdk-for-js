@@ -53,18 +53,14 @@ export interface ListFactorLibraries {
   /** Lists factor libraries. */
   get(
     options?: ListFactorLibrariesParameters,
-  ): StreamableMethod<
-    ListFactorLibraries200Response | ListFactorLibrariesDefaultResponse
-  >;
+  ): StreamableMethod<ListFactorLibraries200Response | ListFactorLibrariesDefaultResponse>;
 }
 
 export interface GetFactorLibrary {
   /** Gets factor library by id. */
   get(
     options?: GetFactorLibraryParameters,
-  ): StreamableMethod<
-    GetFactorLibrary200Response | GetFactorLibraryDefaultResponse
-  >;
+  ): StreamableMethod<GetFactorLibrary200Response | GetFactorLibraryDefaultResponse>;
 }
 
 export interface ListEstimationFactorsByFactorLibrary {
@@ -81,9 +77,7 @@ export interface GetEstimationFactor {
   /** Gets estimation factor by id. */
   get(
     options?: GetEstimationFactorParameters,
-  ): StreamableMethod<
-    GetEstimationFactor200Response | GetEstimationFactorDefaultResponse
-  >;
+  ): StreamableMethod<GetEstimationFactor200Response | GetEstimationFactorDefaultResponse>;
 }
 
 export interface ListEmissionFactorsByFactorLibrary {
@@ -100,54 +94,42 @@ export interface GetEmissionFactor {
   /** Gets emission factor by id. */
   get(
     options?: GetEmissionFactorParameters,
-  ): StreamableMethod<
-    GetEmissionFactor200Response | GetEmissionFactorDefaultResponse
-  >;
+  ): StreamableMethod<GetEmissionFactor200Response | GetEmissionFactorDefaultResponse>;
 }
 
 export interface ListFactorMappings {
   /** Lists factor mappings belonging to the factor library. */
   get(
     options?: ListFactorMappingsParameters,
-  ): StreamableMethod<
-    ListFactorMappings200Response | ListFactorMappingsDefaultResponse
-  >;
+  ): StreamableMethod<ListFactorMappings200Response | ListFactorMappingsDefaultResponse>;
 }
 
 export interface GetFactorMapping {
   /** Gets factor mapping by id. */
   get(
     options?: GetFactorMappingParameters,
-  ): StreamableMethod<
-    GetFactorMapping200Response | GetFactorMappingDefaultResponse
-  >;
+  ): StreamableMethod<GetFactorMapping200Response | GetFactorMappingDefaultResponse>;
 }
 
 export interface ListCalculationModels {
   /** Lists calculation models for the given activity source. */
   get(
     options?: ListCalculationModelsParameters,
-  ): StreamableMethod<
-    ListCalculationModels200Response | ListCalculationModelsDefaultResponse
-  >;
+  ): StreamableMethod<ListCalculationModels200Response | ListCalculationModelsDefaultResponse>;
 }
 
 export interface GetCalculationModel {
   /** Gets calculation model by id. */
   get(
     options?: GetCalculationModelParameters,
-  ): StreamableMethod<
-    GetCalculationModel200Response | GetCalculationModelDefaultResponse
-  >;
+  ): StreamableMethod<GetCalculationModel200Response | GetCalculationModelDefaultResponse>;
 }
 
 export interface ListReferenceEntities {
   /** Lists reference data entities. */
   get(
     options?: ListReferenceEntitiesParameters,
-  ): StreamableMethod<
-    ListReferenceEntities200Response | ListReferenceEntitiesDefaultResponse
-  >;
+  ): StreamableMethod<ListReferenceEntities200Response | ListReferenceEntitiesDefaultResponse>;
 }
 
 export interface ListReferenceEntityRecords {
@@ -155,8 +137,7 @@ export interface ListReferenceEntityRecords {
   get(
     options?: ListReferenceEntityRecordsParameters,
   ): StreamableMethod<
-    | ListReferenceEntityRecords200Response
-    | ListReferenceEntityRecordsDefaultResponse
+    ListReferenceEntityRecords200Response | ListReferenceEntityRecordsDefaultResponse
   >;
 }
 
@@ -165,8 +146,7 @@ export interface GetReferenceEntityRecord {
   get(
     options?: GetReferenceEntityRecordParameters,
   ): StreamableMethod<
-    | GetReferenceEntityRecord200Response
-    | GetReferenceEntityRecordDefaultResponse
+    GetReferenceEntityRecord200Response | GetReferenceEntityRecordDefaultResponse
   >;
 }
 
@@ -174,9 +154,7 @@ export interface CalculateEmissions {
   /** Calculate emissions. */
   post(
     options: CalculateEmissionsParameters,
-  ): StreamableMethod<
-    CalculateEmissions200Response | CalculateEmissionsDefaultResponse
-  >;
+  ): StreamableMethod<CalculateEmissions200Response | CalculateEmissionsDefaultResponse>;
 }
 
 export interface Routes {

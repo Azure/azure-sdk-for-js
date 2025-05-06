@@ -85,8 +85,7 @@ export interface ListEstimationFactorsByFactorLibrary200Headers {
 }
 
 /** The request has succeeded. */
-export interface ListEstimationFactorsByFactorLibrary200Response
-  extends HttpResponse {
+export interface ListEstimationFactorsByFactorLibrary200Response extends HttpResponse {
   status: "200";
   body: PagedEstimationFactorOutput;
   headers: RawHttpHeaders & ListEstimationFactorsByFactorLibrary200Headers;
@@ -97,8 +96,7 @@ export interface ListEstimationFactorsByFactorLibraryDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEstimationFactorsByFactorLibraryDefaultResponse
-  extends HttpResponse {
+export interface ListEstimationFactorsByFactorLibraryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEstimationFactorsByFactorLibraryDefaultHeaders;
@@ -141,8 +139,7 @@ export interface ListEmissionFactorsByFactorLibrary200Headers {
 }
 
 /** The request has succeeded. */
-export interface ListEmissionFactorsByFactorLibrary200Response
-  extends HttpResponse {
+export interface ListEmissionFactorsByFactorLibrary200Response extends HttpResponse {
   status: "200";
   body: PagedEmissionFactorOutput;
   headers: RawHttpHeaders & ListEmissionFactorsByFactorLibrary200Headers;
@@ -153,8 +150,7 @@ export interface ListEmissionFactorsByFactorLibraryDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEmissionFactorsByFactorLibraryDefaultResponse
-  extends HttpResponse {
+export interface ListEmissionFactorsByFactorLibraryDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEmissionFactorsByFactorLibraryDefaultHeaders;
@@ -343,8 +339,7 @@ export interface ListReferenceEntityRecordsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListReferenceEntityRecordsDefaultResponse
-  extends HttpResponse {
+export interface ListReferenceEntityRecordsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListReferenceEntityRecordsDefaultHeaders;

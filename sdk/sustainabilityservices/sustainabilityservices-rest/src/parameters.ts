@@ -13,8 +13,7 @@ export interface ListFactorLibrariesQueryParam {
   queryParameters?: ListFactorLibrariesQueryParamProperties;
 }
 
-export type ListFactorLibrariesParameters = ListFactorLibrariesQueryParam &
-  RequestParameters;
+export type ListFactorLibrariesParameters = ListFactorLibrariesQueryParam & RequestParameters;
 export type GetFactorLibraryParameters = RequestParameters;
 
 export interface ListEstimationFactorsByFactorLibraryQueryParamProperties {
@@ -52,8 +51,7 @@ export interface ListFactorMappingsQueryParam {
   queryParameters?: ListFactorMappingsQueryParamProperties;
 }
 
-export type ListFactorMappingsParameters = ListFactorMappingsQueryParam &
-  RequestParameters;
+export type ListFactorMappingsParameters = ListFactorMappingsQueryParam & RequestParameters;
 export type GetFactorMappingParameters = RequestParameters;
 
 export interface ListCalculationModelsQueryParamProperties {
@@ -65,8 +63,7 @@ export interface ListCalculationModelsQueryParam {
   queryParameters?: ListCalculationModelsQueryParamProperties;
 }
 
-export type ListCalculationModelsParameters = ListCalculationModelsQueryParam &
-  RequestParameters;
+export type ListCalculationModelsParameters = ListCalculationModelsQueryParam & RequestParameters;
 export type GetCalculationModelParameters = RequestParameters;
 
 export interface ListReferenceEntitiesQueryParamProperties {
@@ -78,8 +75,7 @@ export interface ListReferenceEntitiesQueryParam {
   queryParameters?: ListReferenceEntitiesQueryParamProperties;
 }
 
-export type ListReferenceEntitiesParameters = ListReferenceEntitiesQueryParam &
-  RequestParameters;
+export type ListReferenceEntitiesParameters = ListReferenceEntitiesQueryParam & RequestParameters;
 
 export interface ListReferenceEntityRecordsQueryParamProperties {
   /** The maximum number of result items per page. */
@@ -90,13 +86,12 @@ export interface ListReferenceEntityRecordsQueryParam {
   queryParameters?: ListReferenceEntityRecordsQueryParamProperties;
 }
 
-export type ListReferenceEntityRecordsParameters =
-  ListReferenceEntityRecordsQueryParam & RequestParameters;
+export type ListReferenceEntityRecordsParameters = ListReferenceEntityRecordsQueryParam &
+  RequestParameters;
 export type GetReferenceEntityRecordParameters = RequestParameters;
 
 export interface CalculateEmissionsBodyParam {
   body: EmissionCalculationRequest;
 }
 
-export type CalculateEmissionsParameters = CalculateEmissionsBodyParam &
-  RequestParameters;
+export type CalculateEmissionsParameters = CalculateEmissionsBodyParam & RequestParameters;
