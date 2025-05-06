@@ -7,7 +7,7 @@ import { helloWorldSchema, helloWorld } from "./tools/helloWorld.js";
 
 const server = new McpServer({
   name: "Azure SDK MCP Server",
-  version: "0.1.0",
+  version: "1.0.0-beta.1",
 });
 
 // Register a tool

@@ -1,9 +1,9 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "target": "es2022",
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "skipLibCheck": true,
     "declarationDir": "./types"
