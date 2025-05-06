@@ -76,7 +76,7 @@
     "@azure/core-auth": "workspace:*",
     "@azure/core-lro": "workspace:*",
     "@azure/logger": "workspace:*",
-    "tslib": "catalog"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:*",
@@ -87,13 +87,13 @@
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@types/node": "catalog",
+    "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog",
+    "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
-    "eslint": "catalog",
+    "eslint": "catalog:",
     "playwright": "catalog:testing",
-    "typescript": "catalog",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",

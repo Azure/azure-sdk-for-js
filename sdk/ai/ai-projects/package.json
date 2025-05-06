@@ -68,7 +68,7 @@
     "@azure/core-tracing": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/logger": "workspace:*",
-    "tslib": "catalog"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:*",
