@@ -53,5 +53,5 @@ jobs:
         displayName: "Lint dev-tool"
 
       - script: |
-          pnpm --filter @azure/dev-tool... unit-test
+          pnpm --filter @azure/dev-tool... test
         displayName: "Run dev-tool unit tests"

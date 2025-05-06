@@ -54,7 +54,7 @@ node index.js --artifact-name "@azure/communication-sms" --version-type "min" --
 ```
 cd sdk/communication/communication-sms/test/public
 pnpm build
-pnpm integration-test:node
+pnpm test:node
 ```
 
 ### Restore your local dev environment

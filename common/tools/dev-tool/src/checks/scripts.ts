@@ -21,11 +21,11 @@ export const build = workingTreeUnchangedCheck({
 export const unitTestNode = scriptCheck({
   description: "Run Node unit tests",
   tags: ["local"],
-  checkCommand: "pnpm unit-test:node",
+  checkCommand: "pnpm test:node",
 });
 
 export const unitTestBrowser = scriptCheck({
   description: "Run browser unit tests",
   tags: ["local"],
-  checkCommand: "pnpm unit-test:browser",
+  checkCommand: "pnpm test:browser",
 });
