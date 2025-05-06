@@ -21,7 +21,7 @@ async function main() {
   // create a request
   const request = createPipelineRequest({ url: "https://example.com" });
   // add the access token to the request
-  await request.headers.set("Authorization", `Bearer ${token}`);
+  request.headers.set("Authorization", `Bearer ${token}`);
   console.log("Authorization header has been added to the request");
 }
 
