@@ -47,17 +47,15 @@ export function _updateMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { metadata: options?.metadata },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { metadata: options?.metadata },
+  });
 }
 
 export async function _updateMessageDeserialize(
@@ -78,12 +76,7 @@ export async function updateMessage(
   messageId: string,
   options: MessagesUpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
-  const result = await _updateMessageSend(
-    context,
-    threadId,
-    messageId,
-    options,
-  );
+  const result = await _updateMessageSend(context, threadId, messageId, options);
   return _updateMessageDeserialize(result);
 }
 
@@ -104,15 +97,13 @@ export function _getMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getMessageDeserialize(
@@ -157,15 +148,13 @@ export function _listMessagesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listMessagesDeserialize(
@@ -211,24 +200,22 @@ export function _createMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        role: role,
-        content: messageInputContentSerializer(content),
-        attachments: !options?.attachments
-          ? options?.attachments
-          : messageAttachmentArraySerializer(options?.attachments),
-        metadata: options?.metadata,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      role: role,
+      content: messageInputContentSerializer(content),
+      attachments: !options?.attachments
+        ? options?.attachments
+        : messageAttachmentArraySerializer(options?.attachments),
+      metadata: options?.metadata,
+    },
+  });
 }
 
 export async function _createMessageDeserialize(
@@ -250,12 +237,6 @@ export async function createMessage(
   content: MessageInputContent,
   options: MessagesCreateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
-  const result = await _createMessageSend(
-    context,
-    threadId,
-    role,
-    content,
-    options,
-  );
+  const result = await _createMessageSend(context, threadId, role, content, options);
   return _createMessageDeserialize(result);
 }

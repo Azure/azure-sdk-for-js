@@ -64,15 +64,15 @@ export async function main(): Promise<void> {
     vectorStore.id,
     vectorStoreFileBatch.id,
   );
-  
+
   // Collect all items into an array
   const vectorStoreFilesList = [];
   for await (const file of vectorStoreFiles) {
     vectorStoreFilesList.push(file);
   }
-  
+
   console.log(
-    `List of vector store files in the batch: ${vectorStoreFilesList.map(f => f.id).join(", ")}`,
+    `List of vector store files in the batch: ${vectorStoreFilesList.map((f) => f.id).join(", ")}`,
   );
 
   // Delete files

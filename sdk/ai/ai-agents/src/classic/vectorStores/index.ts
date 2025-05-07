@@ -2,12 +2,8 @@
 // Licensed under the MIT License.
 
 import type { AgentsContext } from "../../api/agentsContext.js";
-import type {
-  VectorStore,
-  VectorStoreDeletionStatus} from "../../models/models.js";
-import {
-  _AgentsPagedResultVectorStore
-} from "../../models/models.js";
+import type { VectorStore, VectorStoreDeletionStatus } from "../../models/models.js";
+import { _AgentsPagedResultVectorStore } from "../../models/models.js";
 import type {
   VectorStoresDeleteVectorStoreOptionalParams,
   VectorStoresModifyVectorStoreOptionalParams,
@@ -72,9 +68,7 @@ function _getVectorStores(context: AgentsContext) {
   };
 }
 
-export function _getVectorStoresOperations(
-  context: AgentsContext,
-): VectorStoresOperations {
+export function _getVectorStoresOperations(context: AgentsContext): VectorStoresOperations {
   return {
     ..._getVectorStores(context),
   };

@@ -46,15 +46,13 @@ export function _deleteThreadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteThreadDeserialize(
@@ -93,22 +91,20 @@ export function _updateThreadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        tool_resources: !options?.toolResources
-          ? options?.toolResources
-          : toolResourcesSerializer(options?.toolResources),
-        metadata: options?.metadata,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      tool_resources: !options?.toolResources
+        ? options?.toolResources
+        : toolResourcesSerializer(options?.toolResources),
+      metadata: options?.metadata,
+    },
+  });
 }
 
 export async function _updateThreadDeserialize(
@@ -147,20 +143,16 @@ export function _getThreadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getThreadDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AgentThread> {
+export async function _getThreadDeserialize(result: PathUncheckedResponse): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -196,15 +188,13 @@ export function _listThreadsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listThreadsDeserialize(
@@ -245,25 +235,23 @@ export function _createThreadSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        messages: !options?.messages
-          ? options?.messages
-          : threadMessageOptionsArraySerializer(options?.messages),
-        tool_resources: !options?.toolResources
-          ? options?.toolResources
-          : toolResourcesSerializer(options?.toolResources),
-        metadata: options?.metadata,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      messages: !options?.messages
+        ? options?.messages
+        : threadMessageOptionsArraySerializer(options?.messages),
+      tool_resources: !options?.toolResources
+        ? options?.toolResources
+        : toolResourcesSerializer(options?.toolResources),
+      metadata: options?.metadata,
+    },
+  });
 }
 
 export async function _createThreadDeserialize(

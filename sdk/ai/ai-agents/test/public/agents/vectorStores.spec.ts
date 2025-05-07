@@ -68,13 +68,13 @@ describe("projectsClient - vector stores", () => {
     // List vector stores
     const vectorStores = await projectsClient.vectorStores.list();
     assert.isNotNull(vectorStores);
-    
+
     // Collect all items from the PagedAsyncIterableIterator
     const vectorStoreItems = [];
     for await (const item of vectorStores) {
       vectorStoreItems.push(item);
     }
-    
+
     assert.isAtLeast(vectorStoreItems.length, 1);
     console.log(`Listed ${vectorStoreItems.length} vector stores`);
 

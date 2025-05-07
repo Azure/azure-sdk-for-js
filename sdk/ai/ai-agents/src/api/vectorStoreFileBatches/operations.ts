@@ -54,15 +54,13 @@ export function _listVectorStoreFileBatchFilesSend(
     },
   );
   context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listVectorStoreFileBatchFilesDeserialize(
@@ -87,13 +85,7 @@ export function listVectorStoreFileBatchFiles(
 ): PagedAsyncIterableIterator<VectorStoreFileBatch> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listVectorStoreFileBatchFilesSend(
-        context,
-        vectorStoreId,
-        batchId,
-        options,
-      ),
+    () => _listVectorStoreFileBatchFilesSend(context, vectorStoreId, batchId, options),
     _listVectorStoreFileBatchFilesDeserialize,
     ["200"],
     { itemName: "data" },
@@ -119,15 +111,13 @@ export function _cancelVectorStoreFileBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _cancelVectorStoreFileBatchDeserialize(
@@ -150,12 +140,7 @@ export async function cancelVectorStoreFileBatch(
     requestOptions: {},
   },
 ): Promise<VectorStoreFileBatch> {
-  const result = await _cancelVectorStoreFileBatchSend(
-    context,
-    vectorStoreId,
-    batchId,
-    options,
-  );
+  const result = await _cancelVectorStoreFileBatchSend(context, vectorStoreId, batchId, options);
   return _cancelVectorStoreFileBatchDeserialize(result);
 }
 
@@ -178,15 +163,13 @@ export function _getVectorStoreFileBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getVectorStoreFileBatchDeserialize(
@@ -209,12 +192,7 @@ export async function getVectorStoreFileBatch(
     requestOptions: {},
   },
 ): Promise<VectorStoreFileBatch> {
-  const result = await _getVectorStoreFileBatchSend(
-    context,
-    vectorStoreId,
-    batchId,
-    options,
-  );
+  const result = await _getVectorStoreFileBatchSend(context, vectorStoreId, batchId, options);
   return _getVectorStoreFileBatchDeserialize(result);
 }
 
@@ -250,9 +228,7 @@ export function _createVectorStoreFileBatchSend(
         : vectorStoreDataSourceArraySerializer(options?.dataSources),
       chunking_strategy: !options?.chunkingStrategy
         ? options?.chunkingStrategy
-        : vectorStoreChunkingStrategyRequestUnionSerializer(
-            options?.chunkingStrategy,
-          ),
+        : vectorStoreChunkingStrategyRequestUnionSerializer(options?.chunkingStrategy),
     },
   });
 }
@@ -276,11 +252,7 @@ export async function createVectorStoreFileBatchInternal(
     requestOptions: {},
   },
 ): Promise<VectorStoreFileBatch> {
-  const result = await _createVectorStoreFileBatchSend(
-    context,
-    vectorStoreId,
-    options,
-  );
+  const result = await _createVectorStoreFileBatchSend(context, vectorStoreId, options);
   return _createVectorStoreFileBatchDeserialize(result);
 }
 /** Create a vector store file batch. */

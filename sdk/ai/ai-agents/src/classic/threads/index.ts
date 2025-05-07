@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  AgentThread,
-  ThreadDeletionStatus,
-} from "../../models/models.js";
+import { AgentThread, ThreadDeletionStatus } from "../../models/models.js";
 import {
   ThreadsDeleteThreadOptionalParams,
   ThreadsUpdateThreadOptionalParams,
@@ -53,9 +49,7 @@ function _getThreads(context: AgentsContext) {
   };
 }
 
-export function _getThreadsOperations(
-  context: AgentsContext,
-): ThreadsOperations {
+export function _getThreadsOperations(context: AgentsContext): ThreadsOperations {
   return {
     ..._getThreads(context),
   };

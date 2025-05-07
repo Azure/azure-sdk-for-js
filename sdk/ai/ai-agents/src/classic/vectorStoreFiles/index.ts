@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  VectorStoreFile,
-  VectorStoreFileDeletionStatus,
-} from "../../models/models.js";
+import { VectorStoreFile, VectorStoreFileDeletionStatus } from "../../models/models.js";
 import {
   VectorStoreFilesDeleteVectorStoreFileOptionalParams,
   VectorStoreFilesGetVectorStoreFileOptionalParams,
@@ -77,9 +74,7 @@ function _getVectorStoreFiles(context: AgentsContext) {
   };
 }
 
-export function _getVectorStoreFilesOperations(
-  context: AgentsContext,
-): VectorStoreFilesOperations {
+export function _getVectorStoreFilesOperations(context: AgentsContext): VectorStoreFilesOperations {
   return {
     ..._getVectorStoreFiles(context),
   };

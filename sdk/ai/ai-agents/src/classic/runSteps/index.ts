@@ -41,10 +41,7 @@ function _getRunSteps(context: AgentsContext) {
   };
 }
 
-
-export function _getRunStepsOperations(
-  context: AgentsContext,
-): RunStepsOperations {
+export function _getRunStepsOperations(context: AgentsContext): RunStepsOperations {
   return {
     ..._getRunSteps(context),
   };

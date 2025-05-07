@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  MessageRole,
-  MessageInputContent,
-  ThreadMessage,
-} from "../../models/models.js";
+import { MessageRole, MessageInputContent, ThreadMessage } from "../../models/models.js";
 import {
   MessagesUpdateMessageOptionalParams,
   MessagesGetMessageOptionalParams,
@@ -66,10 +62,7 @@ function _getMessages(context: AgentsContext) {
   };
 }
 
-
-export function _getMessagesOperations(
-  context: AgentsContext,
-): MessagesOperations {
+export function _getMessagesOperations(context: AgentsContext): MessagesOperations {
   return {
     ..._getMessages(context),
   };

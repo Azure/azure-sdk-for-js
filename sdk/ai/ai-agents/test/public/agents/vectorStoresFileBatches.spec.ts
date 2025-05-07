@@ -140,7 +140,7 @@ describe("projectsClient - vector stores file batches", () => {
       vectorStoreFileBatch.id,
     );
     assert.isNotNull(vectorStoreFiles);
-    
+
     // Collect items from the PagedAsyncIterableIterator
     const vectorStoreFilesList = [];
     for await (const file of vectorStoreFiles) {

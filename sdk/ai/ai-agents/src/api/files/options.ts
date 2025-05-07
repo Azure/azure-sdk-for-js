@@ -15,9 +15,7 @@ export interface FilesGetFileOptionalParams extends OperationOptions {}
 export interface FilesDeleteFileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FilesUploadFileOptionalParams extends 
-OperationOptions, 
-PollingOptionsParams {
+export interface FilesUploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
   /** The name of the file to be uploaded. */
   fileName?: string;
 }

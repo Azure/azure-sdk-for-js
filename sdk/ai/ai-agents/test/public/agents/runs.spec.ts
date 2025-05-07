@@ -193,13 +193,13 @@ describe("Agents - Run", () => {
     // Get run status
     const runsIterator = projectsClient.runs.list(thread.id);
     assert.isNotNull(runsIterator);
-    
+
     // Collect all runs into an array
     const runsArray: Array<any> = [];
     for await (const r of runsIterator) {
       runsArray.push(r);
     }
-    
+
     assert.isArray(runsArray);
     console.log(`List  - found no of runs: ${runsArray.length}, first run ID: ${runsArray[0]?.id}`);
     const runDetails = runsArray.find((threadRun) => threadRun.id === run.id);

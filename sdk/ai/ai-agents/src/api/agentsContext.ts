@@ -4,11 +4,7 @@
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import {
-  KeyCredential,
-  isKeyCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import { KeyCredential, isKeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface AgentsContext extends Client {
   /** The API version to use for this operation. */
@@ -28,7 +24,7 @@ export function createAgents(
   credential: KeyCredential | TokenCredential,
   options: AgentsClientOptionalParams = {},
 ): AgentsContext {
-    // Remove custom code when 1dp is available
+  // Remove custom code when 1dp is available
   const parts = endpointParam.split(";");
   let endpointUrl = endpointParam;
   if (parts.length === 4) {
