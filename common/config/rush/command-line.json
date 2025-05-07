@@ -56,28 +56,6 @@
     },
     {
       "commandKind": "bulk",
-      "name": "integration-test:browser",
-      "summary": "Execute browser integration tests defined in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "integration-test:node",
-      "summary": "Execute Node integration tests defined in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "integration-test",
-      "summary": "Execute integration tests defined in projects",
-      "description": "Execute tests which require an actual service instance (live Azure, emulator, etc). Integration tests typically require service endpoints to be specified via environment variables in order to run.",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "lint",
       "summary": "Lint projects",
       "enableParallelism": true
@@ -112,28 +90,6 @@
       "summary": "Execute dev tests defined in projects",
       "description": "Execute any tests which a developer typically runs in their inner dev loop. Dev tests *should* just refer to other test scripts, but they don't have to. This command is never run by the build server.",
       "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "unit-test:browser",
-      "summary": "Execute browser unit tests defined in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "unit-test:node",
-      "summary": "Execute Node unit tests defined in projects",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
-    },
-    {
-      "commandKind": "bulk",
-      "name": "unit-test",
-      "summary": "Execute unit tests defined in projects",
-      "description": "Execute tests which don't need to connect to any external service.",
-      "enableParallelism": true,
-      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
