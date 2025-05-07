@@ -115,15 +115,19 @@ export interface BeginReservationPurchaseOptions extends OperationOptions {
 }
 
 /**
- * Additional options for updating a phone numbers reservation.
+ * Required fields for create or update a phone numbers reservation.
  */
-export interface CreateOrUpdateReservationOptions
-  extends OperationOptions {
+export interface CreateOrUpdateReservationRequest extends OperationOptions {
   /**
    * The id of the reservation.
    */
-  reservationId?: string;
+  reservationId: string;
+}
 
+/**
+ * Additional options for updating a phone numbers reservation.
+ */
+export interface CreateOrUpdateReservationOptions extends OperationOptions {
   /**
    * The phone numbers to be added or updated in the reservation.
    */

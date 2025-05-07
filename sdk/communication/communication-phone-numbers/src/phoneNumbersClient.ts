@@ -46,6 +46,7 @@ import type {
   SearchOperatorInformationOptions,
   CreateOrUpdateReservationOptions,
   BrowseAvailableNumbersOptions,
+  CreateOrUpdateReservationRequest,
 } from "./models.js";
 import type {
   BeginPurchasePhoneNumbersOptions,
@@ -57,7 +58,6 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.j
 import type { CommonClientOptions } from "@azure/core-client";
 import { logger } from "./utils/index.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { randomUUID } from "@azure/core-util";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -321,11 +321,10 @@ export class PhoneNumbersClient {
 
     try {
       const { countryCode, phoneNumberType, ...rest } = request;
-      return this.client.phoneNumbers
-        .browseAvailableNumbers(countryCode, phoneNumberType, {
-          ...updatedOptions,
-          ...rest,
-        });
+      return this.client.phoneNumbers.browseAvailableNumbers(countryCode, phoneNumberType, {
+        ...updatedOptions,
+        ...rest,
+      });
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -635,9 +634,9 @@ export class PhoneNumbersClient {
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(
+    request: CreateOrUpdateReservationRequest,
     options?: CreateOrUpdateReservationOptions,
   ): Promise<PhoneNumbersReservation> {
-    const reservationId = options?.reservationId ? options.reservationId : randomUUID();
     const phoneNumbersReservation: { [propertyName: string]: AvailablePhoneNumber | null } = {};
 
     if (options?.add) {
@@ -658,7 +657,10 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.phoneNumbers.createOrUpdateReservation(reservationId, updatedOptions);
+      return this.client.phoneNumbers.createOrUpdateReservation(
+        request.reservationId,
+        updatedOptions,
+      );
     } catch (e: any) {
       span.setStatus({
         status: "error",

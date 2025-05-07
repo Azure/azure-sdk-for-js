@@ -78,7 +78,11 @@ export interface BrowseAvailableNumbersRequest {
 export interface CreateOrUpdateReservationOptions extends OperationOptions {
     add?: AvailablePhoneNumber[];
     remove?: string[];
-    reservationId?: string;
+}
+
+// @public
+export interface CreateOrUpdateReservationRequest extends OperationOptions {
+    reservationId: string;
 }
 
 // @public
@@ -236,7 +240,7 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest, options?: BrowseAvailableNumbersOptions): Promise<PhoneNumbersBrowseResult>;
-    createOrUpdateReservation(options?: CreateOrUpdateReservationOptions): Promise<PhoneNumbersReservation>;
+    createOrUpdateReservation(request: CreateOrUpdateReservationRequest, options?: CreateOrUpdateReservationOptions): Promise<PhoneNumbersReservation>;
     deleteReservation(reservationId: string, options?: DeleteReservationOptions): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     getReservation(reservationId: string, options?: GetReservationOptions): Promise<PhoneNumbersReservation>;

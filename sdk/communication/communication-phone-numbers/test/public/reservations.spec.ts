@@ -111,10 +111,14 @@ matrix([[true, false]], async (useAad) => {
       const phoneNumbers = browseAvailableNumbers.phoneNumbers;
       const phoneNumbersList = [phoneNumbers[0]];
 
-      const reservationResponse = await client.createOrUpdateReservation({
-        reservationId: getReservationId(),
-        add: phoneNumbersList,
-      });
+      const reservationResponse = await client.createOrUpdateReservation(
+        {
+          reservationId: getReservationId(),
+        },
+        {
+          add: phoneNumbersList,
+        },
+      );
       const reservationId = reservationResponse.id as string;
 
       assert.equal(reservationResponse.status, "active");
@@ -124,10 +128,14 @@ matrix([[true, false]], async (useAad) => {
 
       const updatedPhoneNumbersList = [phoneNumbers[1]];
 
-      let updatedReservationResponse = await client.createOrUpdateReservation({
-        reservationId,
-        add: updatedPhoneNumbersList,
-      });
+      let updatedReservationResponse = await client.createOrUpdateReservation(
+        {
+          reservationId: getReservationId(),
+        },
+        {
+          add: updatedPhoneNumbersList,
+        },
+      );
       assert.isTrue(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
           phoneNumbers[0].id as string,
@@ -141,11 +149,15 @@ matrix([[true, false]], async (useAad) => {
 
       const phoneNumbersToRemove = [phoneNumbers[0].id as string];
       phoneNumbersList.push(phoneNumbers[1]);
-      updatedReservationResponse = await client.createOrUpdateReservation({
-        reservationId,
-        add: phoneNumbersList,
-        remove: phoneNumbersToRemove,
-      });
+      updatedReservationResponse = await client.createOrUpdateReservation(
+        {
+          reservationId: getReservationId(),
+        },
+        {
+          add: phoneNumbersList,
+          remove: phoneNumbersToRemove,
+        },
+      );
 
       assert.isFalse(
         Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
@@ -183,10 +195,14 @@ matrix([[true, false]], async (useAad) => {
         const phoneNumbers = browseAvailableNumbers.phoneNumbers;
         const phoneNumbersList = [phoneNumbers[0]];
 
-        const reservationResponse = await client.createOrUpdateReservation({
-          reservationId: getReservationId(),
-          add: phoneNumbersList,
-        });
+        const reservationResponse = await client.createOrUpdateReservation(
+          {
+            reservationId: getReservationId(),
+          },
+          {
+            add: phoneNumbersList,
+          },
+        );
         const reservationId = reservationResponse.id as string;
 
         try {
