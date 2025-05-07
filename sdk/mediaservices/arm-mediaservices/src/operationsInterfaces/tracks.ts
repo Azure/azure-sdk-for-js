@@ -21,7 +21,7 @@ import {
   TracksUpdateResponse,
   TracksUpdateTrackDataOptionalParams,
   TracksUpdateTrackDataResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Tracks. */

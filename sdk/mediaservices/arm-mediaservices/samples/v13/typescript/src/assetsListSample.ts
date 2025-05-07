@@ -13,9 +13,7 @@ import {
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Assets in the Media Services account with optional filtering and ordering
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List Assets in the Media Services account with optional filtering and ordering
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-in-date-range.json
  */
-async function listAssetCreatedInADateRange() {
+async function listAssetCreatedInADateRange(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,7 +51,7 @@ async function listAssetCreatedInADateRange() {
  * @summary List Assets in the Media Services account with optional filtering and ordering
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-by-date.json
  */
-async function listAssetOrderedByDate() {
+async function listAssetOrderedByDate(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -81,7 +79,7 @@ async function listAssetOrderedByDate() {
  * @summary List Assets in the Media Services account with optional filtering and ordering
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-all.json
  */
-async function listAllAssets() {
+async function listAllAssets(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -97,7 +95,7 @@ async function listAllAssets() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAssetCreatedInADateRange();
   listAssetOrderedByDate();
   listAllAssets();

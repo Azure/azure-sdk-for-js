@@ -14,8 +14,8 @@ import {
   AuthorizationProviderGetResponse,
   AuthorizationProviderCreateOrUpdateOptionalParams,
   AuthorizationProviderCreateOrUpdateResponse,
-  AuthorizationProviderDeleteOptionalParams
-} from "../models";
+  AuthorizationProviderDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AuthorizationProvider. */
@@ -29,7 +29,7 @@ export interface AuthorizationProvider {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: AuthorizationProviderListByServiceOptionalParams
+    options?: AuthorizationProviderListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationProviderContract>;
   /**
    * Gets the details of the authorization provider specified by its identifier.
@@ -42,7 +42,7 @@ export interface AuthorizationProvider {
     resourceGroupName: string,
     serviceName: string,
     authorizationProviderId: string,
-    options?: AuthorizationProviderGetOptionalParams
+    options?: AuthorizationProviderGetOptionalParams,
   ): Promise<AuthorizationProviderGetResponse>;
   /**
    * Creates or updates authorization provider.
@@ -57,7 +57,7 @@ export interface AuthorizationProvider {
     serviceName: string,
     authorizationProviderId: string,
     parameters: AuthorizationProviderContract,
-    options?: AuthorizationProviderCreateOrUpdateOptionalParams
+    options?: AuthorizationProviderCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationProviderCreateOrUpdateResponse>;
   /**
    * Deletes specific authorization provider from the API Management service instance.
@@ -73,6 +73,6 @@ export interface AuthorizationProvider {
     serviceName: string,
     authorizationProviderId: string,
     ifMatch: string,
-    options?: AuthorizationProviderDeleteOptionalParams
+    options?: AuthorizationProviderDeleteOptionalParams,
   ): Promise<void>;
 }

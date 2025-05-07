@@ -4,7 +4,7 @@
 /**
  * @file Rule to forbid usage of window.
  */
-import { createRule } from "../utils/ruleCreator";
+import { createRule } from "../utils/ruleCreator.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

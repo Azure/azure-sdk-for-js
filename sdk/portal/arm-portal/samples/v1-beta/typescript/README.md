@@ -79,7 +79,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tenantconfigurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/portal/arm-portal/samples/v1-beta/typescript/src/tenantConfigurationsDeleteSample.ts
 [tenantconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/portal/arm-portal/samples/v1-beta/typescript/src/tenantConfigurationsGetSample.ts
 [tenantconfigurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/portal/arm-portal/samples/v1-beta/typescript/src/tenantConfigurationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-portal?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-portal?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/portal/arm-portal/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

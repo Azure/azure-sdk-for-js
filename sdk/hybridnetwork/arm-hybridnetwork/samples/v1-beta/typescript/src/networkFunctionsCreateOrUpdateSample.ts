@@ -13,9 +13,7 @@ import {
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network function resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkFunctionFirstPartyCreate.json
  */
-async function createFirstPartyNetworkFunctionResource() {
+async function createFirstPartyNetworkFunctionResource(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -65,7 +63,7 @@ async function createFirstPartyNetworkFunctionResource() {
  * @summary Creates or updates a network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkFunctionCreate.json
  */
-async function createNetworkFunctionResource() {
+async function createNetworkFunctionResource(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -107,7 +105,7 @@ async function createNetworkFunctionResource() {
  * @summary Creates or updates a network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkFunctionCreateSecret.json
  */
-async function createNetworkFunctionResourceWithSecrets() {
+async function createNetworkFunctionResourceWithSecrets(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -149,7 +147,7 @@ async function createNetworkFunctionResourceWithSecrets() {
  * @summary Creates or updates a network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/AzureCore/VirtualNetworkFunctionCreate.json
  */
-async function createVirtualNetworkFunctionResourceOnAzureCore() {
+async function createVirtualNetworkFunctionResourceOnAzureCore(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -186,7 +184,7 @@ async function createVirtualNetworkFunctionResourceOnAzureCore() {
  * @summary Creates or updates a network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/AzureOperatorNexus/VirtualNetworkFunctionCreate.json
  */
-async function createVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
+async function createVirtualNetworkFunctionResourceOnAzureOperatorNexus(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
@@ -218,7 +216,7 @@ async function createVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createFirstPartyNetworkFunctionResource();
   createNetworkFunctionResource();
   createNetworkFunctionResourceWithSecrets();

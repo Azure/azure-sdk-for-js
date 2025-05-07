@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiSchema } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiSchema } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SchemaContract,
   ApiSchemaListByApiNextOptionalParams,
@@ -31,8 +31,8 @@ import {
   ApiSchemaCreateOrUpdateOptionalParams,
   ApiSchemaCreateOrUpdateResponse,
   ApiSchemaDeleteOptionalParams,
-  ApiSchemaListByApiNextResponse
-} from "../models";
+  ApiSchemaListByApiNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiSchema operations. */
@@ -59,13 +59,13 @@ export class ApiSchemaImpl implements ApiSchema {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiSchemaListByApiOptionalParams
+    options?: ApiSchemaListByApiOptionalParams,
   ): PagedAsyncIterableIterator<SchemaContract> {
     const iter = this.listByApiPagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class ApiSchemaImpl implements ApiSchema {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class ApiSchemaImpl implements ApiSchema {
     serviceName: string,
     apiId: string,
     options?: ApiSchemaListByApiOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SchemaContract[]> {
     let result: ApiSchemaListByApiResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class ApiSchemaImpl implements ApiSchema {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class ApiSchemaImpl implements ApiSchema {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +129,13 @@ export class ApiSchemaImpl implements ApiSchema {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiSchemaListByApiOptionalParams
+    options?: ApiSchemaListByApiOptionalParams,
   ): AsyncIterableIterator<SchemaContract> {
     for await (const page of this.listByApiPagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +153,11 @@ export class ApiSchemaImpl implements ApiSchema {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiSchemaListByApiOptionalParams
+    options?: ApiSchemaListByApiOptionalParams,
   ): Promise<ApiSchemaListByApiResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByApiOperationSpec
+      listByApiOperationSpec,
     );
   }
 
@@ -175,11 +175,11 @@ export class ApiSchemaImpl implements ApiSchema {
     serviceName: string,
     apiId: string,
     schemaId: string,
-    options?: ApiSchemaGetEntityTagOptionalParams
+    options?: ApiSchemaGetEntityTagOptionalParams,
   ): Promise<ApiSchemaGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, schemaId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class ApiSchemaImpl implements ApiSchema {
     serviceName: string,
     apiId: string,
     schemaId: string,
-    options?: ApiSchemaGetOptionalParams
+    options?: ApiSchemaGetOptionalParams,
   ): Promise<ApiSchemaGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, schemaId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -221,7 +221,7 @@ export class ApiSchemaImpl implements ApiSchema {
     apiId: string,
     schemaId: string,
     parameters: SchemaContract,
-    options?: ApiSchemaCreateOrUpdateOptionalParams
+    options?: ApiSchemaCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiSchemaCreateOrUpdateResponse>,
@@ -230,21 +230,20 @@ export class ApiSchemaImpl implements ApiSchema {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiSchemaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -253,8 +252,8 @@ export class ApiSchemaImpl implements ApiSchema {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -262,8 +261,8 @@ export class ApiSchemaImpl implements ApiSchema {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -275,9 +274,9 @@ export class ApiSchemaImpl implements ApiSchema {
         apiId,
         schemaId,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiSchemaCreateOrUpdateResponse,
@@ -285,7 +284,7 @@ export class ApiSchemaImpl implements ApiSchema {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -307,7 +306,7 @@ export class ApiSchemaImpl implements ApiSchema {
     apiId: string,
     schemaId: string,
     parameters: SchemaContract,
-    options?: ApiSchemaCreateOrUpdateOptionalParams
+    options?: ApiSchemaCreateOrUpdateOptionalParams,
   ): Promise<ApiSchemaCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -315,7 +314,7 @@ export class ApiSchemaImpl implements ApiSchema {
       apiId,
       schemaId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -337,11 +336,11 @@ export class ApiSchemaImpl implements ApiSchema {
     apiId: string,
     schemaId: string,
     ifMatch: string,
-    options?: ApiSchemaDeleteOptionalParams
+    options?: ApiSchemaDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, schemaId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -359,11 +358,11 @@ export class ApiSchemaImpl implements ApiSchema {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiSchemaListByApiNextOptionalParams
+    options?: ApiSchemaListByApiNextOptionalParams,
   ): Promise<ApiSchemaListByApiNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByApiNextOperationSpec
+      listByApiNextOperationSpec,
     );
   }
 }
@@ -371,167 +370,162 @@ export class ApiSchemaImpl implements ApiSchema {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApiOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaCollection
+      bodyMapper: Mappers.SchemaCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId
+    Parameters.serviceName,
+    Parameters.apiId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiSchemaGetEntityTagHeaders
+      headersMapper: Mappers.ApiSchemaGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.schemaId
+    Parameters.schemaId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaGetHeaders
+      headersMapper: Mappers.ApiSchemaGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.schemaId
+    Parameters.schemaId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.schemaId
+    Parameters.schemaId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.schemaId
+    Parameters.schemaId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByApiNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaCollection
+      bodyMapper: Mappers.SchemaCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

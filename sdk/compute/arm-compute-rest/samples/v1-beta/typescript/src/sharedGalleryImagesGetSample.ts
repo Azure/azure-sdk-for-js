@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  SharedGalleryImagesGetParameters
+  SharedGalleryImagesGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a shared gallery image by subscription id or tenant id.
@@ -25,7 +20,7 @@ async function getASharedGalleryImage() {
   const galleryUniqueName = "galleryUniqueName";
   const galleryImageName = "myGalleryImageName";
   const options: SharedGalleryImagesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getASharedGalleryImage() {
       subscriptionId,
       location,
       galleryUniqueName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   console.log(result);

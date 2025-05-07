@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
-import type { RequestContext } from "../request";
-import type {
+import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext.js";
+import { ErrorResponse, RequestContext } from "../request/index.js";
+import {
   DiagnosticNode,
+  EncryptionDiagnostics,
   MetadataLookUpType,
   ClientConfigDiagnostic,
-} from "../CosmosDiagnostics";
-import { CosmosDiagnostics, getRootNode } from "../CosmosDiagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
-import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
-import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
+} from "../CosmosDiagnostics.js";
+import { CosmosDiagnostics, getRootNode } from "../CosmosDiagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
+import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel.js";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import type { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
-import type { OperationType, ResourceType } from "../common";
-import { Constants, prepareURL } from "../common";
-import { allowTracing } from "./diagnosticLevelComparator";
+import type { OperationType, ResourceType } from "../common/index.js";
+import { Constants, prepareURL } from "../common/index.js";
+import { allowTracing } from "./diagnosticLevelComparator.js";
 import { randomUUID } from "@azure/core-util";
 
 /**
@@ -34,6 +35,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public durationInMs: number;
   public diagnosticLevel: CosmosDbDiagnosticLevel;
   private diagnosticCtx: CosmosDiagnosticContext;
+  private encryptionDiagnostics: EncryptionDiagnostics;
 
   /**
    * @internal
@@ -55,6 +57,13 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     this.parent = parent;
     this.diagnosticCtx = ctx;
     this.diagnosticLevel = diagnosticLevel;
+
+    // Initialize EncryptionDiagnostics
+    this.encryptionDiagnostics = {
+      encryptContent: {},
+      decryptContent: {},
+      processingDurationInMs: 0,
+    };
   }
 
   /**
@@ -256,6 +265,65 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         this.data.queryRecordsRead = previousCount + resources.length;
       }
     }
+  }
+
+  /**
+   * @internal
+   * record startTime for encryption in an operation
+   */
+  public beginEncryptionDiagnostics(operation: string): void {
+    const startTime = getCurrentTimestampInMs();
+    switch (operation) {
+      case Constants.Encryption.DiagnosticsEncryptOperation:
+        this.encryptionDiagnostics.encryptContent[Constants.Encryption.DiagnosticsStartTime] =
+          startTime;
+        break;
+      case Constants.Encryption.DiagnosticsDecryptOperation:
+        this.encryptionDiagnostics.decryptContent[Constants.Encryption.DiagnosticsStartTime] =
+          startTime;
+        break;
+      default:
+        throw new ErrorResponse("Invalid operation type for encryption diagnostics");
+    }
+  }
+  /**
+   * @internal
+   * record duration from startTime and properties count for encryption in an operation
+   */
+  public endEncryptionDiagnostics(operation: string, propertiesCount?: number): void {
+    const endTime = getCurrentTimestampInMs();
+    let processingDuration = 0;
+    switch (operation) {
+      case Constants.Encryption.DiagnosticsEncryptOperation:
+        processingDuration =
+          endTime -
+          this.encryptionDiagnostics.encryptContent[Constants.Encryption.DiagnosticsStartTime];
+        this.encryptionDiagnostics.encryptContent[Constants.Encryption.DiagnosticsDuration] =
+          processingDuration;
+        // will be undefined in case of bulk/batch
+        if (propertiesCount !== undefined) {
+          this.encryptionDiagnostics.encryptContent[
+            Constants.Encryption.DiagnosticsPropertiesEncryptedCount
+          ] = propertiesCount;
+        }
+        break;
+
+      case Constants.Encryption.DiagnosticsDecryptOperation:
+        processingDuration =
+          endTime -
+          this.encryptionDiagnostics.decryptContent[Constants.Encryption.DiagnosticsStartTime];
+        this.encryptionDiagnostics.decryptContent[Constants.Encryption.DiagnosticsDuration] =
+          processingDuration;
+        if (propertiesCount !== undefined) {
+          this.encryptionDiagnostics.decryptContent[
+            Constants.Encryption.DiagnosticsPropertiesDecryptedCount
+          ] = propertiesCount;
+        }
+        break;
+      default:
+        throw new ErrorResponse("Invalid operation type for encryption diagnostics");
+    }
+    this.diagnosticCtx.recordEncryptionDiagnostics(this.encryptionDiagnostics);
   }
 
   /**

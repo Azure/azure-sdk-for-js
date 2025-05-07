@@ -9,7 +9,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry)
 - [Package (npm)](https://www.npmjs.com/package/@azure/schema-registry)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/schema-registry)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry/samples)
 
 ## Getting started
@@ -49,9 +49,9 @@ Set the values of the client ID, tenant ID, and client secret of the AAD
 application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`,
 `AZURE_CLIENT_SECRET`.
 
-```js
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+```ts snippet:ReadmeSampleCreateClient_Node
+import { SchemaRegistryClient } from "@azure/schema-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 ```
@@ -67,9 +67,9 @@ schema registry.
 
 ### Register a schema
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+```ts snippet:ReadmeSampleRegisterSchema
+import { SchemaRegistryClient } from "@azure/schema-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 
@@ -77,18 +77,18 @@ const description = {
   name: "<name>",
   groupName: "<group name>",
   format: "<schema format>",
-  definition: "<schema definition>"
-}
+  definition: "<schema definition>",
+};
 
 const registered = await client.registerSchema(description);
-console.log(registered.id);
+console.log(`Registered schema id: ${registered}`);
 ```
 
 ### Get ID of existing schema
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+```ts snippet:ReadmeSampleGetSchemaId
+import { SchemaRegistryClient } from "@azure/schema-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
 
@@ -96,36 +96,38 @@ const description = {
   name: "<name>",
   groupName: "<group name>",
   format: "<schema format>",
-  definition: "<schema definition>"
-}
+  definition: "<schema definition>",
+};
 
 const found = await client.getSchemaProperties(description);
 if (found) {
-  console.log(`Got schema ID=${found.id}`);
+  console.log(`Got schema ID ${found.id}`);
 }
 ```
 
 ### Get definition of existing schema by ID
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+```ts snippet:ReadmeSampleGetSchemaById
+import { SchemaRegistryClient } from "@azure/schema-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
+
 const foundSchema = await client.getSchema("<id>");
 if (foundSchema) {
-  console.log(`Got schema definition=${foundSchema.definition}`);
+  console.log(`Got schema definition ${foundSchema.definition}`);
 }
 ```
 
 ### Get definition of existing schema by version
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+```ts snippet:ReadmeSampleGetSchemaByVersion
+import { SchemaRegistryClient } from "@azure/schema-registry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new SchemaRegistryClient("<fullyQualifiedNamespace>", new DefaultAzureCredential());
-const foundSchema = await client.getSchema("<schema name>", "<group name>", version);
+
+const foundSchema = await client.getSchema("<schema name>", "<group name>", 1);
 if (foundSchema) {
   console.log(`Got schema definition=${foundSchema.definition}`);
 }
@@ -140,8 +142,8 @@ see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment
 variable to `info`. Alternatively, logging can be enabled at runtime by calling
 `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -179,9 +181,7 @@ learn more about how to build and test the code.
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fschemaregistry%2Fschema-registry%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

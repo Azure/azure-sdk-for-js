@@ -6,12 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProductPolicy } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ProductPolicy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
+  PolicyContract,
+  ProductPolicyListByProductNextOptionalParams,
   ProductPolicyListByProductOptionalParams,
   ProductPolicyListByProductResponse,
   PolicyIdName,
@@ -19,12 +23,13 @@ import {
   ProductPolicyGetEntityTagResponse,
   ProductPolicyGetOptionalParams,
   ProductPolicyGetResponse,
-  PolicyContract,
   ProductPolicyCreateOrUpdateOptionalParams,
   ProductPolicyCreateOrUpdateResponse,
-  ProductPolicyDeleteOptionalParams
-} from "../models";
+  ProductPolicyDeleteOptionalParams,
+  ProductPolicyListByProductNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing ProductPolicy operations. */
 export class ProductPolicyImpl implements ProductPolicy {
   private readonly client: ApiManagementClient;
@@ -44,15 +49,108 @@ export class ProductPolicyImpl implements ProductPolicy {
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
-  listByProduct(
+  public listByProduct(
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductPolicyListByProductOptionalParams
+    options?: ProductPolicyListByProductOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyContract> {
+    const iter = this.listByProductPagingAll(
+      resourceGroupName,
+      serviceName,
+      productId,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByProductPagingPage(
+          resourceGroupName,
+          serviceName,
+          productId,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByProductPagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductPolicyListByProductOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PolicyContract[]> {
+    let result: ProductPolicyListByProductResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProduct(
+        resourceGroupName,
+        serviceName,
+        productId,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProductNext(
+        resourceGroupName,
+        serviceName,
+        productId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProductPagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductPolicyListByProductOptionalParams,
+  ): AsyncIterableIterator<PolicyContract> {
+    for await (const page of this.listByProductPagingPage(
+      resourceGroupName,
+      serviceName,
+      productId,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get the policy configuration at the Product level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  private _listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: ProductPolicyListByProductOptionalParams,
   ): Promise<ProductPolicyListByProductResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, options },
-      listByProductOperationSpec
+      listByProductOperationSpec,
     );
   }
 
@@ -69,11 +167,11 @@ export class ProductPolicyImpl implements ProductPolicy {
     serviceName: string,
     productId: string,
     policyId: PolicyIdName,
-    options?: ProductPolicyGetEntityTagOptionalParams
+    options?: ProductPolicyGetEntityTagOptionalParams,
   ): Promise<ProductPolicyGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, policyId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -90,11 +188,11 @@ export class ProductPolicyImpl implements ProductPolicy {
     serviceName: string,
     productId: string,
     policyId: PolicyIdName,
-    options?: ProductPolicyGetOptionalParams
+    options?: ProductPolicyGetOptionalParams,
   ): Promise<ProductPolicyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, policyId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -113,7 +211,7 @@ export class ProductPolicyImpl implements ProductPolicy {
     productId: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: ProductPolicyCreateOrUpdateOptionalParams
+    options?: ProductPolicyCreateOrUpdateOptionalParams,
   ): Promise<ProductPolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -122,9 +220,9 @@ export class ProductPolicyImpl implements ProductPolicy {
         productId,
         policyId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -144,11 +242,32 @@ export class ProductPolicyImpl implements ProductPolicy {
     productId: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: ProductPolicyDeleteOptionalParams
+    options?: ProductPolicyDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, policyId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByProductNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param productId Product identifier. Must be unique in the current API Management service instance.
+   * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
+   * @param options The options parameters.
+   */
+  private _listByProductNext(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    nextLink: string,
+    options?: ProductPolicyListByProductNextOptionalParams,
+  ): Promise<ProductPolicyListByProductNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, productId, nextLink, options },
+      listByProductNextOperationSpec,
     );
   }
 }
@@ -156,132 +275,149 @@ export class ProductPolicyImpl implements ProductPolicy {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProductOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyCollection
+      bodyMapper: Mappers.PolicyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ProductPolicyGetEntityTagHeaders
+      headersMapper: Mappers.ProductPolicyGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.policyId,
-    Parameters.productId
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.ProductPolicyGetHeaders
+      headersMapper: Mappers.ProductPolicyGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.format],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.policyId,
-    Parameters.productId
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.ProductPolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.ProductPolicyCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.ProductPolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.ProductPolicyCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.policyId,
-    Parameters.productId
+    Parameters.productId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/policies/{policyId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.policyId,
-    Parameters.productId
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
+};
+const listByProductNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+    Parameters.productId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

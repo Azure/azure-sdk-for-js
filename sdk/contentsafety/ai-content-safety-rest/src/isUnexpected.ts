@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type {
-  AnalyzeText200Response,
-  AnalyzeTextDefaultResponse,
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
+  AnalyzeText200Response,
+  AnalyzeTextDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -26,8 +26,8 @@ import type {
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
-  "POST /text:analyze": ["200"],
   "POST /image:analyze": ["200"],
+  "POST /text:analyze": ["200"],
   "GET /text/blocklists/{blocklistName}": ["200"],
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
@@ -39,11 +39,11 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: AnalyzeText200Response | AnalyzeTextDefaultResponse,
-): response is AnalyzeTextDefaultResponse;
-export function isUnexpected(
   response: AnalyzeImage200Response | AnalyzeImageDefaultResponse,
 ): response is AnalyzeImageDefaultResponse;
+export function isUnexpected(
+  response: AnalyzeText200Response | AnalyzeTextDefaultResponse,
+): response is AnalyzeTextDefaultResponse;
 export function isUnexpected(
   response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse,
 ): response is GetTextBlocklistDefaultResponse;
@@ -73,10 +73,10 @@ export function isUnexpected(
 ): response is ListTextBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response:
-    | AnalyzeText200Response
-    | AnalyzeTextDefaultResponse
     | AnalyzeImage200Response
     | AnalyzeImageDefaultResponse
+    | AnalyzeText200Response
+    | AnalyzeTextDefaultResponse
     | GetTextBlocklist200Response
     | GetTextBlocklistDefaultResponse
     | CreateOrUpdateTextBlocklist200Response
@@ -95,8 +95,8 @@ export function isUnexpected(
     | ListTextBlocklistItems200Response
     | ListTextBlocklistItemsDefaultResponse,
 ): response is
-  | AnalyzeTextDefaultResponse
   | AnalyzeImageDefaultResponse
+  | AnalyzeTextDefaultResponse
   | GetTextBlocklistDefaultResponse
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse

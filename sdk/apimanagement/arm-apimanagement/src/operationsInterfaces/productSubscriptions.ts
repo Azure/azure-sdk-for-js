@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SubscriptionContract,
-  ProductSubscriptionsListOptionalParams
-} from "../models";
+  ProductSubscriptionsListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProductSubscriptions. */
@@ -26,6 +26,6 @@ export interface ProductSubscriptions {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductSubscriptionsListOptionalParams
+    options?: ProductSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract>;
 }

@@ -65,7 +65,7 @@
   - `VisionVectorizeSkill` allows for indexers to do the same
   - Vector queries now have the ability to accept an image in the form of a URL or base64 encoded string
 - Add support for enrichment of search results with your own ML model [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-  - `AzureMachineLearningVectorizer` leverages your Azure AI Studio model deployment to generate embeddings for text provided at query time
+  - `AzureMachineLearningVectorizer` leverages your Azure AI Foundry model deployment to generate embeddings for text provided at query time
 - Add support for search indexers to use OneLake as a data source [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
 - Add support for search score and vector similarity to be used as a threshold on the results of vector queries [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
 - Add support for hybrid search [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)

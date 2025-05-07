@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { NetworkManagerRoutingConfigurations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { NetworkManagerRoutingConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   NetworkManagerRoutingConfiguration,
   NetworkManagerRoutingConfigurationsListNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   NetworkManagerRoutingConfigurationsCreateOrUpdateResponse,
   NetworkManagerRoutingConfigurationsDeleteOptionalParams,
   NetworkManagerRoutingConfigurationsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkManagerRoutingConfigurations operations. */
@@ -318,13 +318,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken,
+    Parameters.skipToken1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.networkManagerName1,
+    Parameters.networkManagerName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -345,7 +345,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.networkManagerName1,
+    Parameters.networkManagerName2,
     Parameters.configurationName1,
   ],
   headerParameters: [Parameters.accept],
@@ -371,7 +371,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.networkManagerName1,
+    Parameters.networkManagerName2,
     Parameters.configurationName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -395,7 +395,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.networkManagerName1,
+    Parameters.networkManagerName2,
     Parameters.configurationName1,
   ],
   headerParameters: [Parameters.accept],
@@ -417,7 +417,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName1,
-    Parameters.networkManagerName1,
+    Parameters.networkManagerName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,

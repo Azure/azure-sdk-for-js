@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Subscription } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Subscription } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SubscriptionContract,
   SubscriptionListNextOptionalParams,
@@ -33,8 +33,8 @@ import {
   SubscriptionRegenerateSecondaryKeyOptionalParams,
   SubscriptionListSecretsOptionalParams,
   SubscriptionListSecretsResponse,
-  SubscriptionListNextResponse
-} from "../models";
+  SubscriptionListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Subscription operations. */
@@ -58,7 +58,7 @@ export class SubscriptionImpl implements Subscription {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: SubscriptionListOptionalParams
+    options?: SubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -76,9 +76,9 @@ export class SubscriptionImpl implements Subscription {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     options?: SubscriptionListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionContract[]> {
     let result: SubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class SubscriptionImpl implements Subscription {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class SubscriptionImpl implements Subscription {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: SubscriptionListOptionalParams
+    options?: SubscriptionListOptionalParams,
   ): AsyncIterableIterator<SubscriptionContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class SubscriptionImpl implements Subscription {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: SubscriptionListOptionalParams
+    options?: SubscriptionListOptionalParams,
   ): Promise<SubscriptionListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionGetEntityTagOptionalParams
+    options?: SubscriptionGetEntityTagOptionalParams,
   ): Promise<SubscriptionGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -174,11 +174,11 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionGetOptionalParams
+    options?: SubscriptionGetOptionalParams,
   ): Promise<SubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,11 +196,11 @@ export class SubscriptionImpl implements Subscription {
     serviceName: string,
     sid: string,
     parameters: SubscriptionCreateParameters,
-    options?: SubscriptionCreateOrUpdateOptionalParams
+    options?: SubscriptionCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -221,11 +221,11 @@ export class SubscriptionImpl implements Subscription {
     sid: string,
     ifMatch: string,
     parameters: SubscriptionUpdateParameters,
-    options?: SubscriptionUpdateOptionalParams
+    options?: SubscriptionUpdateOptionalParams,
   ): Promise<SubscriptionUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, ifMatch, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -244,11 +244,11 @@ export class SubscriptionImpl implements Subscription {
     serviceName: string,
     sid: string,
     ifMatch: string,
-    options?: SubscriptionDeleteOptionalParams
+    options?: SubscriptionDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -264,11 +264,11 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionRegeneratePrimaryKeyOptionalParams
+    options?: SubscriptionRegeneratePrimaryKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, options },
-      regeneratePrimaryKeyOperationSpec
+      regeneratePrimaryKeyOperationSpec,
     );
   }
 
@@ -284,11 +284,11 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionRegenerateSecondaryKeyOptionalParams
+    options?: SubscriptionRegenerateSecondaryKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, options },
-      regenerateSecondaryKeyOperationSpec
+      regenerateSecondaryKeyOperationSpec,
     );
   }
 
@@ -304,11 +304,11 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionListSecretsOptionalParams
+    options?: SubscriptionListSecretsOptionalParams,
   ): Promise<SubscriptionListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, sid, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -323,11 +323,11 @@ export class SubscriptionImpl implements Subscription {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: SubscriptionListNextOptionalParams
+    options?: SubscriptionListNextOptionalParams,
   ): Promise<SubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -335,257 +335,248 @@ export class SubscriptionImpl implements Subscription {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionCollection
+      bodyMapper: Mappers.SubscriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.SubscriptionGetEntityTagHeaders
+      headersMapper: Mappers.SubscriptionGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionContract,
-      headersMapper: Mappers.SubscriptionGetHeaders
+      headersMapper: Mappers.SubscriptionGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionContract,
-      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.SubscriptionContract,
-      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters79,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.notify,
-    Parameters.appType
+    Parameters.appType,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionContract,
-      headersMapper: Mappers.SubscriptionUpdateHeaders
+      headersMapper: Mappers.SubscriptionUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters68,
+  requestBody: Parameters.parameters80,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.notify,
-    Parameters.appType
+    Parameters.appType,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const regeneratePrimaryKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regeneratePrimaryKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regeneratePrimaryKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateSecondaryKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regenerateSecondaryKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regenerateSecondaryKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionKeysContract,
-      headersMapper: Mappers.SubscriptionListSecretsHeaders
+      headersMapper: Mappers.SubscriptionListSecretsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.sid
+    Parameters.serviceName,
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionCollection
+      bodyMapper: Mappers.SubscriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

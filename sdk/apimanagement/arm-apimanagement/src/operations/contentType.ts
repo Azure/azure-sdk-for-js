@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ContentType } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ContentType } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ContentTypeContract,
   ContentTypeListByServiceNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   ContentTypeCreateOrUpdateOptionalParams,
   ContentTypeCreateOrUpdateResponse,
   ContentTypeDeleteOptionalParams,
-  ContentTypeListByServiceNextResponse
-} from "../models";
+  ContentTypeListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContentType operations. */
@@ -49,12 +49,12 @@ export class ContentTypeImpl implements ContentType {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContentTypeListByServiceOptionalParams
+    options?: ContentTypeListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ContentTypeContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class ContentTypeImpl implements ContentType {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class ContentTypeImpl implements ContentType {
     resourceGroupName: string,
     serviceName: string,
     options?: ContentTypeListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ContentTypeContract[]> {
     let result: ContentTypeListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ContentTypeImpl implements ContentType {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class ContentTypeImpl implements ContentType {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class ContentTypeImpl implements ContentType {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContentTypeListByServiceOptionalParams
+    options?: ContentTypeListByServiceOptionalParams,
   ): AsyncIterableIterator<ContentTypeContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class ContentTypeImpl implements ContentType {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContentTypeListByServiceOptionalParams
+    options?: ContentTypeListByServiceOptionalParams,
   ): Promise<ContentTypeListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class ContentTypeImpl implements ContentType {
     resourceGroupName: string,
     serviceName: string,
     contentTypeId: string,
-    options?: ContentTypeGetOptionalParams
+    options?: ContentTypeGetOptionalParams,
   ): Promise<ContentTypeGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, contentTypeId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class ContentTypeImpl implements ContentType {
     serviceName: string,
     contentTypeId: string,
     parameters: ContentTypeContract,
-    options?: ContentTypeCreateOrUpdateOptionalParams
+    options?: ContentTypeCreateOrUpdateOptionalParams,
   ): Promise<ContentTypeCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, contentTypeId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -201,11 +201,11 @@ export class ContentTypeImpl implements ContentType {
     serviceName: string,
     contentTypeId: string,
     ifMatch: string,
-    options?: ContentTypeDeleteOptionalParams
+    options?: ContentTypeDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, contentTypeId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -220,11 +220,11 @@ export class ContentTypeImpl implements ContentType {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ContentTypeListByServiceNextOptionalParams
+    options?: ContentTypeListByServiceNextOptionalParams,
   ): Promise<ContentTypeListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -232,125 +232,121 @@ export class ContentTypeImpl implements ContentType {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContentTypeCollection
+      bodyMapper: Mappers.ContentTypeCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ContentTypeContract,
-      headersMapper: Mappers.ContentTypeGetHeaders
+      headersMapper: Mappers.ContentTypeGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.contentTypeId
+    Parameters.serviceName,
+    Parameters.contentTypeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.ContentTypeContract,
-      headersMapper: Mappers.ContentTypeCreateOrUpdateHeaders
+      headersMapper: Mappers.ContentTypeCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.ContentTypeContract,
-      headersMapper: Mappers.ContentTypeCreateOrUpdateHeaders
+      headersMapper: Mappers.ContentTypeCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.contentTypeId
+    Parameters.serviceName,
+    Parameters.contentTypeId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.contentTypeId
+    Parameters.serviceName,
+    Parameters.contentTypeId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContentTypeCollection
+      bodyMapper: Mappers.ContentTypeCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

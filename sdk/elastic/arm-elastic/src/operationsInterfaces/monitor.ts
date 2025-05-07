@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { MonitorUpgradeOptionalParams } from "../models";
+import { MonitorUpgradeOptionalParams } from "../models/index.js";
 
 /** Interface representing a Monitor. */
 export interface Monitor {

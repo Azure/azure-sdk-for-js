@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { VNetPeering } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { VNetPeering } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualNetworkPeering,
   VNetPeeringListByWorkspaceNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   VNetPeeringCreateOrUpdateOptionalParams,
   VNetPeeringCreateOrUpdateResponse,
   VNetPeeringListByWorkspaceNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VNetPeering operations. */

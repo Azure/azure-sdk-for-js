@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 import type { DeletionRecoveryLevel } from "./generated/models/index.js";
 import {
   JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
-  KnownJsonWebKeyType as KnownKeyTypes,
 } from "./generated/models/index.js";
 
 import type { KeyCurveName } from "./cryptographyClientModels.js";
 
-export { KeyType, KnownKeyTypes, KeyOperation };
+export { KeyType, KeyOperation };
 
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.5";
+export const LATEST_API_VERSION = "7.6-preview.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -148,6 +147,28 @@ export interface KeyVaultKey {
 }
 
 /**
+ * An interface representing the properties of a key's attestation
+ */
+export interface KeyAttestation {
+  /**
+   * The certificate used for attestation validation, in PEM format.
+   */
+  certificatePemFile?: Uint8Array;
+  /**
+   * The key attestation corresponding to the private key material of the key.
+   */
+  privateKeyAttestation?: Uint8Array;
+  /**
+   * The key attestation corresponding to the public key material of the key.
+   */
+  publicKeyAttestation?: Uint8Array;
+  /**
+   * The version of the attestation.
+   */
+  version?: string;
+}
+
+/**
  * An interface representing the Properties of {@link KeyVaultKey}
  */
 export interface KeyProperties {
@@ -237,6 +258,11 @@ export interface KeyProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hsmPlatform?: string;
+
+  /**
+   * The key attestation, if available and requested.
+   */
+  attestation?: KeyAttestation;
 }
 
 /**
@@ -494,6 +520,17 @@ export interface GetKeyOptions extends coreClient.OperationOptions {
 }
 
 /**
+ * Options for {@link getKeyAttestation}.
+ */
+export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
+  /**
+   * The version of the key to retrieve the attestation for. If not
+   * specified the latest version of the key will be retrieved.
+   */
+  version?: string;
+}
+
+/**
  * An interface representing optional parameters for KeyClient paged operations passed to {@link listKeys}.
  */
 export interface ListKeysOptions extends coreClient.OperationOptions {}
@@ -595,16 +632,6 @@ export enum KnownKeyOperations {
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
   Import = "import",
-}
-
-/** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
-export enum KnownKeyExportEncryptionAlgorithm {
-  /** CKM_RSA_AES_KEY_WRAP Key Export Encryption Algorithm */
-  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
-  /** RSA_AES_KEY_WRAP_256 Key Export Encryption Algorithm */
-  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
-  /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
-  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
 }
 
 /* eslint-disable tsdoc/syntax */

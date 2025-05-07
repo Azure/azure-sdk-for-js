@@ -19,8 +19,8 @@ import {
   LoggerUpdateContract,
   LoggerUpdateOptionalParams,
   LoggerUpdateResponse,
-  LoggerDeleteOptionalParams
-} from "../models";
+  LoggerDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Logger. */
@@ -34,7 +34,7 @@ export interface Logger {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: LoggerListByServiceOptionalParams
+    options?: LoggerListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<LoggerContract>;
   /**
    * Gets the entity state (Etag) version of the logger specified by its identifier.
@@ -47,7 +47,7 @@ export interface Logger {
     resourceGroupName: string,
     serviceName: string,
     loggerId: string,
-    options?: LoggerGetEntityTagOptionalParams
+    options?: LoggerGetEntityTagOptionalParams,
   ): Promise<LoggerGetEntityTagResponse>;
   /**
    * Gets the details of the logger specified by its identifier.
@@ -60,7 +60,7 @@ export interface Logger {
     resourceGroupName: string,
     serviceName: string,
     loggerId: string,
-    options?: LoggerGetOptionalParams
+    options?: LoggerGetOptionalParams,
   ): Promise<LoggerGetResponse>;
   /**
    * Creates or Updates a logger.
@@ -75,7 +75,7 @@ export interface Logger {
     serviceName: string,
     loggerId: string,
     parameters: LoggerContract,
-    options?: LoggerCreateOrUpdateOptionalParams
+    options?: LoggerCreateOrUpdateOptionalParams,
   ): Promise<LoggerCreateOrUpdateResponse>;
   /**
    * Updates an existing logger.
@@ -93,7 +93,7 @@ export interface Logger {
     loggerId: string,
     ifMatch: string,
     parameters: LoggerUpdateContract,
-    options?: LoggerUpdateOptionalParams
+    options?: LoggerUpdateOptionalParams,
   ): Promise<LoggerUpdateResponse>;
   /**
    * Deletes the specified logger.
@@ -109,6 +109,6 @@ export interface Logger {
     serviceName: string,
     loggerId: string,
     ifMatch: string,
-    options?: LoggerDeleteOptionalParams
+    options?: LoggerDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import type { Client, HttpResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type {

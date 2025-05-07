@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
+import type {
+  PhoneNumberIdentifier,
+  CommunicationIdentifier,
+  MicrosoftTeamsAppIdentifier,
+} from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 import type {
-  MediaStreamingConfiguration,
-  TranscriptionConfiguration,
+  MediaStreamingOptions,
+  TranscriptionOptions,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -26,6 +30,8 @@ import type {
 export interface CallMediaRecognizeOptions extends OperationOptions {
   /** The source of the audio to be played for recognition. */
   playPrompt?: FileSource | TextSource | SsmlSource;
+  /** The list source of the audio to be played for recognition. */
+  playPrompts?: (FileSource | TextSource | SsmlSource)[];
   /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
   /** @deprecated Not in use, instead use interruptCallMediaOperation for similar functionality*/
@@ -110,12 +116,18 @@ export interface CreateCallOptions extends OperationOptions {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
+  /** Options for Media streaming. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Options for live transcription. */
+  transcriptionOptions?: TranscriptionOptions;
   /** The Custom Context. */
   customCallingContext?: CustomCallingContext;
+  /**
+   * Overrides default client source by a MicrosoftTeamsAppIdentifier type source.
+   * Required for creating call with Teams resource account ID.
+   * This is per-operation setting and does not change the client's default source.
+   */
+  teamsAppSource?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -124,10 +136,12 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
+  /** Used by customer to send custom context to targets. */
+  customCallingContext?: CustomCallingContext;
+  /** Options for Media streaming. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Options for live transcription. */
+  transcriptionOptions?: TranscriptionOptions;
   /** The operation context. */
   operationContext?: string;
 }
@@ -217,6 +231,16 @@ export interface PlayOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+  /** If set, hold audio will be interrupted, then this request will be played, and then the hold audio will be resumed. */
+  interruptHoldAudio?: boolean;
+}
+
+/**
+ * Options to playToAll audio.
+ */
+export interface PlayToAllOptions extends PlayOptions {
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
 }
 
 /**
@@ -238,8 +262,10 @@ export type GetParticipantOptions = OperationOptions;
  * Options to get a start a recording.
  */
 export interface StartRecordingOptions extends OperationOptions {
-  /** The call locator. */
-  callLocator: CallLocator;
+  /** The call locator. (Only one of callLocator or callConnectionId to be used) */
+  callLocator?: CallLocator;
+  /** The call connectionId. (Only one of callLocator or callConnectionId to be used) */
+  callConnectionId?: string;
   /** The url to send notifications to. */
   recordingStateCallbackEndpointUrl?: string;
   /** The content type of call recording. */
@@ -347,6 +373,13 @@ export interface StartTranscriptionOptions extends OperationOptions {
   locale?: string;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -355,6 +388,11 @@ export interface StartTranscriptionOptions extends OperationOptions {
 export interface StopTranscriptionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -374,5 +412,64 @@ export interface HoldOptions extends OperationOptions {
  */
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
+  operationContext?: string;
+}
+
+/**
+ * Options to Connect request.
+ */
+export interface ConnectCallOptions extends OperationOptions {
+  /** Used by customers to correlate the request to the response event. */
+  operationContext?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
+  /** Options for Media streaming. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Options for live transcription. */
+  transcriptionOptions?: TranscriptionOptions;
+}
+
+/** Options for start media streaming request. */
+export interface StartMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/** Options for stop media streaming request. */
+export interface StopMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to update transcription
+ */
+export interface UpdateTranscriptionOptions extends OperationOptions {
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+}
+
+/**
+ * Options to interrupt audio and announce.
+ */
+export interface InterruptAudioAndAnnounceOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
   operationContext?: string;
 }

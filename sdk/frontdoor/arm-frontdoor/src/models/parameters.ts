@@ -24,7 +24,7 @@ import {
   ProfileUpdateModel as ProfileUpdateModelMapper,
   Experiment as ExperimentMapper,
   ExperimentUpdateModel as ExperimentUpdateModelMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

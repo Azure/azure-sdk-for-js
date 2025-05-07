@@ -16,7 +16,7 @@ import {
   RunbookDraftGetResponse,
   RunbookDraftUndoEditOptionalParams,
   RunbookDraftUndoEditResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RunbookDraftOperations. */
 export interface RunbookDraftOperations {

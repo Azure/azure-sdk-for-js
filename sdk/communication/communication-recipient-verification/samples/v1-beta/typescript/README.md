@@ -78,6 +78,6 @@ Here are some [samples] <!--TODO: Enable link after release (https://github.com/
 [requestverification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-recipient-verification/samples/v1-beta/typescript/src/requestVerification.ts
 [verifyverification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-recipient-verification/samples/v1-beta/typescript/src/verifyVerification.ts
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-recipient-verification/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

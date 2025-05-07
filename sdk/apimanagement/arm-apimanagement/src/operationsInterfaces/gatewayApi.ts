@@ -14,8 +14,8 @@ import {
   GatewayApiGetEntityTagResponse,
   GatewayApiCreateOrUpdateOptionalParams,
   GatewayApiCreateOrUpdateResponse,
-  GatewayApiDeleteOptionalParams
-} from "../models";
+  GatewayApiDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GatewayApi. */
@@ -32,7 +32,7 @@ export interface GatewayApi {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
+    options?: GatewayApiListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiContract>;
   /**
    * Checks that API entity specified by identifier is associated with the Gateway entity.
@@ -48,7 +48,7 @@ export interface GatewayApi {
     serviceName: string,
     gatewayId: string,
     apiId: string,
-    options?: GatewayApiGetEntityTagOptionalParams
+    options?: GatewayApiGetEntityTagOptionalParams,
   ): Promise<GatewayApiGetEntityTagResponse>;
   /**
    * Adds an API to the specified Gateway.
@@ -64,7 +64,7 @@ export interface GatewayApi {
     serviceName: string,
     gatewayId: string,
     apiId: string,
-    options?: GatewayApiCreateOrUpdateOptionalParams
+    options?: GatewayApiCreateOrUpdateOptionalParams,
   ): Promise<GatewayApiCreateOrUpdateResponse>;
   /**
    * Deletes the specified API from the specified Gateway.
@@ -80,6 +80,6 @@ export interface GatewayApi {
     serviceName: string,
     gatewayId: string,
     apiId: string,
-    options?: GatewayApiDeleteOptionalParams
+    options?: GatewayApiDeleteOptionalParams,
   ): Promise<void>;
 }

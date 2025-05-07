@@ -9,7 +9,7 @@ import type {
 import type {
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
-} from "./managedIdentityCredential/index.js";
+} from "./managedIdentityCredential/options.js";
 import { ManagedIdentityCredential } from "./managedIdentityCredential/index.js";
 
 import { AzureCliCredential } from "./azureCliCredential.js";

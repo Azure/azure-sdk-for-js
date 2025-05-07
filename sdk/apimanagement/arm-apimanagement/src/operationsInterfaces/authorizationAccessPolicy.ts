@@ -14,8 +14,8 @@ import {
   AuthorizationAccessPolicyGetResponse,
   AuthorizationAccessPolicyCreateOrUpdateOptionalParams,
   AuthorizationAccessPolicyCreateOrUpdateResponse,
-  AuthorizationAccessPolicyDeleteOptionalParams
-} from "../models";
+  AuthorizationAccessPolicyDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AuthorizationAccessPolicy. */
@@ -33,7 +33,7 @@ export interface AuthorizationAccessPolicy {
     serviceName: string,
     authorizationProviderId: string,
     authorizationId: string,
-    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams
+    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationAccessPolicyContract>;
   /**
    * Gets the details of the authorization access policy specified by its identifier.
@@ -50,7 +50,7 @@ export interface AuthorizationAccessPolicy {
     authorizationProviderId: string,
     authorizationId: string,
     authorizationAccessPolicyId: string,
-    options?: AuthorizationAccessPolicyGetOptionalParams
+    options?: AuthorizationAccessPolicyGetOptionalParams,
   ): Promise<AuthorizationAccessPolicyGetResponse>;
   /**
    * Creates or updates Authorization Access Policy.
@@ -69,7 +69,7 @@ export interface AuthorizationAccessPolicy {
     authorizationId: string,
     authorizationAccessPolicyId: string,
     parameters: AuthorizationAccessPolicyContract,
-    options?: AuthorizationAccessPolicyCreateOrUpdateOptionalParams
+    options?: AuthorizationAccessPolicyCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationAccessPolicyCreateOrUpdateResponse>;
   /**
    * Deletes specific access policy from the Authorization.
@@ -89,6 +89,6 @@ export interface AuthorizationAccessPolicy {
     authorizationId: string,
     authorizationAccessPolicyId: string,
     ifMatch: string,
-    options?: AuthorizationAccessPolicyDeleteOptionalParams
+    options?: AuthorizationAccessPolicyDeleteOptionalParams,
   ): Promise<void>;
 }

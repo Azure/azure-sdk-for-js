@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ElasticSanUpdate, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Update_MaximumSet_Gen.json
  */
-async function elasticSansUpdateMaximumSetGen() {
+async function elasticSansUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -36,11 +34,11 @@ async function elasticSansUpdateMaximumSetGen() {
           unusedSizeTiB: 24,
         },
       },
-      baseSizeTiB: 21,
-      extendedCapacitySizeTiB: 10,
+      baseSizeTiB: 13,
+      extendedCapacitySizeTiB: 29,
       publicNetworkAccess: "Enabled",
     },
-    tags: { key5945: "eufqmxresekerilkgvfzddolxzas" },
+    tags: { key1931: "yhjwkgmrrwrcoxblgwgzjqusch" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -56,9 +54,9 @@ async function elasticSansUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Update_MinimumSet_Gen.json
  */
-async function elasticSansUpdateMinimumSetGen() {
+async function elasticSansUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -75,9 +73,9 @@ async function elasticSansUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  elasticSansUpdateMaximumSetGen();
-  elasticSansUpdateMinimumSetGen();
+async function main(): Promise<void> {
+  await elasticSansUpdateMaximumSetGen();
+  await elasticSansUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

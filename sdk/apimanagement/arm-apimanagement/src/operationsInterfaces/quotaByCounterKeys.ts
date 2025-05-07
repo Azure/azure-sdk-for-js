@@ -11,8 +11,8 @@ import {
   QuotaByCounterKeysListByServiceResponse,
   QuotaCounterValueUpdateContract,
   QuotaByCounterKeysUpdateOptionalParams,
-  QuotaByCounterKeysUpdateResponse
-} from "../models";
+  QuotaByCounterKeysUpdateResponse,
+} from "../models/index.js";
 
 /** Interface representing a QuotaByCounterKeys. */
 export interface QuotaByCounterKeys {
@@ -31,7 +31,7 @@ export interface QuotaByCounterKeys {
     resourceGroupName: string,
     serviceName: string,
     quotaCounterKey: string,
-    options?: QuotaByCounterKeysListByServiceOptionalParams
+    options?: QuotaByCounterKeysListByServiceOptionalParams,
   ): Promise<QuotaByCounterKeysListByServiceResponse>;
   /**
    * Updates all the quota counter values specified with the existing quota counter key to a value in the
@@ -50,6 +50,6 @@ export interface QuotaByCounterKeys {
     serviceName: string,
     quotaCounterKey: string,
     parameters: QuotaCounterValueUpdateContract,
-    options?: QuotaByCounterKeysUpdateOptionalParams
+    options?: QuotaByCounterKeysUpdateOptionalParams,
   ): Promise<QuotaByCounterKeysUpdateResponse>;
 }

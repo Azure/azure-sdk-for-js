@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { EmailTemplate } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { EmailTemplate } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   EmailTemplateContract,
   EmailTemplateListByServiceNextOptionalParams,
@@ -29,8 +29,8 @@ import {
   EmailTemplateUpdateOptionalParams,
   EmailTemplateUpdateResponse,
   EmailTemplateDeleteOptionalParams,
-  EmailTemplateListByServiceNextResponse
-} from "../models";
+  EmailTemplateListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EmailTemplate operations. */
@@ -54,12 +54,12 @@ export class EmailTemplateImpl implements EmailTemplate {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: EmailTemplateListByServiceOptionalParams
+    options?: EmailTemplateListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<EmailTemplateContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class EmailTemplateImpl implements EmailTemplate {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class EmailTemplateImpl implements EmailTemplate {
     resourceGroupName: string,
     serviceName: string,
     options?: EmailTemplateListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EmailTemplateContract[]> {
     let result: EmailTemplateListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class EmailTemplateImpl implements EmailTemplate {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class EmailTemplateImpl implements EmailTemplate {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class EmailTemplateImpl implements EmailTemplate {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: EmailTemplateListByServiceOptionalParams
+    options?: EmailTemplateListByServiceOptionalParams,
   ): AsyncIterableIterator<EmailTemplateContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class EmailTemplateImpl implements EmailTemplate {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: EmailTemplateListByServiceOptionalParams
+    options?: EmailTemplateListByServiceOptionalParams,
   ): Promise<EmailTemplateListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class EmailTemplateImpl implements EmailTemplate {
     resourceGroupName: string,
     serviceName: string,
     templateName: TemplateName,
-    options?: EmailTemplateGetEntityTagOptionalParams
+    options?: EmailTemplateGetEntityTagOptionalParams,
   ): Promise<EmailTemplateGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, templateName, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -176,11 +176,11 @@ export class EmailTemplateImpl implements EmailTemplate {
     resourceGroupName: string,
     serviceName: string,
     templateName: TemplateName,
-    options?: EmailTemplateGetOptionalParams
+    options?: EmailTemplateGetOptionalParams,
   ): Promise<EmailTemplateGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, templateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class EmailTemplateImpl implements EmailTemplate {
     serviceName: string,
     templateName: TemplateName,
     parameters: EmailTemplateUpdateParameters,
-    options?: EmailTemplateCreateOrUpdateOptionalParams
+    options?: EmailTemplateCreateOrUpdateOptionalParams,
   ): Promise<EmailTemplateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, templateName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -221,7 +221,7 @@ export class EmailTemplateImpl implements EmailTemplate {
     templateName: TemplateName,
     ifMatch: string,
     parameters: EmailTemplateUpdateParameters,
-    options?: EmailTemplateUpdateOptionalParams
+    options?: EmailTemplateUpdateOptionalParams,
   ): Promise<EmailTemplateUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +230,9 @@ export class EmailTemplateImpl implements EmailTemplate {
         templateName,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -250,11 +250,11 @@ export class EmailTemplateImpl implements EmailTemplate {
     serviceName: string,
     templateName: TemplateName,
     ifMatch: string,
-    options?: EmailTemplateDeleteOptionalParams
+    options?: EmailTemplateDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, templateName, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -269,11 +269,11 @@ export class EmailTemplateImpl implements EmailTemplate {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: EmailTemplateListByServiceNextOptionalParams
+    options?: EmailTemplateListByServiceNextOptionalParams,
   ): Promise<EmailTemplateListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -281,181 +281,175 @@ export class EmailTemplateImpl implements EmailTemplate {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailTemplateCollection
+      bodyMapper: Mappers.EmailTemplateCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.EmailTemplateGetEntityTagHeaders
+      headersMapper: Mappers.EmailTemplateGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.templateName
+    Parameters.serviceName,
+    Parameters.templateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.EmailTemplateContract,
-      headersMapper: Mappers.EmailTemplateGetHeaders
+      headersMapper: Mappers.EmailTemplateGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.templateName
+    Parameters.serviceName,
+    Parameters.templateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailTemplateContract
+      bodyMapper: Mappers.EmailTemplateContract,
     },
     201: {
-      bodyMapper: Mappers.EmailTemplateContract
+      bodyMapper: Mappers.EmailTemplateContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.templateName
+    Parameters.serviceName,
+    Parameters.templateName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.EmailTemplateContract,
-      headersMapper: Mappers.EmailTemplateUpdateHeaders
+      headersMapper: Mappers.EmailTemplateUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.templateName
+    Parameters.serviceName,
+    Parameters.templateName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.templateName
+    Parameters.serviceName,
+    Parameters.templateName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailTemplateCollection
+      bodyMapper: Mappers.EmailTemplateCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

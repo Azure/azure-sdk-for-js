@@ -9,7 +9,7 @@
 import {
   MediaServicesOperationStatusesGetOptionalParams,
   MediaServicesOperationStatusesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MediaServicesOperationStatuses. */
 export interface MediaServicesOperationStatuses {

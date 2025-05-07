@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiProduct } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiProduct } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ProductContract,
   ApiProductListByApisNextOptionalParams,
   ApiProductListByApisOptionalParams,
   ApiProductListByApisResponse,
-  ApiProductListByApisNextResponse
-} from "../models";
+  ApiProductListByApisNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiProduct operations. */
@@ -45,13 +45,13 @@ export class ApiProductImpl implements ApiProduct {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiProductListByApisOptionalParams
+    options?: ApiProductListByApisOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract> {
     const iter = this.listByApisPagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class ApiProductImpl implements ApiProduct {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ApiProductImpl implements ApiProduct {
     serviceName: string,
     apiId: string,
     options?: ApiProductListByApisOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProductContract[]> {
     let result: ApiProductListByApisResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ApiProductImpl implements ApiProduct {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class ApiProductImpl implements ApiProduct {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class ApiProductImpl implements ApiProduct {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiProductListByApisOptionalParams
+    options?: ApiProductListByApisOptionalParams,
   ): AsyncIterableIterator<ProductContract> {
     for await (const page of this.listByApisPagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ApiProductImpl implements ApiProduct {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiProductListByApisOptionalParams
+    options?: ApiProductListByApisOptionalParams,
   ): Promise<ApiProductListByApisResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByApisOperationSpec
+      listByApisOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ApiProductImpl implements ApiProduct {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiProductListByApisNextOptionalParams
+    options?: ApiProductListByApisNextOptionalParams,
   ): Promise<ApiProductListByApisNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByApisNextOperationSpec
+      listByApisNextOperationSpec,
     );
   }
 }
@@ -171,52 +171,51 @@ export class ApiProductImpl implements ApiProduct {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApisOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/products",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductCollection
+      bodyMapper: Mappers.ProductCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByApisNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductCollection
+      bodyMapper: Mappers.ProductCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

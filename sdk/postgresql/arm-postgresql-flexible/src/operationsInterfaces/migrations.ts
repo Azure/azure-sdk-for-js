@@ -18,7 +18,7 @@ import {
   MigrationsUpdateOptionalParams,
   MigrationsUpdateResponse,
   MigrationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Migrations. */

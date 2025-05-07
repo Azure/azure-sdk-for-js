@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   AdminRuleCollectionsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the rule collections in a security admin configuration, in a paginated format.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Lists all the rule collections in a security admin configuration, in a paginated format.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleCollectionList.json
  */
-async function listSecurityAdminRuleCollections() {
+async function listSecurityAdminRuleCollections(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function listSecurityAdminRuleCollections() {
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const options: AdminRuleCollectionsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +29,7 @@ async function listSecurityAdminRuleCollections() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

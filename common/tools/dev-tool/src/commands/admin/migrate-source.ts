@@ -81,18 +81,15 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
 
   const projectFile = resolve(projectFolder, "tsconfig.json");
 
-  const projectFileContents = await readFile(projectFile, "utf-8");
-  const projectFileJSON = JSON.parse(projectFileContents);
-  const module = projectFileJSON.compilerOptions.module;
-  const moduleResolution = projectFileJSON.compilerOptions.moduleResolution;
-
-  if (module !== "NodeNext" || moduleResolution !== "NodeNext") {
-    log.info("Package does not use NodeNext module resolution. Skipping.");
-    return true;
-  }
+  const skipPatterns = [/^vitest.*\.config\.ts$/];
 
   const tsProject = new Project({ tsConfigFilePath: projectFile });
   for (const sourceFile of tsProject.getSourceFiles()) {
+    // Skip config files
+    if (skipPatterns.some((pattern) => pattern.test(sourceFile.getBaseName()))) {
+      continue;
+    }
+
     fixSourceFile(sourceFile);
     await sourceFile.save();
   }

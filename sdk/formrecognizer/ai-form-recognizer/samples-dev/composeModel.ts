@@ -14,17 +14,14 @@
 
 import {
   DocumentModelAdministrationClient,
-  AzureKeyCredential,
   DocumentModelBuildMode,
 } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
 
   // This object will hold the SAS-encoded URLs to containers that hold
   // different types of purchase order documents and their labels.
@@ -45,7 +42,7 @@ export async function main() {
 
   // First, we need several models to compose, so for the sake of this example program, we will build them all using
   // training data in an Azure Storage account.
-  const client = new DocumentModelAdministrationClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new DocumentModelAdministrationClient(endpoint, new DefaultAzureCredential());
 
   // We'll put the last few digits of the current timestamp into the model IDs, just to make sure they're unique.
   const random = Date.now().toString();

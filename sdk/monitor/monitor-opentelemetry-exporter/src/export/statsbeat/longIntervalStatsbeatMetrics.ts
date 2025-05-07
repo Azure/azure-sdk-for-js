@@ -22,6 +22,7 @@ import type {
 } from "./types.js";
 import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
+import { getAttachType } from "../../utils/metricUtils.js";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 
@@ -36,7 +37,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "Manual";
+  private attach: string = getAttachType();
 
   private commonProperties: CommonStatsbeatProperties;
   private attachProperties: AttachStatsbeatProperties;
@@ -127,15 +128,17 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
         [this.featureStatsbeatGauge],
       );
 
-      // Export Feature/Attach Statsbeat once upon app initialization
-      this.longIntervalAzureExporter.export(
-        (await this.longIntervalMetricReader.collect()).resourceMetrics,
-        (result: ExportResult) => {
-          if (result.code !== ExportResultCode.SUCCESS) {
-            diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
-          }
-        },
-      );
+      // Export Feature/Attach Statsbeat once upon app initialization after 15 second delay
+      setTimeout(async () => {
+        this.longIntervalAzureExporter.export(
+          (await this.longIntervalMetricReader.collect()).resourceMetrics,
+          (result: ExportResult) => {
+            if (result.code !== ExportResultCode.SUCCESS) {
+              diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
+            }
+          },
+        );
+      }, 15000); // 15 seconds
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
     }

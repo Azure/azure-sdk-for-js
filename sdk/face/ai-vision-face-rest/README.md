@@ -77,7 +77,7 @@ A custom subdomain, on the other hand, is a name that is unique to the resource.
 #### Create the client with a Microsoft Entra ID credential
 
 `AzureKeyCredential` authentication is used in the examples in this getting started guide, but you can also authenticate with Microsoft Entra ID using the [@azure/identity](https://learn.microsoft.com/javascript/api/@azure/identity/?view=azure-node-latest) library.
-Note that regional endpoints do not support Microsoft Entra ID authentication. Create a [custom subdomain](https://docs.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
+Note that regional endpoints do not support Microsoft Entra ID authentication. Create a [custom subdomain](https://learn.microsoft.com/azure/cognitive-services/authentication#create-a-resource-with-a-custom-subdomain) name for your resource in order to use this type of authentication.
 
 To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest) type shown below, or other credential types provided with the Azure SDK, please install the `@azure/identity` package:
 
@@ -85,22 +85,18 @@ To use the [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@
 npm install --save @azure/identity
 ```
 
-You will also need to [register a new Microsoft Entra ID application and grant access](https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal) to Face by assigning the `"Cognitive Services User"` role to your service principal.
+You will also need to [register a new Microsoft Entra ID application and grant access](https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal) to Face by assigning the `"Cognitive Services User"` role to your service principal.
 
 Once completed, set the values of the client ID, tenant ID, and client secret of the Microsoft Entra ID application as environment variables:
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-```js
-/**
- * DefaultAzureCredential will use the values from these environment
- * variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
- */
-import { DefaultAzureCredential } from '@azure/identity';
-import createFaceClient from '@azure-rest/ai-vision-face';
+```ts snippet:ReadmeSampleCreateClient_Entra
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient from "@azure-rest/ai-vision-face";
 
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
 const credential = new DefaultAzureCredential();
-const client = createFaceClient(endpoint, credential);
+const client = FaceClient(endpoint, credential);
 ```
 
 #### Create the client with AzureKeyCredential
@@ -113,14 +109,14 @@ You can get the API key for your Face resource using the [Azure Portal](https://
 az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
 ```
 
-```js
-import { AzureKeyCredential } from '@azure/core-auth';
-import createFaceClient from '@azure-rest/ai-vision-face';
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
+import FaceClient from "@azure-rest/ai-vision-face";
 
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-const apikey = process.env['FACE_APIKEY'] || '<apikey>';
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const apikey = process.env["FACE_APIKEY"] || "<apikey>";
 const credential = new AzureKeyCredential(apikey);
-const client = createFaceClient(endpoint, credential);
+const client = FaceClient(endpoint, credential);
 ```
 
 ## Key concepts
@@ -140,15 +136,6 @@ Current long-running face operations:
 - Person group operations
   - [Train large person group](https://learn.microsoft.com/rest/api/face/person-group-operations/update-large-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
   - [Train person group](https://learn.microsoft.com/rest/api/face/person-group-operations/train-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
-- Person directory operations
-  - [Add person face](https://learn.microsoft.com/rest/api/face/person-directory-operations/add-person-face?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Add person face from URL](https://learn.microsoft.com/rest/api/face/person-directory-operations/add-person-face-from-url?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Create dynamic person group with person](https://learn.microsoft.com/rest/api/face/person-directory-operations/create-dynamic-person-group-with-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Create person](https://learn.microsoft.com/rest/api/face/person-directory-operations/create-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Delete dynamic person group](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-dynamic-person-group?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Delete person](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-person?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Delete person face](https://learn.microsoft.com/rest/api/face/person-directory-operations/delete-person-face?view=rest-face-v1.1-preview.1&tabs=HTTP)
-  - [Update dynamic person group with person changes](https://learn.microsoft.com/rest/api/face/person-directory-operations/update-dynamic-person-group-with-person-changes?view=rest-face-v1.1-preview.1&tabs=HTTP)
 
 ## Examples
 
@@ -162,35 +149,33 @@ The following section provides several code snippets covering some of the most c
 
 Detect faces and analyze them from an binary data.
 
-```js
-import { readFileSync } from 'fs';
-import { AzureKeyCredential } from '@azure/core-auth';
+```ts snippet:ReadmeSampleFaceDetection
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import { readFileSync } from "node:fs";
 
-import createFaceClient, {
-    isUnexpected,
-} from '@azure-rest/ai-vision-face';
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
 
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-const apikey = process.env['FACE_APIKEY'] || '<apikey>';
-const credential = new AzureKeyCredential(apikey);
-const client = createFaceClient(endpoint, credential);
-
-const response = await client.path('/detect').post({
-    contentType: 'application/octet-stream',
-    queryParameters: {
-        detectionModel: 'detection_03',
-        recognitionModel: 'recognition_04',
-        returnFaceLandmarks: true,
-        returnRecognitionModel: true,
-        faceIdTimeToLive: 120,
-        returnFaceAttributes: ['headPose', 'mask', 'qualityForRecognition'],
-        returnFaceId: false,
-    },
-    body: readFileSync('path/to/test/image'),
+const response = await client.path("/detect").post({
+  contentType: "application/octet-stream",
+  queryParameters: {
+    detectionModel: "detection_03",
+    recognitionModel: "recognition_04",
+    returnFaceLandmarks: true,
+    returnRecognitionModel: true,
+    faceIdTimeToLive: 120,
+    returnFaceAttributes: ["headPose", "mask", "qualityForRecognition"],
+    returnFaceId: false,
+  },
+  body: readFileSync("path/to/test/image"),
 });
+
 if (isUnexpected(response)) {
-    throw new Error(response.body.error.message);
+  throw new Error(response.body.error.message);
 }
+
 console.log(response.body);
 ```
 
@@ -200,117 +185,169 @@ Identify a face against a defined LargePersonGroup.
 
 First, we have to create a LargePersonGroup, add a few Persons to it, and then register faces with these Persons.
 
-```js
-import { readFileSync } from 'fs';
-import { AzureKeyCredential } from '@azure/core-auth';
+```ts snippet:ReadmeSampleFaceRecognitionFromLargePersonGroup
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import { readFileSync } from "node:fs";
 
-import createFaceClient, {
-    getLongRunningPoller,
-    isUnexpected,
-} from '@azure-rest/ai-vision-face';
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
 
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-const apikey = process.env['FACE_APIKEY'] || '<apikey>';
-const credential = new AzureKeyCredential(apikey);
-const client = createFaceClient(endpoint, credential);
-
-const largePersonGroupId = 'lpg_family';
+const largePersonGroupId = "lpg_family";
 
 console.log(`Create a large person group with id: ${largePersonGroupId}`);
-const createLargePersonGroupResponse = await client.path('/largepersongroups/{largePersonGroupId}', largePersonGroupId).put({
+const createLargePersonGroupResponse = await client
+  .path("/largepersongroups/{largePersonGroupId}", largePersonGroupId)
+  .put({
     body: {
-        name: 'My Family',
-        recognitionModel: 'recognition_04',
+      name: "My Family",
+      recognitionModel: "recognition_04",
     },
-});
+  });
 
-console.log('Create a Person Bill and add a face to him.');
-const createLargePersonGroupPersonResponse_bill = await client.path('/largepersongroups/{largePersonGroupId}/persons', largePersonGroupId).post({
+console.log("Create a Person Bill and add a face to him.");
+const createLargePersonGroupPersonResponse_bill = await client
+  .path("/largepersongroups/{largePersonGroupId}/persons", largePersonGroupId)
+  .post({
     body: {
-        name: 'Bill',
-        userData: 'Dad',
+      name: "Bill",
+      userData: "Dad",
     },
-});
+  });
+
 if (isUnexpected(createLargePersonGroupPersonResponse_bill)) {
-    throw new Error(createLargePersonGroupPersonResponse_bill.body.error.message);
+  throw new Error(createLargePersonGroupPersonResponse_bill.body.error.message);
 }
-const personId_bill = createLargePersonGroupPersonResponse_bill.body.personId;
-await client.path('/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces', largePersonGroupId, personId_bill).post({
-    queryParameters: {
-        userData: 'Dad-0001',
-        detectionModel: 'detection_03',
-    },
-    contentType: 'application/octet-stream',
-    body: readFileSync('path/to/bill/image'),
-});
 
-console.log('Create a Person Clare and add a face to her.');
-const createLargePersonGroupPersonResponse_clare = await client.path('/largepersongroups/{largePersonGroupId}/persons', largePersonGroupId).post({
-    body: {
-        name: 'Clare',
-        userData: 'Mom',
-    },
-});
-if (isUnexpected(createLargePersonGroupPersonResponse_clare)) {
-    throw new Error(createLargePersonGroupPersonResponse_clare.body.error.message);
-}
-const personId_clare = createLargePersonGroupPersonResponse_clare.body.personId;
-await client.path('/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces', largePersonGroupId, personId_clare).post({
+const personId_bill = createLargePersonGroupPersonResponse_bill.body.personId;
+await client
+  .path(
+    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces",
+    largePersonGroupId,
+    personId_bill,
+  )
+  .post({
     queryParameters: {
-        userData: 'Mom-0001',
-        detectionModel: 'detection_03',
+      userData: "Dad-0001",
+      detectionModel: "detection_03",
     },
-    contentType: 'application/octet-stream',
-    body: readFileSync('path/to/clare/image'),
-});
+    contentType: "application/octet-stream",
+    body: readFileSync("path/to/bill/image"),
+  });
+
+console.log("Create a Person Clare and add a face to her.");
+const createLargePersonGroupPersonResponse_clare = await client
+  .path("/largepersongroups/{largePersonGroupId}/persons", largePersonGroupId)
+  .post({
+    body: {
+      name: "Clare",
+      userData: "Mom",
+    },
+  });
+
+if (isUnexpected(createLargePersonGroupPersonResponse_clare)) {
+  throw new Error(createLargePersonGroupPersonResponse_clare.body.error.message);
+}
+
+const personId_clare = createLargePersonGroupPersonResponse_clare.body.personId;
+await client
+  .path(
+    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces",
+    largePersonGroupId,
+    personId_clare,
+  )
+  .post({
+    queryParameters: {
+      userData: "Mom-0001",
+      detectionModel: "detection_03",
+    },
+    contentType: "application/octet-stream",
+    body: readFileSync("path/to/clare/image"),
+  });
 ```
 
 Before doing the identification, we must train the LargePersonGroup first.
 
-```js
+```ts snippet:ReadmeSampleFaceRecognitionFromLargePersonGroup_Train
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient, { getLongRunningPoller } from "@azure-rest/ai-vision-face";
+
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
+
+const largePersonGroupId = "lpg_family";
+
 console.log(`Start to train the large person group: ${largePersonGroupId}`);
-const trainResponse = await client.path('/largepersongroups/{largePersonGroupId}/train', largePersonGroupId).post();
+const trainResponse = await client
+  .path("/largepersongroups/{largePersonGroupId}/train", largePersonGroupId)
+  .post();
 const trainPoller = await getLongRunningPoller(client, trainResponse);
 await trainPoller.pollUntilDone();
-// Check if poller.getOperationState().status is 'succeeded'.
 ```
 
 When the training operation is completed successfully, we can identify the faces in this LargePersonGroup throught.
 
-```js
-console.log('Detect faces from the target image.');
-const detectResponse = await client.path('/detect').post({
-    contentType: 'application/octet-stream',
-    queryParameters: {
-        detectionModel: 'detection_03',
-        recognitionModel: 'recognition_04',
-        returnFaceId: true,
-    },
-    body: readFileSync('path/to/target/image'),
-});
-if (isUnexpected(detectResponse)) {
-    throw new Error(detectResponse.body.error.message);
-}
-const faceIds = detectResponse.body.map(face => face.faceId as string)
+```ts snippet:ReadmeSampleFaceRecognitionFromLargePersonGroup_Identify
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import { readFileSync } from "node:fs";
 
-console.log('Identify the faces in the large person group.');
-const identifyResponse = await client.path('/identify').post({
-    body: { faceIds, largePersonGroupId },
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
+
+const largePersonGroupId = "lpg_family";
+
+console.log("Detect faces from the target image.");
+const detectResponse = await client.path("/detect").post({
+  contentType: "application/octet-stream",
+  queryParameters: {
+    detectionModel: "detection_03",
+    recognitionModel: "recognition_04",
+    returnFaceId: true,
+  },
+  body: readFileSync("path/to/target/image"),
 });
-if (isUnexpected(identifyResponse)) {
-    throw new Error(identifyResponse.body.error.message);
+
+if (isUnexpected(detectResponse)) {
+  throw new Error(detectResponse.body.error.message);
 }
+
+const faceIds = detectResponse.body.map((face) => face.faceId as string);
+
+console.log("Identify the faces in the large person group.");
+
+const identifyResponse = await client.path("/identify").post({
+  body: { faceIds, largePersonGroupId },
+});
+
+if (isUnexpected(identifyResponse)) {
+  throw new Error(identifyResponse.body.error.message);
+}
+
 console.log(identifyResponse.body);
 ```
 
 Finally, remove the large person group if you don't need it anymore.
 
-```js
+```ts snippet:ReadmeSampleFaceRecognitionFromLargePersonGroup_Delete
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient from "@azure-rest/ai-vision-face";
+
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
+
+const largePersonGroupId = "lpg_family";
+
 console.log(`Delete the large person group: ${largePersonGroupId}`);
-await client.path('/largepersongroups/{largePersonGroupId}', largePersonGroupId).delete();
+await client.path("/largepersongroups/{largePersonGroupId}", largePersonGroupId).delete();
 ```
 
 ### Liveness detection
+
 Face Liveness detection can be used to determine if a face in an input video stream is real (live) or fake (spoof).
 The goal of liveness detection is to ensure that the system is interacting with a physically present live person at
 the time of authentication. The whole process of authentication is called a session.
@@ -329,91 +366,93 @@ integrate the UI and the code into your native frontend application, please foll
 
 Here is an example to create and get the liveness detection result of a session.
 
-```js
-import { randomUUID } from 'crypto';
+```ts snippet:ReadmeSampleLivenessDetection
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import { randomUUID } from "node:crypto";
 
-import { AzureKeyCredential } from '@azure/core-auth';
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
 
-import createFaceClient, {
-    isUnexpected,
-} from '@azure-rest/ai-vision-face';
-
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-const apikey = process.env['FACE_APIKEY'] || '<apikey>';
-const credential = new AzureKeyCredential(apikey);
-const client = createFaceClient(endpoint, credential);
-
-console.log('Create a new liveness session.');
-const createLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions').post({
+console.log("Create a new liveness session.");
+const createLivenessSessionResponse = await client
+  .path("/detectLiveness/singleModal/sessions")
+  .post({
     body: {
-        livenessOperationMode: 'Passive',
-        deviceCorrelationId: randomUUID(),
-        sendResultsToClient: false,
-        authTokenTimeToLiveInSeconds: 60,
+      livenessOperationMode: "Passive",
+      deviceCorrelationId: randomUUID(),
+      sendResultsToClient: false,
+      authTokenTimeToLiveInSeconds: 60,
     },
-});
+  });
+
 if (isUnexpected(createLivenessSessionResponse)) {
-    throw new Error(createLivenessSessionResponse.body.error.message);
+  throw new Error(createLivenessSessionResponse.body.error.message);
 }
 console.log(createLivenessSessionResponse.body);
 
 const { sessionId } = createLivenessSessionResponse.body;
 
-console.log('Get liveness detection results.');
-const getLivenessSessionResponse = await client.path('/detectLiveness/singleModal/sessions/{sessionId}', sessionId).get();
+console.log("Get liveness detection results.");
+const getLivenessSessionResponse = await client
+  .path("/detectLiveness/singleModal/sessions/{sessionId}", sessionId)
+  .get();
+
 if (isUnexpected(getLivenessSessionResponse)) {
-    throw new Error(getLivenessSessionResponse.body.error.message);
+  throw new Error(getLivenessSessionResponse.body.error.message);
 }
 console.log(getLivenessSessionResponse.body);
 ```
 
 Here is another example for the liveness detection with face verification.
 
-```js
-import { randomUUID } from 'crypto';
-import { readFileSync } from 'fs';
+```ts snippet:ReadmeSampleLivenessDetectionWithVerify
+import { DefaultAzureCredential } from "@azure/identity";
+import FaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import { readFileSync } from "node:fs";
+import { randomUUID } from "node:crypto";
 
-import { AzureKeyCredential } from '@azure/core-auth';
+const endpoint = process.env["FACE_ENDPOINT"] || "<endpoint>";
+const credential = new DefaultAzureCredential();
+const client = FaceClient(endpoint, credential);
 
-import createFaceClient, {
-    isUnexpected,
-} from '@azure-rest/ai-vision-face';
-
-const endpoint = process.env['FACE_ENDPOINT'] || '<endpoint>';
-const apikey = process.env['FACE_APIKEY'] || '<apikey>';
-const credential = new AzureKeyCredential(apikey);
-const client = createFaceClient(endpoint, credential);
-
-console.log('Create a new liveness with verify session with verify image.');
-const createLivenessSessionResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions').post({
-    contentType: 'multipart/form-data',
+console.log("Create a new liveness with verify session with verify image.");
+const createLivenessSessionResponse = await client
+  .path("/detectLivenessWithVerify/singleModal/sessions")
+  .post({
+    contentType: "multipart/form-data",
     body: [
-        {
-            name: 'VerifyImage',
-            body: readFileSync('path/to/verify/image'),
+      {
+        name: "VerifyImage",
+        body: readFileSync("path/to/verify/image"),
+      },
+      {
+        name: "Parameters",
+        body: {
+          livenessOperationMode: "Passive",
+          sendResultsToClient: false,
+          authTokenTimeToLiveInSeconds: 60,
+          deviceCorrelationId: randomUUID(),
         },
-        {
-            name: 'Parameters',
-            body: {
-                livenessOperationMode: 'Passive',
-                sendResultsToClient: false,
-                authTokenTimeToLiveInSeconds: 60,
-                deviceCorrelationId: randomUUID(),
-            },
-        },
+      },
     ],
-});
+  });
+
 if (isUnexpected(createLivenessSessionResponse)) {
-    throw new Error(createLivenessSessionResponse.body.error.message);
+  throw new Error(createLivenessSessionResponse.body.error.message);
 }
 console.log(createLivenessSessionResponse.body);
 
 const { sessionId } = createLivenessSessionResponse.body;
 
-console.log('Get the liveness detection and verification result.');
-const getLivenessSessionResultResponse = await client.path('/detectLivenessWithVerify/singleModal/sessions/{sessionId}', sessionId).get();
+console.log("Get the liveness detection and verification result.");
+const getLivenessSessionResultResponse = await client
+  .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
+  .get();
+
 if (isUnexpected(getLivenessSessionResultResponse)) {
-    throw new Error(getLivenessSessionResultResponse.body.error.message);
+  throw new Error(getLivenessSessionResultResponse.body.error.message);
 }
 console.log(getLivenessSessionResultResponse.body);
 ```
@@ -428,8 +467,8 @@ Error codes and messages raised by the Face service can be found in the [service
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { UserConfirmationPassword } from "../operationsInterfaces";
+import { UserConfirmationPassword } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
-import { UserConfirmationPasswordSendOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import { UserConfirmationPasswordSendOptionalParams } from "../models/index.js";
 
 /** Class containing UserConfirmationPassword operations. */
 export class UserConfirmationPasswordImpl implements UserConfirmationPassword {
@@ -36,11 +36,11 @@ export class UserConfirmationPasswordImpl implements UserConfirmationPassword {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserConfirmationPasswordSendOptionalParams
+    options?: UserConfirmationPasswordSendOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, options },
-      sendOperationSpec
+      sendOperationSpec,
     );
   }
 }
@@ -48,23 +48,22 @@ export class UserConfirmationPasswordImpl implements UserConfirmationPassword {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const sendOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/confirmations/password/send",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/confirmations/password/send",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.appType],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

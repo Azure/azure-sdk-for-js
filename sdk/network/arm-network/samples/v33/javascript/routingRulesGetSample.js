@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a network manager routing configuration routing rule.
  *
  * @summary Gets a network manager routing configuration routing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRuleGet.json
  */
 async function getsRoutingRule() {
   const subscriptionId =

@@ -4,15 +4,15 @@
 
 ```ts
 
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PollerLike } from '@azure/core-lro';
-import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccessControlClientOptions extends CommonClientOptions {
+export interface AccessControlClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
@@ -65,11 +65,15 @@ export class KeyVaultAccessControlClient {
 }
 
 // @public
-export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationState<TResult> {
+export interface KeyVaultAdminPollOperationState<TResult> {
     endTime?: Date;
+    error?: Error;
+    isCompleted?: boolean;
+    isStarted?: boolean;
     jobId?: string;
+    result?: TResult;
     startTime?: Date;
-    status?: string;
+    status: OperationStatus;
     statusDetails?: string;
 }
 
@@ -78,6 +82,10 @@ export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreBackup(blobStorageUri: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginPreRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
+    beginPreRestore(folderUri: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginSelectiveKeyRestore(keyName: string, folderUri: string, sasToken: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>>;
@@ -86,7 +94,7 @@ export class KeyVaultBackupClient {
 }
 
 // @public
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
@@ -104,11 +112,19 @@ export interface KeyVaultBackupPollerOptions extends OperationOptions {
 export interface KeyVaultBackupResult {
     endTime?: Date;
     folderUri?: string;
-    startTime: Date;
+    startTime?: Date;
 }
 
 // @public
 export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {
 }
 
 // @public
@@ -137,7 +153,7 @@ export interface KeyVaultRestoreOperationState extends KeyVaultAdminPollOperatio
 // @public
 export interface KeyVaultRestoreResult {
     endTime?: Date;
-    startTime: Date;
+    startTime?: Date;
 }
 
 // @public
@@ -177,7 +193,7 @@ export interface KeyVaultSelectiveKeyRestoreOperationState extends KeyVaultAdmin
 // @public
 export interface KeyVaultSelectiveKeyRestoreResult {
     endTime?: Date;
-    startTime: Date;
+    startTime?: Date;
 }
 
 // @public
@@ -241,7 +257,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.5";
+export const LATEST_API_VERSION = "7.6-preview.2";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -271,6 +287,26 @@ export interface ListSettingsResponse {
 }
 
 // @public
+export type OperationStatus = string;
+
+// @public
+export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
+}
+
+// @public
 export const SDK_VERSION: string;
 
 // @public
@@ -283,13 +319,13 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export interface SettingsClientOptions extends CommonClientOptions {
+export interface SettingsClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
 
 // @public
 export interface UpdateSettingOptions extends OperationOptions {

@@ -29,7 +29,7 @@ import {
   ExtensionsDeleteOptionalParams,
   ExtensionsGetAzureAsyncOperationStatusOptionalParams,
   ExtensionsGetAzureAsyncOperationStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Extensions. */
 export interface Extensions {

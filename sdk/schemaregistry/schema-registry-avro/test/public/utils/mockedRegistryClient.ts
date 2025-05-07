@@ -13,7 +13,7 @@ import type {
 import { SchemaRegistryClient } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { testGroup, testSchemaIds } from "./dummies.js";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, env, isLiveMode } from "@azure-tools/test-recorder";
 import type { Pipeline, HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
@@ -91,7 +91,7 @@ function createMockedTestRegistry(): SchemaRegistry {
 
     function newId(): string {
       if (idCounter >= testSchemaIds.length) {
-        return uuid();
+        return randomUUID();
       }
       const id = testSchemaIds[idCounter];
       idCounter++;

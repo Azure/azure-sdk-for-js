@@ -95,6 +95,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotcentral/arm-iotcentral/samples/v7-beta/javascript/privateEndpointConnectionsListSample.js
 [privatelinksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotcentral/arm-iotcentral/samples/v7-beta/javascript/privateLinksGetSample.js
 [privatelinkslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotcentral/arm-iotcentral/samples/v7-beta/javascript/privateLinksListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-iotcentral?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-iotcentral?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotcentral/arm-iotcentral/README.md

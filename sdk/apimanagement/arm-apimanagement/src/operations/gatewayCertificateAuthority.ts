@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GatewayCertificateAuthority } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GatewayCertificateAuthority } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   GatewayCertificateAuthorityContract,
   GatewayCertificateAuthorityListByServiceNextOptionalParams,
@@ -25,13 +25,14 @@ import {
   GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
   GatewayCertificateAuthorityCreateOrUpdateResponse,
   GatewayCertificateAuthorityDeleteOptionalParams,
-  GatewayCertificateAuthorityListByServiceNextResponse
-} from "../models";
+  GatewayCertificateAuthorityListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayCertificateAuthority operations. */
 export class GatewayCertificateAuthorityImpl
-  implements GatewayCertificateAuthority {
+  implements GatewayCertificateAuthority
+{
   private readonly client: ApiManagementClient;
 
   /**
@@ -54,13 +55,13 @@ export class GatewayCertificateAuthorityImpl
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayCertificateAuthorityListByServiceOptionalParams
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayCertificateAuthorityContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       gatewayId,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class GatewayCertificateAuthorityImpl
           serviceName,
           gatewayId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class GatewayCertificateAuthorityImpl
     serviceName: string,
     gatewayId: string,
     options?: GatewayCertificateAuthorityListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GatewayCertificateAuthorityContract[]> {
     let result: GatewayCertificateAuthorityListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class GatewayCertificateAuthorityImpl
         resourceGroupName,
         serviceName,
         gatewayId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +112,7 @@ export class GatewayCertificateAuthorityImpl
         serviceName,
         gatewayId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,13 +125,13 @@ export class GatewayCertificateAuthorityImpl
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayCertificateAuthorityListByServiceOptionalParams
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
   ): AsyncIterableIterator<GatewayCertificateAuthorityContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       gatewayId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,11 +149,11 @@ export class GatewayCertificateAuthorityImpl
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayCertificateAuthorityListByServiceOptionalParams
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
   ): Promise<GatewayCertificateAuthorityListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -171,11 +172,11 @@ export class GatewayCertificateAuthorityImpl
     serviceName: string,
     gatewayId: string,
     certificateId: string,
-    options?: GatewayCertificateAuthorityGetEntityTagOptionalParams
+    options?: GatewayCertificateAuthorityGetEntityTagOptionalParams,
   ): Promise<GatewayCertificateAuthorityGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, certificateId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class GatewayCertificateAuthorityImpl
     serviceName: string,
     gatewayId: string,
     certificateId: string,
-    options?: GatewayCertificateAuthorityGetOptionalParams
+    options?: GatewayCertificateAuthorityGetOptionalParams,
   ): Promise<GatewayCertificateAuthorityGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, certificateId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -219,7 +220,7 @@ export class GatewayCertificateAuthorityImpl
     gatewayId: string,
     certificateId: string,
     parameters: GatewayCertificateAuthorityContract,
-    options?: GatewayCertificateAuthorityCreateOrUpdateOptionalParams
+    options?: GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
   ): Promise<GatewayCertificateAuthorityCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -228,9 +229,9 @@ export class GatewayCertificateAuthorityImpl
         gatewayId,
         certificateId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -252,7 +253,7 @@ export class GatewayCertificateAuthorityImpl
     gatewayId: string,
     certificateId: string,
     ifMatch: string,
-    options?: GatewayCertificateAuthorityDeleteOptionalParams
+    options?: GatewayCertificateAuthorityDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -261,9 +262,9 @@ export class GatewayCertificateAuthorityImpl
         gatewayId,
         certificateId,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -281,11 +282,11 @@ export class GatewayCertificateAuthorityImpl
     serviceName: string,
     gatewayId: string,
     nextLink: string,
-    options?: GatewayCertificateAuthorityListByServiceNextOptionalParams
+    options?: GatewayCertificateAuthorityListByServiceNextOptionalParams,
   ): Promise<GatewayCertificateAuthorityListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -293,159 +294,154 @@ export class GatewayCertificateAuthorityImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayCertificateAuthorityCollection
+      bodyMapper: Mappers.GatewayCertificateAuthorityCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId
+    Parameters.serviceName,
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GatewayCertificateAuthorityGetEntityTagHeaders
+      headersMapper: Mappers.GatewayCertificateAuthorityGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.certificateId,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.GatewayCertificateAuthorityContract,
-      headersMapper: Mappers.GatewayCertificateAuthorityGetHeaders
+      headersMapper: Mappers.GatewayCertificateAuthorityGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.certificateId,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.GatewayCertificateAuthorityContract,
-      headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders
+      headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GatewayCertificateAuthorityContract,
-      headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders
+      headersMapper: Mappers.GatewayCertificateAuthorityCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters54,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.certificateId,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.certificateId,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayCertificateAuthorityCollection
+      bodyMapper: Mappers.GatewayCertificateAuthorityCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.gatewayId
+    Parameters.serviceName,
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

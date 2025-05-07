@@ -12,8 +12,8 @@ import {
   TenantSettingsListByServiceOptionalParams,
   SettingsTypeName,
   TenantSettingsGetOptionalParams,
-  TenantSettingsGetResponse
-} from "../models";
+  TenantSettingsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TenantSettings. */
@@ -27,7 +27,7 @@ export interface TenantSettings {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantSettingsListByServiceOptionalParams
+    options?: TenantSettingsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TenantSettingsContract>;
   /**
    * Get tenant settings.
@@ -40,6 +40,6 @@ export interface TenantSettings {
     resourceGroupName: string,
     serviceName: string,
     settingsType: SettingsTypeName,
-    options?: TenantSettingsGetOptionalParams
+    options?: TenantSettingsGetOptionalParams,
   ): Promise<TenantSettingsGetResponse>;
 }

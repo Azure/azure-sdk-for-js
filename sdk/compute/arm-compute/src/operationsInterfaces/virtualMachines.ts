@@ -49,10 +49,11 @@ import {
   AttachDetachDataDisksRequest,
   VirtualMachinesAttachDetachDataDisksOptionalParams,
   VirtualMachinesAttachDetachDataDisksResponse,
+  VirtualMachinesMigrateToVMScaleSetOptionalParams,
   RunCommandInput,
   VirtualMachinesRunCommandOptionalParams,
   VirtualMachinesRunCommandResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachines. */
@@ -302,7 +303,8 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -314,7 +316,8 @@ export interface VirtualMachines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -579,6 +582,28 @@ export interface VirtualMachines {
     parameters: AttachDetachDataDisksRequest,
     options?: VirtualMachinesAttachDetachDataDisksOptionalParams,
   ): Promise<VirtualMachinesAttachDetachDataDisksResponse>;
+  /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginMigrateToVMScaleSet(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  beginMigrateToVMScaleSetAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
+  ): Promise<void>;
   /**
    * Run command on the VM.
    * @param resourceGroupName The name of the resource group.

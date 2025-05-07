@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GroupUser } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GroupUser } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   UserContract,
   GroupUserListNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   GroupUserCreateOptionalParams,
   GroupUserCreateResponse,
   GroupUserDeleteOptionalParams,
-  GroupUserListNextResponse
-} from "../models";
+  GroupUserListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupUser operations. */
@@ -50,13 +50,13 @@ export class GroupUserImpl implements GroupUser {
     resourceGroupName: string,
     serviceName: string,
     groupId: string,
-    options?: GroupUserListOptionalParams
+    options?: GroupUserListOptionalParams,
   ): PagedAsyncIterableIterator<UserContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       groupId,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class GroupUserImpl implements GroupUser {
           serviceName,
           groupId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class GroupUserImpl implements GroupUser {
     serviceName: string,
     groupId: string,
     options?: GroupUserListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UserContract[]> {
     let result: GroupUserListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class GroupUserImpl implements GroupUser {
         resourceGroupName,
         serviceName,
         groupId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class GroupUserImpl implements GroupUser {
         serviceName,
         groupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class GroupUserImpl implements GroupUser {
     resourceGroupName: string,
     serviceName: string,
     groupId: string,
-    options?: GroupUserListOptionalParams
+    options?: GroupUserListOptionalParams,
   ): AsyncIterableIterator<UserContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       groupId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class GroupUserImpl implements GroupUser {
     resourceGroupName: string,
     serviceName: string,
     groupId: string,
-    options?: GroupUserListOptionalParams
+    options?: GroupUserListOptionalParams,
   ): Promise<GroupUserListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, groupId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class GroupUserImpl implements GroupUser {
     serviceName: string,
     groupId: string,
     userId: string,
-    options?: GroupUserCheckEntityExistsOptionalParams
+    options?: GroupUserCheckEntityExistsOptionalParams,
   ): Promise<GroupUserCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, groupId, userId, options },
-      checkEntityExistsOperationSpec
+      checkEntityExistsOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class GroupUserImpl implements GroupUser {
     serviceName: string,
     groupId: string,
     userId: string,
-    options?: GroupUserCreateOptionalParams
+    options?: GroupUserCreateOptionalParams,
   ): Promise<GroupUserCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, groupId, userId, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -206,11 +206,11 @@ export class GroupUserImpl implements GroupUser {
     serviceName: string,
     groupId: string,
     userId: string,
-    options?: GroupUserDeleteOptionalParams
+    options?: GroupUserDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, groupId, userId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class GroupUserImpl implements GroupUser {
     serviceName: string,
     groupId: string,
     nextLink: string,
-    options?: GroupUserListNextOptionalParams
+    options?: GroupUserListNextOptionalParams,
   ): Promise<GroupUserListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, groupId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -239,125 +239,121 @@ export class GroupUserImpl implements GroupUser {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserCollection
+      bodyMapper: Mappers.UserCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.groupId
+    Parameters.serviceName,
+    Parameters.groupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkEntityExistsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   httpMethod: "HEAD",
   responses: {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.groupId,
-    Parameters.userId
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.UserContract
+      bodyMapper: Mappers.UserContract,
     },
     201: {
-      bodyMapper: Mappers.UserContract
+      bodyMapper: Mappers.UserContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.groupId,
-    Parameters.userId
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/groups/{groupId}/users/{userId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.groupId,
-    Parameters.userId
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserCollection
+      bodyMapper: Mappers.UserCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.groupId
+    Parameters.serviceName,
+    Parameters.groupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

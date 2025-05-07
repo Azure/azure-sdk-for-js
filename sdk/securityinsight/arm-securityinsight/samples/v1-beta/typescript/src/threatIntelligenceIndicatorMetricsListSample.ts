@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get threat intelligence indicators metrics (Indicators counts by Type, Threat Type, Source).
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get threat intelligence indicators metrics (Indicators counts by Type, Threat Type, Source).
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/CollectThreatIntelligenceMetrics.json
  */
-async function getThreatIntelligenceIndicatorsMetrics() {
+async function getThreatIntelligenceIndicatorsMetrics(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "bd794837-4d29-4647-9105-6339bfdb4e6a";
@@ -36,7 +34,7 @@ async function getThreatIntelligenceIndicatorsMetrics() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getThreatIntelligenceIndicatorsMetrics();
 }
 

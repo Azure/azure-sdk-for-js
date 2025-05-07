@@ -6,7 +6,7 @@
  * the JSON Patch (https://datatracker.ietf.org/doc/html/rfc6902).  This sends discrete updates using the standard
  * operation type, path and value if necessary.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about installations.
  *
  *

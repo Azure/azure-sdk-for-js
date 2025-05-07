@@ -19,8 +19,8 @@ import {
   DocumentationUpdateContract,
   DocumentationUpdateOptionalParams,
   DocumentationUpdateResponse,
-  DocumentationDeleteOptionalParams
-} from "../models";
+  DocumentationDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Documentation. */
@@ -34,7 +34,7 @@ export interface Documentation {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: DocumentationListByServiceOptionalParams
+    options?: DocumentationListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<DocumentationContract>;
   /**
    * Gets the entity state (Etag) version of the Documentation by its identifier.
@@ -48,7 +48,7 @@ export interface Documentation {
     resourceGroupName: string,
     serviceName: string,
     documentationId: string,
-    options?: DocumentationGetEntityTagOptionalParams
+    options?: DocumentationGetEntityTagOptionalParams,
   ): Promise<DocumentationGetEntityTagResponse>;
   /**
    * Gets the details of the Documentation specified by its identifier.
@@ -62,7 +62,7 @@ export interface Documentation {
     resourceGroupName: string,
     serviceName: string,
     documentationId: string,
-    options?: DocumentationGetOptionalParams
+    options?: DocumentationGetOptionalParams,
   ): Promise<DocumentationGetResponse>;
   /**
    * Creates a new Documentation or updates an existing one.
@@ -78,7 +78,7 @@ export interface Documentation {
     serviceName: string,
     documentationId: string,
     parameters: DocumentationContract,
-    options?: DocumentationCreateOrUpdateOptionalParams
+    options?: DocumentationCreateOrUpdateOptionalParams,
   ): Promise<DocumentationCreateOrUpdateResponse>;
   /**
    * Updates the details of the Documentation for an API specified by its identifier.
@@ -97,7 +97,7 @@ export interface Documentation {
     documentationId: string,
     ifMatch: string,
     parameters: DocumentationUpdateContract,
-    options?: DocumentationUpdateOptionalParams
+    options?: DocumentationUpdateOptionalParams,
   ): Promise<DocumentationUpdateResponse>;
   /**
    * Deletes the specified Documentation from an API.
@@ -114,6 +114,6 @@ export interface Documentation {
     serviceName: string,
     documentationId: string,
     ifMatch: string,
-    options?: DocumentationDeleteOptionalParams
+    options?: DocumentationDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Authorization } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Authorization } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   AuthorizationContract,
   AuthorizationListByAuthorizationProviderNextOptionalParams,
@@ -26,8 +26,8 @@ import {
   AuthorizationConfirmConsentCodeRequestContract,
   AuthorizationConfirmConsentCodeOptionalParams,
   AuthorizationConfirmConsentCodeResponse,
-  AuthorizationListByAuthorizationProviderNextResponse
-} from "../models";
+  AuthorizationListByAuthorizationProviderNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Authorization operations. */
@@ -53,13 +53,13 @@ export class AuthorizationImpl implements Authorization {
     resourceGroupName: string,
     serviceName: string,
     authorizationProviderId: string,
-    options?: AuthorizationListByAuthorizationProviderOptionalParams
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationContract> {
     const iter = this.listByAuthorizationProviderPagingAll(
       resourceGroupName,
       serviceName,
       authorizationProviderId,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class AuthorizationImpl implements Authorization {
           serviceName,
           authorizationProviderId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class AuthorizationImpl implements Authorization {
     serviceName: string,
     authorizationProviderId: string,
     options?: AuthorizationListByAuthorizationProviderOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationContract[]> {
     let result: AuthorizationListByAuthorizationProviderResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class AuthorizationImpl implements Authorization {
         resourceGroupName,
         serviceName,
         authorizationProviderId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class AuthorizationImpl implements Authorization {
         serviceName,
         authorizationProviderId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +123,13 @@ export class AuthorizationImpl implements Authorization {
     resourceGroupName: string,
     serviceName: string,
     authorizationProviderId: string,
-    options?: AuthorizationListByAuthorizationProviderOptionalParams
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
   ): AsyncIterableIterator<AuthorizationContract> {
     for await (const page of this.listByAuthorizationProviderPagingPage(
       resourceGroupName,
       serviceName,
       authorizationProviderId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,11 +146,11 @@ export class AuthorizationImpl implements Authorization {
     resourceGroupName: string,
     serviceName: string,
     authorizationProviderId: string,
-    options?: AuthorizationListByAuthorizationProviderOptionalParams
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
   ): Promise<AuthorizationListByAuthorizationProviderResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authorizationProviderId, options },
-      listByAuthorizationProviderOperationSpec
+      listByAuthorizationProviderOperationSpec,
     );
   }
 
@@ -167,7 +167,7 @@ export class AuthorizationImpl implements Authorization {
     serviceName: string,
     authorizationProviderId: string,
     authorizationId: string,
-    options?: AuthorizationGetOptionalParams
+    options?: AuthorizationGetOptionalParams,
   ): Promise<AuthorizationGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -175,9 +175,9 @@ export class AuthorizationImpl implements Authorization {
         serviceName,
         authorizationProviderId,
         authorizationId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,7 +196,7 @@ export class AuthorizationImpl implements Authorization {
     authorizationProviderId: string,
     authorizationId: string,
     parameters: AuthorizationContract,
-    options?: AuthorizationCreateOrUpdateOptionalParams
+    options?: AuthorizationCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -205,9 +205,9 @@ export class AuthorizationImpl implements Authorization {
         authorizationProviderId,
         authorizationId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -227,7 +227,7 @@ export class AuthorizationImpl implements Authorization {
     authorizationProviderId: string,
     authorizationId: string,
     ifMatch: string,
-    options?: AuthorizationDeleteOptionalParams
+    options?: AuthorizationDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -236,9 +236,9 @@ export class AuthorizationImpl implements Authorization {
         authorizationProviderId,
         authorizationId,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -257,7 +257,7 @@ export class AuthorizationImpl implements Authorization {
     authorizationProviderId: string,
     authorizationId: string,
     parameters: AuthorizationConfirmConsentCodeRequestContract,
-    options?: AuthorizationConfirmConsentCodeOptionalParams
+    options?: AuthorizationConfirmConsentCodeOptionalParams,
   ): Promise<AuthorizationConfirmConsentCodeResponse> {
     return this.client.sendOperationRequest(
       {
@@ -266,9 +266,9 @@ export class AuthorizationImpl implements Authorization {
         authorizationProviderId,
         authorizationId,
         parameters,
-        options
+        options,
       },
-      confirmConsentCodeOperationSpec
+      confirmConsentCodeOperationSpec,
     );
   }
 
@@ -286,7 +286,7 @@ export class AuthorizationImpl implements Authorization {
     serviceName: string,
     authorizationProviderId: string,
     nextLink: string,
-    options?: AuthorizationListByAuthorizationProviderNextOptionalParams
+    options?: AuthorizationListByAuthorizationProviderNextOptionalParams,
   ): Promise<AuthorizationListByAuthorizationProviderNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -294,9 +294,9 @@ export class AuthorizationImpl implements Authorization {
         serviceName,
         authorizationProviderId,
         nextLink,
-        options
+        options,
       },
-      listByAuthorizationProviderNextOperationSpec
+      listByAuthorizationProviderNextOperationSpec,
     );
   }
 }
@@ -304,161 +304,156 @@ export class AuthorizationImpl implements Authorization {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAuthorizationProviderOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationCollection
+      bodyMapper: Mappers.AuthorizationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authorizationProviderId
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationContract,
-      headersMapper: Mappers.AuthorizationGetHeaders
+      headersMapper: Mappers.AuthorizationGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationContract,
-      headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders
+      headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.AuthorizationContract,
-      headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders
+      headersMapper: Mappers.AuthorizationCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const confirmConsentCodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/confirmConsentCode",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/confirmConsentCode",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.AuthorizationConfirmConsentCodeHeaders
+      headersMapper: Mappers.AuthorizationConfirmConsentCodeHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByAuthorizationProviderNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationCollection
+      bodyMapper: Mappers.AuthorizationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.authorizationProviderId
+    Parameters.serviceName,
+    Parameters.authorizationProviderId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

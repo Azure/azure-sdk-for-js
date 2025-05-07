@@ -52,10 +52,13 @@ async function main(): Promise<void> {
   const external_id_mapping: MappingType[] = JSON.parse(process.env.MAPPING!);
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
     {},
   );
@@ -65,7 +68,7 @@ async function main(): Promise<void> {
   const external_ids: string[] = [];
   const update_ids: string[] = [];
 
-  external_id_mapping.forEach(async (mapping) => {
+  await external_id_mapping.forEach(async (mapping) => {
     external_ids.push(mapping.external_id);
 
     const task_response = await client.path("/assets").post({
@@ -85,7 +88,7 @@ async function main(): Promise<void> {
   });
 
   // By calling the /tasks/{taskId} endpoint, we can view the progress of each update using the `get` method
-  update_ids.forEach(async (id) => {
+  await update_ids.forEach(async (id) => {
     const task_response = await client.path("/tasks/{taskId}", id).get();
 
     if (isUnexpected(task_response)) {
@@ -112,7 +115,7 @@ async function main(): Promise<void> {
 
   const assets = assets_response.body.value!;
 
-  assets.forEach((asset) => {
+  await assets.forEach((asset) => {
     console.log(`${asset.externalId}, ${asset.name}`);
   });
 }

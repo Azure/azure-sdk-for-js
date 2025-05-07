@@ -17,8 +17,8 @@ import {
   PolicyContract,
   ApiPolicyCreateOrUpdateOptionalParams,
   ApiPolicyCreateOrUpdateResponse,
-  ApiPolicyDeleteOptionalParams
-} from "../models";
+  ApiPolicyDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ApiPolicy. */
 export interface ApiPolicy {
@@ -34,7 +34,7 @@ export interface ApiPolicy {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiPolicyListByApiOptionalParams
+    options?: ApiPolicyListByApiOptionalParams,
   ): Promise<ApiPolicyListByApiResponse>;
   /**
    * Gets the entity state (Etag) version of the API policy specified by its identifier.
@@ -50,7 +50,7 @@ export interface ApiPolicy {
     serviceName: string,
     apiId: string,
     policyId: PolicyIdName,
-    options?: ApiPolicyGetEntityTagOptionalParams
+    options?: ApiPolicyGetEntityTagOptionalParams,
   ): Promise<ApiPolicyGetEntityTagResponse>;
   /**
    * Get the policy configuration at the API level.
@@ -66,7 +66,7 @@ export interface ApiPolicy {
     serviceName: string,
     apiId: string,
     policyId: PolicyIdName,
-    options?: ApiPolicyGetOptionalParams
+    options?: ApiPolicyGetOptionalParams,
   ): Promise<ApiPolicyGetResponse>;
   /**
    * Creates or updates policy configuration for the API.
@@ -84,7 +84,7 @@ export interface ApiPolicy {
     apiId: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: ApiPolicyCreateOrUpdateOptionalParams
+    options?: ApiPolicyCreateOrUpdateOptionalParams,
   ): Promise<ApiPolicyCreateOrUpdateResponse>;
   /**
    * Deletes the policy configuration at the Api.
@@ -103,6 +103,6 @@ export interface ApiPolicy {
     apiId: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: ApiPolicyDeleteOptionalParams
+    options?: ApiPolicyDeleteOptionalParams,
   ): Promise<void>;
 }

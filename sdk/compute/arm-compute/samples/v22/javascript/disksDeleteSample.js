@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a disk.
@@ -29,7 +29,7 @@ async function deleteAManagedDisk() {
 }
 
 async function main() {
-  deleteAManagedDisk();
+  await deleteAManagedDisk();
 }
 
 main().catch(console.error);

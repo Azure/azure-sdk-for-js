@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ProductContract, ApiProductListByApisOptionalParams } from "../models";
+import { ProductContract, ApiProductListByApisOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiProduct. */
@@ -23,6 +23,6 @@ export interface ApiProduct {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiProductListByApisOptionalParams
+    options?: ApiProductListByApisOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract>;
 }

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
 /** An abstract representation of a chat message as provided in a request. */
 export interface ChatRequestMessageParent {
   role: ChatRole;
@@ -14,6 +21,17 @@ export interface ChatRequestSystemMessage extends ChatRequestMessageParent {
   /** The chat role associated with this message, which is always 'system' for system messages. */
   role: "system";
   /** The contents of the system message. */
+  content: string;
+}
+
+/**
+ * A request chat message containing developer instructions that influence how the model will generate a chat completions
+ * response. Some AI models support a developer message instead of a system message.
+ */
+export interface ChatRequestDeveloperMessage extends ChatRequestMessageParent {
+  /** The chat role associated with this message, which is always 'developer' for developer messages. */
+  role: "developer";
+  /** The contents of the developer message. */
   content: string;
 }
 
@@ -59,12 +77,46 @@ export interface ChatMessageImageUrl {
   detail?: ChatMessageImageDetailLevel;
 }
 
+/** A structured chat content item for audio content passed as a url. */
+export interface ChatMessageAudioUrlContentItem extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'audio_url' for this type. */
+  type: "audio_url";
+  /** The details of the audio url. */
+  audio_url: ChatMessageInputAudioUrl;
+}
+
+/** The details of the audio url. */
+export interface ChatMessageInputAudioUrl {
+  /** The URL of the audio content. */
+  url: string;
+}
+
+/** A structured chat content item for audio content passed as base64 encoded data. */
+export interface ChatMessageAudioDataContentItem extends ChatMessageContentItemParent {
+  /** The discriminated object type: always 'input_audio' for this type. */
+  type: "input_audio";
+  /** The details of the input audio data. */
+  input_audio: ChatMessageInputAudio;
+}
+
+/** The details of the input audio data. */
+export interface ChatMessageInputAudio {
+  /** Base64 encoded audio data */
+  data: string;
+  /**
+   * The audio format of the audio content.
+   *
+   * Possible values: "wav", "mp3"
+   */
+  format: AudioContentFormat;
+}
+
 /** A request chat message representing response or action from the assistant. */
 export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
   /** The chat role associated with this message, which is always 'assistant' for assistant messages. */
   role: "assistant";
   /** The content of the message. */
-  content?: string | null;
+  content?: string;
   /**
    * The tool calls that must be resolved and have their outputs appended to subsequent input messages for the chat
    * completions request to resolve as configured.
@@ -100,7 +152,7 @@ export interface ChatRequestToolMessage extends ChatRequestMessageParent {
   /** The chat role associated with this message, which is always 'tool' for tool messages. */
   role: "tool";
   /** The content of the message. */
-  content: string | null;
+  content?: string;
   /** The ID of the tool call resolved by the provided content. */
   tool_call_id: string;
 }
@@ -125,9 +177,46 @@ export interface ChatCompletionsResponseFormatText extends ChatCompletionsRespon
  * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
  * via a system or user message.
  */
-export interface ChatCompletionsResponseFormatJSON extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatJsonObject
+  extends ChatCompletionsResponseFormatParent {
   /** Response format type: always 'json_object' for this object. */
   type: "json_object";
+}
+
+/**
+ * A response format for Chat Completions that restricts responses to emitting valid JSON objects, with a
+ * JSON schema specified by the caller.
+ */
+export interface ChatCompletionsResponseFormatJsonSchema
+  extends ChatCompletionsResponseFormatParent {
+  /** The type of response format being defined: `json_schema` */
+  type: "json_schema";
+  /** The definition of the required JSON schema in the response, and associated metadata. */
+  json_schema: ChatCompletionsResponseFormatJsonSchemaDefinition;
+}
+
+/**
+ * Defines the response format for chat completions as JSON with a given schema.
+ * The AI model will need to adhere to this schema when generating completions.
+ */
+export interface ChatCompletionsResponseFormatJsonSchemaDefinition {
+  /** A name that labels this JSON schema. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64. */
+  name: string;
+  /**
+   * The definition of the JSON schema. See https://json-schema.org/overview/what-is-jsonschema.
+   * Note that AI models usually only support a subset of the keywords defined by JSON schema.
+   * Consult your AI model documentation to determine what is supported.
+   */
+  schema: Record<string, unknown>;
+  /** A description of the response format, used by the AI model to determine how to generate responses in this format. */
+  description?: string;
+  /**
+   * If set to true, the service will error out if the provided JSON schema contains keywords
+   * not supported by the AI model. An example of such keyword may be `maxLength` for JSON type `string`.
+   * If false, and the provided JSON schema contains keywords not supported by the AI model,
+   * the AI model will not error out. Instead it will ignore the unsupported keywords.
+   */
+  strict?: boolean;
 }
 
 /** The definition of a chat completions tool that can call a function. */
@@ -152,22 +241,22 @@ export interface FunctionDefinition {
 }
 
 /** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
-export interface ChatCompletionsNamedToolSelection {
+export interface ChatCompletionsNamedToolChoice {
   /** The type of the tool. Currently, only `function` is supported. */
   type: "function";
   /** The function that should be called. */
-  function: ChatCompletionsFunctionToolSelection;
+  function: ChatCompletionsNamedToolChoiceFunction;
 }
 
 /** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
-export interface ChatCompletionsFunctionToolSelection {
+export interface ChatCompletionsNamedToolChoiceFunction {
   /** The name of the function that should be called. */
   name: string;
 }
 
 /** Represents an image with optional text. */
 export interface ImageEmbeddingInput {
-  /** The input image, in PNG format. */
+  /** The input image encoded in base64 string as a data URL. Example: `data:image/{format};base64,{data}`. */
   image: string;
   /**
    * Optional. The text input to feed into the model (like DINO, CLIP).
@@ -180,6 +269,7 @@ export interface ImageEmbeddingInput {
 export type ChatRequestMessage =
   | ChatRequestMessageParent
   | ChatRequestSystemMessage
+  | ChatRequestDeveloperMessage
   | ChatRequestUserMessage
   | ChatRequestAssistantMessage
   | ChatRequestToolMessage;
@@ -187,7 +277,9 @@ export type ChatRequestMessage =
 export type ChatMessageContentItem =
   | ChatMessageContentItemParent
   | ChatMessageTextContentItem
-  | ChatMessageImageContentItem;
+  | ChatMessageImageContentItem
+  | ChatMessageAudioUrlContentItem
+  | ChatMessageAudioDataContentItem;
 /**
  * Represents the format that the model must output. Use this to enable JSON mode instead of the default text mode.
  * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
@@ -196,15 +288,18 @@ export type ChatMessageContentItem =
 export type ChatCompletionsResponseFormat =
   | ChatCompletionsResponseFormatParent
   | ChatCompletionsResponseFormatText
-  | ChatCompletionsResponseFormatJSON;
+  | ChatCompletionsResponseFormatJsonObject
+  | ChatCompletionsResponseFormatJsonSchema;
 /** Alias for ExtraParameters */
 export type ExtraParameters = string;
 /** Alias for ChatRole */
 export type ChatRole = string;
 /** Alias for ChatMessageImageDetailLevel */
 export type ChatMessageImageDetailLevel = string;
-/** Alias for ChatCompletionsToolSelectionPreset */
-export type ChatCompletionsToolSelectionPreset = string;
+/** Alias for AudioContentFormat */
+export type AudioContentFormat = string;
+/** Alias for ChatCompletionsToolChoicePreset */
+export type ChatCompletionsToolChoicePreset = string;
 /** Alias for EmbeddingEncodingFormat */
 export type EmbeddingEncodingFormat = string;
 /** Alias for EmbeddingInputType */

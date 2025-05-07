@@ -1,26 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
-import type { Recorder } from "@azure-tools/test-recorder";
-import { isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import type http from "node:http";
 import type { MockInstance } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
-describe("InteractiveBrowserCredential (internal)", function () {
+describe("InteractiveBrowserCredential (internal)", () => {
   let listen: http.Server | undefined;
   let doGetTokenSpy: MockInstance;
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async (ctx) => {
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenInteractive");
+    recorder = new Recorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (listen) {
       listen.close();
     }
@@ -28,7 +29,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     vi.restoreAllMocks();
   });
 
-  it("Throws error when no plugin is imported", async function (ctx) {
+  it("Throws error when no plugin is imported", async (ctx) => {
     if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform !== "win32") {
@@ -57,7 +58,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
       ctx.skip();
     }
   });
-  it("Accepts interactiveBrowserCredentialOptions", async function (ctx) {
+  it("Accepts interactiveBrowserCredentialOptions", async (ctx) => {
     if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform !== "win32") {

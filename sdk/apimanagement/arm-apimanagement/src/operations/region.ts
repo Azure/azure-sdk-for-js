@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Region } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Region } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   RegionContract,
   RegionListByServiceNextOptionalParams,
   RegionListByServiceOptionalParams,
   RegionListByServiceResponse,
-  RegionListByServiceNextResponse
-} from "../models";
+  RegionListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Region operations. */
@@ -43,12 +43,12 @@ export class RegionImpl implements Region {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: RegionListByServiceOptionalParams
+    options?: RegionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<RegionContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class RegionImpl implements Region {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class RegionImpl implements Region {
     resourceGroupName: string,
     serviceName: string,
     options?: RegionListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RegionContract[]> {
     let result: RegionListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class RegionImpl implements Region {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -95,7 +95,7 @@ export class RegionImpl implements Region {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class RegionImpl implements Region {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: RegionListByServiceOptionalParams
+    options?: RegionListByServiceOptionalParams,
   ): AsyncIterableIterator<RegionContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class RegionImpl implements Region {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: RegionListByServiceOptionalParams
+    options?: RegionListByServiceOptionalParams,
   ): Promise<RegionListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class RegionImpl implements Region {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: RegionListByServiceNextOptionalParams
+    options?: RegionListByServiceNextOptionalParams,
   ): Promise<RegionListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -158,45 +158,44 @@ export class RegionImpl implements Region {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/regions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/regions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionListResult
+      bodyMapper: Mappers.RegionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionListResult
+      bodyMapper: Mappers.RegionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

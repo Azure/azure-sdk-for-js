@@ -6,32 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PolicyFragment } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PolicyFragment } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
+  PolicyFragmentContract,
+  PolicyFragmentListByServiceNextOptionalParams,
   PolicyFragmentListByServiceOptionalParams,
   PolicyFragmentListByServiceResponse,
   PolicyFragmentGetEntityTagOptionalParams,
   PolicyFragmentGetEntityTagResponse,
   PolicyFragmentGetOptionalParams,
   PolicyFragmentGetResponse,
-  PolicyFragmentContract,
   PolicyFragmentCreateOrUpdateOptionalParams,
   PolicyFragmentCreateOrUpdateResponse,
   PolicyFragmentDeleteOptionalParams,
   PolicyFragmentListReferencesOptionalParams,
-  PolicyFragmentListReferencesResponse
-} from "../models";
+  PolicyFragmentListReferencesResponse,
+  PolicyFragmentListByServiceNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PolicyFragment operations. */
 export class PolicyFragmentImpl implements PolicyFragment {
   private readonly client: ApiManagementClient;
@@ -50,14 +55,98 @@ export class PolicyFragmentImpl implements PolicyFragment {
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
-  listByService(
+  public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PolicyFragmentListByServiceOptionalParams
+    options?: PolicyFragmentListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyFragmentContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyFragmentListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PolicyFragmentContract[]> {
+    let result: PolicyFragmentListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyFragmentListByServiceOptionalParams,
+  ): AsyncIterableIterator<PolicyFragmentContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets all policy fragments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyFragmentListByServiceOptionalParams,
   ): Promise<PolicyFragmentListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -72,11 +161,11 @@ export class PolicyFragmentImpl implements PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     id: string,
-    options?: PolicyFragmentGetEntityTagOptionalParams
+    options?: PolicyFragmentGetEntityTagOptionalParams,
   ): Promise<PolicyFragmentGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, id, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -91,11 +180,11 @@ export class PolicyFragmentImpl implements PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     id: string,
-    options?: PolicyFragmentGetOptionalParams
+    options?: PolicyFragmentGetOptionalParams,
   ): Promise<PolicyFragmentGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, id, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -112,7 +201,7 @@ export class PolicyFragmentImpl implements PolicyFragment {
     serviceName: string,
     id: string,
     parameters: PolicyFragmentContract,
-    options?: PolicyFragmentCreateOrUpdateOptionalParams
+    options?: PolicyFragmentCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PolicyFragmentCreateOrUpdateResponse>,
@@ -121,21 +210,20 @@ export class PolicyFragmentImpl implements PolicyFragment {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PolicyFragmentCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -144,8 +232,8 @@ export class PolicyFragmentImpl implements PolicyFragment {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -153,15 +241,15 @@ export class PolicyFragmentImpl implements PolicyFragment {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, id, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PolicyFragmentCreateOrUpdateResponse,
@@ -169,7 +257,7 @@ export class PolicyFragmentImpl implements PolicyFragment {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -188,14 +276,14 @@ export class PolicyFragmentImpl implements PolicyFragment {
     serviceName: string,
     id: string,
     parameters: PolicyFragmentContract,
-    options?: PolicyFragmentCreateOrUpdateOptionalParams
+    options?: PolicyFragmentCreateOrUpdateOptionalParams,
   ): Promise<PolicyFragmentCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       id,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -214,11 +302,11 @@ export class PolicyFragmentImpl implements PolicyFragment {
     serviceName: string,
     id: string,
     ifMatch: string,
-    options?: PolicyFragmentDeleteOptionalParams
+    options?: PolicyFragmentDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, id, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -233,11 +321,30 @@ export class PolicyFragmentImpl implements PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     id: string,
-    options?: PolicyFragmentListReferencesOptionalParams
+    options?: PolicyFragmentListReferencesOptionalParams,
   ): Promise<PolicyFragmentListReferencesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, id, options },
-      listReferencesOperationSpec
+      listReferencesOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: PolicyFragmentListByServiceNextOptionalParams,
+  ): Promise<PolicyFragmentListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -245,164 +352,179 @@ export class PolicyFragmentImpl implements PolicyFragment {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyFragmentCollection
+      bodyMapper: Mappers.PolicyFragmentCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.orderby
+    Parameters.orderby,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.PolicyFragmentGetEntityTagHeaders
+      headersMapper: Mappers.PolicyFragmentGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.id
+    Parameters.serviceName,
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyFragmentContract,
-      headersMapper: Mappers.PolicyFragmentGetHeaders
+      headersMapper: Mappers.PolicyFragmentGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.format2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.id
+    Parameters.serviceName,
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyFragmentContract,
-      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders
+      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.PolicyFragmentContract,
-      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders
+      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.PolicyFragmentContract,
-      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders
+      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.PolicyFragmentContract,
-      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders
+      headersMapper: Mappers.PolicyFragmentCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters57,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.id
+    Parameters.serviceName,
+    Parameters.id,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.id
+    Parameters.serviceName,
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listReferencesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}/listReferences",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyFragments/{id}/listReferences",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceCollection
+      bodyMapper: Mappers.ResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.top, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.id
+    Parameters.serviceName,
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyFragmentCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

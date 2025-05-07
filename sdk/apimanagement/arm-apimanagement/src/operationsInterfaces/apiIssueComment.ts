@@ -16,8 +16,8 @@ import {
   ApiIssueCommentGetResponse,
   ApiIssueCommentCreateOrUpdateOptionalParams,
   ApiIssueCommentCreateOrUpdateResponse,
-  ApiIssueCommentDeleteOptionalParams
-} from "../models";
+  ApiIssueCommentDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiIssueComment. */
@@ -35,7 +35,7 @@ export interface ApiIssueComment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueCommentListByServiceOptionalParams
+    options?: ApiIssueCommentListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueCommentContract>;
   /**
    * Gets the entity state (Etag) version of the issue Comment for an API specified by its identifier.
@@ -52,7 +52,7 @@ export interface ApiIssueComment {
     apiId: string,
     issueId: string,
     commentId: string,
-    options?: ApiIssueCommentGetEntityTagOptionalParams
+    options?: ApiIssueCommentGetEntityTagOptionalParams,
   ): Promise<ApiIssueCommentGetEntityTagResponse>;
   /**
    * Gets the details of the issue Comment for an API specified by its identifier.
@@ -69,7 +69,7 @@ export interface ApiIssueComment {
     apiId: string,
     issueId: string,
     commentId: string,
-    options?: ApiIssueCommentGetOptionalParams
+    options?: ApiIssueCommentGetOptionalParams,
   ): Promise<ApiIssueCommentGetResponse>;
   /**
    * Creates a new Comment for the Issue in an API or updates an existing one.
@@ -88,7 +88,7 @@ export interface ApiIssueComment {
     issueId: string,
     commentId: string,
     parameters: IssueCommentContract,
-    options?: ApiIssueCommentCreateOrUpdateOptionalParams
+    options?: ApiIssueCommentCreateOrUpdateOptionalParams,
   ): Promise<ApiIssueCommentCreateOrUpdateResponse>;
   /**
    * Deletes the specified comment from an Issue.
@@ -108,6 +108,6 @@ export interface ApiIssueComment {
     issueId: string,
     commentId: string,
     ifMatch: string,
-    options?: ApiIssueCommentDeleteOptionalParams
+    options?: ApiIssueCommentDeleteOptionalParams,
   ): Promise<void>;
 }

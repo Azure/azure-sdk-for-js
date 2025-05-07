@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the security user rule collections in a security configuration, in a paginated format.
  *
  * @summary Lists all the security user rule collections in a security configuration, in a paginated format.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerSecurityUserRuleCollectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserRuleCollectionList.json
  */
 async function listRuleCollectionsInASecurityConfiguration() {
   const subscriptionId =

@@ -13,9 +13,7 @@ import {
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Puts the integration service environment managed Api.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Puts the integration service environment managed Api.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationServiceEnvironments_ManagedApis_Put.json
  */
-async function getsTheIntegrationServiceEnvironmentManagedApis() {
+async function getsTheIntegrationServiceEnvironmentManagedApis(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] ||
     "f34b22a3-2202-4fb1-b040-1332bd928c84";
@@ -45,7 +43,7 @@ async function getsTheIntegrationServiceEnvironmentManagedApis() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheIntegrationServiceEnvironmentManagedApis();
 }
 

@@ -11,8 +11,8 @@ import {
   MetadataEntity,
   RecommendationMetadataListOptionalParams,
   RecommendationMetadataGetOptionalParams,
-  RecommendationMetadataGetResponse
-} from "../models";
+  RecommendationMetadataGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecommendationMetadata. */
@@ -22,7 +22,7 @@ export interface RecommendationMetadata {
    * @param options The options parameters.
    */
   list(
-    options?: RecommendationMetadataListOptionalParams
+    options?: RecommendationMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<MetadataEntity>;
   /**
    * Gets the metadata entity.
@@ -31,6 +31,6 @@ export interface RecommendationMetadata {
    */
   get(
     name: string,
-    options?: RecommendationMetadataGetOptionalParams
+    options?: RecommendationMetadataGetOptionalParams,
   ): Promise<RecommendationMetadataGetResponse>;
 }

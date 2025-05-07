@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates (patches) a snapshot.
@@ -62,8 +62,8 @@ async function updateASnapshot() {
 }
 
 async function main() {
-  updateASnapshotWithAcceleratedNetworking();
-  updateASnapshot();
+  await updateASnapshotWithAcceleratedNetworking();
+  await updateASnapshot();
 }
 
 main().catch(console.error);

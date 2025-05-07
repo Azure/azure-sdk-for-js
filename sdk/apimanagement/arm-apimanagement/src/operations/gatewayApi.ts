@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GatewayApi } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GatewayApi } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiContract,
   GatewayApiListByServiceNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   GatewayApiCreateOrUpdateOptionalParams,
   GatewayApiCreateOrUpdateResponse,
   GatewayApiDeleteOptionalParams,
-  GatewayApiListByServiceNextResponse
-} from "../models";
+  GatewayApiListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayApi operations. */
@@ -51,13 +51,13 @@ export class GatewayApiImpl implements GatewayApi {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
+    options?: GatewayApiListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       gatewayId,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class GatewayApiImpl implements GatewayApi {
           serviceName,
           gatewayId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class GatewayApiImpl implements GatewayApi {
     serviceName: string,
     gatewayId: string,
     options?: GatewayApiListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiContract[]> {
     let result: GatewayApiListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class GatewayApiImpl implements GatewayApi {
         resourceGroupName,
         serviceName,
         gatewayId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +108,7 @@ export class GatewayApiImpl implements GatewayApi {
         serviceName,
         gatewayId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +121,13 @@ export class GatewayApiImpl implements GatewayApi {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
+    options?: GatewayApiListByServiceOptionalParams,
   ): AsyncIterableIterator<ApiContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       gatewayId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,11 +145,11 @@ export class GatewayApiImpl implements GatewayApi {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
+    options?: GatewayApiListByServiceOptionalParams,
   ): Promise<GatewayApiListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class GatewayApiImpl implements GatewayApi {
     serviceName: string,
     gatewayId: string,
     apiId: string,
-    options?: GatewayApiGetEntityTagOptionalParams
+    options?: GatewayApiGetEntityTagOptionalParams,
   ): Promise<GatewayApiGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, apiId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -189,11 +189,11 @@ export class GatewayApiImpl implements GatewayApi {
     serviceName: string,
     gatewayId: string,
     apiId: string,
-    options?: GatewayApiCreateOrUpdateOptionalParams
+    options?: GatewayApiCreateOrUpdateOptionalParams,
   ): Promise<GatewayApiCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, apiId, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -211,11 +211,11 @@ export class GatewayApiImpl implements GatewayApi {
     serviceName: string,
     gatewayId: string,
     apiId: string,
-    options?: GatewayApiDeleteOptionalParams
+    options?: GatewayApiDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, apiId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -233,11 +233,11 @@ export class GatewayApiImpl implements GatewayApi {
     serviceName: string,
     gatewayId: string,
     nextLink: string,
-    options?: GatewayApiListByServiceNextOptionalParams
+    options?: GatewayApiListByServiceNextOptionalParams,
   ): Promise<GatewayApiListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -245,128 +245,124 @@ export class GatewayApiImpl implements GatewayApi {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollection
+      bodyMapper: Mappers.ApiCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId
+    Parameters.serviceName,
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GatewayApiGetEntityTagHeaders
+      headersMapper: Mappers.GatewayApiGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiContract
+      bodyMapper: Mappers.ApiContract,
     },
     201: {
-      bodyMapper: Mappers.ApiContract
+      bodyMapper: Mappers.ApiContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters45,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.gatewayId
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollection
+      bodyMapper: Mappers.ApiCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.gatewayId
+    Parameters.serviceName,
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

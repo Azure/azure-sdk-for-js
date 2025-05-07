@@ -85,7 +85,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [serversresumesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/analysisservices/arm-analysisservices/samples/v4/typescript/src/serversResumeSample.ts
 [serverssuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/analysisservices/arm-analysisservices/samples/v4/typescript/src/serversSuspendSample.ts
 [serversupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/analysisservices/arm-analysisservices/samples/v4/typescript/src/serversUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-analysisservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-analysisservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/analysisservices/arm-analysisservices/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

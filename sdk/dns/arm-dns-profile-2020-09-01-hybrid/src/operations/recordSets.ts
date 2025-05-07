@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { RecordSets } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { RecordSets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DnsManagementClient } from "../dnsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DnsManagementClient } from "../dnsManagementClient.js";
 import {
   RecordSet,
   RecordType,
@@ -31,7 +31,7 @@ import {
   RecordSetsGetResponse,
   RecordSetsListByTypeNextResponse,
   RecordSetsListByDnsZoneNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RecordSets operations. */

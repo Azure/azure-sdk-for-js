@@ -21,7 +21,7 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Confidential Ledger ==");
 
   // Get cert to verify host
@@ -41,8 +41,8 @@ export async function main() {
     throw enclaveQuotes.body.error;
   }
 
-  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
-    console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
+  await Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
+    console.log(enclaveQuotes.body.enclaveQuotes[property].nodeId);
   });
 }
 

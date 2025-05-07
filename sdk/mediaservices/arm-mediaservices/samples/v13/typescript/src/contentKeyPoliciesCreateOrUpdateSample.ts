@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContentKeyPolicy, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a Content Key Policy in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-nodrm-token.json
  */
-async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
+async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -66,7 +64,7 @@ async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
  * @summary Create or update a Content Key Policy in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-playready-open.json
  */
-async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
+async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -125,7 +123,7 @@ async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
  * @summary Create or update a Content Key Policy in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-widevine-token.json
  */
-async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
+async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -180,7 +178,7 @@ async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
  * @summary Create or update a Content Key Policy in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-multiple-options.json
  */
-async function createsAContentKeyPolicyWithMultipleOptions() {
+async function createsAContentKeyPolicyWithMultipleOptions(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -231,7 +229,7 @@ async function createsAContentKeyPolicyWithMultipleOptions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction();
   createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction();
   createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction();

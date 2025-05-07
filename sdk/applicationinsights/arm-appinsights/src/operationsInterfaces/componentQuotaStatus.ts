@@ -8,8 +8,8 @@
 
 import {
   ComponentQuotaStatusGetOptionalParams,
-  ComponentQuotaStatusGetResponse
-} from "../models";
+  ComponentQuotaStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ComponentQuotaStatus. */
 export interface ComponentQuotaStatus {
@@ -22,6 +22,6 @@ export interface ComponentQuotaStatus {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentQuotaStatusGetOptionalParams
+    options?: ComponentQuotaStatusGetOptionalParams,
   ): Promise<ComponentQuotaStatusGetResponse>;
 }

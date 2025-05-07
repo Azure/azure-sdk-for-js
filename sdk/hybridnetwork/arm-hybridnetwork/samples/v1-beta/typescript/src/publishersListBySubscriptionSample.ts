@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridNetworkManagementClient } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the publishers in a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the publishers in a subscription.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/PublisherListBySubscription.json
  */
-async function listAllPublisherResourcesInASubscription() {
+async function listAllPublisherResourcesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listAllPublisherResourcesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllPublisherResourcesInASubscription();
 }
 

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiTagDescription } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiTagDescription } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   TagDescriptionContract,
   ApiTagDescriptionListByServiceNextOptionalParams,
@@ -26,8 +26,8 @@ import {
   ApiTagDescriptionCreateOrUpdateOptionalParams,
   ApiTagDescriptionCreateOrUpdateResponse,
   ApiTagDescriptionDeleteOptionalParams,
-  ApiTagDescriptionListByServiceNextResponse
-} from "../models";
+  ApiTagDescriptionListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiTagDescription operations. */
@@ -55,13 +55,13 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiTagDescriptionListByServiceOptionalParams
+    options?: ApiTagDescriptionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TagDescriptionContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     serviceName: string,
     apiId: string,
     options?: ApiTagDescriptionListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TagDescriptionContract[]> {
     let result: ApiTagDescriptionListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,13 +125,13 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiTagDescriptionListByServiceOptionalParams
+    options?: ApiTagDescriptionListByServiceOptionalParams,
   ): AsyncIterableIterator<TagDescriptionContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,11 +150,11 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiTagDescriptionListByServiceOptionalParams
+    options?: ApiTagDescriptionListByServiceOptionalParams,
   ): Promise<ApiTagDescriptionListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     serviceName: string,
     apiId: string,
     tagDescriptionId: string,
-    options?: ApiTagDescriptionGetEntityTagOptionalParams
+    options?: ApiTagDescriptionGetEntityTagOptionalParams,
   ): Promise<ApiTagDescriptionGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, tagDescriptionId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -196,11 +196,11 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     serviceName: string,
     apiId: string,
     tagDescriptionId: string,
-    options?: ApiTagDescriptionGetOptionalParams
+    options?: ApiTagDescriptionGetOptionalParams,
   ): Promise<ApiTagDescriptionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, tagDescriptionId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -221,7 +221,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     apiId: string,
     tagDescriptionId: string,
     parameters: TagDescriptionCreateParameters,
-    options?: ApiTagDescriptionCreateOrUpdateOptionalParams
+    options?: ApiTagDescriptionCreateOrUpdateOptionalParams,
   ): Promise<ApiTagDescriptionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +230,9 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
         apiId,
         tagDescriptionId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -254,7 +254,7 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     apiId: string,
     tagDescriptionId: string,
     ifMatch: string,
-    options?: ApiTagDescriptionDeleteOptionalParams
+    options?: ApiTagDescriptionDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -263,9 +263,9 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
         apiId,
         tagDescriptionId,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -283,11 +283,11 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiTagDescriptionListByServiceNextOptionalParams
+    options?: ApiTagDescriptionListByServiceNextOptionalParams,
   ): Promise<ApiTagDescriptionListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -295,159 +295,154 @@ export class ApiTagDescriptionImpl implements ApiTagDescription {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagDescriptionCollection
+      bodyMapper: Mappers.TagDescriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId
+    Parameters.serviceName,
+    Parameters.apiId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiTagDescriptionGetEntityTagHeaders
+      headersMapper: Mappers.ApiTagDescriptionGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.tagDescriptionId
+    Parameters.tagDescriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.TagDescriptionContract,
-      headersMapper: Mappers.ApiTagDescriptionGetHeaders
+      headersMapper: Mappers.ApiTagDescriptionGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.tagDescriptionId
+    Parameters.tagDescriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.TagDescriptionContract,
-      headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.TagDescriptionContract,
-      headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiTagDescriptionCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.tagDescriptionId
+    Parameters.tagDescriptionId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/tagDescriptions/{tagDescriptionId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.tagDescriptionId
+    Parameters.tagDescriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagDescriptionCollection
+      bodyMapper: Mappers.TagDescriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

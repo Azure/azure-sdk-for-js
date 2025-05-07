@@ -135,6 +135,28 @@ export type BlobStorageEventType = string;
 export type CallerRole = string;
 
 // @public
+export interface CalloutPoliciesList {
+    nextLink?: string;
+    value?: CalloutPolicy[];
+}
+
+// @public
+export interface CalloutPolicy {
+    readonly calloutId?: string;
+    calloutType?: CalloutType;
+    calloutUriRegex?: string;
+    outboundAccess?: OutboundAccess;
+}
+
+// @public
+export interface CalloutPolicyToRemove {
+    calloutId?: string;
+}
+
+// @public
+export type CalloutType = string;
+
+// @public
 export interface CheckNameRequest {
     name: string;
     type: Type;
@@ -153,6 +175,7 @@ export interface Cluster extends TrackedResource {
     acceptedAudiences?: AcceptedAudiences[];
     allowedFqdnList?: string[];
     allowedIpRangeList?: string[];
+    calloutPolicies?: CalloutPolicy[];
     readonly dataIngestionUri?: string;
     enableAutoStop?: boolean;
     enableDiskEncryption?: boolean;
@@ -180,6 +203,7 @@ export interface Cluster extends TrackedResource {
     virtualClusterGraduationProperties?: string;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
     zones?: string[];
+    readonly zoneStatus?: ZoneStatus;
 }
 
 // @public
@@ -282,6 +306,8 @@ export type ClusterPrincipalRole = string;
 
 // @public
 export interface Clusters {
+    beginAddCalloutPolicies(resourceGroupName: string, clusterName: string, calloutPolicies: CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginAddCalloutPoliciesAndWait(resourceGroupName: string, clusterName: string, calloutPolicies: CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams): Promise<void>;
     beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginAddLanguageExtensionsAndWait(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
@@ -294,6 +320,8 @@ export interface Clusters {
     beginDiagnoseVirtualNetworkAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDiagnoseVirtualNetworkOptionalParams): Promise<ClustersDiagnoseVirtualNetworkResponse>;
     beginMigrate(resourceGroupName: string, clusterName: string, clusterMigrateRequest: ClusterMigrateRequest, options?: ClustersMigrateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginMigrateAndWait(resourceGroupName: string, clusterName: string, clusterMigrateRequest: ClusterMigrateRequest, options?: ClustersMigrateOptionalParams): Promise<void>;
+    beginRemoveCalloutPolicy(resourceGroupName: string, clusterName: string, calloutPolicy: CalloutPolicyToRemove, options?: ClustersRemoveCalloutPolicyOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRemoveCalloutPolicyAndWait(resourceGroupName: string, clusterName: string, calloutPolicy: CalloutPolicyToRemove, options?: ClustersRemoveCalloutPolicyOptionalParams): Promise<void>;
     beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRemoveLanguageExtensionsAndWait(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -306,11 +334,25 @@ export interface Clusters {
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listCalloutPolicies(resourceGroupName: string, clusterName: string, options?: ClustersListCalloutPoliciesOptionalParams): PagedAsyncIterableIterator<CalloutPolicy>;
     listFollowerDatabases(resourceGroupName: string, clusterName: string, options?: ClustersListFollowerDatabasesOptionalParams): PagedAsyncIterableIterator<FollowerDatabaseDefinition>;
+    listFollowerDatabasesGet(resourceGroupName: string, clusterName: string, options?: ClustersListFollowerDatabasesGetOptionalParams): PagedAsyncIterableIterator<FollowerDatabaseDefinitionGet>;
     listLanguageExtensions(resourceGroupName: string, clusterName: string, options?: ClustersListLanguageExtensionsOptionalParams): PagedAsyncIterableIterator<LanguageExtension>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, clusterName: string, options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint>;
     listSkus(options?: ClustersListSkusOptionalParams): PagedAsyncIterableIterator<SkuDescription>;
     listSkusByResource(resourceGroupName: string, clusterName: string, options?: ClustersListSkusByResourceOptionalParams): PagedAsyncIterableIterator<AzureResourceSku>;
+}
+
+// @public
+export interface ClustersAddCalloutPoliciesHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ClustersAddCalloutPoliciesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -397,6 +439,20 @@ export interface ClustersListByResourceGroupOptionalParams extends coreClient.Op
 export type ClustersListByResourceGroupResponse = ClusterListResult;
 
 // @public
+export interface ClustersListCalloutPoliciesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListCalloutPoliciesResponse = CalloutPoliciesList;
+
+// @public
+export interface ClustersListFollowerDatabasesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListFollowerDatabasesGetResponse = FollowerDatabaseListResultGet;
+
+// @public
 export interface ClustersListFollowerDatabasesOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -458,6 +514,18 @@ export interface ClustersMigrateOptionalParams extends coreClient.OperationOptio
 }
 
 // @public
+export interface ClustersRemoveCalloutPolicyHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ClustersRemoveCalloutPolicyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ClustersRemoveLanguageExtensionsHeaders {
     azureAsyncOperation?: string;
     location?: string;
@@ -514,6 +582,7 @@ export interface ClusterUpdate extends Resource {
     acceptedAudiences?: AcceptedAudiences[];
     allowedFqdnList?: string[];
     allowedIpRangeList?: string[];
+    calloutPolicies?: CalloutPolicy[];
     readonly dataIngestionUri?: string;
     enableAutoStop?: boolean;
     enableDiskEncryption?: boolean;
@@ -543,6 +612,7 @@ export interface ClusterUpdate extends Resource {
     virtualClusterGraduationProperties?: string;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
     zones?: string[];
+    readonly zoneStatus?: ZoneStatus;
 }
 
 // @public (undocumented)
@@ -1058,8 +1128,23 @@ export interface FollowerDatabaseDefinition {
 }
 
 // @public
+export interface FollowerDatabaseDefinitionGet {
+    attachedDatabaseConfigurationName?: string;
+    clusterResourceId?: string;
+    readonly databaseName?: string;
+    readonly databaseShareOrigin?: DatabaseShareOrigin;
+    readonly tableLevelSharingProperties?: TableLevelSharingProperties;
+}
+
+// @public
 export interface FollowerDatabaseListResult {
     value?: FollowerDatabaseDefinition[];
+}
+
+// @public
+export interface FollowerDatabaseListResultGet {
+    nextLink?: string;
+    value?: FollowerDatabaseDefinitionGet[];
 }
 
 // @public
@@ -1201,6 +1286,21 @@ export enum KnownCallerRole {
 }
 
 // @public
+export enum KnownCalloutType {
+    AzureDigitalTwins = "azure_digital_twins",
+    AzureOpenai = "azure_openai",
+    Cosmosdb = "cosmosdb",
+    ExternalData = "external_data",
+    Genevametrics = "genevametrics",
+    Kusto = "kusto",
+    Mysql = "mysql",
+    Postgresql = "postgresql",
+    SandboxArtifacts = "sandbox_artifacts",
+    Sql = "sql",
+    Webapi = "webapi"
+}
+
+// @public
 export enum KnownClusterNetworkAccessFlag {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1209,6 +1309,7 @@ export enum KnownClusterNetworkAccessFlag {
 // @public
 export enum KnownClusterPrincipalRole {
     AllDatabasesAdmin = "AllDatabasesAdmin",
+    AllDatabasesMonitor = "AllDatabasesMonitor",
     AllDatabasesViewer = "AllDatabasesViewer"
 }
 
@@ -1360,6 +1461,8 @@ export enum KnownLanguage {
 export enum KnownLanguageExtensionImageName {
     Python3108 = "Python3_10_8",
     Python3108DL = "Python3_10_8_DL",
+    Python3117 = "Python3_11_7",
+    Python3117DL = "Python3_11_7_DL",
     Python365 = "Python3_6_5",
     PythonCustomImage = "PythonCustomImage",
     // (undocumented)
@@ -1377,6 +1480,18 @@ export enum KnownLanguageExtensionName {
 export enum KnownMigrationClusterRole {
     Destination = "Destination",
     Source = "Source"
+}
+
+// @public
+export enum KnownOutboundAccess {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownPrincipalPermissionsAction {
+    RemovePermissionOnScriptCompletion = "RemovePermissionOnScriptCompletion",
+    RetainPermissionOnScriptCompletion = "RetainPermissionOnScriptCompletion"
 }
 
 // @public
@@ -1423,6 +1538,12 @@ export enum KnownReason {
 }
 
 // @public
+export enum KnownScriptLevel {
+    Cluster = "Cluster",
+    Database = "Database"
+}
+
+// @public
 export enum KnownState {
     Creating = "Creating",
     Deleted = "Deleted",
@@ -1448,6 +1569,13 @@ export enum KnownStatus {
 export enum KnownVnetState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownZoneStatus {
+    NonZonal = "NonZonal",
+    Zonal = "Zonal",
+    ZonalInconsistency = "ZonalInconsistency"
 }
 
 // @public (undocumented)
@@ -1727,6 +1855,9 @@ export interface OptimizedAutoscale {
 }
 
 // @public
+export type OutboundAccess = string;
+
+// @public
 export interface OutboundNetworkDependenciesEndpoint extends ProxyResource {
     category?: string;
     endpoints?: EndpointDependency[];
@@ -1739,6 +1870,9 @@ export interface OutboundNetworkDependenciesEndpointListResult {
     readonly nextLink?: string;
     value: OutboundNetworkDependenciesEndpoint[];
 }
+
+// @public
+export type PrincipalPermissionsAction = string;
 
 // @public
 export type PrincipalsModificationKind = string;
@@ -1915,6 +2049,7 @@ export interface ResourceSkuZoneDetails {
 
 // @public
 export interface SandboxCustomImage extends ProxyResource {
+    baseImageName?: string;
     language?: Language;
     languageVersion?: string;
     readonly provisioningState?: ProvisioningState;
@@ -2007,8 +2142,10 @@ export type SandboxCustomImagesUpdateResponse = SandboxCustomImage;
 export interface Script extends ProxyResource {
     continueOnErrors?: boolean;
     forceUpdateTag?: string;
+    principalPermissionsAction?: PrincipalPermissionsAction;
     readonly provisioningState?: ProvisioningState;
     scriptContent?: string;
+    scriptLevel?: ScriptLevel;
     scriptUrl?: string;
     scriptUrlSasToken?: string;
     readonly systemData?: SystemData;
@@ -2019,6 +2156,9 @@ export interface ScriptCheckNameRequest {
     name: string;
     type: "Microsoft.Kusto/clusters/databases/scripts";
 }
+
+// @public
+export type ScriptLevel = string;
 
 // @public
 export interface ScriptListResult {
@@ -2193,6 +2333,9 @@ export interface VirtualNetworkConfiguration {
 
 // @public
 export type VnetState = string;
+
+// @public
+export type ZoneStatus = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -18,8 +18,8 @@ import {
   PortalRevisionCreateOrUpdateOptionalParams,
   PortalRevisionCreateOrUpdateResponse,
   PortalRevisionUpdateOptionalParams,
-  PortalRevisionUpdateResponse
-} from "../models";
+  PortalRevisionUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PortalRevision. */
@@ -33,7 +33,7 @@ export interface PortalRevision {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalRevisionListByServiceOptionalParams
+    options?: PortalRevisionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PortalRevisionContract>;
   /**
    * Gets the developer portal revision specified by its identifier.
@@ -47,7 +47,7 @@ export interface PortalRevision {
     resourceGroupName: string,
     serviceName: string,
     portalRevisionId: string,
-    options?: PortalRevisionGetEntityTagOptionalParams
+    options?: PortalRevisionGetEntityTagOptionalParams,
   ): Promise<PortalRevisionGetEntityTagResponse>;
   /**
    * Gets the developer portal's revision specified by its identifier.
@@ -61,7 +61,7 @@ export interface PortalRevision {
     resourceGroupName: string,
     serviceName: string,
     portalRevisionId: string,
-    options?: PortalRevisionGetOptionalParams
+    options?: PortalRevisionGetOptionalParams,
   ): Promise<PortalRevisionGetResponse>;
   /**
    * Creates a new developer portal's revision by running the portal's publishing. The `isCurrent`
@@ -78,7 +78,7 @@ export interface PortalRevision {
     serviceName: string,
     portalRevisionId: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionCreateOrUpdateOptionalParams
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PortalRevisionCreateOrUpdateResponse>,
@@ -100,7 +100,7 @@ export interface PortalRevision {
     serviceName: string,
     portalRevisionId: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionCreateOrUpdateOptionalParams
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
   ): Promise<PortalRevisionCreateOrUpdateResponse>;
   /**
    * Updates the description of specified portal revision or makes it current.
@@ -119,7 +119,7 @@ export interface PortalRevision {
     portalRevisionId: string,
     ifMatch: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionUpdateOptionalParams
+    options?: PortalRevisionUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PortalRevisionUpdateResponse>,
@@ -143,6 +143,6 @@ export interface PortalRevision {
     portalRevisionId: string,
     ifMatch: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionUpdateOptionalParams
+    options?: PortalRevisionUpdateOptionalParams,
   ): Promise<PortalRevisionUpdateResponse>;
 }

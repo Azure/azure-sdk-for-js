@@ -18,7 +18,7 @@ import {
   AccessPoliciesDeleteOptionalParams,
   AccessPoliciesListByEnvironmentOptionalParams,
   AccessPoliciesListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AccessPolicies. */
 export interface AccessPolicies {

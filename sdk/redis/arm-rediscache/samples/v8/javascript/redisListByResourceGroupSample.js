@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all Redis caches in a resource group.
  *
  * @summary Lists all Redis caches in a resource group.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheListByResourceGroup.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheListByResourceGroup.json
  */
 async function redisCacheListByResourceGroup() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function redisCacheListByResourceGroup() {
 }
 
 async function main() {
-  redisCacheListByResourceGroup();
+  await redisCacheListByResourceGroup();
 }
 
 main().catch(console.error);

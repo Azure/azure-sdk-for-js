@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DataflowEndpointResource resources by InstanceResource
  *
  * @summary list DataflowEndpointResource resources by InstanceResource
- * x-ms-original-file: 2024-09-15-preview/DataflowEndpoint_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/DataflowEndpoint_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function dataflowEndpointListByResourceGroup() {
+async function dataflowEndpointListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataflowEndpoint.listByResourceGroup(
+  for await (const item of client.dataflowEndpoint.listByResourceGroup(
     "rgiotoperations",
     "resource-name123",
   )) {
@@ -25,8 +25,8 @@ async function dataflowEndpointListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  dataflowEndpointListByResourceGroup();
+async function main(): Promise<void> {
+  await dataflowEndpointListByResourceGroup();
 }
 
 main().catch(console.error);

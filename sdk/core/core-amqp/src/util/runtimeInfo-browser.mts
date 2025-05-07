@@ -2,26 +2,6 @@
 // Licensed under the MIT License.
 
 /**
- * @internal
- */
-interface Window {}
-
-/**
- * @internal
- */
-declare let self: Window & typeof globalThis & { navigator: Navigator };
-
-/**
- * @internal
- */
-interface Navigator {
-  /**
-   * Returns a string representing the browser version info.
-   */
-  appVersion: string;
-}
-
-/**
  * Returns information about the platform this function is being run on.
  * @internal
  */

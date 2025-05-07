@@ -72,7 +72,6 @@ export default leafCommand(commandInfo, async (options) => {
   let id = options.name ?? (await prompt("Migration Id: "));
   let migrationFile = path.resolve(__dirname, "..", "..", "migrations", ...id.split("/")) + ".ts";
   // Need to check that the id is a simple identifier that only contains alphanumeric characters, underscores, dashes, and slashes.
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     let failed = false;
     if (!/^[a-zA-Z0-9_\-/]+$/.test(id)) {

@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApiRevisionContract,
-  ApiRevisionListByServiceOptionalParams
-} from "../models";
+  ApiRevisionListByServiceOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiRevision. */
@@ -26,6 +26,6 @@ export interface ApiRevision {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiRevisionListByServiceOptionalParams
+    options?: ApiRevisionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiRevisionContract>;
 }

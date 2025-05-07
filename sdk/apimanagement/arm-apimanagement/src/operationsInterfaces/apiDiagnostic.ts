@@ -18,8 +18,8 @@ import {
   ApiDiagnosticCreateOrUpdateResponse,
   ApiDiagnosticUpdateOptionalParams,
   ApiDiagnosticUpdateResponse,
-  ApiDiagnosticDeleteOptionalParams
-} from "../models";
+  ApiDiagnosticDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiDiagnostic. */
@@ -35,7 +35,7 @@ export interface ApiDiagnostic {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiDiagnosticListByServiceOptionalParams
+    options?: ApiDiagnosticListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticContract>;
   /**
    * Gets the entity state (Etag) version of the Diagnostic for an API specified by its identifier.
@@ -51,7 +51,7 @@ export interface ApiDiagnostic {
     serviceName: string,
     apiId: string,
     diagnosticId: string,
-    options?: ApiDiagnosticGetEntityTagOptionalParams
+    options?: ApiDiagnosticGetEntityTagOptionalParams,
   ): Promise<ApiDiagnosticGetEntityTagResponse>;
   /**
    * Gets the details of the Diagnostic for an API specified by its identifier.
@@ -67,7 +67,7 @@ export interface ApiDiagnostic {
     serviceName: string,
     apiId: string,
     diagnosticId: string,
-    options?: ApiDiagnosticGetOptionalParams
+    options?: ApiDiagnosticGetOptionalParams,
   ): Promise<ApiDiagnosticGetResponse>;
   /**
    * Creates a new Diagnostic for an API or updates an existing one.
@@ -85,7 +85,7 @@ export interface ApiDiagnostic {
     apiId: string,
     diagnosticId: string,
     parameters: DiagnosticContract,
-    options?: ApiDiagnosticCreateOrUpdateOptionalParams
+    options?: ApiDiagnosticCreateOrUpdateOptionalParams,
   ): Promise<ApiDiagnosticCreateOrUpdateResponse>;
   /**
    * Updates the details of the Diagnostic for an API specified by its identifier.
@@ -106,7 +106,7 @@ export interface ApiDiagnostic {
     diagnosticId: string,
     ifMatch: string,
     parameters: DiagnosticContract,
-    options?: ApiDiagnosticUpdateOptionalParams
+    options?: ApiDiagnosticUpdateOptionalParams,
   ): Promise<ApiDiagnosticUpdateResponse>;
   /**
    * Deletes the specified Diagnostic from an API.
@@ -125,6 +125,6 @@ export interface ApiDiagnostic {
     apiId: string,
     diagnosticId: string,
     ifMatch: string,
-    options?: ApiDiagnosticDeleteOptionalParams
+    options?: ApiDiagnosticDeleteOptionalParams,
   ): Promise<void>;
 }

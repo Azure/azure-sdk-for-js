@@ -16,8 +16,8 @@ import {
   ContentItemGetResponse,
   ContentItemCreateOrUpdateOptionalParams,
   ContentItemCreateOrUpdateResponse,
-  ContentItemDeleteOptionalParams
-} from "../models";
+  ContentItemDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContentItem. */
@@ -33,7 +33,7 @@ export interface ContentItem {
     resourceGroupName: string,
     serviceName: string,
     contentTypeId: string,
-    options?: ContentItemListByServiceOptionalParams
+    options?: ContentItemListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ContentItemContract>;
   /**
    * Returns the entity state (ETag) version of the developer portal's content item specified by its
@@ -49,7 +49,7 @@ export interface ContentItem {
     serviceName: string,
     contentTypeId: string,
     contentItemId: string,
-    options?: ContentItemGetEntityTagOptionalParams
+    options?: ContentItemGetEntityTagOptionalParams,
   ): Promise<ContentItemGetEntityTagResponse>;
   /**
    * Returns the developer portal's content item specified by its identifier.
@@ -64,7 +64,7 @@ export interface ContentItem {
     serviceName: string,
     contentTypeId: string,
     contentItemId: string,
-    options?: ContentItemGetOptionalParams
+    options?: ContentItemGetOptionalParams,
   ): Promise<ContentItemGetResponse>;
   /**
    * Creates a new developer portal's content item specified by the provided content type.
@@ -81,7 +81,7 @@ export interface ContentItem {
     contentTypeId: string,
     contentItemId: string,
     parameters: ContentItemContract,
-    options?: ContentItemCreateOrUpdateOptionalParams
+    options?: ContentItemCreateOrUpdateOptionalParams,
   ): Promise<ContentItemCreateOrUpdateResponse>;
   /**
    * Removes the specified developer portal's content item.
@@ -99,6 +99,6 @@ export interface ContentItem {
     contentTypeId: string,
     contentItemId: string,
     ifMatch: string,
-    options?: ContentItemDeleteOptionalParams
+    options?: ContentItemDeleteOptionalParams,
   ): Promise<void>;
 }

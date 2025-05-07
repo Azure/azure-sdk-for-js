@@ -24,8 +24,8 @@ import {
   SubscriptionRegeneratePrimaryKeyOptionalParams,
   SubscriptionRegenerateSecondaryKeyOptionalParams,
   SubscriptionListSecretsOptionalParams,
-  SubscriptionListSecretsResponse
-} from "../models";
+  SubscriptionListSecretsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Subscription. */
@@ -39,7 +39,7 @@ export interface Subscription {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: SubscriptionListOptionalParams
+    options?: SubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract>;
   /**
    * Gets the entity state (Etag) version of the apimanagement subscription specified by its identifier.
@@ -53,7 +53,7 @@ export interface Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionGetEntityTagOptionalParams
+    options?: SubscriptionGetEntityTagOptionalParams,
   ): Promise<SubscriptionGetEntityTagResponse>;
   /**
    * Gets the specified Subscription entity.
@@ -67,7 +67,7 @@ export interface Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionGetOptionalParams
+    options?: SubscriptionGetOptionalParams,
   ): Promise<SubscriptionGetResponse>;
   /**
    * Creates or updates the subscription of specified user to the specified product.
@@ -83,7 +83,7 @@ export interface Subscription {
     serviceName: string,
     sid: string,
     parameters: SubscriptionCreateParameters,
-    options?: SubscriptionCreateOrUpdateOptionalParams
+    options?: SubscriptionCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionCreateOrUpdateResponse>;
   /**
    * Updates the details of a subscription specified by its identifier.
@@ -102,7 +102,7 @@ export interface Subscription {
     sid: string,
     ifMatch: string,
     parameters: SubscriptionUpdateParameters,
-    options?: SubscriptionUpdateOptionalParams
+    options?: SubscriptionUpdateOptionalParams,
   ): Promise<SubscriptionUpdateResponse>;
   /**
    * Deletes the specified subscription.
@@ -119,7 +119,7 @@ export interface Subscription {
     serviceName: string,
     sid: string,
     ifMatch: string,
-    options?: SubscriptionDeleteOptionalParams
+    options?: SubscriptionDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Regenerates primary key of existing subscription of the API Management service instance.
@@ -133,7 +133,7 @@ export interface Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionRegeneratePrimaryKeyOptionalParams
+    options?: SubscriptionRegeneratePrimaryKeyOptionalParams,
   ): Promise<void>;
   /**
    * Regenerates secondary key of existing subscription of the API Management service instance.
@@ -147,7 +147,7 @@ export interface Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionRegenerateSecondaryKeyOptionalParams
+    options?: SubscriptionRegenerateSecondaryKeyOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Subscription keys.
@@ -161,6 +161,6 @@ export interface Subscription {
     resourceGroupName: string,
     serviceName: string,
     sid: string,
-    options?: SubscriptionListSecretsOptionalParams
+    options?: SubscriptionListSecretsOptionalParams,
   ): Promise<SubscriptionListSecretsResponse>;
 }

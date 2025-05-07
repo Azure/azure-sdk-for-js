@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ForecastDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { ForecastDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the forecast charges for scope defined.
@@ -23,7 +17,7 @@ dotenv.config();
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountForecast.json
  */
-async function billingAccountForecast() {
+async function billingAccountForecast(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const parameters: ForecastDefinition = {
     type: "Usage",
@@ -37,36 +31,36 @@ async function billingAccountForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -80,9 +74,8 @@ async function billingAccountForecast() {
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingProfileForecast.json
  */
-async function billingProfileForecast() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileForecast(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: ForecastDefinition = {
     type: "Usage",
     dataset: {
@@ -95,36 +88,36 @@ async function billingProfileForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -138,9 +131,8 @@ async function billingProfileForecast() {
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentForecast.json
  */
-async function departmentForecast() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123";
+async function departmentForecast(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123";
   const parameters: ForecastDefinition = {
     type: "Usage",
     dataset: {
@@ -153,36 +145,36 @@ async function departmentForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -196,9 +188,8 @@ async function departmentForecast() {
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountForecast.json
  */
-async function enrollmentAccountForecast() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456";
+async function enrollmentAccountForecast(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456";
   const parameters: ForecastDefinition = {
     type: "Usage",
     dataset: {
@@ -211,36 +202,36 @@ async function enrollmentAccountForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -254,7 +245,7 @@ async function enrollmentAccountForecast() {
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/InvoiceSectionForecast.json
  */
-async function invoiceSectionForecast() {
+async function invoiceSectionForecast(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const parameters: ForecastDefinition = {
@@ -269,36 +260,36 @@ async function invoiceSectionForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -312,7 +303,7 @@ async function invoiceSectionForecast() {
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupForecast.json
  */
-async function resourceGroupForecast() {
+async function resourceGroupForecast(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const parameters: ForecastDefinition = {
@@ -327,36 +318,36 @@ async function resourceGroupForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -370,7 +361,7 @@ async function resourceGroupForecast() {
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionForecast.json
  */
-async function subscriptionForecast() {
+async function subscriptionForecast(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: ForecastDefinition = {
     type: "Usage",
@@ -384,36 +375,36 @@ async function subscriptionForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     includeActualCost: false,
     includeFreshPartialCost: false,
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -421,14 +412,14 @@ async function subscriptionForecast() {
   console.log(result);
 }
 
-async function main() {
-  billingAccountForecast();
-  billingProfileForecast();
-  departmentForecast();
-  enrollmentAccountForecast();
-  invoiceSectionForecast();
-  resourceGroupForecast();
-  subscriptionForecast();
+async function main(): Promise<void> {
+  await billingAccountForecast();
+  await billingProfileForecast();
+  await departmentForecast();
+  await enrollmentAccountForecast();
+  await invoiceSectionForecast();
+  await resourceGroupForecast();
+  await subscriptionForecast();
 }
 
 main().catch(console.error);

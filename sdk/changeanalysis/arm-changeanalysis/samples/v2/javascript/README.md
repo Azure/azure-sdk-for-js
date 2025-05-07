@@ -51,6 +51,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [changeslistchangesbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/changeanalysis/arm-changeanalysis/samples/v2/javascript/changesListChangesBySubscriptionSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/changeanalysis/arm-changeanalysis/samples/v2/javascript/operationsListSample.js
 [resourcechangeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/changeanalysis/arm-changeanalysis/samples/v2/javascript/resourceChangesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-changeanalysis?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-changeanalysis?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/changeanalysis/arm-changeanalysis/README.md

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PolicyDescription } from "../operationsInterfaces";
+import { PolicyDescription } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   PolicyDescriptionListByServiceOptionalParams,
-  PolicyDescriptionListByServiceResponse
-} from "../models";
+  PolicyDescriptionListByServiceResponse,
+} from "../models/index.js";
 
 /** Class containing PolicyDescription operations. */
 export class PolicyDescriptionImpl implements PolicyDescription {
@@ -37,11 +37,11 @@ export class PolicyDescriptionImpl implements PolicyDescription {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PolicyDescriptionListByServiceOptionalParams
+    options?: PolicyDescriptionListByServiceOptionalParams,
   ): Promise<PolicyDescriptionListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class PolicyDescriptionImpl implements PolicyDescription {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyDescriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyDescriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyDescriptionCollection
+      bodyMapper: Mappers.PolicyDescriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.scope1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

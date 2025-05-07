@@ -15,7 +15,7 @@ import {
   JobTargetGroupsCreateOrUpdateOptionalParams,
   JobTargetGroupsCreateOrUpdateResponse,
   JobTargetGroupsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobTargetGroups. */

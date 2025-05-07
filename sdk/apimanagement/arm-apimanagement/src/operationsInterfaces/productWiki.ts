@@ -17,8 +17,8 @@ import {
   WikiUpdateContract,
   ProductWikiUpdateOptionalParams,
   ProductWikiUpdateResponse,
-  ProductWikiDeleteOptionalParams
-} from "../models";
+  ProductWikiDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ProductWiki. */
 export interface ProductWiki {
@@ -33,7 +33,7 @@ export interface ProductWiki {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikiGetEntityTagOptionalParams
+    options?: ProductWikiGetEntityTagOptionalParams,
   ): Promise<ProductWikiGetEntityTagResponse>;
   /**
    * Gets the details of the Wiki for a Product specified by its identifier.
@@ -46,7 +46,7 @@ export interface ProductWiki {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikiGetOptionalParams
+    options?: ProductWikiGetOptionalParams,
   ): Promise<ProductWikiGetResponse>;
   /**
    * Creates a new Wiki for a Product or updates an existing one.
@@ -61,7 +61,7 @@ export interface ProductWiki {
     serviceName: string,
     productId: string,
     parameters: WikiContract,
-    options?: ProductWikiCreateOrUpdateOptionalParams
+    options?: ProductWikiCreateOrUpdateOptionalParams,
   ): Promise<ProductWikiCreateOrUpdateResponse>;
   /**
    * Updates the details of the Wiki for a Product specified by its identifier.
@@ -79,7 +79,7 @@ export interface ProductWiki {
     productId: string,
     ifMatch: string,
     parameters: WikiUpdateContract,
-    options?: ProductWikiUpdateOptionalParams
+    options?: ProductWikiUpdateOptionalParams,
   ): Promise<ProductWikiUpdateResponse>;
   /**
    * Deletes the specified Wiki from a Product.
@@ -95,6 +95,6 @@ export interface ProductWiki {
     serviceName: string,
     productId: string,
     ifMatch: string,
-    options?: ProductWikiDeleteOptionalParams
+    options?: ProductWikiDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { FileSASPermissions } from "./FileSASPermissions";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import type { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { ShareSASPermissions } from "./ShareSASPermissions";
-import { SERVICE_VERSION } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { FileSASPermissions } from "./FileSASPermissions.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { ShareSASPermissions } from "./ShareSASPermissions.js";
+import { SERVICE_VERSION } from "./utils/constants.js";
+import { truncatedISO8061Date } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -64,7 +64,7 @@ export interface FileSASSignatureValues {
   /**
    * Optional. The name of the access policy on the share this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 

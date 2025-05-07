@@ -14,8 +14,8 @@ import {
   NotificationRecipientEmailCheckEntityExistsResponse,
   NotificationRecipientEmailCreateOrUpdateOptionalParams,
   NotificationRecipientEmailCreateOrUpdateResponse,
-  NotificationRecipientEmailDeleteOptionalParams
-} from "../models";
+  NotificationRecipientEmailDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a NotificationRecipientEmail. */
 export interface NotificationRecipientEmail {
@@ -30,7 +30,7 @@ export interface NotificationRecipientEmail {
     resourceGroupName: string,
     serviceName: string,
     notificationName: NotificationName,
-    options?: NotificationRecipientEmailListByNotificationOptionalParams
+    options?: NotificationRecipientEmailListByNotificationOptionalParams,
   ): Promise<NotificationRecipientEmailListByNotificationResponse>;
   /**
    * Determine if Notification Recipient Email subscribed to the notification.
@@ -45,7 +45,7 @@ export interface NotificationRecipientEmail {
     serviceName: string,
     notificationName: NotificationName,
     email: string,
-    options?: NotificationRecipientEmailCheckEntityExistsOptionalParams
+    options?: NotificationRecipientEmailCheckEntityExistsOptionalParams,
   ): Promise<NotificationRecipientEmailCheckEntityExistsResponse>;
   /**
    * Adds the Email address to the list of Recipients for the Notification.
@@ -60,7 +60,7 @@ export interface NotificationRecipientEmail {
     serviceName: string,
     notificationName: NotificationName,
     email: string,
-    options?: NotificationRecipientEmailCreateOrUpdateOptionalParams
+    options?: NotificationRecipientEmailCreateOrUpdateOptionalParams,
   ): Promise<NotificationRecipientEmailCreateOrUpdateResponse>;
   /**
    * Removes the email from the list of Notification.
@@ -75,6 +75,6 @@ export interface NotificationRecipientEmail {
     serviceName: string,
     notificationName: NotificationName,
     email: string,
-    options?: NotificationRecipientEmailDeleteOptionalParams
+    options?: NotificationRecipientEmailDeleteOptionalParams,
   ): Promise<void>;
 }

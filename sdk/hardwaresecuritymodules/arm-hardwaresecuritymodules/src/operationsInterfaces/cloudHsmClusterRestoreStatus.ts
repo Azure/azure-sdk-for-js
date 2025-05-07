@@ -9,7 +9,7 @@
 import {
   CloudHsmClusterRestoreStatusGetOptionalParams,
   CloudHsmClusterRestoreStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CloudHsmClusterRestoreStatus. */
 export interface CloudHsmClusterRestoreStatus {

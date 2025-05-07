@@ -17,8 +17,8 @@ import {
   PolicyContract,
   ApiOperationPolicyCreateOrUpdateOptionalParams,
   ApiOperationPolicyCreateOrUpdateResponse,
-  ApiOperationPolicyDeleteOptionalParams
-} from "../models";
+  ApiOperationPolicyDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ApiOperationPolicy. */
 export interface ApiOperationPolicy {
@@ -37,7 +37,7 @@ export interface ApiOperationPolicy {
     serviceName: string,
     apiId: string,
     operationId: string,
-    options?: ApiOperationPolicyListByOperationOptionalParams
+    options?: ApiOperationPolicyListByOperationOptionalParams,
   ): Promise<ApiOperationPolicyListByOperationResponse>;
   /**
    * Gets the entity state (Etag) version of the API operation policy specified by its identifier.
@@ -56,7 +56,7 @@ export interface ApiOperationPolicy {
     apiId: string,
     operationId: string,
     policyId: PolicyIdName,
-    options?: ApiOperationPolicyGetEntityTagOptionalParams
+    options?: ApiOperationPolicyGetEntityTagOptionalParams,
   ): Promise<ApiOperationPolicyGetEntityTagResponse>;
   /**
    * Get the policy configuration at the API Operation level.
@@ -75,7 +75,7 @@ export interface ApiOperationPolicy {
     apiId: string,
     operationId: string,
     policyId: PolicyIdName,
-    options?: ApiOperationPolicyGetOptionalParams
+    options?: ApiOperationPolicyGetOptionalParams,
   ): Promise<ApiOperationPolicyGetResponse>;
   /**
    * Creates or updates policy configuration for the API Operation level.
@@ -96,7 +96,7 @@ export interface ApiOperationPolicy {
     operationId: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: ApiOperationPolicyCreateOrUpdateOptionalParams
+    options?: ApiOperationPolicyCreateOrUpdateOptionalParams,
   ): Promise<ApiOperationPolicyCreateOrUpdateResponse>;
   /**
    * Deletes the policy configuration at the Api Operation.
@@ -118,6 +118,6 @@ export interface ApiOperationPolicy {
     operationId: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: ApiOperationPolicyDeleteOptionalParams
+    options?: ApiOperationPolicyDeleteOptionalParams,
   ): Promise<void>;
 }

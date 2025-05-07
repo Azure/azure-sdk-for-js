@@ -25,8 +25,8 @@ import {
   NamedValueListValueOptionalParams,
   NamedValueListValueResponse,
   NamedValueRefreshSecretOptionalParams,
-  NamedValueRefreshSecretResponse
-} from "../models";
+  NamedValueRefreshSecretResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NamedValue. */
@@ -40,7 +40,7 @@ export interface NamedValue {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: NamedValueListByServiceOptionalParams
+    options?: NamedValueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<NamedValueContract>;
   /**
    * Gets the entity state (Etag) version of the named value specified by its identifier.
@@ -53,7 +53,7 @@ export interface NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueGetEntityTagOptionalParams
+    options?: NamedValueGetEntityTagOptionalParams,
   ): Promise<NamedValueGetEntityTagResponse>;
   /**
    * Gets the details of the named value specified by its identifier.
@@ -66,7 +66,7 @@ export interface NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueGetOptionalParams
+    options?: NamedValueGetOptionalParams,
   ): Promise<NamedValueGetResponse>;
   /**
    * Creates or updates named value.
@@ -81,7 +81,7 @@ export interface NamedValue {
     serviceName: string,
     namedValueId: string,
     parameters: NamedValueCreateContract,
-    options?: NamedValueCreateOrUpdateOptionalParams
+    options?: NamedValueCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamedValueCreateOrUpdateResponse>,
@@ -101,7 +101,7 @@ export interface NamedValue {
     serviceName: string,
     namedValueId: string,
     parameters: NamedValueCreateContract,
-    options?: NamedValueCreateOrUpdateOptionalParams
+    options?: NamedValueCreateOrUpdateOptionalParams,
   ): Promise<NamedValueCreateOrUpdateResponse>;
   /**
    * Updates the specific named value.
@@ -119,7 +119,7 @@ export interface NamedValue {
     namedValueId: string,
     ifMatch: string,
     parameters: NamedValueUpdateParameters,
-    options?: NamedValueUpdateOptionalParams
+    options?: NamedValueUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamedValueUpdateResponse>,
@@ -142,7 +142,7 @@ export interface NamedValue {
     namedValueId: string,
     ifMatch: string,
     parameters: NamedValueUpdateParameters,
-    options?: NamedValueUpdateOptionalParams
+    options?: NamedValueUpdateOptionalParams,
   ): Promise<NamedValueUpdateResponse>;
   /**
    * Deletes specific named value from the API Management service instance.
@@ -158,7 +158,7 @@ export interface NamedValue {
     serviceName: string,
     namedValueId: string,
     ifMatch: string,
-    options?: NamedValueDeleteOptionalParams
+    options?: NamedValueDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the secret of the named value specified by its identifier.
@@ -171,7 +171,7 @@ export interface NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueListValueOptionalParams
+    options?: NamedValueListValueOptionalParams,
   ): Promise<NamedValueListValueResponse>;
   /**
    * Refresh the secret of the named value specified by its identifier.
@@ -184,7 +184,7 @@ export interface NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueRefreshSecretOptionalParams
+    options?: NamedValueRefreshSecretOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamedValueRefreshSecretResponse>,
@@ -202,6 +202,6 @@ export interface NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueRefreshSecretOptionalParams
+    options?: NamedValueRefreshSecretOptionalParams,
   ): Promise<NamedValueRefreshSecretResponse>;
 }

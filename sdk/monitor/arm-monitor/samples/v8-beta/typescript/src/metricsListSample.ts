@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MetricsListOptionalParams, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to **Lists the metric values for a resource**.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary **Lists the metric values for a resource**.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetric.json
  */
-async function getMetricForData() {
+async function getMetricForData(): Promise<void> {
   const resourceUri =
     "subscriptions/1f3fa6d2-851c-4a91-9087-1a050f3a9c38/resourceGroups/todking/providers/Microsoft.Storage/storageAccounts/tkfileserv/blobServices/default";
   const timespan = "2021-04-20T09:00:00.000Z/2021-04-20T14:00:00.000Z";
@@ -57,7 +55,7 @@ async function getMetricForData() {
  * @summary **Lists the metric values for a resource**.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricMetadata.json
  */
-async function getMetricForMetadata() {
+async function getMetricForMetadata(): Promise<void> {
   const resourceUri =
     "subscriptions/1f3fa6d2-851c-4a91-9087-1a050f3a9c38/resourceGroups/todking/providers/Microsoft.Storage/storageAccounts/tkfileserv/blobServices/default";
   const timespan = "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z";
@@ -80,7 +78,7 @@ async function getMetricForMetadata() {
  * @summary **Lists the metric values for a resource**.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricError.json
  */
-async function getMetricWithError() {
+async function getMetricWithError(): Promise<void> {
   const resourceUri =
     "subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo";
   const timespan = "2021-06-07T21:51:00Z/2021-06-08T01:51:00Z";
@@ -105,7 +103,7 @@ async function getMetricWithError() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getMetricForData();
   getMetricForMetadata();
   getMetricWithError();

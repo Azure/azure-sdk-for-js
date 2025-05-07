@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary Demonstrates using stored procedures for server side run functions
- */
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
+import "dotenv/config";
+import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError.js";
 import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";
 logSampleHeader("Server Side Scripts");
 const key = process.env.COSMOS_KEY || "<cosmos key>";

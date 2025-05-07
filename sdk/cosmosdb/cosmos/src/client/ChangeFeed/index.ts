@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
-export { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-export { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
-export { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-export { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-export { FeedRangeInternal, FeedRange } from "./FeedRange";
-export { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-export { ChangeFeedMode } from "./ChangeFeedMode";
-export { buildInternalChangeFeedOptions } from "./changeFeedUtils";
-export { changeFeedIteratorBuilder } from "./changeFeedIteratorBuilder";
-export { ChangeFeedRetentionTimeSpan } from "./ChangeFeedRetentionTimeSpan";
-export { ChangeFeedPolicy } from "./ChangeFeedPolicy";
+export { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange.js";
+export { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+export { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey.js";
+export { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+export { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+export { FeedRangeInternal, FeedRange } from "./FeedRange.js";
+export { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
+export { ChangeFeedMode } from "./ChangeFeedMode.js";
+export { buildInternalChangeFeedOptions } from "./changeFeedUtils.js";
+export { buildChangeFeedIterator } from "./buildChangeFeedIterator.js";
+export { ChangeFeedRetentionTimeSpan } from "./ChangeFeedRetentionTimeSpan.js";
+export { ChangeFeedPolicy } from "./ChangeFeedPolicy.js";
+export { ChangeFeedIteratorBuilder } from "./ChangeFeedIteratorBuilder.js";

@@ -128,12 +128,12 @@ export interface ServiceBusMessage {
    * The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
+   * See {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
    * The partition key for sending a message to a partitioned entity.
-   * Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning | partitioned entities},
+   * Maximum length is 128 characters. For {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-partitioning | partitioned entities},
    * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
    * function over this value and cannot be chosen directly.
@@ -148,7 +148,7 @@ export interface ServiceBusMessage {
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
    * together and in order as they are transferred.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via | Transfers and Send Via}.
+   * See {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via | Transfers and Send Via}.
    */
 
   // Will be required later for implementing Transactions
@@ -160,14 +160,14 @@ export interface ServiceBusMessage {
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
    * session-unaware entities, this value is ignored.
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions | Message Sessions}.
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-sessions | Message Sessions}.
    */
   sessionId?: string;
   /**
    * The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
+   * See {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
@@ -177,7 +177,7 @@ export interface ServiceBusMessage {
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
    * `timeToLive` value cannot be longer than the entity's DefaultTimeToLive setting and it is
    * silently adjusted if it does. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration | Expiration}.
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-expiration | Expiration}.
    */
   timeToLive?: number;
   /**
@@ -189,7 +189,7 @@ export interface ServiceBusMessage {
   /**
    * The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
-   * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding | auto-forward chaining}
+   * rule-driven {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding | auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
@@ -198,7 +198,7 @@ export interface ServiceBusMessage {
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyTo?: string;
   /**
@@ -436,7 +436,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   /**
    * The lock token is a reference to the lock that is being held by the broker in
    * `peekLock` receive mode. Locks are used internally settle messages as explained in the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement | product documentation in more detail}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement | product documentation in more detail}
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    * @readonly
@@ -734,7 +734,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * application-defined value that uniquely identifies the message and its payload. The identifier
    * is a free-form string and can reflect a GUID or an identifier derived from the application
    * context. If enabled, the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/duplicate-detection | duplicate detection}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/duplicate-detection | duplicate detection}
    * identifies and removes second and further submissions of messages with the same MessageId.
    */
   messageId?: string | number | Buffer;
@@ -748,12 +748,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
+   * See {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
    * The partition key for sending a message to a
-   * partitioned entity. Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning | partitioned entities},
+   * partitioned entity. Maximum length is 128 characters. For {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-partitioning | partitioned entities},
    * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
    * function over this value and cannot be chosen directly. For session-aware entities,
@@ -766,7 +766,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
    * together and in order as they are transferred.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via | Transfers and Send Via}.
+   * See {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via | Transfers and Send Via}.
    */
   // Will be required later for implementing Transactions
   // viaPartitionKey?: string;
@@ -776,14 +776,14 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
    * session-unaware entities, this value is ignored.
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions | Message Sessions}.
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-sessions | Message Sessions}.
    */
   sessionId?: string;
   /**
    * The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
+   * See {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
@@ -793,7 +793,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
    * `timeToLive` value cannot be longer than the entity's DefaultTimeToLive setting and it is
    * silently adjusted if it does. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration | Expiration}.
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-expiration | Expiration}.
    */
   timeToLive?: number;
   /**
@@ -805,7 +805,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**
    * The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
-   * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding | auto-forward chaining}
+   * rule-driven {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding | auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
@@ -814,7 +814,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyTo?: string;
   /**
@@ -829,7 +829,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**
    * The lock token is a reference to the lock that is being held by the broker in
    * `peekLock` receive mode. Locks are used internally settle messages as explained in the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement | product documentation in more detail}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement | product documentation in more detail}
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    * @readonly

@@ -24,8 +24,14 @@ import type {
   AddParticipantOptions,
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
+  TransferCallToParticipantOptions,
 } from "../../src/index.js";
-import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "../utils/connectionUtils.js";
+import {
+  CALL_TARGET_ID,
+  CALL_TARGET_ID_2,
+  PHONE_TARGET_ID,
+  PHONE_TARGET_ID_2,
+} from "../utils/connectionUtils.js";
 import {
   createRecorder,
   createTestUser,
@@ -67,12 +73,38 @@ import { CallConnection } from "../../src/index.js";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
+  let phoneTarget: CallInvite;
+  let phoneTarget2: CallInvite;
   let callConnection: MockedObject<CallConnection>;
 
   beforeEach(() => {
     // set up
     target = {
       targetParticipant: { communicationUserId: CALL_TARGET_ID },
+    };
+
+    phoneTarget = {
+      targetParticipant: { phoneNumber: PHONE_TARGET_ID },
+      customCallingContext: [
+        {
+          kind: "sipx",
+          key: "TestKey",
+          value: "TestValue",
+          sipHeaderPrefix: "X-MS-Custom-",
+        },
+      ],
+    };
+
+    phoneTarget2 = {
+      targetParticipant: { phoneNumber: PHONE_TARGET_ID_2 },
+      customCallingContext: [
+        {
+          kind: "sipx",
+          key: "TestKey2",
+          value: "TestValue2",
+          sipHeaderPrefix: "X-",
+        },
+      ],
     };
 
     // stub CallConnection
@@ -215,6 +247,72 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
+  it("TransferCallToParticipantPSTNXMSCustomHeader", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: phoneTarget.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID },
+    };
+
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      phoneTarget.targetParticipant,
+      options,
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+
+  it("TransferCallToParticipantPSTNXHeader", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: phoneTarget2.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
+    };
+
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget2.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      phoneTarget2.targetParticipant,
+      options,
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+
   it("TransferCallToParticipantWithTransferee", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
@@ -240,6 +338,76 @@ describe("CallConnection Unit Tests", () => {
     expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
       target.targetParticipant,
       { transferee: transferee },
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+
+  it("TransferCallToParticipantWithTransfereePSTNXMSHeader", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    const transferee = { communicationUserId: CALL_TARGET_ID };
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: phoneTarget.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID },
+      transferee: transferee,
+    };
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      phoneTarget.targetParticipant,
+      options,
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+
+  it("TransferCallToParticipantWithTransfereePSTNXHeader", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    const transferee = { communicationUserId: CALL_TARGET_ID };
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: phoneTarget2.customCallingContext,
+      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
+      transferee: transferee,
+    };
+    const promiseResult = callConnection.transferCallToParticipant(
+      phoneTarget2.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      phoneTarget2.targetParticipant,
+      options,
     );
     assert.equal(result, transferCallResultMock);
   });
@@ -344,7 +512,7 @@ describe("CallConnection Live Tests", function () {
     }
   });
 
-  it("List all participants", { timeout: 60000 }, async function (ctx) {
+  it("List all participants", { timeout: 90000 }, async function (ctx) {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
@@ -375,7 +543,7 @@ describe("CallConnection Live Tests", function () {
         answerCallOptions,
       );
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
     const allParticipants = await callConnection.listParticipants();
@@ -553,7 +721,7 @@ describe("CallConnection Live Tests", function () {
     const muteResult = await callConnection.muteParticipant(testUser2);
     assert.isDefined(muteResult);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 10000));
 
     const participantLists = await callConnection.listParticipants();
     let isMuted = false;

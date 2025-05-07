@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VpnLinkConnectionsResetConnectionParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VpnLinkConnectionsResetConnectionParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Resets the VpnLink connection specified.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Resets the VpnLink connection specified.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionReset.json
  */
-async function resetVpnLinkConnection() {
+async function resetVpnLinkConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

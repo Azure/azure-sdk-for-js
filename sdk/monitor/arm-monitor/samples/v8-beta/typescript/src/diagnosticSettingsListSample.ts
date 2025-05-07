@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the active diagnostic settings list for the specified resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the active diagnostic settings list for the specified resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/examples/listDiagnosticSettings.json
  */
-async function getsTheDiagnosticSetting() {
+async function getsTheDiagnosticSetting(): Promise<void> {
   const resourceUri =
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6";
   const credential = new DefaultAzureCredential();
@@ -38,7 +36,7 @@ async function getsTheDiagnosticSetting() {
  * @summary Gets the active diagnostic settings list for the specified resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/examples/listDiagnosticSettingsCategory.json
  */
-async function getsTheDiagnosticSettingForCategory() {
+async function getsTheDiagnosticSettingForCategory(): Promise<void> {
   const resourceUri =
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6";
   const credential = new DefaultAzureCredential();
@@ -50,7 +48,7 @@ async function getsTheDiagnosticSettingForCategory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheDiagnosticSetting();
   getsTheDiagnosticSettingForCategory();
 }

@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./containerHostMappings";
-export * from "./operations";
-export * from "./controllers";
+export * from "./containerHostMappings.js";
+export * from "./operations.js";
+export * from "./controllers.js";

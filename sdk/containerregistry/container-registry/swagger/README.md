@@ -21,6 +21,9 @@ disable-async-iterators: true
 hide-clients: true
 api-version-parameter: choice
 package-version: 1.1.1
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ## Customizations for Track 2 Generator

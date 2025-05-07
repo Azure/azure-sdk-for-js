@@ -1,7 +1,7 @@
 {
   "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
   "compilerOptions": {
-    "lib": ["DOM"],
+    "lib": ["DOM", "ES2021.Promise"],
     "resolveJsonModule": true
   },
   "exclude": ["./test/stress"]

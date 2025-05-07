@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-no-const-enums";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-no-const-enums.js";
 
 //------------------------------------------------------------------------------
 // Tests

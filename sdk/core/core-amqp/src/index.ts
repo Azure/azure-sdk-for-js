@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference lib="es2020" />
-
 export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink.js";
 export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry.js";
 export { TokenType } from "./auth/token.js";

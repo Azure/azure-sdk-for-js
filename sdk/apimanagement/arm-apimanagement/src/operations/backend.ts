@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Backend } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Backend } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   BackendContract,
   BackendListByServiceNextOptionalParams,
@@ -29,8 +29,8 @@ import {
   BackendUpdateResponse,
   BackendDeleteOptionalParams,
   BackendReconnectOptionalParams,
-  BackendListByServiceNextResponse
-} from "../models";
+  BackendListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Backend operations. */
@@ -54,12 +54,12 @@ export class BackendImpl implements Backend {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: BackendListByServiceOptionalParams
+    options?: BackendListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<BackendContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class BackendImpl implements Backend {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class BackendImpl implements Backend {
     resourceGroupName: string,
     serviceName: string,
     options?: BackendListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BackendContract[]> {
     let result: BackendListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class BackendImpl implements Backend {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class BackendImpl implements Backend {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class BackendImpl implements Backend {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: BackendListByServiceOptionalParams
+    options?: BackendListByServiceOptionalParams,
   ): AsyncIterableIterator<BackendContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class BackendImpl implements Backend {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: BackendListByServiceOptionalParams
+    options?: BackendListByServiceOptionalParams,
   ): Promise<BackendListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -158,11 +158,11 @@ export class BackendImpl implements Backend {
     resourceGroupName: string,
     serviceName: string,
     backendId: string,
-    options?: BackendGetEntityTagOptionalParams
+    options?: BackendGetEntityTagOptionalParams,
   ): Promise<BackendGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, backendId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -178,11 +178,11 @@ export class BackendImpl implements Backend {
     resourceGroupName: string,
     serviceName: string,
     backendId: string,
-    options?: BackendGetOptionalParams
+    options?: BackendGetOptionalParams,
   ): Promise<BackendGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, backendId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,11 +200,11 @@ export class BackendImpl implements Backend {
     serviceName: string,
     backendId: string,
     parameters: BackendContract,
-    options?: BackendCreateOrUpdateOptionalParams
+    options?: BackendCreateOrUpdateOptionalParams,
   ): Promise<BackendCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, backendId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -225,7 +225,7 @@ export class BackendImpl implements Backend {
     backendId: string,
     ifMatch: string,
     parameters: BackendUpdateParameters,
-    options?: BackendUpdateOptionalParams
+    options?: BackendUpdateOptionalParams,
   ): Promise<BackendUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -234,9 +234,9 @@ export class BackendImpl implements Backend {
         backendId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -255,11 +255,11 @@ export class BackendImpl implements Backend {
     serviceName: string,
     backendId: string,
     ifMatch: string,
-    options?: BackendDeleteOptionalParams
+    options?: BackendDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, backendId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -276,11 +276,11 @@ export class BackendImpl implements Backend {
     resourceGroupName: string,
     serviceName: string,
     backendId: string,
-    options?: BackendReconnectOptionalParams
+    options?: BackendReconnectOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, backendId, options },
-      reconnectOperationSpec
+      reconnectOperationSpec,
     );
   }
 
@@ -295,11 +295,11 @@ export class BackendImpl implements Backend {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: BackendListByServiceNextOptionalParams
+    options?: BackendListByServiceNextOptionalParams,
   ): Promise<BackendListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -307,206 +307,199 @@ export class BackendImpl implements Backend {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackendCollection
+      bodyMapper: Mappers.BackendCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.BackendGetEntityTagHeaders
+      headersMapper: Mappers.BackendGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.backendId
+    Parameters.serviceName,
+    Parameters.backendId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.BackendContract,
-      headersMapper: Mappers.BackendGetHeaders
+      headersMapper: Mappers.BackendGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.backendId
+    Parameters.serviceName,
+    Parameters.backendId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.BackendContract,
-      headersMapper: Mappers.BackendCreateOrUpdateHeaders
+      headersMapper: Mappers.BackendCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.BackendContract,
-      headersMapper: Mappers.BackendCreateOrUpdateHeaders
+      headersMapper: Mappers.BackendCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters27,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.backendId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackendContract,
-      headersMapper: Mappers.BackendUpdateHeaders
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters28,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.backendId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1
-  ],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.backendId
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
-};
-const reconnectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}/reconnect",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.parameters29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.backendId
+    Parameters.serviceName,
+    Parameters.backendId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackendContract,
+      headersMapper: Mappers.BackendUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters30,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.backendId,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch1,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.backendId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
+  serializer,
+};
+const reconnectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}/reconnect",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters31,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+    Parameters.backendId,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackendCollection
+      bodyMapper: Mappers.BackendCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

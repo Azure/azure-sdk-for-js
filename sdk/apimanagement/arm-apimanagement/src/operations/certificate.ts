@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Certificate } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Certificate } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   CertificateContract,
   CertificateListByServiceNextOptionalParams,
@@ -28,8 +28,8 @@ import {
   CertificateDeleteOptionalParams,
   CertificateRefreshSecretOptionalParams,
   CertificateRefreshSecretResponse,
-  CertificateListByServiceNextResponse
-} from "../models";
+  CertificateListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Certificate operations. */
@@ -53,12 +53,12 @@ export class CertificateImpl implements Certificate {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: CertificateListByServiceOptionalParams
+    options?: CertificateListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<CertificateContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class CertificateImpl implements Certificate {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class CertificateImpl implements Certificate {
     resourceGroupName: string,
     serviceName: string,
     options?: CertificateListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CertificateContract[]> {
     let result: CertificateListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class CertificateImpl implements Certificate {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class CertificateImpl implements Certificate {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class CertificateImpl implements Certificate {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: CertificateListByServiceOptionalParams
+    options?: CertificateListByServiceOptionalParams,
   ): AsyncIterableIterator<CertificateContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class CertificateImpl implements Certificate {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: CertificateListByServiceOptionalParams
+    options?: CertificateListByServiceOptionalParams,
   ): Promise<CertificateListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class CertificateImpl implements Certificate {
     resourceGroupName: string,
     serviceName: string,
     certificateId: string,
-    options?: CertificateGetEntityTagOptionalParams
+    options?: CertificateGetEntityTagOptionalParams,
   ): Promise<CertificateGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, certificateId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class CertificateImpl implements Certificate {
     resourceGroupName: string,
     serviceName: string,
     certificateId: string,
-    options?: CertificateGetOptionalParams
+    options?: CertificateGetOptionalParams,
   ): Promise<CertificateGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, certificateId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -199,11 +199,11 @@ export class CertificateImpl implements Certificate {
     serviceName: string,
     certificateId: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOrUpdateOptionalParams
+    options?: CertificateCreateOrUpdateOptionalParams,
   ): Promise<CertificateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, certificateId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -222,11 +222,11 @@ export class CertificateImpl implements Certificate {
     serviceName: string,
     certificateId: string,
     ifMatch: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, certificateId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -242,11 +242,11 @@ export class CertificateImpl implements Certificate {
     resourceGroupName: string,
     serviceName: string,
     certificateId: string,
-    options?: CertificateRefreshSecretOptionalParams
+    options?: CertificateRefreshSecretOptionalParams,
   ): Promise<CertificateRefreshSecretResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, certificateId, options },
-      refreshSecretOperationSpec
+      refreshSecretOperationSpec,
     );
   }
 
@@ -261,11 +261,11 @@ export class CertificateImpl implements Certificate {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: CertificateListByServiceNextOptionalParams
+    options?: CertificateListByServiceNextOptionalParams,
   ): Promise<CertificateListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -273,178 +273,172 @@ export class CertificateImpl implements Certificate {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.CertificateCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.isKeyVaultRefreshFailed
+    Parameters.isKeyVaultRefreshFailed,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.CertificateGetEntityTagHeaders
+      headersMapper: Mappers.CertificateGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.certificateId
+    Parameters.serviceName,
+    Parameters.certificateId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.CertificateContract,
-      headersMapper: Mappers.CertificateGetHeaders
+      headersMapper: Mappers.CertificateGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.certificateId
+    Parameters.serviceName,
+    Parameters.certificateId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.CertificateContract,
-      headersMapper: Mappers.CertificateCreateOrUpdateHeaders
+      headersMapper: Mappers.CertificateCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.CertificateContract,
-      headersMapper: Mappers.CertificateCreateOrUpdateHeaders
+      headersMapper: Mappers.CertificateCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.certificateId
+    Parameters.serviceName,
+    Parameters.certificateId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.certificateId
+    Parameters.serviceName,
+    Parameters.certificateId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const refreshSecretOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}/refreshSecret",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}/refreshSecret",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.CertificateContract,
-      headersMapper: Mappers.CertificateRefreshSecretHeaders
+      headersMapper: Mappers.CertificateRefreshSecretHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.certificateId
+    Parameters.serviceName,
+    Parameters.certificateId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.CertificateCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

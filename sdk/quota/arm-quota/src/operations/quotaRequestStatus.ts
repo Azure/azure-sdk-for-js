@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { QuotaRequestStatus } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { QuotaRequestStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI.js";
 import {
   QuotaRequestDetails,
   QuotaRequestStatusListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   QuotaRequestStatusGetOptionalParams,
   QuotaRequestStatusGetResponse,
   QuotaRequestStatusListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing QuotaRequestStatus operations. */
@@ -116,7 +116,10 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     scope: string,
     options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse> {
-    return this.client.sendOperationRequest({ id, scope, options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { id, scope, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -133,7 +136,10 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     scope: string,
     options?: QuotaRequestStatusListOptionalParams,
   ): Promise<QuotaRequestStatusListResponse> {
-    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { scope, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -151,7 +157,10 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     nextLink: string,
     options?: QuotaRequestStatusListNextOptionalParams,
   ): Promise<QuotaRequestStatusListNextResponse> {
-    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { scope, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications

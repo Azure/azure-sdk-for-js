@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
@@ -25,9 +23,9 @@ provisioning, call GetProtectedItemOperationResult API.
  * @summary Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
 explorer displaying all the recoverable files and folders. This is an asynchronous operation. To know the status of
 provisioning, call GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/Provision_Ilr.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/Provision_Ilr.json
  */
-async function provisionInstantItemLevelRecoveryForAzureVM() {
+async function provisionInstantItemLevelRecoveryForAzureVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,8 +62,8 @@ async function provisionInstantItemLevelRecoveryForAzureVM() {
   console.log(result);
 }
 
-async function main() {
-  provisionInstantItemLevelRecoveryForAzureVM();
+async function main(): Promise<void> {
+  await provisionInstantItemLevelRecoveryForAzureVM();
 }
 
 main().catch(console.error);

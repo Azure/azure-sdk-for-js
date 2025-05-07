@@ -13,17 +13,15 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ListJobs.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ListJobs.json
  */
-async function listAllJobs() {
+async function listAllJobs(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,10 @@ async function listAllJobs() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupJobs.list(vaultName, resourceGroupName)) {
+  for await (const item of client.backupJobs.list(
+    vaultName,
+    resourceGroupName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -43,9 +44,9 @@ async function listAllJobs() {
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ListJobsWithAllSupportedFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ListJobsWithAllSupportedFilters.json
  */
-async function listJobsWithFilters() {
+async function listJobsWithFilters(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -58,7 +59,7 @@ async function listJobsWithFilters() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupJobs.list(
+  for await (const item of client.backupJobs.list(
     vaultName,
     resourceGroupName,
     options,
@@ -72,9 +73,9 @@ async function listJobsWithFilters() {
  * This sample demonstrates how to Provides a pageable list of jobs.
  *
  * @summary Provides a pageable list of jobs.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ListJobsWithStartTimeAndEndTimeFilters.json
  */
-async function listJobsWithTimeFilter() {
+async function listJobsWithTimeFilter(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -87,7 +88,7 @@ async function listJobsWithTimeFilter() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupJobs.list(
+  for await (const item of client.backupJobs.list(
     vaultName,
     resourceGroupName,
     options,
@@ -97,10 +98,10 @@ async function listJobsWithTimeFilter() {
   console.log(resArray);
 }
 
-async function main() {
-  listAllJobs();
-  listJobsWithFilters();
-  listJobsWithTimeFilter();
+async function main(): Promise<void> {
+  await listAllJobs();
+  await listJobsWithFilters();
+  await listJobsWithTimeFilter();
 }
 
 main().catch(console.error);

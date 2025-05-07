@@ -25,8 +25,15 @@ import {
   GatewayRegenerateKeyOptionalParams,
   GatewayTokenRequestContract,
   GatewayGenerateTokenOptionalParams,
-  GatewayGenerateTokenResponse
-} from "../models";
+  GatewayGenerateTokenResponse,
+  GatewayInvalidateDebugCredentialsOptionalParams,
+  GatewayListDebugCredentialsContract,
+  GatewayListDebugCredentialsOptionalParams,
+  GatewayListDebugCredentialsResponse,
+  GatewayListTraceContract,
+  GatewayListTraceOptionalParams,
+  GatewayListTraceResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Gateway. */
@@ -40,7 +47,7 @@ export interface Gateway {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: GatewayListByServiceOptionalParams
+    options?: GatewayListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayContract>;
   /**
    * Gets the entity state (Etag) version of the Gateway specified by its identifier.
@@ -54,7 +61,7 @@ export interface Gateway {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayGetEntityTagOptionalParams
+    options?: GatewayGetEntityTagOptionalParams,
   ): Promise<GatewayGetEntityTagResponse>;
   /**
    * Gets the details of the Gateway specified by its identifier.
@@ -68,7 +75,7 @@ export interface Gateway {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayGetOptionalParams
+    options?: GatewayGetOptionalParams,
   ): Promise<GatewayGetResponse>;
   /**
    * Creates or updates a Gateway to be used in Api Management instance.
@@ -84,7 +91,7 @@ export interface Gateway {
     serviceName: string,
     gatewayId: string,
     parameters: GatewayContract,
-    options?: GatewayCreateOrUpdateOptionalParams
+    options?: GatewayCreateOrUpdateOptionalParams,
   ): Promise<GatewayCreateOrUpdateResponse>;
   /**
    * Updates the details of the gateway specified by its identifier.
@@ -103,7 +110,7 @@ export interface Gateway {
     gatewayId: string,
     ifMatch: string,
     parameters: GatewayContract,
-    options?: GatewayUpdateOptionalParams
+    options?: GatewayUpdateOptionalParams,
   ): Promise<GatewayUpdateResponse>;
   /**
    * Deletes specific Gateway.
@@ -120,7 +127,7 @@ export interface Gateway {
     serviceName: string,
     gatewayId: string,
     ifMatch: string,
-    options?: GatewayDeleteOptionalParams
+    options?: GatewayDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves gateway keys.
@@ -134,7 +141,7 @@ export interface Gateway {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayListKeysOptionalParams
+    options?: GatewayListKeysOptionalParams,
   ): Promise<GatewayListKeysResponse>;
   /**
    * Regenerates specified gateway key invalidating any tokens created with it.
@@ -150,7 +157,7 @@ export interface Gateway {
     serviceName: string,
     gatewayId: string,
     parameters: GatewayKeyRegenerationRequestContract,
-    options?: GatewayRegenerateKeyOptionalParams
+    options?: GatewayRegenerateKeyOptionalParams,
   ): Promise<void>;
   /**
    * Gets the Shared Access Authorization Token for the gateway.
@@ -166,6 +173,52 @@ export interface Gateway {
     serviceName: string,
     gatewayId: string,
     parameters: GatewayTokenRequestContract,
-    options?: GatewayGenerateTokenOptionalParams
+    options?: GatewayGenerateTokenOptionalParams,
   ): Promise<GatewayGenerateTokenResponse>;
+  /**
+   * Action is invalidating all debug credentials issued for gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param options The options parameters.
+   */
+  invalidateDebugCredentials(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: GatewayInvalidateDebugCredentialsOptionalParams,
+  ): Promise<void>;
+  /**
+   * Create new debug credentials for gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param parameters List debug credentials properties.
+   * @param options The options parameters.
+   */
+  listDebugCredentials(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    parameters: GatewayListDebugCredentialsContract,
+    options?: GatewayListDebugCredentialsOptionalParams,
+  ): Promise<GatewayListDebugCredentialsResponse>;
+  /**
+   * Fetches trace collected by gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
+   *                  instance. Must not have value 'managed'
+   * @param parameters List trace properties.
+   * @param options The options parameters.
+   */
+  listTrace(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    parameters: GatewayListTraceContract,
+    options?: GatewayListTraceOptionalParams,
+  ): Promise<GatewayListTraceResponse>;
 }

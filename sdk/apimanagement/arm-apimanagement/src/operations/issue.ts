@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Issue } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Issue } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   IssueContract,
   IssueListByServiceNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   IssueListByServiceResponse,
   IssueGetOptionalParams,
   IssueGetResponse,
-  IssueListByServiceNextResponse
-} from "../models";
+  IssueListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Issue operations. */
@@ -45,12 +45,12 @@ export class IssueImpl implements Issue {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: IssueListByServiceOptionalParams
+    options?: IssueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class IssueImpl implements Issue {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class IssueImpl implements Issue {
     resourceGroupName: string,
     serviceName: string,
     options?: IssueListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IssueContract[]> {
     let result: IssueListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class IssueImpl implements Issue {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class IssueImpl implements Issue {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class IssueImpl implements Issue {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: IssueListByServiceOptionalParams
+    options?: IssueListByServiceOptionalParams,
   ): AsyncIterableIterator<IssueContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class IssueImpl implements Issue {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: IssueListByServiceOptionalParams
+    options?: IssueListByServiceOptionalParams,
   ): Promise<IssueListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class IssueImpl implements Issue {
     resourceGroupName: string,
     serviceName: string,
     issueId: string,
-    options?: IssueGetOptionalParams
+    options?: IssueGetOptionalParams,
   ): Promise<IssueGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, issueId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class IssueImpl implements Issue {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: IssueListByServiceNextOptionalParams
+    options?: IssueListByServiceNextOptionalParams,
   ): Promise<IssueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -179,74 +179,72 @@ export class IssueImpl implements Issue {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssueCollection
+      bodyMapper: Mappers.IssueCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues/{issueId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/issues/{issueId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.IssueContract,
-      headersMapper: Mappers.IssueGetHeaders
+      headersMapper: Mappers.IssueGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.issueId
+    Parameters.serviceName,
+    Parameters.issueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssueCollection
+      bodyMapper: Mappers.IssueCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

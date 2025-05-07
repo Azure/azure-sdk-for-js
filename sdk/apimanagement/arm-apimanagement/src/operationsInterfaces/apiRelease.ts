@@ -18,8 +18,8 @@ import {
   ApiReleaseCreateOrUpdateResponse,
   ApiReleaseUpdateOptionalParams,
   ApiReleaseUpdateResponse,
-  ApiReleaseDeleteOptionalParams
-} from "../models";
+  ApiReleaseDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiRelease. */
@@ -37,7 +37,7 @@ export interface ApiRelease {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
+    options?: ApiReleaseListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiReleaseContract>;
   /**
    * Returns the etag of an API release.
@@ -53,7 +53,7 @@ export interface ApiRelease {
     serviceName: string,
     apiId: string,
     releaseId: string,
-    options?: ApiReleaseGetEntityTagOptionalParams
+    options?: ApiReleaseGetEntityTagOptionalParams,
   ): Promise<ApiReleaseGetEntityTagResponse>;
   /**
    * Returns the details of an API release.
@@ -69,7 +69,7 @@ export interface ApiRelease {
     serviceName: string,
     apiId: string,
     releaseId: string,
-    options?: ApiReleaseGetOptionalParams
+    options?: ApiReleaseGetOptionalParams,
   ): Promise<ApiReleaseGetResponse>;
   /**
    * Creates a new Release for the API.
@@ -87,7 +87,7 @@ export interface ApiRelease {
     apiId: string,
     releaseId: string,
     parameters: ApiReleaseContract,
-    options?: ApiReleaseCreateOrUpdateOptionalParams
+    options?: ApiReleaseCreateOrUpdateOptionalParams,
   ): Promise<ApiReleaseCreateOrUpdateResponse>;
   /**
    * Updates the details of the release of the API specified by its identifier.
@@ -108,7 +108,7 @@ export interface ApiRelease {
     releaseId: string,
     ifMatch: string,
     parameters: ApiReleaseContract,
-    options?: ApiReleaseUpdateOptionalParams
+    options?: ApiReleaseUpdateOptionalParams,
   ): Promise<ApiReleaseUpdateResponse>;
   /**
    * Deletes the specified release in the API.
@@ -127,6 +127,6 @@ export interface ApiRelease {
     apiId: string,
     releaseId: string,
     ifMatch: string,
-    options?: ApiReleaseDeleteOptionalParams
+    options?: ApiReleaseDeleteOptionalParams,
   ): Promise<void>;
 }

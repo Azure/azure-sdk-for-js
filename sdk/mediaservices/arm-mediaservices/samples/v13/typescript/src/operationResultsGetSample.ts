@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get asset track operation result.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get asset track operation result.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/asset-tracks-operation-result-by-id.json
  */
-async function getResultOfAsynchronousOperation() {
+async function getResultOfAsynchronousOperation(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function getResultOfAsynchronousOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getResultOfAsynchronousOperation();
 }
 

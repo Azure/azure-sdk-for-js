@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PartitionKeyDefinition, PrimitivePartitionKeyValue } from "../../documents";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../documents";
-import { hashMultiHashPartitionKey } from "./multiHash";
-import { hashV1PartitionKey } from "./v1";
-import { hashV2PartitionKey } from "./v2";
+import type { PartitionKeyDefinition, PrimitivePartitionKeyValue } from "../../documents/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../documents/index.js";
+import { hashMultiHashPartitionKey } from "./multiHash.js";
+import { hashV1PartitionKey } from "./v1.js";
+import { hashV2PartitionKey } from "./v2.js";
 
 /**
  * Generate hash of a PartitonKey based on it PartitionKeyDefinition.

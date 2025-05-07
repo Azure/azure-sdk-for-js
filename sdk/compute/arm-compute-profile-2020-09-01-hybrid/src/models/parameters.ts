@@ -52,7 +52,7 @@ import {
   SnapshotUpdate as SnapshotUpdateMapper,
   DiskEncryptionSet as DiskEncryptionSetMapper,
   DiskEncryptionSetUpdate as DiskEncryptionSetUpdateMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_StartJob.json
  */
-async function jobDefinitionsStartJob() {
+async function jobDefinitionsStartJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -40,7 +38,7 @@ async function jobDefinitionsStartJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobDefinitionsStartJob();
 }
 

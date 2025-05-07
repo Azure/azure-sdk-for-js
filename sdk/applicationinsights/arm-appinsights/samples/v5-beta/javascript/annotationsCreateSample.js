@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create an Annotation of an Application Insights component.
@@ -18,8 +17,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/AnnotationsCreate.json
  */
 async function annotationsCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const annotationProperties = {
     annotationName: "TestAnnotation",
@@ -33,9 +33,13 @@ async function annotationsCreate() {
   const result = await client.annotations.create(
     resourceGroupName,
     resourceName,
-    annotationProperties
+    annotationProperties,
   );
   console.log(result);
 }
 
-annotationsCreate().catch(console.error);
+async function main() {
+  await annotationsCreate();
+}
+
+main().catch(console.error);

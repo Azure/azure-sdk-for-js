@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { WikiContract, ApiWikisListOptionalParams } from "../models";
+import { WikiContract, ApiWikisListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiWikis. */
@@ -23,6 +23,6 @@ export interface ApiWikis {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikisListOptionalParams
+    options?: ApiWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract>;
 }

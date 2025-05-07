@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DscCompilationJobStream } from "../operationsInterfaces";
+import { DscCompilationJobStream } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AutomationClient } from "../automationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AutomationClient } from "../automationClient.js";
 import {
   DscCompilationJobStreamListByJobOptionalParams,
   DscCompilationJobStreamListByJobResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DscCompilationJobStream operations. */
 export class DscCompilationJobStreamImpl implements DscCompilationJobStream {

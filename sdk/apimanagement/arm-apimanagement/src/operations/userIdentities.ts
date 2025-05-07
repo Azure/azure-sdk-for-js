@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { UserIdentities } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { UserIdentities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   UserIdentityContract,
   UserIdentitiesListNextOptionalParams,
   UserIdentitiesListOptionalParams,
   UserIdentitiesListResponse,
-  UserIdentitiesListNextResponse
-} from "../models";
+  UserIdentitiesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UserIdentities operations. */
@@ -45,13 +45,13 @@ export class UserIdentitiesImpl implements UserIdentities {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserIdentitiesListOptionalParams
+    options?: UserIdentitiesListOptionalParams,
   ): PagedAsyncIterableIterator<UserIdentityContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       userId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class UserIdentitiesImpl implements UserIdentities {
           serviceName,
           userId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class UserIdentitiesImpl implements UserIdentities {
     serviceName: string,
     userId: string,
     options?: UserIdentitiesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UserIdentityContract[]> {
     let result: UserIdentitiesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class UserIdentitiesImpl implements UserIdentities {
         resourceGroupName,
         serviceName,
         userId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class UserIdentitiesImpl implements UserIdentities {
         serviceName,
         userId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class UserIdentitiesImpl implements UserIdentities {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserIdentitiesListOptionalParams
+    options?: UserIdentitiesListOptionalParams,
   ): AsyncIterableIterator<UserIdentityContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       userId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class UserIdentitiesImpl implements UserIdentities {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserIdentitiesListOptionalParams
+    options?: UserIdentitiesListOptionalParams,
   ): Promise<UserIdentitiesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class UserIdentitiesImpl implements UserIdentities {
     serviceName: string,
     userId: string,
     nextLink: string,
-    options?: UserIdentitiesListNextOptionalParams
+    options?: UserIdentitiesListNextOptionalParams,
   ): Promise<UserIdentitiesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,47 +171,46 @@ export class UserIdentitiesImpl implements UserIdentities {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/identities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/identities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserIdentityCollection
+      bodyMapper: Mappers.UserIdentityCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserIdentityCollection
+      bodyMapper: Mappers.UserIdentityCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

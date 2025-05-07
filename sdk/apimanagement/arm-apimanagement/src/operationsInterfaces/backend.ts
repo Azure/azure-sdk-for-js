@@ -20,8 +20,8 @@ import {
   BackendUpdateOptionalParams,
   BackendUpdateResponse,
   BackendDeleteOptionalParams,
-  BackendReconnectOptionalParams
-} from "../models";
+  BackendReconnectOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Backend. */
@@ -35,7 +35,7 @@ export interface Backend {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: BackendListByServiceOptionalParams
+    options?: BackendListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<BackendContract>;
   /**
    * Gets the entity state (Etag) version of the backend specified by its identifier.
@@ -49,7 +49,7 @@ export interface Backend {
     resourceGroupName: string,
     serviceName: string,
     backendId: string,
-    options?: BackendGetEntityTagOptionalParams
+    options?: BackendGetEntityTagOptionalParams,
   ): Promise<BackendGetEntityTagResponse>;
   /**
    * Gets the details of the backend specified by its identifier.
@@ -63,7 +63,7 @@ export interface Backend {
     resourceGroupName: string,
     serviceName: string,
     backendId: string,
-    options?: BackendGetOptionalParams
+    options?: BackendGetOptionalParams,
   ): Promise<BackendGetResponse>;
   /**
    * Creates or Updates a backend.
@@ -79,7 +79,7 @@ export interface Backend {
     serviceName: string,
     backendId: string,
     parameters: BackendContract,
-    options?: BackendCreateOrUpdateOptionalParams
+    options?: BackendCreateOrUpdateOptionalParams,
   ): Promise<BackendCreateOrUpdateResponse>;
   /**
    * Updates an existing backend.
@@ -98,7 +98,7 @@ export interface Backend {
     backendId: string,
     ifMatch: string,
     parameters: BackendUpdateParameters,
-    options?: BackendUpdateOptionalParams
+    options?: BackendUpdateOptionalParams,
   ): Promise<BackendUpdateResponse>;
   /**
    * Deletes the specified backend.
@@ -115,7 +115,7 @@ export interface Backend {
     serviceName: string,
     backendId: string,
     ifMatch: string,
-    options?: BackendDeleteOptionalParams
+    options?: BackendDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Notifies the API Management gateway to create a new connection to the backend after the specified
@@ -130,6 +130,6 @@ export interface Backend {
     resourceGroupName: string,
     serviceName: string,
     backendId: string,
-    options?: BackendReconnectOptionalParams
+    options?: BackendReconnectOptionalParams,
   ): Promise<void>;
 }

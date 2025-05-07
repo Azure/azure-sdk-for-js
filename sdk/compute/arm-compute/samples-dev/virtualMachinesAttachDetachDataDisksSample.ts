@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
  */
-async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
+async function virtualMachineAttachDetachDataDisksMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -81,9 +79,9 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
  */
-async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
+async function virtualMachineAttachDetachDataDisksMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -113,9 +111,9 @@ async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineAttachDetachDataDisksMaximumSetGen();
-  virtualMachineAttachDetachDataDisksMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineAttachDetachDataDisksMaximumSetGen();
+  await virtualMachineAttachDetachDataDisksMinimumSetGen();
 }
 
 main().catch(console.error);

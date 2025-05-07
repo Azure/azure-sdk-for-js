@@ -9,7 +9,7 @@
 import {
   SystemAssignedIdentitiesGetByScopeOptionalParams,
   SystemAssignedIdentitiesGetByScopeResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SystemAssignedIdentities. */
 export interface SystemAssignedIdentities {

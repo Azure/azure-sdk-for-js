@@ -29,14 +29,14 @@ import type {
   MessagesClearHeaders,
   MessageIdDeleteHeaders,
   MessageIdUpdateHeaders,
-} from "./generatedModels";
+} from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
-import type { StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient, getStorageClientContext } from "./StorageClient";
-import type { WithResponse } from "./utils/utils.common";
+import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces/index.js";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient, getStorageClientContext } from "./StorageClient.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   extractConnectionStringParts,
@@ -44,18 +44,18 @@ import {
   truncatedISO8061Date,
   appendToURLQuery,
   assertResponse,
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { tracingClient } from "./utils/tracing";
-import type { Metadata } from "./models";
+} from "./utils/utils.common.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { tracingClient } from "./utils/tracing.js";
+import type { Metadata } from "./models.js";
 import {
   generateQueueSASQueryParameters,
   generateQueueSASQueryParametersInternal,
-} from "./QueueSASSignatureValues";
-import type { SasIPRange } from "./SasIPRange";
-import type { QueueSASPermissions } from "./QueueSASPermissions";
-import type { SASProtocol } from "./SASQueryParameters";
+} from "./QueueSASSignatureValues.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import type { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
@@ -162,7 +162,7 @@ export interface SignedIdentifier {
     expiresOn?: Date;
     /**
      * the permissions for the acl policy
-     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
     permissions?: string;
   };
@@ -192,7 +192,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 
 /** Optional parameters. */
 export interface MessagesEnqueueOptionalParams extends CommonOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -215,7 +215,7 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
 
 /** Optional parameters. */
 export interface MessagesDequeueOptionalParams extends CommonOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -238,7 +238,7 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
 
 /** Optional parameters. */
 export interface MessagesPeekOptionalParams extends CommonOptions {
-  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
+  /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
@@ -417,7 +417,7 @@ export interface QueueGenerateSasUrlOptions {
   /**
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 }
@@ -583,16 +583,29 @@ export class QueueClient extends StorageClient {
 
   /**
    * Creates a new queue under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param options - Options to Queue create operation.
    * @returns Response data for the Queue create operation.
    *
    * Example usage:
    *
-   * ```js
-   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * ```ts snippet:ReadmeSampleCreateQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const createQueueResponse = await queueClient.create();
+   * console.log(
+   *   `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
+   * );
    * ```
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
@@ -606,7 +619,7 @@ export class QueueClient extends StorageClient {
   /**
    * Creates a new queue under the specified account if it doesn't already exist.
    * If the queue already exists, it is not changed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param options -
    */
@@ -650,7 +663,7 @@ export class QueueClient extends StorageClient {
 
   /**
    * Deletes the specified queue permanently if it exists.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param options -
    */
@@ -679,17 +692,28 @@ export class QueueClient extends StorageClient {
 
   /**
    * Deletes the specified queue permanently.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param options - Options to Queue delete operation.
    * @returns Response data for the Queue delete operation.
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleDeleteQueue
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const deleteQueueResponse = await queueClient.delete();
    * console.log(
-   *   "Delete queue successfully, service assigned request Id:", deleteQueueResponse.requestId
+   *   `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
    * );
    * ```
    */
@@ -730,7 +754,7 @@ export class QueueClient extends StorageClient {
   /**
    * Gets all user-defined metadata and system properties for the specified
    * queue. Metadata is associated with the queue as name-values pairs.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
    * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
    * they originally contained uppercase characters. This differs from the metadata keys returned by
@@ -755,7 +779,7 @@ export class QueueClient extends StorageClient {
    *
    * If no option provided, or no metadata defined in the option parameter, the queue
    * metadata will be removed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
    * @param metadata - If no metadata provided, all existing metadata will be removed.
    * @param options - Options to Queue set metadata operation.
@@ -781,7 +805,7 @@ export class QueueClient extends StorageClient {
    * WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
    * @param options - Options to Queue get access policy operation.
    * @returns Response data for the Queue get access policy operation.
@@ -843,7 +867,7 @@ export class QueueClient extends StorageClient {
 
   /**
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
    * @param queueAcl -
    * @param options - Options to Queue set access policy operation.
@@ -885,7 +909,7 @@ export class QueueClient extends StorageClient {
 
   /**
    * Clear deletes all messages from a queue.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
    * @param options - Options to clear messages operation.
    * @returns Response data for the clear messages operation.
@@ -905,7 +929,7 @@ export class QueueClient extends StorageClient {
    * the message should be invisible to Dequeue and Peek operations.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/put-message
    *
    * @param messageText - Text of the message to send
    * @param options - Options to send messages operation.
@@ -913,11 +937,22 @@ export class QueueClient extends StorageClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleSendMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
+   * // Send a message into the queue using the sendMessage method.
    * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
    * console.log(
-   *   "Sent message successfully, service assigned message Id:", sendMessageResponse.messageId,
-   *   "service assigned request Id:", sendMessageResponse.requestId
+   *   `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`,
    * );
    * ```
    */
@@ -957,25 +992,35 @@ export class QueueClient extends StorageClient {
 
   /**
    * receiveMessages retrieves one or more messages from the front of the queue.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
    * @param options - Options to receive messages operation.
    * @returns Response data for the receive messages operation.
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSampleReceiveMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const response = await queueClient.receiveMessages();
-   * if (response.receivedMessageItems.length == 1) {
+   * if (response.receivedMessageItems.length === 1) {
    *   const receivedMessageItem = response.receivedMessageItems[0];
-   *   console.log("Processing & deleting message with content:", receivedMessageItem.messageText);
+   *   console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
    *   const deleteMessageResponse = await queueClient.deleteMessage(
    *     receivedMessageItem.messageId,
-   *     receivedMessageItem.popReceipt
+   *     receivedMessageItem.popReceipt,
    *   );
    *   console.log(
-   *     "Delete message successfully, service assigned request Id:",
-   *     deleteMessageResponse.requestId
+   *     `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`,
    *   );
    * }
    * ```
@@ -1014,16 +1059,27 @@ export class QueueClient extends StorageClient {
 
   /**
    * peekMessages retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
    * @param options - Options to peek messages operation.
    * @returns Response data for the peek messages operation.
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ReadmeSamplePeekMessage
+   * import { QueueServiceClient } from "@azure/storage-queue";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const queueName = "<valid queue name>";
+   * const queueClient = queueServiceClient.getQueueClient(queueName);
    * const peekMessagesResponse = await queueClient.peekMessages();
-   * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);
+   * console.log(`The peeked message is: ${peekMessagesResponse.peekedMessageItems[0].messageText}`);
    * ```
    */
   public async peekMessages(
@@ -1056,7 +1112,7 @@ export class QueueClient extends StorageClient {
 
   /**
    * deleteMessage permanently removes the specified message from its queue.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
    * @param messageId - Id of the message.
    * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
@@ -1079,7 +1135,7 @@ export class QueueClient extends StorageClient {
    * Update changes a message's visibility timeout and contents.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/update-message
    *
    * @param messageId - Id of the message
    * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
@@ -1156,7 +1212,7 @@ export class QueueClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1185,7 +1241,7 @@ export class QueueClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.

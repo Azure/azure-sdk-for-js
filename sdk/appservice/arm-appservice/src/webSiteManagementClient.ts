@@ -15,19 +15,17 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { setContinuationToken } from "./pagingHelper.js";
 import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
   CertificateRegistrationProviderImpl,
+  DomainRegistrationProviderImpl,
   DomainsImpl,
   TopLevelDomainsImpl,
-  DomainRegistrationProviderImpl,
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
-  ContainerAppsImpl,
-  ContainerAppsRevisionsImpl,
   DeletedWebAppsImpl,
   DiagnosticsImpl,
   GlobalImpl,
@@ -47,19 +45,17 @@ import {
   WorkflowTriggersImpl,
   WorkflowTriggerHistoriesImpl,
   WorkflowVersionsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
   CertificateRegistrationProvider,
+  DomainRegistrationProvider,
   Domains,
   TopLevelDomains,
-  DomainRegistrationProvider,
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
-  ContainerApps,
-  ContainerAppsRevisions,
   DeletedWebApps,
   Diagnostics,
   Global,
@@ -79,9 +75,9 @@ import {
   WorkflowTriggers,
   WorkflowTriggerHistories,
   WorkflowVersions,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   WebSiteManagementClientOptionalParams,
   SourceControl,
@@ -145,7 +141,7 @@ import {
   ListGeoRegionsNextResponse,
   ListSiteIdentifiersAssignedToHostNameNextResponse,
   ListPremierAddOnOffersNextResponse,
-} from "./models";
+} from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 export class WebSiteManagementClient extends coreClient.ServiceClient {
@@ -195,7 +191,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/16.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,7 +245,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
+    this.apiVersion = options.apiVersion || "2024-04-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -258,14 +254,12 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.certificateRegistrationProvider =
       new CertificateRegistrationProviderImpl(this);
+    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
-    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
-    this.containerApps = new ContainerAppsImpl(this);
-    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.deletedWebApps = new DeletedWebAppsImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.global = new GlobalImpl(this);
@@ -1090,14 +1084,12 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   appServiceCertificateOrders: AppServiceCertificateOrders;
   certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
   certificateRegistrationProvider: CertificateRegistrationProvider;
+  domainRegistrationProvider: DomainRegistrationProvider;
   domains: Domains;
   topLevelDomains: TopLevelDomains;
-  domainRegistrationProvider: DomainRegistrationProvider;
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
-  containerApps: ContainerApps;
-  containerAppsRevisions: ContainerAppsRevisions;
   deletedWebApps: DeletedWebApps;
   diagnostics: Diagnostics;
   global: Global;

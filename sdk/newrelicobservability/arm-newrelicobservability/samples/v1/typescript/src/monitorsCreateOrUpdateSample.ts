@@ -13,9 +13,7 @@ import {
   NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a NewRelicMonitorResource
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a NewRelicMonitorResource
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function monitorsCreateOrUpdateMaximumSetGen() {
+async function monitorsCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -56,7 +54,7 @@ async function monitorsCreateOrUpdateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsCreateOrUpdateMaximumSetGen();
 }
 

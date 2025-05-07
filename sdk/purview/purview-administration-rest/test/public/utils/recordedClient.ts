@@ -5,8 +5,7 @@
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import type { PurviewAccount, PurviewMetadataPolicies } from "../../../src/index.js";
-import { PurviewAccountClient, PurviewMetadataPoliciesClient } from "../../../src/index.js";
+import { PurviewAccount, PurviewMetadataPolicies } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import type { ClientOptions } from "@azure-rest/core-client";
@@ -25,11 +24,11 @@ const recorderOptions: RecorderStartOptions = {
 export async function createAccountClient(
   recorder: Recorder,
   options?: ClientOptions,
-): Promise<PurviewAccount.Client.PurviewAccountRestClient> {
+): Promise<PurviewAccount.Client.PurviewAccountClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
 
-  return PurviewAccountClient(
+  return PurviewAccount.createClient(
     env.ENDPOINT ?? "",
     credential,
     recorder.configureClientOptions({ options }),
@@ -39,11 +38,11 @@ export async function createAccountClient(
 export async function createMetadataClient(
   recorder: Recorder,
   options?: ClientOptions,
-): Promise<PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient> {
+): Promise<PurviewMetadataPolicies.Client.PurviewMetadataPoliciesClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
 
-  return PurviewMetadataPoliciesClient(
+  return PurviewMetadataPolicies.createClient(
     env.ENDPOINT ?? "",
     credential,
     recorder.configureClientOptions({ options }),

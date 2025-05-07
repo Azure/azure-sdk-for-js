@@ -14,8 +14,8 @@ import {
   GroupUserCheckEntityExistsResponse,
   GroupUserCreateOptionalParams,
   GroupUserCreateResponse,
-  GroupUserDeleteOptionalParams
-} from "../models";
+  GroupUserDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GroupUser. */
@@ -31,7 +31,7 @@ export interface GroupUser {
     resourceGroupName: string,
     serviceName: string,
     groupId: string,
-    options?: GroupUserListOptionalParams
+    options?: GroupUserListOptionalParams,
   ): PagedAsyncIterableIterator<UserContract>;
   /**
    * Checks that user entity specified by identifier is associated with the group entity.
@@ -46,7 +46,7 @@ export interface GroupUser {
     serviceName: string,
     groupId: string,
     userId: string,
-    options?: GroupUserCheckEntityExistsOptionalParams
+    options?: GroupUserCheckEntityExistsOptionalParams,
   ): Promise<GroupUserCheckEntityExistsResponse>;
   /**
    * Add existing user to existing group
@@ -61,7 +61,7 @@ export interface GroupUser {
     serviceName: string,
     groupId: string,
     userId: string,
-    options?: GroupUserCreateOptionalParams
+    options?: GroupUserCreateOptionalParams,
   ): Promise<GroupUserCreateResponse>;
   /**
    * Remove existing user from existing group.
@@ -76,6 +76,6 @@ export interface GroupUser {
     serviceName: string,
     groupId: string,
     userId: string,
-    options?: GroupUserDeleteOptionalParams
+    options?: GroupUserDeleteOptionalParams,
   ): Promise<void>;
 }

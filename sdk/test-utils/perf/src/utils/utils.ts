@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IncomingMessage, RequestOptions } from "http";
-import https from "https";
-import http from "http";
+
+import { IncomingMessage, RequestOptions } from "node:http";
+import https from "node:https";
+import http from "node:http";
 
 /**
  * Returns the environment variable, throws an error if not defined.

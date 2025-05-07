@@ -6,18 +6,19 @@
  */
 
 const { EmailClient } = require("@azure/communication-email");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file (you will need to set these environment variables)
-require("dotenv").config();
+require("dotenv/config");
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 const senderAddress = process.env["SENDER_ADDRESS"] || "";
 const recipientAddress = process.env["RECIPIENT_ADDRESS"] || "";
 const secondRecipientAddress = process.env["SECOND_RECIPIENT_ADDRESS"] || "";
 
 const sendEmailMultipleRecipients = async () => {
   // Create the Email Client
-  const emailClient = new EmailClient(connectionString);
+  const emailClient = new EmailClient(endpoint, new DefaultAzureCredential());
 
   // Create the Email Message to be sent
   const message = {

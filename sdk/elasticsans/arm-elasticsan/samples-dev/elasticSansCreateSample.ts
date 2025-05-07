@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ElasticSan, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Create_MaximumSet_Gen.json
  */
-async function elasticSansCreateMaximumSetGen() {
+async function elasticSansCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -37,13 +35,13 @@ async function elasticSansCreateMaximumSetGen() {
           unusedSizeTiB: 24,
         },
       },
-      availabilityZones: ["xoz"],
-      baseSizeTiB: 1,
-      extendedCapacitySizeTiB: 3,
+      availabilityZones: ["1"],
+      baseSizeTiB: 5,
+      extendedCapacitySizeTiB: 25,
       publicNetworkAccess: "Enabled",
       sku: { name: "Premium_LRS", tier: "Premium" },
     },
-    tags: { key9706: "haitqqakcntcpalkzqmjmcnifnhd" },
+    tags: { key9316: "ihndtieqibtob" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -59,9 +57,9 @@ async function elasticSansCreateMaximumSetGen() {
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_Create_MinimumSet_Gen.json
  */
-async function elasticSansCreateMinimumSetGen() {
+async function elasticSansCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -70,8 +68,8 @@ async function elasticSansCreateMinimumSetGen() {
   const parameters: ElasticSan = {
     location: "France Central",
     properties: {
-      baseSizeTiB: 1,
-      extendedCapacitySizeTiB: 3,
+      baseSizeTiB: 15,
+      extendedCapacitySizeTiB: 27,
       sku: { name: "Premium_LRS" },
     },
   };
@@ -85,9 +83,9 @@ async function elasticSansCreateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  elasticSansCreateMaximumSetGen();
-  elasticSansCreateMinimumSetGen();
+async function main(): Promise<void> {
+  await elasticSansCreateMaximumSetGen();
+  await elasticSansCreateMinimumSetGen();
 }
 
 main().catch(console.error);

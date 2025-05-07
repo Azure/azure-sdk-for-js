@@ -19,7 +19,7 @@ import {
   OutboundEndpointsDeleteOptionalParams,
   OutboundEndpointsGetOptionalParams,
   OutboundEndpointsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OutboundEndpoints. */

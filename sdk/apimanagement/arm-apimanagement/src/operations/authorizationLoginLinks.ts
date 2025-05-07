@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AuthorizationLoginLinks } from "../operationsInterfaces";
+import { AuthorizationLoginLinks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   AuthorizationLoginRequestContract,
   AuthorizationLoginLinksPostOptionalParams,
-  AuthorizationLoginLinksPostResponse
-} from "../models";
+  AuthorizationLoginLinksPostResponse,
+} from "../models/index.js";
 
 /** Class containing AuthorizationLoginLinks operations. */
 export class AuthorizationLoginLinksImpl implements AuthorizationLoginLinks {
@@ -44,7 +44,7 @@ export class AuthorizationLoginLinksImpl implements AuthorizationLoginLinks {
     authorizationProviderId: string,
     authorizationId: string,
     parameters: AuthorizationLoginRequestContract,
-    options?: AuthorizationLoginLinksPostOptionalParams
+    options?: AuthorizationLoginLinksPostOptionalParams,
   ): Promise<AuthorizationLoginLinksPostResponse> {
     return this.client.sendOperationRequest(
       {
@@ -53,9 +53,9 @@ export class AuthorizationLoginLinksImpl implements AuthorizationLoginLinks {
         authorizationProviderId,
         authorizationId,
         parameters,
-        options
+        options,
       },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -63,29 +63,28 @@ export class AuthorizationLoginLinksImpl implements AuthorizationLoginLinks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const postOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/getLoginLinks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/getLoginLinks",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationLoginResponseContract,
-      headersMapper: Mappers.AuthorizationLoginLinksPostHeaders
+      headersMapper: Mappers.AuthorizationLoginLinksPostHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

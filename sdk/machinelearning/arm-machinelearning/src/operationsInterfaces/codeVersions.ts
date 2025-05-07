@@ -21,7 +21,7 @@ import {
   PendingUploadRequestDto,
   CodeVersionsCreateOrGetStartPendingUploadOptionalParams,
   CodeVersionsCreateOrGetStartPendingUploadResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CodeVersions. */

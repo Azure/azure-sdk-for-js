@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AuthorizationAccessPolicy } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AuthorizationAccessPolicy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   AuthorizationAccessPolicyContract,
   AuthorizationAccessPolicyListByAuthorizationNextOptionalParams,
@@ -23,13 +23,14 @@ import {
   AuthorizationAccessPolicyCreateOrUpdateOptionalParams,
   AuthorizationAccessPolicyCreateOrUpdateResponse,
   AuthorizationAccessPolicyDeleteOptionalParams,
-  AuthorizationAccessPolicyListByAuthorizationNextResponse
-} from "../models";
+  AuthorizationAccessPolicyListByAuthorizationNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AuthorizationAccessPolicy operations. */
 export class AuthorizationAccessPolicyImpl
-  implements AuthorizationAccessPolicy {
+  implements AuthorizationAccessPolicy
+{
   private readonly client: ApiManagementClient;
 
   /**
@@ -53,14 +54,14 @@ export class AuthorizationAccessPolicyImpl
     serviceName: string,
     authorizationProviderId: string,
     authorizationId: string,
-    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams
+    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationAccessPolicyContract> {
     const iter = this.listByAuthorizationPagingAll(
       resourceGroupName,
       serviceName,
       authorizationProviderId,
       authorizationId,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class AuthorizationAccessPolicyImpl
           authorizationProviderId,
           authorizationId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +92,7 @@ export class AuthorizationAccessPolicyImpl
     authorizationProviderId: string,
     authorizationId: string,
     options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationAccessPolicyContract[]> {
     let result: AuthorizationAccessPolicyListByAuthorizationResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +102,7 @@ export class AuthorizationAccessPolicyImpl
         serviceName,
         authorizationProviderId,
         authorizationId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -115,7 +116,7 @@ export class AuthorizationAccessPolicyImpl
         authorizationProviderId,
         authorizationId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,14 +130,14 @@ export class AuthorizationAccessPolicyImpl
     serviceName: string,
     authorizationProviderId: string,
     authorizationId: string,
-    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams
+    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams,
   ): AsyncIterableIterator<AuthorizationAccessPolicyContract> {
     for await (const page of this.listByAuthorizationPagingPage(
       resourceGroupName,
       serviceName,
       authorizationProviderId,
       authorizationId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -155,7 +156,7 @@ export class AuthorizationAccessPolicyImpl
     serviceName: string,
     authorizationProviderId: string,
     authorizationId: string,
-    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams
+    options?: AuthorizationAccessPolicyListByAuthorizationOptionalParams,
   ): Promise<AuthorizationAccessPolicyListByAuthorizationResponse> {
     return this.client.sendOperationRequest(
       {
@@ -163,9 +164,9 @@ export class AuthorizationAccessPolicyImpl
         serviceName,
         authorizationProviderId,
         authorizationId,
-        options
+        options,
       },
-      listByAuthorizationOperationSpec
+      listByAuthorizationOperationSpec,
     );
   }
 
@@ -184,7 +185,7 @@ export class AuthorizationAccessPolicyImpl
     authorizationProviderId: string,
     authorizationId: string,
     authorizationAccessPolicyId: string,
-    options?: AuthorizationAccessPolicyGetOptionalParams
+    options?: AuthorizationAccessPolicyGetOptionalParams,
   ): Promise<AuthorizationAccessPolicyGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -193,9 +194,9 @@ export class AuthorizationAccessPolicyImpl
         authorizationProviderId,
         authorizationId,
         authorizationAccessPolicyId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -216,7 +217,7 @@ export class AuthorizationAccessPolicyImpl
     authorizationId: string,
     authorizationAccessPolicyId: string,
     parameters: AuthorizationAccessPolicyContract,
-    options?: AuthorizationAccessPolicyCreateOrUpdateOptionalParams
+    options?: AuthorizationAccessPolicyCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationAccessPolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -226,9 +227,9 @@ export class AuthorizationAccessPolicyImpl
         authorizationId,
         authorizationAccessPolicyId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -250,7 +251,7 @@ export class AuthorizationAccessPolicyImpl
     authorizationId: string,
     authorizationAccessPolicyId: string,
     ifMatch: string,
-    options?: AuthorizationAccessPolicyDeleteOptionalParams
+    options?: AuthorizationAccessPolicyDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -260,9 +261,9 @@ export class AuthorizationAccessPolicyImpl
         authorizationId,
         authorizationAccessPolicyId,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -281,7 +282,7 @@ export class AuthorizationAccessPolicyImpl
     authorizationProviderId: string,
     authorizationId: string,
     nextLink: string,
-    options?: AuthorizationAccessPolicyListByAuthorizationNextOptionalParams
+    options?: AuthorizationAccessPolicyListByAuthorizationNextOptionalParams,
   ): Promise<AuthorizationAccessPolicyListByAuthorizationNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -290,9 +291,9 @@ export class AuthorizationAccessPolicyImpl
         authorizationProviderId,
         authorizationId,
         nextLink,
-        options
+        options,
       },
-      listByAuthorizationNextOperationSpec
+      listByAuthorizationNextOperationSpec,
     );
   }
 }
@@ -300,140 +301,136 @@ export class AuthorizationAccessPolicyImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAuthorizationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationAccessPolicyCollection
+      bodyMapper: Mappers.AuthorizationAccessPolicyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationAccessPolicyContract,
-      headersMapper: Mappers.AuthorizationAccessPolicyGetHeaders
+      headersMapper: Mappers.AuthorizationAccessPolicyGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
     Parameters.authorizationId,
-    Parameters.authorizationAccessPolicyId
+    Parameters.authorizationAccessPolicyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationAccessPolicyContract,
-      headersMapper: Mappers.AuthorizationAccessPolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.AuthorizationAccessPolicyCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.AuthorizationAccessPolicyContract,
-      headersMapper: Mappers.AuthorizationAccessPolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.AuthorizationAccessPolicyCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
     Parameters.authorizationId,
-    Parameters.authorizationAccessPolicyId
+    Parameters.authorizationAccessPolicyId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
     Parameters.authorizationId,
-    Parameters.authorizationAccessPolicyId
+    Parameters.authorizationAccessPolicyId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByAuthorizationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationAccessPolicyCollection
+      bodyMapper: Mappers.AuthorizationAccessPolicyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.authorizationProviderId,
-    Parameters.authorizationId
+    Parameters.authorizationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

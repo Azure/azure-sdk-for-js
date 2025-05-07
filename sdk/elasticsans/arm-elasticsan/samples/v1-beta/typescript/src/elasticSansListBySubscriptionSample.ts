@@ -10,23 +10,21 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of ElasticSans in a subscription
  *
  * @summary Gets a list of ElasticSans in a subscription
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListBySubscription_MaximumSet_Gen.json
  */
-async function elasticSansListBySubscriptionMaximumSetGen() {
+async function elasticSansListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listBySubscription()) {
+  for await (const item of client.elasticSans.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -36,23 +34,23 @@ async function elasticSansListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to Gets a list of ElasticSans in a subscription
  *
  * @summary Gets a list of ElasticSans in a subscription
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/ElasticSans_ListBySubscription_MinimumSet_Gen.json
  */
-async function elasticSansListBySubscriptionMinimumSetGen() {
+async function elasticSansListBySubscriptionMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listBySubscription()) {
+  for await (const item of client.elasticSans.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  elasticSansListBySubscriptionMaximumSetGen();
-  elasticSansListBySubscriptionMinimumSetGen();
+async function main(): Promise<void> {
+  await elasticSansListBySubscriptionMaximumSetGen();
+  await elasticSansListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

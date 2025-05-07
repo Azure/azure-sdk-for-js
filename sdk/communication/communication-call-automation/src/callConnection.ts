@@ -13,11 +13,11 @@ import type {
   TransferToParticipantRequest,
 } from "./generated/src/index.js";
 import { CallConnectionImpl } from "./generated/src/operations/index.js";
-import type {
-  CallConnectionProperties,
-  CallInvite,
-  CallParticipant,
-  CustomCallingContext,
+import {
+  type CallConnectionProperties,
+  type CallInvite,
+  type CallParticipant,
+  type CustomCallingContext,
 } from "./models/models.js";
 import type {
   AddParticipantOptions,
@@ -106,12 +106,13 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {},
   ): Promise<CallConnectionProperties> {
-    const { targets, sourceCallerIdNumber, answeredBy, source, ...result } =
+    const { targets, sourceCallerIdNumber, answeredBy, source, answeredFor, ...result } =
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
       source: source ? communicationIdentifierConverter(source) : undefined,
       answeredby: communicationUserIdentifierConverter(answeredBy),
+      answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -157,6 +158,7 @@ export class CallConnection {
         ? communicationIdentifierConverter(result.identifier)
         : undefined,
       isMuted: result.isMuted,
+      isOnHold: result.isOnHold,
     };
     return callParticipant;
   }
@@ -194,7 +196,11 @@ export class CallConnection {
         if (header.kind === "sipuui") {
           sipHeaders[`User-To-User`] = header.value;
         } else if (header.kind === "sipx") {
-          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          if (header.sipHeaderPrefix === "X-") {
+            sipHeaders[`X-${header.key}`] = header.value;
+          } else {
+            sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+          }
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
         }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to start a virtual machine instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to start a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Start_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesStartMaximumSet() {
+async function virtualMachineInstancesStartMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -35,7 +33,7 @@ async function virtualMachineInstancesStartMaximumSet() {
  * @summary The operation to start a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Start_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesStartMinimumSet() {
+async function virtualMachineInstancesStartMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -44,7 +42,7 @@ async function virtualMachineInstancesStartMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineInstancesStartMaximumSet();
   virtualMachineInstancesStartMinimumSet();
 }

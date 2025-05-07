@@ -6,19 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { NotificationHubsManagementClient } from "../notificationHubsManagementClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   PrivateEndpointConnectionResource,
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
@@ -33,13 +30,11 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsGetGroupIdOptionalParams,
   PrivateEndpointConnectionsGetGroupIdResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
   private readonly client: NotificationHubsManagementClient;
 
   /**
@@ -74,12 +69,7 @@ export class PrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -100,11 +90,7 @@ export class PrivateEndpointConnectionsImpl
     namespaceName: string,
     options?: PrivateEndpointConnectionsListOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnectionResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      namespaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, namespaceName, options)) {
       yield* page;
     }
   }
@@ -123,11 +109,7 @@ export class PrivateEndpointConnectionsImpl
     namespaceName: string,
     options?: PrivateEndpointConnectionsListGroupIdsOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listGroupIdsPagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listGroupIdsPagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -139,12 +121,7 @@ export class PrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listGroupIdsPagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listGroupIdsPagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -156,11 +133,7 @@ export class PrivateEndpointConnectionsImpl
     _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateEndpointConnectionsListGroupIdsResponse;
-    result = await this._listGroupIds(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    result = await this._listGroupIds(resourceGroupName, namespaceName, options);
     yield result.value || [];
   }
 
@@ -209,8 +182,7 @@ export class PrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -315,8 +287,7 @@ export class PrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

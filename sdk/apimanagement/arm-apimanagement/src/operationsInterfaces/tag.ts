@@ -43,8 +43,8 @@ import {
   TagCreateOrUpdateResponse,
   TagUpdateOptionalParams,
   TagUpdateResponse,
-  TagDeleteOptionalParams
-} from "../models";
+  TagDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Tag. */
@@ -64,7 +64,7 @@ export interface Tag {
     serviceName: string,
     apiId: string,
     operationId: string,
-    options?: TagListByOperationOptionalParams
+    options?: TagListByOperationOptionalParams,
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Lists all Tags associated with the API.
@@ -78,7 +78,7 @@ export interface Tag {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: TagListByApiOptionalParams
+    options?: TagListByApiOptionalParams,
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Lists all Tags associated with the Product.
@@ -91,7 +91,7 @@ export interface Tag {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: TagListByProductOptionalParams
+    options?: TagListByProductOptionalParams,
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Lists a collection of tags defined within a service instance.
@@ -102,7 +102,7 @@ export interface Tag {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TagListByServiceOptionalParams
+    options?: TagListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TagContract>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
@@ -121,7 +121,7 @@ export interface Tag {
     apiId: string,
     operationId: string,
     tagId: string,
-    options?: TagGetEntityStateByOperationOptionalParams
+    options?: TagGetEntityStateByOperationOptionalParams,
   ): Promise<TagGetEntityStateByOperationResponse>;
   /**
    * Get tag associated with the Operation.
@@ -140,7 +140,7 @@ export interface Tag {
     apiId: string,
     operationId: string,
     tagId: string,
-    options?: TagGetByOperationOptionalParams
+    options?: TagGetByOperationOptionalParams,
   ): Promise<TagGetByOperationResponse>;
   /**
    * Assign tag to the Operation.
@@ -159,7 +159,7 @@ export interface Tag {
     apiId: string,
     operationId: string,
     tagId: string,
-    options?: TagAssignToOperationOptionalParams
+    options?: TagAssignToOperationOptionalParams,
   ): Promise<TagAssignToOperationResponse>;
   /**
    * Detach the tag from the Operation.
@@ -178,7 +178,7 @@ export interface Tag {
     apiId: string,
     operationId: string,
     tagId: string,
-    options?: TagDetachFromOperationOptionalParams
+    options?: TagDetachFromOperationOptionalParams,
   ): Promise<void>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
@@ -194,7 +194,7 @@ export interface Tag {
     serviceName: string,
     apiId: string,
     tagId: string,
-    options?: TagGetEntityStateByApiOptionalParams
+    options?: TagGetEntityStateByApiOptionalParams,
   ): Promise<TagGetEntityStateByApiResponse>;
   /**
    * Get tag associated with the API.
@@ -210,7 +210,7 @@ export interface Tag {
     serviceName: string,
     apiId: string,
     tagId: string,
-    options?: TagGetByApiOptionalParams
+    options?: TagGetByApiOptionalParams,
   ): Promise<TagGetByApiResponse>;
   /**
    * Assign tag to the Api.
@@ -226,7 +226,7 @@ export interface Tag {
     serviceName: string,
     apiId: string,
     tagId: string,
-    options?: TagAssignToApiOptionalParams
+    options?: TagAssignToApiOptionalParams,
   ): Promise<TagAssignToApiResponse>;
   /**
    * Detach the tag from the Api.
@@ -242,7 +242,7 @@ export interface Tag {
     serviceName: string,
     apiId: string,
     tagId: string,
-    options?: TagDetachFromApiOptionalParams
+    options?: TagDetachFromApiOptionalParams,
   ): Promise<void>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
@@ -257,7 +257,7 @@ export interface Tag {
     serviceName: string,
     productId: string,
     tagId: string,
-    options?: TagGetEntityStateByProductOptionalParams
+    options?: TagGetEntityStateByProductOptionalParams,
   ): Promise<TagGetEntityStateByProductResponse>;
   /**
    * Get tag associated with the Product.
@@ -272,7 +272,7 @@ export interface Tag {
     serviceName: string,
     productId: string,
     tagId: string,
-    options?: TagGetByProductOptionalParams
+    options?: TagGetByProductOptionalParams,
   ): Promise<TagGetByProductResponse>;
   /**
    * Assign tag to the Product.
@@ -287,7 +287,7 @@ export interface Tag {
     serviceName: string,
     productId: string,
     tagId: string,
-    options?: TagAssignToProductOptionalParams
+    options?: TagAssignToProductOptionalParams,
   ): Promise<TagAssignToProductResponse>;
   /**
    * Detach the tag from the Product.
@@ -302,7 +302,7 @@ export interface Tag {
     serviceName: string,
     productId: string,
     tagId: string,
-    options?: TagDetachFromProductOptionalParams
+    options?: TagDetachFromProductOptionalParams,
   ): Promise<void>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
@@ -315,7 +315,7 @@ export interface Tag {
     resourceGroupName: string,
     serviceName: string,
     tagId: string,
-    options?: TagGetEntityStateOptionalParams
+    options?: TagGetEntityStateOptionalParams,
   ): Promise<TagGetEntityStateResponse>;
   /**
    * Gets the details of the tag specified by its identifier.
@@ -328,7 +328,7 @@ export interface Tag {
     resourceGroupName: string,
     serviceName: string,
     tagId: string,
-    options?: TagGetOptionalParams
+    options?: TagGetOptionalParams,
   ): Promise<TagGetResponse>;
   /**
    * Creates a tag.
@@ -343,7 +343,7 @@ export interface Tag {
     serviceName: string,
     tagId: string,
     parameters: TagCreateUpdateParameters,
-    options?: TagCreateOrUpdateOptionalParams
+    options?: TagCreateOrUpdateOptionalParams,
   ): Promise<TagCreateOrUpdateResponse>;
   /**
    * Updates the details of the tag specified by its identifier.
@@ -361,7 +361,7 @@ export interface Tag {
     tagId: string,
     ifMatch: string,
     parameters: TagCreateUpdateParameters,
-    options?: TagUpdateOptionalParams
+    options?: TagUpdateOptionalParams,
   ): Promise<TagUpdateResponse>;
   /**
    * Deletes specific tag of the API Management service instance.
@@ -377,6 +377,6 @@ export interface Tag {
     serviceName: string,
     tagId: string,
     ifMatch: string,
-    options?: TagDeleteOptionalParams
+    options?: TagDeleteOptionalParams,
   ): Promise<void>;
 }

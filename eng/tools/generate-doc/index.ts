@@ -27,16 +27,22 @@ async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: st
   }
   console.log(`entrypoints: ${JSON.stringify(entryPoints)}`);
 
-  const app = await TypeDocApplication.bootstrap({
-    entryPoints,
-    excludeInternal: true,
-    excludePrivate: true,
-    skipErrorChecking: true,
-    theme: "azureSdk",
-  }, [
-    new TSConfigReader(),
-    new TypeDocReader(),
-  ]);
+  const srcTsconfigPath = path.join(cwd, "tsconfig.src.json");
+  const tsconfig = (await fileExists(srcTsconfigPath))
+    ? srcTsconfigPath
+    : path.join(cwd, "tsconfig.json");
+
+  const app = await TypeDocApplication.bootstrap(
+    {
+      entryPoints,
+      excludeInternal: true,
+      excludePrivate: true,
+      skipErrorChecking: true,
+      theme: "azureSdk",
+      tsconfig,
+    },
+    [new TSConfigReader(), new TypeDocReader()],
+  );
 
   loadTheme(app);
 

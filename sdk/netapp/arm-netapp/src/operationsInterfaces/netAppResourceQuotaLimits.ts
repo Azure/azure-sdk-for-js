@@ -12,7 +12,7 @@ import {
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsGetOptionalParams,
   NetAppResourceQuotaLimitsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetAppResourceQuotaLimits. */

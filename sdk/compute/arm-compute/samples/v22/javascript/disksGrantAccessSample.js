@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Grants access to a disk.
@@ -63,8 +63,8 @@ async function getSasOnManagedDiskAndVMGuestState() {
 }
 
 async function main() {
-  getASasOnAManagedDisk();
-  getSasOnManagedDiskAndVMGuestState();
+  await getASasOnAManagedDisk();
+  await getSasOnManagedDiskAndVMGuestState();
 }
 
 main().catch(console.error);

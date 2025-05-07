@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the security services for rulestack
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List the security services for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listSecurityServices_MaximumSet_Gen.json
  */
-async function globalRulestackListSecurityServicesMaximumSetGen() {
+async function globalRulestackListSecurityServicesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
   const top = 20;
@@ -48,7 +46,7 @@ async function globalRulestackListSecurityServicesMaximumSetGen() {
  * @summary List the security services for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listSecurityServices_MinimumSet_Gen.json
  */
-async function globalRulestackListSecurityServicesMinimumSetGen() {
+async function globalRulestackListSecurityServicesMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const typeParam = "globalRulestacks";
   const credential = new DefaultAzureCredential();
@@ -60,7 +58,7 @@ async function globalRulestackListSecurityServicesMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalRulestackListSecurityServicesMaximumSetGen();
   globalRulestackListSecurityServicesMinimumSetGen();
 }

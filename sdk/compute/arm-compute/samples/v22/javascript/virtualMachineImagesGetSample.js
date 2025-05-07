@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a virtual machine image.
  *
  * @summary Gets a virtual machine image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineImageGetMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -41,7 +41,7 @@ async function virtualMachineImageGetMaximumSetGen() {
  * This sample demonstrates how to Gets a virtual machine image.
  *
  * @summary Gets a virtual machine image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineImageGetMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -63,8 +63,8 @@ async function virtualMachineImageGetMinimumSetGen() {
 }
 
 async function main() {
-  virtualMachineImageGetMaximumSetGen();
-  virtualMachineImageGetMinimumSetGen();
+  await virtualMachineImageGetMaximumSetGen();
+  await virtualMachineImageGetMinimumSetGen();
 }
 
 main().catch(console.error);

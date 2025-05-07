@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiManagementOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   Operation,
   ApiManagementOperationsListNextOptionalParams,
   ApiManagementOperationsListOptionalParams,
   ApiManagementOperationsListResponse,
-  ApiManagementOperationsListNextResponse
-} from "../models";
+  ApiManagementOperationsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiManagementOperations operations. */
@@ -39,7 +39,7 @@ export class ApiManagementOperationsImpl implements ApiManagementOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: ApiManagementOperationsListOptionalParams
+    options?: ApiManagementOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ApiManagementOperationsImpl implements ApiManagementOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ApiManagementOperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: ApiManagementOperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ApiManagementOperationsImpl implements ApiManagementOperations {
   }
 
   private async *listPagingAll(
-    options?: ApiManagementOperationsListOptionalParams
+    options?: ApiManagementOperationsListOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class ApiManagementOperationsImpl implements ApiManagementOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: ApiManagementOperationsListOptionalParams
+    options?: ApiManagementOperationsListOptionalParams,
   ): Promise<ApiManagementOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ApiManagementOperationsImpl implements ApiManagementOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: ApiManagementOperationsListNextOptionalParams
+    options?: ApiManagementOperationsListNextOptionalParams,
   ): Promise<ApiManagementOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

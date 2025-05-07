@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stops a Kusto cluster.
  *
  * @summary Stops a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStop.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersStop.json
  */
-async function kustoClustersStop() {
+async function kustoClustersStop(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -31,13 +29,13 @@ async function kustoClustersStop() {
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginStopAndWait(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoClustersStop();
+async function main(): Promise<void> {
+  await kustoClustersStop();
 }
 
 main().catch(console.error);

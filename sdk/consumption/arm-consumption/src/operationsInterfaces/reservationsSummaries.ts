@@ -13,7 +13,7 @@ import {
   ReservationsSummariesListByReservationOrderOptionalParams,
   ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
   ReservationsSummariesListOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReservationsSummaries. */

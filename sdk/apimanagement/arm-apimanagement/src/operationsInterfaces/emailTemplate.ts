@@ -20,8 +20,8 @@ import {
   EmailTemplateCreateOrUpdateResponse,
   EmailTemplateUpdateOptionalParams,
   EmailTemplateUpdateResponse,
-  EmailTemplateDeleteOptionalParams
-} from "../models";
+  EmailTemplateDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EmailTemplate. */
@@ -35,7 +35,7 @@ export interface EmailTemplate {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: EmailTemplateListByServiceOptionalParams
+    options?: EmailTemplateListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<EmailTemplateContract>;
   /**
    * Gets the entity state (Etag) version of the email template specified by its identifier.
@@ -48,7 +48,7 @@ export interface EmailTemplate {
     resourceGroupName: string,
     serviceName: string,
     templateName: TemplateName,
-    options?: EmailTemplateGetEntityTagOptionalParams
+    options?: EmailTemplateGetEntityTagOptionalParams,
   ): Promise<EmailTemplateGetEntityTagResponse>;
   /**
    * Gets the details of the email template specified by its identifier.
@@ -61,7 +61,7 @@ export interface EmailTemplate {
     resourceGroupName: string,
     serviceName: string,
     templateName: TemplateName,
-    options?: EmailTemplateGetOptionalParams
+    options?: EmailTemplateGetOptionalParams,
   ): Promise<EmailTemplateGetResponse>;
   /**
    * Updates an Email Template.
@@ -76,7 +76,7 @@ export interface EmailTemplate {
     serviceName: string,
     templateName: TemplateName,
     parameters: EmailTemplateUpdateParameters,
-    options?: EmailTemplateCreateOrUpdateOptionalParams
+    options?: EmailTemplateCreateOrUpdateOptionalParams,
   ): Promise<EmailTemplateCreateOrUpdateResponse>;
   /**
    * Updates API Management email template
@@ -94,7 +94,7 @@ export interface EmailTemplate {
     templateName: TemplateName,
     ifMatch: string,
     parameters: EmailTemplateUpdateParameters,
-    options?: EmailTemplateUpdateOptionalParams
+    options?: EmailTemplateUpdateOptionalParams,
   ): Promise<EmailTemplateUpdateResponse>;
   /**
    * Reset the Email Template to default template provided by the API Management service instance.
@@ -110,6 +110,6 @@ export interface EmailTemplate {
     serviceName: string,
     templateName: TemplateName,
     ifMatch: string,
-    options?: EmailTemplateDeleteOptionalParams
+    options?: EmailTemplateDeleteOptionalParams,
   ): Promise<void>;
 }

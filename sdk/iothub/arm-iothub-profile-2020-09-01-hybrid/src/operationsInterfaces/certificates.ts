@@ -20,7 +20,7 @@ import {
   CertificateVerificationDescription,
   CertificatesVerifyOptionalParams,
   CertificatesVerifyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Certificates. */
 export interface Certificates {

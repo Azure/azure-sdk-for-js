@@ -7,7 +7,8 @@
  * @azsdk-weight 60
  */
 
-import { CreateBatchOptions, EventHubProducerClient, RetryMode } from "@azure/event-hubs";
+import type { CreateBatchOptions } from "@azure/event-hubs";
+import { EventHubProducerClient, RetryMode } from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

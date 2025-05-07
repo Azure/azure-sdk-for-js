@@ -310,6 +310,19 @@ export interface NatGatewaySku {
   name?: NatGatewaySkuName;
 }
 
+/** IpamPool prefix allocation reference. */
+export interface IpamPoolPrefixAllocation {
+  /** Number of IP addresses to allocate. */
+  numberOfIpAddresses?: string;
+  /**
+   * List of assigned IP address prefixes in the IpamPool of the associated resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocatedAddressPrefixes?: string[];
+  /** Resource id of the associated Azure IpamPool resource. */
+  id?: string;
+}
+
 /** Gateway load balancer tunnel interface of a load balancer backend address pool. */
 export interface GatewayLoadBalancerTunnelInterface {
   /** Port of gateway load balancer tunnel interface. */
@@ -1908,7 +1921,7 @@ export interface SingleQueryResult {
   mode?: FirewallPolicyIdpsSignatureMode;
   /** Describes the severity of signature: 1 - High, 2 - Medium, 3 - Low */
   severity?: FirewallPolicyIdpsSignatureSeverity;
-  /** Describes in which direction signature is being enforced: 0 - OutBound, 1 - InBound, 2 - Any, 3 - Internal, 4 - InternalOutbound */
+  /** Describes in which direction signature is being enforced: 0 - OutBound, 1 - InBound, 2 - Any, 3 - Internal, 4 - InternalOutbound, 5 - InternalInbound */
   direction?: FirewallPolicyIdpsSignatureDirection;
   /** Describes the groups the signature belongs to */
   group?: string;
@@ -1960,6 +1973,261 @@ export interface SignatureOverridesFilterValuesResponse {
 export interface SignaturesOverridesList {
   /** Describes a list consisting exactly one item describing the policy's signature override status */
   value?: SignaturesOverrides[];
+}
+
+/** List of IpamPool */
+export interface IpamPoolList {
+  value?: IpamPool[];
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+}
+
+/** Properties of IpamPool resource properties which are specific to the Pool resource. */
+export interface IpamPoolProperties {
+  description?: string;
+  /** String representing a friendly name for the resource. */
+  displayName?: string;
+  /**
+   * List of IP address type for the IpamPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddressType?: IpType[];
+  /** String representing parent IpamPool resource name. If empty the IpamPool will be a root pool. */
+  parentPoolName?: string;
+  /** List of IP address prefixes of the resource. */
+  addressPrefixes: string[];
+  /** Provisioning states of a resource. */
+  provisioningState?: ProvisioningState;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface CommonResource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The type of identity that last modified the resource. */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface CommonErrorResponse {
+  /** The error object. */
+  error?: CommonErrorDetail;
+}
+
+/** The error detail. */
+export interface CommonErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: CommonErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: CommonErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface CommonErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Represents the IpamPool update API request interface. */
+export interface IpamPoolUpdate {
+  /** Dictionary of <string> */
+  tags?: { [propertyName: string]: string };
+  /** Represents the IpamPool update properties. */
+  properties?: IpamPoolUpdateProperties;
+}
+
+/** Represents the IpamPool update properties. */
+export interface IpamPoolUpdateProperties {
+  description?: string;
+  /** String representing a friendly name for the resource. */
+  displayName?: string;
+}
+
+/** IpamPool usage information. */
+export interface PoolUsage {
+  /**
+   * List of IP address prefixes of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addressPrefixes?: string[];
+  /**
+   * List of IpamPool that are children of this IpamPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly childPools?: ResourceBasics[];
+  /**
+   * List of assigned IP address prefixes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocatedAddressPrefixes?: string[];
+  /**
+   * List of reserved IP address prefixes. These IP addresses could be reclaimed if not assigned in the given time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservedAddressPrefixes?: string[];
+  /**
+   * List of available IP address prefixes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableAddressPrefixes?: string[];
+  /**
+   * Total number of IP addresses managed in the IpamPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalNumberOfIPAddresses?: string;
+  /**
+   * Total number of assigned IP addresses in the IpamPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfAllocatedIPAddresses?: string;
+  /**
+   * Total number of reserved IP addresses in the IpamPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfReservedIPAddresses?: string;
+  /**
+   * Total number of available IP addresses in the IpamPool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfAvailableIPAddresses?: string;
+}
+
+/** Representation of basic resource information. */
+export interface ResourceBasics {
+  /** ResourceId of the Azure resource. */
+  resourceId?: string;
+  /** List of IP address prefixes of the resource. */
+  addressPrefixes?: string[];
+}
+
+/** List of PoolAssociation */
+export interface PoolAssociationList {
+  value?: PoolAssociation[];
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+}
+
+/** IpamPool association information. */
+export interface PoolAssociation {
+  /** Resource id of the associated Azure resource. */
+  resourceId: string;
+  /** IpamPool id for which the resource is associated to. */
+  poolId?: string;
+  description?: string;
+  /**
+   * List of assigned IP address prefixes in the IpamPool of the associated resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addressPrefixes?: string[];
+  /**
+   * List of reserved IP address prefixes in the IpamPool of the associated resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservedPrefixes?: string[];
+  /**
+   * Total number of assigned IP addresses of the association.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalNumberOfIPAddresses?: string;
+  /**
+   * Total number of reserved IP addresses of the association.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfReservedIPAddresses?: string;
+  /**
+   * Creation time of the association.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * Expire time for IP addresses reserved.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservationExpiresAt?: Date;
+}
+
+/** List of StaticCidr */
+export interface StaticCidrList {
+  value?: StaticCidr[];
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+}
+
+/** Properties of static CIDR resource. */
+export interface StaticCidrProperties {
+  description?: string;
+  /** Number of IP addresses to allocate for a static CIDR resource. The IP addresses will be assigned based on IpamPools available space. */
+  numberOfIPAddressesToAllocate?: string;
+  /** List of IP address prefixes of the resource. */
+  addressPrefixes?: string[];
+  /**
+   * Total number of IP addresses allocated for the static CIDR resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalNumberOfIPAddresses?: string;
+  /** Provisioning states of a resource. */
+  provisioningState?: ProvisioningState;
 }
 
 /** Response for the ListIpAllocations API service call. */
@@ -2113,6 +2381,28 @@ export interface InboundNatRulePortMapping {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backendPort?: number;
+}
+
+/** The response for a Health API. */
+export interface LoadBalancerHealthPerRule {
+  /** Number of backend instances associated to the LB rule that are considered healthy. */
+  up?: number;
+  /** Number of backend instances associated to the LB rule that are considered unhealthy. */
+  down?: number;
+  /** Information about the health per rule of the backend addresses. */
+  loadBalancerBackendAddresses?: LoadBalancerHealthPerRulePerBackendAddress[];
+}
+
+/** The information about health per rule per backend address. */
+export interface LoadBalancerHealthPerRulePerBackendAddress {
+  /** The IP address belonging to the backend address. */
+  ipAddress?: string;
+  /** The id of the network interface ip configuration belonging to the backend address */
+  networkInterfaceIPConfigurationId?: NetworkInterfaceIPConfiguration;
+  /** The current health of the backend instances that is associated to the LB rule. */
+  state?: string;
+  /** The explanation of the State */
+  reason?: string;
 }
 
 /** The request for a migrateToIpBased API. */
@@ -2294,22 +2584,6 @@ export interface CrossTenantScopes {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptions?: string[];
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The type of identity that last modified the resource. */
-  lastModifiedAt?: Date;
 }
 
 /** Object for patch operations. */
@@ -2589,6 +2863,52 @@ export interface StaticMemberListResult {
   nextLink?: string;
 }
 
+/** A list of network manager routing configurations */
+export interface NetworkManagerRoutingConfigurationListResult {
+  /** Gets a page of routing configurations */
+  value?: NetworkManagerRoutingConfiguration[];
+  /** Gets the URL to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Routing configuration rule collection list result. */
+export interface RoutingRuleCollectionListResult {
+  /** A list of network manager routing configuration rule collections */
+  value?: RoutingRuleCollection[];
+  /** Gets the URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** Network manager routing group item. */
+export interface NetworkManagerRoutingGroupItem {
+  /** Network manager group Id. */
+  networkGroupId: string;
+}
+
+/** Routing configuration rule list result. */
+export interface RoutingRuleListResult {
+  /** A list of routing rules. */
+  value?: RoutingRule[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** Route destination. */
+export interface RoutingRuleRouteDestination {
+  /** Destination type. */
+  type: RoutingRuleDestinationType;
+  /** Destination address. */
+  destinationAddress: string;
+}
+
+/** Next hop. */
+export interface RoutingRuleNextHop {
+  /** Next hop type. */
+  nextHopType: RoutingRuleNextHopType;
+  /** Next hop address. Only required if the next hop type is VirtualAppliance. */
+  nextHopAddress?: string;
+}
+
 /** List of scope connections. */
 export interface ScopeConnectionListResult {
   /** List of scope connections. */
@@ -2659,52 +2979,6 @@ export interface AddressPrefixItem {
   addressPrefixType?: AddressPrefixType;
 }
 
-/** A list of network manager routing configurations */
-export interface NetworkManagerRoutingConfigurationListResult {
-  /** Gets a page of routing configurations */
-  value?: NetworkManagerRoutingConfiguration[];
-  /** Gets the URL to get the next page of results. */
-  nextLink?: string;
-}
-
-/** Routing configuration rule collection list result. */
-export interface RoutingRuleCollectionListResult {
-  /** A list of network manager routing configuration rule collections */
-  value?: RoutingRuleCollection[];
-  /** Gets the URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** Network manager routing group item. */
-export interface NetworkManagerRoutingGroupItem {
-  /** Network manager group Id. */
-  networkGroupId: string;
-}
-
-/** Routing configuration rule list result. */
-export interface RoutingRuleListResult {
-  /** A list of routing rules. */
-  value?: RoutingRule[];
-  /** The URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** Route destination. */
-export interface RoutingRuleRouteDestination {
-  /** Destination type. */
-  type: RoutingRuleDestinationType;
-  /** Destination address. */
-  destinationAddress: string;
-}
-
-/** Next hop. */
-export interface RoutingRuleNextHop {
-  /** Next hop type. */
-  nextHopType: RoutingRuleNextHopType;
-  /** Next hop address. Only required if the next hop type is VirtualAppliance. */
-  nextHopAddress?: string;
-}
-
 /** The ip configuration for a container network interface. */
 export interface ContainerNetworkInterfaceIpConfiguration {
   /** The name of the resource. This name can be used to access the resource. */
@@ -2748,6 +3022,105 @@ export interface SecurityRuleListResult {
   value?: SecurityRule[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** A list of Reachability Analysis Intents. */
+export interface ReachabilityAnalysisIntentListResult {
+  /** Gets a page of Reachability Analysis Intents */
+  value?: ReachabilityAnalysisIntent[];
+  /** Gets the URL to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Represents the Reachability Analysis Intent properties. */
+export interface ReachabilityAnalysisIntentProperties {
+  /** Provisioning states of a resource. */
+  provisioningState?: ProvisioningState;
+  description?: string;
+  /** Source resource id to verify the reachability path of. */
+  sourceResourceId: string;
+  /** Destination resource id to verify the reachability path of. */
+  destinationResourceId: string;
+  /** IP traffic information. */
+  ipTraffic: IPTraffic;
+}
+
+/** IP traffic information. */
+export interface IPTraffic {
+  /** List of source IP addresses of the traffic.. */
+  sourceIps: string[];
+  /** List of destination IP addresses of the traffic.. */
+  destinationIps: string[];
+  /** The source ports of the traffic. */
+  sourcePorts: string[];
+  /** The destination ports of the traffic. */
+  destinationPorts: string[];
+  protocols: NetworkProtocol[];
+}
+
+/** A list of Reachability Analysis Run */
+export interface ReachabilityAnalysisRunListResult {
+  /** Gets a page of Reachability Analysis Runs. */
+  value?: ReachabilityAnalysisRun[];
+  /** Gets the URL to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Represents the Reachability Analysis Run properties. */
+export interface ReachabilityAnalysisRunProperties {
+  description?: string;
+  /** Id of the intent resource to run analysis on. */
+  intentId: string;
+  /**
+   * Intent information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intentContent?: IntentContent;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly analysisResult?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly errorMessage?: string;
+  /** Provisioning states of a resource. */
+  provisioningState?: ProvisioningState;
+}
+
+/** Intent information. */
+export interface IntentContent {
+  description?: string;
+  /** Source resource id of the intent. */
+  sourceResourceId: string;
+  /** Destination resource id of the intent. */
+  destinationResourceId: string;
+  /** IP traffic information. */
+  ipTraffic: IPTraffic;
+}
+
+/** A list of Verifier Workspace */
+export interface VerifierWorkspaceListResult {
+  /** Gets a page of Verifier Workspaces. */
+  value?: VerifierWorkspace[];
+  /** Gets the URL to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Properties of Verifier Workspace resource. */
+export interface VerifierWorkspaceProperties {
+  description?: string;
+  /** Provisioning states of a resource. */
+  provisioningState?: ProvisioningState;
+}
+
+/** Represents the VerifierWorkspace update API request interface. */
+export interface VerifierWorkspaceUpdate {
+  /** Dictionary of <string> */
+  tags?: { [propertyName: string]: string };
+  /** Represents the VerifierWorkspace update properties. */
+  properties?: VerifierWorkspaceUpdateProperties;
+}
+
+/** Represents the VerifierWorkspace update properties. */
+export interface VerifierWorkspaceUpdateProperties {
+  description?: string;
 }
 
 /** Network Virtual Appliance Sku Properties. */
@@ -2840,7 +3213,7 @@ export interface DelegationProperties {
   /** The service name to which the NVA is delegated. */
   serviceName?: string;
   /**
-   * The current provisioning state.
+   * Provisioning states of a resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -4568,6 +4941,8 @@ export interface UsageName {
 export interface AddressSpace {
   /** A list of address blocks reserved for this virtual network in CIDR notation. */
   addressPrefixes?: string[];
+  /** A list of IPAM Pools allocating IP address prefixes. */
+  ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
 }
 
 /** DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for a subnet overrides VNET DHCP options. */
@@ -5089,6 +5464,94 @@ export interface VpnPacketCaptureStartParameters {
 export interface VpnPacketCaptureStopParameters {
   /** SAS url for packet capture on virtual network gateway. */
   sasUrl?: string;
+}
+
+/** ExpressRoute failover test details */
+export interface ExpressRouteFailoverTestDetails {
+  /** Peering location of the test */
+  peeringLocation?: string;
+  /** All circuits in the peering location */
+  circuits?: ExpressRouteFailoverCircuitResourceDetails[];
+  /** The current status of the test */
+  status?: FailoverTestStatus;
+  /** Time when the test was started */
+  startTime?: string;
+  /** Time when the test was completed */
+  endTime?: string;
+  /** All connections to the circuits in the peering location */
+  connections?: ExpressRouteFailoverConnectionResourceDetails[];
+  /** The unique GUID associated with the test */
+  testGuid?: string;
+  /** The type of failover test */
+  testType?: FailoverTestType;
+  /** A list of all issues with the test */
+  issues?: string[];
+}
+
+export interface ExpressRouteFailoverCircuitResourceDetails {
+  /** NRP Resource URI of the circuit */
+  nrpResourceUri?: string;
+  /** Circuit Name */
+  name?: string;
+  /** Connection name associated with the circuit */
+  connectionName?: string;
+}
+
+export interface ExpressRouteFailoverConnectionResourceDetails {
+  /** NRP Resource URI of the connection */
+  nrpResourceUri?: string;
+  /** Connection Name */
+  name?: string;
+  /** The current status of the connection */
+  status?: FailoverConnectionStatus;
+  /** Time when the connection was last updated */
+  lastUpdatedTime?: string;
+}
+
+/** ExpressRoute failover single test details */
+export interface ExpressRouteFailoverSingleTestDetails {
+  /** Peering location of the test */
+  peeringLocation?: string;
+  /** The current status of the test */
+  status?: FailoverTestStatusForSingleTest;
+  /** Time when the test was started */
+  startTimeUtc?: string;
+  /** Time when the test was completed */
+  endTimeUtc?: string;
+  /** List of routes received from this peering as well as some other peering location */
+  redundantRoutes?: ExpressRouteFailoverRedundantRoute[];
+  /** List of al the routes that were received only from this peering location */
+  nonRedundantRoutes?: string[];
+  /** Whether the failover simulation was successful or not */
+  wasSimulationSuccessful?: boolean;
+  /** List of all the failover connections for this peering location */
+  failoverConnectionDetails?: FailoverConnectionDetails[];
+}
+
+export interface ExpressRouteFailoverRedundantRoute {
+  /** A list of all the peering locations for the redundant routes */
+  peeringLocations?: string[];
+  /** A list of all the redundant routes in the peering locations */
+  routes?: string[];
+}
+
+export interface FailoverConnectionDetails {
+  /** Name of the failover connection */
+  failoverConnectionName?: string;
+  /** Location of the failover connection */
+  failoverLocation?: string;
+  /** Whether the customer was able to establish connectivity through this failover connection or not */
+  isVerified?: boolean;
+}
+
+/** Start packet capture parameters on virtual network gateway. */
+export interface ExpressRouteFailoverStopApiParameters {
+  /** Peering location of the test */
+  peeringLocation?: string;
+  /** Whether the failover simulation was successful or not */
+  wasSimulationSuccessful?: boolean;
+  /** List of all the failover connections for this peering location */
+  details?: FailoverConnectionDetails[];
 }
 
 /** Response for the ListVirtualNetworkGatewayConnections API service call. */
@@ -6841,6 +7304,8 @@ export interface Subnet extends SubResource {
   sharingScope?: SharingScope;
   /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
   defaultOutboundAccess?: boolean;
+  /** A list of IPAM Pools for allocating IP address prefixes. */
+  ipamPoolPrefixAllocations?: IpamPoolPrefixAllocation[];
 }
 
 /** Frontend IP address of the load balancer. */
@@ -7735,7 +8200,7 @@ export interface BastionHostIPConfiguration extends SubResource {
   readonly type?: string;
   /** Reference of the subnet resource. */
   subnet?: SubResource;
-  /** Reference of the PublicIP resource. */
+  /** Reference of the PublicIP resource. Null for private only bastion */
   publicIPAddress?: SubResource;
   /**
    * The provisioning state of the bastion host IP configuration resource.
@@ -9385,6 +9850,11 @@ export interface NetworkInterface extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vnetEncryptionSupported?: boolean;
+  /**
+   * Whether default outbound connectivity for nic was configured or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultOutboundConnectivityEnabled?: boolean;
   /** If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking. */
   enableAcceleratedNetworking?: boolean;
   /** Indicates whether to disable tcp state tracking. */
@@ -9918,6 +10388,8 @@ export interface BastionHost extends Resource {
   enableKerberos?: boolean;
   /** Enable/Disable Session Recording feature of the Bastion Host resource. */
   enableSessionRecording?: boolean;
+  /** Enable/Disable Private Only feature of the Bastion Host resource. */
+  enablePrivateOnlyBastion?: boolean;
 }
 
 /** Describes a Virtual Machine. */
@@ -11402,6 +11874,17 @@ export interface FirewallPolicyFilterRuleCollection
   rules?: FirewallPolicyRuleUnion[];
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface CommonTrackedResource extends CommonResource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface CommonProxyResource extends CommonResource {}
+
 /** Active connectivity configuration. */
 export interface ActiveConnectivityConfiguration
   extends EffectiveConnectivityConfiguration {
@@ -11602,6 +12085,77 @@ export interface StaticMember extends ChildResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Defines the routing configuration */
+export interface NetworkManagerRoutingConfiguration extends ChildResource {
+  /**
+   * The system metadata related to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** A description of the routing configuration. */
+  description?: string;
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+}
+
+/** Defines the routing rule collection. */
+export interface RoutingRuleCollection extends ChildResource {
+  /**
+   * The system metadata related to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** A description of the routing rule collection. */
+  description?: string;
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /** Groups for configuration */
+  appliesTo?: NetworkManagerRoutingGroupItem[];
+  /** Determines whether BGP route propagation is enabled. Defaults to true. */
+  disableBgpRoutePropagation?: DisableBgpRoutePropagation;
+}
+
+/** Network routing rule. */
+export interface RoutingRule extends ChildResource {
+  /**
+   * The system metadata related to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** A description for this rule. */
+  description?: string;
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /** Indicates the destination for this particular rule. */
+  destination?: RoutingRuleRouteDestination;
+  /** Indicates the next hop for this particular rule. */
+  nextHop?: RoutingRuleNextHop;
+}
+
 /** The Scope Connections resource */
 export interface ScopeConnection extends ChildResource {
   /**
@@ -11633,6 +12187,8 @@ export interface SecurityAdminConfiguration extends ChildResource {
   description?: string;
   /** Enum list of network intent policy based services. */
   applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
+  /** Determine update behavior for changes to network groups referenced within the rules in this configuration. */
+  networkGroupAddressSpaceAggregationOption?: AddressSpaceAggregationOption;
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -11754,77 +12310,6 @@ export interface SecurityUserRule extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
-}
-
-/** Defines the routing configuration */
-export interface NetworkManagerRoutingConfiguration extends ChildResource {
-  /**
-   * The system metadata related to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** A description of the routing configuration. */
-  description?: string;
-  /**
-   * The provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Unique identifier for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-}
-
-/** Defines the routing rule collection. */
-export interface RoutingRuleCollection extends ChildResource {
-  /**
-   * The system metadata related to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** A description of the routing rule collection. */
-  description?: string;
-  /**
-   * The provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Unique identifier for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /** Groups for configuration */
-  appliesTo?: NetworkManagerRoutingGroupItem[];
-  /** Determines whether BGP route propagation is enabled. Defaults to true. */
-  disableBgpRoutePropagation?: DisableBgpRoutePropagation;
-}
-
-/** Network routing rule. */
-export interface RoutingRule extends ChildResource {
-  /**
-   * The system metadata related to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** A description for this rule. */
-  description?: string;
-  /**
-   * The provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Unique identifier for this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /** Indicates the destination for this particular rule. */
-  destination?: RoutingRuleRouteDestination;
-  /** Indicates the next hop for this particular rule. */
-  nextHop?: RoutingRuleNextHop;
 }
 
 /** Network admin rule. */
@@ -12028,6 +12513,36 @@ export interface NetworkRule extends FirewallPolicyRule {
   destinationFqdns?: string[];
 }
 
+/** Instance of Pool resource. */
+export interface IpamPool extends CommonTrackedResource {
+  /** Properties of IpamPool resource properties which are specific to the Pool resource. */
+  properties: IpamPoolProperties;
+}
+
+/** Instance of Verifier Workspace. */
+export interface VerifierWorkspace extends CommonTrackedResource {
+  /** Properties of Verifier Workspace resource. */
+  properties?: VerifierWorkspaceProperties;
+}
+
+/** Instance of StaticCidr resource. */
+export interface StaticCidr extends CommonProxyResource {
+  /** Properties of static CIDR resource. */
+  properties?: StaticCidrProperties;
+}
+
+/** Configuration information or intent on which to do the analysis on. */
+export interface ReachabilityAnalysisIntent extends CommonProxyResource {
+  /** Represents the Reachability Analysis Intent properties. */
+  properties: ReachabilityAnalysisIntentProperties;
+}
+
+/** Configuration information for analysis run. */
+export interface ReachabilityAnalysisRun extends CommonProxyResource {
+  /** Represents the Reachability Analysis Run properties. */
+  properties: ReachabilityAnalysisRunProperties;
+}
+
 /** Network admin rule. */
 export interface AdminRule extends BaseAdminRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -12203,9 +12718,30 @@ export interface FirewallPolicyDeploymentsDeployHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for IpamPools_create operation. */
+export interface IpamPoolsCreateHeaders {
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for IpamPools_delete operation. */
+export interface IpamPoolsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for StaticCidrs_delete operation. */
+export interface StaticCidrsDeleteHeaders {
+  location?: string;
+}
+
 /** Defines headers for IpAllocations_delete operation. */
 export interface IpAllocationsDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for LoadBalancerLoadBalancingRules_health operation. */
+export interface LoadBalancerLoadBalancingRulesHealthHeaders {
+  /** URI to query the status of the long-running operation. */
   location?: string;
 }
 
@@ -12235,6 +12771,24 @@ export interface NetworkGroupsCreateOrUpdateHeaders {
 
 /** Defines headers for NetworkGroups_delete operation. */
 export interface NetworkGroupsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkManagerRoutingConfigurations_delete operation. */
+export interface NetworkManagerRoutingConfigurationsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RoutingRuleCollections_delete operation. */
+export interface RoutingRuleCollectionsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RoutingRules_delete operation. */
+export interface RoutingRulesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
@@ -12275,20 +12829,14 @@ export interface SecurityUserRulesDeleteHeaders {
   location?: string;
 }
 
-/** Defines headers for NetworkManagerRoutingConfigurations_delete operation. */
-export interface NetworkManagerRoutingConfigurationsDeleteHeaders {
+/** Defines headers for ReachabilityAnalysisRuns_delete operation. */
+export interface ReachabilityAnalysisRunsDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
 
-/** Defines headers for RoutingRuleCollections_delete operation. */
-export interface RoutingRuleCollectionsDeleteHeaders {
-  /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for RoutingRules_delete operation. */
-export interface RoutingRulesDeleteHeaders {
+/** Defines headers for VerifierWorkspaces_delete operation. */
+export interface VerifierWorkspacesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
@@ -12345,6 +12893,26 @@ export interface RouteFilterRulesDeleteHeaders {
    * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
    */
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualNetworkGateways_getFailoverAllTestDetails operation. */
+export interface VirtualNetworkGatewaysGetFailoverAllTestDetailsHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualNetworkGateways_getFailoverSingleTestDetails operation. */
+export interface VirtualNetworkGatewaysGetFailoverSingleTestDetailsHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualNetworkGateways_startExpressRouteSiteFailoverSimulation operation. */
+export interface VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualNetworkGateways_stopExpressRouteSiteFailoverSimulation operation. */
+export interface VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationHeaders {
+  location?: string;
 }
 
 /** Defines headers for NetworkVirtualApplianceConnections_delete operation. */
@@ -12628,14 +13196,18 @@ export type ApplicationGatewayOperationalState = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Failed */
+  Failed = "Failed",
   /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
   /** Updating */
   Updating = "Updating",
   /** Deleting */
   Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed",
 }
 
 /**
@@ -12643,10 +13215,12 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Failed** \
  * **Succeeded** \
+ * **Canceled** \
+ * **Creating** \
  * **Updating** \
- * **Deleting** \
- * **Failed**
+ * **Deleting**
  */
 export type ProvisioningState = string;
 
@@ -14318,6 +14892,48 @@ export enum KnownFirewallPolicyIdpsQuerySortOrder {
  */
 export type FirewallPolicyIdpsQuerySortOrder = string;
 
+/** Known values of {@link IpType} that the service accepts. */
+export enum KnownIpType {
+  /** IPv4 */
+  IPv4 = "IPv4",
+  /** IPv6 */
+  IPv6 = "IPv6",
+}
+
+/**
+ * Defines values for IpType. \
+ * {@link KnownIpType} can be used interchangeably with IpType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4** \
+ * **IPv6**
+ */
+export type IpType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link IpAllocationType} that the service accepts. */
 export enum KnownIpAllocationType {
   /** Undefined */
@@ -14543,30 +15159,6 @@ export enum KnownConfigurationType {
  */
 export type ConfigurationType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link DeploymentStatus} that the service accepts. */
 export enum KnownDeploymentStatus {
   /** NotStarted */
@@ -14744,111 +15336,6 @@ export enum KnownScopeConnectionState {
  */
 export type ScopeConnectionState = string;
 
-/** Known values of {@link NetworkIntentPolicyBasedService} that the service accepts. */
-export enum KnownNetworkIntentPolicyBasedService {
-  /** None */
-  None = "None",
-  /** All */
-  All = "All",
-  /** AllowRulesOnly */
-  AllowRulesOnly = "AllowRulesOnly",
-}
-
-/**
- * Defines values for NetworkIntentPolicyBasedService. \
- * {@link KnownNetworkIntentPolicyBasedService} can be used interchangeably with NetworkIntentPolicyBasedService,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **All** \
- * **AllowRulesOnly**
- */
-export type NetworkIntentPolicyBasedService = string;
-
-/** Known values of {@link AdminRuleKind} that the service accepts. */
-export enum KnownAdminRuleKind {
-  /** Custom */
-  Custom = "Custom",
-  /** Default */
-  Default = "Default",
-}
-
-/**
- * Defines values for AdminRuleKind. \
- * {@link KnownAdminRuleKind} can be used interchangeably with AdminRuleKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Custom** \
- * **Default**
- */
-export type AdminRuleKind = string;
-
-/** Known values of {@link SecurityConfigurationRuleProtocol} that the service accepts. */
-export enum KnownSecurityConfigurationRuleProtocol {
-  /** Tcp */
-  Tcp = "Tcp",
-  /** Udp */
-  Udp = "Udp",
-  /** Icmp */
-  Icmp = "Icmp",
-  /** Esp */
-  Esp = "Esp",
-  /** Any */
-  Any = "Any",
-  /** Ah */
-  Ah = "Ah",
-}
-
-/**
- * Defines values for SecurityConfigurationRuleProtocol. \
- * {@link KnownSecurityConfigurationRuleProtocol} can be used interchangeably with SecurityConfigurationRuleProtocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Tcp** \
- * **Udp** \
- * **Icmp** \
- * **Esp** \
- * **Any** \
- * **Ah**
- */
-export type SecurityConfigurationRuleProtocol = string;
-
-/** Known values of {@link AddressPrefixType} that the service accepts. */
-export enum KnownAddressPrefixType {
-  /** IPPrefix */
-  IPPrefix = "IPPrefix",
-  /** ServiceTag */
-  ServiceTag = "ServiceTag",
-}
-
-/**
- * Defines values for AddressPrefixType. \
- * {@link KnownAddressPrefixType} can be used interchangeably with AddressPrefixType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IPPrefix** \
- * **ServiceTag**
- */
-export type AddressPrefixType = string;
-
-/** Known values of {@link SecurityConfigurationRuleDirection} that the service accepts. */
-export enum KnownSecurityConfigurationRuleDirection {
-  /** Inbound */
-  Inbound = "Inbound",
-  /** Outbound */
-  Outbound = "Outbound",
-}
-
-/**
- * Defines values for SecurityConfigurationRuleDirection. \
- * {@link KnownSecurityConfigurationRuleDirection} can be used interchangeably with SecurityConfigurationRuleDirection,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Inbound** \
- * **Outbound**
- */
-export type SecurityConfigurationRuleDirection = string;
-
 /** Known values of {@link DisableBgpRoutePropagation} that the service accepts. */
 export enum KnownDisableBgpRoutePropagation {
   /** False */
@@ -14911,6 +15398,156 @@ export enum KnownRoutingRuleNextHopType {
  * **VnetLocal**
  */
 export type RoutingRuleNextHopType = string;
+
+/** Known values of {@link NetworkIntentPolicyBasedService} that the service accepts. */
+export enum KnownNetworkIntentPolicyBasedService {
+  /** None */
+  None = "None",
+  /** All */
+  All = "All",
+  /** AllowRulesOnly */
+  AllowRulesOnly = "AllowRulesOnly",
+}
+
+/**
+ * Defines values for NetworkIntentPolicyBasedService. \
+ * {@link KnownNetworkIntentPolicyBasedService} can be used interchangeably with NetworkIntentPolicyBasedService,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **All** \
+ * **AllowRulesOnly**
+ */
+export type NetworkIntentPolicyBasedService = string;
+
+/** Known values of {@link AddressSpaceAggregationOption} that the service accepts. */
+export enum KnownAddressSpaceAggregationOption {
+  /** None */
+  None = "None",
+  /** Manual */
+  Manual = "Manual",
+}
+
+/**
+ * Defines values for AddressSpaceAggregationOption. \
+ * {@link KnownAddressSpaceAggregationOption} can be used interchangeably with AddressSpaceAggregationOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Manual**
+ */
+export type AddressSpaceAggregationOption = string;
+
+/** Known values of {@link AdminRuleKind} that the service accepts. */
+export enum KnownAdminRuleKind {
+  /** Custom */
+  Custom = "Custom",
+  /** Default */
+  Default = "Default",
+}
+
+/**
+ * Defines values for AdminRuleKind. \
+ * {@link KnownAdminRuleKind} can be used interchangeably with AdminRuleKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Custom** \
+ * **Default**
+ */
+export type AdminRuleKind = string;
+
+/** Known values of {@link SecurityConfigurationRuleProtocol} that the service accepts. */
+export enum KnownSecurityConfigurationRuleProtocol {
+  /** Tcp */
+  Tcp = "Tcp",
+  /** Udp */
+  Udp = "Udp",
+  /** Icmp */
+  Icmp = "Icmp",
+  /** Esp */
+  Esp = "Esp",
+  /** Any */
+  Any = "Any",
+  /** Ah */
+  Ah = "Ah",
+}
+
+/**
+ * Defines values for SecurityConfigurationRuleProtocol. \
+ * {@link KnownSecurityConfigurationRuleProtocol} can be used interchangeably with SecurityConfigurationRuleProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tcp** \
+ * **Udp** \
+ * **Icmp** \
+ * **Esp** \
+ * **Any** \
+ * **Ah**
+ */
+export type SecurityConfigurationRuleProtocol = string;
+
+/** Known values of {@link AddressPrefixType} that the service accepts. */
+export enum KnownAddressPrefixType {
+  /** IPPrefix */
+  IPPrefix = "IPPrefix",
+  /** ServiceTag */
+  ServiceTag = "ServiceTag",
+  /** NetworkGroup */
+  NetworkGroup = "NetworkGroup",
+}
+
+/**
+ * Defines values for AddressPrefixType. \
+ * {@link KnownAddressPrefixType} can be used interchangeably with AddressPrefixType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPPrefix** \
+ * **ServiceTag** \
+ * **NetworkGroup**
+ */
+export type AddressPrefixType = string;
+
+/** Known values of {@link SecurityConfigurationRuleDirection} that the service accepts. */
+export enum KnownSecurityConfigurationRuleDirection {
+  /** Inbound */
+  Inbound = "Inbound",
+  /** Outbound */
+  Outbound = "Outbound",
+}
+
+/**
+ * Defines values for SecurityConfigurationRuleDirection. \
+ * {@link KnownSecurityConfigurationRuleDirection} can be used interchangeably with SecurityConfigurationRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
+ */
+export type SecurityConfigurationRuleDirection = string;
+
+/** Known values of {@link NetworkProtocol} that the service accepts. */
+export enum KnownNetworkProtocol {
+  /** Any */
+  Any = "Any",
+  /** TCP */
+  TCP = "TCP",
+  /** UDP */
+  UDP = "UDP",
+  /** Icmp */
+  Icmp = "ICMP",
+}
+
+/**
+ * Defines values for NetworkProtocol. \
+ * {@link KnownNetworkProtocol} can be used interchangeably with NetworkProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Any** \
+ * **TCP** \
+ * **UDP** \
+ * **ICMP**
+ */
+export type NetworkProtocol = string;
 
 /** Known values of {@link NicTypeInResponse} that the service accepts. */
 export enum KnownNicTypeInResponse {
@@ -16502,6 +17139,123 @@ export enum KnownBgpPeerState {
  */
 export type BgpPeerState = string;
 
+/** Known values of {@link FailoverTestStatus} that the service accepts. */
+export enum KnownFailoverTestStatus {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** Starting */
+  Starting = "Starting",
+  /** Running */
+  Running = "Running",
+  /** StartFailed */
+  StartFailed = "StartFailed",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** Completed */
+  Completed = "Completed",
+  /** StopFailed */
+  StopFailed = "StopFailed",
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for FailoverTestStatus. \
+ * {@link KnownFailoverTestStatus} can be used interchangeably with FailoverTestStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **Starting** \
+ * **Running** \
+ * **StartFailed** \
+ * **Stopping** \
+ * **Completed** \
+ * **StopFailed** \
+ * **Invalid** \
+ * **Expired**
+ */
+export type FailoverTestStatus = string;
+
+/** Known values of {@link FailoverConnectionStatus} that the service accepts. */
+export enum KnownFailoverConnectionStatus {
+  /** Connected */
+  Connected = "Connected",
+  /** Disconnected */
+  Disconnected = "Disconnected",
+}
+
+/**
+ * Defines values for FailoverConnectionStatus. \
+ * {@link KnownFailoverConnectionStatus} can be used interchangeably with FailoverConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connected** \
+ * **Disconnected**
+ */
+export type FailoverConnectionStatus = string;
+
+/** Known values of {@link FailoverTestType} that the service accepts. */
+export enum KnownFailoverTestType {
+  /** SingleSiteFailover */
+  SingleSiteFailover = "SingleSiteFailover",
+  /** MultiSiteFailover */
+  MultiSiteFailover = "MultiSiteFailover",
+  /** All */
+  All = "All",
+}
+
+/**
+ * Defines values for FailoverTestType. \
+ * {@link KnownFailoverTestType} can be used interchangeably with FailoverTestType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SingleSiteFailover** \
+ * **MultiSiteFailover** \
+ * **All**
+ */
+export type FailoverTestType = string;
+
+/** Known values of {@link FailoverTestStatusForSingleTest} that the service accepts. */
+export enum KnownFailoverTestStatusForSingleTest {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** Starting */
+  Starting = "Starting",
+  /** Running */
+  Running = "Running",
+  /** StartFailed */
+  StartFailed = "StartFailed",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** Completed */
+  Completed = "Completed",
+  /** StopFailed */
+  StopFailed = "StopFailed",
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for FailoverTestStatusForSingleTest. \
+ * {@link KnownFailoverTestStatusForSingleTest} can be used interchangeably with FailoverTestStatusForSingleTest,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **Starting** \
+ * **Running** \
+ * **StartFailed** \
+ * **Stopping** \
+ * **Completed** \
+ * **StopFailed** \
+ * **Invalid** \
+ * **Expired**
+ */
+export type FailoverTestStatusForSingleTest = string;
+
 /** Known values of {@link OfficeTrafficCategory} that the service accepts. */
 export enum KnownOfficeTrafficCategory {
   /** Optimize */
@@ -17570,7 +18324,7 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4 | 5;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
@@ -19805,6 +20559,147 @@ export type FirewallPolicyRuleCollectionGroupDraftsGetResponse =
   FirewallPolicyRuleCollectionGroupDraft;
 
 /** Optional parameters. */
+export interface IpamPoolsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional skip token. */
+  skipToken?: string;
+  /** Optional num entries to skip. */
+  skip?: number;
+  /** Optional num entries to show. */
+  top?: number;
+  /** Optional key by which to sort. */
+  sortKey?: string;
+  /** Optional sort value for pagination. */
+  sortValue?: string;
+}
+
+/** Contains response data for the list operation. */
+export type IpamPoolsListResponse = IpamPoolList;
+
+/** Optional parameters. */
+export interface IpamPoolsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type IpamPoolsCreateResponse = IpamPool;
+
+/** Optional parameters. */
+export interface IpamPoolsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Pool resource object to update partially. */
+  body?: IpamPoolUpdate;
+}
+
+/** Contains response data for the update operation. */
+export type IpamPoolsUpdateResponse = IpamPool;
+
+/** Optional parameters. */
+export interface IpamPoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IpamPoolsGetResponse = IpamPool;
+
+/** Optional parameters. */
+export interface IpamPoolsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type IpamPoolsDeleteResponse = IpamPoolsDeleteHeaders;
+
+/** Optional parameters. */
+export interface IpamPoolsGetPoolUsageOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPoolUsage operation. */
+export type IpamPoolsGetPoolUsageResponse = PoolUsage;
+
+/** Optional parameters. */
+export interface IpamPoolsListAssociatedResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAssociatedResources operation. */
+export type IpamPoolsListAssociatedResourcesResponse = PoolAssociationList;
+
+/** Optional parameters. */
+export interface IpamPoolsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IpamPoolsListNextResponse = IpamPoolList;
+
+/** Optional parameters. */
+export interface IpamPoolsListAssociatedResourcesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAssociatedResourcesNext operation. */
+export type IpamPoolsListAssociatedResourcesNextResponse = PoolAssociationList;
+
+/** Optional parameters. */
+export interface StaticCidrsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional skip token. */
+  skipToken?: string;
+  /** Optional num entries to skip. */
+  skip?: number;
+  /** Optional num entries to show. */
+  top?: number;
+  /** Optional key by which to sort. */
+  sortKey?: string;
+  /** Optional sort value for pagination. */
+  sortValue?: string;
+}
+
+/** Contains response data for the list operation. */
+export type StaticCidrsListResponse = StaticCidrList;
+
+/** Optional parameters. */
+export interface StaticCidrsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** StaticCidr resource object to create/update. */
+  body?: StaticCidr;
+}
+
+/** Contains response data for the create operation. */
+export type StaticCidrsCreateResponse = StaticCidr;
+
+/** Optional parameters. */
+export interface StaticCidrsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type StaticCidrsGetResponse = StaticCidr;
+
+/** Optional parameters. */
+export interface StaticCidrsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type StaticCidrsDeleteResponse = StaticCidrsDeleteHeaders;
+
+/** Optional parameters. */
+export interface StaticCidrsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type StaticCidrsListNextResponse = StaticCidrList;
+
+/** Optional parameters. */
 export interface IpAllocationsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -20162,6 +21057,19 @@ export interface LoadBalancerLoadBalancingRulesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type LoadBalancerLoadBalancingRulesGetResponse = LoadBalancingRule;
+
+/** Optional parameters. */
+export interface LoadBalancerLoadBalancingRulesHealthOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the health operation. */
+export type LoadBalancerLoadBalancingRulesHealthResponse =
+  LoadBalancerHealthPerRule;
 
 /** Optional parameters. */
 export interface LoadBalancerLoadBalancingRulesListNextOptionalParams
@@ -20693,6 +21601,145 @@ export interface StaticMembersListNextOptionalParams
 export type StaticMembersListNextResponse = StaticMemberListResult;
 
 /** Optional parameters. */
+export interface NetworkManagerRoutingConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
+  top?: number;
+  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type NetworkManagerRoutingConfigurationsListResponse =
+  NetworkManagerRoutingConfigurationListResult;
+
+/** Optional parameters. */
+export interface NetworkManagerRoutingConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkManagerRoutingConfigurationsGetResponse =
+  NetworkManagerRoutingConfiguration;
+
+/** Optional parameters. */
+export interface NetworkManagerRoutingConfigurationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NetworkManagerRoutingConfigurationsCreateOrUpdateResponse =
+  NetworkManagerRoutingConfiguration;
+
+/** Optional parameters. */
+export interface NetworkManagerRoutingConfigurationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NetworkManagerRoutingConfigurationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NetworkManagerRoutingConfigurationsListNextResponse =
+  NetworkManagerRoutingConfigurationListResult;
+
+/** Optional parameters. */
+export interface RoutingRuleCollectionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
+  top?: number;
+  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RoutingRuleCollectionsListResponse =
+  RoutingRuleCollectionListResult;
+
+/** Optional parameters. */
+export interface RoutingRuleCollectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoutingRuleCollectionsGetResponse = RoutingRuleCollection;
+
+/** Optional parameters. */
+export interface RoutingRuleCollectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RoutingRuleCollectionsCreateOrUpdateResponse =
+  RoutingRuleCollection;
+
+/** Optional parameters. */
+export interface RoutingRuleCollectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RoutingRuleCollectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RoutingRuleCollectionsListNextResponse =
+  RoutingRuleCollectionListResult;
+
+/** Optional parameters. */
+export interface RoutingRulesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
+  top?: number;
+  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RoutingRulesListResponse = RoutingRuleListResult;
+
+/** Optional parameters. */
+export interface RoutingRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoutingRulesGetResponse = RoutingRule;
+
+/** Optional parameters. */
+export interface RoutingRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RoutingRulesCreateOrUpdateResponse = RoutingRule;
+
+/** Optional parameters. */
+export interface RoutingRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RoutingRulesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RoutingRulesListNextResponse = RoutingRuleListResult;
+
+/** Optional parameters. */
 export interface ScopeConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -21004,145 +22051,6 @@ export interface SecurityUserRulesListNextOptionalParams
 export type SecurityUserRulesListNextResponse = SecurityUserRuleListResult;
 
 /** Optional parameters. */
-export interface NetworkManagerRoutingConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type NetworkManagerRoutingConfigurationsListResponse =
-  NetworkManagerRoutingConfigurationListResult;
-
-/** Optional parameters. */
-export interface NetworkManagerRoutingConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type NetworkManagerRoutingConfigurationsGetResponse =
-  NetworkManagerRoutingConfiguration;
-
-/** Optional parameters. */
-export interface NetworkManagerRoutingConfigurationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type NetworkManagerRoutingConfigurationsCreateOrUpdateResponse =
-  NetworkManagerRoutingConfiguration;
-
-/** Optional parameters. */
-export interface NetworkManagerRoutingConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete. */
-  force?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface NetworkManagerRoutingConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type NetworkManagerRoutingConfigurationsListNextResponse =
-  NetworkManagerRoutingConfigurationListResult;
-
-/** Optional parameters. */
-export interface RoutingRuleCollectionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type RoutingRuleCollectionsListResponse =
-  RoutingRuleCollectionListResult;
-
-/** Optional parameters. */
-export interface RoutingRuleCollectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RoutingRuleCollectionsGetResponse = RoutingRuleCollection;
-
-/** Optional parameters. */
-export interface RoutingRuleCollectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type RoutingRuleCollectionsCreateOrUpdateResponse =
-  RoutingRuleCollection;
-
-/** Optional parameters. */
-export interface RoutingRuleCollectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete. */
-  force?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface RoutingRuleCollectionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RoutingRuleCollectionsListNextResponse =
-  RoutingRuleCollectionListResult;
-
-/** Optional parameters. */
-export interface RoutingRulesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional query parameter which specifies the maximum number of records to be returned by the server. */
-  top?: number;
-  /** SkipToken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type RoutingRulesListResponse = RoutingRuleListResult;
-
-/** Optional parameters. */
-export interface RoutingRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RoutingRulesGetResponse = RoutingRule;
-
-/** Optional parameters. */
-export interface RoutingRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type RoutingRulesCreateOrUpdateResponse = RoutingRule;
-
-/** Optional parameters. */
-export interface RoutingRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete. */
-  force?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface RoutingRulesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RoutingRulesListNextResponse = RoutingRuleListResult;
-
-/** Optional parameters. */
 export interface NetworkProfilesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -21334,6 +22242,167 @@ export interface DefaultSecurityRulesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type DefaultSecurityRulesListNextResponse = SecurityRuleListResult;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisIntentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional skip token. */
+  skipToken?: string;
+  /** Optional num entries to skip. */
+  skip?: number;
+  /** Optional num entries to show. */
+  top?: number;
+  /** Optional key by which to sort. */
+  sortKey?: string;
+  /** Optional sort value for pagination. */
+  sortValue?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ReachabilityAnalysisIntentsListResponse =
+  ReachabilityAnalysisIntentListResult;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisIntentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReachabilityAnalysisIntentsGetResponse = ReachabilityAnalysisIntent;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisIntentsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type ReachabilityAnalysisIntentsCreateResponse =
+  ReachabilityAnalysisIntent;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisIntentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisIntentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReachabilityAnalysisIntentsListNextResponse =
+  ReachabilityAnalysisIntentListResult;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisRunsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional skip token. */
+  skipToken?: string;
+  /** Optional num entries to skip. */
+  skip?: number;
+  /** Optional num entries to show. */
+  top?: number;
+  /** Optional key by which to sort. */
+  sortKey?: string;
+  /** Optional sort value for pagination. */
+  sortValue?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ReachabilityAnalysisRunsListResponse =
+  ReachabilityAnalysisRunListResult;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisRunsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReachabilityAnalysisRunsGetResponse = ReachabilityAnalysisRun;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisRunsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type ReachabilityAnalysisRunsCreateResponse = ReachabilityAnalysisRun;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisRunsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ReachabilityAnalysisRunsDeleteResponse =
+  ReachabilityAnalysisRunsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ReachabilityAnalysisRunsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReachabilityAnalysisRunsListNextResponse =
+  ReachabilityAnalysisRunListResult;
+
+/** Optional parameters. */
+export interface VerifierWorkspacesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional skip token. */
+  skipToken?: string;
+  /** Optional num entries to skip. */
+  skip?: number;
+  /** Optional num entries to show. */
+  top?: number;
+  /** Optional key by which to sort. */
+  sortKey?: string;
+  /** Optional sort value for pagination. */
+  sortValue?: string;
+}
+
+/** Contains response data for the list operation. */
+export type VerifierWorkspacesListResponse = VerifierWorkspaceListResult;
+
+/** Optional parameters. */
+export interface VerifierWorkspacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VerifierWorkspacesGetResponse = VerifierWorkspace;
+
+/** Optional parameters. */
+export interface VerifierWorkspacesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type VerifierWorkspacesCreateResponse = VerifierWorkspace;
+
+/** Optional parameters. */
+export interface VerifierWorkspacesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Verifier Workspace object to create/update. */
+  body?: VerifierWorkspaceUpdate;
+}
+
+/** Contains response data for the update operation. */
+export type VerifierWorkspacesUpdateResponse = VerifierWorkspace;
+
+/** Optional parameters. */
+export interface VerifierWorkspacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VerifierWorkspacesDeleteResponse = VerifierWorkspacesDeleteHeaders;
+
+/** Optional parameters. */
+export interface VerifierWorkspacesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VerifierWorkspacesListNextResponse = VerifierWorkspaceListResult;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesDeleteOptionalParams
@@ -22780,10 +23849,10 @@ export type VirtualNetworksListUsageResponse = VirtualNetworkListUsageResult;
 /** Optional parameters. */
 export interface VirtualNetworksListDdosProtectionStatusOptionalParams
   extends coreClient.OperationOptions {
-  /** The max number of ip addresses to return. */
-  top?: number;
   /** The skipToken that is given with nextLink. */
   skipToken?: string;
+  /** The max number of ip addresses to return. */
+  top?: number;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -23192,6 +24261,64 @@ export type VirtualNetworkGatewaysStopPacketCaptureResponse = {
   /** The parsed response body. */
   body: string;
 };
+
+/** Optional parameters. */
+export interface VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getFailoverAllTestDetails operation. */
+export type VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse =
+  ExpressRouteFailoverTestDetails[];
+
+/** Optional parameters. */
+export interface VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getFailoverSingleTestDetails operation. */
+export type VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse =
+  ExpressRouteFailoverSingleTestDetails[];
+
+/** Optional parameters. */
+export interface VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startExpressRouteSiteFailoverSimulation operation. */
+export type VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse =
+  {
+    /** The parsed response body. */
+    body: string;
+  };
+
+/** Optional parameters. */
+export interface VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopExpressRouteSiteFailoverSimulation operation. */
+export type VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse =
+  {
+    /** The parsed response body. */
+    body: string;
+  };
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams

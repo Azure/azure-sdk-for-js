@@ -11,6 +11,7 @@ Use the client library `@azure/service-bus` in your application to
 Resources for `@azure/service-bus` version 7:
 
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus)
 - [Package (npm)](https://www.npmjs.com/package/@azure/service-bus)
 - [API Reference Documentation][apiref]
@@ -36,7 +37,7 @@ Install the latest version for the Azure Service Bus client library using npm.
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Service Bus Namespace](https://docs.microsoft.com/azure/service-bus-messaging/) 
+- A [Service Bus Namespace](https://learn.microsoft.com/azure/service-bus-messaging/)
 
 ### Configure TypeScript
 
@@ -139,7 +140,7 @@ Please consult the documentation of your favorite bundler for more information o
 
 ### React Native Support
 
-Similar to browsers, React Native does not support some JavaScript api used by this SDK library so you need to provide polyfills for them.  Please see the [Messaging React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/README.md) for more details.
+Similar to browsers, React Native does not support some JavaScript api used by this SDK library so you need to provide polyfills for them. Please see the [Messaging React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/README.md) for more details.
 
 ### Authenticate the client
 
@@ -151,8 +152,8 @@ authenticate to Service Bus using a connection string or using an Azure Active D
 This method takes the connection string to your Service Bus instance. You can get
 the connection string from the Azure portal.
 
-```javascript
-const { ServiceBusClient } = require("@azure/service-bus");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { ServiceBusClient } from "@azure/service-bus";
 
 const serviceBusClient = new ServiceBusClient("<connectionString>");
 ```
@@ -166,9 +167,9 @@ Authentication with Azure Active Directory uses the [Azure Identity library][azu
 The example below uses the [DefaultAzureCredential][defaultazurecredential], one of many
 available credential providers from the `@azure/identity` library.
 
-```javascript
-const { ServiceBusClient } = require("@azure/service-bus");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_AAD
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
 
 const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
 const credential = new DefaultAzureCredential();
@@ -222,7 +223,14 @@ The following sections provide code snippets that cover some of the common tasks
 Once you have created an instance of a `ServiceBusClient` class, you can get a `ServiceBusSender`
 using the [createSender][sbclient_createsender] method which you can use to [send][sender_sendmessages] messages.
 
-```javascript
+```ts snippet:ReadmeSampleSendMessage
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
 const sender = serviceBusClient.createSender("my-queue");
 
 const messages = [
@@ -235,7 +243,7 @@ const messages = [
   { body: "Michael Faraday" },
   { body: "Galileo Galilei" },
   { body: "Johannes Kepler" },
-  { body: "Nikolaus Kopernikus" }
+  { body: "Nikolaus Kopernikus" },
 ];
 
 // sending a single message
@@ -269,7 +277,14 @@ await sender.sendMessages(batch);
 Once you have created an instance of a `ServiceBusClient` class, you can get a `ServiceBusReceiver`
 using the [createReceiver][sbclient_createreceiver] method.
 
-```javascript
+```ts snippet:ReadmeSampleReceiveMessage
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
 const receiver = serviceBusClient.createReceiver("my-queue");
 ```
 
@@ -288,7 +303,16 @@ You can use this receiver in one of 3 ways to receive messages:
 Use the [receiveMessages][receiver_receivemessages] function which returns a promise that
 resolves to an array of messages.
 
-```javascript
+```ts snippet:ReadmeSampleReceiveMessage_ReceiveMessages
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
+const receiver = serviceBusClient.createReceiver("my-queue");
+
 const myMessages = await receiver.receiveMessages(10);
 ```
 
@@ -299,7 +323,16 @@ it running as long as you need.
 
 When you are done, call `receiver.close()` to stop receiving any more messages.
 
-```javascript
+```ts snippet:ReadmeSampleReceiveMessage_Subscribe
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
+const receiver = serviceBusClient.createReceiver("my-queue");
+
 const myMessageHandler = async (message) => {
   // your code here
   console.log(`message.body: ${message.body}`);
@@ -307,12 +340,12 @@ const myMessageHandler = async (message) => {
 const myErrorHandler = async (args) => {
   console.log(
     `Error occurred with ${args.entityPath} within ${args.fullyQualifiedNamespace}: `,
-    args.error
+    args.error,
   );
 };
 receiver.subscribe({
   processMessage: myMessageHandler,
-  processError: myErrorHandler
+  processError: myErrorHandler,
 });
 ```
 
@@ -320,7 +353,16 @@ receiver.subscribe({
 
 Use the [getMessageIterator][receiver_getmessageiterator] to get an async iterator over messages
 
-```javascript
+```ts snippet:ReadmeSampleReceiveMessage_AsyncIterator
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
+const receiver = serviceBusClient.createReceiver("my-queue");
+
 for await (const message of receiver.getMessageIterator()) {
   // your code here
 }
@@ -330,7 +372,7 @@ for await (const message of receiver.getMessageIterator()) {
 
 Once you receive a message you can call [`completeMessage()`][receiver_complete], [`abandonMessage()`][receiver_abandon], [`deferMessage()`][receiver_defer] or [`deadLetterMessage()`][receiver_deadletter] on the receiver based on how you want to settle the message.
 
-To learn more, please read [Settling Received Messages](https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
+To learn more, please read [Settling Received Messages](https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations)
 
 ## Dead letter queues
 
@@ -340,15 +382,22 @@ their maximum delivery count.
 
 Creating a receiver for a dead letter sub-queue is similar to creating a receiver for a subscription or queue:
 
-```javascript
+```ts snippet:ReadmeSampleDeadLetterQueue
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
 // To receive from a queue's dead letter sub-queue
 const deadLetterReceiverForQueue = serviceBusClient.createReceiver("queue", {
-  subQueueType: "deadLetter"
+  subQueueType: "deadLetter",
 });
 
 // To receive from a subscription's dead letter sub-queue
 const deadLetterReceiverForSubscription = serviceBusClient.createReceiver("topic", "subscription", {
-  subQueueType: "deadLetter"
+  subQueueType: "deadLetter",
 });
 
 // Dead letter receivers work like any other receiver connected to a queue
@@ -376,11 +425,18 @@ In order to send messages to a session, use the `ServiceBusClient` to create a s
 When sending the message, set the `sessionId` property in the message to ensure
 your message lands in the right session.
 
-```javascript
+```ts snippet:ReadmeSampleSendMessage_Session
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
 const sender = serviceBusClient.createSender("my-session-queue");
 await sender.sendMessages({
   body: "my-message-body",
-  sessionId: "my-session"
+  sessionId: "my-session",
 });
 ```
 
@@ -403,14 +459,14 @@ There are two ways of choosing which session to open:
 
 1. Specify a `sessionId`, which locks a named session.
 
-   ```javascript
+   ```ts snippet:ignore
    const receiver = await serviceBusClient.acceptSession("my-session-queue", "my-session");
    ```
 
 2. Do not specify a session id. In this case Service Bus will find the next available session
    that is not already locked.
 
-   ```javascript
+   ```ts snippet:ignore
    const receiver = await serviceBusClient.acceptNextSession("my-session-queue");
    ```
 
@@ -434,7 +490,11 @@ You can read more about how sessions work [here][docsms_messagesessions].
 
 Note: Service Bus doesn't support setting CORS rules for namespaces yet, hence `ServiceBusAdministrationClient` won't work in the browser without disabling web-security. For more info, refer [here](https://github.com/Azure/azure-sdk-for-js/issues/4983).
 
-```js
+```ts snippet:ReadmeSampleAdministrationClient
+import { ServiceBusAdministrationClient } from "@azure/service-bus";
+
+const queueName = "my-session-queue";
+
 // Get the connection string from the portal
 // OR
 // use the token credential overload, provide the host name of your Service Bus instance and the AAD credentials from the @azure/identity library
@@ -444,10 +504,9 @@ const serviceBusAdministrationClient = new ServiceBusAdministrationClient("<conn
 const createQueueResponse = await serviceBusAdministrationClient.createQueue(queueName);
 console.log("Created queue with name - ", createQueueResponse.name);
 
-const queueRuntimeProperties = await serviceBusAdministrationClient.getQueueRuntimeProperties(
-  queueName
-);
-console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
+const queueRuntimeProperties =
+  await serviceBusAdministrationClient.getQueueRuntimeProperties(queueName);
+console.log(`Number of messages in the queue = ${queueRuntimeProperties.totalMessageCount}`);
 
 await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
@@ -512,38 +571,36 @@ export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rh
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from
-[Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview).
+[Service Bus Queues, Topics and Subscriptions](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview).
 
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
-
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus/
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus/
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[sbclient]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient
-[sbclient_constructor]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#ServiceBusClient_string__ServiceBusClientOptions_
-[sbclient_tokencred_overload]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#ServiceBusClient_string__TokenCredential__ServiceBusClientOptions_
-[sbclient_createsender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#createSender_string_
-[sbclient_createreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#createReceiver_string__CreateReceiverOptions__peekLock___
-[sbclient_acceptsession]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#acceptSession_string__string__AcceptSessionOptions__peekLock___
-[sender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebussender
-[sender_sendmessages]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebussender#sendMessages_ServiceBusMessage___ServiceBusMessage_____ServiceBusMessageBatch__OperationOptionsBase_
-[receiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver
-[receiver_receivemessages]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#receiveMessages_number__ReceiveMessagesOptions_
-[receiver_subscribe]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#subscribe_MessageHandlers_ReceivedMessageT___SubscribeOptions_
-[receiver_getmessageiterator]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#getMessageIterator_GetMessageIteratorOptions_
-[receiver_abandon]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#abandonMessage_ServiceBusReceivedMessage___key__string___any_
-[receiver_complete]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#completeMessage_ServiceBusReceivedMessage_
-[receiver_deadletter]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#deadLetterMessage_ServiceBusReceivedMessage__DeadLetterOptions____key__string___any_
-[receiver_defer]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#deferMessage_ServiceBusReceivedMessage___key__string___any_
-[sessionreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/servicebussessionreceiver
+[sbclient]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient
+[sbclient_constructor]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#ServiceBusClient_string__ServiceBusClientOptions_
+[sbclient_tokencred_overload]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#ServiceBusClient_string__TokenCredential__ServiceBusClientOptions_
+[sbclient_createsender]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#createSender_string_
+[sbclient_createreceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#createReceiver_string__CreateReceiverOptions__peekLock___
+[sbclient_acceptsession]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient#acceptSession_string__string__AcceptSessionOptions__peekLock___
+[sender]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender
+[sender_sendmessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender#sendMessages_ServiceBusMessage___ServiceBusMessage_____ServiceBusMessageBatch__OperationOptionsBase_
+[receiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver
+[receiver_receivemessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#receiveMessages_number__ReceiveMessagesOptions_
+[receiver_subscribe]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#subscribe_MessageHandlers_ReceivedMessageT___SubscribeOptions_
+[receiver_getmessageiterator]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#getMessageIterator_GetMessageIteratorOptions_
+[receiver_abandon]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#abandonMessage_ServiceBusReceivedMessage___key__string___any_
+[receiver_complete]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#completeMessage_ServiceBusReceivedMessage_
+[receiver_deadletter]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#deadLetterMessage_ServiceBusReceivedMessage__DeadLetterOptions____key__string___any_
+[receiver_defer]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#deferMessage_ServiceBusReceivedMessage___key__string___any_
+[sessionreceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussessionreceiver
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/migrationguide.md
-[docsms_messagesessions]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions
-[docsms_messagesessions_fifo]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
-[queue_concept]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#queues
-[topic_concept]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#topics
-[subscription_concept]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions#topics-and-subscriptions
-[service_bus_overview]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview
+[docsms_messagesessions]: https://learn.microsoft.com/azure/service-bus-messaging/message-sessions
+[docsms_messagesessions_fifo]: https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
+[queue_concept]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#queues
+[topic_concept]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#topics
+[subscription_concept]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions#topics-and-subscriptions
+[service_bus_overview]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview

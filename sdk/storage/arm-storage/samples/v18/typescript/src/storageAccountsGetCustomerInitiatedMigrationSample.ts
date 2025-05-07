@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
  *
  * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetMigrationFailed.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetMigrationFailed.json
  */
-async function storageAccountGetMigrationFailed() {
+async function storageAccountGetMigrationFailed(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,9 +39,9 @@ async function storageAccountGetMigrationFailed() {
  * This sample demonstrates how to Gets the status of the ongoing migration for the specified storage account.
  *
  * @summary Gets the status of the ongoing migration for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetMigrationInProgress.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetMigrationInProgress.json
  */
-async function storageAccountGetMigrationInProgress() {
+async function storageAccountGetMigrationInProgress(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,9 +58,9 @@ async function storageAccountGetMigrationInProgress() {
   console.log(result);
 }
 
-async function main() {
-  storageAccountGetMigrationFailed();
-  storageAccountGetMigrationInProgress();
+async function main(): Promise<void> {
+  await storageAccountGetMigrationFailed();
+  await storageAccountGetMigrationInProgress();
 }
 
 main().catch(console.error);

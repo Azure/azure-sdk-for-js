@@ -8,19 +8,17 @@
  */
 
 const { TableClient } = require("@azure/data-tables");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
-
-const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
+const endpoint = process.env.TABLES_URL || "https://accountname.table.core.windows.net/";
 
 async function batchOperations() {
   console.log("== Batch Operations Sample ==");
   const tableName = `transactionsSample`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const client = TableClient.fromConnectionString(connectionString, tableName);
+  const client = new TableClient(endpoint, tableName, new DefaultAzureCredential());
 
   // Create the table
   await client.createTable();
@@ -35,8 +33,8 @@ async function batchOperations() {
         rowKey: "A1",
         name: "Marker Set",
         price: 5.0,
-        quantity: 21
-      }
+        quantity: 21,
+      },
     ],
     [
       "create",
@@ -45,8 +43,8 @@ async function batchOperations() {
         rowKey: "A2",
         name: "Pen Set",
         price: 2.0,
-        quantity: 6
-      }
+        quantity: 6,
+      },
     ],
     [
       "create",
@@ -55,9 +53,9 @@ async function batchOperations() {
         rowKey: "A3",
         name: "Pencil",
         price: 1.5,
-        quantity: 100
-      }
-    ]
+        quantity: 100,
+      },
+    ],
   ];
 
   // Submit the transaction with the list of actions.
@@ -94,8 +92,8 @@ async function batchOperations() {
     [
       "update",
       { partitionKey, rowKey: "A2", name: "[Updated - Replace] Pen Set", price: 99, quantity: 33 },
-      "Replace"
-    ]
+      "Replace",
+    ],
   ];
 
   const updateResult = await client.submitTransaction(updateTransaction);

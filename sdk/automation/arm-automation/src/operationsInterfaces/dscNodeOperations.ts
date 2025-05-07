@@ -16,7 +16,7 @@ import {
   DscNodeUpdateParameters,
   DscNodeUpdateOptionalParams,
   DscNodeUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DscNodeOperations. */

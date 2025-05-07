@@ -15,44 +15,14 @@ import type { ClientCertificateCredentialOptions } from "./clientCertificateCred
 import { credentialLogger } from "../util/logging.js";
 import { readFile } from "node:fs/promises";
 import { tracingClient } from "../util/tracing.js";
+import type {
+  ClientCertificateCredentialPEMConfiguration,
+  ClientCertificatePEMCertificate,
+  ClientCertificatePEMCertificatePath,
+} from "./clientCertificateCredentialModels.js";
 
 const credentialName = "ClientCertificateCredential";
 const logger = credentialLogger(credentialName);
-
-/**
- * Required configuration options for the {@link ClientCertificateCredential}, with the string contents of a PEM certificate
- */
-export interface ClientCertificatePEMCertificate {
-  /**
-   * The PEM-encoded public/private key certificate on the filesystem.
-   */
-  certificate: string;
-
-  /**
-   * The password for the certificate file.
-   */
-  certificatePassword?: string;
-}
-/**
- * Required configuration options for the {@link ClientCertificateCredential}, with the path to a PEM certificate.
- */
-export interface ClientCertificatePEMCertificatePath {
-  /**
-   * The path to the PEM-encoded public/private key certificate on the filesystem.
-   */
-  certificatePath: string;
-
-  /**
-   * The password for the certificate file.
-   */
-  certificatePassword?: string;
-}
-/**
- * Required configuration options for the {@link ClientCertificateCredential}, with either the string contents of a PEM certificate, or the path to a PEM certificate.
- */
-export type ClientCertificateCredentialPEMConfiguration =
-  | ClientCertificatePEMCertificate
-  | ClientCertificatePEMCertificatePath;
 
 /**
  * Enables authentication to Microsoft Entra ID using a PEM-encoded
@@ -140,12 +110,10 @@ export class ClientCertificateCredential implements TokenCredential {
           }
         : certificatePathOrConfiguration),
     };
-    const certificate: string | undefined = (
-      this.certificateConfiguration as ClientCertificatePEMCertificate
-    ).certificate;
-    const certificatePath: string | undefined = (
-      this.certificateConfiguration as ClientCertificatePEMCertificatePath
-    ).certificatePath;
+    const certificate = (this.certificateConfiguration as ClientCertificatePEMCertificate)
+      .certificate;
+    const certificatePath = (this.certificateConfiguration as ClientCertificatePEMCertificatePath)
+      .certificatePath;
     if (!this.certificateConfiguration || !(certificate || certificatePath)) {
       throw new Error(
         `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
@@ -210,6 +178,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
     return {
       thumbprint: parts.thumbprint,
+      thumbprintSha256: parts.thumbprintSha256,
       privateKey,
       x5c: parts.x5c,
     };
@@ -227,12 +196,9 @@ export async function parseCertificate(
   certificateConfiguration: ClientCertificateCredentialPEMConfiguration,
   sendCertificateChain: boolean,
 ): Promise<Omit<CertificateParts, "privateKey"> & { certificateContents: string }> {
-  const certificate: string | undefined = (
-    certificateConfiguration as ClientCertificatePEMCertificate
-  ).certificate;
-  const certificatePath: string | undefined = (
-    certificateConfiguration as ClientCertificatePEMCertificatePath
-  ).certificatePath;
+  const certificate = (certificateConfiguration as ClientCertificatePEMCertificate).certificate;
+  const certificatePath = (certificateConfiguration as ClientCertificatePEMCertificatePath)
+    .certificatePath;
   const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
   const x5c = sendCertificateChain ? certificateContents : undefined;
 
@@ -258,8 +224,14 @@ export async function parseCertificate(
     .digest("hex")
     .toUpperCase();
 
+  const thumbprintSha256 = createHash("sha256")
+    .update(Buffer.from(publicKeys[0], "base64"))
+    .digest("hex")
+    .toUpperCase();
+
   return {
     certificateContents,
+    thumbprintSha256,
     thumbprint,
     x5c,
   };

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GatewayHostnameConfiguration } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GatewayHostnameConfiguration } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   GatewayHostnameConfigurationContract,
   GatewayHostnameConfigurationListByServiceNextOptionalParams,
@@ -25,13 +25,14 @@ import {
   GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
   GatewayHostnameConfigurationCreateOrUpdateResponse,
   GatewayHostnameConfigurationDeleteOptionalParams,
-  GatewayHostnameConfigurationListByServiceNextResponse
-} from "../models";
+  GatewayHostnameConfigurationListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayHostnameConfiguration operations. */
 export class GatewayHostnameConfigurationImpl
-  implements GatewayHostnameConfiguration {
+  implements GatewayHostnameConfiguration
+{
   private readonly client: ApiManagementClient;
 
   /**
@@ -54,13 +55,13 @@ export class GatewayHostnameConfigurationImpl
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
+    options?: GatewayHostnameConfigurationListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayHostnameConfigurationContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       gatewayId,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class GatewayHostnameConfigurationImpl
           serviceName,
           gatewayId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class GatewayHostnameConfigurationImpl
     serviceName: string,
     gatewayId: string,
     options?: GatewayHostnameConfigurationListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GatewayHostnameConfigurationContract[]> {
     let result: GatewayHostnameConfigurationListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class GatewayHostnameConfigurationImpl
         resourceGroupName,
         serviceName,
         gatewayId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +112,7 @@ export class GatewayHostnameConfigurationImpl
         serviceName,
         gatewayId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,13 +125,13 @@ export class GatewayHostnameConfigurationImpl
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
+    options?: GatewayHostnameConfigurationListByServiceOptionalParams,
   ): AsyncIterableIterator<GatewayHostnameConfigurationContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       gatewayId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,11 +149,11 @@ export class GatewayHostnameConfigurationImpl
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
+    options?: GatewayHostnameConfigurationListByServiceOptionalParams,
   ): Promise<GatewayHostnameConfigurationListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -172,11 +173,11 @@ export class GatewayHostnameConfigurationImpl
     serviceName: string,
     gatewayId: string,
     hcId: string,
-    options?: GatewayHostnameConfigurationGetEntityTagOptionalParams
+    options?: GatewayHostnameConfigurationGetEntityTagOptionalParams,
   ): Promise<GatewayHostnameConfigurationGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, hcId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -195,11 +196,11 @@ export class GatewayHostnameConfigurationImpl
     serviceName: string,
     gatewayId: string,
     hcId: string,
-    options?: GatewayHostnameConfigurationGetOptionalParams
+    options?: GatewayHostnameConfigurationGetOptionalParams,
   ): Promise<GatewayHostnameConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, hcId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -220,11 +221,11 @@ export class GatewayHostnameConfigurationImpl
     gatewayId: string,
     hcId: string,
     parameters: GatewayHostnameConfigurationContract,
-    options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams
+    options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
   ): Promise<GatewayHostnameConfigurationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, hcId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -246,11 +247,11 @@ export class GatewayHostnameConfigurationImpl
     gatewayId: string,
     hcId: string,
     ifMatch: string,
-    options?: GatewayHostnameConfigurationDeleteOptionalParams
+    options?: GatewayHostnameConfigurationDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, hcId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -268,11 +269,11 @@ export class GatewayHostnameConfigurationImpl
     serviceName: string,
     gatewayId: string,
     nextLink: string,
-    options?: GatewayHostnameConfigurationListByServiceNextOptionalParams
+    options?: GatewayHostnameConfigurationListByServiceNextOptionalParams,
   ): Promise<GatewayHostnameConfigurationListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, gatewayId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -280,159 +281,154 @@ export class GatewayHostnameConfigurationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationCollection
+      bodyMapper: Mappers.GatewayHostnameConfigurationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.gatewayId
+    Parameters.serviceName,
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GatewayHostnameConfigurationGetEntityTagHeaders
+      headersMapper: Mappers.GatewayHostnameConfigurationGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.hcId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.GatewayHostnameConfigurationContract,
-      headersMapper: Mappers.GatewayHostnameConfigurationGetHeaders
+      headersMapper: Mappers.GatewayHostnameConfigurationGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.hcId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.GatewayHostnameConfigurationContract,
-      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders
+      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GatewayHostnameConfigurationContract,
-      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders
+      headersMapper: Mappers.GatewayHostnameConfigurationCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters44,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.hcId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.gatewayId,
-    Parameters.hcId
+    Parameters.hcId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GatewayHostnameConfigurationCollection
+      bodyMapper: Mappers.GatewayHostnameConfigurationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.gatewayId
+    Parameters.serviceName,
+    Parameters.gatewayId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

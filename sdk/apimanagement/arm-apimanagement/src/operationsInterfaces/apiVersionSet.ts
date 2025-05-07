@@ -19,8 +19,8 @@ import {
   ApiVersionSetUpdateParameters,
   ApiVersionSetUpdateOptionalParams,
   ApiVersionSetUpdateResponse,
-  ApiVersionSetDeleteOptionalParams
-} from "../models";
+  ApiVersionSetDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiVersionSet. */
@@ -34,7 +34,7 @@ export interface ApiVersionSet {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiVersionSetListByServiceOptionalParams
+    options?: ApiVersionSetListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiVersionSetContract>;
   /**
    * Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
@@ -48,7 +48,7 @@ export interface ApiVersionSet {
     resourceGroupName: string,
     serviceName: string,
     versionSetId: string,
-    options?: ApiVersionSetGetEntityTagOptionalParams
+    options?: ApiVersionSetGetEntityTagOptionalParams,
   ): Promise<ApiVersionSetGetEntityTagResponse>;
   /**
    * Gets the details of the Api Version Set specified by its identifier.
@@ -62,7 +62,7 @@ export interface ApiVersionSet {
     resourceGroupName: string,
     serviceName: string,
     versionSetId: string,
-    options?: ApiVersionSetGetOptionalParams
+    options?: ApiVersionSetGetOptionalParams,
   ): Promise<ApiVersionSetGetResponse>;
   /**
    * Creates or Updates a Api Version Set.
@@ -78,7 +78,7 @@ export interface ApiVersionSet {
     serviceName: string,
     versionSetId: string,
     parameters: ApiVersionSetContract,
-    options?: ApiVersionSetCreateOrUpdateOptionalParams
+    options?: ApiVersionSetCreateOrUpdateOptionalParams,
   ): Promise<ApiVersionSetCreateOrUpdateResponse>;
   /**
    * Updates the details of the Api VersionSet specified by its identifier.
@@ -97,7 +97,7 @@ export interface ApiVersionSet {
     versionSetId: string,
     ifMatch: string,
     parameters: ApiVersionSetUpdateParameters,
-    options?: ApiVersionSetUpdateOptionalParams
+    options?: ApiVersionSetUpdateOptionalParams,
   ): Promise<ApiVersionSetUpdateResponse>;
   /**
    * Deletes specific Api Version Set.
@@ -114,6 +114,6 @@ export interface ApiVersionSet {
     serviceName: string,
     versionSetId: string,
     ifMatch: string,
-    options?: ApiVersionSetDeleteOptionalParams
+    options?: ApiVersionSetDeleteOptionalParams,
   ): Promise<void>;
 }

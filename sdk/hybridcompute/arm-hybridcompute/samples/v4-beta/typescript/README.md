@@ -171,7 +171,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [settingspatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/settingsPatchSample.ts
 [settingsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/settingsUpdateSample.ts
 [upgradeextensionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/upgradeExtensionsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hybridcompute?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hybridcompute?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridcompute/arm-hybridcompute/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provisions the underlying resources in the given Network Fabric instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Provisions the underlying resources in the given Network Fabric instance.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkFabrics_provision_MaximumSet_Gen.json
  */
-async function networkFabricsProvisionMaximumSetGen() {
+async function networkFabricsProvisionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -39,7 +37,7 @@ async function networkFabricsProvisionMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkFabricsProvisionMaximumSetGen();
 }
 

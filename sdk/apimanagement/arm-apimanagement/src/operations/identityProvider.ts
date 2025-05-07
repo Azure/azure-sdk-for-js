@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { IdentityProvider } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { IdentityProvider } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   IdentityProviderContract,
   IdentityProviderListByServiceNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   IdentityProviderDeleteOptionalParams,
   IdentityProviderListSecretsOptionalParams,
   IdentityProviderListSecretsResponse,
-  IdentityProviderListByServiceNextResponse
-} from "../models";
+  IdentityProviderListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IdentityProvider operations. */
@@ -57,12 +57,12 @@ export class IdentityProviderImpl implements IdentityProvider {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: IdentityProviderListByServiceOptionalParams
+    options?: IdentityProviderListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IdentityProviderContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class IdentityProviderImpl implements IdentityProvider {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class IdentityProviderImpl implements IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     options?: IdentityProviderListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IdentityProviderContract[]> {
     let result: IdentityProviderListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class IdentityProviderImpl implements IdentityProvider {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class IdentityProviderImpl implements IdentityProvider {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class IdentityProviderImpl implements IdentityProvider {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: IdentityProviderListByServiceOptionalParams
+    options?: IdentityProviderListByServiceOptionalParams,
   ): AsyncIterableIterator<IdentityProviderContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class IdentityProviderImpl implements IdentityProvider {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: IdentityProviderListByServiceOptionalParams
+    options?: IdentityProviderListByServiceOptionalParams,
   ): Promise<IdentityProviderListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class IdentityProviderImpl implements IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     identityProviderName: IdentityProviderType,
-    options?: IdentityProviderGetEntityTagOptionalParams
+    options?: IdentityProviderGetEntityTagOptionalParams,
   ): Promise<IdentityProviderGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, identityProviderName, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class IdentityProviderImpl implements IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     identityProviderName: IdentityProviderType,
-    options?: IdentityProviderGetOptionalParams
+    options?: IdentityProviderGetOptionalParams,
   ): Promise<IdentityProviderGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, identityProviderName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,7 +200,7 @@ export class IdentityProviderImpl implements IdentityProvider {
     serviceName: string,
     identityProviderName: IdentityProviderType,
     parameters: IdentityProviderCreateContract,
-    options?: IdentityProviderCreateOrUpdateOptionalParams
+    options?: IdentityProviderCreateOrUpdateOptionalParams,
   ): Promise<IdentityProviderCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -208,9 +208,9 @@ export class IdentityProviderImpl implements IdentityProvider {
         serviceName,
         identityProviderName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -230,7 +230,7 @@ export class IdentityProviderImpl implements IdentityProvider {
     identityProviderName: IdentityProviderType,
     ifMatch: string,
     parameters: IdentityProviderUpdateParameters,
-    options?: IdentityProviderUpdateOptionalParams
+    options?: IdentityProviderUpdateOptionalParams,
   ): Promise<IdentityProviderUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -239,9 +239,9 @@ export class IdentityProviderImpl implements IdentityProvider {
         identityProviderName,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -259,7 +259,7 @@ export class IdentityProviderImpl implements IdentityProvider {
     serviceName: string,
     identityProviderName: IdentityProviderType,
     ifMatch: string,
-    options?: IdentityProviderDeleteOptionalParams
+    options?: IdentityProviderDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -267,9 +267,9 @@ export class IdentityProviderImpl implements IdentityProvider {
         serviceName,
         identityProviderName,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -284,11 +284,11 @@ export class IdentityProviderImpl implements IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     identityProviderName: IdentityProviderType,
-    options?: IdentityProviderListSecretsOptionalParams
+    options?: IdentityProviderListSecretsOptionalParams,
   ): Promise<IdentityProviderListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, identityProviderName, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -303,11 +303,11 @@ export class IdentityProviderImpl implements IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: IdentityProviderListByServiceNextOptionalParams
+    options?: IdentityProviderListByServiceNextOptionalParams,
   ): Promise<IdentityProviderListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -315,202 +315,195 @@ export class IdentityProviderImpl implements IdentityProvider {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IdentityProviderList
+      bodyMapper: Mappers.IdentityProviderList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.IdentityProviderGetEntityTagHeaders
+      headersMapper: Mappers.IdentityProviderGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.identityProviderName
+    Parameters.serviceName,
+    Parameters.identityProviderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.IdentityProviderContract,
-      headersMapper: Mappers.IdentityProviderGetHeaders
+      headersMapper: Mappers.IdentityProviderGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.identityProviderName
+    Parameters.serviceName,
+    Parameters.identityProviderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.IdentityProviderContract,
-      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders
+      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.IdentityProviderContract,
-      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders
+      headersMapper: Mappers.IdentityProviderCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters49,
+  requestBody: Parameters.parameters57,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.identityProviderName
+    Parameters.serviceName,
+    Parameters.identityProviderName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.IdentityProviderContract,
-      headersMapper: Mappers.IdentityProviderUpdateHeaders
+      headersMapper: Mappers.IdentityProviderUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters50,
+  requestBody: Parameters.parameters58,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.identityProviderName
+    Parameters.serviceName,
+    Parameters.identityProviderName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.identityProviderName
+    Parameters.serviceName,
+    Parameters.identityProviderName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.ClientSecretContract,
-      headersMapper: Mappers.IdentityProviderListSecretsHeaders
+      headersMapper: Mappers.IdentityProviderListSecretsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.identityProviderName
+    Parameters.serviceName,
+    Parameters.identityProviderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IdentityProviderList
+      bodyMapper: Mappers.IdentityProviderList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ImageVersions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ImageVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevCenterClient } from "../devCenterClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevCenterClient } from "../devCenterClient.js";
 import {
   ImageVersion,
   ImageVersionsListByImageNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   ImageVersionsGetOptionalParams,
   ImageVersionsGetResponse,
   ImageVersionsListByImageNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ImageVersions operations. */

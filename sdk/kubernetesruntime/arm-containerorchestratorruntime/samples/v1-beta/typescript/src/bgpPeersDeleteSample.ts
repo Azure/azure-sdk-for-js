@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a BgpPeer
  * x-ms-original-file: 2024-03-01/BgpPeers_Delete.json
  */
-async function bgpPeersDelete() {
+async function bgpPeersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   await client.bgpPeers.delete(
@@ -19,7 +19,7 @@ async function bgpPeersDelete() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   bgpPeersDelete();
 }
 

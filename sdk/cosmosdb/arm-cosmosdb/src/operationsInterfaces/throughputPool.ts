@@ -17,7 +17,7 @@ import {
   ThroughputPoolUpdateResponse,
   ThroughputPoolDeleteOptionalParams,
   ThroughputPoolDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ThroughputPool. */
 export interface ThroughputPool {

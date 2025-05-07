@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
-async function privateEndpointConnectionsDeleteMaximumSetGen() {
+async function privateEndpointConnectionsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -41,9 +39,9 @@ async function privateEndpointConnectionsDeleteMaximumSetGen() {
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
  */
-async function privateEndpointConnectionsDeleteMinimumSetGen() {
+async function privateEndpointConnectionsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -60,9 +58,9 @@ async function privateEndpointConnectionsDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  privateEndpointConnectionsDeleteMaximumSetGen();
-  privateEndpointConnectionsDeleteMinimumSetGen();
+async function main(): Promise<void> {
+  await privateEndpointConnectionsDeleteMaximumSetGen();
+  await privateEndpointConnectionsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

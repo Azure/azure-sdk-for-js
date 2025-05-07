@@ -35,8 +35,8 @@ Once you have a key, you can authenticate the `AlphaIdsClient` with any of the f
 
 ### Using a connection string
 
-```javascript
-const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
@@ -46,9 +46,9 @@ const client = new AlphaIdsClient(connectionString);
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
-```javascript
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
+```ts snippet:ReadmeSampleCreateClient_AzureKeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new AlphaIdsClient("<endpoint-from-resource>", credential);
@@ -64,9 +64,9 @@ npm install @azure/identity
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-```javascript
-const { DefaultAzureCredential } = require ("@azure/identity");
-const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
+```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
+import { DefaultAzureCredential } from "@azure/identity";
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 
 const credential = new DefaultAzureCredential();
 const client = new AlphaIdsClient("<endpoint-from-resource>", credential);
@@ -79,21 +79,34 @@ The following sections provide code snippets that cover some of the common tasks
 - [Get the current applied configuration](#get-the-current-applied-configuration)
 
 ### Get the current applied configuration
-Use the `getConfiguration` method to obtain the current applied configuration for your resource.
 
-```javascript
-const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
+Use the `getDynamicAlphaIdConfiguration` method to obtain the current applied configuration for your resource.
+
+```ts snippet:AlphaIdsGetConfiguration
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
 
 // get the current configuration
-const configuration = await client.getConfiguration();
+const configuration = await client.getDynamicAlphaIdConfiguration();
 
-console.log(`Usage of Alpha IDs is currently ${(configuration.enabled ? "enabled" : "disabled")}`);
+console.log(`Usage of Alpha IDs is currently ${configuration.enabled ? "enabled" : "disabled"}`);
 ```
 
 ## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -107,11 +120,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-alpha-ids%2FREADME.png)

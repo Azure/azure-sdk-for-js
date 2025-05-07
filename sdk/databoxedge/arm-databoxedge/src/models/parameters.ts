@@ -31,7 +31,7 @@ import {
   Trigger as TriggerMapper,
   TriggerSupportPackageRequest as TriggerSupportPackageRequestMapper,
   User as UserMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

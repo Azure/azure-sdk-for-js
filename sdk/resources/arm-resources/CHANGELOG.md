@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 6.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,61 @@
 
 ### Other Changes
 
+## 6.0.0 (2025-02-19)
+    
+### Features Added
+
+  - Added operation TagsOperations.beginCreateOrUpdateAtScope
+  - Added operation TagsOperations.beginCreateOrUpdateAtScopeAndWait
+  - Added operation TagsOperations.beginDeleteAtScope
+  - Added operation TagsOperations.beginDeleteAtScopeAndWait
+  - Added operation TagsOperations.beginUpdateAtScope
+  - Added operation TagsOperations.beginUpdateAtScopeAndWait
+  - Added Interface DeploymentDiagnosticsDefinition
+  - Added Interface DeploymentParameter
+  - Added Interface KeyVaultParameterReference
+  - Added Interface KeyVaultReference
+  - Added Interface ResourceGroupsDeleteHeaders
+  - Added Interface TagsCreateOrUpdateAtScopeHeaders
+  - Added Interface TagsDeleteAtScopeHeaders
+  - Added Interface TagsUpdateAtScopeHeaders
+  - Added Type Alias ExportTemplateOutputFormat
+  - Added Type Alias Level
+  - Added Type Alias ValidationLevel
+  - Interface DeploymentProperties has a new optional parameter validationLevel
+  - Interface DeploymentPropertiesExtended has a new optional parameter diagnostics
+  - Interface DeploymentPropertiesExtended has a new optional parameter validationLevel
+  - Interface DeploymentValidateResult has a new optional parameter id
+  - Interface DeploymentValidateResult has a new optional parameter name
+  - Interface DeploymentValidateResult has a new optional parameter type
+  - Interface ExportTemplateRequest has a new optional parameter outputFormat
+  - Interface ResourceGroupExportResult has a new optional parameter output
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsCreateOrUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsDeleteAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter resumeFrom
+  - Interface TagsUpdateAtScopeOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WhatIfChange has a new optional parameter deploymentId
+  - Interface WhatIfChange has a new optional parameter identifiers
+  - Interface WhatIfChange has a new optional parameter symbolicName
+  - Interface WhatIfOperationResult has a new optional parameter diagnostics
+  - Interface WhatIfOperationResult has a new optional parameter potentialChanges
+  - Added Enum KnownExportTemplateOutputFormat
+  - Added Enum KnownLevel
+  - Added Enum KnownValidationLevel
+
+### Breaking Changes
+
+  - Removed operation TagsOperations.createOrUpdateAtScope
+  - Removed operation TagsOperations.deleteAtScope
+  - Removed operation TagsOperations.updateAtScope
+  - Class ResourceManagementClient has a new signature
+  - Type of parameter parameters of interface DeploymentProperties is changed from Record<string, unknown> to {
+        [propertyName: string]: DeploymentParameter;
+    }
+    
+    
 ## 5.2.0 (2023-03-13)
     
 ### Features Added
@@ -63,4 +118,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

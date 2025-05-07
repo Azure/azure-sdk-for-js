@@ -4,6 +4,7 @@
 
 <!-- **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library** -->
 <!-- TODO Fix links once they are live use placeholden until then -->
+
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/health-deidentification)
@@ -47,22 +48,19 @@ Pull `ServiceUrl` from your created Deidentification Service.
 
 Basic code snippet to create your Deidentification Client and Deidentify a string.
 
-```javascript
-import createClient, {
+```ts snippet:ReadmeSample_Deidentify
+import { DefaultAzureCredential } from "@azure/identity";
+import DeidentificationClient, {
   DeidentificationContent,
   isUnexpected,
 } from "@azure-rest/health-deidentification";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 const credential = new DefaultAzureCredential();
-const serviceEndpoint =
-  process.env["DEID_SERVICE_ENDPOINT"] || "https://example.api.cac001.deid.azure.com";
-const client = createClient(serviceEndpoint, credential);
+const serviceEndpoint = "https://example.api.cac001.deid.azure.com";
+const client = DeidentificationClient(serviceEndpoint, credential);
 
 const content: DeidentificationContent = {
-  inputText: "Hello John!"
+  inputText: "Hello John!",
 };
 
 const response = await client.path("/deid").post({ body: content });
@@ -90,8 +88,8 @@ Operation Modes:
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

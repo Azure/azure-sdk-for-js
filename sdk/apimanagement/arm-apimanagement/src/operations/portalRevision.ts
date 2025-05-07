@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PortalRevision } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PortalRevision } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PortalRevisionContract,
   PortalRevisionListByServiceNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   PortalRevisionCreateOrUpdateResponse,
   PortalRevisionUpdateOptionalParams,
   PortalRevisionUpdateResponse,
-  PortalRevisionListByServiceNextResponse
-} from "../models";
+  PortalRevisionListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PortalRevision operations. */
@@ -57,12 +57,12 @@ export class PortalRevisionImpl implements PortalRevision {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalRevisionListByServiceOptionalParams
+    options?: PortalRevisionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PortalRevisionContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class PortalRevisionImpl implements PortalRevision {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class PortalRevisionImpl implements PortalRevision {
     resourceGroupName: string,
     serviceName: string,
     options?: PortalRevisionListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PortalRevisionContract[]> {
     let result: PortalRevisionListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class PortalRevisionImpl implements PortalRevision {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class PortalRevisionImpl implements PortalRevision {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class PortalRevisionImpl implements PortalRevision {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalRevisionListByServiceOptionalParams
+    options?: PortalRevisionListByServiceOptionalParams,
   ): AsyncIterableIterator<PortalRevisionContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class PortalRevisionImpl implements PortalRevision {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalRevisionListByServiceOptionalParams
+    options?: PortalRevisionListByServiceOptionalParams,
   ): Promise<PortalRevisionListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class PortalRevisionImpl implements PortalRevision {
     resourceGroupName: string,
     serviceName: string,
     portalRevisionId: string,
-    options?: PortalRevisionGetEntityTagOptionalParams
+    options?: PortalRevisionGetEntityTagOptionalParams,
   ): Promise<PortalRevisionGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, portalRevisionId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -181,11 +181,11 @@ export class PortalRevisionImpl implements PortalRevision {
     resourceGroupName: string,
     serviceName: string,
     portalRevisionId: string,
-    options?: PortalRevisionGetOptionalParams
+    options?: PortalRevisionGetOptionalParams,
   ): Promise<PortalRevisionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, portalRevisionId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -204,7 +204,7 @@ export class PortalRevisionImpl implements PortalRevision {
     serviceName: string,
     portalRevisionId: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionCreateOrUpdateOptionalParams
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PortalRevisionCreateOrUpdateResponse>,
@@ -213,21 +213,20 @@ export class PortalRevisionImpl implements PortalRevision {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PortalRevisionCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -236,8 +235,8 @@ export class PortalRevisionImpl implements PortalRevision {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -245,8 +244,8 @@ export class PortalRevisionImpl implements PortalRevision {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -257,9 +256,9 @@ export class PortalRevisionImpl implements PortalRevision {
         serviceName,
         portalRevisionId,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PortalRevisionCreateOrUpdateResponse,
@@ -267,7 +266,7 @@ export class PortalRevisionImpl implements PortalRevision {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -288,14 +287,14 @@ export class PortalRevisionImpl implements PortalRevision {
     serviceName: string,
     portalRevisionId: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionCreateOrUpdateOptionalParams
+    options?: PortalRevisionCreateOrUpdateOptionalParams,
   ): Promise<PortalRevisionCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       portalRevisionId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -317,7 +316,7 @@ export class PortalRevisionImpl implements PortalRevision {
     portalRevisionId: string,
     ifMatch: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionUpdateOptionalParams
+    options?: PortalRevisionUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PortalRevisionUpdateResponse>,
@@ -326,21 +325,20 @@ export class PortalRevisionImpl implements PortalRevision {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PortalRevisionUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -349,8 +347,8 @@ export class PortalRevisionImpl implements PortalRevision {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -358,8 +356,8 @@ export class PortalRevisionImpl implements PortalRevision {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -371,9 +369,9 @@ export class PortalRevisionImpl implements PortalRevision {
         portalRevisionId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       PortalRevisionUpdateResponse,
@@ -381,7 +379,7 @@ export class PortalRevisionImpl implements PortalRevision {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -404,7 +402,7 @@ export class PortalRevisionImpl implements PortalRevision {
     portalRevisionId: string,
     ifMatch: string,
     parameters: PortalRevisionContract,
-    options?: PortalRevisionUpdateOptionalParams
+    options?: PortalRevisionUpdateOptionalParams,
   ): Promise<PortalRevisionUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -412,7 +410,7 @@ export class PortalRevisionImpl implements PortalRevision {
       portalRevisionId,
       ifMatch,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -428,11 +426,11 @@ export class PortalRevisionImpl implements PortalRevision {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: PortalRevisionListByServiceNextOptionalParams
+    options?: PortalRevisionListByServiceNextOptionalParams,
   ): Promise<PortalRevisionListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -440,177 +438,172 @@ export class PortalRevisionImpl implements PortalRevision {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalRevisionCollection
+      bodyMapper: Mappers.PortalRevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.PortalRevisionGetEntityTagHeaders
+      headersMapper: Mappers.PortalRevisionGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalRevisionId
+    Parameters.serviceName,
+    Parameters.portalRevisionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionGetHeaders
+      headersMapper: Mappers.PortalRevisionGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalRevisionId
+    Parameters.serviceName,
+    Parameters.portalRevisionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders
+      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders
+      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders
+      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders
+      headersMapper: Mappers.PortalRevisionCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters59,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalRevisionId
+    Parameters.serviceName,
+    Parameters.portalRevisionId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalRevisions/{portalRevisionId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionUpdateHeaders
+      headersMapper: Mappers.PortalRevisionUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionUpdateHeaders
+      headersMapper: Mappers.PortalRevisionUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionUpdateHeaders
+      headersMapper: Mappers.PortalRevisionUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.PortalRevisionContract,
-      headersMapper: Mappers.PortalRevisionUpdateHeaders
+      headersMapper: Mappers.PortalRevisionUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters59,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalRevisionId
+    Parameters.serviceName,
+    Parameters.portalRevisionId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalRevisionCollection
+      bodyMapper: Mappers.PortalRevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

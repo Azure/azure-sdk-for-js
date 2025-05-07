@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ConnectivityConfigurationsCreateOrUpdateParameters
+  ConnectivityConfigurationsCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates/Updates a new network manager connectivity configuration
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Creates/Updates a new network manager connectivity configuration
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectivityConfigurationPut.json
  */
-async function connectivityConfigurationsPut() {
+async function connectivityConfigurationsPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -34,8 +29,8 @@ async function connectivityConfigurationsPut() {
             isGlobal: "False",
             networkGroupId:
               "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
-            useHubGateway: "True"
-          }
+            useHubGateway: "True",
+          },
         ],
         connectivityTopology: "HubAndSpoke",
         deleteExistingPeering: "True",
@@ -43,13 +38,13 @@ async function connectivityConfigurationsPut() {
           {
             resourceId:
               "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myTestConnectivityConfig",
-            resourceType: "Microsoft.Network/virtualNetworks"
-          }
+            resourceType: "Microsoft.Network/virtualNetworks",
+          },
         ],
-        isGlobal: "True"
-      }
+        isGlobal: "True",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -57,7 +52,7 @@ async function connectivityConfigurationsPut() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .put(options);
   console.log(result);

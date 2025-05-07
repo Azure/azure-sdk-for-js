@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of Firewalls associated with Rulestack
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List of Firewalls associated with Rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listFirewalls_MaximumSet_Gen.json
  */
-async function globalRulestackListFirewallsMaximumSetGen() {
+async function globalRulestackListFirewallsMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -36,7 +34,7 @@ async function globalRulestackListFirewallsMaximumSetGen() {
  * @summary List of Firewalls associated with Rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listFirewalls_MinimumSet_Gen.json
  */
-async function globalRulestackListFirewallsMinimumSetGen() {
+async function globalRulestackListFirewallsMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -46,7 +44,7 @@ async function globalRulestackListFirewallsMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalRulestackListFirewallsMaximumSetGen();
   globalRulestackListFirewallsMinimumSetGen();
 }

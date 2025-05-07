@@ -24,8 +24,8 @@ import {
   TenantAccessRegeneratePrimaryKeyOptionalParams,
   TenantAccessRegenerateSecondaryKeyOptionalParams,
   TenantAccessListSecretsOptionalParams,
-  TenantAccessListSecretsResponse
-} from "../models";
+  TenantAccessListSecretsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TenantAccess. */
@@ -39,7 +39,7 @@ export interface TenantAccess {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantAccessListByServiceOptionalParams
+    options?: TenantAccessListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<AccessInformationContract>;
   /**
    * Tenant access metadata
@@ -52,7 +52,7 @@ export interface TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGetEntityTagOptionalParams
+    options?: TenantAccessGetEntityTagOptionalParams,
   ): Promise<TenantAccessGetEntityTagResponse>;
   /**
    * Get tenant access information details without secrets.
@@ -65,7 +65,7 @@ export interface TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGetOptionalParams
+    options?: TenantAccessGetOptionalParams,
   ): Promise<TenantAccessGetResponse>;
   /**
    * Update tenant access information details.
@@ -83,7 +83,7 @@ export interface TenantAccess {
     accessName: AccessIdName,
     ifMatch: string,
     parameters: AccessInformationCreateParameters,
-    options?: TenantAccessCreateOptionalParams
+    options?: TenantAccessCreateOptionalParams,
   ): Promise<TenantAccessCreateResponse>;
   /**
    * Update tenant access information details.
@@ -101,7 +101,7 @@ export interface TenantAccess {
     accessName: AccessIdName,
     ifMatch: string,
     parameters: AccessInformationUpdateParameters,
-    options?: TenantAccessUpdateOptionalParams
+    options?: TenantAccessUpdateOptionalParams,
   ): Promise<TenantAccessUpdateResponse>;
   /**
    * Regenerate primary access key
@@ -114,7 +114,7 @@ export interface TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessRegeneratePrimaryKeyOptionalParams
+    options?: TenantAccessRegeneratePrimaryKeyOptionalParams,
   ): Promise<void>;
   /**
    * Regenerate secondary access key
@@ -127,7 +127,7 @@ export interface TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessRegenerateSecondaryKeyOptionalParams
+    options?: TenantAccessRegenerateSecondaryKeyOptionalParams,
   ): Promise<void>;
   /**
    * Get tenant access information details.
@@ -140,6 +140,6 @@ export interface TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessListSecretsOptionalParams
+    options?: TenantAccessListSecretsOptionalParams,
   ): Promise<TenantAccessListSecretsResponse>;
 }

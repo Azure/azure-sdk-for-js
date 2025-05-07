@@ -21,8 +21,8 @@ import {
   ProductUpdateParameters,
   ProductUpdateOptionalParams,
   ProductUpdateResponse,
-  ProductDeleteOptionalParams
-} from "../models";
+  ProductDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Product. */
@@ -36,7 +36,7 @@ export interface Product {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ProductListByServiceOptionalParams
+    options?: ProductListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract>;
   /**
    * Lists a collection of products associated with tags.
@@ -47,7 +47,7 @@ export interface Product {
   listByTags(
     resourceGroupName: string,
     serviceName: string,
-    options?: ProductListByTagsOptionalParams
+    options?: ProductListByTagsOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract>;
   /**
    * Gets the entity state (Etag) version of the product specified by its identifier.
@@ -60,7 +60,7 @@ export interface Product {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductGetEntityTagOptionalParams
+    options?: ProductGetEntityTagOptionalParams,
   ): Promise<ProductGetEntityTagResponse>;
   /**
    * Gets the details of the product specified by its identifier.
@@ -73,7 +73,7 @@ export interface Product {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductGetOptionalParams
+    options?: ProductGetOptionalParams,
   ): Promise<ProductGetResponse>;
   /**
    * Creates or Updates a product.
@@ -88,7 +88,7 @@ export interface Product {
     serviceName: string,
     productId: string,
     parameters: ProductContract,
-    options?: ProductCreateOrUpdateOptionalParams
+    options?: ProductCreateOrUpdateOptionalParams,
   ): Promise<ProductCreateOrUpdateResponse>;
   /**
    * Update existing product details.
@@ -106,7 +106,7 @@ export interface Product {
     productId: string,
     ifMatch: string,
     parameters: ProductUpdateParameters,
-    options?: ProductUpdateOptionalParams
+    options?: ProductUpdateOptionalParams,
   ): Promise<ProductUpdateResponse>;
   /**
    * Delete product.
@@ -122,6 +122,6 @@ export interface Product {
     serviceName: string,
     productId: string,
     ifMatch: string,
-    options?: ProductDeleteOptionalParams
+    options?: ProductDeleteOptionalParams,
   ): Promise<void>;
 }

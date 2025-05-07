@@ -14,9 +14,7 @@ import {
   NON_EU_CONNECTION_STRING,
   StatsbeatResourceProvider,
 } from "./types.js";
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const os = require("os");
+import * as os from "node:os";
 
 export class StatsbeatMetrics {
   protected resourceProvider: string = StatsbeatResourceProvider.unknown;

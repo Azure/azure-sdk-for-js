@@ -11,8 +11,8 @@ import {
   SubscriptionContract,
   UserSubscriptionListOptionalParams,
   UserSubscriptionGetOptionalParams,
-  UserSubscriptionGetResponse
-} from "../models";
+  UserSubscriptionGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UserSubscription. */
@@ -28,7 +28,7 @@ export interface UserSubscription {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserSubscriptionListOptionalParams
+    options?: UserSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract>;
   /**
    * Gets the specified Subscription entity associated with a particular user.
@@ -44,6 +44,6 @@ export interface UserSubscription {
     serviceName: string,
     userId: string,
     sid: string,
-    options?: UserSubscriptionGetOptionalParams
+    options?: UserSubscriptionGetOptionalParams,
   ): Promise<UserSubscriptionGetResponse>;
 }

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiIssueAttachment } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiIssueAttachment } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   IssueAttachmentContract,
   ApiIssueAttachmentListByServiceNextOptionalParams,
@@ -25,8 +25,8 @@ import {
   ApiIssueAttachmentCreateOrUpdateOptionalParams,
   ApiIssueAttachmentCreateOrUpdateResponse,
   ApiIssueAttachmentDeleteOptionalParams,
-  ApiIssueAttachmentListByServiceNextResponse
-} from "../models";
+  ApiIssueAttachmentListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiIssueAttachment operations. */
@@ -54,14 +54,14 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueAttachmentListByServiceOptionalParams
+    options?: ApiIssueAttachmentListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueAttachmentContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       apiId,
       issueId,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
           apiId,
           issueId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     apiId: string,
     issueId: string,
     options?: ApiIssueAttachmentListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IssueAttachmentContract[]> {
     let result: ApiIssueAttachmentListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
         serviceName,
         apiId,
         issueId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
         apiId,
         issueId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,14 +130,14 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueAttachmentListByServiceOptionalParams
+    options?: ApiIssueAttachmentListByServiceOptionalParams,
   ): AsyncIterableIterator<IssueAttachmentContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       apiId,
       issueId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,11 +156,11 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueAttachmentListByServiceOptionalParams
+    options?: ApiIssueAttachmentListByServiceOptionalParams,
   ): Promise<ApiIssueAttachmentListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     apiId: string,
     issueId: string,
     attachmentId: string,
-    options?: ApiIssueAttachmentGetEntityTagOptionalParams
+    options?: ApiIssueAttachmentGetEntityTagOptionalParams,
   ): Promise<ApiIssueAttachmentGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, attachmentId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     apiId: string,
     issueId: string,
     attachmentId: string,
-    options?: ApiIssueAttachmentGetOptionalParams
+    options?: ApiIssueAttachmentGetOptionalParams,
   ): Promise<ApiIssueAttachmentGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, attachmentId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -227,7 +227,7 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     issueId: string,
     attachmentId: string,
     parameters: IssueAttachmentContract,
-    options?: ApiIssueAttachmentCreateOrUpdateOptionalParams
+    options?: ApiIssueAttachmentCreateOrUpdateOptionalParams,
   ): Promise<ApiIssueAttachmentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -237,9 +237,9 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
         issueId,
         attachmentId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -261,7 +261,7 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     issueId: string,
     attachmentId: string,
     ifMatch: string,
-    options?: ApiIssueAttachmentDeleteOptionalParams
+    options?: ApiIssueAttachmentDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -271,9 +271,9 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
         issueId,
         attachmentId,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -292,11 +292,11 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
     apiId: string,
     issueId: string,
     nextLink: string,
-    options?: ApiIssueAttachmentListByServiceNextOptionalParams
+    options?: ApiIssueAttachmentListByServiceNextOptionalParams,
   ): Promise<ApiIssueAttachmentListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -304,165 +304,160 @@ export class ApiIssueAttachmentImpl implements ApiIssueAttachment {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssueAttachmentCollection
+      bodyMapper: Mappers.IssueAttachmentCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.issueId
+    Parameters.issueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiIssueAttachmentGetEntityTagHeaders
+      headersMapper: Mappers.ApiIssueAttachmentGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.attachmentId
+    Parameters.attachmentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.IssueAttachmentContract,
-      headersMapper: Mappers.ApiIssueAttachmentGetHeaders
+      headersMapper: Mappers.ApiIssueAttachmentGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.attachmentId
+    Parameters.attachmentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.IssueAttachmentContract,
-      headersMapper: Mappers.ApiIssueAttachmentCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiIssueAttachmentCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.IssueAttachmentContract,
-      headersMapper: Mappers.ApiIssueAttachmentCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiIssueAttachmentCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.attachmentId
+    Parameters.attachmentId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.attachmentId
+    Parameters.attachmentId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssueAttachmentCollection
+      bodyMapper: Mappers.IssueAttachmentCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.issueId
+    Parameters.issueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

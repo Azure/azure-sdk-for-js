@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AuthorizationServer } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AuthorizationServer } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   AuthorizationServerContract,
   AuthorizationServerListByServiceNextOptionalParams,
@@ -30,8 +30,8 @@ import {
   AuthorizationServerDeleteOptionalParams,
   AuthorizationServerListSecretsOptionalParams,
   AuthorizationServerListSecretsResponse,
-  AuthorizationServerListByServiceNextResponse
-} from "../models";
+  AuthorizationServerListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AuthorizationServer operations. */
@@ -55,12 +55,12 @@ export class AuthorizationServerImpl implements AuthorizationServer {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: AuthorizationServerListByServiceOptionalParams
+    options?: AuthorizationServerListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationServerContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class AuthorizationServerImpl implements AuthorizationServer {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     options?: AuthorizationServerListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationServerContract[]> {
     let result: AuthorizationServerListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class AuthorizationServerImpl implements AuthorizationServer {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class AuthorizationServerImpl implements AuthorizationServer {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,12 +119,12 @@ export class AuthorizationServerImpl implements AuthorizationServer {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: AuthorizationServerListByServiceOptionalParams
+    options?: AuthorizationServerListByServiceOptionalParams,
   ): AsyncIterableIterator<AuthorizationServerContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,11 +139,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: AuthorizationServerListByServiceOptionalParams
+    options?: AuthorizationServerListByServiceOptionalParams,
   ): Promise<AuthorizationServerListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -158,11 +158,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     authsid: string,
-    options?: AuthorizationServerGetEntityTagOptionalParams
+    options?: AuthorizationServerGetEntityTagOptionalParams,
   ): Promise<AuthorizationServerGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authsid, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     authsid: string,
-    options?: AuthorizationServerGetOptionalParams
+    options?: AuthorizationServerGetOptionalParams,
   ): Promise<AuthorizationServerGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authsid, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     serviceName: string,
     authsid: string,
     parameters: AuthorizationServerContract,
-    options?: AuthorizationServerCreateOrUpdateOptionalParams
+    options?: AuthorizationServerCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationServerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authsid, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -222,11 +222,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     authsid: string,
     ifMatch: string,
     parameters: AuthorizationServerUpdateContract,
-    options?: AuthorizationServerUpdateOptionalParams
+    options?: AuthorizationServerUpdateOptionalParams,
   ): Promise<AuthorizationServerUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authsid, ifMatch, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -244,11 +244,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     serviceName: string,
     authsid: string,
     ifMatch: string,
-    options?: AuthorizationServerDeleteOptionalParams
+    options?: AuthorizationServerDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authsid, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -263,11 +263,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     authsid: string,
-    options?: AuthorizationServerListSecretsOptionalParams
+    options?: AuthorizationServerListSecretsOptionalParams,
   ): Promise<AuthorizationServerListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, authsid, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -282,11 +282,11 @@ export class AuthorizationServerImpl implements AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: AuthorizationServerListByServiceNextOptionalParams
+    options?: AuthorizationServerListByServiceNextOptionalParams,
   ): Promise<AuthorizationServerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -294,207 +294,200 @@ export class AuthorizationServerImpl implements AuthorizationServer {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationServerCollection
+      bodyMapper: Mappers.AuthorizationServerCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AuthorizationServerGetEntityTagHeaders
+      headersMapper: Mappers.AuthorizationServerGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authsid
+    Parameters.serviceName,
+    Parameters.authsid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerContract,
-      headersMapper: Mappers.AuthorizationServerGetHeaders
+      headersMapper: Mappers.AuthorizationServerGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authsid
+    Parameters.serviceName,
+    Parameters.authsid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerContract,
-      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders
+      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.AuthorizationServerContract,
-      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders
+      headersMapper: Mappers.AuthorizationServerCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authsid
+    Parameters.serviceName,
+    Parameters.authsid,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerContract,
-      headersMapper: Mappers.AuthorizationServerUpdateHeaders
+      headersMapper: Mappers.AuthorizationServerUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authsid
+    Parameters.serviceName,
+    Parameters.authsid,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authsid
+    Parameters.serviceName,
+    Parameters.authsid,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerSecretsContract,
-      headersMapper: Mappers.AuthorizationServerListSecretsHeaders
+      headersMapper: Mappers.AuthorizationServerListSecretsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.authsid
+    Parameters.serviceName,
+    Parameters.authsid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationServerCollection
+      bodyMapper: Mappers.AuthorizationServerCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

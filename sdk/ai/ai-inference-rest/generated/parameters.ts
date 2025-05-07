@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ExtraParameters,
   ChatRequestMessage,
   ChatCompletionsResponseFormat,
   ChatCompletionsToolDefinition,
-  ChatCompletionsToolSelectionPreset,
-  ChatCompletionsNamedToolSelection,
+  ChatCompletionsToolChoicePreset,
+  ChatCompletionsNamedToolChoice,
   EmbeddingEncodingFormat,
   EmbeddingInputType,
-  EmbeddingInput,
+  ImageEmbeddingInput,
 } from "./models.js";
 
 export interface GetChatCompletionsHeaders {
@@ -38,7 +38,9 @@ export interface GetChatCompletionsBodyParam {
     response_format?: ChatCompletionsResponseFormat;
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
+    tool_choice?:
+      | ChatCompletionsToolChoicePreset
+      | ChatCompletionsNamedToolChoice;
     seed?: number;
     model?: string;
   };
@@ -95,7 +97,7 @@ export interface GetImageEmbeddingsHeaders {
 
 export interface GetImageEmbeddingsBodyParam {
   body: {
-    input: Array<EmbeddingInput>;
+    input: Array<ImageEmbeddingInput>;
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;
     input_type?: EmbeddingInputType;

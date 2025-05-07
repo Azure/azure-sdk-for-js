@@ -15,21 +15,19 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`TollFreeVerificationClient - Campaign Brief`, function () {
+describe(`TollFreeVerificationClient - Campaign Brief`, () => {
   let recorder: Recorder;
   let client: TollFreeVerificationClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
-  it("can manage a Brief", { timeout: 35000 }, async function () {
+  it("can manage a Brief", { timeout: 35000 }, async () => {
     const testBrief = getTestUSCampaignBrief();
     const uscb = testBrief.campaignBrief;
     const uscbsumm = testBrief.campaignBriefSummary;

@@ -19,8 +19,8 @@ import {
   IssueUpdateContract,
   ApiIssueUpdateOptionalParams,
   ApiIssueUpdateResponse,
-  ApiIssueDeleteOptionalParams
-} from "../models";
+  ApiIssueDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiIssue. */
@@ -36,7 +36,7 @@ export interface ApiIssue {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiIssueListByServiceOptionalParams
+    options?: ApiIssueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueContract>;
   /**
    * Gets the entity state (Etag) version of the Issue for an API specified by its identifier.
@@ -51,7 +51,7 @@ export interface ApiIssue {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueGetEntityTagOptionalParams
+    options?: ApiIssueGetEntityTagOptionalParams,
   ): Promise<ApiIssueGetEntityTagResponse>;
   /**
    * Gets the details of the Issue for an API specified by its identifier.
@@ -66,7 +66,7 @@ export interface ApiIssue {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueGetOptionalParams
+    options?: ApiIssueGetOptionalParams,
   ): Promise<ApiIssueGetResponse>;
   /**
    * Creates a new Issue for an API or updates an existing one.
@@ -83,7 +83,7 @@ export interface ApiIssue {
     apiId: string,
     issueId: string,
     parameters: IssueContract,
-    options?: ApiIssueCreateOrUpdateOptionalParams
+    options?: ApiIssueCreateOrUpdateOptionalParams,
   ): Promise<ApiIssueCreateOrUpdateResponse>;
   /**
    * Updates an existing issue for an API.
@@ -103,7 +103,7 @@ export interface ApiIssue {
     issueId: string,
     ifMatch: string,
     parameters: IssueUpdateContract,
-    options?: ApiIssueUpdateOptionalParams
+    options?: ApiIssueUpdateOptionalParams,
   ): Promise<ApiIssueUpdateResponse>;
   /**
    * Deletes the specified Issue from an API.
@@ -121,6 +121,6 @@ export interface ApiIssue {
     apiId: string,
     issueId: string,
     ifMatch: string,
-    options?: ApiIssueDeleteOptionalParams
+    options?: ApiIssueDeleteOptionalParams,
   ): Promise<void>;
 }

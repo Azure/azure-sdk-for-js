@@ -7,7 +7,7 @@
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.  Note this is only
  * available in the Standard SKU namespaces and above.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-send-push-notifications-scheduled
  * to learn about scheduled send.
  *
  *

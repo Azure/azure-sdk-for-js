@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all executions in a job agent.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists all executions in a job agent.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByAgentWithFilter.json
  */
-async function listAllJobExecutionsInAJobAgentWithFiltering() {
+async function listAllJobExecutionsInAJobAgentWithFiltering(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -62,7 +60,7 @@ async function listAllJobExecutionsInAJobAgentWithFiltering() {
  * @summary Lists all executions in a job agent.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListJobExecutionsByAgent.json
  */
-async function listAllJobExecutionsInAJobAgent() {
+async function listAllJobExecutionsInAJobAgent(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -82,7 +80,7 @@ async function listAllJobExecutionsInAJobAgent() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllJobExecutionsInAJobAgentWithFiltering();
   listAllJobExecutionsInAJobAgent();
 }

@@ -48,7 +48,11 @@ export interface OperationResponseOutput {
 
 /** List of received shares. */
 export interface ReceivedShareListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type ReceivedShare */
   value: Array<ReceivedShareOutput>;
@@ -56,7 +60,11 @@ export interface ReceivedShareListOutput {
 
 /** List of sent shares. */
 export interface SentShareListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type SentShare */
   value: Array<SentShareOutput>;
@@ -69,7 +77,11 @@ export interface SentShareOutputParent extends ProxyResourceOutput {
 
 /** List of the sent share invitations */
 export interface SentShareInvitationListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type SentShareInvitation */
   value: Array<SentShareInvitationOutput>;
@@ -82,7 +94,11 @@ export interface SentShareInvitationOutputParent extends ProxyResourceOutput {
 
 /** A page of ShareResource results. */
 export interface ShareResourceListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type ShareResource */
   value: Array<ShareResourceOutput>;

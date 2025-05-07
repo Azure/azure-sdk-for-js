@@ -20,7 +20,7 @@ import {
   SubnetsPrepareNetworkPoliciesOptionalParams,
   UnprepareNetworkPoliciesRequest,
   SubnetsUnprepareNetworkPoliciesOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Subnets. */

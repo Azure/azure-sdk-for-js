@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { UserSubscription } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { UserSubscription } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SubscriptionContract,
   UserSubscriptionListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   UserSubscriptionListResponse,
   UserSubscriptionGetOptionalParams,
   UserSubscriptionGetResponse,
-  UserSubscriptionListNextResponse
-} from "../models";
+  UserSubscriptionListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UserSubscription operations. */
@@ -47,13 +47,13 @@ export class UserSubscriptionImpl implements UserSubscription {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserSubscriptionListOptionalParams
+    options?: UserSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       userId,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class UserSubscriptionImpl implements UserSubscription {
           serviceName,
           userId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class UserSubscriptionImpl implements UserSubscription {
     serviceName: string,
     userId: string,
     options?: UserSubscriptionListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionContract[]> {
     let result: UserSubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class UserSubscriptionImpl implements UserSubscription {
         resourceGroupName,
         serviceName,
         userId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class UserSubscriptionImpl implements UserSubscription {
         serviceName,
         userId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class UserSubscriptionImpl implements UserSubscription {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserSubscriptionListOptionalParams
+    options?: UserSubscriptionListOptionalParams,
   ): AsyncIterableIterator<SubscriptionContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       userId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class UserSubscriptionImpl implements UserSubscription {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserSubscriptionListOptionalParams
+    options?: UserSubscriptionListOptionalParams,
   ): Promise<UserSubscriptionListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class UserSubscriptionImpl implements UserSubscription {
     serviceName: string,
     userId: string,
     sid: string,
-    options?: UserSubscriptionGetOptionalParams
+    options?: UserSubscriptionGetOptionalParams,
   ): Promise<UserSubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, sid, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class UserSubscriptionImpl implements UserSubscription {
     serviceName: string,
     userId: string,
     nextLink: string,
-    options?: UserSubscriptionListNextOptionalParams
+    options?: UserSubscriptionListNextOptionalParams,
   ): Promise<UserSubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -195,77 +195,75 @@ export class UserSubscriptionImpl implements UserSubscription {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionCollection
+      bodyMapper: Mappers.SubscriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions/{sid}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/subscriptions/{sid}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionContract,
-      headersMapper: Mappers.UserSubscriptionGetHeaders
+      headersMapper: Mappers.UserSubscriptionGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.userId,
-    Parameters.sid
+    Parameters.sid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionCollection
+      bodyMapper: Mappers.SubscriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

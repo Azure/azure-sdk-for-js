@@ -13,9 +13,7 @@ import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an existing Azure Active Directory administrator.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates an existing Azure Active Directory administrator.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorCreate.json
  */
-async function createAnAzureAdAdministrator() {
+async function createAnAzureAdAdministrator(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -52,7 +50,7 @@ async function createAnAzureAdAdministrator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAnAzureAdAdministrator();
 }
 

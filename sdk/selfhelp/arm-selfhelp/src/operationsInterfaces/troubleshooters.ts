@@ -17,7 +17,7 @@ import {
   TroubleshootersEndResponse,
   TroubleshootersRestartOptionalParams,
   TroubleshootersRestartResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Troubleshooters. */
 export interface Troubleshooters {

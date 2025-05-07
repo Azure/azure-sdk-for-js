@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets load balancer probe.
  *
  * @summary Gets load balancer probe.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/LoadBalancerProbeGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/LoadBalancerProbeGet.json
  */
-async function loadBalancerProbeGet() {
+async function loadBalancerProbeGet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb";
@@ -35,7 +33,7 @@ async function loadBalancerProbeGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   loadBalancerProbeGet();
 }
 

@@ -13,17 +13,15 @@ import {
   EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a new Alias(Disaster Recovery configuration)
  *
  * @summary Creates or updates a new Alias(Disaster Recovery configuration)
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasCreate.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasCreate.json
  */
-async function ehAliasCreate() {
+async function ehAliasCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -44,8 +42,8 @@ async function ehAliasCreate() {
   console.log(result);
 }
 
-async function main() {
-  ehAliasCreate();
+async function main(): Promise<void> {
+  await ehAliasCreate();
 }
 
 main().catch(console.error);

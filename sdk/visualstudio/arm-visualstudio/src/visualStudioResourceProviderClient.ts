@@ -19,14 +19,14 @@ import {
   AccountsImpl,
   ExtensionsImpl,
   ProjectsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Accounts,
   Extensions,
   Projects
-} from "./operationsInterfaces";
-import { VisualStudioResourceProviderClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { VisualStudioResourceProviderClientOptionalParams } from "./models/index.js";
 
 export class VisualStudioResourceProviderClient extends coreClient.ServiceClient {
   $host: string;

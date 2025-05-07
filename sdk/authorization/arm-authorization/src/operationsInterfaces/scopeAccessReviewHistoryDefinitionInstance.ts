@@ -9,7 +9,7 @@
 import {
   ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
   ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinitionInstance. */
 export interface ScopeAccessReviewHistoryDefinitionInstance {

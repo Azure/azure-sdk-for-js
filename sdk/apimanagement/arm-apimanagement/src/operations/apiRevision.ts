@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiRevision } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiRevision } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiRevisionContract,
   ApiRevisionListByServiceNextOptionalParams,
   ApiRevisionListByServiceOptionalParams,
   ApiRevisionListByServiceResponse,
-  ApiRevisionListByServiceNextResponse
-} from "../models";
+  ApiRevisionListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiRevision operations. */
@@ -45,13 +45,13 @@ export class ApiRevisionImpl implements ApiRevision {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiRevisionListByServiceOptionalParams
+    options?: ApiRevisionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiRevisionContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class ApiRevisionImpl implements ApiRevision {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ApiRevisionImpl implements ApiRevision {
     serviceName: string,
     apiId: string,
     options?: ApiRevisionListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiRevisionContract[]> {
     let result: ApiRevisionListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ApiRevisionImpl implements ApiRevision {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class ApiRevisionImpl implements ApiRevision {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class ApiRevisionImpl implements ApiRevision {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiRevisionListByServiceOptionalParams
+    options?: ApiRevisionListByServiceOptionalParams,
   ): AsyncIterableIterator<ApiRevisionContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ApiRevisionImpl implements ApiRevision {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiRevisionListByServiceOptionalParams
+    options?: ApiRevisionListByServiceOptionalParams,
   ): Promise<ApiRevisionListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ApiRevisionImpl implements ApiRevision {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiRevisionListByServiceNextOptionalParams
+    options?: ApiRevisionListByServiceNextOptionalParams,
   ): Promise<ApiRevisionListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -171,52 +171,51 @@ export class ApiRevisionImpl implements ApiRevision {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiRevisionCollection
+      bodyMapper: Mappers.ApiRevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiRevisionCollection
+      bodyMapper: Mappers.ApiRevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
@@ -107,9 +107,9 @@ async function createADiskEncryptionSet() {
 }
 
 async function main() {
-  createADiskEncryptionSetWithKeyVaultFromADifferentSubscription();
-  createADiskEncryptionSetWithKeyVaultFromADifferentTenant();
-  createADiskEncryptionSet();
+  await createADiskEncryptionSetWithKeyVaultFromADifferentSubscription();
+  await createADiskEncryptionSetWithKeyVaultFromADifferentTenant();
+  await createADiskEncryptionSet();
 }
 
 main().catch(console.error);

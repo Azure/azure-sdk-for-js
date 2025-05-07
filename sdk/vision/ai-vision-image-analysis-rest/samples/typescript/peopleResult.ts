@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import createImageAnalysisClient, { ImageAnalysisClient, DetectedPersonOutput, isUnexpected } from '@azure-rest/ai-vision-image-analysis';
+import createImageAnalysisClient, { ImageAnalysisClient, isUnexpected } from '@azure-rest/ai-vision-image-analysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const endpoint: string = process.env['VISION_ENDPOINT'] || '<your_endpoint>';
 const key: string = process.env['VISION_KEY'] || '<your_key>';
 const credential = new AzureKeyCredential(key);

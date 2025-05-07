@@ -5,10 +5,10 @@ import { describe, it, beforeEach, expect, vi } from "vitest";
 import { vol } from "memfs";
 import { resolveConfig } from "../src/util/resolveTsConfig";
 
-vi.mock("fs", async () => {
+vi.mock("fs/promises", async () => {
   const memfs = await import("memfs");
   return {
-    ...memfs.fs,
+    ...memfs.fs.promises,
   };
 });
 
@@ -17,7 +17,7 @@ describe("resolveConfig", () => {
     vol.reset();
   });
 
-  it("should resolve a simple tsconfig.json", () => {
+  it("should resolve a simple tsconfig.json", async () => {
     const def = {
       compilerOptions: {
         target: "ES6",
@@ -27,11 +27,11 @@ describe("resolveConfig", () => {
       "/project/tsconfig.json": JSON.stringify(def),
     });
 
-    const result = resolveConfig("/project/tsconfig.json");
+    const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual(def);
   });
 
-  it("should resolve tsconfig.json with single extend", () => {
+  it("should resolve tsconfig.json with single extend", async () => {
     vol.fromJSON({
       "/project/tsconfig.base.json": JSON.stringify({
         compilerOptions: {
@@ -47,7 +47,7 @@ describe("resolveConfig", () => {
       }),
     });
 
-    const result = resolveConfig("/project/tsconfig.json");
+    const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual({
       compilerOptions: {
         target: "ES5",
@@ -57,7 +57,7 @@ describe("resolveConfig", () => {
     });
   });
 
-  it("should resolve tsconfig.json with single extend and conflicting option", () => {
+  it("should resolve tsconfig.json with single extend and conflicting option", async () => {
     vol.fromJSON({
       "/project/tsconfig.base.json": JSON.stringify({
         compilerOptions: {
@@ -74,7 +74,7 @@ describe("resolveConfig", () => {
       }),
     });
 
-    const result = resolveConfig("/project/tsconfig.json");
+    const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual({
       compilerOptions: {
         target: "ES5",
@@ -84,7 +84,7 @@ describe("resolveConfig", () => {
     });
   });
 
-  it("should resolve tsconfig.json with multiple extends with conflicting options in parents", () => {
+  it("should resolve tsconfig.json with multiple extends with conflicting options in parents", async () => {
     vol.fromJSON({
       "/project/tsconfig.base1.json": JSON.stringify({
         compilerOptions: {
@@ -105,7 +105,7 @@ describe("resolveConfig", () => {
       }),
     });
 
-    const result = resolveConfig("/project/tsconfig.json");
+    const result = await resolveConfig("/project/tsconfig.json");
     expect(result).toEqual({
       compilerOptions: {
         target: "ES5",

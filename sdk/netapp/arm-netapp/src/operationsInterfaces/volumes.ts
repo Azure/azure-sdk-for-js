@@ -27,14 +27,10 @@ import {
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
   VolumesResetCifsPasswordResponse,
-  VolumesSplitCloneFromParentOptionalParams,
-  VolumesSplitCloneFromParentResponse,
   VolumesBreakFileLocksOptionalParams,
   GetGroupIdListForLdapUserRequest,
   VolumesListGetGroupIdListForLdapUserOptionalParams,
   VolumesListGetGroupIdListForLdapUserResponse,
-  VolumesListQuotaReportOptionalParams,
-  VolumesListQuotaReportResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -59,7 +55,7 @@ import {
   VolumesRelocateOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRevertRelocationOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Volumes. */
@@ -320,41 +316,6 @@ export interface Volumes {
     options?: VolumesResetCifsPasswordOptionalParams,
   ): Promise<VolumesResetCifsPasswordResponse>;
   /**
-   *  Split operation to convert clone volume to an independent volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginSplitCloneFromParent(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesSplitCloneFromParentOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesSplitCloneFromParentResponse>,
-      VolumesSplitCloneFromParentResponse
-    >
-  >;
-  /**
-   *  Split operation to convert clone volume to an independent volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginSplitCloneFromParentAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesSplitCloneFromParentOptionalParams,
-  ): Promise<VolumesSplitCloneFromParentResponse>;
-  /**
    * Break all the file locks on a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
@@ -423,41 +384,6 @@ export interface Volumes {
     body: GetGroupIdListForLdapUserRequest,
     options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
   ): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
-  /**
-   * Returns report of quotas for the volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginListQuotaReport(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesListQuotaReportResponse>,
-      VolumesListQuotaReportResponse
-    >
-  >;
-  /**
-   * Returns report of quotas for the volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginListQuotaReportAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ): Promise<VolumesListQuotaReportResponse>;
   /**
    * Break the replication connection on the destination volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ServerBasedPerformanceTier } from "../operationsInterfaces";
+import { ServerBasedPerformanceTier } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MySQLManagementClient } from "../mySQLManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MySQLManagementClient } from "../mySQLManagementClient.js";
 import {
   PerformanceTierProperties,
   ServerBasedPerformanceTierListOptionalParams,
   ServerBasedPerformanceTierListResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerBasedPerformanceTier operations. */

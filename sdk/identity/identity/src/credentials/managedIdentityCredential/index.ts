@@ -15,48 +15,15 @@ import { formatSuccess, formatError, credentialLogger } from "../../util/logging
 import { tracingClient } from "../../util/tracing.js";
 import { imdsMsi } from "./imdsMsi.js";
 import { tokenExchangeMsi } from "./tokenExchangeMsi.js";
-import { mapScopesToResource } from "./utils.js";
+import { mapScopesToResource, serviceFabricErrorMessage } from "./utils.js";
 import type { MsalToken, ValidMsalToken } from "../../msal/types.js";
+import type {
+  ManagedIdentityCredentialClientIdOptions,
+  ManagedIdentityCredentialObjectIdOptions,
+  ManagedIdentityCredentialResourceIdOptions,
+} from "./options.js";
 
 const logger = credentialLogger("ManagedIdentityCredential");
-
-/**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
- */
-export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
-  /**
-   * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
-   */
-  clientId?: string;
-}
-
-/**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- * This variation supports `resourceId` and not `clientId`, since only one of both is supported.
- */
-export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
-  /**
-   * Allows specifying a custom resource Id.
-   * In scenarios such as when user assigned identities are created using an ARM template,
-   * where the resource Id of the identity is known but the client Id can't be known ahead of time,
-   * this parameter allows programs to use these user assigned identities
-   * without having to first determine the client Id of the created identity.
-   */
-  resourceId: string;
-}
-
-/**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- * This variation supports `objectId` as a constructor argument.
- */
-export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
-  /**
-   * Allows specifying the object ID of the underlying service principal used to authenticate a user-assigned managed identity.
-   * This is an alternative to providing a client ID or resource ID and is not required for system-assigned managed identities.
-   */
-  objectId: string;
-}
 
 /**
  * Attempts authentication using a managed identity available at the deployment environment.
@@ -129,7 +96,11 @@ export class ManagedIdentityCredential implements TokenCredential {
     this.objectId = (_options as ManagedIdentityCredentialObjectIdOptions)?.objectId;
 
     // For JavaScript users.
-    const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
+    const providedIds = [
+      { key: "clientId", value: this.clientId },
+      { key: "resourceId", value: this.resourceId },
+      { key: "objectId", value: this.objectId },
+    ].filter((id) => id.value);
     if (providedIds.length > 1) {
       throw new Error(
         `ManagedIdentityCredential: only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
@@ -174,8 +145,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       },
     });
 
+    const managedIdentitySource = this.managedIdentityApp.getManagedIdentitySource();
     // CloudShell MSI will ignore any user-assigned identity passed as parameters. To avoid confusion, we prevent this from happening as early as possible.
-    if (this.managedIdentityApp.getManagedIdentitySource() === "CloudShell") {
+    if (managedIdentitySource === "CloudShell") {
       if (this.clientId || this.resourceId || this.objectId) {
         logger.warning(
           `CloudShell MSI detected with user-provided IDs - throwing. Received values: ${JSON.stringify(
@@ -190,6 +162,32 @@ export class ManagedIdentityCredential implements TokenCredential {
           "ManagedIdentityCredential: Specifying a user-assigned managed identity is not supported for CloudShell at runtime. When using Managed Identity in CloudShell, omit the clientId, resourceId, and objectId parameters.",
         );
       }
+    }
+
+    // ServiceFabric does not support specifying user-assigned managed identity by client ID or resource ID. The managed identity selected is based on the resource configuration.
+    if (managedIdentitySource === "ServiceFabric") {
+      if (this.clientId || this.resourceId || this.objectId) {
+        logger.warning(
+          `Service Fabric detected with user-provided IDs - throwing. Received values: ${JSON.stringify(
+            {
+              clientId: this.clientId,
+              resourceId: this.resourceId,
+              objectId: this.objectId,
+            },
+          )}.`,
+        );
+        throw new CredentialUnavailableError(
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
+        );
+      }
+    }
+
+    logger.info(`Using ${managedIdentitySource} managed identity.`);
+
+    // Check if either clientId, resourceId or objectId was provided and log the value used
+    if (providedIds.length === 1) {
+      const { key, value } = providedIds[0];
+      logger.info(`${managedIdentitySource} with ${key}: ${value}`);
     }
   }
 

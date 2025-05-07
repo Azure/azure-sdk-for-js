@@ -151,7 +151,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworkrulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql/samples/v6/typescript/src/virtualNetworkRulesDeleteSample.ts
 [virtualnetworkrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql/samples/v6/typescript/src/virtualNetworkRulesGetSample.ts
 [virtualnetworkruleslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql/samples/v6/typescript/src/virtualNetworkRulesListByServerSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-postgresql?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-postgresql?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

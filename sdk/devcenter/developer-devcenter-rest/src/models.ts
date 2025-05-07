@@ -20,7 +20,11 @@ export interface ImageReference {}
 export interface DevBox {
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
-  /** Indicates whether the owner of the Dev Box is a local administrator. */
+  /**
+   * Indicates whether the owner of the Dev Box is a local administrator.
+   *
+   * Possible values: "Enabled", "Disabled"
+   */
   localAdministrator?: LocalAdminStatus;
 }
 
@@ -37,72 +41,16 @@ export interface Environment {
 }
 
 /** Alias for OsType */
-export type OsType = "Windows" | string;
+export type OsType = string;
 /** Alias for SkuName */
-export type SkuName =
-  | "general_i_8c32gb256ssd_v2"
-  | "general_i_8c32gb512ssd_v2"
-  | "general_i_8c32gb1024ssd_v2"
-  | "general_i_8c32gb2048ssd_v2"
-  | "general_i_16c64gb256ssd_v2"
-  | "general_i_16c64gb512ssd_v2"
-  | "general_i_16c64gb1024ssd_v2"
-  | "general_i_16c64gb2048ssd_v2"
-  | "general_i_32c128gb512ssd_v2"
-  | "general_i_32c128gb1024ssd_v2"
-  | "general_i_32c128gb2048ssd_v2"
-  | "general_a_8c32gb256ssd_v2"
-  | "general_a_8c32gb512ssd_v2"
-  | "general_a_8c32gb1024ssd_v2"
-  | "general_a_8c32gb2048ssd_v2"
-  | "general_a_16c64gb256ssd_v2"
-  | "general_a_16c64gb512ssd_v2"
-  | "general_a_16c64gb1024ssd_v2"
-  | "general_a_16c64gb2048ssd_v2"
-  | "general_a_32c128gb512ssd_v2"
-  | "general_a_32c128gb1024ssd_v2"
-  | "general_a_32c128gb2048ssd_v2"
-  | string;
+export type SkuName = string;
 /** Alias for HibernateSupport */
-export type HibernateSupport = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupport = string;
 /** Alias for LocalAdminStatus */
-export type LocalAdminStatus = "Enabled" | "Disabled" | string;
+export type LocalAdminStatus = string;
 /** Alias for DevBoxProvisioningState */
-export type DevBoxProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Deleting"
-  | "Updating"
-  | "Starting"
-  | "Stopping"
-  | "Provisioning"
-  | "ProvisionedWithWarning"
-  | "InGracePeriod"
-  | "NotProvisioned"
-  | string;
+export type DevBoxProvisioningState = string;
 /** Alias for PowerState */
-export type PowerState =
-  | "Unknown"
-  | "Running"
-  | "Deallocated"
-  | "PoweredOff"
-  | "Hibernated"
-  | string;
+export type PowerState = string;
 /** Alias for EnvironmentProvisioningState */
-export type EnvironmentProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Accepted"
-  | "Deleting"
-  | "Updating"
-  | "Preparing"
-  | "Running"
-  | "Syncing"
-  | "MovingResources"
-  | "TransientFailure"
-  | "StorageProvisioningFailed"
-  | string;
+export type EnvironmentProvisioningState = string;

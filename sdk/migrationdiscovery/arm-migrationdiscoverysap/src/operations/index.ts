@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./sapDiscoverySites";
-export * from "./sapInstances";
-export * from "./serverInstances";
-export * from "./operations";
+export * from "./sapDiscoverySites.js";
+export * from "./sapInstances.js";
+export * from "./serverInstances.js";
+export * from "./operations.js";

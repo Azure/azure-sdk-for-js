@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { UsageDetailUnion, UsageDetailsListOptionalParams } from "../models";
+import { UsageDetailUnion, UsageDetailsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UsageDetails. */

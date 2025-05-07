@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Reports } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Reports } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ReportRecordContract,
   ReportsListByApiNextOptionalParams,
@@ -45,8 +45,8 @@ import {
   ReportsListByProductNextResponse,
   ReportsListByGeoNextResponse,
   ReportsListBySubscriptionNextResponse,
-  ReportsListByTimeNextResponse
-} from "../models";
+  ReportsListByTimeNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Reports operations. */
@@ -72,13 +72,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByApiOptionalParams
+    options?: ReportsListByApiOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listByApiPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -96,9 +96,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -107,7 +107,7 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListByApiOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListByApiResponse;
     let continuationToken = settings?.continuationToken;
@@ -116,7 +116,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -128,7 +128,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -141,13 +141,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByApiOptionalParams
+    options?: ReportsListByApiOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listByApiPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -176,13 +176,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByUserOptionalParams
+    options?: ReportsListByUserOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listByUserPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -200,9 +200,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -211,7 +211,7 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListByUserOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListByUserResponse;
     let continuationToken = settings?.continuationToken;
@@ -220,7 +220,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -232,7 +232,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -245,13 +245,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByUserOptionalParams
+    options?: ReportsListByUserOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listByUserPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -279,13 +279,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByOperationOptionalParams
+    options?: ReportsListByOperationOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listByOperationPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -303,9 +303,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -314,7 +314,7 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListByOperationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListByOperationResponse;
     let continuationToken = settings?.continuationToken;
@@ -323,7 +323,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -335,7 +335,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -348,13 +348,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByOperationOptionalParams
+    options?: ReportsListByOperationOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listByOperationPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -382,13 +382,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByProductOptionalParams
+    options?: ReportsListByProductOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listByProductPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -406,9 +406,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -417,7 +417,7 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListByProductOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListByProductResponse;
     let continuationToken = settings?.continuationToken;
@@ -426,7 +426,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -438,7 +438,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -451,13 +451,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByProductOptionalParams
+    options?: ReportsListByProductOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listByProductPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -485,13 +485,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByGeoOptionalParams
+    options?: ReportsListByGeoOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listByGeoPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -509,9 +509,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -520,7 +520,7 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListByGeoOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListByGeoResponse;
     let continuationToken = settings?.continuationToken;
@@ -529,7 +529,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -541,7 +541,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -554,13 +554,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByGeoOptionalParams
+    options?: ReportsListByGeoOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listByGeoPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -588,13 +588,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListBySubscriptionOptionalParams
+    options?: ReportsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listBySubscriptionPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -612,9 +612,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -623,7 +623,7 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -632,7 +632,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -644,7 +644,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -657,13 +657,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListBySubscriptionOptionalParams
+    options?: ReportsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listBySubscriptionPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -695,14 +695,14 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     interval: string,
-    options?: ReportsListByTimeOptionalParams
+    options?: ReportsListByTimeOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
     const iter = this.listByTimePagingAll(
       resourceGroupName,
       serviceName,
       filter,
       interval,
-      options
+      options,
     );
     return {
       next() {
@@ -721,9 +721,9 @@ export class ReportsImpl implements Reports {
           filter,
           interval,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -733,7 +733,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     interval: string,
     options?: ReportsListByTimeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportRecordContract[]> {
     let result: ReportsListByTimeResponse;
     let continuationToken = settings?.continuationToken;
@@ -743,7 +743,7 @@ export class ReportsImpl implements Reports {
         serviceName,
         filter,
         interval,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -755,7 +755,7 @@ export class ReportsImpl implements Reports {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -769,14 +769,14 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     interval: string,
-    options?: ReportsListByTimeOptionalParams
+    options?: ReportsListByTimeOptionalParams,
   ): AsyncIterableIterator<ReportRecordContract> {
     for await (const page of this.listByTimePagingPage(
       resourceGroupName,
       serviceName,
       filter,
       interval,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -797,13 +797,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByRequestOptionalParams
+    options?: ReportsListByRequestOptionalParams,
   ): PagedAsyncIterableIterator<RequestReportRecordContract> {
     const iter = this.listByRequestPagingAll(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -821,9 +821,9 @@ export class ReportsImpl implements Reports {
           serviceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -832,14 +832,14 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     options?: ReportsListByRequestOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<RequestReportRecordContract[]> {
     let result: ReportsListByRequestResponse;
     result = await this._listByRequest(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -848,13 +848,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByRequestOptionalParams
+    options?: ReportsListByRequestOptionalParams,
   ): AsyncIterableIterator<RequestReportRecordContract> {
     for await (const page of this.listByRequestPagingPage(
       resourceGroupName,
       serviceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -871,11 +871,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByApiOptionalParams
+    options?: ReportsListByApiOptionalParams,
   ): Promise<ReportsListByApiResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listByApiOperationSpec
+      listByApiOperationSpec,
     );
   }
 
@@ -902,11 +902,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByUserOptionalParams
+    options?: ReportsListByUserOptionalParams,
   ): Promise<ReportsListByUserResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listByUserOperationSpec
+      listByUserOperationSpec,
     );
   }
 
@@ -932,11 +932,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByOperationOptionalParams
+    options?: ReportsListByOperationOptionalParams,
   ): Promise<ReportsListByOperationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listByOperationOperationSpec
+      listByOperationOperationSpec,
     );
   }
 
@@ -962,11 +962,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByProductOptionalParams
+    options?: ReportsListByProductOptionalParams,
   ): Promise<ReportsListByProductResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listByProductOperationSpec
+      listByProductOperationSpec,
     );
   }
 
@@ -992,11 +992,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByGeoOptionalParams
+    options?: ReportsListByGeoOptionalParams,
   ): Promise<ReportsListByGeoResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listByGeoOperationSpec
+      listByGeoOperationSpec,
     );
   }
 
@@ -1022,11 +1022,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListBySubscriptionOptionalParams
+    options?: ReportsListBySubscriptionOptionalParams,
   ): Promise<ReportsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -1056,11 +1056,11 @@ export class ReportsImpl implements Reports {
     serviceName: string,
     filter: string,
     interval: string,
-    options?: ReportsListByTimeOptionalParams
+    options?: ReportsListByTimeOptionalParams,
   ): Promise<ReportsListByTimeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, interval, options },
-      listByTimeOperationSpec
+      listByTimeOperationSpec,
     );
   }
 
@@ -1079,11 +1079,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByRequestOptionalParams
+    options?: ReportsListByRequestOptionalParams,
   ): Promise<ReportsListByRequestResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, filter, options },
-      listByRequestOperationSpec
+      listByRequestOperationSpec,
     );
   }
 
@@ -1098,11 +1098,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListByApiNextOptionalParams
+    options?: ReportsListByApiNextOptionalParams,
   ): Promise<ReportsListByApiNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByApiNextOperationSpec
+      listByApiNextOperationSpec,
     );
   }
 
@@ -1117,11 +1117,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListByUserNextOptionalParams
+    options?: ReportsListByUserNextOptionalParams,
   ): Promise<ReportsListByUserNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByUserNextOperationSpec
+      listByUserNextOperationSpec,
     );
   }
 
@@ -1136,11 +1136,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListByOperationNextOptionalParams
+    options?: ReportsListByOperationNextOptionalParams,
   ): Promise<ReportsListByOperationNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByOperationNextOperationSpec
+      listByOperationNextOperationSpec,
     );
   }
 
@@ -1155,11 +1155,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListByProductNextOptionalParams
+    options?: ReportsListByProductNextOptionalParams,
   ): Promise<ReportsListByProductNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByProductNextOperationSpec
+      listByProductNextOperationSpec,
     );
   }
 
@@ -1174,11 +1174,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListByGeoNextOptionalParams
+    options?: ReportsListByGeoNextOptionalParams,
   ): Promise<ReportsListByGeoNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByGeoNextOperationSpec
+      listByGeoNextOperationSpec,
     );
   }
 
@@ -1193,11 +1193,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListBySubscriptionNextOptionalParams
+    options?: ReportsListBySubscriptionNextOptionalParams,
   ): Promise<ReportsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -1212,11 +1212,11 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ReportsListByTimeNextOptionalParams
+    options?: ReportsListByTimeNextOptionalParams,
   ): Promise<ReportsListByTimeNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByTimeNextOperationSpec
+      listByTimeNextOperationSpec,
     );
   }
 }
@@ -1224,372 +1224,364 @@ export class ReportsImpl implements Reports {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApiOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byApi",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byApi",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.orderby,
-    Parameters.filter1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByUserOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.orderby,
-    Parameters.filter1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByOperationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byOperation",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportCollection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.orderby,
-    Parameters.filter1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByProductOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byProduct",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportCollection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.orderby,
-    Parameters.filter1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByGeoOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byGeo",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportCollection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscription",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportCollection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.orderby,
-    Parameters.filter1
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByTimeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportCollection
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.filter1,
-    Parameters.interval
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByRequestOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest",
+const listByUserOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RequestReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1
+    Parameters.orderby,
+    Parameters.filter1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByOperationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byOperation",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByProductOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byProduct",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByGeoOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byGeo",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscription",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByTimeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.orderby,
+    Parameters.filter1,
+    Parameters.interval,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByRequestOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RequestReportCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.filter1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByApiNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByUserNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByOperationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProductNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByGeoNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTimeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportCollection
+      bodyMapper: Mappers.ReportCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { UsageAggregatesImpl, RateCardImpl } from "./operations";
-import { UsageAggregates, RateCard } from "./operationsInterfaces";
-import { UsageManagementClientOptionalParams } from "./models";
+import { UsageAggregatesImpl, RateCardImpl } from "./operations/index.js";
+import { UsageAggregates, RateCard } from "./operationsInterfaces/index.js";
+import { UsageManagementClientOptionalParams } from "./models/index.js";
 
 export class UsageManagementClient extends coreClient.ServiceClient {
   $host: string;

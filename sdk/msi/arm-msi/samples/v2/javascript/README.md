@@ -67,6 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [userassignedidentitieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2/javascript/userAssignedIdentitiesListByResourceGroupSample.js
 [userassignedidentitieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2/javascript/userAssignedIdentitiesListBySubscriptionSample.js
 [userassignedidentitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/msi/arm-msi/samples/v2/javascript/userAssignedIdentitiesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-msi?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-msi?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/msi/arm-msi/README.md

@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./accounts";
-export * from "./dataLakeStoreAccounts";
-export * from "./storageAccounts";
-export * from "./computePolicies";
-export * from "./firewallRules";
-export * from "./operations";
-export * from "./locations";
+export * from "./accounts.js";
+export * from "./dataLakeStoreAccounts.js";
+export * from "./storageAccounts.js";
+export * from "./computePolicies.js";
+export * from "./firewallRules.js";
+export * from "./operations.js";
+export * from "./locations.js";

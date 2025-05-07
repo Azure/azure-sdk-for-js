@@ -1,15 +1,154 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 22.4.0 (2025-03-18)
+    
 ### Features Added
 
-### Breaking Changes
+  - Added operation AvailabilitySets.beginConvertToVirtualMachineScaleSet
+  - Added operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait
+  - Added operation AvailabilitySets.cancelMigrationToVirtualMachineScaleSet
+  - Added operation AvailabilitySets.startMigrationToVirtualMachineScaleSet
+  - Added operation AvailabilitySets.validateMigrationToVirtualMachineScaleSet
+  - Added operation VirtualMachineImages.listWithProperties
+  - Added operation VirtualMachines.beginMigrateToVMScaleSet
+  - Added operation VirtualMachines.beginMigrateToVMScaleSetAndWait
+  - Added Interface AutomaticZoneRebalancingPolicy
+  - Added Interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface ConvertToVirtualMachineScaleSetInput
+  - Added Interface DefaultVirtualMachineScaleSetInfo
+  - Added Interface HostEndpointSettings
+  - Added Interface MigrateToVirtualMachineScaleSetInput
+  - Added Interface MigrateVMToVirtualMachineScaleSetInput
+  - Added Interface Placement
+  - Added Interface VirtualMachineImagesListWithPropertiesNextOptionalParams
+  - Added Interface VirtualMachineImagesListWithPropertiesOptionalParams
+  - Added Interface VirtualMachineImagesWithPropertiesListResult
+  - Added Interface VirtualMachineScaleSetMigrationInfo
+  - Added Interface VirtualMachinesMigrateToVMScaleSetOptionalParams
+  - Added Type Alias Expand
+  - Added Type Alias Modes
+  - Added Type Alias RebalanceBehavior
+  - Added Type Alias RebalanceStrategy
+  - Added Type Alias ResilientVMDeletionStatus
+  - Added Type Alias VirtualMachineImagesListWithPropertiesNextResponse
+  - Added Type Alias VirtualMachineImagesListWithPropertiesResponse
+  - Added Type Alias ZonePlacementPolicyType
+  - Interface AvailabilitySet has a new optional parameter virtualMachineScaleSetMigrationInfo
+  - Interface AvailabilitySetUpdate has a new optional parameter virtualMachineScaleSetMigrationInfo
+  - Interface ProxyAgentSettings has a new optional parameter imds
+  - Interface ProxyAgentSettings has a new optional parameter wireServer
+  - Interface ResiliencyPolicy has a new optional parameter automaticZoneRebalancingPolicy
+  - Interface ScaleInPolicy has a new optional parameter prioritizeUnhealthyVMs
+  - Interface SkuProfileVMSize has a new optional parameter rank
+  - Interface StorageProfile has a new optional parameter alignRegionalDisksToVMZone
+  - Interface VirtualMachine has a new optional parameter placement
+  - Interface VirtualMachineScaleSetVM has a new optional parameter resilientVMDeletionStatus
+  - Added Enum KnownExpand
+  - Added Enum KnownModes
+  - Added Enum KnownRebalanceBehavior
+  - Added Enum KnownRebalanceStrategy
+  - Added Enum KnownResilientVMDeletionStatus
+  - Added Enum KnownZonePlacementPolicyType
+  - Enum KnownAllocationStrategy has a new value Prioritized
+  - Enum KnownNetworkApiVersion has a new value TwoThousandTwentyTwo1101
+    
+    
+## 22.3.0 (2025-01-09)
+    
+### Features Added
 
-### Bugs Fixed
+  - Interface CloudServiceVaultCertificate has a new optional parameter isBootstrapCertificate
+    
+    
+## 22.2.0 (2024-12-11)
+    
+### Features Added
 
-### Other Changes
-
+  - Added operation group GalleryInVMAccessControlProfiles
+  - Added operation group GalleryInVMAccessControlProfileVersions
+  - Added operation group SoftDeletedResource
+  - Added Interface AccessControlRules
+  - Added Interface AccessControlRulesIdentity
+  - Added Interface AccessControlRulesPrivilege
+  - Added Interface AccessControlRulesRole
+  - Added Interface AccessControlRulesRoleAssignment
+  - Added Interface AdditionalReplicaSet
+  - Added Interface ExecutedValidation
+  - Added Interface GalleryIdentity
+  - Added Interface GalleryInVMAccessControlProfile
+  - Added Interface GalleryInVMAccessControlProfileList
+  - Added Interface GalleryInVMAccessControlProfileProperties
+  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesDeleteHeaders
+  - Added Interface GalleryInVMAccessControlProfilesDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileUpdate
+  - Added Interface GalleryInVMAccessControlProfileVersion
+  - Added Interface GalleryInVMAccessControlProfileVersionList
+  - Added Interface GalleryInVMAccessControlProfileVersionProperties
+  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteHeaders
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionUpdate
+  - Added Interface GalleryResourceProfilePropertiesBase
+  - Added Interface GalleryResourceProfileVersionPropertiesBase
+  - Added Interface GallerySoftDeletedResource
+  - Added Interface GallerySoftDeletedResourceList
+  - Added Interface PlatformAttribute
+  - Added Interface SoftDeletedResourceListByArtifactNameNextOptionalParams
+  - Added Interface SoftDeletedResourceListByArtifactNameOptionalParams
+  - Added Interface ValidationsProfile
+  - Added Type Alias AccessControlRulesMode
+  - Added Type Alias EndpointAccess
+  - Added Type Alias EndpointTypes
+  - Added Type Alias GalleryApplicationScriptRebootBehavior
+  - Added Type Alias GalleryInVMAccessControlProfilesCreateOrUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesDeleteResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesGetResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryNextResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsDeleteResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsGetResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsUpdateResponse
+  - Added Type Alias SoftDeletedArtifactTypes
+  - Added Type Alias SoftDeletedResourceListByArtifactNameNextResponse
+  - Added Type Alias SoftDeletedResourceListByArtifactNameResponse
+  - Added Type Alias ValidationStatus
+  - Interface Gallery has a new optional parameter identity
+  - Interface GalleryImage has a new optional parameter allowUpdateImage
+  - Interface GalleryImageFeature has a new optional parameter startsAtVersion
+  - Interface GalleryImageUpdate has a new optional parameter allowUpdateImage
+  - Interface GalleryImageVersion has a new optional parameter restore
+  - Interface GalleryImageVersion has a new optional parameter validationsProfile
+  - Interface GalleryImageVersionSafetyProfile has a new optional parameter blockDeletionBeforeEndOfLife
+  - Interface GalleryImageVersionUpdate has a new optional parameter restore
+  - Interface GalleryImageVersionUpdate has a new optional parameter validationsProfile
+  - Interface GalleryList has a new optional parameter securityProfile
+  - Interface GalleryUpdate has a new optional parameter identity
+  - Interface TargetRegion has a new optional parameter additionalReplicaSets
+  - Interface UserArtifactSettings has a new optional parameter scriptBehaviorAfterReboot
+  - Added Enum KnownAccessControlRulesMode
+  - Added Enum KnownEndpointAccess
+  - Added Enum KnownGalleryApplicationScriptRebootBehavior
+  - Added Enum KnownSoftDeletedArtifactTypes
+  - Added Enum KnownValidationStatus
+  - Enum KnownStorageAccountType has a new value PremiumV2LRS
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +718,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 

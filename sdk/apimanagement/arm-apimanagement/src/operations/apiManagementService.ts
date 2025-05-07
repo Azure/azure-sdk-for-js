@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiManagementService } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementService } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ApiManagementServiceResource,
   ApiManagementServiceListByResourceGroupNextOptionalParams,
@@ -52,8 +52,8 @@ import {
   ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
   ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
   ApiManagementServiceListByResourceGroupNextResponse,
-  ApiManagementServiceListNextResponse
-} from "../models";
+  ApiManagementServiceListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiManagementService operations. */
@@ -75,7 +75,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
+    options?: ApiManagementServiceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApiManagementServiceResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -92,16 +92,16 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ApiManagementServiceListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiManagementServiceResource[]> {
     let result: ApiManagementServiceListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -116,7 +116,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,11 +127,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
+    options?: ApiManagementServiceListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApiManagementServiceResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    * @param options The options parameters.
    */
   public list(
-    options?: ApiManagementServiceListOptionalParams
+    options?: ApiManagementServiceListOptionalParams,
   ): PagedAsyncIterableIterator<ApiManagementServiceResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -157,13 +157,13 @@ export class ApiManagementServiceImpl implements ApiManagementService {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ApiManagementServiceListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiManagementServiceResource[]> {
     let result: ApiManagementServiceListResponse;
     let continuationToken = settings?.continuationToken;
@@ -184,7 +184,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   }
 
   private async *listPagingAll(
-    options?: ApiManagementServiceListOptionalParams
+    options?: ApiManagementServiceListOptionalParams,
   ): AsyncIterableIterator<ApiManagementServiceResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -204,7 +204,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceRestoreOptionalParams
+    options?: ApiManagementServiceRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceRestoreResponse>,
@@ -213,21 +213,20 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiManagementServiceRestoreResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -236,8 +235,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -245,15 +244,15 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, parameters, options },
-      spec: restoreOperationSpec
+      spec: restoreOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiManagementServiceRestoreResponse,
@@ -261,7 +260,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -280,13 +279,13 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceRestoreOptionalParams
+    options?: ApiManagementServiceRestoreOptionalParams,
   ): Promise<ApiManagementServiceRestoreResponse> {
     const poller = await this.beginRestore(
       resourceGroupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -303,7 +302,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceBackupOptionalParams
+    options?: ApiManagementServiceBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceBackupResponse>,
@@ -312,21 +311,20 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiManagementServiceBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -335,8 +333,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -344,15 +342,15 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, parameters, options },
-      spec: backupOperationSpec
+      spec: backupOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiManagementServiceBackupResponse,
@@ -360,7 +358,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -378,13 +376,13 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceBackupOptionalParams
+    options?: ApiManagementServiceBackupOptionalParams,
   ): Promise<ApiManagementServiceBackupResponse> {
     const poller = await this.beginBackup(
       resourceGroupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -401,7 +399,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceResource,
-    options?: ApiManagementServiceCreateOrUpdateOptionalParams
+    options?: ApiManagementServiceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceCreateOrUpdateResponse>,
@@ -410,21 +408,20 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiManagementServiceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -433,8 +430,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -442,22 +439,22 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiManagementServiceCreateOrUpdateResponse,
       OperationState<ApiManagementServiceCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -475,13 +472,13 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceResource,
-    options?: ApiManagementServiceCreateOrUpdateOptionalParams
+    options?: ApiManagementServiceCreateOrUpdateOptionalParams,
   ): Promise<ApiManagementServiceCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -497,7 +494,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceUpdateParameters,
-    options?: ApiManagementServiceUpdateOptionalParams
+    options?: ApiManagementServiceUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceUpdateResponse>,
@@ -506,21 +503,20 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiManagementServiceUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -529,8 +525,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -538,22 +534,22 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiManagementServiceUpdateResponse,
       OperationState<ApiManagementServiceUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -570,13 +566,13 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceUpdateParameters,
-    options?: ApiManagementServiceUpdateOptionalParams
+    options?: ApiManagementServiceUpdateOptionalParams,
   ): Promise<ApiManagementServiceUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -590,11 +586,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceGetOptionalParams
+    options?: ApiManagementServiceGetOptionalParams,
   ): Promise<ApiManagementServiceGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -607,25 +603,24 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceDeleteOptionalParams
+    options?: ApiManagementServiceDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -634,8 +629,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -643,19 +638,19 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -670,12 +665,12 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceDeleteOptionalParams
+    options?: ApiManagementServiceDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -691,7 +686,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   async beginMigrateToStv2(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceMigrateToStv2OptionalParams
+    options?: ApiManagementServiceMigrateToStv2OptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceMigrateToStv2Response>,
@@ -700,21 +695,20 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiManagementServiceMigrateToStv2Response> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -723,8 +717,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -732,15 +726,15 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, options },
-      spec: migrateToStv2OperationSpec
+      spec: migrateToStv2OperationSpec,
     });
     const poller = await createHttpPoller<
       ApiManagementServiceMigrateToStv2Response,
@@ -748,7 +742,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -765,12 +759,12 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   async beginMigrateToStv2AndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceMigrateToStv2OptionalParams
+    options?: ApiManagementServiceMigrateToStv2OptionalParams,
   ): Promise<ApiManagementServiceMigrateToStv2Response> {
     const poller = await this.beginMigrateToStv2(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -782,11 +776,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
+    options?: ApiManagementServiceListByResourceGroupOptionalParams,
   ): Promise<ApiManagementServiceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -795,7 +789,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    * @param options The options parameters.
    */
   private _list(
-    options?: ApiManagementServiceListOptionalParams
+    options?: ApiManagementServiceListOptionalParams,
   ): Promise<ApiManagementServiceListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -809,11 +803,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   getSsoToken(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceGetSsoTokenOptionalParams
+    options?: ApiManagementServiceGetSsoTokenOptionalParams,
   ): Promise<ApiManagementServiceGetSsoTokenResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getSsoTokenOperationSpec
+      getSsoTokenOperationSpec,
     );
   }
 
@@ -824,11 +818,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    */
   checkNameAvailability(
     parameters: ApiManagementServiceCheckNameAvailabilityParameters,
-    options?: ApiManagementServiceCheckNameAvailabilityOptionalParams
+    options?: ApiManagementServiceCheckNameAvailabilityOptionalParams,
   ): Promise<ApiManagementServiceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -837,11 +831,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    * @param options The options parameters.
    */
   getDomainOwnershipIdentifier(
-    options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams
+    options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
   ): Promise<ApiManagementServiceGetDomainOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getDomainOwnershipIdentifierOperationSpec
+      getDomainOwnershipIdentifierOperationSpec,
     );
   }
 
@@ -855,32 +849,29 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   async beginApplyNetworkConfigurationUpdates(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-      >,
+      OperationState<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse>,
       ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -889,8 +880,8 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -898,25 +889,23 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, options },
-      spec: applyNetworkConfigurationUpdatesOperationSpec
+      spec: applyNetworkConfigurationUpdatesOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
-      OperationState<
-        ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-      >
+      OperationState<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -932,12 +921,12 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   async beginApplyNetworkConfigurationUpdatesAndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
   ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse> {
     const poller = await this.beginApplyNetworkConfigurationUpdates(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -951,11 +940,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ApiManagementServiceListByResourceGroupNextOptionalParams
+    options?: ApiManagementServiceListByResourceGroupNextOptionalParams,
   ): Promise<ApiManagementServiceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -966,11 +955,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
    */
   private _listNext(
     nextLink: string,
-    options?: ApiManagementServiceListNextOptionalParams
+    options?: ApiManagementServiceListNextOptionalParams,
   ): Promise<ApiManagementServiceListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -978,162 +967,156 @@ export class ApiManagementServiceImpl implements ApiManagementService {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const restoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters35,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const backupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters35,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters36,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.parameters37,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const backupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    201: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    202: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    204: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters37,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    201: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    202: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    204: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters38,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    201: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    202: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    204: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters39,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1141,215 +1124,212 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const migrateToStv2OperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/migrateToStv2",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/migrateToStv2",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  requestBody: Parameters.parameters40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+      bodyMapper: Mappers.ApiManagementServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+      bodyMapper: Mappers.ApiManagementServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSsoTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceGetSsoTokenResult
+      bodyMapper: Mappers.ApiManagementServiceGetSsoTokenResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceNameAvailabilityResult
+      bodyMapper: Mappers.ApiManagementServiceNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters41,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/getDomainOwnershipIdentifier",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/getDomainOwnershipIdentifier",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceGetDomainOwnershipIdentifierResult
+      bodyMapper:
+        Mappers.ApiManagementServiceGetDomainOwnershipIdentifierResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const applyNetworkConfigurationUpdatesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+const applyNetworkConfigurationUpdatesOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ApiManagementServiceResource,
+      },
+      201: {
+        bodyMapper: Mappers.ApiManagementServiceResource,
+      },
+      202: {
+        bodyMapper: Mappers.ApiManagementServiceResource,
+      },
+      204: {
+        bodyMapper: Mappers.ApiManagementServiceResource,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.parameters42,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.serviceName,
+    ],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+      bodyMapper: Mappers.ApiManagementServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+      bodyMapper: Mappers.ApiManagementServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

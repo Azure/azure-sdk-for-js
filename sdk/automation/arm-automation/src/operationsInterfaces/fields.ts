@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TypeField, FieldsListByTypeOptionalParams } from "../models";
+import { TypeField, FieldsListByTypeOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Fields. */

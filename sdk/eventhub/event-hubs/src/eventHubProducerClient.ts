@@ -195,19 +195,30 @@ export class EventHubProducerClient {
    * for effecient management of batches.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
+   * ```ts snippet:EventHubProducerClient_CreateBatch
+   * import { EventHubProducerClient } from "@azure/event-hubs";
+   *
+   * const client = new EventHubProducerClient("my-connection-string", "my-event-hub");
+   *
+   * const messages = [
+   *   { body: "my-event-body1" },
+   *   { body: "my-event-body2" },
+   *   { body: "my-event-body3" },
+   *   { body: "my-event-body4" },
+   *   { body: "my-event-body5" },
+   * ];
+   *
    * let batch = await client.createBatch();
    * for (let i = 0; i < messages.length; i++) {
-   *  if (!batch.tryAdd(messages[i])) {
-   *    await client.sendBatch(batch);
-   *    batch = await client.createBatch();
-   *    if (!batch.tryAdd(messages[i])) {
-   *      throw new Error("Message too big to fit")
-   *    }
-   *    if (i === messages.length - 1) {
-   *      await client.sendBatch(batch);
-   *    }
+   *   if (!batch.tryAdd(messages[i])) {
+   *     await client.sendBatch(batch);
+   *     batch = await client.createBatch();
+   *     if (!batch.tryAdd(messages[i])) {
+   *       throw new Error("Message too big to fit");
+   *     }
+   *     if (i === messages.length - 1) {
+   *       await client.sendBatch(batch);
+   *     }
    *   }
    * }
    * ```
@@ -321,8 +332,19 @@ export class EventHubProducerClient {
    * `EventHubBufferedProducerClient` instead.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
+   * ```ts snippet:EventHubProducerClient_SendBatch
+   * import { EventHubProducerClient } from "@azure/event-hubs";
+   *
+   * const client = new EventHubProducerClient("my-connection-string", "my-event-hub");
+   *
+   * const messages = [
+   *   { body: "my-event-body1" },
+   *   { body: "my-event-body2" },
+   *   { body: "my-event-body3" },
+   *   { body: "my-event-body4" },
+   *   { body: "my-event-body5" },
+   * ];
+   *
    * await client.sendBatch(messages);
    * ```
    *
@@ -355,19 +377,30 @@ export class EventHubProducerClient {
    * for effecient management of batches.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
+   * ```ts snippet:EventHubProducerClient_SendBatchPartitioned
+   * import { EventHubProducerClient } from "@azure/event-hubs";
+   *
+   * const client = new EventHubProducerClient("my-connection-string", "my-event-hub");
+   *
+   * const messages = [
+   *   { body: "my-event-body1" },
+   *   { body: "my-event-body2" },
+   *   { body: "my-event-body3" },
+   *   { body: "my-event-body4" },
+   *   { body: "my-event-body5" },
+   * ];
+   *
    * let batch = await client.createBatch();
    * for (let i = 0; i < messages.length; i++) {
-   *  if (!batch.tryAdd(messages[i])) {
-   *    await client.sendBatch(batch);
-   *    batch = await client.createBatch();
-   *    if (!batch.tryAdd(messages[i])) {
-   *      throw new Error("Message too big to fit")
-   *    }
-   *    if (i === messages.length - 1) {
-   *      await client.sendBatch(batch);
-   *    }
+   *   if (!batch.tryAdd(messages[i])) {
+   *     await client.sendBatch(batch);
+   *     batch = await client.createBatch();
+   *     if (!batch.tryAdd(messages[i])) {
+   *       throw new Error("Message too big to fit");
+   *     }
+   *     if (i === messages.length - 1) {
+   *       await client.sendBatch(batch);
+   *     }
    *   }
    * }
    * ```
@@ -381,7 +414,7 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>; // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
   async sendBatch(
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {},

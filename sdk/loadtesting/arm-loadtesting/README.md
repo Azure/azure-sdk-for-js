@@ -6,7 +6,7 @@ LoadTest client provides access to LoadTest Resource and it's status operations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/arm-loadtesting) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-loadtesting) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-loadtesting) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -46,129 +46,159 @@ npm install @azure/identity
 You will also need to **register a new AAD application and grant access to Azure LoadTest** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```javascript
-const { LoadTestClient } = require("@azure/arm-loadtesting");
-const { DefaultAzureCredential } = require("@azure/identity");
-// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts snippet:ReadmeSampleCreateClient_Node
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
+```
 
-// For client-side applications running in the browser, use this code instead:
-// const credential = new InteractiveBrowserCredential({
-//   tenantId: "<YOUR_TENANT_ID>",
-//   clientId: "<YOUR_CLIENT_ID>"
-// });
-// const client = new LoadTestClient(credential, subscriptionId);
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { LoadTestClient } from "@azure/arm-loadtesting";
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new LoadTestClient(credential, subscriptionId);
 ```
 
 ### Create an Azure Load Testing resource
 
 Create a new Azure Load Testing resource.
-```javascript
-loadTestResourceCreatePayload = {
-  location: "westus2"
+
+```ts snippet:ReadmeSampleCreateLoadTestResource
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
+
+const loadTestResourceCreatePayload = {
+  location: "westus2",
 };
 
 const resource = await client.loadTests.beginCreateOrUpdateAndWait(
   "sample-rg",
   "sample-loadtesting-resource",
-  loadTestResourceCreatePayload
+  loadTestResourceCreatePayload,
 );
-
-console.log(resource);
 ```
 
 Create a new Azure Load Testing resource with managed identity and customer managed key encryption.
-```javascript
-loadTestResourceCreatePayload = {
+
+```ts snippet:ReadmeSampleCreateLoadTestResourceWithManagedIdentityAndCMKEncryption
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
+
+const loadTestResourceCreatePayload = {
   location: "westus2",
   tags: { team: "testing" },
   identity: {
-    type: 'SystemAssigned, UserAssigned',
+    type: "SystemAssigned, UserAssigned",
     userAssignedIdentities: {
-      '/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity1': {}
-    }
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity1":
+        {},
+    },
   },
   encryption: {
     identity: {
-      type: 'UserAssigned',
-      resourceId: '/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity1'
+      type: "UserAssigned",
+      resourceId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity1",
     },
-    keyUrl: 'https://sample-kv.vault.azure.net/keys/cmkkey/2d1ccd5c50234ea2a0858fe148b69cde'
-  }
+    keyUrl: "https://sample-kv.vault.azure.net/keys/cmkkey/2d1ccd5c50234ea2a0858fe148b69cde",
+  },
 };
 
 const resource = await client.loadTests.beginCreateOrUpdateAndWait(
   "sample-rg",
   "sample-loadtesting-resource",
-  loadTestResourceCreatePayload
+  loadTestResourceCreatePayload,
 );
-
-console.log(resource);
 ```
 
 ### Get an Azure Load Testing resource
 
-```javascript
-let resourceName = 'sample-loadtesting-resource';
-let resourceGroupName = 'sample-rg';
+```ts snippet:ReadmeSampleGetLoadTestResource
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const resource = await client.loadTests.get(
-  resourceGroupName,
-  resourceName
-);
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
 
-console.log(resource);
+const resourceName = "sample-loadtesting-resource";
+const resourceGroupName = "sample-rg";
+
+const resource = await client.loadTests.get(resourceGroupName, resourceName);
 ```
 
 ### Update an Azure Load Testing resource
 
-```javascript
-loadTestResourcePatchPayload = {
+```ts snippet:ReadmeSampleUpdateLoadTestResource
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
+
+const loadTestResourcePatchPayload = {
   tags: { team: "testing-dev" },
   identity: {
-    type: 'SystemAssigned, UserAssigned',
+    type: "SystemAssigned, UserAssigned",
     userAssignedIdentities: {
       // removing a user-assigned managed identity by assigning the value in the payload as null
-      '/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity1': null,
-      '/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity2': {}
-    }
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity1":
+        null,
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/sample-rg/providers/microsoft.managedidentity/userassignedidentities/identity2":
+        {},
+    },
   },
   encryption: {
     // use system-assigned managed identity for CMK encryption
     identity: {
-      type: 'SystemAssigned',
-      resourceId: null
+      type: "SystemAssigned",
+      resourceId: null,
     },
-    keyUrl: 'https://sample-kv.vault.azure.net/keys/cmkkey/2d1ccd5c50234ea2a0858fe148b69cde'
-  }
+    keyUrl: "https://sample-kv.vault.azure.net/keys/cmkkey/2d1ccd5c50234ea2a0858fe148b69cde",
+  },
 };
-
 const resource = await client.loadTests.beginUpdateAndWait(
   "sample-rg",
   "sample-loadtesting-resource",
-  loadTestResourcePatchPayload
+  loadTestResourcePatchPayload,
 );
-
-console.log(resource);
 ```
 
 ### Delete an Azure Load Testing resource
 
-```javascript
-let resourceName = 'sample-loadtesting-resource';
-let resourceGroupName = 'sample-rg';
+```ts snippet:ReadmeSampleDeleteLoadTestResource
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const result = await client.loadTests.beginDeleteAndWait(
-  resourceGroupName,
-  resourceName
-);
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
+
+const resourceName = "sample-loadtesting-resource";
+const resourceGroupName = "sample-rg";
+
+const result = await client.loadTests.beginDeleteAndWait(resourceGroupName, resourceName);
 ```
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -183,8 +213,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 
@@ -202,9 +233,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Floadtestservice%2Farm-loadtesting%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com

@@ -22,7 +22,7 @@ import {
   IdentityAndTagsObject,
   MobileNetworksUpdateTagsOptionalParams,
   MobileNetworksUpdateTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MobileNetworks. */

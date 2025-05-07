@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 7.10.0 (Unreleased)
@@ -13,7 +15,8 @@
 
 ### Other Changes
 
-- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Remove port number from fully qualified namespace.
 
 ## 7.9.5 (2024-06-11)
 
@@ -368,7 +371,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   [PR 12013](https://github.com/Azure/azure-sdk-for-js/pull/12013)
 - The raw responses(`_response`) in the returned objects from any of the methods under the `ServiceBusAdministrationClient` have been updated to return only the `{request, status, headers}`, properties such as `parsedHeaders`, `parsedBody` have been removed.
   [PR 12015](https://github.com/Azure/azure-sdk-for-js/pull/12015)
-- `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
+- `viaPartitionKey` property of interface `ServiceMessageBus` has been removed until we implement the [Transactions feature of Service Bus](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-transactions).
 - Removed `AmqpAnnotatedMessage`, `AmqpMessageHeaders`, `AmqpMessageProperties` interfaces in favour of the ones from `@azure/core-amqp`. This is part of the move from `@azure/core-amqp` version update from 1.1.x to 2.0.0-beta.y. As part of this, `userId` will not be made available as part of `AmqpMessageProperties` until its type is fixed in the upstream `rhea` library.
   [PR 12091](https://github.com/Azure/azure-sdk-for-js/pull/12091)
 
@@ -543,7 +546,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
-    See [update queue](https://docs.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
+    See [update queue](https://learn.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://learn.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 

@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, ContainerDefinition } from "../../../src";
-import { IndexingMode } from "../../../src";
-import { DataType, IndexKind } from "../../../src";
-import type { QueryIterator } from "../../../src";
-import type { SqlQuerySpec } from "../../../src";
-import type { FeedOptions } from "../../../src";
-import { TestData } from "../common/TestData";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { expect } from "chai";
 
-describe("Aggregate Query", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+import type { Container, ContainerDefinition } from "../../../src/index.js";
+import { IndexingMode } from "../../../src/index.js";
+import { DataType, IndexKind } from "../../../src/index.js";
+import type { QueryIterator } from "../../../src/index.js";
+import type { SqlQuerySpec } from "../../../src/index.js";
+import type { FeedOptions } from "../../../src/index.js";
+import { TestData } from "../common/TestData.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
+import { describe, it, assert, beforeAll } from "vitest";
+
+describe("Aggregate Query", { timeout: 20000 }, () => {
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";
   const testdata = new TestData(partitionKey, uniquePartitionKey);
@@ -50,7 +48,7 @@ describe("Aggregate Query", function (this: Suite) {
 
   const containerOptions = { offerThroughput: 10100 };
 
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Validate Aggregate Document Query",
@@ -132,6 +130,51 @@ describe("Aggregate Query", function (this: Suite) {
     );
   };
 
+  const validateExecuteNextAndHasMoreResultsWithEnableQueryControl = async function (
+    queryIterator: QueryIterator<any>,
+    options: any,
+    expectedResults: any[],
+  ): Promise<void> {
+    const pageSize = options["maxItemCount"];
+    let totalFetchedResults: any[] = [];
+    let totalExecuteNextRequestCharge = 0;
+
+    while (totalFetchedResults.length <= expectedResults.length) {
+      const { resources: results, requestCharge } = await queryIterator.fetchNext();
+
+      if (results && results.length > 0) {
+        totalFetchedResults = totalFetchedResults.concat(results);
+      }
+      totalExecuteNextRequestCharge += requestCharge;
+
+      if (
+        !queryIterator.hasMoreResults() ||
+        totalFetchedResults.length === expectedResults.length
+      ) {
+        break;
+      }
+
+      if (totalFetchedResults.length < expectedResults.length) {
+        // there are more results
+        assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+      } else {
+        // no more results
+        assert.equal(
+          expectedResults.length,
+          totalFetchedResults.length,
+          "executeNext: didn't fetch all the results",
+        );
+        assert(
+          results.length <= pageSize,
+          "executeNext: actual fetch size is more than the requested page size",
+        );
+      }
+    }
+    // no more results
+    assert.deepStrictEqual(totalFetchedResults, expectedResults);
+    assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+  };
+
   const ValidateAsyncIterator = async function (
     queryIterator: QueryIterator<any>,
     expectedResults: any[],
@@ -171,104 +214,116 @@ describe("Aggregate Query", function (this: Suite) {
     );
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
+
+    // Adding these to test the new flag enableQueryControl in FeedOptions
+    options.enableQueryControl = true;
+    const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+    await validateFetchAll(queryIteratorWithEnableQueryControl, expectedResults);
+
+    queryIteratorWithEnableQueryControl.reset();
+    await validateExecuteNextAndHasMoreResultsWithEnableQueryControl(
+      queryIteratorWithEnableQueryControl,
+      options,
+      expectedResults,
+    );
   };
 
-  it("SELECT VALUE AVG", async function () {
+  it("SELECT VALUE AVG", async () => {
     await executeQueryAndValidateResults("SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       average,
     ]);
   });
 
-  it("SELECT VALUE AVG with ORDER BY", async function () {
+  it("SELECT VALUE AVG with ORDER BY", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key, r.field",
       [average],
     );
   });
 
-  it("SELECT VALUE COUNT", async function () {
+  it("SELECT VALUE COUNT", async () => {
     await executeQueryAndValidateResults("SELECT VALUE COUNT(r.key) FROM r", [
       testdata.numberOfDocuments,
     ]);
   });
 
-  it("SELECT VALUE COUNT with ORDER BY", async function () {
+  it("SELECT VALUE COUNT with ORDER BY", async () => {
     await executeQueryAndValidateResults("SELECT VALUE COUNT(r.key) FROM r ORDER BY r.key", [
       testdata.numberOfDocuments,
     ]);
   });
 
-  it("SELECT VALUE MAX", async function () {
+  it("SELECT VALUE MAX", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MAX(r.key) FROM r", ["xyz"]);
   });
 
-  it("SELECT VALUE MAX with ORDER BY", async function () {
+  it("SELECT VALUE MAX with ORDER BY", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MAX(r.key) FROM r ORDER BY r.key", ["xyz"]);
   });
 
-  it("SELECT VALUE MIN", async function () {
+  it("SELECT VALUE MIN", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r", [null]);
   });
 
-  it("SELECT VALUE MIN with ORDER BY", async function () {
+  it("SELECT VALUE MIN with ORDER BY", async () => {
     await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r ORDER BY r.key", [null]);
   });
 
-  it("SELECT VALUE SUM", async function () {
+  it("SELECT VALUE SUM", async () => {
     await executeQueryAndValidateResults("SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       testdata.sum,
     ]);
   });
 
-  it("SELECT VALUE SUM with ORDER BY", async function () {
+  it("SELECT VALUE SUM with ORDER BY", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
       [testdata.sum],
     );
   });
 
-  it("SELECT VALUE AVG for single partiton", async function () {
+  it("SELECT VALUE AVG for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE AVG(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [samePartitionSum / testdata.numberOfDocsWithSamePartitionKey],
     );
   });
 
-  it("SELECT VALUE COUNT for single partiton", async function () {
+  it("SELECT VALUE COUNT for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE COUNT(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [testdata.numberOfDocsWithSamePartitionKey],
     );
   });
 
-  it("SELECT VALUE MAX for single partiton", async function () {
+  it("SELECT VALUE MAX for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE MAX(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [testdata.numberOfDocsWithSamePartitionKey],
     );
   });
 
-  it("SELECT VALUE MIN for single partiton", async function () {
+  it("SELECT VALUE MIN for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE MIN(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [1],
     );
   });
 
-  it("SELECT VALUE SUM for single partiton", async function () {
+  it("SELECT VALUE SUM for single partiton", async () => {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
       [samePartitionSum],
     );
   });
 
-  it("Non VALUE aggregate", async function () {
+  it("Non VALUE aggregate", async () => {
     await executeQueryAndValidateResults("SELECT AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       { $1: average },
     ]);
   });
 
-  it("Multiple Aggregates", async function () {
+  it("Multiple Aggregates", async () => {
     await executeQueryAndValidateResults("SELECT COUNT(1), MAX(r.key) FROM r", [
       { $1: testdata.numberOfDocuments, $2: "xyz" },
     ]);
@@ -290,7 +345,7 @@ describe("Aggregate Query", function (this: Suite) {
     assert(response.resources.length === 0);
   });
 
-  it.skip("should execute ORDER BY query with order on multiple fields when composite Index defined", async () => {
+  it("should execute ORDER BY query with order on multiple fields when composite Index defined", async () => {
     const containerDefinitionWithCompositeIndex: ContainerDefinition = {
       id: "containerWithCompositeIndexingPolicy",
       indexingPolicy: {
@@ -336,7 +391,7 @@ describe("Aggregate Query", function (this: Suite) {
       );
       await queryIterator2.fetchAll();
       // If the fetch succeeds unexpectedly, fail the test
-      expect.fail("Expected composite index not found error, but the fetch succeeded");
+      assert.fail("Expected composite index not found error, but the fetch succeeded");
     } catch (error) {
       if (
         error instanceof Error &&
@@ -346,7 +401,7 @@ describe("Aggregate Query", function (this: Suite) {
       ) {
         // If the fetch fails as expected, pass the test
       } else {
-        expect.fail(`Unexpected error: ${error.message}`);
+        assert.fail(`Unexpected error: ${error.message}`);
       }
     }
   });

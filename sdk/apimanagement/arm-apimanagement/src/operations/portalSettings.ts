@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PortalSettings } from "../operationsInterfaces";
+import { PortalSettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   PortalSettingsListByServiceOptionalParams,
-  PortalSettingsListByServiceResponse
-} from "../models";
+  PortalSettingsListByServiceResponse,
+} from "../models/index.js";
 
 /** Class containing PortalSettings operations. */
 export class PortalSettingsImpl implements PortalSettings {
@@ -37,11 +37,11 @@ export class PortalSettingsImpl implements PortalSettings {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalSettingsListByServiceOptionalParams
+    options?: PortalSettingsListByServiceOptionalParams,
   ): Promise<PortalSettingsListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class PortalSettingsImpl implements PortalSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalSettingsCollection
+      bodyMapper: Mappers.PortalSettingsCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

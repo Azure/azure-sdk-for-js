@@ -14,7 +14,7 @@ import {
   StepsDeleteOptionalParams,
   StepsListOptionalParams,
   StepsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Steps. */
 export interface Steps {

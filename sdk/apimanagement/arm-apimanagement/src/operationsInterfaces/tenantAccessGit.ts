@@ -9,8 +9,8 @@
 import {
   AccessIdName,
   TenantAccessGitRegeneratePrimaryKeyOptionalParams,
-  TenantAccessGitRegenerateSecondaryKeyOptionalParams
-} from "../models";
+  TenantAccessGitRegenerateSecondaryKeyOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a TenantAccessGit. */
 export interface TenantAccessGit {
@@ -25,7 +25,7 @@ export interface TenantAccessGit {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGitRegeneratePrimaryKeyOptionalParams
+    options?: TenantAccessGitRegeneratePrimaryKeyOptionalParams,
   ): Promise<void>;
   /**
    * Regenerate secondary access key for GIT.
@@ -38,6 +38,6 @@ export interface TenantAccessGit {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGitRegenerateSecondaryKeyOptionalParams
+    options?: TenantAccessGitRegenerateSecondaryKeyOptionalParams,
   ): Promise<void>;
 }

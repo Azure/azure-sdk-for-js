@@ -23,7 +23,7 @@ import {
   ApiDefinition as ApiDefinitionMapper,
   ApiSpecImportRequest as ApiSpecImportRequestMapper,
   Environment as EnvironmentMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

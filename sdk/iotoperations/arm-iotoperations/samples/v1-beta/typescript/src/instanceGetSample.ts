@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a InstanceResource
  *
  * @summary get a InstanceResource
- * x-ms-original-file: 2024-09-15-preview/Instance_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Instance_Get_MaximumSet_Gen.json
  */
-async function instanceGet() {
+async function instanceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function instanceGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   instanceGet();
 }
 

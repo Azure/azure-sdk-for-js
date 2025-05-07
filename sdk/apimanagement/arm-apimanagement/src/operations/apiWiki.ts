@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ApiWiki } from "../operationsInterfaces";
+import { ApiWiki } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiWikiGetEntityTagOptionalParams,
   ApiWikiGetEntityTagResponse,
@@ -22,8 +22,8 @@ import {
   WikiUpdateContract,
   ApiWikiUpdateOptionalParams,
   ApiWikiUpdateResponse,
-  ApiWikiDeleteOptionalParams
-} from "../models";
+  ApiWikiDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Class containing ApiWiki operations. */
 export class ApiWikiImpl implements ApiWiki {
@@ -48,11 +48,11 @@ export class ApiWikiImpl implements ApiWiki {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikiGetEntityTagOptionalParams
+    options?: ApiWikiGetEntityTagOptionalParams,
   ): Promise<ApiWikiGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -67,11 +67,11 @@ export class ApiWikiImpl implements ApiWiki {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikiGetOptionalParams
+    options?: ApiWikiGetOptionalParams,
   ): Promise<ApiWikiGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -88,11 +88,11 @@ export class ApiWikiImpl implements ApiWiki {
     serviceName: string,
     apiId: string,
     parameters: WikiContract,
-    options?: ApiWikiCreateOrUpdateOptionalParams
+    options?: ApiWikiCreateOrUpdateOptionalParams,
   ): Promise<ApiWikiCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -112,11 +112,11 @@ export class ApiWikiImpl implements ApiWiki {
     apiId: string,
     ifMatch: string,
     parameters: WikiUpdateContract,
-    options?: ApiWikiUpdateOptionalParams
+    options?: ApiWikiUpdateOptionalParams,
   ): Promise<ApiWikiUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, ifMatch, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -134,11 +134,11 @@ export class ApiWikiImpl implements ApiWiki {
     serviceName: string,
     apiId: string,
     ifMatch: string,
-    options?: ApiWikiDeleteOptionalParams
+    options?: ApiWikiDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -146,135 +146,130 @@ export class ApiWikiImpl implements ApiWiki {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiWikiGetEntityTagHeaders
+      headersMapper: Mappers.ApiWikiGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ApiWikiGetHeaders
+      headersMapper: Mappers.ApiWikiGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiWikiCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ApiWikiUpdateHeaders
+      headersMapper: Mappers.ApiWikiUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };

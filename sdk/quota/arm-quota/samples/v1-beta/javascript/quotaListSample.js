@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
  *
  * @summary Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeQuotaLimits.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getComputeQuotaLimits.json
  */
 async function quotasListQuotaLimitsForCompute() {
   const scope =
@@ -34,7 +32,7 @@ async function quotasListQuotaLimitsForCompute() {
  * This sample demonstrates how to Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
  *
  * @summary Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkQuotaLimits.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getNetworkQuotaLimits.json
  */
 async function quotasListQuotaLimitsForNetwork() {
   const scope =
@@ -52,7 +50,7 @@ async function quotasListQuotaLimitsForNetwork() {
  * This sample demonstrates how to Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
  *
  * @summary Get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getMachineLearningServicesQuotaLimits.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getMachineLearningServicesQuotaLimits.json
  */
 async function quotasListQuotaLimitsMachineLearningServices() {
   const scope =
@@ -67,9 +65,9 @@ async function quotasListQuotaLimitsMachineLearningServices() {
 }
 
 async function main() {
-  quotasListQuotaLimitsForCompute();
-  quotasListQuotaLimitsForNetwork();
-  quotasListQuotaLimitsMachineLearningServices();
+  await quotasListQuotaLimitsForCompute();
+  await quotasListQuotaLimitsForNetwork();
+  await quotasListQuotaLimitsMachineLearningServices();
 }
 
 main().catch(console.error);

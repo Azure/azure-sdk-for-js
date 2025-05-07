@@ -26,14 +26,12 @@
 
 import { AttestationAdministrationClient, KnownAttestationType } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
-async function getCurrentAttestationPolicyAad() {
-  writeBanner("Get Current Attestation Policy - AAD instance.");
+async function getCurrentAttestationPolicyAad(): Promise<void> {
+  await writeBanner("Get Current Attestation Policy - AAD instance.");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -47,8 +45,8 @@ async function getCurrentAttestationPolicyAad() {
   console.log("The SGX policy for ", endpoint, " has a value of:", policy.body);
 }
 
-async function getCurrentAttestationPolicyShared() {
-  writeBanner("Get Current Attestation Policy - Shared instance.");
+async function getCurrentAttestationPolicyShared(): Promise<void> {
+  await writeBanner("Get Current Attestation Policy - Shared instance.");
 
   // Use the the West US shared instance.
   //
@@ -68,7 +66,7 @@ async function getCurrentAttestationPolicyShared() {
   console.log("The SGX policy for ", endpoint, " has a value of:", policy.body);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await getCurrentAttestationPolicyAad();
   await getCurrentAttestationPolicyShared();
 }

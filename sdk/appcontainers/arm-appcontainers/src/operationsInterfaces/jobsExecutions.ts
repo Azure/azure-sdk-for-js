@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { JobExecution, JobsExecutionsListOptionalParams } from "../models";
+import { JobExecution, JobsExecutionsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobsExecutions. */

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiDiagnostic } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiDiagnostic } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   DiagnosticContract,
   ApiDiagnosticListByServiceNextOptionalParams,
@@ -27,8 +27,8 @@ import {
   ApiDiagnosticUpdateOptionalParams,
   ApiDiagnosticUpdateResponse,
   ApiDiagnosticDeleteOptionalParams,
-  ApiDiagnosticListByServiceNextResponse
-} from "../models";
+  ApiDiagnosticListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiDiagnostic operations. */
@@ -54,13 +54,13 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiDiagnosticListByServiceOptionalParams
+    options?: ApiDiagnosticListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     serviceName: string,
     apiId: string,
     options?: ApiDiagnosticListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DiagnosticContract[]> {
     let result: ApiDiagnosticListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +111,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,13 +124,13 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiDiagnosticListByServiceOptionalParams
+    options?: ApiDiagnosticListByServiceOptionalParams,
   ): AsyncIterableIterator<DiagnosticContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,11 +147,11 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiDiagnosticListByServiceOptionalParams
+    options?: ApiDiagnosticListByServiceOptionalParams,
   ): Promise<ApiDiagnosticListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -169,11 +169,11 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     serviceName: string,
     apiId: string,
     diagnosticId: string,
-    options?: ApiDiagnosticGetEntityTagOptionalParams
+    options?: ApiDiagnosticGetEntityTagOptionalParams,
   ): Promise<ApiDiagnosticGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, diagnosticId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     serviceName: string,
     apiId: string,
     diagnosticId: string,
-    options?: ApiDiagnosticGetOptionalParams
+    options?: ApiDiagnosticGetOptionalParams,
   ): Promise<ApiDiagnosticGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, diagnosticId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -215,7 +215,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     apiId: string,
     diagnosticId: string,
     parameters: DiagnosticContract,
-    options?: ApiDiagnosticCreateOrUpdateOptionalParams
+    options?: ApiDiagnosticCreateOrUpdateOptionalParams,
   ): Promise<ApiDiagnosticCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -224,9 +224,9 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
         apiId,
         diagnosticId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -249,7 +249,7 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     diagnosticId: string,
     ifMatch: string,
     parameters: DiagnosticContract,
-    options?: ApiDiagnosticUpdateOptionalParams
+    options?: ApiDiagnosticUpdateOptionalParams,
   ): Promise<ApiDiagnosticUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -259,9 +259,9 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
         diagnosticId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -282,11 +282,11 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     apiId: string,
     diagnosticId: string,
     ifMatch: string,
-    options?: ApiDiagnosticDeleteOptionalParams
+    options?: ApiDiagnosticDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, diagnosticId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -303,11 +303,11 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiDiagnosticListByServiceNextOptionalParams
+    options?: ApiDiagnosticListByServiceNextOptionalParams,
   ): Promise<ApiDiagnosticListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -315,190 +315,184 @@ export class ApiDiagnosticImpl implements ApiDiagnostic {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticCollection
+      bodyMapper: Mappers.DiagnosticCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiDiagnosticGetEntityTagHeaders
+      headersMapper: Mappers.ApiDiagnosticGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.diagnosticId
+    Parameters.diagnosticId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticContract,
-      headersMapper: Mappers.ApiDiagnosticGetHeaders
+      headersMapper: Mappers.ApiDiagnosticGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.diagnosticId
+    Parameters.diagnosticId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticContract,
-      headersMapper: Mappers.ApiDiagnosticCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiDiagnosticCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.DiagnosticContract,
-      headersMapper: Mappers.ApiDiagnosticCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiDiagnosticCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.diagnosticId
+    Parameters.diagnosticId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticContract,
-      headersMapper: Mappers.ApiDiagnosticUpdateHeaders
+      headersMapper: Mappers.ApiDiagnosticUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.diagnosticId
+    Parameters.diagnosticId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.diagnosticId
+    Parameters.diagnosticId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticCollection
+      bodyMapper: Mappers.DiagnosticCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

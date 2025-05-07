@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
@@ -20,9 +18,9 @@ whether the backend service has finished processing the request, call Get Contai
  *
  * @summary Unregisters the given container from your Recovery Services Vault. This is an asynchronous operation. To determine
 whether the backend service has finished processing the request, call Get Container Operation Result API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/ProtectionContainers_Unregister.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/ProtectionContainers_Unregister.json
  */
-async function unregisterProtectionContainer() {
+async function unregisterProtectionContainer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,8 +40,8 @@ async function unregisterProtectionContainer() {
   console.log(result);
 }
 
-async function main() {
-  unregisterProtectionContainer();
+async function main(): Promise<void> {
+  await unregisterProtectionContainer();
 }
 
 main().catch(console.error);

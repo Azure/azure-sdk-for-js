@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiWikis } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiWikis } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   WikiContract,
   ApiWikisListNextOptionalParams,
   ApiWikisListOptionalParams,
   ApiWikisListResponse,
-  ApiWikisListNextResponse
-} from "../models";
+  ApiWikisListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiWikis operations. */
@@ -45,13 +45,13 @@ export class ApiWikisImpl implements ApiWikis {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikisListOptionalParams
+    options?: ApiWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class ApiWikisImpl implements ApiWikis {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ApiWikisImpl implements ApiWikis {
     serviceName: string,
     apiId: string,
     options?: ApiWikisListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WikiContract[]> {
     let result: ApiWikisListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class ApiWikisImpl implements ApiWikis {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,13 +110,13 @@ export class ApiWikisImpl implements ApiWikis {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikisListOptionalParams
+    options?: ApiWikisListOptionalParams,
   ): AsyncIterableIterator<WikiContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class ApiWikisImpl implements ApiWikis {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikisListOptionalParams
+    options?: ApiWikisListOptionalParams,
   ): Promise<ApiWikisListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class ApiWikisImpl implements ApiWikis {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiWikisListNextOptionalParams
+    options?: ApiWikisListNextOptionalParams,
   ): Promise<ApiWikisListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -166,52 +166,51 @@ export class ApiWikisImpl implements ApiWikis {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/wikis",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WikiCollection
+      bodyMapper: Mappers.WikiCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WikiCollection
+      bodyMapper: Mappers.WikiCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

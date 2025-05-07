@@ -1,3 +1,6 @@
 {
-  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"]
+  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
+  "compilerOptions": {
+    "lib": ["DOM", "ES2021.Promise"]
+  }
 }

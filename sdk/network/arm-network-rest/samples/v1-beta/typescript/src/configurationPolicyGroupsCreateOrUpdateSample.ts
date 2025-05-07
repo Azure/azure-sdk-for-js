@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ConfigurationPolicyGroupsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates a ConfigurationPolicyGroup if it doesn't exist else updates the existing one.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ConfigurationPolicyGroupPut.json
  */
-async function configurationPolicyGroupPut() {
+async function configurationPolicyGroupPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -33,18 +28,18 @@ async function configurationPolicyGroupPut() {
           {
             name: "policy1",
             attributeType: "RadiusAzureGroupId",
-            attributeValue: "6ad1bd08"
+            attributeValue: "6ad1bd08",
           },
           {
             name: "policy2",
             attributeType: "CertificateGroupId",
-            attributeValue: "red.com"
-          }
+            attributeValue: "red.com",
+          },
         ],
-        priority: 0
-      }
+        priority: 0,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -52,10 +47,10 @@ async function configurationPolicyGroupPut() {
       subscriptionId,
       resourceGroupName,
       vpnServerConfigurationName,
-      configurationPolicyGroupName
+      configurationPolicyGroupName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

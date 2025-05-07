@@ -109,7 +109,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [guestconfigurationhcrpassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentsGetSample.ts
 [guestconfigurationhcrpassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentsListSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

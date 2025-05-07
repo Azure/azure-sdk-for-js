@@ -113,7 +113,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tagrulescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datadog/arm-datadog/samples/v3/typescript/src/tagRulesCreateOrUpdateSample.ts
 [tagrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datadog/arm-datadog/samples/v3/typescript/src/tagRulesGetSample.ts
 [tagruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datadog/arm-datadog/samples/v3/typescript/src/tagRulesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-datadog?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-datadog?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datadog/arm-datadog/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -14,15 +14,19 @@
  * @azsdk-skip-javascript
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    new DefaultAzureCredential(),
+  );
 
   const initialResponse = await client
     .path("/documentModels/{modelId}:analyze", "prebuilt-idDocument")
@@ -38,10 +42,9 @@ async function main() {
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-  const poller = await getLongRunningPoller(client, initialResponse);
-  const analyzeResult = (
-    (await (poller).pollUntilDone()).body as AnalyzeResultOperationOutput
-  ).analyzeResult;
+  const poller = getLongRunningPoller(client, initialResponse);
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+    .analyzeResult;
 
   const documents = analyzeResult?.documents;
 
@@ -54,10 +57,10 @@ async function main() {
     if (document.docType === "idDocument.driverLicense") {
       // For the sake of the example, we'll only show a few of the fields that are produced.
       console.log("Extracted a Driver License:");
-      console.log(document.fields)
+      console.log(document.fields);
     } else if (document.docType === "idDocument.passport") {
       console.log("Extracted a Passport:");
-      console.log(document.fields)
+      console.log(document.fields);
     } else {
       // The only reason this would happen is if the client library's schema for the prebuilt identity document model is
       // out of date, and a new document type has been introduced.

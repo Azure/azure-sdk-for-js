@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  PolicyFragmentContract,
   PolicyFragmentListByServiceOptionalParams,
-  PolicyFragmentListByServiceResponse,
   PolicyFragmentGetEntityTagOptionalParams,
   PolicyFragmentGetEntityTagResponse,
   PolicyFragmentGetOptionalParams,
   PolicyFragmentGetResponse,
-  PolicyFragmentContract,
   PolicyFragmentCreateOrUpdateOptionalParams,
   PolicyFragmentCreateOrUpdateResponse,
   PolicyFragmentDeleteOptionalParams,
   PolicyFragmentListReferencesOptionalParams,
-  PolicyFragmentListReferencesResponse
-} from "../models";
+  PolicyFragmentListReferencesResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicyFragment. */
 export interface PolicyFragment {
   /**
@@ -33,8 +34,8 @@ export interface PolicyFragment {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PolicyFragmentListByServiceOptionalParams
-  ): Promise<PolicyFragmentListByServiceResponse>;
+    options?: PolicyFragmentListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyFragmentContract>;
   /**
    * Gets the entity state (Etag) version of a policy fragment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -46,7 +47,7 @@ export interface PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     id: string,
-    options?: PolicyFragmentGetEntityTagOptionalParams
+    options?: PolicyFragmentGetEntityTagOptionalParams,
   ): Promise<PolicyFragmentGetEntityTagResponse>;
   /**
    * Gets a policy fragment.
@@ -59,7 +60,7 @@ export interface PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     id: string,
-    options?: PolicyFragmentGetOptionalParams
+    options?: PolicyFragmentGetOptionalParams,
   ): Promise<PolicyFragmentGetResponse>;
   /**
    * Creates or updates a policy fragment.
@@ -74,7 +75,7 @@ export interface PolicyFragment {
     serviceName: string,
     id: string,
     parameters: PolicyFragmentContract,
-    options?: PolicyFragmentCreateOrUpdateOptionalParams
+    options?: PolicyFragmentCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PolicyFragmentCreateOrUpdateResponse>,
@@ -94,7 +95,7 @@ export interface PolicyFragment {
     serviceName: string,
     id: string,
     parameters: PolicyFragmentContract,
-    options?: PolicyFragmentCreateOrUpdateOptionalParams
+    options?: PolicyFragmentCreateOrUpdateOptionalParams,
   ): Promise<PolicyFragmentCreateOrUpdateResponse>;
   /**
    * Deletes a policy fragment.
@@ -110,7 +111,7 @@ export interface PolicyFragment {
     serviceName: string,
     id: string,
     ifMatch: string,
-    options?: PolicyFragmentDeleteOptionalParams
+    options?: PolicyFragmentDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists policy resources that reference the policy fragment.
@@ -123,6 +124,6 @@ export interface PolicyFragment {
     resourceGroupName: string,
     serviceName: string,
     id: string,
-    options?: PolicyFragmentListReferencesOptionalParams
+    options?: PolicyFragmentListReferencesOptionalParams,
   ): Promise<PolicyFragmentListReferencesResponse>;
 }

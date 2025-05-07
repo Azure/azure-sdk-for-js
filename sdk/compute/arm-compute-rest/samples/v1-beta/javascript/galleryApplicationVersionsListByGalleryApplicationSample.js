@@ -30,7 +30,7 @@ async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryApplicationName
+      galleryApplicationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

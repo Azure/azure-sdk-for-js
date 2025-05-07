@@ -15,7 +15,7 @@ import {
   DiagnosticSettingsDeleteOptionalParams,
   DiagnosticSettingsListOptionalParams,
   DiagnosticSettingsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DiagnosticSettings. */
 export interface DiagnosticSettings {

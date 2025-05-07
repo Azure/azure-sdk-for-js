@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TagResourceContract,
-  TagResourceListByServiceOptionalParams
-} from "../models";
+  TagResourceListByServiceOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TagResource. */
@@ -24,6 +24,6 @@ export interface TagResource {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TagResourceListByServiceOptionalParams
+    options?: TagResourceListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract>;
 }

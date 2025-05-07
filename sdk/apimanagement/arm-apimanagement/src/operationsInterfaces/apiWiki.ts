@@ -17,8 +17,8 @@ import {
   WikiUpdateContract,
   ApiWikiUpdateOptionalParams,
   ApiWikiUpdateResponse,
-  ApiWikiDeleteOptionalParams
-} from "../models";
+  ApiWikiDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a ApiWiki. */
 export interface ApiWiki {
@@ -33,7 +33,7 @@ export interface ApiWiki {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikiGetEntityTagOptionalParams
+    options?: ApiWikiGetEntityTagOptionalParams,
   ): Promise<ApiWikiGetEntityTagResponse>;
   /**
    * Gets the details of the Wiki for an API specified by its identifier.
@@ -46,7 +46,7 @@ export interface ApiWiki {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikiGetOptionalParams
+    options?: ApiWikiGetOptionalParams,
   ): Promise<ApiWikiGetResponse>;
   /**
    * Creates a new Wiki for an API or updates an existing one.
@@ -61,7 +61,7 @@ export interface ApiWiki {
     serviceName: string,
     apiId: string,
     parameters: WikiContract,
-    options?: ApiWikiCreateOrUpdateOptionalParams
+    options?: ApiWikiCreateOrUpdateOptionalParams,
   ): Promise<ApiWikiCreateOrUpdateResponse>;
   /**
    * Updates the details of the Wiki for an API specified by its identifier.
@@ -79,7 +79,7 @@ export interface ApiWiki {
     apiId: string,
     ifMatch: string,
     parameters: WikiUpdateContract,
-    options?: ApiWikiUpdateOptionalParams
+    options?: ApiWikiUpdateOptionalParams,
   ): Promise<ApiWikiUpdateResponse>;
   /**
    * Deletes the specified Wiki from an API.
@@ -95,6 +95,6 @@ export interface ApiWiki {
     serviceName: string,
     apiId: string,
     ifMatch: string,
-    options?: ApiWikiDeleteOptionalParams
+    options?: ApiWikiDeleteOptionalParams,
   ): Promise<void>;
 }

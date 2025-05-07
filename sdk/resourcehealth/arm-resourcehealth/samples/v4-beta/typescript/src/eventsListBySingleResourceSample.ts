@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists current service health events for given resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists current service health events for given resource.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Events_ListBySingleResource.json
  */
-async function listEventsBySingleResource() {
+async function listEventsBySingleResource(): Promise<void> {
   const resourceUri =
     "subscriptions/4abcdefgh-ijkl-mnop-qrstuvwxyz/resourceGroups/rhctestenv/providers/Microsoft.Compute/virtualMachines/rhctestenvV1PI";
   const credential = new DefaultAzureCredential();
@@ -34,7 +32,7 @@ async function listEventsBySingleResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listEventsBySingleResource();
 }
 

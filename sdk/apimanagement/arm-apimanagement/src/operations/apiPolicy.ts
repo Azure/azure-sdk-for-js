@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ApiPolicy } from "../operationsInterfaces";
+import { ApiPolicy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiPolicyListByApiOptionalParams,
   ApiPolicyListByApiResponse,
@@ -22,8 +22,8 @@ import {
   PolicyContract,
   ApiPolicyCreateOrUpdateOptionalParams,
   ApiPolicyCreateOrUpdateResponse,
-  ApiPolicyDeleteOptionalParams
-} from "../models";
+  ApiPolicyDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Class containing ApiPolicy operations. */
 export class ApiPolicyImpl implements ApiPolicy {
@@ -49,11 +49,11 @@ export class ApiPolicyImpl implements ApiPolicy {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiPolicyListByApiOptionalParams
+    options?: ApiPolicyListByApiOptionalParams,
   ): Promise<ApiPolicyListByApiResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByApiOperationSpec
+      listByApiOperationSpec,
     );
   }
 
@@ -71,11 +71,11 @@ export class ApiPolicyImpl implements ApiPolicy {
     serviceName: string,
     apiId: string,
     policyId: PolicyIdName,
-    options?: ApiPolicyGetEntityTagOptionalParams
+    options?: ApiPolicyGetEntityTagOptionalParams,
   ): Promise<ApiPolicyGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, policyId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -93,11 +93,11 @@ export class ApiPolicyImpl implements ApiPolicy {
     serviceName: string,
     apiId: string,
     policyId: PolicyIdName,
-    options?: ApiPolicyGetOptionalParams
+    options?: ApiPolicyGetOptionalParams,
   ): Promise<ApiPolicyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, policyId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -117,11 +117,11 @@ export class ApiPolicyImpl implements ApiPolicy {
     apiId: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: ApiPolicyCreateOrUpdateOptionalParams
+    options?: ApiPolicyCreateOrUpdateOptionalParams,
   ): Promise<ApiPolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, policyId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -142,144 +142,142 @@ export class ApiPolicyImpl implements ApiPolicy {
     apiId: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: ApiPolicyDeleteOptionalParams
+    options?: ApiPolicyDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, policyId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
 // Operation Specifications
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
+
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApiOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyCollection
+      bodyMapper: Mappers.PolicyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId
+    Parameters.serviceName,
+    Parameters.apiId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiPolicyGetEntityTagHeaders
+      headersMapper: Mappers.ApiPolicyGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.policyId
+    Parameters.policyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.ApiPolicyGetHeaders
+      headersMapper: Mappers.ApiPolicyGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.format],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.policyId
+    Parameters.policyId,
   ],
   headerParameters: [Parameters.accept1],
-  serializer
+  isXML: true,
+  serializer: xmlSerializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.ApiPolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiPolicyCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.ApiPolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiPolicyCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.policyId
+    Parameters.policyId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/policies/{policyId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.policyId
+    Parameters.policyId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };

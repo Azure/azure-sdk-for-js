@@ -51,12 +51,12 @@ export {
 export { EnvironmentCredential } from "./credentials/environmentCredential.js";
 export { EnvironmentCredentialOptions } from "./credentials/environmentCredentialOptions.js";
 
+export { ClientCertificateCredential } from "./credentials/clientCertificateCredential.js";
 export {
-  ClientCertificateCredential,
   ClientCertificateCredentialPEMConfiguration,
   ClientCertificatePEMCertificatePath,
   ClientCertificatePEMCertificate,
-} from "./credentials/clientCertificateCredential.js";
+} from "./credentials/clientCertificateCredentialModels.js";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions.js";
 export { ClientAssertionCredential } from "./credentials/clientAssertionCredential.js";
 export { ClientAssertionCredentialOptions } from "./credentials/clientAssertionCredentialOptions.js";
@@ -71,12 +71,12 @@ export {
   InteractiveBrowserCredentialInBrowserOptions,
   BrowserLoginStyle,
 } from "./credentials/interactiveBrowserCredentialOptions.js";
+export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential/index.js";
 export {
-  ManagedIdentityCredential,
   ManagedIdentityCredentialClientIdOptions,
   ManagedIdentityCredentialResourceIdOptions,
   ManagedIdentityCredentialObjectIdOptions,
-} from "./credentials/managedIdentityCredential/index.js";
+} from "./credentials/managedIdentityCredential/options.js";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential.js";
 export {
   DeviceCodePromptCallback,

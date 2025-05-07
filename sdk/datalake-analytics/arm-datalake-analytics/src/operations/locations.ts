@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Locations } from "../operationsInterfaces";
+import { Locations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataLakeAnalyticsAccountManagementClient } from "../dataLakeAnalyticsAccountManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataLakeAnalyticsAccountManagementClient } from "../dataLakeAnalyticsAccountManagementClient.js";
 import {
   LocationsGetCapabilityOptionalParams,
   LocationsGetCapabilityResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Locations operations. */
 export class LocationsImpl implements Locations {

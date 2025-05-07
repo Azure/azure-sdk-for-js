@@ -13,9 +13,7 @@ import {
 } from "@azure/monitor-opentelemetry";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     connectionString:
@@ -24,7 +22,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
 };
 useAzureMonitor(options);
 
-export async function main() {
+export async function main(): Promise<void> {
   // Ge Tracer and create Span
   const tracer = trace.getTracer("testTracer");
   // Create a span. A span must be closed.
@@ -33,7 +31,7 @@ export async function main() {
     doWork(parentSpan);
   }
   // Be sure to end the span.
-  parentSpan.end();
+  await parentSpan.end();
 }
 
 function doWork(parent: Span) {

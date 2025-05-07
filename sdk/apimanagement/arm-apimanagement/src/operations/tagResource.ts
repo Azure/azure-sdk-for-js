@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { TagResource } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { TagResource } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   TagResourceContract,
   TagResourceListByServiceNextOptionalParams,
   TagResourceListByServiceOptionalParams,
   TagResourceListByServiceResponse,
-  TagResourceListByServiceNextResponse
-} from "../models";
+  TagResourceListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TagResource operations. */
@@ -43,12 +43,12 @@ export class TagResourceImpl implements TagResource {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TagResourceListByServiceOptionalParams
+    options?: TagResourceListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class TagResourceImpl implements TagResource {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class TagResourceImpl implements TagResource {
     resourceGroupName: string,
     serviceName: string,
     options?: TagResourceListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TagResourceContract[]> {
     let result: TagResourceListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class TagResourceImpl implements TagResource {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -95,7 +95,7 @@ export class TagResourceImpl implements TagResource {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class TagResourceImpl implements TagResource {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: TagResourceListByServiceOptionalParams
+    options?: TagResourceListByServiceOptionalParams,
   ): AsyncIterableIterator<TagResourceContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class TagResourceImpl implements TagResource {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TagResourceListByServiceOptionalParams
+    options?: TagResourceListByServiceOptionalParams,
   ): Promise<TagResourceListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class TagResourceImpl implements TagResource {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: TagResourceListByServiceNextOptionalParams
+    options?: TagResourceListByServiceNextOptionalParams,
   ): Promise<TagResourceListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -158,50 +158,49 @@ export class TagResourceImpl implements TagResource {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tagResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tagResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagResourceCollection
+      bodyMapper: Mappers.TagResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagResourceCollection
+      bodyMapper: Mappers.TagResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

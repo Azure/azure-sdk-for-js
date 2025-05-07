@@ -18,8 +18,8 @@ import {
   DiagnosticCreateOrUpdateResponse,
   DiagnosticUpdateOptionalParams,
   DiagnosticUpdateResponse,
-  DiagnosticDeleteOptionalParams
-} from "../models";
+  DiagnosticDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Diagnostic. */
@@ -33,7 +33,7 @@ export interface Diagnostic {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: DiagnosticListByServiceOptionalParams
+    options?: DiagnosticListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticContract>;
   /**
    * Gets the entity state (Etag) version of the Diagnostic specified by its identifier.
@@ -47,7 +47,7 @@ export interface Diagnostic {
     resourceGroupName: string,
     serviceName: string,
     diagnosticId: string,
-    options?: DiagnosticGetEntityTagOptionalParams
+    options?: DiagnosticGetEntityTagOptionalParams,
   ): Promise<DiagnosticGetEntityTagResponse>;
   /**
    * Gets the details of the Diagnostic specified by its identifier.
@@ -61,7 +61,7 @@ export interface Diagnostic {
     resourceGroupName: string,
     serviceName: string,
     diagnosticId: string,
-    options?: DiagnosticGetOptionalParams
+    options?: DiagnosticGetOptionalParams,
   ): Promise<DiagnosticGetResponse>;
   /**
    * Creates a new Diagnostic or updates an existing one.
@@ -77,7 +77,7 @@ export interface Diagnostic {
     serviceName: string,
     diagnosticId: string,
     parameters: DiagnosticContract,
-    options?: DiagnosticCreateOrUpdateOptionalParams
+    options?: DiagnosticCreateOrUpdateOptionalParams,
   ): Promise<DiagnosticCreateOrUpdateResponse>;
   /**
    * Updates the details of the Diagnostic specified by its identifier.
@@ -96,7 +96,7 @@ export interface Diagnostic {
     diagnosticId: string,
     ifMatch: string,
     parameters: DiagnosticContract,
-    options?: DiagnosticUpdateOptionalParams
+    options?: DiagnosticUpdateOptionalParams,
   ): Promise<DiagnosticUpdateResponse>;
   /**
    * Deletes the specified Diagnostic.
@@ -113,6 +113,6 @@ export interface Diagnostic {
     serviceName: string,
     diagnosticId: string,
     ifMatch: string,
-    options?: DiagnosticDeleteOptionalParams
+    options?: DiagnosticDeleteOptionalParams,
   ): Promise<void>;
 }

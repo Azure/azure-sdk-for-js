@@ -17,8 +17,8 @@ import {
   TagDescriptionCreateParameters,
   ApiTagDescriptionCreateOrUpdateOptionalParams,
   ApiTagDescriptionCreateOrUpdateResponse,
-  ApiTagDescriptionDeleteOptionalParams
-} from "../models";
+  ApiTagDescriptionDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiTagDescription. */
@@ -36,7 +36,7 @@ export interface ApiTagDescription {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiTagDescriptionListByServiceOptionalParams
+    options?: ApiTagDescriptionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TagDescriptionContract>;
   /**
    * Gets the entity state version of the tag specified by its identifier.
@@ -53,7 +53,7 @@ export interface ApiTagDescription {
     serviceName: string,
     apiId: string,
     tagDescriptionId: string,
-    options?: ApiTagDescriptionGetEntityTagOptionalParams
+    options?: ApiTagDescriptionGetEntityTagOptionalParams,
   ): Promise<ApiTagDescriptionGetEntityTagResponse>;
   /**
    * Get Tag description in scope of API
@@ -70,7 +70,7 @@ export interface ApiTagDescription {
     serviceName: string,
     apiId: string,
     tagDescriptionId: string,
-    options?: ApiTagDescriptionGetOptionalParams
+    options?: ApiTagDescriptionGetOptionalParams,
   ): Promise<ApiTagDescriptionGetResponse>;
   /**
    * Create/Update tag description in scope of the Api.
@@ -89,7 +89,7 @@ export interface ApiTagDescription {
     apiId: string,
     tagDescriptionId: string,
     parameters: TagDescriptionCreateParameters,
-    options?: ApiTagDescriptionCreateOrUpdateOptionalParams
+    options?: ApiTagDescriptionCreateOrUpdateOptionalParams,
   ): Promise<ApiTagDescriptionCreateOrUpdateResponse>;
   /**
    * Delete tag description for the Api.
@@ -109,6 +109,6 @@ export interface ApiTagDescription {
     apiId: string,
     tagDescriptionId: string,
     ifMatch: string,
-    options?: ApiTagDescriptionDeleteOptionalParams
+    options?: ApiTagDescriptionDeleteOptionalParams,
   ): Promise<void>;
 }

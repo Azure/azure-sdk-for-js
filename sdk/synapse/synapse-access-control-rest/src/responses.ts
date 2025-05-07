@@ -18,7 +18,7 @@ export interface RoleAssignmentsCheckPrincipalAccess200Response extends HttpResp
 }
 
 /** Check if the given principalId has access to perform list of actions at a given scope. */
-export interface RoleAssignmentsCheckPrincipalAccessdefaultResponse extends HttpResponse {
+export interface RoleAssignmentsCheckPrincipalAccessDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -36,7 +36,7 @@ export interface RoleAssignmentsListRoleAssignments200Response extends HttpRespo
 }
 
 /** List role assignments. */
-export interface RoleAssignmentsListRoleAssignmentsdefaultResponse extends HttpResponse {
+export interface RoleAssignmentsListRoleAssignmentsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -48,7 +48,7 @@ export interface RoleAssignmentsCreateRoleAssignment200Response extends HttpResp
 }
 
 /** Create role assignment. */
-export interface RoleAssignmentsCreateRoleAssignmentdefaultResponse extends HttpResponse {
+export interface RoleAssignmentsCreateRoleAssignmentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -60,7 +60,7 @@ export interface RoleAssignmentsGetRoleAssignmentById200Response extends HttpRes
 }
 
 /** Get role assignment by role assignment Id. */
-export interface RoleAssignmentsGetRoleAssignmentByIddefaultResponse extends HttpResponse {
+export interface RoleAssignmentsGetRoleAssignmentByIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -68,17 +68,15 @@ export interface RoleAssignmentsGetRoleAssignmentByIddefaultResponse extends Htt
 /** Delete role assignment by role assignment Id. */
 export interface RoleAssignmentsDeleteRoleAssignmentById200Response extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete role assignment by role assignment Id. */
 export interface RoleAssignmentsDeleteRoleAssignmentById204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete role assignment by role assignment Id. */
-export interface RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse extends HttpResponse {
+export interface RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -90,7 +88,7 @@ export interface RoleDefinitionsListRoleDefinitions200Response extends HttpRespo
 }
 
 /** List role definitions. */
-export interface RoleDefinitionsListRoleDefinitionsdefaultResponse extends HttpResponse {
+export interface RoleDefinitionsListRoleDefinitionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -102,7 +100,7 @@ export interface RoleDefinitionsGetRoleDefinitionById200Response extends HttpRes
 }
 
 /** Get role definition by role definition Id. */
-export interface RoleDefinitionsGetRoleDefinitionByIddefaultResponse extends HttpResponse {
+export interface RoleDefinitionsGetRoleDefinitionByIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }
@@ -114,7 +112,7 @@ export interface RoleDefinitionsListScopes200Response extends HttpResponse {
 }
 
 /** List rbac scopes. */
-export interface RoleDefinitionsListScopesdefaultResponse extends HttpResponse {
+export interface RoleDefinitionsListScopesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }

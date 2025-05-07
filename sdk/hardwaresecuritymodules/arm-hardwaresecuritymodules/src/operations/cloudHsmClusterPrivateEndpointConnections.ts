@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudHsmClusterPrivateEndpointConnections } from "../operationsInterfaces";
+import { CloudHsmClusterPrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureHSMResourceProvider } from "../azureHSMResourceProvider.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
   CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
@@ -25,7 +25,7 @@ import {
   CloudHsmClusterPrivateEndpointConnectionsDeleteResponse,
   CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CloudHsmClusterPrivateEndpointConnections operations. */
 export class CloudHsmClusterPrivateEndpointConnectionsImpl

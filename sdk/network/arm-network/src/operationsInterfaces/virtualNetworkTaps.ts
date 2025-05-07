@@ -20,7 +20,7 @@ import {
   TagsObject,
   VirtualNetworkTapsUpdateTagsOptionalParams,
   VirtualNetworkTapsUpdateTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualNetworkTaps. */

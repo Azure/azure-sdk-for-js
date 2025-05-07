@@ -140,6 +140,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
     let found = 0;
     for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const secretProperties of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secretProperties.name)) continue;
@@ -162,6 +163,7 @@ describe("Secret client - list secrets in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedSecrets().byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const secret of page) {
         // The vault might contain more secrets than the ones we inserted.
         if (!secretNames.includes(secret.name)) continue;
@@ -188,6 +190,7 @@ describe("Secret client - list secrets in various ways", () => {
     for await (const page of client
       .listPropertiesOfSecretVersions(secretName)
       .byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const secretProperties of page) {
         const version = secretProperties.version!;
         const secret = await client.getSecret(secretName, { version });
@@ -209,6 +212,7 @@ describe("Secret client - list secrets in various ways", () => {
     for await (const page of client
       .listPropertiesOfSecretVersions(secretName)
       .byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const secretProperties of page) {
         assert.equal(
           secretProperties.name,

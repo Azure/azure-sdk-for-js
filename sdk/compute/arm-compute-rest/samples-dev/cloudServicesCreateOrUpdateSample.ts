@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  CloudServicesCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { CloudServicesCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithMultiRole.json
  */
-async function createNewCloudServiceWithMultipleRoles() {
+async function createNewCloudServiceWithMultipleRoles(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -74,7 +68,7 @@ async function createNewCloudServiceWithMultipleRoles() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -86,7 +80,7 @@ createNewCloudServiceWithMultipleRoles().catch(console.error);
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRole.json
  */
-async function createNewCloudServiceWithSingleRole() {
+async function createNewCloudServiceWithSingleRole(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -138,7 +132,7 @@ async function createNewCloudServiceWithSingleRole() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -150,7 +144,7 @@ createNewCloudServiceWithSingleRole().catch(console.error);
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
  */
-async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
+async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -217,7 +211,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -229,7 +223,7 @@ createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault().catch(console.er
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
  */
-async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
+async function createNewCloudServiceWithSingleRoleAndRdpExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -297,7 +291,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
       cloudServiceName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

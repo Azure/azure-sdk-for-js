@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace.
  *
- * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
+ * See https://learn.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace
  */

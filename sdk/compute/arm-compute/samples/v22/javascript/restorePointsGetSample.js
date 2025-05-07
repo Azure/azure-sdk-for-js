@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The operation to get the restore point.
  *
  * @summary The operation to get the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePoint_Get.json
  */
 async function getARestorePoint() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -37,7 +37,7 @@ async function getARestorePoint() {
  * This sample demonstrates how to The operation to get the restore point.
  *
  * @summary The operation to get the restore point.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
  */
 async function getRestorePointWithInstanceView() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -55,8 +55,8 @@ async function getRestorePointWithInstanceView() {
 }
 
 async function main() {
-  getARestorePoint();
-  getRestorePointWithInstanceView();
+  await getARestorePoint();
+  await getRestorePointWithInstanceView();
 }
 
 main().catch(console.error);

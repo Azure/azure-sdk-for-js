@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./usageDetails";
-export * from "./marketplaces";
-export * from "./budgets";
-export * from "./tags";
-export * from "./charges";
-export * from "./balances";
-export * from "./reservationsSummaries";
-export * from "./reservationsDetails";
-export * from "./reservationRecommendations";
-export * from "./reservationRecommendationDetails";
-export * from "./reservationTransactions";
-export * from "./priceSheet";
-export * from "./operations";
-export * from "./aggregatedCost";
-export * from "./eventsOperations";
-export * from "./lotsOperations";
-export * from "./credits";
+export * from "./usageDetails.js";
+export * from "./marketplaces.js";
+export * from "./budgets.js";
+export * from "./tags.js";
+export * from "./charges.js";
+export * from "./balances.js";
+export * from "./reservationsSummaries.js";
+export * from "./reservationsDetails.js";
+export * from "./reservationRecommendations.js";
+export * from "./reservationRecommendationDetails.js";
+export * from "./reservationTransactions.js";
+export * from "./priceSheet.js";
+export * from "./operations.js";
+export * from "./aggregatedCost.js";
+export * from "./eventsOperations.js";
+export * from "./lotsOperations.js";
+export * from "./credits.js";

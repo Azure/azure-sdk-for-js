@@ -8,8 +8,8 @@
 
 import {
   OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
-  OutboundNetworkDependenciesEndpointsListByServiceResponse
-} from "../models";
+  OutboundNetworkDependenciesEndpointsListByServiceResponse,
+} from "../models/index.js";
 
 /** Interface representing a OutboundNetworkDependenciesEndpoints. */
 export interface OutboundNetworkDependenciesEndpoints {
@@ -22,6 +22,6 @@ export interface OutboundNetworkDependenciesEndpoints {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams
+    options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
   ): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse>;
 }

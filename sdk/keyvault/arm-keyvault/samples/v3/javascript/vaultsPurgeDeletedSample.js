@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
  *
  * @summary Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/purgeDeletedVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/purgeDeletedVault.json
  */
 async function purgeADeletedVault() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function purgeADeletedVault() {
 }
 
 async function main() {
-  purgeADeletedVault();
+  await purgeADeletedVault();
 }
 
 main().catch(console.error);

@@ -11,14 +11,14 @@
  */
 
 import type { AnalyzeBatchAction } from "@azure/ai-language-text";
-import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
@@ -29,7 +29,7 @@ const documents = [
 export async function main(): Promise<void> {
   console.log("== Healthcare Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
   const actions: AnalyzeBatchAction[] = [
     {
       kind: "Healthcare",

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertThrowsAbortError,
   assertThrowsRestError,
@@ -22,7 +21,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label",
   };
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     testConfigSetting.key = recorder.variable(
       "readOnlyTests",
@@ -33,12 +32,12 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await client.setConfigurationSetting(testConfigSetting);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await deleteKeyCompletely([testConfigSetting.key], client);
     await recorder.stop();
   });
 
-  it("basic", async function () {
+  it("basic", async () => {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label,
@@ -71,10 +70,8 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-  it.skip("accepts  operation options", async function (ctx) {
+  it.skip("accepts operation options", async () => {
     // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-
-    if (isPlaybackMode()) ctx.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label,

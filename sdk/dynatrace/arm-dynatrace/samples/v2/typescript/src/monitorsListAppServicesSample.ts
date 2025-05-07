@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets list of App Services with Dynatrace PaaS OneAgent enabled
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets list of App Services with Dynatrace PaaS OneAgent enabled
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListAppServices_MaximumSet_Gen.json
  */
-async function monitorsListAppServicesMaximumSetGen() {
+async function monitorsListAppServicesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function monitorsListAppServicesMaximumSetGen() {
  * @summary Gets list of App Services with Dynatrace PaaS OneAgent enabled
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListAppServices_MinimumSet_Gen.json
  */
-async function monitorsListAppServicesMinimumSetGen() {
+async function monitorsListAppServicesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +62,7 @@ async function monitorsListAppServicesMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsListAppServicesMaximumSetGen();
   monitorsListAppServicesMinimumSetGen();
 }

@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { OperationOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { OperationOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   TagResourceContract,
   OperationListByTagsNextOptionalParams,
   OperationListByTagsOptionalParams,
   OperationListByTagsResponse,
-  OperationListByTagsNextResponse
-} from "../models";
+  OperationListByTagsNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OperationOperations operations. */
@@ -46,13 +46,13 @@ export class OperationOperationsImpl implements OperationOperations {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: OperationListByTagsOptionalParams
+    options?: OperationListByTagsOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract> {
     const iter = this.listByTagsPagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class OperationOperationsImpl implements OperationOperations {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class OperationOperationsImpl implements OperationOperations {
     serviceName: string,
     apiId: string,
     options?: OperationListByTagsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TagResourceContract[]> {
     let result: OperationListByTagsResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class OperationOperationsImpl implements OperationOperations {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class OperationOperationsImpl implements OperationOperations {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,13 +116,13 @@ export class OperationOperationsImpl implements OperationOperations {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: OperationListByTagsOptionalParams
+    options?: OperationListByTagsOptionalParams,
   ): AsyncIterableIterator<TagResourceContract> {
     for await (const page of this.listByTagsPagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class OperationOperationsImpl implements OperationOperations {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: OperationListByTagsOptionalParams
+    options?: OperationListByTagsOptionalParams,
   ): Promise<OperationListByTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByTagsOperationSpec
+      listByTagsOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class OperationOperationsImpl implements OperationOperations {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: OperationListByTagsNextOptionalParams
+    options?: OperationListByTagsNextOptionalParams,
   ): Promise<OperationListByTagsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByTagsNextOperationSpec
+      listByTagsNextOperationSpec,
     );
   }
 }
@@ -174,53 +174,52 @@ export class OperationOperationsImpl implements OperationOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagResourceCollection
+      bodyMapper: Mappers.TagResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.includeNotTaggedOperations
+    Parameters.includeNotTaggedOperations,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId
+    Parameters.serviceName,
+    Parameters.apiId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTagsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagResourceCollection
+      bodyMapper: Mappers.TagResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

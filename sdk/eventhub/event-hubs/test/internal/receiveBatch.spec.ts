@@ -13,24 +13,24 @@ import "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer, createReceiver } from "../utils/clients.js";
 
-describe("EventHubConsumerClient", function () {
+describe("EventHubConsumerClient", () => {
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
   let partitionIds: string[];
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
     partitionIds = await producerClient.getPartitionIds({});
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await producerClient.close();
     await consumerClient.close();
   });
 
-  describe("EventHubConsumer receiveBatch", function () {
-    it("should not lose messages on error", async function () {
+  describe("EventHubConsumer receiveBatch", () => {
+    it("should not lose messages on error", async () => {
       const partitionId = partitionIds[0];
       const { lastEnqueuedSequenceNumber } =
         await producerClient.getPartitionProperties(partitionId);
@@ -84,7 +84,7 @@ describe("EventHubConsumerClient", function () {
       events[0].body.should.equal(message.body, "Unexpected message received.");
     });
 
-    it("should not lose messages between retries", async function () {
+    it("should not lose messages between retries", async () => {
       const partitionId = partitionIds[0];
       const { lastEnqueuedSequenceNumber } =
         await producerClient.getPartitionProperties(partitionId);

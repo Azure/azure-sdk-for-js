@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./devices";
-export * from "./alerts";
-export * from "./bandwidthSchedules";
-export * from "./jobs";
-export * from "./nodes";
-export * from "./operationsStatus";
-export * from "./orders";
-export * from "./roles";
-export * from "./shares";
-export * from "./storageAccountCredentials";
-export * from "./storageAccounts";
-export * from "./containers";
-export * from "./triggers";
-export * from "./users";
-export * from "./skus";
+export * from "./operations.js";
+export * from "./devices.js";
+export * from "./alerts.js";
+export * from "./bandwidthSchedules.js";
+export * from "./jobs.js";
+export * from "./nodes.js";
+export * from "./operationsStatus.js";
+export * from "./orders.js";
+export * from "./roles.js";
+export * from "./shares.js";
+export * from "./storageAccountCredentials.js";
+export * from "./storageAccounts.js";
+export * from "./containers.js";
+export * from "./triggers.js";
+export * from "./users.js";
+export * from "./skus.js";

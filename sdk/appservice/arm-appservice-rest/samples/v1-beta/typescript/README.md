@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [appserviceplanslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/typescript/src/appServicePlansListByResourceGroupSample.ts
 [appserviceplanslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/typescript/src/appServicePlansListSample.ts
 [appserviceplansupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/typescript/src/appServicePlansUpdateSample.ts
-[apiref]: https://docs.microsoft.com/rest/api/appservice
+[apiref]: https://learn.microsoft.com/rest/api/appservice
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

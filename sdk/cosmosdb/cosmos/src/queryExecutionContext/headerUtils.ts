@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common";
-import { QueryMetrics } from "../queryMetrics/queryMetrics";
+import { Constants } from "../common/index.js";
+import { QueryMetrics } from "../queryMetrics/queryMetrics.js";
 
 export interface CosmosHeaders {
   [key: string]: any;
@@ -85,5 +85,20 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
   if (Constants.HttpHeaders.CorrelatedActivityId in toBeMergedHeaders) {
     headers[Constants.HttpHeaders.CorrelatedActivityId] =
       toBeMergedHeaders[Constants.HttpHeaders.CorrelatedActivityId];
+  }
+}
+
+/** @hidden */
+export function decodeAndParseJSONString(inputString: string): string {
+  try {
+    if (!inputString || inputString === "") {
+      return "{}";
+    }
+    const decodedString = decodeURIComponent(inputString);
+    const parsedString = JSON.parse(decodedString);
+    const indexMetrics = JSON.stringify(parsedString);
+    return indexMetrics;
+  } catch (e) {
+    console.error("Error parsing JSON file:", e.message);
   }
 }

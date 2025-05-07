@@ -3,8 +3,8 @@
 
 import { createPipelineRequest, PipelineRequest } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { PerfTest, PerfOptionDictionary, drainStream } from "../src";
-import { getCachedHttpsAgent } from "../src/utils/utils";
+import { PerfTest, PerfOptionDictionary, drainStream } from "../src/index.js";
+import { getCachedHttpsAgent } from "../src/utils/utils.js";
 
 interface ServiceClientGetOptions {
   "first-run-extra-requests": number;
@@ -56,14 +56,12 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
       const extraRequests = this.parsedOptions["first-run-extra-requests"].value as number;
       for (let i = 0; i < extraRequests; i++) {
         response = await this.client.sendRequest(this.request);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         await drainStream(response.readableStreamBody!);
       }
       this.firstRun = false;
     }
 
     response = await this.client.sendRequest(this.request);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await drainStream(response.readableStreamBody!);
   }
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all DynatraceSingleSignOnResource by monitorName
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all DynatraceSingleSignOnResource by monitorName
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/SingleSignOn_List_MaximumSet_Gen.json
  */
-async function singleSignOnListMaximumSetGen() {
+async function singleSignOnListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function singleSignOnListMaximumSetGen() {
  * @summary List all DynatraceSingleSignOnResource by monitorName
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/SingleSignOn_List_MinimumSet_Gen.json
  */
-async function singleSignOnListMinimumSetGen() {
+async function singleSignOnListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +62,7 @@ async function singleSignOnListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   singleSignOnListMaximumSetGen();
   singleSignOnListMinimumSetGen();
 }

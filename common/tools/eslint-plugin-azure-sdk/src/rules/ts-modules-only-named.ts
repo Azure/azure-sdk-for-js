@@ -7,7 +7,7 @@
  */
 
 import { normalize, relative } from "node:path";
-import { createRule } from "../utils";
+import { createRule } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

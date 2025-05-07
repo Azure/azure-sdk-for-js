@@ -17,7 +17,7 @@ import {
 } from "../util/tenantIdUtils.js";
 
 import type { CertificateParts } from "../msal/types.js";
-import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredential.js";
+import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredentialModels.js";
 import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
@@ -60,6 +60,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -88,6 +89,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -119,6 +121,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -236,6 +239,7 @@ export class OnBehalfOfCredential implements TokenCredential {
       const parts = await this.parseCertificate({ certificatePath }, this.sendCertificateChain);
       return {
         thumbprint: parts.thumbprint,
+        thumbprintSha256: parts.thumbprintSha256,
         privateKey: parts.certificateContents,
         x5c: parts.x5c,
       };
@@ -269,14 +273,19 @@ export class OnBehalfOfCredential implements TokenCredential {
     if (publicKeys.length === 0) {
       throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
     }
-
     const thumbprint = createHash("sha1")
+      .update(Buffer.from(publicKeys[0], "base64"))
+      .digest("hex")
+      .toUpperCase();
+
+    const thumbprintSha256 = createHash("sha256")
       .update(Buffer.from(publicKeys[0], "base64"))
       .digest("hex")
       .toUpperCase();
 
     return {
       certificateContents,
+      thumbprintSha256,
       thumbprint,
       x5c,
     };

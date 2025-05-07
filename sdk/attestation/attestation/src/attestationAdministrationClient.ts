@@ -107,13 +107,12 @@ export class AttestationAdministrationClient {
    * Creates an instance of AttestationAdministrationClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:AttestationAdministrationClient_Constructor
    * import { AttestationAdministrationClient } from "@azure/attestation";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new AttestationAdministrationClient(
-   *    "<service endpoint>",
-   *    new TokenCredential("<>")
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
    * ```
    *
    * @param endpoint - The attestation instance endpoint, for example https://mytenant.attest.azure.net.

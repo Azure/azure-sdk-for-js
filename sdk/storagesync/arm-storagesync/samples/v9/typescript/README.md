@@ -225,7 +225,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workflowsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storagesync/arm-storagesync/samples/v9/typescript/src/workflowsGetSample.ts
 [workflowslistbystoragesyncservice]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storagesync/arm-storagesync/samples/v9/typescript/src/workflowsListByStorageSyncService.ts
 [workflowslistbystoragesyncservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storagesync/arm-storagesync/samples/v9/typescript/src/workflowsListByStorageSyncServiceSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storagesync?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storagesync?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagesync/arm-storagesync/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

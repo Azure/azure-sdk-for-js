@@ -16,8 +16,8 @@ import {
   GatewayCertificateAuthorityGetResponse,
   GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
   GatewayCertificateAuthorityCreateOrUpdateResponse,
-  GatewayCertificateAuthorityDeleteOptionalParams
-} from "../models";
+  GatewayCertificateAuthorityDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GatewayCertificateAuthority. */
@@ -34,7 +34,7 @@ export interface GatewayCertificateAuthority {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayCertificateAuthorityListByServiceOptionalParams
+    options?: GatewayCertificateAuthorityListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayCertificateAuthorityContract>;
   /**
    * Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
@@ -51,7 +51,7 @@ export interface GatewayCertificateAuthority {
     serviceName: string,
     gatewayId: string,
     certificateId: string,
-    options?: GatewayCertificateAuthorityGetEntityTagOptionalParams
+    options?: GatewayCertificateAuthorityGetEntityTagOptionalParams,
   ): Promise<GatewayCertificateAuthorityGetEntityTagResponse>;
   /**
    * Get assigned Gateway Certificate Authority details.
@@ -68,7 +68,7 @@ export interface GatewayCertificateAuthority {
     serviceName: string,
     gatewayId: string,
     certificateId: string,
-    options?: GatewayCertificateAuthorityGetOptionalParams
+    options?: GatewayCertificateAuthorityGetOptionalParams,
   ): Promise<GatewayCertificateAuthorityGetResponse>;
   /**
    * Assign Certificate entity to Gateway entity as Certificate Authority.
@@ -87,7 +87,7 @@ export interface GatewayCertificateAuthority {
     gatewayId: string,
     certificateId: string,
     parameters: GatewayCertificateAuthorityContract,
-    options?: GatewayCertificateAuthorityCreateOrUpdateOptionalParams
+    options?: GatewayCertificateAuthorityCreateOrUpdateOptionalParams,
   ): Promise<GatewayCertificateAuthorityCreateOrUpdateResponse>;
   /**
    * Remove relationship between Certificate Authority and Gateway entity.
@@ -107,6 +107,6 @@ export interface GatewayCertificateAuthority {
     gatewayId: string,
     certificateId: string,
     ifMatch: string,
-    options?: GatewayCertificateAuthorityDeleteOptionalParams
+    options?: GatewayCertificateAuthorityDeleteOptionalParams,
   ): Promise<void>;
 }

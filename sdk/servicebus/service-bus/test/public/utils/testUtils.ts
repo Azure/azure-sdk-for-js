@@ -3,7 +3,7 @@
 
 import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
 import { delay } from "../../../src/index.js";
-import { assert } from "./chai.js";
+import { assert, assertAggregateError } from "./chai.js";
 
 export class TestMessage {
   static sessionId: string = "my-session";
@@ -190,6 +190,13 @@ export enum EntityNames {
   MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2",
 }
 
+interface ErrorShape {
+  message: string;
+  code?: string;
+  name: string;
+  retryable?: boolean;
+}
+
 /**
  * Asserts that `fn` throws an error and assert.deepEqual compares all fields common
  * between `expectedErr` and `err`.
@@ -200,7 +207,7 @@ export enum EntityNames {
  */
 export function assertThrows<T>(
   fn: () => Promise<T>,
-  expectedErr: Record<string, any>,
+  expectedErr: ErrorShape | Array<ErrorShape>,
   assertMessage?: string,
 ): Promise<Error> {
   const testShouldHaveThrownError = new Error(
@@ -218,6 +225,17 @@ export function assertThrows<T>(
       }
 
       const comparableObj: Record<string, any> = {};
+      if (Array.isArray(expectedErr)) {
+        assertAggregateError(err);
+        assert.equal(err.errors.length, expectedErr.length, "Unexpected number of errors thrown");
+        expectedErr.forEach((expectedErrItem, index) => {
+          for (const k in expectedErrItem) {
+            comparableObj[k] = err.errors[index][k];
+          }
+          assert.deepEqual(comparableObj, expectedErrItem);
+        });
+        return err;
+      }
 
       for (const k in expectedErr) {
         comparableObj[k] = err[k];

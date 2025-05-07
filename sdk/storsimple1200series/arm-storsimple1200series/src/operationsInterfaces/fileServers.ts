@@ -22,7 +22,7 @@ import {
   FileServersCreateOrUpdateResponse,
   FileServersDeleteOptionalParams,
   FileServersBackupNowOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FileServers. */

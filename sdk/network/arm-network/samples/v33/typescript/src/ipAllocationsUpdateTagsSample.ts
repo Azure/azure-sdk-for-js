@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { TagsObject, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a IpAllocation tags.
  *
  * @summary Updates a IpAllocation tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/IpAllocationUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/IpAllocationUpdateTags.json
  */
-async function updateVirtualNetworkTags() {
+async function updateVirtualNetworkTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const ipAllocationName = "test-ipallocation";
@@ -35,7 +33,7 @@ async function updateVirtualNetworkTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateVirtualNetworkTags();
 }
 

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets an image.
  *
  * @summary Gets an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/imageExamples/Image_Get.json
  */
 async function getInformationAboutAVirtualMachineImage() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -29,7 +29,7 @@ async function getInformationAboutAVirtualMachineImage() {
 }
 
 async function main() {
-  getInformationAboutAVirtualMachineImage();
+  await getInformationAboutAVirtualMachineImage();
 }
 
 main().catch(console.error);

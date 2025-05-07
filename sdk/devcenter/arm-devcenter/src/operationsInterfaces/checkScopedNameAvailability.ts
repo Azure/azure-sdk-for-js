@@ -10,7 +10,7 @@ import {
   CheckScopedNameAvailabilityRequest,
   CheckScopedNameAvailabilityExecuteOptionalParams,
   CheckScopedNameAvailabilityExecuteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CheckScopedNameAvailability. */
 export interface CheckScopedNameAvailability {

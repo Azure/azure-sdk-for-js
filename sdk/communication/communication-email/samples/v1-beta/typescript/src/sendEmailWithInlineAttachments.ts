@@ -5,19 +5,20 @@
  * @summary Sends an email with an inline image attachment
  */
 
-import { EmailClient, EmailMessage } from "@azure/communication-email";
+import type { EmailMessage } from "@azure/communication-email";
+import { EmailClient } from "@azure/communication-email";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+const endpoint = process.env["COMMUNICATION_ENDPOINT"] || "";
 const senderAddress = process.env["SENDER_ADDRESS"] || "";
 const recipientAddress = process.env["RECIPIENT_ADDRESS"] || "";
 
 const sendEmailWithAttachments = async (): Promise<void> => {
   // Create the Email Client
-  const emailClient: EmailClient = new EmailClient(connectionString);
+  const emailClient: EmailClient = new EmailClient(endpoint, new DefaultAzureCredential());
 
   // Create the Email Message to be sent
   const message: EmailMessage = {
@@ -25,7 +26,7 @@ const sendEmailWithAttachments = async (): Promise<void> => {
     content: {
       subject: "This is the subject",
       plainText: "This is the body",
-      html: "<html><h1>This is the body<img src=\"cid:inline_image\" /></h1></html>",
+      html: '<html>This is the body<br /><img src="cid:inline_image" /></html>',
     },
     recipients: {
       to: [{ address: recipientAddress, displayName: "Customer Name" }],
@@ -35,7 +36,7 @@ const sendEmailWithAttachments = async (): Promise<void> => {
         name: "myinlineimage.jpg",
         contentType: "image/jpeg",
         contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
-        contentId: "inline_image"
+        contentId: "inline_image",
       },
     ],
   };

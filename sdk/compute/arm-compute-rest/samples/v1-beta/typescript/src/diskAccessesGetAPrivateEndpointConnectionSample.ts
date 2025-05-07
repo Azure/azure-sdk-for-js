@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  DiskAccessesGetAPrivateEndpointConnectionParameters
+  DiskAccessesGetAPrivateEndpointConnectionParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a private endpoint connection under a disk access resource.
@@ -25,7 +20,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   const diskAccessName = "myDiskAccess";
   const privateEndpointConnectionName = "myPrivateEndpointConnection";
   const options: DiskAccessesGetAPrivateEndpointConnectionParameters = {
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const result = await client
     .path(
@@ -33,12 +28,10 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
       subscriptionId,
       resourceGroupName,
       diskAccessName,
-      privateEndpointConnectionName
+      privateEndpointConnectionName,
     )
     .get(options);
   console.log(result);
 }
 
-getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource().catch(
-  console.error
-);
+getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource().catch(console.error);

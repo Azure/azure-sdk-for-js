@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssVmPublicIpList.json
  */
-async function listVmssvmPublicIP() {
+async function listVmssvmPublicIP(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

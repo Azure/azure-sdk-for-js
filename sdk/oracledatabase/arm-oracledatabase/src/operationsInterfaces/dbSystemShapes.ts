@@ -12,7 +12,7 @@ import {
   DbSystemShapesListByLocationOptionalParams,
   DbSystemShapesGetOptionalParams,
   DbSystemShapesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DbSystemShapes. */

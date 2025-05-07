@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as os from "node:os";
-import * as child_process from "child_process";
+import { existsSync } from "node:fs";
+import { type as osType } from "node:os";
+import { spawn, spawnSync } from "node:child_process";
 import { diag } from "@opentelemetry/api";
+import process from "node:process";
 
 export class FileAccessControl {
-  private static ICACLS_PATH = `${process.env.systemdrive}/windows/system32/icacls.exe`;
-  private static POWERSHELL_PATH = `${process.env.systemdrive}/windows/system32/windowspowershell/v1.0/powershell.exe`;
+  private static ICACLS_PATH = `${process.env.SYSTEMDRIVE}/windows/system32/icacls.exe`;
+  private static POWERSHELL_PATH = `${process.env.SYSTEMDRIVE}/windows/system32/windowspowershell/v1.0/powershell.exe`;
   private static ACLED_DIRECTORIES: { [id: string]: boolean } = {};
   private static ACL_IDENTITY: string | null = null;
   private static OS_FILE_PROTECTION_CHECKED = false;
   public static OS_PROVIDES_FILE_PROTECTION = false;
-  public static USE_ICACLS = os.type() === "Windows_NT";
+  public static USE_ICACLS = osType() === "Windows_NT";
 
   // Check if file access control could be enabled
   public static checkFileProtection(): void {
@@ -29,9 +30,7 @@ export class FileAccessControl {
         // This should be async - but it's currently safer to have this synchronous
         // This guarantees we can immediately fail setDiskRetryMode if we need to
         try {
-          FileAccessControl.OS_PROVIDES_FILE_PROTECTION = fs.existsSync(
-            FileAccessControl.ICACLS_PATH,
-          );
+          FileAccessControl.OS_PROVIDES_FILE_PROTECTION = existsSync(FileAccessControl.ICACLS_PATH);
         } catch (e: any) {
           // Ignore error
         }
@@ -87,7 +86,7 @@ export class FileAccessControl {
 
   private static _runICACLS(args: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
-      const aclProc = child_process.spawn(FileAccessControl.ICACLS_PATH, args, <any>{
+      const aclProc = spawn(FileAccessControl.ICACLS_PATH, args, <any>{
         windowsHide: true,
       });
       aclProc.on("error", (e: Error) => reject(e));
@@ -105,8 +104,8 @@ export class FileAccessControl {
 
   private static _runICACLSSync(args: string[]): void {
     // Some very old versions of Node (< 0.11) don't have this
-    if (child_process.spawnSync) {
-      const aclProc = child_process.spawnSync(FileAccessControl.ICACLS_PATH, args, <any>{
+    if (spawnSync) {
+      const aclProc = spawnSync(FileAccessControl.ICACLS_PATH, args, <any>{
         windowsHide: true,
       });
       if (aclProc.error) {
@@ -126,7 +125,7 @@ export class FileAccessControl {
       if (FileAccessControl.ACL_IDENTITY) {
         resolve(FileAccessControl.ACL_IDENTITY);
       }
-      const psProc = child_process.spawn(
+      const psProc = spawn(
         FileAccessControl.POWERSHELL_PATH,
         ["-Command", "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"],
         <any>{
@@ -153,8 +152,8 @@ export class FileAccessControl {
       return FileAccessControl.ACL_IDENTITY;
     }
     // Some very old versions of Node (< 0.11) don't have this
-    if (child_process.spawnSync) {
-      const psProc = child_process.spawnSync(
+    if (spawnSync) {
+      const psProc = spawnSync(
         FileAccessControl.POWERSHELL_PATH,
         ["-Command", "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"],
         <any>{

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieves all the iSCSI disks in a device.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/IscsiDisksListByDevice.json
  */
-async function iscsiDisksListByDevice() {
+async function iscsiDisksListByDevice(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-0NZI14MDTF";
   const resourceGroupName = "ResourceGroupForSDKTest";

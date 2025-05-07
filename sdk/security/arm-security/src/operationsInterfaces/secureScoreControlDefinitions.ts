@@ -11,7 +11,7 @@ import {
   SecureScoreControlDefinitionItem,
   SecureScoreControlDefinitionsListOptionalParams,
   SecureScoreControlDefinitionsListBySubscriptionOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecureScoreControlDefinitions. */

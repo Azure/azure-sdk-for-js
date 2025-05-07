@@ -1,5 +1,11 @@
 import playwright, { test, expect, BrowserType } from "@playwright/test";
-import { getConnectOptions } from "@azure/microsoft-playwright-testing";
+import {
+  getConnectOptions,
+  PlaywrightServiceAdditionalOptions,
+  ServiceOS,
+  BrowserConnectOptions,
+} from "@azure/microsoft-playwright-testing";
+import { AzureCliCredential } from "@azure/identity";
 
 test("has title", async ({ browserName }) => {
   const { wsEndpoint, options } = await getConnectOptions();
@@ -18,8 +24,27 @@ test("has title", async ({ browserName }) => {
 });
 
 test("get started link", async ({ browserName }) => {
-  const { wsEndpoint, options } = await getConnectOptions();
-  const browser = await (playwright[browserName] as BrowserType).connect(wsEndpoint, options);
+  const azureCredential = new AzureCliCredential();
+  const os = ServiceOS.LINUX;
+
+  const playwrightServiceAdditionalOptions: PlaywrightServiceAdditionalOptions = {
+    os: os, // Operating system types supported by Microsoft Playwright Testing
+    runId: new Date().toISOString(), // Run id for the test run
+    timeout: 30000, // Maximum time in milliseconds to wait for the connection to be established
+    slowMo: 0, // Slows down Playwright operations by the specified amount of milliseconds
+    exposeNetwork: "<loopback>", // Exposes network available on the connecting client to the browser being connected to
+    useCloudHostedBrowsers: true, // Use cloud hosted browsers
+    credential: azureCredential, // Custom token credential for Entra ID authentication
+    runName: "Typescript V1 - Sample Run", // Run name for the test run
+  };
+
+  const browserConnectOptions: BrowserConnectOptions = await getConnectOptions(
+    playwrightServiceAdditionalOptions,
+  );
+  const browser = await (playwright[browserName] as BrowserType).connect(
+    browserConnectOptions.wsEndpoint,
+    browserConnectOptions.options,
+  );
   const context = await browser.newContext();
   const page = await context.newPage();
 

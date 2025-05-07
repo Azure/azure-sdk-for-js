@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FluxConfigOperationStatus } from "../operationsInterfaces";
+import { FluxConfigOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient.js";
 import {
   FluxConfigOperationStatusGetOptionalParams,
   FluxConfigOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing FluxConfigOperationStatus operations. */
 export class FluxConfigOperationStatusImpl

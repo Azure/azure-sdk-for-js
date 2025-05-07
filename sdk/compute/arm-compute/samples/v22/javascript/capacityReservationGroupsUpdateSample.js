@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  *
  * @summary The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
  */
 async function capacityReservationGroupUpdateMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -40,7 +40,7 @@ async function capacityReservationGroupUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  *
  * @summary The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
  */
 async function capacityReservationGroupUpdateMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -58,8 +58,8 @@ async function capacityReservationGroupUpdateMinimumSetGen() {
 }
 
 async function main() {
-  capacityReservationGroupUpdateMaximumSetGen();
-  capacityReservationGroupUpdateMinimumSetGen();
+  await capacityReservationGroupUpdateMaximumSetGen();
+  await capacityReservationGroupUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

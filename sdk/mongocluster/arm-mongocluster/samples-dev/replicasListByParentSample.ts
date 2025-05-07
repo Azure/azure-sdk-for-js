@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list all the replicas for the mongo cluster.
  * x-ms-original-file: 2024-07-01/MongoClusters_ReplicaList.json
  */
-async function listTheReplicasLinkedToAMongoClusterResource() {
+async function listTheReplicasLinkedToAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicas.listByParent("TestGroup", "myMongoCluster")) {
+  for await (const item of client.replicas.listByParent("TestGroup", "myMongoCluster")) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  listTheReplicasLinkedToAMongoClusterResource();
+async function main(): Promise<void> {
+  await listTheReplicasLinkedToAMongoClusterResource();
 }
 
 main().catch(console.error);

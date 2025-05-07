@@ -17,7 +17,7 @@ import {
   RoleAssignmentScheduleRequestsCancelOptionalParams,
   RoleAssignmentScheduleRequestsValidateOptionalParams,
   RoleAssignmentScheduleRequestsValidateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RoleAssignmentScheduleRequests. */

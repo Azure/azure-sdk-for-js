@@ -367,7 +367,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webhookgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/automation/arm-automation/samples/v11-beta/typescript/src/webhookGetSample.ts
 [webhooklistbyautomationaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/automation/arm-automation/samples/v11-beta/typescript/src/webhookListByAutomationAccountSample.ts
 [webhookupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/automation/arm-automation/samples/v11-beta/typescript/src/webhookUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-automation?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-automation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/automation/arm-automation/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { TenantAccess } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { TenantAccess } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   AccessInformationContract,
   TenantAccessListByServiceNextOptionalParams,
@@ -33,8 +33,8 @@ import {
   TenantAccessRegenerateSecondaryKeyOptionalParams,
   TenantAccessListSecretsOptionalParams,
   TenantAccessListSecretsResponse,
-  TenantAccessListByServiceNextResponse
-} from "../models";
+  TenantAccessListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TenantAccess operations. */
@@ -58,12 +58,12 @@ export class TenantAccessImpl implements TenantAccess {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantAccessListByServiceOptionalParams
+    options?: TenantAccessListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<AccessInformationContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class TenantAccessImpl implements TenantAccess {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     options?: TenantAccessListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessInformationContract[]> {
     let result: TenantAccessListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class TenantAccessImpl implements TenantAccess {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class TenantAccessImpl implements TenantAccess {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +122,12 @@ export class TenantAccessImpl implements TenantAccess {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantAccessListByServiceOptionalParams
+    options?: TenantAccessListByServiceOptionalParams,
   ): AsyncIterableIterator<AccessInformationContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +142,11 @@ export class TenantAccessImpl implements TenantAccess {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantAccessListByServiceOptionalParams
+    options?: TenantAccessListByServiceOptionalParams,
   ): Promise<TenantAccessListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGetEntityTagOptionalParams
+    options?: TenantAccessGetEntityTagOptionalParams,
   ): Promise<TenantAccessGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -180,11 +180,11 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGetOptionalParams
+    options?: TenantAccessGetOptionalParams,
   ): Promise<TenantAccessGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -204,7 +204,7 @@ export class TenantAccessImpl implements TenantAccess {
     accessName: AccessIdName,
     ifMatch: string,
     parameters: AccessInformationCreateParameters,
-    options?: TenantAccessCreateOptionalParams
+    options?: TenantAccessCreateOptionalParams,
   ): Promise<TenantAccessCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -213,9 +213,9 @@ export class TenantAccessImpl implements TenantAccess {
         accessName,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -235,7 +235,7 @@ export class TenantAccessImpl implements TenantAccess {
     accessName: AccessIdName,
     ifMatch: string,
     parameters: AccessInformationUpdateParameters,
-    options?: TenantAccessUpdateOptionalParams
+    options?: TenantAccessUpdateOptionalParams,
   ): Promise<TenantAccessUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -244,9 +244,9 @@ export class TenantAccessImpl implements TenantAccess {
         accessName,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -261,11 +261,11 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessRegeneratePrimaryKeyOptionalParams
+    options?: TenantAccessRegeneratePrimaryKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      regeneratePrimaryKeyOperationSpec
+      regeneratePrimaryKeyOperationSpec,
     );
   }
 
@@ -280,11 +280,11 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessRegenerateSecondaryKeyOptionalParams
+    options?: TenantAccessRegenerateSecondaryKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      regenerateSecondaryKeyOperationSpec
+      regenerateSecondaryKeyOperationSpec,
     );
   }
 
@@ -299,11 +299,11 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessListSecretsOptionalParams
+    options?: TenantAccessListSecretsOptionalParams,
   ): Promise<TenantAccessListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 
@@ -318,11 +318,11 @@ export class TenantAccessImpl implements TenantAccess {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: TenantAccessListByServiceNextOptionalParams
+    options?: TenantAccessListByServiceNextOptionalParams,
   ): Promise<TenantAccessListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -330,218 +330,210 @@ export class TenantAccessImpl implements TenantAccess {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessInformationCollection
+      bodyMapper: Mappers.AccessInformationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.TenantAccessGetEntityTagHeaders
+      headersMapper: Mappers.TenantAccessGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.AccessInformationContract,
-      headersMapper: Mappers.TenantAccessGetHeaders
+      headersMapper: Mappers.TenantAccessGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.AccessInformationContract,
-      headersMapper: Mappers.TenantAccessCreateHeaders
+      headersMapper: Mappers.TenantAccessCreateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters69,
+  requestBody: Parameters.parameters84,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.AccessInformationContract,
-      headersMapper: Mappers.TenantAccessUpdateHeaders
+      headersMapper: Mappers.TenantAccessUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters70,
+  requestBody: Parameters.parameters85,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const regeneratePrimaryKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regeneratePrimaryKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regeneratePrimaryKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateSecondaryKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regenerateSecondaryKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/regenerateSecondaryKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.AccessInformationSecretsContract,
-      headersMapper: Mappers.TenantAccessListSecretsHeaders
+      headersMapper: Mappers.TenantAccessListSecretsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessInformationCollection
+      bodyMapper: Mappers.AccessInformationCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

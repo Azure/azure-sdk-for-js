@@ -21,8 +21,8 @@ import {
   OpenIdConnectProviderUpdateResponse,
   OpenIdConnectProviderDeleteOptionalParams,
   OpenIdConnectProviderListSecretsOptionalParams,
-  OpenIdConnectProviderListSecretsResponse
-} from "../models";
+  OpenIdConnectProviderListSecretsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OpenIdConnectProvider. */
@@ -36,7 +36,7 @@ export interface OpenIdConnectProvider {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: OpenIdConnectProviderListByServiceOptionalParams
+    options?: OpenIdConnectProviderListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<OpenidConnectProviderContract>;
   /**
    * Gets the entity state (Etag) version of the openIdConnectProvider specified by its identifier.
@@ -49,7 +49,7 @@ export interface OpenIdConnectProvider {
     resourceGroupName: string,
     serviceName: string,
     opid: string,
-    options?: OpenIdConnectProviderGetEntityTagOptionalParams
+    options?: OpenIdConnectProviderGetEntityTagOptionalParams,
   ): Promise<OpenIdConnectProviderGetEntityTagResponse>;
   /**
    * Gets specific OpenID Connect Provider without secrets.
@@ -62,7 +62,7 @@ export interface OpenIdConnectProvider {
     resourceGroupName: string,
     serviceName: string,
     opid: string,
-    options?: OpenIdConnectProviderGetOptionalParams
+    options?: OpenIdConnectProviderGetOptionalParams,
   ): Promise<OpenIdConnectProviderGetResponse>;
   /**
    * Creates or updates the OpenID Connect Provider.
@@ -77,7 +77,7 @@ export interface OpenIdConnectProvider {
     serviceName: string,
     opid: string,
     parameters: OpenidConnectProviderContract,
-    options?: OpenIdConnectProviderCreateOrUpdateOptionalParams
+    options?: OpenIdConnectProviderCreateOrUpdateOptionalParams,
   ): Promise<OpenIdConnectProviderCreateOrUpdateResponse>;
   /**
    * Updates the specific OpenID Connect Provider.
@@ -95,7 +95,7 @@ export interface OpenIdConnectProvider {
     opid: string,
     ifMatch: string,
     parameters: OpenidConnectProviderUpdateContract,
-    options?: OpenIdConnectProviderUpdateOptionalParams
+    options?: OpenIdConnectProviderUpdateOptionalParams,
   ): Promise<OpenIdConnectProviderUpdateResponse>;
   /**
    * Deletes specific OpenID Connect Provider of the API Management service instance.
@@ -111,7 +111,7 @@ export interface OpenIdConnectProvider {
     serviceName: string,
     opid: string,
     ifMatch: string,
-    options?: OpenIdConnectProviderDeleteOptionalParams
+    options?: OpenIdConnectProviderDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the client secret details of the OpenID Connect Provider.
@@ -124,6 +124,6 @@ export interface OpenIdConnectProvider {
     resourceGroupName: string,
     serviceName: string,
     opid: string,
-    options?: OpenIdConnectProviderListSecretsOptionalParams
+    options?: OpenIdConnectProviderListSecretsOptionalParams,
   ): Promise<OpenIdConnectProviderListSecretsResponse>;
 }

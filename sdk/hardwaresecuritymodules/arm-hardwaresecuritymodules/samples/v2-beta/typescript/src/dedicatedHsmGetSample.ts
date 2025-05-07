@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified Azure dedicated HSM.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the specified Azure dedicated HSM.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_Get.json
  */
-async function getADedicatedHsm() {
+async function getADedicatedHsm(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function getADedicatedHsm() {
  * @summary Gets the specified Azure dedicated HSM.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_Get.json
  */
-async function getAPaymentHsm() {
+async function getAPaymentHsm(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +62,7 @@ async function getAPaymentHsm() {
  * @summary Gets the specified Azure dedicated HSM.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_Get_With_2018-10-31Preview_Version.json
  */
-async function getAPaymentHsmWith20181031PreviewApiVersion() {
+async function getAPaymentHsmWith20181031PreviewApiVersion(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -80,7 +78,7 @@ async function getAPaymentHsmWith20181031PreviewApiVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getADedicatedHsm();
   getAPaymentHsm();
   getAPaymentHsmWith20181031PreviewApiVersion();

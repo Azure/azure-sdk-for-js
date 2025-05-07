@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   UserContract,
   UserListByServiceOptionalParams,
@@ -21,12 +22,13 @@ import {
   UserUpdateOptionalParams,
   UserUpdateResponse,
   UserDeleteOptionalParams,
+  UserDeleteResponse,
   UserGenerateSsoUrlOptionalParams,
   UserGenerateSsoUrlResponse,
   UserTokenParameters,
   UserGetSharedAccessTokenOptionalParams,
-  UserGetSharedAccessTokenResponse
-} from "../models";
+  UserGetSharedAccessTokenResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a User. */
@@ -40,7 +42,7 @@ export interface User {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: UserListByServiceOptionalParams
+    options?: UserListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<UserContract>;
   /**
    * Gets the entity state (Etag) version of the user specified by its identifier.
@@ -53,7 +55,7 @@ export interface User {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGetEntityTagOptionalParams
+    options?: UserGetEntityTagOptionalParams,
   ): Promise<UserGetEntityTagResponse>;
   /**
    * Gets the details of the user specified by its identifier.
@@ -66,7 +68,7 @@ export interface User {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGetOptionalParams
+    options?: UserGetOptionalParams,
   ): Promise<UserGetResponse>;
   /**
    * Creates or Updates a user.
@@ -81,7 +83,7 @@ export interface User {
     serviceName: string,
     userId: string,
     parameters: UserCreateParameters,
-    options?: UserCreateOrUpdateOptionalParams
+    options?: UserCreateOrUpdateOptionalParams,
   ): Promise<UserCreateOrUpdateResponse>;
   /**
    * Updates the details of the user specified by its identifier.
@@ -99,7 +101,7 @@ export interface User {
     userId: string,
     ifMatch: string,
     parameters: UserUpdateParameters,
-    options?: UserUpdateOptionalParams
+    options?: UserUpdateOptionalParams,
   ): Promise<UserUpdateResponse>;
   /**
    * Deletes specific user.
@@ -110,13 +112,31 @@ export interface User {
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     serviceName: string,
     userId: string,
     ifMatch: string,
-    options?: UserDeleteOptionalParams
-  ): Promise<void>;
+    options?: UserDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>
+  >;
+  /**
+   * Deletes specific user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams,
+  ): Promise<UserDeleteResponse>;
   /**
    * Retrieves a redirection URL containing an authentication token for signing a given user into the
    * developer portal.
@@ -129,7 +149,7 @@ export interface User {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGenerateSsoUrlOptionalParams
+    options?: UserGenerateSsoUrlOptionalParams,
   ): Promise<UserGenerateSsoUrlResponse>;
   /**
    * Gets the Shared Access Authorization Token for the User.
@@ -144,6 +164,6 @@ export interface User {
     serviceName: string,
     userId: string,
     parameters: UserTokenParameters,
-    options?: UserGetSharedAccessTokenOptionalParams
+    options?: UserGetSharedAccessTokenOptionalParams,
   ): Promise<UserGetSharedAccessTokenResponse>;
 }

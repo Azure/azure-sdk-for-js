@@ -18,8 +18,8 @@ import {
   TenantConfigurationValidateOptionalParams,
   TenantConfigurationValidateResponse,
   TenantConfigurationGetSyncStateOptionalParams,
-  TenantConfigurationGetSyncStateResponse
-} from "../models";
+  TenantConfigurationGetSyncStateResponse,
+} from "../models/index.js";
 
 /** Interface representing a TenantConfiguration. */
 export interface TenantConfiguration {
@@ -37,7 +37,7 @@ export interface TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationDeployOptionalParams
+    options?: TenantConfigurationDeployOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TenantConfigurationDeployResponse>,
@@ -58,7 +58,7 @@ export interface TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationDeployOptionalParams
+    options?: TenantConfigurationDeployOptionalParams,
   ): Promise<TenantConfigurationDeployResponse>;
   /**
    * This operation creates a commit with the current configuration snapshot to the specified branch in
@@ -74,7 +74,7 @@ export interface TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: SaveConfigurationParameter,
-    options?: TenantConfigurationSaveOptionalParams
+    options?: TenantConfigurationSaveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TenantConfigurationSaveResponse>,
@@ -95,7 +95,7 @@ export interface TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: SaveConfigurationParameter,
-    options?: TenantConfigurationSaveOptionalParams
+    options?: TenantConfigurationSaveOptionalParams,
   ): Promise<TenantConfigurationSaveResponse>;
   /**
    * This operation validates the changes in the specified Git branch. This is a long running operation
@@ -111,7 +111,7 @@ export interface TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationValidateOptionalParams
+    options?: TenantConfigurationValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TenantConfigurationValidateResponse>,
@@ -132,7 +132,7 @@ export interface TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationValidateOptionalParams
+    options?: TenantConfigurationValidateOptionalParams,
   ): Promise<TenantConfigurationValidateResponse>;
   /**
    * Gets the status of the most recent synchronization between the configuration database and the Git
@@ -146,6 +146,6 @@ export interface TenantConfiguration {
     resourceGroupName: string,
     serviceName: string,
     configurationName: ConfigurationIdName,
-    options?: TenantConfigurationGetSyncStateOptionalParams
+    options?: TenantConfigurationGetSyncStateOptionalParams,
   ): Promise<TenantConfigurationGetSyncStateResponse>;
 }

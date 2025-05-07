@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all data collection endpoints in the specified resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all data collection endpoints in the specified resource group.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionEndpointsListByResourceGroup.json
  */
-async function listDataCollectionEndpointsByResourceGroup() {
+async function listDataCollectionEndpointsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "703362b3-f278-4e4b-9179-c76eaf41ffc2";
@@ -37,7 +35,7 @@ async function listDataCollectionEndpointsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDataCollectionEndpointsByResourceGroup();
 }
 

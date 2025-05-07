@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.8 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,21 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.7 (2025-01-17)
+
+### Features Added
+ 
+- Warning message when MPT access token is close to expiry
+- Handling custom attachments in tests
+ 
+### Bugs Fixed
+ 
+- Attaching code snippet in error messages
+ 
+### Other Changes
+ 
+- Improved error messaging for reporting and scalable failures
 
 ## 1.0.0-beta.6 (2024-11-29)
 

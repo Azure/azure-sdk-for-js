@@ -33,7 +33,7 @@ import {
   GetPrivateDnsZoneSuffixImpl,
   OperationsImpl,
   MaintenancesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AzureADAdministrators,
   Backups,
@@ -58,8 +58,8 @@ import {
   GetPrivateDnsZoneSuffix,
   Operations,
   Maintenances,
-} from "./operationsInterfaces";
-import { MySQLManagementFlexibleServerClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MySQLManagementFlexibleServerClientOptionalParams } from "./models/index.js";
 
 export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;

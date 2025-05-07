@@ -20,7 +20,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Eventhub as EventhubMapper,
   ConsumerGroup as ConsumerGroupMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

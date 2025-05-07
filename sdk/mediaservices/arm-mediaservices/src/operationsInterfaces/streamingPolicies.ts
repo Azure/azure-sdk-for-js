@@ -15,7 +15,7 @@ import {
   StreamingPoliciesCreateOptionalParams,
   StreamingPoliciesCreateResponse,
   StreamingPoliciesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StreamingPolicies. */

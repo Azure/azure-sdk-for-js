@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a database.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseDefaultEnclave.json
  */
-async function getsADatabaseConfiguredWithDefaultEnclaveType() {
+async function getsADatabaseConfiguredWithDefaultEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -47,7 +45,7 @@ async function getsADatabaseConfiguredWithDefaultEnclaveType() {
  * @summary Gets a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseVBSEnclave.json
  */
-async function getsADatabaseConfiguredWithVbsEnclaveType() {
+async function getsADatabaseConfiguredWithVbsEnclaveType(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -71,7 +69,7 @@ async function getsADatabaseConfiguredWithVbsEnclaveType() {
  * @summary Gets a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetDatabaseWithAvailabilityZone.json
  */
-async function getsADatabaseWithAvailabilityZoneSpecified() {
+async function getsADatabaseWithAvailabilityZoneSpecified(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -95,7 +93,7 @@ async function getsADatabaseWithAvailabilityZoneSpecified() {
  * @summary Gets a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabaseWithExpandEqualsKeys.json
  */
-async function getsADatabaseWithDatabaseLevelKeysExpanded() {
+async function getsADatabaseWithDatabaseLevelKeysExpanded(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -122,7 +120,7 @@ async function getsADatabaseWithDatabaseLevelKeysExpanded() {
  * @summary Gets a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetVCoreDatabase.json
  */
-async function getsADatabase() {
+async function getsADatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -140,7 +138,7 @@ async function getsADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsADatabaseConfiguredWithDefaultEnclaveType();
   getsADatabaseConfiguredWithVbsEnclaveType();
   getsADatabaseWithAvailabilityZoneSpecified();

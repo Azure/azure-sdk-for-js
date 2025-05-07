@@ -14,10 +14,10 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl } from "./operations";
-import { Operations } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { OperationsImpl } from "./operations/index.js";
+import { Operations } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ResourceGraphClientOptionalParams,
   QueryRequest,
@@ -26,7 +26,7 @@ import {
   ResourcesHistoryRequest,
   ResourcesHistoryOptionalParams,
   ResourcesHistoryResponse
-} from "./models";
+} from "./models/index.js";
 
 export class ResourceGraphClient extends coreClient.ServiceClient {
   $host: string;

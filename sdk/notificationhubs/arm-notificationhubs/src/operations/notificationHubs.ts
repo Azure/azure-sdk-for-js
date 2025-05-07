@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { NotificationHubs } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { NotificationHubs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { NotificationHubsManagementClient } from "../notificationHubsManagementClient.js";
+import type {
   NotificationHubResource,
   NotificationHubsListNextOptionalParams,
   NotificationHubsListOptionalParams,
@@ -49,7 +49,7 @@ import {
   NotificationHubsGetPnsCredentialsResponse,
   NotificationHubsListNextResponse,
   NotificationHubsListAuthorizationRulesNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NotificationHubs operations. */
@@ -87,12 +87,7 @@ export class NotificationHubsImpl implements NotificationHubs {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -107,20 +102,15 @@ export class NotificationHubsImpl implements NotificationHubs {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, namespaceName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, namespaceName, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -131,11 +121,7 @@ export class NotificationHubsImpl implements NotificationHubs {
     namespaceName: string,
     options?: NotificationHubsListOptionalParams,
   ): AsyncIterableIterator<NotificationHubResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      namespaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, namespaceName, options)) {
       yield* page;
     }
   }
@@ -197,7 +183,7 @@ export class NotificationHubsImpl implements NotificationHubs {
         notificationHubName,
         options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -211,7 +197,7 @@ export class NotificationHubsImpl implements NotificationHubs {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -608,30 +594,29 @@ export class NotificationHubsImpl implements NotificationHubs {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkNotificationHubAvailabilityOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/checkNotificationHubAvailability",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CheckAvailabilityResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const checkNotificationHubAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/checkNotificationHubAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckAvailabilityResult,
     },
-    requestBody: Parameters.parameters,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.namespaceName,
-    ],
-    headerParameters: [Parameters.contentType, Parameters.accept],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   httpMethod: "GET",
@@ -737,11 +722,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

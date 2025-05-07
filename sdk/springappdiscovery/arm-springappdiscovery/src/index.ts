@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { SpringAppDiscoveryManagementClient } from "./springAppDiscoveryManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { SpringAppDiscoveryManagementClient } from "./springAppDiscoveryManagementClient.js";
+export * from "./operationsInterfaces/index.js";

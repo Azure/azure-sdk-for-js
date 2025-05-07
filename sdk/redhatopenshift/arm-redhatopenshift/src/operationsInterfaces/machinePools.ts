@@ -18,7 +18,7 @@ import {
   MachinePoolUpdate,
   MachinePoolsUpdateOptionalParams,
   MachinePoolsUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MachinePools. */

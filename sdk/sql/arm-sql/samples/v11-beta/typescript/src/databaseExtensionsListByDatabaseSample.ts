@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List database extension. This will return an empty list as it is not supported.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List database extension. This will return an empty list as it is not supported.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/ListDatabaseExtensions.json
  */
-async function listDatabaseExtensions() {
+async function listDatabaseExtensions(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "7b2515fe-f230-4017-8cf0-695163acab85";
@@ -42,7 +40,7 @@ async function listDatabaseExtensions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDatabaseExtensions();
 }
 

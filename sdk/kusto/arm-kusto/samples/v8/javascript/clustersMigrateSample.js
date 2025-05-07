@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Migrate data from a Kusto cluster to another cluster.
  *
  * @summary Migrate data from a Kusto cluster to another cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterMigrate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterMigrate.json
  */
 async function kustoClusterMigrate() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function kustoClusterMigrate() {
 }
 
 async function main() {
-  kustoClusterMigrate();
+  await kustoClusterMigrate();
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ import {
   SolutionUpdateOptionalParams,
   SolutionUpdateResponse,
   SolutionWarmUpOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Solution. */
 export interface Solution {

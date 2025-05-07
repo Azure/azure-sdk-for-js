@@ -13,9 +13,7 @@ import {
   CustomLocationsManagementClient
 } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource Group, Subscription and Custom Location name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource Group, Subscription and Custom Location name.
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesPatch.json
  */
-async function updateResourceSyncRule() {
+async function updateResourceSyncRule(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
@@ -47,7 +45,7 @@ async function updateResourceSyncRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateResourceSyncRule();
 }
 

@@ -20,10 +20,9 @@ import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 useIdentityPlugin(cachePersistencePlugin);
 
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const credential = new DeviceCodeCredential({
     // This property must be provided, with `enabled` set to true to enable
     // persistent token caching.

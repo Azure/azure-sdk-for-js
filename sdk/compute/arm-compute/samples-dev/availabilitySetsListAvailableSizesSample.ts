@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  *
  * @summary Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
  */
-async function availabilitySetListAvailableSizesMaximumSetGen() {
+async function availabilitySetListAvailableSizesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -29,7 +27,7 @@ async function availabilitySetListAvailableSizesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listAvailableSizes(
+  for await (const item of client.availabilitySets.listAvailableSizes(
     resourceGroupName,
     availabilitySetName,
   )) {
@@ -42,9 +40,9 @@ async function availabilitySetListAvailableSizesMaximumSetGen() {
  * This sample demonstrates how to Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  *
  * @summary Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
  */
-async function availabilitySetListAvailableSizesMinimumSetGen() {
+async function availabilitySetListAvailableSizesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -53,7 +51,7 @@ async function availabilitySetListAvailableSizesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listAvailableSizes(
+  for await (const item of client.availabilitySets.listAvailableSizes(
     resourceGroupName,
     availabilitySetName,
   )) {
@@ -62,9 +60,9 @@ async function availabilitySetListAvailableSizesMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
-  availabilitySetListAvailableSizesMaximumSetGen();
-  availabilitySetListAvailableSizesMinimumSetGen();
+async function main(): Promise<void> {
+  await availabilitySetListAvailableSizesMaximumSetGen();
+  await availabilitySetListAvailableSizesMinimumSetGen();
 }
 
 main().catch(console.error);

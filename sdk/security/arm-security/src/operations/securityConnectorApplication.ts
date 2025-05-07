@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SecurityConnectorApplication } from "../operationsInterfaces";
+import { SecurityConnectorApplication } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   SecurityConnectorApplicationGetOptionalParams,
   SecurityConnectorApplicationGetResponse,
@@ -18,7 +18,7 @@ import {
   SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   SecurityConnectorApplicationCreateOrUpdateResponse,
   SecurityConnectorApplicationDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SecurityConnectorApplication operations. */
 export class SecurityConnectorApplicationImpl

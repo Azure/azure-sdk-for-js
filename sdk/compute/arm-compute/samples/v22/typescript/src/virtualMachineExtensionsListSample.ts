@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
  *
  * @summary The operation to get all extensions of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionListMaximumSetGen() {
+async function virtualMachineExtensionListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -45,9 +43,9 @@ async function virtualMachineExtensionListMaximumSetGen() {
  * This sample demonstrates how to The operation to get all extensions of a Virtual Machine.
  *
  * @summary The operation to get all extensions of a Virtual Machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachineExtension_List_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionListMinimumSetGen() {
+async function virtualMachineExtensionListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -62,9 +60,9 @@ async function virtualMachineExtensionListMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionListMaximumSetGen();
-  virtualMachineExtensionListMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineExtensionListMaximumSetGen();
+  await virtualMachineExtensionListMinimumSetGen();
 }
 
 main().catch(console.error);

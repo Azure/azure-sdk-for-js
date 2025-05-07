@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DismissAlertPayload,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { DismissAlertPayload } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Dismisses the specified alert
@@ -23,7 +17,7 @@ dotenv.config();
  * @summary Dismisses the specified alert
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DismissResourceGroupAlerts.json
  */
-async function patchResourceGroupAlerts() {
+async function patchResourceGroupAlerts(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const alertId = "22222222-2222-2222-2222-222222222222";
@@ -40,7 +34,7 @@ async function patchResourceGroupAlerts() {
  * @summary Dismisses the specified alert
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DismissSubscriptionAlerts.json
  */
-async function patchSubscriptionAlerts() {
+async function patchSubscriptionAlerts(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const alertId = "22222222-2222-2222-2222-222222222222";
   const parameters: DismissAlertPayload = { status: "Dismissed" };
@@ -50,9 +44,9 @@ async function patchSubscriptionAlerts() {
   console.log(result);
 }
 
-async function main() {
-  patchResourceGroupAlerts();
-  patchSubscriptionAlerts();
+async function main(): Promise<void> {
+  await patchResourceGroupAlerts();
+  await patchSubscriptionAlerts();
 }
 
 main().catch(console.error);

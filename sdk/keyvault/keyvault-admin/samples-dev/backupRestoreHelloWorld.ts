@@ -7,14 +7,12 @@
 
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
   const url = process.env["AZURE_MANAGEDHSM_URI"];
@@ -43,7 +41,7 @@ export async function main(): Promise<void> {
 /**
  * Helper function to construct a valid blob container URI from its parts.
  */
-function buildBlobContainerUri() {
+function buildBlobContainerUri(): string {
   const blobStorageUri = process.env["BLOB_STORAGE_URI"];
   if (!blobStorageUri) {
     throw new Error("Missing environment variable BLOB_STORAGE_URI.");

@@ -3,16 +3,19 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./generated/logger.js";
+import { logger } from "./logger.js";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { TextTranslationClient } from "./generated/clientDefinitions.js";
-import type { TranslatorCredential, TranslatorTokenCredential } from "./authentication.js";
+import type { TextTranslationClient } from "./clientDefinitions.js";
+import type {
+  TranslatorCredential,
+  TranslatorTokenCredential,
+} from "./authenticationCustomized.js";
 import {
   DEFAULT_SCOPE,
   TranslatorAuthenticationPolicy,
   TranslatorAzureKeyAuthenticationPolicy,
   TranslatorTokenCredentialAuthenticationPolicy,
-} from "./authentication.js";
+} from "./authenticationCustomized.js";
 import type { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
@@ -136,7 +139,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.1`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

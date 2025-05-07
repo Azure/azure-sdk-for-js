@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RateCardGetOptionalParams, RateCardGetResponse } from "../models";
+import { RateCardGetOptionalParams, RateCardGetResponse } from "../models/index.js";
 
 /** Interface representing a RateCard. */
 export interface RateCard {

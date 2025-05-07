@@ -2,11 +2,12 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default azsdkEslint.config([
   {
-    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.test.json"],
-      },
+    // shebang needs to come first
+    files: ["src/index.ts"],
+    rules: {
+      "n/no-process-exit": "off",
+      "n/hashbang": "off",
+      "@azure/azure-sdk/github-source-headers": "off",
     },
   },
 ]);

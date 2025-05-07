@@ -30,7 +30,7 @@ import {
   ProxyArtifactImpl,
   SitesImpl,
   SiteNetworkServicesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   ConfigurationGroupSchemas,
   ConfigurationGroupValues,
@@ -47,8 +47,8 @@ import {
   ProxyArtifact,
   Sites,
   SiteNetworkServices
-} from "./operationsInterfaces";
-import { HybridNetworkManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HybridNetworkManagementClientOptionalParams } from "./models/index.js";
 
 export class HybridNetworkManagementClient extends coreClient.ServiceClient {
   $host: string;

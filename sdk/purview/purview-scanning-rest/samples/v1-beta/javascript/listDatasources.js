@@ -8,9 +8,9 @@
  */
 
 const PurviewScanning = require("@azure-rest/purview-scanning").default,
-  { paginate } = require("@azure-rest/purview-scanning");
+  { paginate, isUnexpected } = require("@azure-rest/purview-scanning");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["ENDPOINT"] || "";
 
@@ -19,7 +19,7 @@ async function main() {
   const client = PurviewScanning(endpoint, new DefaultAzureCredential());
 
   const dataSources = await client.path("/datasources").get();
-  if (dataSources.status !== "200") {
+  if (isUnexpected(dataSources)) {
     throw dataSources.body.error;
   }
   const iter = paginate(client, dataSources);

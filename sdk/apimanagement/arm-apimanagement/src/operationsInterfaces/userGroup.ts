@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GroupContract, UserGroupListOptionalParams } from "../models";
+import { GroupContract, UserGroupListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UserGroup. */
@@ -23,6 +23,6 @@ export interface UserGroup {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGroupListOptionalParams
+    options?: UserGroupListOptionalParams,
   ): PagedAsyncIterableIterator<GroupContract>;
 }

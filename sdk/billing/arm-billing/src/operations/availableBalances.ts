@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AvailableBalances } from "../operationsInterfaces";
+import { AvailableBalances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { BillingManagementClient } from "../billingManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { BillingManagementClient } from "../billingManagementClient.js";
 import {
   AvailableBalancesGetByBillingAccountOptionalParams,
   AvailableBalancesGetByBillingAccountResponse,
   AvailableBalancesGetByBillingProfileOptionalParams,
   AvailableBalancesGetByBillingProfileResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing AvailableBalances operations. */
 export class AvailableBalancesImpl implements AvailableBalances {

@@ -105,7 +105,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcehealth/arm-resourcehealth/samples/v4/typescript/src/operationsListSample.ts
 [securityadvisoryimpactedresourceslistbysubscriptionidandeventidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcehealth/arm-resourcehealth/samples/v4/typescript/src/securityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdSample.ts
 [securityadvisoryimpactedresourceslistbytenantidandeventidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcehealth/arm-resourcehealth/samples/v4/typescript/src/securityAdvisoryImpactedResourcesListByTenantIdAndEventIdSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourcehealth?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcehealth?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcehealth/arm-resourcehealth/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

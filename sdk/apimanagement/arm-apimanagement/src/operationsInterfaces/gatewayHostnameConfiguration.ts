@@ -16,8 +16,8 @@ import {
   GatewayHostnameConfigurationGetResponse,
   GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
   GatewayHostnameConfigurationCreateOrUpdateResponse,
-  GatewayHostnameConfigurationDeleteOptionalParams
-} from "../models";
+  GatewayHostnameConfigurationDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GatewayHostnameConfiguration. */
@@ -34,7 +34,7 @@ export interface GatewayHostnameConfiguration {
     resourceGroupName: string,
     serviceName: string,
     gatewayId: string,
-    options?: GatewayHostnameConfigurationListByServiceOptionalParams
+    options?: GatewayHostnameConfigurationListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayHostnameConfigurationContract>;
   /**
    * Checks that hostname configuration entity specified by identifier exists for specified Gateway
@@ -52,7 +52,7 @@ export interface GatewayHostnameConfiguration {
     serviceName: string,
     gatewayId: string,
     hcId: string,
-    options?: GatewayHostnameConfigurationGetEntityTagOptionalParams
+    options?: GatewayHostnameConfigurationGetEntityTagOptionalParams,
   ): Promise<GatewayHostnameConfigurationGetEntityTagResponse>;
   /**
    * Get details of a hostname configuration
@@ -69,7 +69,7 @@ export interface GatewayHostnameConfiguration {
     serviceName: string,
     gatewayId: string,
     hcId: string,
-    options?: GatewayHostnameConfigurationGetOptionalParams
+    options?: GatewayHostnameConfigurationGetOptionalParams,
   ): Promise<GatewayHostnameConfigurationGetResponse>;
   /**
    * Creates of updates hostname configuration for a Gateway.
@@ -88,7 +88,7 @@ export interface GatewayHostnameConfiguration {
     gatewayId: string,
     hcId: string,
     parameters: GatewayHostnameConfigurationContract,
-    options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams
+    options?: GatewayHostnameConfigurationCreateOrUpdateOptionalParams,
   ): Promise<GatewayHostnameConfigurationCreateOrUpdateResponse>;
   /**
    * Deletes the specified hostname configuration from the specified Gateway.
@@ -108,6 +108,6 @@ export interface GatewayHostnameConfiguration {
     gatewayId: string,
     hcId: string,
     ifMatch: string,
-    options?: GatewayHostnameConfigurationDeleteOptionalParams
+    options?: GatewayHostnameConfigurationDeleteOptionalParams,
   ): Promise<void>;
 }

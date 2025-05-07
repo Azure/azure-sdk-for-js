@@ -19,8 +19,8 @@ import {
   OperationUpdateContract,
   ApiOperationUpdateOptionalParams,
   ApiOperationUpdateResponse,
-  ApiOperationDeleteOptionalParams
-} from "../models";
+  ApiOperationDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiOperation. */
@@ -37,7 +37,7 @@ export interface ApiOperation {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiOperationListByApiOptionalParams
+    options?: ApiOperationListByApiOptionalParams,
   ): PagedAsyncIterableIterator<OperationContract>;
   /**
    * Gets the entity state (Etag) version of the API operation specified by its identifier.
@@ -54,7 +54,7 @@ export interface ApiOperation {
     serviceName: string,
     apiId: string,
     operationId: string,
-    options?: ApiOperationGetEntityTagOptionalParams
+    options?: ApiOperationGetEntityTagOptionalParams,
   ): Promise<ApiOperationGetEntityTagResponse>;
   /**
    * Gets the details of the API Operation specified by its identifier.
@@ -71,7 +71,7 @@ export interface ApiOperation {
     serviceName: string,
     apiId: string,
     operationId: string,
-    options?: ApiOperationGetOptionalParams
+    options?: ApiOperationGetOptionalParams,
   ): Promise<ApiOperationGetResponse>;
   /**
    * Creates a new operation in the API or updates an existing one.
@@ -90,7 +90,7 @@ export interface ApiOperation {
     apiId: string,
     operationId: string,
     parameters: OperationContract,
-    options?: ApiOperationCreateOrUpdateOptionalParams
+    options?: ApiOperationCreateOrUpdateOptionalParams,
   ): Promise<ApiOperationCreateOrUpdateResponse>;
   /**
    * Updates the details of the operation in the API specified by its identifier.
@@ -112,7 +112,7 @@ export interface ApiOperation {
     operationId: string,
     ifMatch: string,
     parameters: OperationUpdateContract,
-    options?: ApiOperationUpdateOptionalParams
+    options?: ApiOperationUpdateOptionalParams,
   ): Promise<ApiOperationUpdateResponse>;
   /**
    * Deletes the specified operation in the API.
@@ -132,6 +132,6 @@ export interface ApiOperation {
     apiId: string,
     operationId: string,
     ifMatch: string,
-    options?: ApiOperationDeleteOptionalParams
+    options?: ApiOperationDeleteOptionalParams,
   ): Promise<void>;
 }

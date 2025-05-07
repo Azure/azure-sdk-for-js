@@ -17,8 +17,8 @@ import {
   ReportsListBySubscriptionOptionalParams,
   ReportsListByTimeOptionalParams,
   RequestReportRecordContract,
-  ReportsListByRequestOptionalParams
-} from "../models";
+  ReportsListByRequestOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Reports. */
@@ -34,7 +34,7 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByApiOptionalParams
+    options?: ReportsListByApiOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by User.
@@ -59,7 +59,7 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByUserOptionalParams
+    options?: ReportsListByUserOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by API Operations.
@@ -83,7 +83,7 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByOperationOptionalParams
+    options?: ReportsListByOperationOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by Product.
@@ -107,7 +107,7 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByProductOptionalParams
+    options?: ReportsListByProductOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by geography.
@@ -131,7 +131,7 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByGeoOptionalParams
+    options?: ReportsListByGeoOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by subscription.
@@ -155,7 +155,7 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListBySubscriptionOptionalParams
+    options?: ReportsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by Time.
@@ -183,7 +183,7 @@ export interface Reports {
     serviceName: string,
     filter: string,
     interval: string,
-    options?: ReportsListByTimeOptionalParams
+    options?: ReportsListByTimeOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract>;
   /**
    * Lists report records by Request.
@@ -200,6 +200,6 @@ export interface Reports {
     resourceGroupName: string,
     serviceName: string,
     filter: string,
-    options?: ReportsListByRequestOptionalParams
+    options?: ReportsListByRequestOptionalParams,
   ): PagedAsyncIterableIterator<RequestReportRecordContract>;
 }

@@ -54,21 +54,33 @@ npm install @azure-rest/ai-translation-document
 You can create Translator resource following [Create a Translator resource][translator_resource_create].
 
 #### Setup Azure Blob Storage Account
-For more information about creating an Azure Blob Storage account see [here][azure_blob_storage_account]. For creating containers for your source and target files see [here][container]. Make sure to authorize your Translation resource storage access, more info [here][storage_container_authorization]. 
+
+For more information about creating an Azure Blob Storage account see [here][azure_blob_storage_account]. For creating containers for your source and target files see [here][container]. Make sure to authorize your Translation resource storage access, more info [here][storage_container_authorization].
 
 When "Allow Storage Account Key Access" is disabled on the storage account , Managed Identity is enabled on the Translator resource and it is assigned the role "Storage Blob Data Contributor" on the storage account, then you can use the container URLs directly and no SAS URIs will be need to be generated.
 
 ### Create a `DocumentTranslationClient` using an endpoint URL and API key `KeyCredential`
 
 Once you have the value for API key, create a credential
-```typescript
-const credentials = { key: apiKey ?? "" };
+
+```ts snippet:ReadmeSampleKeyCredential
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
 ```
 
 With the value of the `KeyCredential` you can create the `DocumentTranslationClient` using the `createClient` method of [documentTranslationClient_class]:
 
-```typescript
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleCreateClient
+import DocumentTranslationClient from "@azure-rest/ai-translation-document";
+
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 ```
 
 ## Examples
@@ -79,9 +91,20 @@ The following section provides several code snippets using the `client`, and cov
 
 Used to synchronously translate a single document. The method doesn't require an Azure Blob storage account.
 
-```typescript
-console.log("== Synchronous Document Translation ==");
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleSynchronousDocumentTranslation
+import DocumentTranslationClient, {
+  DocumentTranslateParameters,
+  isUnexpected,
+} from "@azure-rest/ai-translation-document";
+import { writeFileSync } from "node:fs";
+
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
+
 const options: DocumentTranslateParameters = {
   queryParameters: {
     targetLanguage: "hi",
@@ -99,229 +122,266 @@ const options: DocumentTranslateParameters = {
 
 const response = await client.path("/document:translate").post(options);
 if (isUnexpected(response)) {
-  throw response.body;
+  throw response.body.error;
 }
-console.log('Response code: ' + response.status + ', Response body: ' + response.body); 
+
+// Write the response to a file
+writeFileSync("test-output.txt", response.body);
 ```
 
 ### Batch Document Translation
+
 Used to execute an asynchronous batch translation request. The method requires an Azure Blob storage account with storage containers for your source and translated documents.
 
-```typescript
-console.log("== Batch Document Translation ==");
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleBatchDocumentTranslation
+import DocumentTranslationClient from "@azure-rest/ai-translation-document";
+import { BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
 
-const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-const sourceInput = createSourceInput(sourceUrl);
-const targetUrl = await createTargetContainer();
-const targetInput = createTargetInput(targetUrl, "fr");
-const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-//Start translation
-const batchRequests = {inputs: [batchRequest]};
+// Upload test documents to source container
+const testDocuments = [{ name: "Document1.txt", content: "First english test document" }];
+const sourceContainerName = "source-12345";
+const connectionString =
+  "DefaultEndpointsProtocol=httpsAccountName=your_account_name;AccountKey=your_account_key;EndpointSuffix=core.windows.net";
+const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+const sourceContainerClient = blobServiceClient.getContainerClient(sourceContainerName);
+await sourceContainerClient.createIfNotExists();
+for (const document of testDocuments) {
+  const blobClient = sourceContainerClient.getBlobClient(document.name);
+  const blockBlobClient = blobClient.getBlockBlobClient();
+  await blockBlobClient.upload(document.content, document.content.length);
+}
+
+// Create configuration for the source connection
+const sourceUrl = await sourceContainerClient.generateSasUrl({
+  permissions: ContainerSASPermissions.parse("rwl"),
+  expiresOn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+});
+const sourceInput = { sourceUrl };
+
+// Create target container
+const targetContainerName = "target-12345";
+const targetContainerClient = blobServiceClient.getContainerClient(targetContainerName);
+await targetContainerClient.createIfNotExists();
+
+// Create configuration for the target connection
+const targetUrl = await targetContainerClient.generateSasUrl({
+  permissions: ContainerSASPermissions.parse("rwl"),
+  expiresOn: new Date(Date.now() + 24 * 60 * 60 * 1000),
+});
+const targetInput = { targetUrl, language: "fr" };
+
+// Start translation
+const batchRequest = { source: sourceInput, targets: [targetInput] };
+const batchRequests = { inputs: [batchRequest] };
 const poller = await client.path("/document/batches").post({
-body: batchRequests
-}); 
-const id = getTranslationOperationID(poller.headers["operation-location"]);
-console.log('Translation started and the operationID is: ' + id);
+  body: batchRequests,
+});
+
+const operationId =
+  new URL(poller.headers["operation-location"]).pathname.split("/").filter(Boolean).pop() || "";
+console.log(`Translation started and the operationID is: ${operationId}`);
 ```
 
 ### Cancel Document Translation
+
 This cancels a translation job that is currently processing or queued (pending) as indicated in the request by the id query parameter. An operation isn't canceled if already completed, failed, or still canceling. In those instances, a bad request is returned. Completed translations can't be canceled and are charged.
 
-```typescript
-console.log("== Cancel Translation ==");
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleCancelDocumentTranslation
+import DocumentTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-document";
 
-const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-const sourceInput = createSourceInput(sourceUrl);
-const targetUrl = await createTargetContainer();
-const targetInput = createTargetInput(targetUrl, "fr");
-const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-//Start translation
-const batchRequests = {inputs: [batchRequest]};
-const poller = await client.path("/document/batches").post({
-body: batchRequests
-}); 
-const id = getTranslationOperationID(poller.headers["operation-location"]);
-
-//Cancel translation
+const id = "<operation-id-from-batch-translation>";
 await client.path("/document/batches/{id}", id).delete();
 
-//get translation status and verify the job is cancelled, cancelling or notStarted
+// Get translation status and verify the job is cancelled, cancelling or notStarted
 const response = await client.path("/document/batches/{id}", id).get();
 if (isUnexpected(response)) {
-  throw response.body;
+  throw response.body.error;
 }
-console.log("The status after cancelling the batch operation is:" + response.body.status);
 ```
 
 ### Get Documents Status
+
 Used to request the status for all documents in a translation job.
 
-```typescript
-console.log("== Gets Documents Status ==");
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleGetDocumentsStatus
+import DocumentTranslationClient, {
+  isUnexpected,
+  paginate,
+} from "@azure-rest/ai-translation-document";
 
-const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-const sourceInput = createSourceInput(sourceUrl);
-const targetUrl = await createTargetContainer();
-const targetInput = createTargetInput(targetUrl, "fr");
-const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-//Start translation
-const batchRequests = {inputs: [batchRequest]};
-const response = await StartTranslationAndWait(client, batchRequests); 
-
-const operationLocationUrl = response.headers["operation-location"]
-const operationId = getTranslationOperationID(operationLocationUrl);
-
-//get Documents Status
-const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
+// Get Documents Status
+const id = "<operation-id-from-batch-translation>";
+const documentResponse = await client.path("/document/batches/{id}/documents", id).get();
 if (isUnexpected(documentResponse)) {
-  throw documentResponse.body;
+  throw documentResponse.body.error;
 }
 
-const responseBody = documentResponse.body;
-for (const documentStatus of responseBody.value) {
-    console.log("Document Status is: " + documentStatus.status);
-    console.log("Characters charged is: " + documentStatus.characterCharged);
-    break;          
+const documentStatus = paginate(client, documentResponse);
+for await (const document of documentStatus) {
+  console.log(`Document ${document.id} status: ${document.status}`);
 }
 ```
 
 ### Get Document Status
+
 This returns the status for a specific document in a job as indicated in the request by the id and documentId query parameters.
 
-```typescript
-console.log("== Get Document Status ==");
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleGetDocumentStatus
+import DocumentTranslationClient, {
+  isUnexpected,
+  paginate,
+} from "@azure-rest/ai-translation-document";
 
-const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-const sourceInput = createSourceInput(sourceUrl);
-const targetUrl = await createTargetContainer();
-const targetInput = createTargetInput(targetUrl, "fr");
-const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-//Start translation
-const batchRequests = {inputs: [batchRequest]};
-const response = await StartTranslationAndWait(client, batchRequests); 
-const operationLocationUrl = response.headers["operation-location"]
-const operationId = getTranslationOperationID(operationLocationUrl);
-
-//get Documents Status
-const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
+// Get Documents Status
+const id = "<operation-id-from-batch-translation>";
+const documentResponse = await client.path("/document/batches/{id}/documents", id).get();
 if (isUnexpected(documentResponse)) {
-  throw documentResponse.body;
+  throw documentResponse.body.error;
 }
 
-const responseBody = documentResponse.body;
-for (const document of responseBody.value) {
-    //get document status
-    const documentStatus = await client.path("/document/batches/{id}/documents/{documentId}", operationId, document.id).get();
-    console.log("Document Status = " + documentStatus.status);
-    const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
-    console.log("Document ID = " +documentStatusOutput.id);
-    console.log("Document source path = " + documentStatusOutput.sourcePath);
-    console.log("Document path = " + documentStatusOutput.path);
-    console.log("Target language = " + documentStatusOutput.to);
-    console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
-    console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);        
+const documentStatus = paginate(client, documentResponse);
+for await (const document of documentStatus) {
+  // Get individual Document Status
+  const documentStatus = await client
+    .path("/document/batches/{id}/documents/{documentId}", id, document.id)
+    .get();
+  if (isUnexpected(documentStatus)) {
+    throw documentStatus.body.error;
+  }
+
+  const documentStatusOutput = documentStatus.body;
+  console.log(`Document Status: ${documentStatusOutput.status}`);
+  console.log(`Document ID: ${documentStatusOutput.id}`);
+  console.log(`Document source path: ${documentStatusOutput.sourcePath}`);
+  console.log(`Document path: ${documentStatusOutput.path}`);
+  console.log(`Target language: ${documentStatusOutput.to}`);
+  console.log(`Document created dateTime: ${documentStatusOutput.createdDateTimeUtc}`);
+  console.log(`Document last action date time: ${documentStatusOutput.lastActionDateTimeUtc}`);
 }
 ```
 
 ### Get Translations Status
+
 Used to request a list and the status of all translation jobs submitted by the user (associated with the resource).
 
-```typescript
-console.log("== Get Translations Status ==");
-  const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleGetTranslationsStatus
+import DocumentTranslationClient, {
+  isUnexpected,
+  paginate,
+} from "@azure-rest/ai-translation-document";
 
-  const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-  const sourceInput = createSourceInput(sourceUrl);
-  const targetUrl = await createTargetContainer();
-  const targetInput = createTargetInput(targetUrl, "fr");
-  const batchRequest = createBatchRequest(sourceInput, [targetInput]);
-  
-  //Start translation
-  const batchRequests = {inputs: [batchRequest]};
-  const translationResponse = await StartTranslationAndWait(client, batchRequests); 
-  const operationLocationUrl = translationResponse.headers["operation-location"]
-  const operationId = getTranslationOperationID(operationLocationUrl);  
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-  //get Translation Statusby ID filter
-  const queryParams = {
-      ids: [operationId]
-    };    
-  const response = await client.path("/document/batches").get({
-      queryParameters: queryParams 
-    });
-  if (isUnexpected(response)) {
-    throw response.body;
-  }  
-  const responseBody = response.body;
-  for (const translationStatus of responseBody.value) {
-    console.log("Translation ID = " + translationStatus.id);
-    console.log("Translation Status = " + translationStatus.status);
-    console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
-    console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
-    console.log("Total documents submitted for translation = " + translationStatus.summary.total);
-    console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
-  }  
+// Get status
+const id = "<operation-id-from-batch-translation>";
+const queryParams = {
+  ids: [id],
+};
+const response = await client.path("/document/batches").get({
+  queryParameters: queryParams,
+});
+if (isUnexpected(response)) {
+  throw response.body.error;
+}
+
+const translationResponse = paginate(client, response);
+for await (const translationStatus of translationResponse) {
+  console.log(`Translation ID: ${translationStatus.id}`);
+  console.log(`Translation Status ${translationStatus.status}`);
+  console.log(`Translation createdDateTimeUtc: ${translationStatus.createdDateTimeUtc}`);
+  console.log(`Translation lastActionDateTimeUtc: ${translationStatus.lastActionDateTimeUtc}`);
+  console.log(`Total documents submitted for translation: ${translationStatus.summary.total}`);
+  console.log(`Total characters charged: ${translationStatus.summary.totalCharacterCharged}`);
+}
 ```
 
 ### Get Translation Status
+
 Used to request the status of a specific translation job. The response includes the overall job status and the status for documents that are being translated as part of that job.
 
-```typescript
-console.log("== Get Translation Status ==");
-const client = createClient(endpoint, credentials);
+```ts snippet:ReadmeSampleGetTranslationStatus
+import DocumentTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-document";
 
-const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-const sourceInput = createSourceInput(sourceUrl);
-const targetUrl = await createTargetContainer();
-const targetInput = createTargetInput(targetUrl, "fr");
-const batchRequest = createBatchRequest(sourceInput, [targetInput]);
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-//Start translation
-const batchRequests = {inputs: [batchRequest]};
-const translationResponse = await StartTranslationAndWait(client, batchRequests); 
-
-const operationLocationUrl = translationResponse.headers["operation-location"]
-const operationId = getTranslationOperationID(operationLocationUrl);  
-
-//get Translation Status
-const response = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
+// Get status
+const id = "<operation-id-from-batch-translation>";
+const response = await client.path("/document/batches/{id}", id).get();
 if (isUnexpected(response)) {
-    throw response.body;
+  throw response.body.error;
 }
 
-console.log("Translation ID = " + response.body.id);
-console.log("Translation Status = " + response.body.status);
-console.log("Translation createdDateTimeUtc = " + response.body.createdDateTimeUtc);
-console.log("Translation lastActionDateTimeUtc = " + response.body.lastActionDateTimeUtc);
-console.log("Total documents submitted for translation = " + response.body.summary.total);
-console.log("Total characters charged = " + response.body.summary.totalCharacterCharged);
+const translationStatus = response.body;
+console.log(`Translation ID: ${translationStatus.id}`);
+console.log(`Translation Status ${translationStatus.status}`);
+console.log(`Translation createdDateTimeUtc: ${translationStatus.createdDateTimeUtc}`);
+console.log(`Translation lastActionDateTimeUtc: ${translationStatus.lastActionDateTimeUtc}`);
+console.log(`Total documents submitted for translation: ${translationStatus.summary.total}`);
+console.log(`Total characters charged: ${translationStatus.summary.totalCharacterCharged}`);
 ```
-
 
 ### Get Supported Formats
 
 This returns a list of document or glossary formats supported by the Document Translation feature. The list includes common file extensions and content-type if using the upload API.
 
-```typescript
-console.log("== List Supported Format Types ==");
+```ts snippet:ReadmeSampleGetSupportedFormats
+import DocumentTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-document";
 
-const documentTranslationClient = DocumentTranslationClient(endpoint);
-const response = await documentTranslationClient.path("/document/formats").get();
+const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const credential = {
+  key,
+};
+const client = DocumentTranslationClient(endpoint, credential);
 
-const fileFormatTypes = response.body;
-fileFormatTypes.value.forEach((fileFormatType: { format: any; contentTypes: any; fileExtensions: any; }) => {
-console.log(fileFormatType.format);
-console.log(fileFormatType.contentTypes);
-console.log(fileFormatType.fileExtensions);
-});
+const response = await client.path("/document/formats").get();
+if (isUnexpected(response)) {
+  throw response.body.error;
+}
+
+for (const fileFormatType of response.body.value) {
+  console.log(`File format: ${fileFormatType.format}`);
+  console.log(`Content types: ${fileFormatType.contentTypes}`);
+  console.log(`File extensions: ${fileFormatType.fileExtensions}`);
+}
 ```
 
 ## Troubleshooting
@@ -336,8 +396,8 @@ You can find the different error codes returned by the service in the [Service D
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 export class MockedQueryIterator {
   constructor(private results: unknown) {}
   public async fetchAll(): Promise<{

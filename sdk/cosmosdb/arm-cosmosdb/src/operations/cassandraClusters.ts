@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { CassandraClusters } from "../operationsInterfaces";
+import { CassandraClusters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ClusterResource,
   CassandraClustersListBySubscriptionOptionalParams,
@@ -40,6 +40,7 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CommandAsyncPostBody,
   CassandraClustersInvokeCommandAsyncOptionalParams,
   CassandraClustersInvokeCommandAsyncResponse,
   CassandraClustersGetCommandAsyncOptionalParams,
@@ -50,7 +51,7 @@ import {
   CassandraClustersStartOptionalParams,
   CassandraClustersStatusOptionalParams,
   CassandraClustersStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CassandraClusters operations. */
@@ -702,7 +703,7 @@ export class CassandraClustersImpl implements CassandraClusters {
   async beginInvokeCommandAsync(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
+    body: CommandAsyncPostBody,
     options?: CassandraClustersInvokeCommandAsyncOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -774,7 +775,7 @@ export class CassandraClustersImpl implements CassandraClusters {
   async beginInvokeCommandAsyncAndWait(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
+    body: CommandAsyncPostBody,
     options?: CassandraClustersInvokeCommandAsyncOptionalParams,
   ): Promise<CassandraClustersInvokeCommandAsyncResponse> {
     const poller = await this.beginInvokeCommandAsync(
@@ -1243,7 +1244,7 @@ const invokeCommandAsyncOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1281,7 +1282,7 @@ const getCommandAsyncOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListCommands,
+      bodyMapper: Mappers.CommandPublicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

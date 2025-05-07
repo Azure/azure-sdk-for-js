@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SystemVersions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SystemVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OracleDatabaseManagementClient } from "../oracleDatabaseManagementClient.js";
 import {
   SystemVersion,
   SystemVersionsListByLocationNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   SystemVersionsGetOptionalParams,
   SystemVersionsGetResponse,
   SystemVersionsListByLocationNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SystemVersions operations. */

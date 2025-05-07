@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Suite } from "mocha";
-import assert from "assert";
-import { ContainerDefinition, Container } from "../../../src";
-import { getTestContainer, removeAllDatabases, readAndParseJSONFile } from "../common/TestHelpers";
+import type { ContainerDefinition, Container } from "../../../src/index.js";
+import {
+  getTestContainer,
+  removeAllDatabases,
+  readAndParseJSONFile,
+} from "../common/TestHelpers.js";
+import { describe, it, assert, beforeAll } from "vitest";
 
-describe.skip("Validate full text search queries", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-
+describe("Validate full text search queries", { timeout: 20000 }, () => {
   const partitionKey = "id";
   let container: Container;
   const containerDefinition: ContainerDefinition = {
@@ -243,7 +244,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
 
   const containerOptions = { offerThroughput: 25000 };
 
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "Validate FTS Query",
@@ -265,7 +266,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
     }
   });
 
-  it("FetchNext: should return correct expected values for all the queries", async function () {
+  it("FetchNext: should return correct expected values for all the queries", async () => {
     for (const [query, { expected1, expected2 }] of queriesMap) {
       const queryOptions = { allowUnboundedNonStreamingQueries: true, forceQueryPlan: true };
       const queryIterator = container.items.query(query, queryOptions);
@@ -287,9 +288,25 @@ describe.skip("Validate full text search queries", function (this: Suite) {
     }
   });
 
-  it("FetchAll: should return correct expected values for all the queries", async function () {
+  it("FetchAll: should return correct expected values for all the queries", async () => {
     for (const [query, { expected1, expected2 }] of queriesMap) {
       const queryOptions = { allowUnboundedNonStreamingQueries: true };
+      const queryIterator = container.items.query(query, queryOptions);
+
+      const { resources: results } = await queryIterator.fetchAll();
+
+      const indexes = results.map((result) => result.Index);
+      const isMatch =
+        JSON.stringify(indexes) === JSON.stringify(expected1) ||
+        JSON.stringify(indexes) === JSON.stringify(expected2);
+
+      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+    }
+  });
+
+  it("FetchAll: should return correct expected values for all the queries", async () => {
+    for (const [query, { expected1, expected2 }] of queriesMap) {
+      const queryOptions = { allowUnboundedNonStreamingQueries: true, enableQueryControl: true };
       const queryIterator = container.items.query(query, queryOptions);
 
       const { resources: results } = await queryIterator.fetchAll();

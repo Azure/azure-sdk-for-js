@@ -20,8 +20,8 @@ import {
   GroupUpdateParameters,
   GroupUpdateOptionalParams,
   GroupUpdateResponse,
-  GroupDeleteOptionalParams
-} from "../models";
+  GroupDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Group. */
@@ -35,7 +35,7 @@ export interface Group {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: GroupListByServiceOptionalParams
+    options?: GroupListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GroupContract>;
   /**
    * Gets the entity state (Etag) version of the group specified by its identifier.
@@ -48,7 +48,7 @@ export interface Group {
     resourceGroupName: string,
     serviceName: string,
     groupId: string,
-    options?: GroupGetEntityTagOptionalParams
+    options?: GroupGetEntityTagOptionalParams,
   ): Promise<GroupGetEntityTagResponse>;
   /**
    * Gets the details of the group specified by its identifier.
@@ -61,7 +61,7 @@ export interface Group {
     resourceGroupName: string,
     serviceName: string,
     groupId: string,
-    options?: GroupGetOptionalParams
+    options?: GroupGetOptionalParams,
   ): Promise<GroupGetResponse>;
   /**
    * Creates or Updates a group.
@@ -76,7 +76,7 @@ export interface Group {
     serviceName: string,
     groupId: string,
     parameters: GroupCreateParameters,
-    options?: GroupCreateOrUpdateOptionalParams
+    options?: GroupCreateOrUpdateOptionalParams,
   ): Promise<GroupCreateOrUpdateResponse>;
   /**
    * Updates the details of the group specified by its identifier.
@@ -94,7 +94,7 @@ export interface Group {
     groupId: string,
     ifMatch: string,
     parameters: GroupUpdateParameters,
-    options?: GroupUpdateOptionalParams
+    options?: GroupUpdateOptionalParams,
   ): Promise<GroupUpdateResponse>;
   /**
    * Deletes specific group of the API Management service instance.
@@ -110,6 +110,6 @@ export interface Group {
     serviceName: string,
     groupId: string,
     ifMatch: string,
-    options?: GroupDeleteOptionalParams
+    options?: GroupDeleteOptionalParams,
   ): Promise<void>;
 }

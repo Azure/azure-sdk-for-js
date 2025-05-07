@@ -5,7 +5,7 @@
  * @summary Displays the radiology procedure of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 import AzureHealthInsightsClient, {
   ClinicalDocumentTypeEnum,
@@ -13,10 +13,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "../src";
-
-dotenv.config();
-
+} from "../src/index.js";
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
@@ -225,7 +222,7 @@ function createRequestBody(): CreateJobParameters {
 
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 

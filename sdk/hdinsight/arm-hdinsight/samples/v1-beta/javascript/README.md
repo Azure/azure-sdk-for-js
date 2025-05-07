@@ -157,6 +157,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachinesgetasyncoperationstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/samples/v1-beta/javascript/virtualMachinesGetAsyncOperationStatusSample.js
 [virtualmachineslisthostssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/samples/v1-beta/javascript/virtualMachinesListHostsSample.js
 [virtualmachinesrestarthostssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/samples/v1-beta/javascript/virtualMachinesRestartHostsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hdinsight?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hdinsight?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hdinsight/arm-hdinsight/README.md

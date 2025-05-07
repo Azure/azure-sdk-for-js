@@ -7,26 +7,86 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
-import { GeneratedClientContext } from "./generatedClientContext.js";
 import {
   GeneratedClientOptionalParams,
   EventGridEvent,
-  GeneratedClientPublishEventGridEventsOptionalParams,
+  PublishEventGridEventsOptionalParams,
   CloudEvent,
-  GeneratedClientPublishCloudEventEventsOptionalParams,
-  GeneratedClientPublishCustomEventEventsOptionalParams
+  PublishCloudEventEventsOptionalParams,
+  PublishCustomEventEventsOptionalParams,
 } from "./models/index.js";
 
 /** @internal */
-export class GeneratedClient extends GeneratedClientContext {
+export class GeneratedClient extends coreClient.ServiceClient {
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param options The parameter options
    */
   constructor(options?: GeneratedClientOptionalParams) {
-    super(options);
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+    };
+
+    const packageDetails = `azsdk-js-eventgrid/5.11.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix,
+      },
+      endpoint: options.endpoint ?? options.baseUri ?? "{topicHostname}",
+    };
+    super(optionsWithDefaults);
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2018-01-01";
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -38,11 +98,11 @@ export class GeneratedClient extends GeneratedClientContext {
   publishEventGridEvents(
     topicHostname: string,
     events: EventGridEvent[],
-    options?: GeneratedClientPublishEventGridEventsOptionalParams
+    options?: PublishEventGridEventsOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { topicHostname, events, options },
-      publishEventGridEventsOperationSpec
+      publishEventGridEventsOperationSpec,
     );
   }
 
@@ -55,11 +115,11 @@ export class GeneratedClient extends GeneratedClientContext {
   publishCloudEventEvents(
     topicHostname: string,
     events: CloudEvent[],
-    options?: GeneratedClientPublishCloudEventEventsOptionalParams
+    options?: PublishCloudEventEventsOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { topicHostname, events, options },
-      publishCloudEventEventsOperationSpec
+      publishCloudEventEventsOperationSpec,
     );
   }
 
@@ -71,12 +131,12 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   publishCustomEventEvents(
     topicHostname: string,
-    events: any[],
-    options?: GeneratedClientPublishCustomEventEventsOptionalParams
+    events: Record<string, unknown>[],
+    options?: PublishCustomEventEventsOptionalParams,
   ): Promise<void> {
     return this.sendOperationRequest(
       { topicHostname, events, options },
-      publishCustomEventEventsOperationSpec
+      publishCustomEventEventsOperationSpec,
     );
   }
 }
@@ -92,7 +152,7 @@ const publishEventGridEventsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.topicHostname],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const publishCloudEventEventsOperationSpec: coreClient.OperationSpec = {
   path: "",
@@ -103,7 +163,7 @@ const publishCloudEventEventsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.topicHostname],
   headerParameters: [Parameters.contentType1, Parameters.aegChannelName],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const publishCustomEventEventsOperationSpec: coreClient.OperationSpec = {
   path: "",
@@ -114,5 +174,5 @@ const publishCustomEventEventsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.topicHostname],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

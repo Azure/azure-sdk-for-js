@@ -19,8 +19,8 @@ import {
   CertificateCreateOrUpdateResponse,
   CertificateDeleteOptionalParams,
   CertificateRefreshSecretOptionalParams,
-  CertificateRefreshSecretResponse
-} from "../models";
+  CertificateRefreshSecretResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Certificate. */
@@ -34,7 +34,7 @@ export interface Certificate {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: CertificateListByServiceOptionalParams
+    options?: CertificateListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<CertificateContract>;
   /**
    * Gets the entity state (Etag) version of the certificate specified by its identifier.
@@ -48,7 +48,7 @@ export interface Certificate {
     resourceGroupName: string,
     serviceName: string,
     certificateId: string,
-    options?: CertificateGetEntityTagOptionalParams
+    options?: CertificateGetEntityTagOptionalParams,
   ): Promise<CertificateGetEntityTagResponse>;
   /**
    * Gets the details of the certificate specified by its identifier.
@@ -62,7 +62,7 @@ export interface Certificate {
     resourceGroupName: string,
     serviceName: string,
     certificateId: string,
-    options?: CertificateGetOptionalParams
+    options?: CertificateGetOptionalParams,
   ): Promise<CertificateGetResponse>;
   /**
    * Creates or updates the certificate being used for authentication with the backend.
@@ -78,7 +78,7 @@ export interface Certificate {
     serviceName: string,
     certificateId: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOrUpdateOptionalParams
+    options?: CertificateCreateOrUpdateOptionalParams,
   ): Promise<CertificateCreateOrUpdateResponse>;
   /**
    * Deletes specific certificate.
@@ -95,7 +95,7 @@ export interface Certificate {
     serviceName: string,
     certificateId: string,
     ifMatch: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<void>;
   /**
    * From KeyVault, Refresh the certificate being used for authentication with the backend.
@@ -109,6 +109,6 @@ export interface Certificate {
     resourceGroupName: string,
     serviceName: string,
     certificateId: string,
-    options?: CertificateRefreshSecretOptionalParams
+    options?: CertificateRefreshSecretOptionalParams,
   ): Promise<CertificateRefreshSecretResponse>;
 }

@@ -12,7 +12,7 @@ import {
   ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams,
   ScopeAccessReviewHistoryDefinitionsGetByIdResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScopeAccessReviewHistoryDefinitions. */

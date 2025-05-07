@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { StorageQueue, StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/QueueOperationPut.json
  */
-async function queueOperationPut() {
+async function queueOperationPut(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
@@ -42,9 +40,9 @@ async function queueOperationPut() {
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPutWithMetadata.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/QueueOperationPutWithMetadata.json
  */
-async function queueOperationPutWithMetadata() {
+async function queueOperationPutWithMetadata(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
@@ -64,9 +62,9 @@ async function queueOperationPutWithMetadata() {
   console.log(result);
 }
 
-async function main() {
-  queueOperationPut();
-  queueOperationPutWithMetadata();
+async function main(): Promise<void> {
+  await queueOperationPut();
+  await queueOperationPutWithMetadata();
 }
 
 main().catch(console.error);

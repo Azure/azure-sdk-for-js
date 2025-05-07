@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the ProactiveDetection configuration for this configuration id.
@@ -17,22 +16,28 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get the ProactiveDetection configuration for this configuration id.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/ProactiveDetectionConfigurationGet.json
  */
-async function proactiveDetectionConfigurationGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+async function proactiveDetectionConfigurationGet(): Promise<void> {
+  const subscriptionId =
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const configurationId = "slowpageloadtime";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.proactiveDetectionConfigurations.get(
     resourceGroupName,
     resourceName,
-    configurationId
+    configurationId,
   );
   console.log(result);
 }
 
-proactiveDetectionConfigurationGet().catch(console.error);
+async function main(): Promise<void> {
+  await proactiveDetectionConfigurationGet();
+}
+
+main().catch(console.error);

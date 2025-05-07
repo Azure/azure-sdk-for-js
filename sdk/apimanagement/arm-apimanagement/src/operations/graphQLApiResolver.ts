@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GraphQLApiResolver } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GraphQLApiResolver } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ResolverContract,
   GraphQLApiResolverListByApiNextOptionalParams,
@@ -28,8 +28,8 @@ import {
   GraphQLApiResolverUpdateOptionalParams,
   GraphQLApiResolverUpdateResponse,
   GraphQLApiResolverDeleteOptionalParams,
-  GraphQLApiResolverListByApiNextResponse
-} from "../models";
+  GraphQLApiResolverListByApiNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GraphQLApiResolver operations. */
@@ -56,13 +56,13 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: GraphQLApiResolverListByApiOptionalParams
+    options?: GraphQLApiResolverListByApiOptionalParams,
   ): PagedAsyncIterableIterator<ResolverContract> {
     const iter = this.listByApiPagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +91,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     serviceName: string,
     apiId: string,
     options?: GraphQLApiResolverListByApiOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResolverContract[]> {
     let result: GraphQLApiResolverListByApiResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,13 +126,13 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: GraphQLApiResolverListByApiOptionalParams
+    options?: GraphQLApiResolverListByApiOptionalParams,
   ): AsyncIterableIterator<ResolverContract> {
     for await (const page of this.listByApiPagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,11 +150,11 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: GraphQLApiResolverListByApiOptionalParams
+    options?: GraphQLApiResolverListByApiOptionalParams,
   ): Promise<GraphQLApiResolverListByApiResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByApiOperationSpec
+      listByApiOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     serviceName: string,
     apiId: string,
     resolverId: string,
-    options?: GraphQLApiResolverGetEntityTagOptionalParams
+    options?: GraphQLApiResolverGetEntityTagOptionalParams,
   ): Promise<GraphQLApiResolverGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, resolverId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -196,11 +196,11 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     serviceName: string,
     apiId: string,
     resolverId: string,
-    options?: GraphQLApiResolverGetOptionalParams
+    options?: GraphQLApiResolverGetOptionalParams,
   ): Promise<GraphQLApiResolverGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, resolverId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -221,7 +221,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     apiId: string,
     resolverId: string,
     parameters: ResolverContract,
-    options?: GraphQLApiResolverCreateOrUpdateOptionalParams
+    options?: GraphQLApiResolverCreateOrUpdateOptionalParams,
   ): Promise<GraphQLApiResolverCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +230,9 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
         apiId,
         resolverId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -256,7 +256,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     resolverId: string,
     ifMatch: string,
     parameters: ResolverUpdateContract,
-    options?: GraphQLApiResolverUpdateOptionalParams
+    options?: GraphQLApiResolverUpdateOptionalParams,
   ): Promise<GraphQLApiResolverUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -266,9 +266,9 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
         resolverId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -290,11 +290,11 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     apiId: string,
     resolverId: string,
     ifMatch: string,
-    options?: GraphQLApiResolverDeleteOptionalParams
+    options?: GraphQLApiResolverDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, resolverId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -312,11 +312,11 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: GraphQLApiResolverListByApiNextOptionalParams
+    options?: GraphQLApiResolverListByApiNextOptionalParams,
   ): Promise<GraphQLApiResolverListByApiNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByApiNextOperationSpec
+      listByApiNextOperationSpec,
     );
   }
 }
@@ -324,190 +324,184 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApiOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResolverCollection
+      bodyMapper: Mappers.ResolverCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId
+    Parameters.serviceName,
+    Parameters.apiId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.GraphQLApiResolverGetEntityTagHeaders
+      headersMapper: Mappers.GraphQLApiResolverGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.resolverId
+    Parameters.resolverId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ResolverContract,
-      headersMapper: Mappers.GraphQLApiResolverGetHeaders
+      headersMapper: Mappers.GraphQLApiResolverGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.resolverId
+    Parameters.resolverId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.ResolverContract,
-      headersMapper: Mappers.GraphQLApiResolverCreateOrUpdateHeaders
+      headersMapper: Mappers.GraphQLApiResolverCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.ResolverContract,
-      headersMapper: Mappers.GraphQLApiResolverCreateOrUpdateHeaders
+      headersMapper: Mappers.GraphQLApiResolverCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.resolverId
+    Parameters.resolverId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.ResolverContract,
-      headersMapper: Mappers.GraphQLApiResolverUpdateHeaders
+      headersMapper: Mappers.GraphQLApiResolverUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.resolverId
+    Parameters.resolverId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/resolvers/{resolverId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.resolverId
+    Parameters.resolverId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByApiNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResolverCollection
+      bodyMapper: Mappers.ResolverCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.apiId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

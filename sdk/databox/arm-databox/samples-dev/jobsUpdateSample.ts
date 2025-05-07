@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   JobResourceUpdateParameter,
-  DataBoxManagementClient
+  DataBoxManagementClient,
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatch.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatch.json
  */
-async function jobsPatch() {
+async function jobsPatch(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function jobsPatch() {
         contactName: "XXXX XXXX",
         emailList: ["xxxx@xxxx.xxx"],
         phone: "0000000000",
-        phoneExtension: ""
+        phoneExtension: "",
       },
       shippingAddress: {
         addressType: "Commercial",
@@ -45,16 +43,16 @@ async function jobsPatch() {
         postalCode: "00000",
         stateOrProvince: "XX",
         streetAddress1: "XXXX XXXX",
-        streetAddress2: "XXXX XXXX"
-      }
-    }
+        streetAddress2: "XXXX XXXX",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
@@ -63,9 +61,9 @@ async function jobsPatch() {
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchCmk.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatchCmk.json
  */
-async function jobsPatchCmk() {
+async function jobsPatchCmk(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -77,16 +75,16 @@ async function jobsPatchCmk() {
         kekType: "CustomerManaged",
         kekUrl: "https://xxx.xxx.xx",
         kekVaultResourceID:
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName"
-      }
-    }
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
@@ -95,9 +93,9 @@ async function jobsPatchCmk() {
  * This sample demonstrates how to Updates the properties of an existing job.
  *
  * @summary Updates the properties of an existing job.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchSystemAssignedToUserAssigned.json
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsPatchSystemAssignedToUserAssigned.json
  */
-async function jobsPatchSystemAssignedToUserAssigned() {
+async function jobsPatchSystemAssignedToUserAssigned(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -107,8 +105,9 @@ async function jobsPatchSystemAssignedToUserAssigned() {
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity": {}
-      }
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
+          {},
+      },
     },
     details: {
       keyEncryptionKey: {
@@ -116,30 +115,30 @@ async function jobsPatchSystemAssignedToUserAssigned() {
           type: "UserAssigned",
           userAssigned: {
             resourceId:
-              "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity"
-          }
+              "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity",
+          },
         },
         kekType: "CustomerManaged",
         kekUrl: "https://xxx.xxx.xx",
         kekVaultResourceID:
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName"
-      }
-    }
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
 
-async function main() {
-  jobsPatch();
-  jobsPatchCmk();
-  jobsPatchSystemAssignedToUserAssigned();
+async function main(): Promise<void> {
+  await jobsPatch();
+  await jobsPatchCmk();
+  await jobsPatchSystemAssignedToUserAssigned();
 }
 
 main().catch(console.error);

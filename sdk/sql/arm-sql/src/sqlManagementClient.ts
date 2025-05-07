@@ -160,7 +160,7 @@ import {
   ManagedInstancesImpl,
   ServersImpl,
   ReplicationLinksImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DataMaskingPolicies,
   DataMaskingRules,
@@ -312,8 +312,8 @@ import {
   ManagedInstances,
   Servers,
   ReplicationLinks,
-} from "./operationsInterfaces";
-import { SqlManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SqlManagementClientOptionalParams } from "./models/index.js";
 
 export class SqlManagementClient extends coreClient.ServiceClient {
   $host: string;

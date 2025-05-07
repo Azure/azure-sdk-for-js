@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Cache } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Cache } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   CacheContract,
   CacheListByServiceNextOptionalParams,
@@ -28,8 +28,8 @@ import {
   CacheUpdateOptionalParams,
   CacheUpdateResponse,
   CacheDeleteOptionalParams,
-  CacheListByServiceNextResponse
-} from "../models";
+  CacheListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Cache operations. */
@@ -53,12 +53,12 @@ export class CacheImpl implements Cache {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: CacheListByServiceOptionalParams
+    options?: CacheListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<CacheContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class CacheImpl implements Cache {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class CacheImpl implements Cache {
     resourceGroupName: string,
     serviceName: string,
     options?: CacheListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CacheContract[]> {
     let result: CacheListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class CacheImpl implements Cache {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class CacheImpl implements Cache {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class CacheImpl implements Cache {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: CacheListByServiceOptionalParams
+    options?: CacheListByServiceOptionalParams,
   ): AsyncIterableIterator<CacheContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class CacheImpl implements Cache {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: CacheListByServiceOptionalParams
+    options?: CacheListByServiceOptionalParams,
   ): Promise<CacheListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class CacheImpl implements Cache {
     resourceGroupName: string,
     serviceName: string,
     cacheId: string,
-    options?: CacheGetEntityTagOptionalParams
+    options?: CacheGetEntityTagOptionalParams,
   ): Promise<CacheGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, cacheId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class CacheImpl implements Cache {
     resourceGroupName: string,
     serviceName: string,
     cacheId: string,
-    options?: CacheGetOptionalParams
+    options?: CacheGetOptionalParams,
   ): Promise<CacheGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, cacheId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -199,11 +199,11 @@ export class CacheImpl implements Cache {
     serviceName: string,
     cacheId: string,
     parameters: CacheContract,
-    options?: CacheCreateOrUpdateOptionalParams
+    options?: CacheCreateOrUpdateOptionalParams,
   ): Promise<CacheCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, cacheId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -224,11 +224,11 @@ export class CacheImpl implements Cache {
     cacheId: string,
     ifMatch: string,
     parameters: CacheUpdateParameters,
-    options?: CacheUpdateOptionalParams
+    options?: CacheUpdateOptionalParams,
   ): Promise<CacheUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, cacheId, ifMatch, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -247,11 +247,11 @@ export class CacheImpl implements Cache {
     serviceName: string,
     cacheId: string,
     ifMatch: string,
-    options?: CacheDeleteOptionalParams
+    options?: CacheDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, cacheId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -266,11 +266,11 @@ export class CacheImpl implements Cache {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: CacheListByServiceNextOptionalParams
+    options?: CacheListByServiceNextOptionalParams,
   ): Promise<CacheListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -278,178 +278,172 @@ export class CacheImpl implements Cache {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CacheCollection
+      bodyMapper: Mappers.CacheCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.top, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.CacheGetEntityTagHeaders
+      headersMapper: Mappers.CacheGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.cacheId
+    Parameters.serviceName,
+    Parameters.cacheId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.CacheContract,
-      headersMapper: Mappers.CacheGetHeaders
+      headersMapper: Mappers.CacheGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.cacheId
+    Parameters.serviceName,
+    Parameters.cacheId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.CacheContract,
-      headersMapper: Mappers.CacheCreateOrUpdateHeaders
+      headersMapper: Mappers.CacheCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.CacheContract,
-      headersMapper: Mappers.CacheCreateOrUpdateHeaders
+      headersMapper: Mappers.CacheCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters30,
+  requestBody: Parameters.parameters32,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.cacheId
+    Parameters.serviceName,
+    Parameters.cacheId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.CacheContract,
-      headersMapper: Mappers.CacheUpdateHeaders
+      headersMapper: Mappers.CacheUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters33,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.cacheId
+    Parameters.serviceName,
+    Parameters.cacheId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/caches/{cacheId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.cacheId
+    Parameters.serviceName,
+    Parameters.cacheId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CacheCollection
+      bodyMapper: Mappers.CacheCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

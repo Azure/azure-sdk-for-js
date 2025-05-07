@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { NamedValue } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { NamedValue } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   NamedValueContract,
   NamedValueListByServiceNextOptionalParams,
@@ -39,8 +39,8 @@ import {
   NamedValueListValueResponse,
   NamedValueRefreshSecretOptionalParams,
   NamedValueRefreshSecretResponse,
-  NamedValueListByServiceNextResponse
-} from "../models";
+  NamedValueListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NamedValue operations. */
@@ -64,12 +64,12 @@ export class NamedValueImpl implements NamedValue {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: NamedValueListByServiceOptionalParams
+    options?: NamedValueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<NamedValueContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -86,9 +86,9 @@ export class NamedValueImpl implements NamedValue {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -96,7 +96,7 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     options?: NamedValueListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NamedValueContract[]> {
     let result: NamedValueListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class NamedValueImpl implements NamedValue {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class NamedValueImpl implements NamedValue {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -128,12 +128,12 @@ export class NamedValueImpl implements NamedValue {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: NamedValueListByServiceOptionalParams
+    options?: NamedValueListByServiceOptionalParams,
   ): AsyncIterableIterator<NamedValueContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,11 +148,11 @@ export class NamedValueImpl implements NamedValue {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: NamedValueListByServiceOptionalParams
+    options?: NamedValueListByServiceOptionalParams,
   ): Promise<NamedValueListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueGetEntityTagOptionalParams
+    options?: NamedValueGetEntityTagOptionalParams,
   ): Promise<NamedValueGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, namedValueId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -186,11 +186,11 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueGetOptionalParams
+    options?: NamedValueGetOptionalParams,
   ): Promise<NamedValueGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, namedValueId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -207,7 +207,7 @@ export class NamedValueImpl implements NamedValue {
     serviceName: string,
     namedValueId: string,
     parameters: NamedValueCreateContract,
-    options?: NamedValueCreateOrUpdateOptionalParams
+    options?: NamedValueCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamedValueCreateOrUpdateResponse>,
@@ -216,21 +216,20 @@ export class NamedValueImpl implements NamedValue {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NamedValueCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -239,8 +238,8 @@ export class NamedValueImpl implements NamedValue {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -248,8 +247,8 @@ export class NamedValueImpl implements NamedValue {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -260,9 +259,9 @@ export class NamedValueImpl implements NamedValue {
         serviceName,
         namedValueId,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NamedValueCreateOrUpdateResponse,
@@ -270,7 +269,7 @@ export class NamedValueImpl implements NamedValue {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -289,14 +288,14 @@ export class NamedValueImpl implements NamedValue {
     serviceName: string,
     namedValueId: string,
     parameters: NamedValueCreateContract,
-    options?: NamedValueCreateOrUpdateOptionalParams
+    options?: NamedValueCreateOrUpdateOptionalParams,
   ): Promise<NamedValueCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       namedValueId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -317,7 +316,7 @@ export class NamedValueImpl implements NamedValue {
     namedValueId: string,
     ifMatch: string,
     parameters: NamedValueUpdateParameters,
-    options?: NamedValueUpdateOptionalParams
+    options?: NamedValueUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamedValueUpdateResponse>,
@@ -326,21 +325,20 @@ export class NamedValueImpl implements NamedValue {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NamedValueUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -349,8 +347,8 @@ export class NamedValueImpl implements NamedValue {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -358,8 +356,8 @@ export class NamedValueImpl implements NamedValue {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -371,9 +369,9 @@ export class NamedValueImpl implements NamedValue {
         namedValueId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NamedValueUpdateResponse,
@@ -381,7 +379,7 @@ export class NamedValueImpl implements NamedValue {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -403,7 +401,7 @@ export class NamedValueImpl implements NamedValue {
     namedValueId: string,
     ifMatch: string,
     parameters: NamedValueUpdateParameters,
-    options?: NamedValueUpdateOptionalParams
+    options?: NamedValueUpdateOptionalParams,
   ): Promise<NamedValueUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -411,7 +409,7 @@ export class NamedValueImpl implements NamedValue {
       namedValueId,
       ifMatch,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -430,11 +428,11 @@ export class NamedValueImpl implements NamedValue {
     serviceName: string,
     namedValueId: string,
     ifMatch: string,
-    options?: NamedValueDeleteOptionalParams
+    options?: NamedValueDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, namedValueId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -449,11 +447,11 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueListValueOptionalParams
+    options?: NamedValueListValueOptionalParams,
   ): Promise<NamedValueListValueResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, namedValueId, options },
-      listValueOperationSpec
+      listValueOperationSpec,
     );
   }
 
@@ -468,7 +466,7 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueRefreshSecretOptionalParams
+    options?: NamedValueRefreshSecretOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NamedValueRefreshSecretResponse>,
@@ -477,21 +475,20 @@ export class NamedValueImpl implements NamedValue {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NamedValueRefreshSecretResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -500,8 +497,8 @@ export class NamedValueImpl implements NamedValue {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -509,15 +506,15 @@ export class NamedValueImpl implements NamedValue {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, namedValueId, options },
-      spec: refreshSecretOperationSpec
+      spec: refreshSecretOperationSpec,
     });
     const poller = await createHttpPoller<
       NamedValueRefreshSecretResponse,
@@ -525,7 +522,7 @@ export class NamedValueImpl implements NamedValue {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -542,13 +539,13 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     namedValueId: string,
-    options?: NamedValueRefreshSecretOptionalParams
+    options?: NamedValueRefreshSecretOptionalParams,
   ): Promise<NamedValueRefreshSecretResponse> {
     const poller = await this.beginRefreshSecret(
       resourceGroupName,
       serviceName,
       namedValueId,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -564,11 +561,11 @@ export class NamedValueImpl implements NamedValue {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: NamedValueListByServiceNextOptionalParams
+    options?: NamedValueListByServiceNextOptionalParams,
   ): Promise<NamedValueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -576,264 +573,256 @@ export class NamedValueImpl implements NamedValue {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamedValueCollection
+      bodyMapper: Mappers.NamedValueCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.isKeyVaultRefreshFailed
+    Parameters.isKeyVaultRefreshFailed,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.NamedValueGetEntityTagHeaders
+      headersMapper: Mappers.NamedValueGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueGetHeaders
+      headersMapper: Mappers.NamedValueGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters53,
+  requestBody: Parameters.parameters61,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueUpdateHeaders
+      headersMapper: Mappers.NamedValueUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueUpdateHeaders
+      headersMapper: Mappers.NamedValueUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueUpdateHeaders
+      headersMapper: Mappers.NamedValueUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueUpdateHeaders
+      headersMapper: Mappers.NamedValueUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters54,
+  requestBody: Parameters.parameters62,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listValueOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}/listValue",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}/listValue",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueSecretContract,
-      headersMapper: Mappers.NamedValueListValueHeaders
+      headersMapper: Mappers.NamedValueListValueHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshSecretOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}/refreshSecret",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}/refreshSecret",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueRefreshSecretHeaders
+      headersMapper: Mappers.NamedValueRefreshSecretHeaders,
     },
     201: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueRefreshSecretHeaders
+      headersMapper: Mappers.NamedValueRefreshSecretHeaders,
     },
     202: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueRefreshSecretHeaders
+      headersMapper: Mappers.NamedValueRefreshSecretHeaders,
     },
     204: {
       bodyMapper: Mappers.NamedValueContract,
-      headersMapper: Mappers.NamedValueRefreshSecretHeaders
+      headersMapper: Mappers.NamedValueRefreshSecretHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.namedValueId
+    Parameters.serviceName,
+    Parameters.namedValueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamedValueCollection
+      bodyMapper: Mappers.NamedValueCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

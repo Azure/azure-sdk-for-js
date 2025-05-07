@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MaximumSet_Gen.json
  */
-async function dedicatedHostGroupUpdateMaximumSetGen() {
+async function dedicatedHostGroupUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -67,9 +65,9 @@ async function dedicatedHostGroupUpdateMaximumSetGen() {
  * This sample demonstrates how to Update an dedicated host group.
  *
  * @summary Update an dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHostGroup_Update_MinimumSet_Gen.json
  */
-async function dedicatedHostGroupUpdateMinimumSetGen() {
+async function dedicatedHostGroupUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -86,9 +84,9 @@ async function dedicatedHostGroupUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  dedicatedHostGroupUpdateMaximumSetGen();
-  dedicatedHostGroupUpdateMinimumSetGen();
+async function main(): Promise<void> {
+  await dedicatedHostGroupUpdateMaximumSetGen();
+  await dedicatedHostGroupUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

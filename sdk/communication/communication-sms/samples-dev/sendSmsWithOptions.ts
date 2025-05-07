@@ -5,13 +5,13 @@
  * @summary Configure SMS options when sending a message
  */
 
-import { SmsClient, SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
+import type { SmsSendRequest, SmsSendOptions } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Send SMS Message With Options ==");
 
   // You will need to set this environment variable or edit the following values
@@ -40,9 +40,9 @@ export async function main() {
 
   // construct send options
   const sendOptions: SmsSendOptions = {
-    //delivery reports are delivered via EventGrid
+    // delivery reports are delivered via EventGrid
     enableDeliveryReport: true,
-    //tags are applied to the delivery report
+    // tags are applied to the delivery report
     tag: "marketing",
   };
 

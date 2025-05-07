@@ -16,8 +16,8 @@ import {
   ApiIssueAttachmentGetResponse,
   ApiIssueAttachmentCreateOrUpdateOptionalParams,
   ApiIssueAttachmentCreateOrUpdateResponse,
-  ApiIssueAttachmentDeleteOptionalParams
-} from "../models";
+  ApiIssueAttachmentDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiIssueAttachment. */
@@ -35,7 +35,7 @@ export interface ApiIssueAttachment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueAttachmentListByServiceOptionalParams
+    options?: ApiIssueAttachmentListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueAttachmentContract>;
   /**
    * Gets the entity state (Etag) version of the issue Attachment for an API specified by its identifier.
@@ -52,7 +52,7 @@ export interface ApiIssueAttachment {
     apiId: string,
     issueId: string,
     attachmentId: string,
-    options?: ApiIssueAttachmentGetEntityTagOptionalParams
+    options?: ApiIssueAttachmentGetEntityTagOptionalParams,
   ): Promise<ApiIssueAttachmentGetEntityTagResponse>;
   /**
    * Gets the details of the issue Attachment for an API specified by its identifier.
@@ -69,7 +69,7 @@ export interface ApiIssueAttachment {
     apiId: string,
     issueId: string,
     attachmentId: string,
-    options?: ApiIssueAttachmentGetOptionalParams
+    options?: ApiIssueAttachmentGetOptionalParams,
   ): Promise<ApiIssueAttachmentGetResponse>;
   /**
    * Creates a new Attachment for the Issue in an API or updates an existing one.
@@ -88,7 +88,7 @@ export interface ApiIssueAttachment {
     issueId: string,
     attachmentId: string,
     parameters: IssueAttachmentContract,
-    options?: ApiIssueAttachmentCreateOrUpdateOptionalParams
+    options?: ApiIssueAttachmentCreateOrUpdateOptionalParams,
   ): Promise<ApiIssueAttachmentCreateOrUpdateResponse>;
   /**
    * Deletes the specified comment from an Issue.
@@ -108,6 +108,6 @@ export interface ApiIssueAttachment {
     issueId: string,
     attachmentId: string,
     ifMatch: string,
-    options?: ApiIssueAttachmentDeleteOptionalParams
+    options?: ApiIssueAttachmentDeleteOptionalParams,
   ): Promise<void>;
 }

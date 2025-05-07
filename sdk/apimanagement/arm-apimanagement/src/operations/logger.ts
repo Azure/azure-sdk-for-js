@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Logger } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Logger } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   LoggerContract,
   LoggerListByServiceNextOptionalParams,
@@ -28,8 +28,8 @@ import {
   LoggerUpdateOptionalParams,
   LoggerUpdateResponse,
   LoggerDeleteOptionalParams,
-  LoggerListByServiceNextResponse
-} from "../models";
+  LoggerListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Logger operations. */
@@ -53,12 +53,12 @@ export class LoggerImpl implements Logger {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: LoggerListByServiceOptionalParams
+    options?: LoggerListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<LoggerContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class LoggerImpl implements Logger {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class LoggerImpl implements Logger {
     resourceGroupName: string,
     serviceName: string,
     options?: LoggerListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LoggerContract[]> {
     let result: LoggerListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class LoggerImpl implements Logger {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class LoggerImpl implements Logger {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class LoggerImpl implements Logger {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: LoggerListByServiceOptionalParams
+    options?: LoggerListByServiceOptionalParams,
   ): AsyncIterableIterator<LoggerContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class LoggerImpl implements Logger {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: LoggerListByServiceOptionalParams
+    options?: LoggerListByServiceOptionalParams,
   ): Promise<LoggerListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -156,11 +156,11 @@ export class LoggerImpl implements Logger {
     resourceGroupName: string,
     serviceName: string,
     loggerId: string,
-    options?: LoggerGetEntityTagOptionalParams
+    options?: LoggerGetEntityTagOptionalParams,
   ): Promise<LoggerGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, loggerId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -175,11 +175,11 @@ export class LoggerImpl implements Logger {
     resourceGroupName: string,
     serviceName: string,
     loggerId: string,
-    options?: LoggerGetOptionalParams
+    options?: LoggerGetOptionalParams,
   ): Promise<LoggerGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, loggerId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,11 +196,11 @@ export class LoggerImpl implements Logger {
     serviceName: string,
     loggerId: string,
     parameters: LoggerContract,
-    options?: LoggerCreateOrUpdateOptionalParams
+    options?: LoggerCreateOrUpdateOptionalParams,
   ): Promise<LoggerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, loggerId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -220,7 +220,7 @@ export class LoggerImpl implements Logger {
     loggerId: string,
     ifMatch: string,
     parameters: LoggerUpdateContract,
-    options?: LoggerUpdateOptionalParams
+    options?: LoggerUpdateOptionalParams,
   ): Promise<LoggerUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -229,9 +229,9 @@ export class LoggerImpl implements Logger {
         loggerId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -249,11 +249,11 @@ export class LoggerImpl implements Logger {
     serviceName: string,
     loggerId: string,
     ifMatch: string,
-    options?: LoggerDeleteOptionalParams
+    options?: LoggerDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, loggerId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -268,11 +268,11 @@ export class LoggerImpl implements Logger {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: LoggerListByServiceNextOptionalParams
+    options?: LoggerListByServiceNextOptionalParams,
   ): Promise<LoggerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -280,183 +280,177 @@ export class LoggerImpl implements Logger {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoggerCollection
+      bodyMapper: Mappers.LoggerCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.LoggerGetEntityTagHeaders
+      headersMapper: Mappers.LoggerGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.loggerId
+    Parameters.serviceName,
+    Parameters.loggerId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.LoggerContract,
-      headersMapper: Mappers.LoggerGetHeaders
+      headersMapper: Mappers.LoggerGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.loggerId
+    Parameters.serviceName,
+    Parameters.loggerId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.LoggerContract,
-      headersMapper: Mappers.LoggerCreateOrUpdateHeaders
+      headersMapper: Mappers.LoggerCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.LoggerContract,
-      headersMapper: Mappers.LoggerCreateOrUpdateHeaders
+      headersMapper: Mappers.LoggerCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters51,
+  requestBody: Parameters.parameters59,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.loggerId
+    Parameters.serviceName,
+    Parameters.loggerId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.LoggerContract,
-      headersMapper: Mappers.LoggerUpdateHeaders
+      headersMapper: Mappers.LoggerUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters52,
+  requestBody: Parameters.parameters60,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.loggerId
+    Parameters.serviceName,
+    Parameters.loggerId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.loggerId
+    Parameters.serviceName,
+    Parameters.loggerId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoggerCollection
+      bodyMapper: Mappers.LoggerCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

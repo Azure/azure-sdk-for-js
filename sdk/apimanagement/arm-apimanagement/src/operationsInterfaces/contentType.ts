@@ -14,8 +14,8 @@ import {
   ContentTypeGetResponse,
   ContentTypeCreateOrUpdateOptionalParams,
   ContentTypeCreateOrUpdateResponse,
-  ContentTypeDeleteOptionalParams
-} from "../models";
+  ContentTypeDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ContentType. */
@@ -30,7 +30,7 @@ export interface ContentType {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContentTypeListByServiceOptionalParams
+    options?: ContentTypeListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ContentTypeContract>;
   /**
    * Gets the details of the developer portal's content type. Content types describe content items'
@@ -44,7 +44,7 @@ export interface ContentType {
     resourceGroupName: string,
     serviceName: string,
     contentTypeId: string,
-    options?: ContentTypeGetOptionalParams
+    options?: ContentTypeGetOptionalParams,
   ): Promise<ContentTypeGetResponse>;
   /**
    * Creates or updates the developer portal's content type. Content types describe content items'
@@ -61,7 +61,7 @@ export interface ContentType {
     serviceName: string,
     contentTypeId: string,
     parameters: ContentTypeContract,
-    options?: ContentTypeCreateOrUpdateOptionalParams
+    options?: ContentTypeCreateOrUpdateOptionalParams,
   ): Promise<ContentTypeCreateOrUpdateResponse>;
   /**
    * Removes the specified developer portal's content type. Content types describe content items'
@@ -79,6 +79,6 @@ export interface ContentType {
     serviceName: string,
     contentTypeId: string,
     ifMatch: string,
-    options?: ContentTypeDeleteOptionalParams
+    options?: ContentTypeDeleteOptionalParams,
   ): Promise<void>;
 }

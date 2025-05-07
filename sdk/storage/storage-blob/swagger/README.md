@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "latest"
-package-version: 12.26.0
+package-version: 12.27.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -1474,13 +1474,13 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Update service version from "2018-03-28" to "2025-01-05"
+### Update service version from "2025-01-05" to "2025-05-05"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2025-01-05" ];
+    transform: $.enum = [ "2025-05-05" ];
 ```
 
 ### Remove structured body parameters.
@@ -1534,5 +1534,3 @@ directive:
     transform: >
       delete $["x-ms-structured-body"];
 ```
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

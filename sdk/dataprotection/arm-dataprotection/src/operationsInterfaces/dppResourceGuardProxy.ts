@@ -18,7 +18,7 @@ import {
   UnlockDeleteRequest,
   DppResourceGuardProxyUnlockDeleteOptionalParams,
   DppResourceGuardProxyUnlockDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DppResourceGuardProxy. */

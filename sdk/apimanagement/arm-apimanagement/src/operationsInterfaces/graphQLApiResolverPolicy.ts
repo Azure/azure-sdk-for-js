@@ -17,8 +17,8 @@ import {
   GraphQLApiResolverPolicyGetResponse,
   GraphQLApiResolverPolicyCreateOrUpdateOptionalParams,
   GraphQLApiResolverPolicyCreateOrUpdateResponse,
-  GraphQLApiResolverPolicyDeleteOptionalParams
-} from "../models";
+  GraphQLApiResolverPolicyDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GraphQLApiResolverPolicy. */
@@ -38,7 +38,7 @@ export interface GraphQLApiResolverPolicy {
     serviceName: string,
     apiId: string,
     resolverId: string,
-    options?: GraphQLApiResolverPolicyListByResolverOptionalParams
+    options?: GraphQLApiResolverPolicyListByResolverOptionalParams,
   ): PagedAsyncIterableIterator<PolicyContract>;
   /**
    * Gets the entity state (Etag) version of the GraphQL API resolver policy specified by its identifier.
@@ -57,7 +57,7 @@ export interface GraphQLApiResolverPolicy {
     apiId: string,
     resolverId: string,
     policyId: PolicyIdName,
-    options?: GraphQLApiResolverPolicyGetEntityTagOptionalParams
+    options?: GraphQLApiResolverPolicyGetEntityTagOptionalParams,
   ): Promise<GraphQLApiResolverPolicyGetEntityTagResponse>;
   /**
    * Get the policy configuration at the GraphQL API Resolver level.
@@ -76,7 +76,7 @@ export interface GraphQLApiResolverPolicy {
     apiId: string,
     resolverId: string,
     policyId: PolicyIdName,
-    options?: GraphQLApiResolverPolicyGetOptionalParams
+    options?: GraphQLApiResolverPolicyGetOptionalParams,
   ): Promise<GraphQLApiResolverPolicyGetResponse>;
   /**
    * Creates or updates policy configuration for the GraphQL API Resolver level.
@@ -97,7 +97,7 @@ export interface GraphQLApiResolverPolicy {
     resolverId: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: GraphQLApiResolverPolicyCreateOrUpdateOptionalParams
+    options?: GraphQLApiResolverPolicyCreateOrUpdateOptionalParams,
   ): Promise<GraphQLApiResolverPolicyCreateOrUpdateResponse>;
   /**
    * Deletes the policy configuration at the GraphQL Api Resolver.
@@ -119,6 +119,6 @@ export interface GraphQLApiResolverPolicy {
     resolverId: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: GraphQLApiResolverPolicyDeleteOptionalParams
+    options?: GraphQLApiResolverPolicyDeleteOptionalParams,
   ): Promise<void>;
 }

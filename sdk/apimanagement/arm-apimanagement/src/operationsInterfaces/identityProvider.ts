@@ -23,8 +23,8 @@ import {
   IdentityProviderUpdateResponse,
   IdentityProviderDeleteOptionalParams,
   IdentityProviderListSecretsOptionalParams,
-  IdentityProviderListSecretsResponse
-} from "../models";
+  IdentityProviderListSecretsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IdentityProvider. */
@@ -38,7 +38,7 @@ export interface IdentityProvider {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: IdentityProviderListByServiceOptionalParams
+    options?: IdentityProviderListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IdentityProviderContract>;
   /**
    * Gets the entity state (Etag) version of the identityProvider specified by its identifier.
@@ -51,7 +51,7 @@ export interface IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     identityProviderName: IdentityProviderType,
-    options?: IdentityProviderGetEntityTagOptionalParams
+    options?: IdentityProviderGetEntityTagOptionalParams,
   ): Promise<IdentityProviderGetEntityTagResponse>;
   /**
    * Gets the configuration details of the identity Provider configured in specified service instance.
@@ -64,7 +64,7 @@ export interface IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     identityProviderName: IdentityProviderType,
-    options?: IdentityProviderGetOptionalParams
+    options?: IdentityProviderGetOptionalParams,
   ): Promise<IdentityProviderGetResponse>;
   /**
    * Creates or Updates the IdentityProvider configuration.
@@ -79,7 +79,7 @@ export interface IdentityProvider {
     serviceName: string,
     identityProviderName: IdentityProviderType,
     parameters: IdentityProviderCreateContract,
-    options?: IdentityProviderCreateOrUpdateOptionalParams
+    options?: IdentityProviderCreateOrUpdateOptionalParams,
   ): Promise<IdentityProviderCreateOrUpdateResponse>;
   /**
    * Updates an existing IdentityProvider configuration.
@@ -97,7 +97,7 @@ export interface IdentityProvider {
     identityProviderName: IdentityProviderType,
     ifMatch: string,
     parameters: IdentityProviderUpdateParameters,
-    options?: IdentityProviderUpdateOptionalParams
+    options?: IdentityProviderUpdateOptionalParams,
   ): Promise<IdentityProviderUpdateResponse>;
   /**
    * Deletes the specified identity provider configuration.
@@ -113,7 +113,7 @@ export interface IdentityProvider {
     serviceName: string,
     identityProviderName: IdentityProviderType,
     ifMatch: string,
-    options?: IdentityProviderDeleteOptionalParams
+    options?: IdentityProviderDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the client secret details of the Identity Provider.
@@ -126,6 +126,6 @@ export interface IdentityProvider {
     resourceGroupName: string,
     serviceName: string,
     identityProviderName: IdentityProviderType,
-    options?: IdentityProviderListSecretsOptionalParams
+    options?: IdentityProviderListSecretsOptionalParams,
   ): Promise<IdentityProviderListSecretsResponse>;
 }

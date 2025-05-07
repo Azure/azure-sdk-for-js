@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { InformaticaDataManagement } from "@azure/arm-informaticadatamanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a InformaticaServerlessRuntimeResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a InformaticaServerlessRuntimeResource
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/ServerlessRuntimes_Delete_MaximumSet_Gen.json
  */
-async function serverlessRuntimesDelete() {
+async function serverlessRuntimesDelete(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -38,7 +36,7 @@ async function serverlessRuntimesDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   serverlessRuntimesDelete();
 }
 

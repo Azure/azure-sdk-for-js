@@ -11,7 +11,7 @@ import {
   GenerateDetailedCostReportDefinition,
   GenerateDetailedCostReportCreateOperationOptionalParams,
   GenerateDetailedCostReportCreateOperationResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GenerateDetailedCostReport. */
 export interface GenerateDetailedCostReport {

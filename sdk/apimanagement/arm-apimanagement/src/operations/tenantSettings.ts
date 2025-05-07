@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { TenantSettings } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { TenantSettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   TenantSettingsContract,
   TenantSettingsListByServiceNextOptionalParams,
@@ -21,8 +21,8 @@ import {
   SettingsTypeName,
   TenantSettingsGetOptionalParams,
   TenantSettingsGetResponse,
-  TenantSettingsListByServiceNextResponse
-} from "../models";
+  TenantSettingsListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TenantSettings operations. */
@@ -46,12 +46,12 @@ export class TenantSettingsImpl implements TenantSettings {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantSettingsListByServiceOptionalParams
+    options?: TenantSettingsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TenantSettingsContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class TenantSettingsImpl implements TenantSettings {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class TenantSettingsImpl implements TenantSettings {
     resourceGroupName: string,
     serviceName: string,
     options?: TenantSettingsListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TenantSettingsContract[]> {
     let result: TenantSettingsListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class TenantSettingsImpl implements TenantSettings {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -98,7 +98,7 @@ export class TenantSettingsImpl implements TenantSettings {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class TenantSettingsImpl implements TenantSettings {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantSettingsListByServiceOptionalParams
+    options?: TenantSettingsListByServiceOptionalParams,
   ): AsyncIterableIterator<TenantSettingsContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +130,11 @@ export class TenantSettingsImpl implements TenantSettings {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: TenantSettingsListByServiceOptionalParams
+    options?: TenantSettingsListByServiceOptionalParams,
   ): Promise<TenantSettingsListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -149,11 +149,11 @@ export class TenantSettingsImpl implements TenantSettings {
     resourceGroupName: string,
     serviceName: string,
     settingsType: SettingsTypeName,
-    options?: TenantSettingsGetOptionalParams
+    options?: TenantSettingsGetOptionalParams,
   ): Promise<TenantSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, settingsType, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class TenantSettingsImpl implements TenantSettings {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: TenantSettingsListByServiceNextOptionalParams
+    options?: TenantSettingsListByServiceNextOptionalParams,
   ): Promise<TenantSettingsListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -180,69 +180,67 @@ export class TenantSettingsImpl implements TenantSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/settings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/settings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantSettingsCollection
+      bodyMapper: Mappers.TenantSettingsCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/settings/{settingsType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/settings/{settingsType}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.TenantSettingsContract,
-      headersMapper: Mappers.TenantSettingsGetHeaders
+      headersMapper: Mappers.TenantSettingsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.settingsType
+    Parameters.serviceName,
+    Parameters.settingsType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantSettingsCollection
+      bodyMapper: Mappers.TenantSettingsCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

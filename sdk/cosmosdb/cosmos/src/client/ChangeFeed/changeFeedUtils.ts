@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-import { ErrorResponse } from "../../request";
-import type { PartitionKeyRange } from "../Container";
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { Constants } from "../../common";
-import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import type { QueryRange } from "../../routing";
-import { FeedRangeInternal } from "./FeedRange";
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
+import { ErrorResponse } from "../../request/index.js";
+import type { PartitionKeyRange } from "../Container/index.js";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
+import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning.js";
+import { Constants } from "../../common/index.js";
+import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
+import { QueryRange } from "../../routing/index.js";
+import { FeedRangeInternal } from "./FeedRange.js";
+import { hashV2PartitionKey } from "../../utils/hashing/v2.js";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { EncryptionProcessor } from "../../encryption/index.js";
+import { ChangeFeedMode } from "./ChangeFeedMode.js";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 
 /**
  * @hidden
@@ -128,4 +134,58 @@ export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date |
  */
 export function isNullOrEmpty(text: string | null | undefined): boolean {
   return text === null || text === undefined || text.trim() === "";
+}
+
+/**
+ * @hidden
+ */
+export async function getEPKRangeForPrefixPartitionKey(
+  internalPartitionKey: PartitionKeyInternal,
+): Promise<QueryRange> {
+  const minEPK = getEffectivePartitionKeyForMultiHashPartitioning(internalPartitionKey);
+  const maxEPK =
+    minEPK + Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
+  return new QueryRange(minEPK, maxEPK, true, false);
+}
+
+/**
+ * @hidden
+ */
+export function getEffectivePartitionKeyForMultiHashPartitioning(
+  partitionKeyInternal: PartitionKeyInternal,
+): string {
+  const hashArray = partitionKeyInternal.map((item) => hashV2PartitionKey([item]));
+  return hashArray.join("");
+}
+
+/**
+ * @hidden
+ */
+export async function decryptChangeFeedResponse(
+  result: ChangeFeedIteratorResponse<any>,
+  diagnosticNode: DiagnosticNodeInternal,
+  changeFeedMode: ChangeFeedMode,
+  encryptionProcessor: EncryptionProcessor,
+): Promise<void> {
+  let count = 0;
+  diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+  for (let item of result.result) {
+    if (changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes) {
+      if ("current" in item && item.current !== null) {
+        const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item.current);
+        item.current = body;
+        count += propertiesDecryptedCount;
+      }
+      if ("previous" in item && item.previous !== null) {
+        const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item.previous);
+        item.previous = body;
+        count += propertiesDecryptedCount;
+      }
+    } else {
+      const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item);
+      item = body;
+      count += propertiesDecryptedCount;
+    }
+  }
+  diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation, count);
 }

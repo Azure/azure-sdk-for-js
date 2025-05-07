@@ -136,11 +136,11 @@ describe("Quantum job lifecycle", () => {
     for await (const job of jobs) {
       if (job.id === jobDetails.id) {
         jobFound = true;
-        assert.equal(jobDetails.inputDataFormat, jobDetails.inputDataFormat);
-        assert.equal(jobDetails.outputDataFormat, jobDetails.outputDataFormat);
-        assert.equal(jobDetails.providerId, jobDetails.providerId);
-        assert.equal(jobDetails.target, jobDetails.target);
-        assert.equal(jobDetails.name, jobDetails.name);
+        assert.equal(job.inputDataFormat, jobDetails.inputDataFormat);
+        assert.equal(job.outputDataFormat, jobDetails.outputDataFormat);
+        assert.equal(job.providerId, jobDetails.providerId);
+        assert.equal(job.target, jobDetails.target);
+        assert.equal(job.name, jobDetails.name);
       }
     }
     assert.isTrue(jobFound);

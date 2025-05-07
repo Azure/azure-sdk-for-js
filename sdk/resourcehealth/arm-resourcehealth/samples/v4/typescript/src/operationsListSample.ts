@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists available operations for the resourcehealth resource provider
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists available operations for the resourcehealth resource provider
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/Operations_List.json
  */
-async function getOperationsList() {
+async function getOperationsList(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +28,7 @@ async function getOperationsList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperationsList();
 }
 

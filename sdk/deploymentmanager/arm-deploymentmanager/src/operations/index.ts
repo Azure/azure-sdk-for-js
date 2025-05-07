@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./serviceTopologies";
-export * from "./services";
-export * from "./serviceUnits";
-export * from "./steps";
-export * from "./rollouts";
-export * from "./artifactSources";
-export * from "./operations";
+export * from "./serviceTopologies.js";
+export * from "./services.js";
+export * from "./serviceUnits.js";
+export * from "./steps.js";
+export * from "./rollouts.js";
+export * from "./artifactSources.js";
+export * from "./operations.js";

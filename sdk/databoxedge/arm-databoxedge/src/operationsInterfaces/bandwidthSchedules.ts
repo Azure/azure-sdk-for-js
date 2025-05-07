@@ -16,7 +16,7 @@ import {
   BandwidthSchedulesCreateOrUpdateOptionalParams,
   BandwidthSchedulesCreateOrUpdateResponse,
   BandwidthSchedulesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BandwidthSchedules. */

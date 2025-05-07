@@ -14,9 +14,9 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, OrganizationsImpl } from "./operations";
-import { Operations, Organizations } from "./operationsInterfaces";
-import { AstroManagementClientOptionalParams } from "./models";
+import { OperationsImpl, OrganizationsImpl } from "./operations/index.js";
+import { Operations, Organizations } from "./operationsInterfaces/index.js";
+import { AstroManagementClientOptionalParams } from "./models/index.js";
 
 export class AstroManagementClient extends coreClient.ServiceClient {
   $host: string;

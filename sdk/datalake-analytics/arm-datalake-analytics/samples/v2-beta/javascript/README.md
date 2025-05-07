@@ -105,6 +105,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageaccountslistsastokenssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datalake-analytics/arm-datalake-analytics/samples/v2-beta/javascript/storageAccountsListSasTokensSample.js
 [storageaccountsliststoragecontainerssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datalake-analytics/arm-datalake-analytics/samples/v2-beta/javascript/storageAccountsListStorageContainersSample.js
 [storageaccountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datalake-analytics/arm-datalake-analytics/samples/v2-beta/javascript/storageAccountsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datalake-analytics/arm-datalake-analytics/README.md

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegionContract, RegionListByServiceOptionalParams } from "../models";
+import { RegionContract, RegionListByServiceOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Region. */
@@ -21,6 +21,6 @@ export interface Region {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: RegionListByServiceOptionalParams
+    options?: RegionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<RegionContract>;
 }

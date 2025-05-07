@@ -19,8 +19,8 @@ import {
   CacheUpdateParameters,
   CacheUpdateOptionalParams,
   CacheUpdateResponse,
-  CacheDeleteOptionalParams
-} from "../models";
+  CacheDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Cache. */
@@ -34,7 +34,7 @@ export interface Cache {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: CacheListByServiceOptionalParams
+    options?: CacheListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<CacheContract>;
   /**
    * Gets the entity state (Etag) version of the Cache specified by its identifier.
@@ -48,7 +48,7 @@ export interface Cache {
     resourceGroupName: string,
     serviceName: string,
     cacheId: string,
-    options?: CacheGetEntityTagOptionalParams
+    options?: CacheGetEntityTagOptionalParams,
   ): Promise<CacheGetEntityTagResponse>;
   /**
    * Gets the details of the Cache specified by its identifier.
@@ -62,7 +62,7 @@ export interface Cache {
     resourceGroupName: string,
     serviceName: string,
     cacheId: string,
-    options?: CacheGetOptionalParams
+    options?: CacheGetOptionalParams,
   ): Promise<CacheGetResponse>;
   /**
    * Creates or updates an External Cache to be used in Api Management instance.
@@ -78,7 +78,7 @@ export interface Cache {
     serviceName: string,
     cacheId: string,
     parameters: CacheContract,
-    options?: CacheCreateOrUpdateOptionalParams
+    options?: CacheCreateOrUpdateOptionalParams,
   ): Promise<CacheCreateOrUpdateResponse>;
   /**
    * Updates the details of the cache specified by its identifier.
@@ -97,7 +97,7 @@ export interface Cache {
     cacheId: string,
     ifMatch: string,
     parameters: CacheUpdateParameters,
-    options?: CacheUpdateOptionalParams
+    options?: CacheUpdateOptionalParams,
   ): Promise<CacheUpdateResponse>;
   /**
    * Deletes specific Cache.
@@ -114,6 +114,6 @@ export interface Cache {
     serviceName: string,
     cacheId: string,
     ifMatch: string,
-    options?: CacheDeleteOptionalParams
+    options?: CacheDeleteOptionalParams,
   ): Promise<void>;
 }

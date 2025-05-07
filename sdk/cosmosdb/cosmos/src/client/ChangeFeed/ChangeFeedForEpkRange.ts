@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ChangeFeedRange } from "./ChangeFeedRange";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import type { PartitionKeyRangeCache } from "../../routing";
-import { QueryRange } from "../../routing";
-import { FeedRangeQueue } from "./FeedRangeQueue";
-import type { ClientContext } from "../../ClientContext";
-import type { Container, Resource } from "../../client";
-import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
-import type { Response, FeedOptions } from "../../request";
-import { ErrorResponse } from "../../request";
-import { CompositeContinuationToken } from "./CompositeContinuationToken";
-import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { extractOverlappingRanges } from "./changeFeedUtils";
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { ChangeFeedMode } from "./ChangeFeedMode";
+import { ChangeFeedRange } from "./ChangeFeedRange.js";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import type { PartitionKeyRangeCache } from "../../routing/index.js";
+import { QueryRange } from "../../routing/index.js";
+import { FeedRangeQueue } from "./FeedRangeQueue.js";
+import type { ClientContext } from "../../ClientContext.js";
+import type { Container, Resource } from "../../client/index.js";
+import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common/index.js";
+import type { Response, FeedOptions } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
+import { CompositeContinuationToken } from "./CompositeContinuationToken.js";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils.js";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { ChangeFeedMode } from "./ChangeFeedMode.js";
 /**
  * @hidden
  * Provides iterator for change feed for entire container or an epk range.
@@ -188,6 +188,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       do {
         const [processedFeedRange, response] = await this.fetchNext(diagnosticNode);
         result = response;
+
         if (result !== undefined) {
           {
             if (firstNotModifiedFeedRange === undefined) {
@@ -200,6 +201,15 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
             if (result.statusCode === StatusCodes.Ok) {
               result.headers[Constants.HttpHeaders.ContinuationToken] =
                 this.generateContinuationToken();
+
+              if (this.clientContext.enableEncryption) {
+                await decryptChangeFeedResponse(
+                  result,
+                  diagnosticNode,
+                  this.changeFeedOptions.changeFeedMode,
+                  this.container.encryptionProcessor,
+                );
+              }
               return result;
             }
           }
@@ -421,6 +431,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
+    if (this.clientContext.enableEncryption) {
+      await this.container.checkAndInitializeEncryption();
+      feedOptions.containerRid = this.container._rid;
+    }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
@@ -445,23 +459,22 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
-        const errorResponse = new ErrorResponse(err.message);
-        errorResponse.code = err.code;
-        errorResponse.headers = err.headers;
-
-        throw errorResponse;
+      // If partition split/merge is encountered, handle it gracefully and continue fetching results.
+      if (err.code === StatusCodes.Gone) {
+        return new ChangeFeedIteratorResponse(
+          [],
+          0,
+          err.code,
+          err.headers,
+          getEmptyCosmosDiagnostics(),
+          err.substatus,
+        );
       }
-
-      // If any other errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
-      return new ChangeFeedIteratorResponse(
-        [],
-        0,
-        err.code,
-        err.headers,
-        getEmptyCosmosDiagnostics(),
-        err.substatus,
-      );
+      // If any other errors are encountered, throw the error.
+      const errorResponse = new ErrorResponse(err.message);
+      errorResponse.code = err.code;
+      errorResponse.headers = err.headers;
+      throw errorResponse;
     }
   }
 }

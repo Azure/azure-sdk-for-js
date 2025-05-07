@@ -17,8 +17,8 @@ import {
   GlobalSchemaGetResponse,
   GlobalSchemaCreateOrUpdateOptionalParams,
   GlobalSchemaCreateOrUpdateResponse,
-  GlobalSchemaDeleteOptionalParams
-} from "../models";
+  GlobalSchemaDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GlobalSchema. */
@@ -32,7 +32,7 @@ export interface GlobalSchema {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: GlobalSchemaListByServiceOptionalParams
+    options?: GlobalSchemaListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GlobalSchemaContract>;
   /**
    * Gets the entity state (Etag) version of the Schema specified by its identifier.
@@ -45,7 +45,7 @@ export interface GlobalSchema {
     resourceGroupName: string,
     serviceName: string,
     schemaId: string,
-    options?: GlobalSchemaGetEntityTagOptionalParams
+    options?: GlobalSchemaGetEntityTagOptionalParams,
   ): Promise<GlobalSchemaGetEntityTagResponse>;
   /**
    * Gets the details of the Schema specified by its identifier.
@@ -58,7 +58,7 @@ export interface GlobalSchema {
     resourceGroupName: string,
     serviceName: string,
     schemaId: string,
-    options?: GlobalSchemaGetOptionalParams
+    options?: GlobalSchemaGetOptionalParams,
   ): Promise<GlobalSchemaGetResponse>;
   /**
    * Creates new or updates existing specified Schema of the API Management service instance.
@@ -73,7 +73,7 @@ export interface GlobalSchema {
     serviceName: string,
     schemaId: string,
     parameters: GlobalSchemaContract,
-    options?: GlobalSchemaCreateOrUpdateOptionalParams
+    options?: GlobalSchemaCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GlobalSchemaCreateOrUpdateResponse>,
@@ -93,7 +93,7 @@ export interface GlobalSchema {
     serviceName: string,
     schemaId: string,
     parameters: GlobalSchemaContract,
-    options?: GlobalSchemaCreateOrUpdateOptionalParams
+    options?: GlobalSchemaCreateOrUpdateOptionalParams,
   ): Promise<GlobalSchemaCreateOrUpdateResponse>;
   /**
    * Deletes specific Schema.
@@ -109,6 +109,6 @@ export interface GlobalSchema {
     serviceName: string,
     schemaId: string,
     ifMatch: string,
-    options?: GlobalSchemaDeleteOptionalParams
+    options?: GlobalSchemaDeleteOptionalParams,
   ): Promise<void>;
 }

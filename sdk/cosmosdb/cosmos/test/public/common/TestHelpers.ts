@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
-import assert from "assert";
+
 import type {
+  ClientConfigDiagnostic,
   Container,
+  CosmosClientOptions,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
@@ -12,50 +13,66 @@ import type {
   MetadataLookUpDiagnostic,
   PartitionKey,
   PartitionKeyDefinition,
+  PartitionKeyRange,
   PermissionDefinition,
+  QueryIterator,
   RequestOptions,
   Response,
   UserDefinition,
-} from "../../../src";
-import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src";
+} from "../../../src/index.js";
+import {
+  ClientContext,
+  ConnectionMode,
+  ConsistencyLevel,
+  Constants,
+  CosmosClient,
+  CosmosDbDiagnosticLevel,
+  GlobalEndpointManager,
+  MetadataLookUpType,
+} from "../../../src/index.js";
 import type {
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
   Resource,
   User,
-} from "../../../src";
-import type { UserResponse } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
-import type { DatabaseRequest } from "../../../src";
-import type { ContainerRequest } from "../../../src";
-import { AssertionError, expect } from "chai";
+} from "../../../src/index.js";
+import type { UserResponse } from "../../../src/index.js";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
+import type { DatabaseRequest } from "../../../src/index.js";
+import type { ContainerRequest } from "../../../src/index.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal";
-import type { ExtractPromise } from "../../../src/utils/diagnostics";
-import { getCurrentTimestampInMs } from "../../../src/utils/time";
-import { extractPartitionKeys } from "../../../src/extractPartitionKey";
-import fs from "fs";
-import path from "path";
+} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
+import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
+import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import fs from "node:fs";
+import path from "node:path";
+import { assert, expect, vi } from "vitest";
+import { AssertionError } from "assertion-error";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
 
-export const defaultClient = new CosmosClient({
-  endpoint,
-  key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-  diagnosticLevel: CosmosDbDiagnosticLevel.info,
-});
+export function getDefaultClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint,
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+    diagnosticLevel: CosmosDbDiagnosticLevel.info,
+  });
+}
 
-export const defaultComputeGatewayClient = new CosmosClient({
-  endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
-  key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-});
+export function getDefaultComputeGatewayClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+  });
+}
 
 export function addEntropy(name: string): string {
   return name + getEntropy();
@@ -65,8 +82,11 @@ export function getEntropy(): string {
   return `${Math.floor(Math.random() * 10000)}`;
 }
 
-export async function removeAllDatabases(client: CosmosClient = defaultClient): Promise<void> {
+export async function removeAllDatabases(client?: CosmosClient): Promise<void> {
   try {
+    if (!client) {
+      client = getDefaultClient();
+    }
     const { resources: databases } = await client.databases.readAll().fetchAll();
     const length = databases.length;
 
@@ -128,10 +148,10 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
       spec.requestDurationInMsUpperLimit =
         getCurrentTimestampInMs() - spec.requestStartTimeUTCInMsLowerLimit;
     }
-    expect(
+    assert.isDefined(
       response.diagnostics,
       "Diagnostics object should not be undefined or null, in Response object",
-    ).to.exist;
+    );
     validateDiagnostics(response.diagnostics, spec, parallelExecutions);
     return response;
   } catch (ex) {
@@ -142,10 +162,10 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
       spec.requestDurationInMsUpperLimit =
         getCurrentTimestampInMs() - spec.requestStartTimeUTCInMsLowerLimit;
     }
-    expect(
+    assert.isDefined(
       ex.diagnostics,
       "Diagnostics object should not be undefined or null, in Exception objection",
-    ).to.exist;
+    );
     validateDiagnostics(ex.diagnostics, spec, parallelExecutions);
     throw ex;
   }
@@ -162,7 +182,7 @@ export function validateDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   parallelExecutions: boolean,
 ): void {
-  expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
+  assert.isDefined(diagnostics, "Diagnostics object should not be undefined or null");
 
   validateRequestStartTimeForDiagnostics(spec, diagnostics);
 
@@ -209,12 +229,15 @@ function validateGatewayStatisticsForDiagnostics(
 ): void {
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   if (spec.gatewayStatisticsTestSpec !== undefined) {
-    expect(gatewayStatistics, "In CosmosDiagnostics, gatewayStatistics should have existed.").to
-      .exist;
-    expect(
+    assert.isDefined(
+      gatewayStatistics,
+      "In CosmosDiagnostics, gatewayStatistics should have existed.",
+    );
+    assert.equal(
       gatewayStatistics.length,
+      spec.gatewayStatisticsTestSpec.length,
       "In CosmosDiagnostics, Number of gatewayStatistics should match the spec.",
-    ).to.be.equal(spec.gatewayStatisticsTestSpec.length);
+    );
 
     for (let i = 0; i < spec.gatewayStatisticsTestSpec.length; i++) {
       const gatewayStatisticsSpec: Partial<GatewayStatistics> = spec.gatewayStatisticsTestSpec[i];
@@ -424,9 +447,12 @@ function validateRequestStartTimeForDiagnostics(
 
 export async function getTestDatabase(
   testName: string,
-  client: CosmosClient = defaultClient,
+  client?: CosmosClient,
   attrs?: Partial<DatabaseRequest>,
 ): Promise<Database> {
+  if (!client) {
+    client = getDefaultClient();
+  }
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
   await client.databases.create({ id, ...attrs });
@@ -435,10 +461,13 @@ export async function getTestDatabase(
 
 export async function getTestContainer(
   testName: string,
-  client: CosmosClient = defaultClient,
+  client?: CosmosClient,
   containerDef?: ContainerRequest,
   options?: RequestOptions,
 ): Promise<Container> {
+  if (!client) {
+    client = getDefaultClient();
+  }
   const db = await getTestDatabase(testName, client);
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
@@ -483,8 +512,8 @@ export async function bulkReplaceItems(
     documents.map(async (document) => {
       const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
-      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
-      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
+      const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document;
+      const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc;
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
       return doc;
     }),
@@ -642,9 +671,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
   } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
-  throw new assert.AssertionError({
-    message: "Missing rejection" + (error ? " with " + error.name : ""),
-  });
+  throw new AssertionError(`Missing rejection ${error} with ${error.name || ""}`);
 }
 
 // helper functions for testing change feed allVersionsAndDeletes mode
@@ -703,4 +730,89 @@ export function readAndParseJSONFile(fileName: string): any {
     console.error("Error parsing JSON file:", error);
   }
   return parsedData;
+}
+
+export function initializeMockPartitionKeyRanges(
+  createMockPartitionKeyRange: (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ) => {
+    id: string; // Range ID
+    _rid: string; // Resource ID of the partition key range
+    minInclusive: string; // Minimum value of the partition key range
+    maxExclusive: string; // Maximum value of the partition key range
+    _etag: string; // ETag for concurrency control
+    _self: string; // Self-link
+    throughputFraction: number; // Throughput assigned to this partition
+    status: string;
+  },
+  clientContext: ClientContext,
+  ranges: [string, string][],
+): void {
+  const partitionKeyRanges = ranges.map((range, index) =>
+    createMockPartitionKeyRange(index.toString(), range[0], range[1]),
+  );
+
+  const fetchAllInternalStub = vi.fn().mockResolvedValue({
+    resources: partitionKeyRanges,
+    headers: { "x-ms-request-charge": "1.23" },
+    code: 200,
+  });
+  vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  } as unknown as QueryIterator<PartitionKeyRange>);
+}
+
+export function createTestClientContext(
+  options: Partial<CosmosClientOptions>,
+  diagnosticLevel: CosmosDbDiagnosticLevel,
+): ClientContext {
+  const clientOps: CosmosClientOptions = {
+    endpoint: "",
+    connectionPolicy: {
+      connectionMode: ConnectionMode.Gateway,
+      requestTimeout: 60000,
+      enableEndpointDiscovery: true,
+      preferredLocations: [],
+      retryOptions: {
+        maxRetryAttemptCount: 9,
+        fixedRetryIntervalInMilliseconds: 0,
+        maxWaitTimeInSeconds: 30,
+      },
+      useMultipleWriteLocations: true,
+      endpointRefreshRateInMs: 300000,
+      enableBackgroundEndpointRefreshing: true,
+    },
+    ...options,
+  };
+  const globalEndpointManager = new GlobalEndpointManager(
+    clientOps,
+    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+      expect(opts).to.exist;
+      const dummyAccount: any = diagnosticNode;
+      return dummyAccount;
+    },
+  );
+  const clientConfig: ClientConfigDiagnostic = {
+    endpoint: "",
+    resourceTokensConfigured: true,
+    tokenProviderConfigured: true,
+    aadCredentialsConfigured: true,
+    connectionPolicyConfigured: true,
+    consistencyLevel: ConsistencyLevel.BoundedStaleness,
+    defaultHeaders: {},
+    agentConfigured: true,
+    userAgentSuffix: "",
+    pluginsConfigured: true,
+    sDKVersion: Constants.SDKVersion,
+    ...options,
+  };
+  const clientContext = new ClientContext(
+    clientOps,
+    globalEndpointManager,
+    clientConfig,
+    diagnosticLevel,
+  );
+  return clientContext;
 }

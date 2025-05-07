@@ -9,23 +9,21 @@
  * @summary use the prebuilt layout model to extract basic document elements only
  */
 
-import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DefaultAzureCredential } from "@azure/identity";
+import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout.js";
+import "dotenv/config";
 
-import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout";
-
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
+  const credential = new DefaultAzureCredential();
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltLayoutModel,
     // The Document Intelligence service will access the following URL to a receipt image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
   );
 
   // Layout extraction only produces basic elements such as pages, words, lines, etc. as well as information about the
@@ -40,7 +38,7 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(
-        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
       );
 
       if (page.lines && page.lines.length > 0) {
@@ -65,7 +63,7 @@ async function main() {
     console.log("Tables:");
     for (const table of tables) {
       console.log(
-        `- Extracted table: ${table.columnCount} columns, ${table.rowCount} rows (${table.cells.length} cells)`
+        `- Extracted table: ${table.columnCount} columns, ${table.rowCount} rows (${table.cells.length} cells)`,
       );
     }
   }

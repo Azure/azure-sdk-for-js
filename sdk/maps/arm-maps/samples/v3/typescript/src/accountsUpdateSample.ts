@@ -13,9 +13,7 @@ import {
   AzureMapsManagementClient
 } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountEncryption.json
  */
-async function updateAccountEncryption() {
+async function updateAccountEncryption(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -64,7 +62,7 @@ async function updateAccountEncryption() {
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountManagedIdentity.json
  */
-async function updateAccountManagedIdentities() {
+async function updateAccountManagedIdentities(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -104,7 +102,7 @@ async function updateAccountManagedIdentities() {
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccount.json
  */
-async function updateAccountTags() {
+async function updateAccountTags(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -130,7 +128,7 @@ async function updateAccountTags() {
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountGen1.json
  */
-async function updateToGen1Account() {
+async function updateToGen1Account(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -157,7 +155,7 @@ async function updateToGen1Account() {
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateAccountGen2.json
  */
-async function updateToGen2Account() {
+async function updateToGen2Account(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -178,7 +176,7 @@ async function updateToGen2Account() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAccountEncryption();
   updateAccountManagedIdentities();
   updateAccountTags();

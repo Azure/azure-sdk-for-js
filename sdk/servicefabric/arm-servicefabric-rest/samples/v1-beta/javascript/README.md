@@ -65,6 +65,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [clusterslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric-rest/samples/v1-beta/javascript/clustersListSample.js
 [clusterslistupgradableversionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric-rest/samples/v1-beta/javascript/clustersListUpgradableVersionsSample.js
 [clustersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric-rest/samples/v1-beta/javascript/clustersUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric-rest/README.md

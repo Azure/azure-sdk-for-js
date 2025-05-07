@@ -7,12 +7,4 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-naming-options": "warn",
     },
   },
-  {
-    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.test.json"],
-      },
-    },
-  },
 ]);

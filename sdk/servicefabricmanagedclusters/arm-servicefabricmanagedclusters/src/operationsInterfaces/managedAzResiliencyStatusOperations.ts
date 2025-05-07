@@ -9,7 +9,7 @@
 import {
   ManagedAzResiliencyStatusGetOptionalParams,
   ManagedAzResiliencyStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedAzResiliencyStatusOperations. */
 export interface ManagedAzResiliencyStatusOperations {

@@ -24,7 +24,7 @@ import {
   SignalRPrivateLinkResourcesImpl,
   SignalRReplicasImpl,
   SignalRSharedPrivateLinkResourcesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   SignalR,
@@ -35,8 +35,8 @@ import {
   SignalRPrivateLinkResources,
   SignalRReplicas,
   SignalRSharedPrivateLinkResources
-} from "./operationsInterfaces";
-import { SignalRManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SignalRManagementClientOptionalParams } from "./models/index.js";
 
 export class SignalRManagementClient extends coreClient.ServiceClient {
   $host: string;

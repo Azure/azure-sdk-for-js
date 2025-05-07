@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of a cloud service.
  *
  * @summary Gets the status of a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Get_InstanceViewWithMultiRole.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Get_InstanceViewWithMultiRole.json
  */
-async function getCloudServiceInstanceViewWithMultipleRoles() {
+async function getCloudServiceInstanceViewWithMultipleRoles(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,8 +33,8 @@ async function getCloudServiceInstanceViewWithMultipleRoles() {
   console.log(result);
 }
 
-async function main() {
-  getCloudServiceInstanceViewWithMultipleRoles();
+async function main(): Promise<void> {
+  await getCloudServiceInstanceViewWithMultipleRoles();
 }
 
 main().catch(console.error);

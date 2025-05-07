@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PortalConfigContract,
   PortalConfigListByServiceOptionalParams,
-  PortalConfigListByServiceResponse,
   PortalConfigGetEntityTagOptionalParams,
   PortalConfigGetEntityTagResponse,
   PortalConfigGetOptionalParams,
   PortalConfigGetResponse,
-  PortalConfigContract,
   PortalConfigUpdateOptionalParams,
   PortalConfigUpdateResponse,
   PortalConfigCreateOrUpdateOptionalParams,
-  PortalConfigCreateOrUpdateResponse
-} from "../models";
+  PortalConfigCreateOrUpdateResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PortalConfig. */
 export interface PortalConfig {
   /**
@@ -31,8 +32,8 @@ export interface PortalConfig {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalConfigListByServiceOptionalParams
-  ): Promise<PortalConfigListByServiceResponse>;
+    options?: PortalConfigListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PortalConfigContract>;
   /**
    * Gets the entity state (Etag) version of the developer portal configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -44,7 +45,7 @@ export interface PortalConfig {
     resourceGroupName: string,
     serviceName: string,
     portalConfigId: string,
-    options?: PortalConfigGetEntityTagOptionalParams
+    options?: PortalConfigGetEntityTagOptionalParams,
   ): Promise<PortalConfigGetEntityTagResponse>;
   /**
    * Get the developer portal configuration.
@@ -57,7 +58,7 @@ export interface PortalConfig {
     resourceGroupName: string,
     serviceName: string,
     portalConfigId: string,
-    options?: PortalConfigGetOptionalParams
+    options?: PortalConfigGetOptionalParams,
   ): Promise<PortalConfigGetResponse>;
   /**
    * Update the developer portal configuration.
@@ -75,7 +76,7 @@ export interface PortalConfig {
     portalConfigId: string,
     ifMatch: string,
     parameters: PortalConfigContract,
-    options?: PortalConfigUpdateOptionalParams
+    options?: PortalConfigUpdateOptionalParams,
   ): Promise<PortalConfigUpdateResponse>;
   /**
    * Create or update the developer portal configuration.
@@ -93,6 +94,6 @@ export interface PortalConfig {
     portalConfigId: string,
     ifMatch: string,
     parameters: PortalConfigContract,
-    options?: PortalConfigCreateOrUpdateOptionalParams
+    options?: PortalConfigCreateOrUpdateOptionalParams,
   ): Promise<PortalConfigCreateOrUpdateResponse>;
 }

@@ -17,8 +17,8 @@ import {
   ApiSchemaGetResponse,
   ApiSchemaCreateOrUpdateOptionalParams,
   ApiSchemaCreateOrUpdateResponse,
-  ApiSchemaDeleteOptionalParams
-} from "../models";
+  ApiSchemaDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiSchema. */
@@ -35,7 +35,7 @@ export interface ApiSchema {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiSchemaListByApiOptionalParams
+    options?: ApiSchemaListByApiOptionalParams,
   ): PagedAsyncIterableIterator<SchemaContract>;
   /**
    * Gets the entity state (Etag) version of the schema specified by its identifier.
@@ -51,7 +51,7 @@ export interface ApiSchema {
     serviceName: string,
     apiId: string,
     schemaId: string,
-    options?: ApiSchemaGetEntityTagOptionalParams
+    options?: ApiSchemaGetEntityTagOptionalParams,
   ): Promise<ApiSchemaGetEntityTagResponse>;
   /**
    * Get the schema configuration at the API level.
@@ -67,7 +67,7 @@ export interface ApiSchema {
     serviceName: string,
     apiId: string,
     schemaId: string,
-    options?: ApiSchemaGetOptionalParams
+    options?: ApiSchemaGetOptionalParams,
   ): Promise<ApiSchemaGetResponse>;
   /**
    * Creates or updates schema configuration for the API.
@@ -85,7 +85,7 @@ export interface ApiSchema {
     apiId: string,
     schemaId: string,
     parameters: SchemaContract,
-    options?: ApiSchemaCreateOrUpdateOptionalParams
+    options?: ApiSchemaCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiSchemaCreateOrUpdateResponse>,
@@ -108,7 +108,7 @@ export interface ApiSchema {
     apiId: string,
     schemaId: string,
     parameters: SchemaContract,
-    options?: ApiSchemaCreateOrUpdateOptionalParams
+    options?: ApiSchemaCreateOrUpdateOptionalParams,
   ): Promise<ApiSchemaCreateOrUpdateResponse>;
   /**
    * Deletes the schema configuration at the Api.
@@ -127,6 +127,6 @@ export interface ApiSchema {
     apiId: string,
     schemaId: string,
     ifMatch: string,
-    options?: ApiSchemaDeleteOptionalParams
+    options?: ApiSchemaDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -30,10 +30,13 @@ async function main(): Promise<void> {
   const saved_filter_name = "Sample saved filter";
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
     {},
   );
@@ -50,7 +53,7 @@ async function main(): Promise<void> {
   // First, retrieve the saved filter by name, then use it in an asset list or update call
 
   // A sample asset list call that could be used to monitor the assets:
-  const monitor = (saved_filter: SavedFilterOutput) => {
+  const monitor = (saved_filter: SavedFilterOutput): void => {
     // your monitor logic here
     console.log(saved_filter.name);
   };
@@ -77,7 +80,7 @@ async function main(): Promise<void> {
 
   const saved_filters = saved_filters_list_response.body.value;
 
-  saved_filters!.forEach(monitor);
+  await saved_filters!.forEach(monitor);
 
   // A sample asset update call, which could be used to update the monitored assets:
   await client.path("/assets").post({

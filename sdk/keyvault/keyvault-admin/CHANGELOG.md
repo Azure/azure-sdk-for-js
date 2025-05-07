@@ -1,6 +1,8 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
-## 4.6.1 (Unreleased)
+## 4.7.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +11,21 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.7.0-beta.1 (2025-03-11)
+
+### Features Added
+
+- Added support for service API version `7.6-preview.2`. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+- Added `KeyVaultBackupClient.beginPreBackup` and `KeyVaultBackupClient.beginPreRestore` methods for checking if it is possible to perform a full key backup or full key restore. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+
+### Bugs Fixed
+
+- Fixed a typing issue in `KeyVaultBackupResult` and `KeyVaultRestoreResult` where `startTime` was marked as a required field. This field can be `undefined` if the operation never started successfully. [#32123](https://github.com/Azure/azure-sdk-for-js/pull/32123)
+
+### Other Changes
+
+- Generate code from TypeSpec. This is an internal change that should not affect customers. [#32123](https://github.com/Azure/azure-sdk-for-js/pull/32123)
 
 ## 4.6.0 (2024-10-16)
 

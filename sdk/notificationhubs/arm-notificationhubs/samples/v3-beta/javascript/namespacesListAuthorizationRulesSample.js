@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the authorization rules for a namespace.
@@ -26,7 +24,7 @@ async function namespacesListAuthorizationRules() {
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.listAuthorizationRules(
+  for await (const item of client.namespaces.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
   )) {
@@ -36,7 +34,7 @@ async function namespacesListAuthorizationRules() {
 }
 
 async function main() {
-  namespacesListAuthorizationRules();
+  await namespacesListAuthorizationRules();
 }
 
 main().catch(console.error);

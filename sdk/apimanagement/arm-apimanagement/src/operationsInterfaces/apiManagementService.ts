@@ -35,8 +35,8 @@ import {
   ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
   ApiManagementServiceGetDomainOwnershipIdentifierResponse,
   ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
-  ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-} from "../models";
+  ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiManagementService. */
@@ -48,14 +48,14 @@ export interface ApiManagementService {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
+    options?: ApiManagementServiceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApiManagementServiceResource>;
   /**
    * Lists all API Management services within an Azure subscription.
    * @param options The options parameters.
    */
   list(
-    options?: ApiManagementServiceListOptionalParams
+    options?: ApiManagementServiceListOptionalParams,
   ): PagedAsyncIterableIterator<ApiManagementServiceResource>;
   /**
    * Restores a backup of an API Management service created using the ApiManagementService_Backup
@@ -70,7 +70,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceRestoreOptionalParams
+    options?: ApiManagementServiceRestoreOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceRestoreResponse>,
@@ -90,7 +90,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceRestoreOptionalParams
+    options?: ApiManagementServiceRestoreOptionalParams,
   ): Promise<ApiManagementServiceRestoreResponse>;
   /**
    * Creates a backup of the API Management service to the given Azure Storage Account. This is long
@@ -104,7 +104,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceBackupOptionalParams
+    options?: ApiManagementServiceBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceBackupResponse>,
@@ -123,7 +123,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceBackupOptionalParams
+    options?: ApiManagementServiceBackupOptionalParams,
   ): Promise<ApiManagementServiceBackupResponse>;
   /**
    * Creates or updates an API Management service. This is long running operation and could take several
@@ -137,7 +137,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceResource,
-    options?: ApiManagementServiceCreateOrUpdateOptionalParams
+    options?: ApiManagementServiceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceCreateOrUpdateResponse>,
@@ -156,7 +156,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceResource,
-    options?: ApiManagementServiceCreateOrUpdateOptionalParams
+    options?: ApiManagementServiceCreateOrUpdateOptionalParams,
   ): Promise<ApiManagementServiceCreateOrUpdateResponse>;
   /**
    * Updates an existing API Management service.
@@ -169,7 +169,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceUpdateParameters,
-    options?: ApiManagementServiceUpdateOptionalParams
+    options?: ApiManagementServiceUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceUpdateResponse>,
@@ -187,7 +187,7 @@ export interface ApiManagementService {
     resourceGroupName: string,
     serviceName: string,
     parameters: ApiManagementServiceUpdateParameters,
-    options?: ApiManagementServiceUpdateOptionalParams
+    options?: ApiManagementServiceUpdateOptionalParams,
   ): Promise<ApiManagementServiceUpdateResponse>;
   /**
    * Gets an API Management service resource description.
@@ -198,7 +198,7 @@ export interface ApiManagementService {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceGetOptionalParams
+    options?: ApiManagementServiceGetOptionalParams,
   ): Promise<ApiManagementServiceGetResponse>;
   /**
    * Deletes an existing API Management service.
@@ -209,7 +209,7 @@ export interface ApiManagementService {
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceDeleteOptionalParams
+    options?: ApiManagementServiceDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing API Management service.
@@ -220,7 +220,7 @@ export interface ApiManagementService {
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceDeleteOptionalParams
+    options?: ApiManagementServiceDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Upgrades an API Management service to the Stv2 platform. For details refer to
@@ -233,7 +233,7 @@ export interface ApiManagementService {
   beginMigrateToStv2(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceMigrateToStv2OptionalParams
+    options?: ApiManagementServiceMigrateToStv2OptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiManagementServiceMigrateToStv2Response>,
@@ -251,7 +251,7 @@ export interface ApiManagementService {
   beginMigrateToStv2AndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceMigrateToStv2OptionalParams
+    options?: ApiManagementServiceMigrateToStv2OptionalParams,
   ): Promise<ApiManagementServiceMigrateToStv2Response>;
   /**
    * Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
@@ -262,7 +262,7 @@ export interface ApiManagementService {
   getSsoToken(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceGetSsoTokenOptionalParams
+    options?: ApiManagementServiceGetSsoTokenOptionalParams,
   ): Promise<ApiManagementServiceGetSsoTokenResponse>;
   /**
    * Checks availability and correctness of a name for an API Management service.
@@ -271,14 +271,14 @@ export interface ApiManagementService {
    */
   checkNameAvailability(
     parameters: ApiManagementServiceCheckNameAvailabilityParameters,
-    options?: ApiManagementServiceCheckNameAvailabilityOptionalParams
+    options?: ApiManagementServiceCheckNameAvailabilityOptionalParams,
   ): Promise<ApiManagementServiceCheckNameAvailabilityResponse>;
   /**
    * Get the custom domain ownership identifier for an API Management service.
    * @param options The options parameters.
    */
   getDomainOwnershipIdentifier(
-    options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams
+    options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
   ): Promise<ApiManagementServiceGetDomainOwnershipIdentifierResponse>;
   /**
    * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
@@ -290,12 +290,10 @@ export interface ApiManagementService {
   beginApplyNetworkConfigurationUpdates(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-      >,
+      OperationState<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse>,
       ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
     >
   >;
@@ -309,6 +307,6 @@ export interface ApiManagementService {
   beginApplyNetworkConfigurationUpdatesAndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
   ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse>;
 }

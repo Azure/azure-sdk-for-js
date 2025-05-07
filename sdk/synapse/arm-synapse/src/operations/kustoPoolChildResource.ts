@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { KustoPoolChildResource } from "../operationsInterfaces";
+import { KustoPoolChildResource } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   DatabaseCheckNameRequest,
   KustoPoolChildResourceCheckNameAvailabilityOptionalParams,
   KustoPoolChildResourceCheckNameAvailabilityResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing KustoPoolChildResource operations. */
 export class KustoPoolChildResourceImpl implements KustoPoolChildResource {

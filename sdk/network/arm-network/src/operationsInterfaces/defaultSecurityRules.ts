@@ -12,7 +12,7 @@ import {
   DefaultSecurityRulesListOptionalParams,
   DefaultSecurityRulesGetOptionalParams,
   DefaultSecurityRulesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DefaultSecurityRules. */

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
  *
  * @summary Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen() {
+async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,9 +38,9 @@ async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen()
  * This sample demonstrates how to Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
  *
  * @summary Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_StartOSUpgrade_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen() {
+async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -58,9 +56,9 @@ async function virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen()
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen();
-  virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetRollingUpgradeStartOSUpgradeMaximumSetGen();
+  await virtualMachineScaleSetRollingUpgradeStartOSUpgradeMinimumSetGen();
 }
 
 main().catch(console.error);

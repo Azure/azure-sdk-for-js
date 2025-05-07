@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets information about a disk access resource.
@@ -45,8 +45,8 @@ async function getInformationAboutADiskAccessResource() {
 }
 
 async function main() {
-  getInformationAboutADiskAccessResourceWithPrivateEndpoints();
-  getInformationAboutADiskAccessResource();
+  await getInformationAboutADiskAccessResourceWithPrivateEndpoints();
+  await getInformationAboutADiskAccessResource();
 }
 
 main().catch(console.error);

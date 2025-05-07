@@ -11,16 +11,19 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
+  ApiGatewayImpl,
+  ApiManagementGatewaySkusImpl,
+  AllPoliciesImpl,
   ApiImpl,
   ApiRevisionImpl,
   ApiReleaseImpl,
@@ -42,11 +45,11 @@ import {
   ApiWikisImpl,
   ApiExportImpl,
   ApiVersionSetImpl,
-  AuthorizationServerImpl,
   AuthorizationProviderImpl,
   AuthorizationImpl,
   AuthorizationLoginLinksImpl,
   AuthorizationAccessPolicyImpl,
+  AuthorizationServerImpl,
   BackendImpl,
   CacheImpl,
   CertificateImpl,
@@ -57,7 +60,9 @@ import {
   ApiManagementServiceSkusImpl,
   ApiManagementServiceImpl,
   DiagnosticImpl,
+  DocumentationImpl,
   EmailTemplateImpl,
+  ApiGatewayConfigConnectionImpl,
   GatewayImpl,
   GatewayHostnameConfigurationImpl,
   GatewayApiImpl,
@@ -77,6 +82,8 @@ import {
   PolicyImpl,
   PolicyDescriptionImpl,
   PolicyFragmentImpl,
+  PolicyRestrictionImpl,
+  PolicyRestrictionValidationsImpl,
   PortalConfigImpl,
   PortalRevisionImpl,
   PortalSettingsImpl,
@@ -91,6 +98,8 @@ import {
   ProductPolicyImpl,
   ProductWikiImpl,
   ProductWikisImpl,
+  ProductApiLinkImpl,
+  ProductGroupLinkImpl,
   QuotaByCounterKeysImpl,
   QuotaByPeriodKeysImpl,
   RegionImpl,
@@ -100,6 +109,9 @@ import {
   ApiManagementSkusImpl,
   SubscriptionImpl,
   TagResourceImpl,
+  TagApiLinkImpl,
+  TagOperationLinkImpl,
+  TagProductLinkImpl,
   TenantAccessImpl,
   TenantAccessGitImpl,
   TenantConfigurationImpl,
@@ -108,9 +120,48 @@ import {
   UserSubscriptionImpl,
   UserIdentitiesImpl,
   UserConfirmationPasswordImpl,
-  DocumentationImpl
-} from "./operations";
+  WorkspaceBackendImpl,
+  WorkspaceCertificateImpl,
+  WorkspaceDiagnosticImpl,
+  WorkspaceApiDiagnosticImpl,
+  ApiManagementWorkspaceLinksImpl,
+  ApiManagementWorkspaceLinkImpl,
+  WorkspaceLoggerImpl,
+  WorkspaceImpl,
+  WorkspacePolicyImpl,
+  WorkspaceNamedValueImpl,
+  WorkspaceGlobalSchemaImpl,
+  WorkspaceNotificationImpl,
+  WorkspaceNotificationRecipientUserImpl,
+  WorkspaceNotificationRecipientEmailImpl,
+  WorkspacePolicyFragmentImpl,
+  WorkspaceGroupImpl,
+  WorkspaceGroupUserImpl,
+  WorkspaceSubscriptionImpl,
+  WorkspaceApiVersionSetImpl,
+  WorkspaceApiImpl,
+  WorkspaceApiRevisionImpl,
+  WorkspaceApiReleaseImpl,
+  WorkspaceApiOperationImpl,
+  WorkspaceApiOperationPolicyImpl,
+  WorkspaceApiPolicyImpl,
+  WorkspaceApiSchemaImpl,
+  WorkspaceProductImpl,
+  WorkspaceProductApiLinkImpl,
+  WorkspaceProductGroupLinkImpl,
+  WorkspaceProductPolicyImpl,
+  WorkspaceTagImpl,
+  WorkspaceTagApiLinkImpl,
+  WorkspaceTagOperationLinkImpl,
+  WorkspaceTagProductLinkImpl,
+  WorkspaceApiExportImpl,
+  OperationStatusImpl,
+  OperationsResultsImpl,
+} from "./operations/index.js";
 import {
+  ApiGateway,
+  ApiManagementGatewaySkus,
+  AllPolicies,
   Api,
   ApiRevision,
   ApiRelease,
@@ -132,11 +183,11 @@ import {
   ApiWikis,
   ApiExport,
   ApiVersionSet,
-  AuthorizationServer,
   AuthorizationProvider,
   Authorization,
   AuthorizationLoginLinks,
   AuthorizationAccessPolicy,
+  AuthorizationServer,
   Backend,
   Cache,
   Certificate,
@@ -147,7 +198,9 @@ import {
   ApiManagementServiceSkus,
   ApiManagementService,
   Diagnostic,
+  Documentation,
   EmailTemplate,
+  ApiGatewayConfigConnection,
   Gateway,
   GatewayHostnameConfiguration,
   GatewayApi,
@@ -167,6 +220,8 @@ import {
   Policy,
   PolicyDescription,
   PolicyFragment,
+  PolicyRestriction,
+  PolicyRestrictionValidations,
   PortalConfig,
   PortalRevision,
   PortalSettings,
@@ -181,6 +236,8 @@ import {
   ProductPolicy,
   ProductWiki,
   ProductWikis,
+  ProductApiLink,
+  ProductGroupLink,
   QuotaByCounterKeys,
   QuotaByPeriodKeys,
   Region,
@@ -190,6 +247,9 @@ import {
   ApiManagementSkus,
   Subscription,
   TagResource,
+  TagApiLink,
+  TagOperationLink,
+  TagProductLink,
   TenantAccess,
   TenantAccessGit,
   TenantConfiguration,
@@ -198,16 +258,52 @@ import {
   UserSubscription,
   UserIdentities,
   UserConfirmationPassword,
-  Documentation
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+  WorkspaceBackend,
+  WorkspaceCertificate,
+  WorkspaceDiagnostic,
+  WorkspaceApiDiagnostic,
+  ApiManagementWorkspaceLinks,
+  ApiManagementWorkspaceLink,
+  WorkspaceLogger,
+  Workspace,
+  WorkspacePolicy,
+  WorkspaceNamedValue,
+  WorkspaceGlobalSchema,
+  WorkspaceNotification,
+  WorkspaceNotificationRecipientUser,
+  WorkspaceNotificationRecipientEmail,
+  WorkspacePolicyFragment,
+  WorkspaceGroup,
+  WorkspaceGroupUser,
+  WorkspaceSubscription,
+  WorkspaceApiVersionSet,
+  WorkspaceApi,
+  WorkspaceApiRevision,
+  WorkspaceApiRelease,
+  WorkspaceApiOperation,
+  WorkspaceApiOperationPolicy,
+  WorkspaceApiPolicy,
+  WorkspaceApiSchema,
+  WorkspaceProduct,
+  WorkspaceProductApiLink,
+  WorkspaceProductGroupLink,
+  WorkspaceProductPolicy,
+  WorkspaceTag,
+  WorkspaceTagApiLink,
+  WorkspaceTagOperationLink,
+  WorkspaceTagProductLink,
+  WorkspaceApiExport,
+  OperationStatus,
+  OperationsResults,
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApiManagementClientOptionalParams,
   ConnectivityCheckRequest,
   PerformConnectivityCheckAsyncOptionalParams,
-  PerformConnectivityCheckAsyncResponse
-} from "./models";
+  PerformConnectivityCheckAsyncResponse,
+} from "./models/index.js";
 
 export class ApiManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -217,22 +313,22 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ApiManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ApiManagementClientOptionalParams
+    options?: ApiManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: ApiManagementClientOptionalParams
+    options?: ApiManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: ApiManagementClientOptionalParams | string,
-    options?: ApiManagementClientOptionalParams
+    options?: ApiManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -252,10 +348,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     }
     const defaults: ApiManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/9.2.1`;
+    const packageDetails = `azsdk-js-arm-apimanagement/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -265,20 +361,21 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -288,7 +385,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -298,9 +395,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -308,7 +405,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01";
+    this.apiVersion = options.apiVersion || "2024-05-01";
+    this.apiGateway = new ApiGatewayImpl(this);
+    this.apiManagementGatewaySkus = new ApiManagementGatewaySkusImpl(this);
+    this.allPolicies = new AllPoliciesImpl(this);
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
@@ -330,11 +430,11 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiWikis = new ApiWikisImpl(this);
     this.apiExport = new ApiExportImpl(this);
     this.apiVersionSet = new ApiVersionSetImpl(this);
-    this.authorizationServer = new AuthorizationServerImpl(this);
     this.authorizationProvider = new AuthorizationProviderImpl(this);
     this.authorization = new AuthorizationImpl(this);
     this.authorizationLoginLinks = new AuthorizationLoginLinksImpl(this);
     this.authorizationAccessPolicy = new AuthorizationAccessPolicyImpl(this);
+    this.authorizationServer = new AuthorizationServerImpl(this);
     this.backend = new BackendImpl(this);
     this.cache = new CacheImpl(this);
     this.certificate = new CertificateImpl(this);
@@ -345,14 +445,16 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiManagementServiceSkus = new ApiManagementServiceSkusImpl(this);
     this.apiManagementService = new ApiManagementServiceImpl(this);
     this.diagnostic = new DiagnosticImpl(this);
+    this.documentation = new DocumentationImpl(this);
     this.emailTemplate = new EmailTemplateImpl(this);
+    this.apiGatewayConfigConnection = new ApiGatewayConfigConnectionImpl(this);
     this.gateway = new GatewayImpl(this);
     this.gatewayHostnameConfiguration = new GatewayHostnameConfigurationImpl(
-      this
+      this,
     );
     this.gatewayApi = new GatewayApiImpl(this);
     this.gatewayCertificateAuthority = new GatewayCertificateAuthorityImpl(
-      this
+      this,
     );
     this.group = new GroupImpl(this);
     this.groupUser = new GroupUserImpl(this);
@@ -365,21 +467,23 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.notificationRecipientUser = new NotificationRecipientUserImpl(this);
     this.notificationRecipientEmail = new NotificationRecipientEmailImpl(this);
     this.openIdConnectProvider = new OpenIdConnectProviderImpl(this);
-    this.outboundNetworkDependenciesEndpoints = new OutboundNetworkDependenciesEndpointsImpl(
-      this
-    );
+    this.outboundNetworkDependenciesEndpoints =
+      new OutboundNetworkDependenciesEndpointsImpl(this);
     this.policy = new PolicyImpl(this);
     this.policyDescription = new PolicyDescriptionImpl(this);
     this.policyFragment = new PolicyFragmentImpl(this);
+    this.policyRestriction = new PolicyRestrictionImpl(this);
+    this.policyRestrictionValidations = new PolicyRestrictionValidationsImpl(
+      this,
+    );
     this.portalConfig = new PortalConfigImpl(this);
     this.portalRevision = new PortalRevisionImpl(this);
     this.portalSettings = new PortalSettingsImpl(this);
     this.signInSettings = new SignInSettingsImpl(this);
     this.signUpSettings = new SignUpSettingsImpl(this);
     this.delegationSettings = new DelegationSettingsImpl(this);
-    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(
-      this
-    );
+    this.privateEndpointConnectionOperations =
+      new PrivateEndpointConnectionOperationsImpl(this);
     this.product = new ProductImpl(this);
     this.productApi = new ProductApiImpl(this);
     this.productGroup = new ProductGroupImpl(this);
@@ -387,6 +491,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.productPolicy = new ProductPolicyImpl(this);
     this.productWiki = new ProductWikiImpl(this);
     this.productWikis = new ProductWikisImpl(this);
+    this.productApiLink = new ProductApiLinkImpl(this);
+    this.productGroupLink = new ProductGroupLinkImpl(this);
     this.quotaByCounterKeys = new QuotaByCounterKeysImpl(this);
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
@@ -396,6 +502,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
     this.tagResource = new TagResourceImpl(this);
+    this.tagApiLink = new TagApiLinkImpl(this);
+    this.tagOperationLink = new TagOperationLinkImpl(this);
+    this.tagProductLink = new TagProductLinkImpl(this);
     this.tenantAccess = new TenantAccessImpl(this);
     this.tenantAccessGit = new TenantAccessGitImpl(this);
     this.tenantConfiguration = new TenantConfigurationImpl(this);
@@ -404,7 +513,49 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.userSubscription = new UserSubscriptionImpl(this);
     this.userIdentities = new UserIdentitiesImpl(this);
     this.userConfirmationPassword = new UserConfirmationPasswordImpl(this);
-    this.documentation = new DocumentationImpl(this);
+    this.workspaceBackend = new WorkspaceBackendImpl(this);
+    this.workspaceCertificate = new WorkspaceCertificateImpl(this);
+    this.workspaceDiagnostic = new WorkspaceDiagnosticImpl(this);
+    this.workspaceApiDiagnostic = new WorkspaceApiDiagnosticImpl(this);
+    this.apiManagementWorkspaceLinks = new ApiManagementWorkspaceLinksImpl(
+      this,
+    );
+    this.apiManagementWorkspaceLink = new ApiManagementWorkspaceLinkImpl(this);
+    this.workspaceLogger = new WorkspaceLoggerImpl(this);
+    this.workspace = new WorkspaceImpl(this);
+    this.workspacePolicy = new WorkspacePolicyImpl(this);
+    this.workspaceNamedValue = new WorkspaceNamedValueImpl(this);
+    this.workspaceGlobalSchema = new WorkspaceGlobalSchemaImpl(this);
+    this.workspaceNotification = new WorkspaceNotificationImpl(this);
+    this.workspaceNotificationRecipientUser =
+      new WorkspaceNotificationRecipientUserImpl(this);
+    this.workspaceNotificationRecipientEmail =
+      new WorkspaceNotificationRecipientEmailImpl(this);
+    this.workspacePolicyFragment = new WorkspacePolicyFragmentImpl(this);
+    this.workspaceGroup = new WorkspaceGroupImpl(this);
+    this.workspaceGroupUser = new WorkspaceGroupUserImpl(this);
+    this.workspaceSubscription = new WorkspaceSubscriptionImpl(this);
+    this.workspaceApiVersionSet = new WorkspaceApiVersionSetImpl(this);
+    this.workspaceApi = new WorkspaceApiImpl(this);
+    this.workspaceApiRevision = new WorkspaceApiRevisionImpl(this);
+    this.workspaceApiRelease = new WorkspaceApiReleaseImpl(this);
+    this.workspaceApiOperation = new WorkspaceApiOperationImpl(this);
+    this.workspaceApiOperationPolicy = new WorkspaceApiOperationPolicyImpl(
+      this,
+    );
+    this.workspaceApiPolicy = new WorkspaceApiPolicyImpl(this);
+    this.workspaceApiSchema = new WorkspaceApiSchemaImpl(this);
+    this.workspaceProduct = new WorkspaceProductImpl(this);
+    this.workspaceProductApiLink = new WorkspaceProductApiLinkImpl(this);
+    this.workspaceProductGroupLink = new WorkspaceProductGroupLinkImpl(this);
+    this.workspaceProductPolicy = new WorkspaceProductPolicyImpl(this);
+    this.workspaceTag = new WorkspaceTagImpl(this);
+    this.workspaceTagApiLink = new WorkspaceTagApiLinkImpl(this);
+    this.workspaceTagOperationLink = new WorkspaceTagOperationLinkImpl(this);
+    this.workspaceTagProductLink = new WorkspaceTagProductLinkImpl(this);
+    this.workspaceApiExport = new WorkspaceApiExportImpl(this);
+    this.operationStatus = new OperationStatusImpl(this);
+    this.operationsResults = new OperationsResultsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -417,7 +568,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -431,7 +582,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -448,7 +599,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     serviceName: string,
     connectivityCheckRequestParams: ConnectivityCheckRequest,
-    options?: PerformConnectivityCheckAsyncOptionalParams
+    options?: PerformConnectivityCheckAsyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PerformConnectivityCheckAsyncResponse>,
@@ -457,21 +608,20 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PerformConnectivityCheckAsyncResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -480,8 +630,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -489,8 +639,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -500,9 +650,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
         resourceGroupName,
         serviceName,
         connectivityCheckRequestParams,
-        options
+        options,
       },
-      spec: performConnectivityCheckAsyncOperationSpec
+      spec: performConnectivityCheckAsyncOperationSpec,
     });
     const poller = await createHttpPoller<
       PerformConnectivityCheckAsyncResponse,
@@ -510,7 +660,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -528,17 +678,20 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     serviceName: string,
     connectivityCheckRequestParams: ConnectivityCheckRequest,
-    options?: PerformConnectivityCheckAsyncOptionalParams
+    options?: PerformConnectivityCheckAsyncOptionalParams,
   ): Promise<PerformConnectivityCheckAsyncResponse> {
     const poller = await this.beginPerformConnectivityCheckAsync(
       resourceGroupName,
       serviceName,
       connectivityCheckRequestParams,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
+  apiGateway: ApiGateway;
+  apiManagementGatewaySkus: ApiManagementGatewaySkus;
+  allPolicies: AllPolicies;
   api: Api;
   apiRevision: ApiRevision;
   apiRelease: ApiRelease;
@@ -560,11 +713,11 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiWikis: ApiWikis;
   apiExport: ApiExport;
   apiVersionSet: ApiVersionSet;
-  authorizationServer: AuthorizationServer;
   authorizationProvider: AuthorizationProvider;
   authorization: Authorization;
   authorizationLoginLinks: AuthorizationLoginLinks;
   authorizationAccessPolicy: AuthorizationAccessPolicy;
+  authorizationServer: AuthorizationServer;
   backend: Backend;
   cache: Cache;
   certificate: Certificate;
@@ -575,7 +728,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiManagementServiceSkus: ApiManagementServiceSkus;
   apiManagementService: ApiManagementService;
   diagnostic: Diagnostic;
+  documentation: Documentation;
   emailTemplate: EmailTemplate;
+  apiGatewayConfigConnection: ApiGatewayConfigConnection;
   gateway: Gateway;
   gatewayHostnameConfiguration: GatewayHostnameConfiguration;
   gatewayApi: GatewayApi;
@@ -595,6 +750,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   policy: Policy;
   policyDescription: PolicyDescription;
   policyFragment: PolicyFragment;
+  policyRestriction: PolicyRestriction;
+  policyRestrictionValidations: PolicyRestrictionValidations;
   portalConfig: PortalConfig;
   portalRevision: PortalRevision;
   portalSettings: PortalSettings;
@@ -609,6 +766,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   productPolicy: ProductPolicy;
   productWiki: ProductWiki;
   productWikis: ProductWikis;
+  productApiLink: ProductApiLink;
+  productGroupLink: ProductGroupLink;
   quotaByCounterKeys: QuotaByCounterKeys;
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
@@ -618,6 +777,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;
   tagResource: TagResource;
+  tagApiLink: TagApiLink;
+  tagOperationLink: TagOperationLink;
+  tagProductLink: TagProductLink;
   tenantAccess: TenantAccess;
   tenantAccessGit: TenantAccessGit;
   tenantConfiguration: TenantConfiguration;
@@ -626,41 +788,76 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   userSubscription: UserSubscription;
   userIdentities: UserIdentities;
   userConfirmationPassword: UserConfirmationPassword;
-  documentation: Documentation;
+  workspaceBackend: WorkspaceBackend;
+  workspaceCertificate: WorkspaceCertificate;
+  workspaceDiagnostic: WorkspaceDiagnostic;
+  workspaceApiDiagnostic: WorkspaceApiDiagnostic;
+  apiManagementWorkspaceLinks: ApiManagementWorkspaceLinks;
+  apiManagementWorkspaceLink: ApiManagementWorkspaceLink;
+  workspaceLogger: WorkspaceLogger;
+  workspace: Workspace;
+  workspacePolicy: WorkspacePolicy;
+  workspaceNamedValue: WorkspaceNamedValue;
+  workspaceGlobalSchema: WorkspaceGlobalSchema;
+  workspaceNotification: WorkspaceNotification;
+  workspaceNotificationRecipientUser: WorkspaceNotificationRecipientUser;
+  workspaceNotificationRecipientEmail: WorkspaceNotificationRecipientEmail;
+  workspacePolicyFragment: WorkspacePolicyFragment;
+  workspaceGroup: WorkspaceGroup;
+  workspaceGroupUser: WorkspaceGroupUser;
+  workspaceSubscription: WorkspaceSubscription;
+  workspaceApiVersionSet: WorkspaceApiVersionSet;
+  workspaceApi: WorkspaceApi;
+  workspaceApiRevision: WorkspaceApiRevision;
+  workspaceApiRelease: WorkspaceApiRelease;
+  workspaceApiOperation: WorkspaceApiOperation;
+  workspaceApiOperationPolicy: WorkspaceApiOperationPolicy;
+  workspaceApiPolicy: WorkspaceApiPolicy;
+  workspaceApiSchema: WorkspaceApiSchema;
+  workspaceProduct: WorkspaceProduct;
+  workspaceProductApiLink: WorkspaceProductApiLink;
+  workspaceProductGroupLink: WorkspaceProductGroupLink;
+  workspaceProductPolicy: WorkspaceProductPolicy;
+  workspaceTag: WorkspaceTag;
+  workspaceTagApiLink: WorkspaceTagApiLink;
+  workspaceTagOperationLink: WorkspaceTagOperationLink;
+  workspaceTagProductLink: WorkspaceTagProductLink;
+  workspaceApiExport: WorkspaceApiExport;
+  operationStatus: OperationStatus;
+  operationsResults: OperationsResults;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const performConnectivityCheckAsyncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/connectivityCheck",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/connectivityCheck",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectivityCheckResponse
+      bodyMapper: Mappers.ConnectivityCheckResponse,
     },
     201: {
-      bodyMapper: Mappers.ConnectivityCheckResponse
+      bodyMapper: Mappers.ConnectivityCheckResponse,
     },
     202: {
-      bodyMapper: Mappers.ConnectivityCheckResponse
+      bodyMapper: Mappers.ConnectivityCheckResponse,
     },
     204: {
-      bodyMapper: Mappers.ConnectivityCheckResponse
+      bodyMapper: Mappers.ConnectivityCheckResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.connectivityCheckRequestParams,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

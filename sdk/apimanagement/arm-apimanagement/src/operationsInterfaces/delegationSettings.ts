@@ -16,8 +16,8 @@ import {
   DelegationSettingsCreateOrUpdateOptionalParams,
   DelegationSettingsCreateOrUpdateResponse,
   DelegationSettingsListSecretsOptionalParams,
-  DelegationSettingsListSecretsResponse
-} from "../models";
+  DelegationSettingsListSecretsResponse,
+} from "../models/index.js";
 
 /** Interface representing a DelegationSettings. */
 export interface DelegationSettings {
@@ -30,7 +30,7 @@ export interface DelegationSettings {
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    options?: DelegationSettingsGetEntityTagOptionalParams
+    options?: DelegationSettingsGetEntityTagOptionalParams,
   ): Promise<DelegationSettingsGetEntityTagResponse>;
   /**
    * Get Delegation Settings for the Portal.
@@ -41,7 +41,7 @@ export interface DelegationSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: DelegationSettingsGetOptionalParams
+    options?: DelegationSettingsGetOptionalParams,
   ): Promise<DelegationSettingsGetResponse>;
   /**
    * Update Delegation settings.
@@ -57,7 +57,7 @@ export interface DelegationSettings {
     serviceName: string,
     ifMatch: string,
     parameters: PortalDelegationSettings,
-    options?: DelegationSettingsUpdateOptionalParams
+    options?: DelegationSettingsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * Create or Update Delegation settings.
@@ -70,7 +70,7 @@ export interface DelegationSettings {
     resourceGroupName: string,
     serviceName: string,
     parameters: PortalDelegationSettings,
-    options?: DelegationSettingsCreateOrUpdateOptionalParams
+    options?: DelegationSettingsCreateOrUpdateOptionalParams,
   ): Promise<DelegationSettingsCreateOrUpdateResponse>;
   /**
    * Gets the secret validation key of the DelegationSettings.
@@ -81,6 +81,6 @@ export interface DelegationSettings {
   listSecrets(
     resourceGroupName: string,
     serviceName: string,
-    options?: DelegationSettingsListSecretsOptionalParams
+    options?: DelegationSettingsListSecretsOptionalParams,
   ): Promise<DelegationSettingsListSecretsResponse>;
 }

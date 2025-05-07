@@ -6,9 +6,9 @@ import type {
   PageBlobGetPageRangesDiffHeaders,
   PageBlobGetPageRangesResponseModel,
   PageBlobGetPageRangesDiffResponseModel,
-} from "./generatedModels";
-import type { Range } from "./Range";
-import type { ResponseWithBody } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Range } from "./Range.js";
+import type { ResponseWithBody } from "./utils/utils.common.js";
 
 /**
  * List of page ranges for a blob.

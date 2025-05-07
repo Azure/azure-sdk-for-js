@@ -89,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [projectsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/typescript/src/projectsGetSample.ts
 [projectslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/typescript/src/projectsListByResourceGroupSample.ts
 [projectsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/typescript/src/projectsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-visualstudio?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-visualstudio?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/visualstudio/arm-visualstudio/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

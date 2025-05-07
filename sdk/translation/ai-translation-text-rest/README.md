@@ -75,9 +75,17 @@ Once you have the value for the API key and Region, create an `TranslatorCredent
 
 With the value of the `TranslatorCredential` you can create the [TextTranslationClient][translator_client_class]:
 
-```javascript
-const translateCedential = new TranslatorCredential(apiKey, region);
-const translationClient = TextTranslationClient(endpoint, translateCedential);
+```ts snippet:ReadmeSampleCreateClient_TranslatorCredential
+import TextTranslationClient, { TranslatorCredential } from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
 ```
 
 ## Examples
@@ -88,39 +96,50 @@ The following section provides several code snippets using the `client` [created
 
 Gets the set of languages currently supported by other operations of the Translator.
 
-```javascript
+```ts snippet:ReadmeSampleGetSupportedLanguages
+import TextTranslationClient, {
+  TranslatorCredential,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
+
 const langResponse = await translationClient.path("/languages").get();
 
 if (isUnexpected(langResponse)) {
-  throw langResponse.body;
+  throw langResponse.body.error;
 }
 
 const languages = langResponse.body;
 
 if (languages.translation) {
   console.log("Translated languages:");
-  for (const key in languages.translation) {
-    const translationLanguage = languages.translation[key];
+  for (const [key, translationLanguage] of Object.entries(languages.translation)) {
     console.log(`${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`);
   }
 }
 
 if (languages.transliteration) {
   console.log("Transliteration languages:");
-  for (const key in languages.transliteration) {
-    const transliterationLanguage = languages.transliteration[key];
+  for (const [key, transliterationLanguage] of Object.entries(languages.transliteration)) {
     console.log(
-      `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
+      `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`,
     );
   }
 }
 
 if (languages.dictionary) {
   console.log("Dictionary languages:");
-  for (const key in languages.dictionary) {
-    const dictionaryLanguage = languages.dictionary[key];
+  for (const [key, dictionaryLanguage] of Object.entries(languages.dictionary)) {
     console.log(
-      `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
+      `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
     );
   }
 }
@@ -132,7 +151,21 @@ Please refer to the service documentation for a conceptual discussion of [langua
 
 Renders single source-language text to multiple target-language texts with a single request.
 
-```javascript
+```ts snippet:ReadmeSampleTranslate
+import TextTranslationClient, {
+  TranslatorCredential,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
+
 const inputText = [{ text: "This is a test." }];
 const parameters = {
   to: "cs",
@@ -144,13 +177,13 @@ const translateResponse = await translationClient.path("/translate").post({
 });
 
 if (isUnexpected(translateResponse)) {
-  throw translateResponse.body;
+  throw translateResponse.body.error;
 }
 
 const translations = translateResponse.body;
 for (const translation of translations) {
   console.log(
-    `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
+    `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
   );
 }
 ```
@@ -161,7 +194,21 @@ Please refer to the service documentation for a conceptual discussion of [transl
 
 Converts characters or letters of a source language to the corresponding characters or letters of a target language.
 
-```javascript
+```ts snippet:ReadmeSampleTransliterate
+import TextTranslationClient, {
+  TranslatorCredential,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
+
 const inputText = [{ text: "这是个测试。" }];
 const parameters = {
   language: "zh-Hans",
@@ -174,13 +221,13 @@ const transliterateResponse = await translationClient.path("/transliterate").pos
 });
 
 if (isUnexpected(transliterateResponse)) {
-  throw transliterateResponse.body;
+  throw transliterateResponse.body.error;
 }
 
 const translations = transliterateResponse.body;
 for (const transliteration of translations) {
   console.log(
-    `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
+    `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
   );
 }
 ```
@@ -191,7 +238,21 @@ Please refer to the service documentation for a conceptual discussion of [transl
 
 Identifies the positioning of sentence boundaries in a piece of text.
 
-```javascript
+```ts snippet:ReadmeSampleBreakSentence
+import TextTranslationClient, {
+  TranslatorCredential,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
+
 const inputText = [{ text: "zhè shì gè cè shì。" }];
 const parameters = {
   language: "zh-Hans",
@@ -203,7 +264,7 @@ const breakSentenceResponse = await translationClient.path("/breaksentence").pos
 });
 
 if (isUnexpected(breakSentenceResponse)) {
-  throw breakSentenceResponse.body;
+  throw breakSentenceResponse.body.error;
 }
 
 const breakSentences = breakSentenceResponse.body;
@@ -218,7 +279,21 @@ Please refer to the service documentation for a conceptual discussion of [break 
 
 Returns equivalent words for the source term in the target language.
 
-```javascript
+```ts snippet:ReadmeSampleDictionaryLookup
+import TextTranslationClient, {
+  TranslatorCredential,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
+
 const inputText = [{ text: "fly" }];
 const parameters = {
   to: "es",
@@ -230,16 +305,16 @@ const dictionaryResponse = await translationClient.path("/dictionary/lookup").po
 });
 
 if (isUnexpected(dictionaryResponse)) {
-  throw dictionaryResponse.body;
+  throw dictionaryResponse.body.error;
 }
 
 const dictionaryEntries = dictionaryResponse.body;
 for (const dictionaryEntry of dictionaryEntries) {
   console.log(
-    `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`
+    `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`,
   );
   console.log(
-    `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`
+    `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`,
   );
 }
 ```
@@ -250,7 +325,21 @@ Please refer to the service documentation for a conceptual discussion of [dictio
 
 Returns grammatical structure and context examples for the source term and target term pair.
 
-```javascript
+```ts snippet:ReadmeSampleDictionaryExamples
+import TextTranslationClient, {
+  TranslatorCredential,
+  isUnexpected,
+} from "@azure-rest/ai-translation-text";
+
+const endpoint = "https://api.cognitive.microsofttranslator.com";
+const key = "YOUR_SUBSCRIPTION_KEY";
+const region = "westus";
+const credential: TranslatorCredential = {
+  key,
+  region,
+};
+const translationClient = TextTranslationClient(endpoint, credential);
+
 const inputText = [{ text: "fly", translation: "volar" }];
 const parameters = {
   to: "es",
@@ -262,17 +351,17 @@ const dictionaryResponse = await translationClient.path("/dictionary/examples").
 });
 
 if (isUnexpected(dictionaryResponse)) {
-  throw dictionaryResponse.body;
+  throw dictionaryResponse.body.error;
 }
 
 const dictionaryExamples = dictionaryResponse.body;
 for (const dictionaryExample of dictionaryExamples) {
   console.log(
-    `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`
+    `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`,
   );
   const firstExample = dictionaryExample?.examples[0];
   console.log(
-    `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`
+    `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`,
   );
 }
 ```
@@ -291,15 +380,15 @@ You can find the different error codes returned by the service in the [Service D
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
 [translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
 [translator_auth]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#authentication

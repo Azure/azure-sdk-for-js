@@ -1344,7 +1344,7 @@ export interface AMLParameters {
   timeout?: string;
   /** (Optional for token authentication). The region the AML service is deployed in. */
   region?: string;
-  /** The name of the embedding model from the Azure AI Studio Catalog that is deployed at the provided endpoint. */
+  /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
   modelName?: AIStudioModelCatalogName;
 }
 
@@ -2374,7 +2374,7 @@ export interface AIServicesVisionVectorizer extends VectorSearchVectorizer {
   aIServicesVisionParameters?: AIServicesVisionParameters;
 }
 
-/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog for generating the vector embedding of a query string. */
+/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for generating the vector embedding of a query string. */
 export interface AMLVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "aml";
@@ -3072,7 +3072,7 @@ export enum KnownVectorSearchVectorizerKind {
   CustomWebApi = "customWebApi",
   /** Generate embeddings for an image or text input at query time using the Azure AI Services Vision Vectorize API. */
   AIServicesVision = "aiServicesVision",
-  /** Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog at query time. */
+  /** Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog at query time. */
   AML = "aml",
 }
 
@@ -3084,7 +3084,7 @@ export enum KnownVectorSearchVectorizerKind {
  * **azureOpenAI**: Generate embeddings using an Azure OpenAI resource at query time. \
  * **customWebApi**: Generate embeddings using a custom web endpoint at query time. \
  * **aiServicesVision**: Generate embeddings for an image or text input at query time using the Azure AI Services Vision Vectorize API. \
- * **aml**: Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog at query time.
+ * **aml**: Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog at query time.
  */
 export type VectorSearchVectorizerKind = string;
 

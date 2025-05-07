@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DeletedServices } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DeletedServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DeletedServiceContract,
   DeletedServicesListBySubscriptionNextOptionalParams,
@@ -27,8 +27,8 @@ import {
   DeletedServicesGetByNameOptionalParams,
   DeletedServicesGetByNameResponse,
   DeletedServicesPurgeOptionalParams,
-  DeletedServicesListBySubscriptionNextResponse
-} from "../models";
+  DeletedServicesListBySubscriptionNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DeletedServices operations. */
@@ -48,7 +48,7 @@ export class DeletedServicesImpl implements DeletedServices {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DeletedServicesListBySubscriptionOptionalParams
+    options?: DeletedServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DeletedServiceContract> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -63,13 +63,13 @@ export class DeletedServicesImpl implements DeletedServices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DeletedServicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedServiceContract[]> {
     let result: DeletedServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class DeletedServicesImpl implements DeletedServices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DeletedServicesListBySubscriptionOptionalParams
+    options?: DeletedServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DeletedServiceContract> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -102,11 +102,11 @@ export class DeletedServicesImpl implements DeletedServices {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DeletedServicesListBySubscriptionOptionalParams
+    options?: DeletedServicesListBySubscriptionOptionalParams,
   ): Promise<DeletedServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -119,11 +119,11 @@ export class DeletedServicesImpl implements DeletedServices {
   getByName(
     serviceName: string,
     location: string,
-    options?: DeletedServicesGetByNameOptionalParams
+    options?: DeletedServicesGetByNameOptionalParams,
   ): Promise<DeletedServicesGetByNameResponse> {
     return this.client.sendOperationRequest(
       { serviceName, location, options },
-      getByNameOperationSpec
+      getByNameOperationSpec,
     );
   }
 
@@ -136,25 +136,24 @@ export class DeletedServicesImpl implements DeletedServices {
   async beginPurge(
     serviceName: string,
     location: string,
-    options?: DeletedServicesPurgeOptionalParams
+    options?: DeletedServicesPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -163,8 +162,8 @@ export class DeletedServicesImpl implements DeletedServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -172,20 +171,20 @@ export class DeletedServicesImpl implements DeletedServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { serviceName, location, options },
-      spec: purgeOperationSpec
+      spec: purgeOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -200,7 +199,7 @@ export class DeletedServicesImpl implements DeletedServices {
   async beginPurgeAndWait(
     serviceName: string,
     location: string,
-    options?: DeletedServicesPurgeOptionalParams
+    options?: DeletedServicesPurgeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPurge(serviceName, location, options);
     return poller.pollUntilDone();
@@ -213,11 +212,11 @@ export class DeletedServicesImpl implements DeletedServices {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DeletedServicesListBySubscriptionNextOptionalParams
+    options?: DeletedServicesListBySubscriptionNextOptionalParams,
   ): Promise<DeletedServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -225,47 +224,44 @@ export class DeletedServicesImpl implements DeletedServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/deletedservices",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/deletedservices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServicesCollection
+      bodyMapper: Mappers.DeletedServicesCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServiceContract
+      bodyMapper: Mappers.DeletedServiceContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.serviceName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const purgeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -273,35 +269,35 @@ const purgeOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.serviceName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedServicesCollection
+      bodyMapper: Mappers.DeletedServicesCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

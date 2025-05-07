@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all resources that are encrypted with this disk encryption set.
@@ -25,7 +25,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskEncryptionSets.listAssociatedResources(
+  for await (const item of client.diskEncryptionSets.listAssociatedResources(
     resourceGroupName,
     diskEncryptionSetName,
   )) {
@@ -35,7 +35,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
 }
 
 async function main() {
-  listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet();
+  await listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet();
 }
 
 main().catch(console.error);

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbUpdate.json
  */
 async function kustoDataConnectionsCosmosDbUpdate() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function kustoDataConnectionsCosmosDbUpdate() {
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridUpdate.json
  */
 async function kustoDataConnectionsEventGridUpdate() {
   const subscriptionId =
@@ -66,7 +66,7 @@ async function kustoDataConnectionsEventGridUpdate() {
   const parameters = {
     blobStorageEventType: "Microsoft.Storage.BlobCreated",
     consumerGroup: "$Default",
-    dataFormat: "JSON",
+    dataFormat: "MULTIJSON",
     databaseRouting: "Single",
     eventGridResourceId:
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
@@ -98,7 +98,7 @@ async function kustoDataConnectionsEventGridUpdate() {
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsUpdate.json
  */
 async function kustoDataConnectionsUpdate() {
   const subscriptionId =
@@ -129,9 +129,9 @@ async function kustoDataConnectionsUpdate() {
 }
 
 async function main() {
-  kustoDataConnectionsCosmosDbUpdate();
-  kustoDataConnectionsEventGridUpdate();
-  kustoDataConnectionsUpdate();
+  await kustoDataConnectionsCosmosDbUpdate();
+  await kustoDataConnectionsEventGridUpdate();
+  await kustoDataConnectionsUpdate();
 }
 
 main().catch(console.error);

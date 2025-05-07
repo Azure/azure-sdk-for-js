@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a dedicated host.
  *
  * @summary Delete a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MaximumSet_Gen.json
  */
-async function dedicatedHostDeleteMaximumSetGen() {
+async function dedicatedHostDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,9 +39,9 @@ async function dedicatedHostDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a dedicated host.
  *
  * @summary Delete a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MinimumSet_Gen.json
  */
-async function dedicatedHostDeleteMinimumSetGen() {
+async function dedicatedHostDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,9 +58,9 @@ async function dedicatedHostDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  dedicatedHostDeleteMaximumSetGen();
-  dedicatedHostDeleteMinimumSetGen();
+async function main(): Promise<void> {
+  await dedicatedHostDeleteMaximumSetGen();
+  await dedicatedHostDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

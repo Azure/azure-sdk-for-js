@@ -107,5 +107,3 @@ main().catch((err) => console.log("An error occurred: ", err));
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fbatch%2Fbatch%2FREADME.png)

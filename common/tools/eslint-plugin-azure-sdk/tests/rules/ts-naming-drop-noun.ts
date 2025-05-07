@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-naming-drop-noun";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-naming-drop-noun.js";
 
 //------------------------------------------------------------------------------
 // Tests

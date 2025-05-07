@@ -20,7 +20,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let baseSetting: ConfigurationSetting<FeatureFlagValue>;
     let addResponse: AddConfigurationSettingResponse;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       baseSetting = {
@@ -66,7 +66,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.deleteConfigurationSetting({
         key: baseSetting.key,
         label: baseSetting.label,
@@ -192,7 +192,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       featureFlag = {
@@ -206,7 +206,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       };
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.deleteConfigurationSetting({ key: featureFlag.key });
       await recorder.stop();
     });

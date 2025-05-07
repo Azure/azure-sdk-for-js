@@ -14,8 +14,8 @@ import {
   PortalSigninSettings,
   SignInSettingsUpdateOptionalParams,
   SignInSettingsCreateOrUpdateOptionalParams,
-  SignInSettingsCreateOrUpdateResponse
-} from "../models";
+  SignInSettingsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /** Interface representing a SignInSettings. */
 export interface SignInSettings {
@@ -28,7 +28,7 @@ export interface SignInSettings {
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    options?: SignInSettingsGetEntityTagOptionalParams
+    options?: SignInSettingsGetEntityTagOptionalParams,
   ): Promise<SignInSettingsGetEntityTagResponse>;
   /**
    * Get Sign In Settings for the Portal
@@ -39,7 +39,7 @@ export interface SignInSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: SignInSettingsGetOptionalParams
+    options?: SignInSettingsGetOptionalParams,
   ): Promise<SignInSettingsGetResponse>;
   /**
    * Update Sign-In settings.
@@ -55,7 +55,7 @@ export interface SignInSettings {
     serviceName: string,
     ifMatch: string,
     parameters: PortalSigninSettings,
-    options?: SignInSettingsUpdateOptionalParams
+    options?: SignInSettingsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * Create or Update Sign-In settings.
@@ -68,6 +68,6 @@ export interface SignInSettings {
     resourceGroupName: string,
     serviceName: string,
     parameters: PortalSigninSettings,
-    options?: SignInSettingsCreateOrUpdateOptionalParams
+    options?: SignInSettingsCreateOrUpdateOptionalParams,
   ): Promise<SignInSettingsCreateOrUpdateResponse>;
 }

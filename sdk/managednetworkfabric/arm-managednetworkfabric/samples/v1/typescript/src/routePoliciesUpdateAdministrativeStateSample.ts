@@ -13,9 +13,7 @@ import {
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updated the admin state for this Route Policy.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updated the admin state for this Route Policy.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/RoutePolicies_UpdateAdministrativeState_MaximumSet_Gen.json
  */
-async function routePoliciesUpdateAdministrativeStateMaximumSetGen() {
+async function routePoliciesUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -47,7 +45,7 @@ async function routePoliciesUpdateAdministrativeStateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   routePoliciesUpdateAdministrativeStateMaximumSetGen();
 }
 

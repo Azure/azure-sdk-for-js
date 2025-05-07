@@ -4,6 +4,7 @@
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
 import { getClient } from "../src/getClient.js";
+import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
   HttpClient,
   PipelinePolicy,
@@ -11,7 +12,7 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 
 describe("getClient", () => {
   afterEach(() => {
@@ -254,11 +255,41 @@ describe("getClient", () => {
         called = true;
       },
     });
-    await res.asNodeStream();
+
+    if (isNodeLike) {
+      await res.asNodeStream();
+    } else {
+      await res.asBrowserStream();
+    }
     assert.isTrue(called);
-    called = false;
-    await res.asBrowserStream();
-    assert.isTrue(called);
+  });
+
+  it("onResponse legacyError is passed in", async () => {
+    let called = false;
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async () => {
+        throw new RestError("error", {
+          response: { status: 404, headers: createHttpHeaders({}) } as PipelineResponse,
+        });
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      httpClient: fakeHttpClient,
+    });
+
+    try {
+      await client.pathUnchecked("/foo").get({
+        onResponse: (_, err, legacyError) => {
+          assert.isDefined(err);
+          assert.equal(err, legacyError);
+          called = true;
+        },
+      });
+      assert.fail("Expected error to be thrown");
+    } catch (e: unknown) {
+      assert.isTrue(called);
+    }
   });
 
   it("should support query parameter with explode set to true", async () => {

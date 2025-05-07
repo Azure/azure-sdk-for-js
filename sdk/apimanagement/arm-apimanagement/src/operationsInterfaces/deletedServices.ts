@@ -13,8 +13,8 @@ import {
   DeletedServicesListBySubscriptionOptionalParams,
   DeletedServicesGetByNameOptionalParams,
   DeletedServicesGetByNameResponse,
-  DeletedServicesPurgeOptionalParams
-} from "../models";
+  DeletedServicesPurgeOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedServices. */
@@ -24,7 +24,7 @@ export interface DeletedServices {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DeletedServicesListBySubscriptionOptionalParams
+    options?: DeletedServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DeletedServiceContract>;
   /**
    * Get soft-deleted Api Management Service by name.
@@ -35,7 +35,7 @@ export interface DeletedServices {
   getByName(
     serviceName: string,
     location: string,
-    options?: DeletedServicesGetByNameOptionalParams
+    options?: DeletedServicesGetByNameOptionalParams,
   ): Promise<DeletedServicesGetByNameResponse>;
   /**
    * Purges Api Management Service (deletes it with no option to undelete).
@@ -46,7 +46,7 @@ export interface DeletedServices {
   beginPurge(
     serviceName: string,
     location: string,
-    options?: DeletedServicesPurgeOptionalParams
+    options?: DeletedServicesPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Purges Api Management Service (deletes it with no option to undelete).
@@ -57,6 +57,6 @@ export interface DeletedServices {
   beginPurgeAndWait(
     serviceName: string,
     location: string,
-    options?: DeletedServicesPurgeOptionalParams
+    options?: DeletedServicesPurgeOptionalParams,
   ): Promise<void>;
 }

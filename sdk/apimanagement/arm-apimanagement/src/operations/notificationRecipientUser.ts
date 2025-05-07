@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NotificationRecipientUser } from "../operationsInterfaces";
+import { NotificationRecipientUser } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   NotificationName,
   NotificationRecipientUserListByNotificationOptionalParams,
@@ -19,12 +19,13 @@ import {
   NotificationRecipientUserCheckEntityExistsResponse,
   NotificationRecipientUserCreateOrUpdateOptionalParams,
   NotificationRecipientUserCreateOrUpdateResponse,
-  NotificationRecipientUserDeleteOptionalParams
-} from "../models";
+  NotificationRecipientUserDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Class containing NotificationRecipientUser operations. */
 export class NotificationRecipientUserImpl
-  implements NotificationRecipientUser {
+  implements NotificationRecipientUser
+{
   private readonly client: ApiManagementClient;
 
   /**
@@ -46,11 +47,11 @@ export class NotificationRecipientUserImpl
     resourceGroupName: string,
     serviceName: string,
     notificationName: NotificationName,
-    options?: NotificationRecipientUserListByNotificationOptionalParams
+    options?: NotificationRecipientUserListByNotificationOptionalParams,
   ): Promise<NotificationRecipientUserListByNotificationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, notificationName, options },
-      listByNotificationOperationSpec
+      listByNotificationOperationSpec,
     );
   }
 
@@ -67,11 +68,11 @@ export class NotificationRecipientUserImpl
     serviceName: string,
     notificationName: NotificationName,
     userId: string,
-    options?: NotificationRecipientUserCheckEntityExistsOptionalParams
+    options?: NotificationRecipientUserCheckEntityExistsOptionalParams,
   ): Promise<NotificationRecipientUserCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, notificationName, userId, options },
-      checkEntityExistsOperationSpec
+      checkEntityExistsOperationSpec,
     );
   }
 
@@ -88,11 +89,11 @@ export class NotificationRecipientUserImpl
     serviceName: string,
     notificationName: NotificationName,
     userId: string,
-    options?: NotificationRecipientUserCreateOrUpdateOptionalParams
+    options?: NotificationRecipientUserCreateOrUpdateOptionalParams,
   ): Promise<NotificationRecipientUserCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, notificationName, userId, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -109,11 +110,11 @@ export class NotificationRecipientUserImpl
     serviceName: string,
     notificationName: NotificationName,
     userId: string,
-    options?: NotificationRecipientUserDeleteOptionalParams
+    options?: NotificationRecipientUserDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, notificationName, userId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -121,98 +122,94 @@ export class NotificationRecipientUserImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNotificationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecipientUserCollection
+      bodyMapper: Mappers.RecipientUserCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.notificationName
+    Parameters.serviceName,
+    Parameters.notificationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkEntityExistsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
   httpMethod: "HEAD",
   responses: {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.userId,
-    Parameters.notificationName
+    Parameters.notificationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RecipientUserContract
+      bodyMapper: Mappers.RecipientUserContract,
     },
     201: {
-      bodyMapper: Mappers.RecipientUserContract
+      bodyMapper: Mappers.RecipientUserContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.userId,
-    Parameters.notificationName
+    Parameters.notificationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.userId,
-    Parameters.notificationName
+    Parameters.notificationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

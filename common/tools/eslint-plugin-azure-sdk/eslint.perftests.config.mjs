@@ -5,7 +5,7 @@ export default tsEsLint.config(
   {
     languageOptions: {
       parserOptions: {
-        project: "./tsconfig.json",
+        projectService: true,
       },
       parser: tsEsLint.parser,
     },

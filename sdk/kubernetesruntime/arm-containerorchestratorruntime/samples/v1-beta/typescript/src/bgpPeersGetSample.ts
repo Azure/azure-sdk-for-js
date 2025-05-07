@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a BgpPeer
  * x-ms-original-file: 2024-03-01/BgpPeers_Get.json
  */
-async function bgpPeersGet() {
+async function bgpPeersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const result = await client.bgpPeers.get(
@@ -20,7 +20,7 @@ async function bgpPeersGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   bgpPeersGet();
 }
 

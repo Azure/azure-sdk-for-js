@@ -27,7 +27,7 @@ async function getManagedClustersByResourceGroup() {
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get();
   const result = paginate(client, initialResponse);

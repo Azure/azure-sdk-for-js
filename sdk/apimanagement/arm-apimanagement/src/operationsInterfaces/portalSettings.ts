@@ -8,8 +8,8 @@
 
 import {
   PortalSettingsListByServiceOptionalParams,
-  PortalSettingsListByServiceResponse
-} from "../models";
+  PortalSettingsListByServiceResponse,
+} from "../models/index.js";
 
 /** Interface representing a PortalSettings. */
 export interface PortalSettings {
@@ -22,6 +22,6 @@ export interface PortalSettings {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalSettingsListByServiceOptionalParams
+    options?: PortalSettingsListByServiceOptionalParams,
   ): Promise<PortalSettingsListByServiceResponse>;
 }

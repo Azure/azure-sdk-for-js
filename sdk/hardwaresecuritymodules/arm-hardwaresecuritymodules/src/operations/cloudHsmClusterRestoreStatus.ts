@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudHsmClusterRestoreStatus } from "../operationsInterfaces";
+import { CloudHsmClusterRestoreStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureHSMResourceProvider } from "../azureHSMResourceProvider.js";
 import {
   CloudHsmClusterRestoreStatusGetOptionalParams,
   CloudHsmClusterRestoreStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CloudHsmClusterRestoreStatus operations. */
 export class CloudHsmClusterRestoreStatusImpl

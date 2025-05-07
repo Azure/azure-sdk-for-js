@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TenantAccessGit } from "../operationsInterfaces";
+import { TenantAccessGit } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   AccessIdName,
   TenantAccessGitRegeneratePrimaryKeyOptionalParams,
-  TenantAccessGitRegenerateSecondaryKeyOptionalParams
-} from "../models";
+  TenantAccessGitRegenerateSecondaryKeyOptionalParams,
+} from "../models/index.js";
 
 /** Class containing TenantAccessGit operations. */
 export class TenantAccessGitImpl implements TenantAccessGit {
@@ -40,11 +40,11 @@ export class TenantAccessGitImpl implements TenantAccessGit {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGitRegeneratePrimaryKeyOptionalParams
+    options?: TenantAccessGitRegeneratePrimaryKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      regeneratePrimaryKeyOperationSpec
+      regeneratePrimaryKeyOperationSpec,
     );
   }
 
@@ -59,11 +59,11 @@ export class TenantAccessGitImpl implements TenantAccessGit {
     resourceGroupName: string,
     serviceName: string,
     accessName: AccessIdName,
-    options?: TenantAccessGitRegenerateSecondaryKeyOptionalParams
+    options?: TenantAccessGitRegenerateSecondaryKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, accessName, options },
-      regenerateSecondaryKeyOperationSpec
+      regenerateSecondaryKeyOperationSpec,
     );
   }
 }
@@ -71,44 +71,42 @@ export class TenantAccessGitImpl implements TenantAccessGit {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const regeneratePrimaryKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateSecondaryKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regenerateSecondaryKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regenerateSecondaryKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.accessName
+    Parameters.serviceName,
+    Parameters.accessName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

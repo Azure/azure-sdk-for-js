@@ -6,7 +6,7 @@ import { describe, it, assert } from "vitest";
 
 // This file is empty as sas generation is not supported in browsers
 describe("generateSas Browser", function () {
-  it("should throw", function () {
+  it("should throw", () => {
     try {
       generateTableSas("testTable", new AzureNamedKeyCredential("keyName", "keySecret"));
       assert.fail("`Expected generateTableSas to throw when running in the browser");

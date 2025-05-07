@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Retrieves a single available sku for network virtual appliance.
@@ -25,7 +25,7 @@ async function networkVirtualApplianceSkuGet() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
       subscriptionId,
-      skuName
+      skuName,
     )
     .get(options);
   console.log(result);

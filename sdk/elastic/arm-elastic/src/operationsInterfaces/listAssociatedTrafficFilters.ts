@@ -9,7 +9,7 @@
 import {
   ListAssociatedTrafficFiltersListOptionalParams,
   ListAssociatedTrafficFiltersListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ListAssociatedTrafficFilters. */
 export interface ListAssociatedTrafficFilters {

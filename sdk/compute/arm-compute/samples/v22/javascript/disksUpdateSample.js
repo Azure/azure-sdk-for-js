@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates (patches) a disk.
@@ -194,16 +194,16 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
 }
 
 async function main() {
-  createOrUpdateABurstingEnabledManagedDisk();
-  updateAManagedDiskToAddAcceleratedNetworking();
-  updateAManagedDiskToAddArchitecture();
-  updateAManagedDiskToAddPurchasePlan();
-  updateAManagedDiskToAddSupportsHibernation();
-  updateAManagedDiskToChangeTier();
-  updateAManagedDiskToDisableBursting();
-  updateAManagedDiskToDisableOptimizedForFrequentAttach();
-  updateAManagedDiskWithDiskControllerTypes();
-  updateManagedDiskToRemoveDiskAccessResourceAssociation();
+  await createOrUpdateABurstingEnabledManagedDisk();
+  await updateAManagedDiskToAddAcceleratedNetworking();
+  await updateAManagedDiskToAddArchitecture();
+  await updateAManagedDiskToAddPurchasePlan();
+  await updateAManagedDiskToAddSupportsHibernation();
+  await updateAManagedDiskToChangeTier();
+  await updateAManagedDiskToDisableBursting();
+  await updateAManagedDiskToDisableOptimizedForFrequentAttach();
+  await updateAManagedDiskWithDiskControllerTypes();
+  await updateManagedDiskToRemoveDiskAccessResourceAssociation();
 }
 
 main().catch(console.error);

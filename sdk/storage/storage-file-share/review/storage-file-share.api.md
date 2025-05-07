@@ -5,23 +5,29 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import { AnonymousCredential } from '@azure/storage-blob';
+import { AnonymousCredentialPolicy } from '@azure/storage-blob';
 import { AzureLogger } from '@azure/logger';
+import { BaseRequestPolicy } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { Credential as Credential_2 } from '@azure/storage-blob';
+import { CredentialPolicy } from '@azure/storage-blob';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
-import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
-import type { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
+import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
+import { StorageSharedKeyCredential } from '@azure/storage-blob';
+import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -79,27 +85,11 @@ export interface AccountSASSignatureValues {
     version?: string;
 }
 
-// @public
-export class AnonymousCredential extends Credential_2 {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
-}
+export { AnonymousCredential }
 
-// @public
-export class AnonymousCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-}
+export { AnonymousCredentialPolicy }
 
-// @public
-export abstract class BaseRequestPolicy implements RequestPolicy {
-    protected constructor(
-    _nextPolicy: RequestPolicy,
-    _options: RequestPolicyOptions);
-    log(logLevel: HttpPipelineLogLevel, message: string): void;
-    readonly _nextPolicy: RequestPolicy;
-    readonly _options: RequestPolicyOptions;
-    abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
-    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
-}
+export { BaseRequestPolicy }
 
 // @public (undocumented)
 export interface ClearRange {
@@ -160,20 +150,9 @@ export interface CorsRule {
     maxAgeInSeconds: number;
 }
 
-// @public
-abstract class Credential_2 implements RequestPolicyFactory {
-    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
-}
 export { Credential_2 as Credential }
 
-// @public
-export abstract class CredentialPolicy extends BaseRequestPolicy {
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResource): WebResource;
-}
-
-// @public
-export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
+export { CredentialPolicy }
 
 // @public
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
@@ -200,6 +179,7 @@ export interface DirectoryCreateHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -286,6 +266,7 @@ export interface DirectoryGetPropertiesHeaders {
     metadata?: {
         [propertyName: string]: string;
     };
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -435,6 +416,7 @@ export interface DirectorySetPropertiesHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -468,6 +450,7 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public (undocumented)
@@ -479,6 +462,7 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     lastWriteTime?: Date | TimeNowType | TimePreserveType;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public
@@ -500,6 +484,31 @@ export interface FileCloseHandlesHeaders {
 }
 
 // @public
+export interface FileCreateHardLinkHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    etag?: string;
+    fileChangeTime?: Date;
+    fileCreationTime?: Date;
+    fileId?: string;
+    fileLastWriteTime?: Date;
+    fileParentId?: string;
+    lastModified?: Date;
+    posixProperties?: FilePosixProperties;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface FileCreateHardLinkOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
+export type FileCreateHardLinkResponse = WithResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>;
+
+// @public
 export interface FileCreateHeaders {
     date?: Date;
     errorCode?: string;
@@ -513,6 +522,7 @@ export interface FileCreateHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -532,6 +542,7 @@ export type FileCreateResponse = WithResponse<FileCreateHeaders, FileCreateHeade
 export interface FileDeleteHeaders {
     date?: Date;
     errorCode?: string;
+    linkCount?: number;
     requestId?: string;
     version?: string;
 }
@@ -586,6 +597,7 @@ export interface FileDownloadHeaders {
     metadata?: {
         [propertyName: string]: string;
     };
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -685,6 +697,7 @@ export interface FileGetPropertiesHeaders {
     metadata?: {
         [propertyName: string]: string;
     };
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -793,6 +806,15 @@ export type FilePermissionInheritType = "inherit";
 
 // @public
 export type FilePermissionPreserveType = "preserve";
+
+// @public
+export interface FilePosixProperties {
+    fileMode?: NfsFileMode;
+    fileType?: NfsFileType;
+    group?: string;
+    linkCount?: number;
+    owner?: string;
+}
 
 // @public (undocumented)
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -918,6 +940,7 @@ export interface FileSetHTTPHeadersHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    posixProperties?: FilePosixProperties;
     requestId?: string;
     version?: string;
 }
@@ -966,11 +989,14 @@ export interface FileStartCopyHeaders {
 export interface FileStartCopyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
+    fileModeCopyMode?: ModeCopyMode;
+    fileOwnerCopyMode?: OwnerCopyMode;
     filePermission?: string;
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    posixProperties?: FilePosixProperties;
 }
 
 // @public
@@ -1238,7 +1264,32 @@ export interface Metrics {
 }
 
 // @public
+export type ModeCopyMode = "source" | "override";
+
+// @public
 export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export interface NfsFileMode {
+    effectiveGroupIdentity: boolean;
+    effectiveUserIdentity: boolean;
+    group: PosixRolePermissions;
+    other: PosixRolePermissions;
+    owner: PosixRolePermissions;
+    stickyBit: boolean;
+}
+
+// @public
+export type NfsFileType = string;
+
+// @public
+export type OwnerCopyMode = "source" | "override";
+
+// @public
+export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
+
+// @public
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -1262,6 +1313,13 @@ export interface PipelineLike {
 export interface PipelineOptions {
     httpClient?: RequestPolicy;
     shareTokenIntent?: ShareTokenIntent;
+}
+
+// @public
+export interface PosixRolePermissions {
+    execute: boolean;
+    read: boolean;
+    write: boolean;
 }
 
 // @public
@@ -1639,6 +1697,7 @@ export class ShareFileClient extends StorageClient {
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
+    createHardLink(targetFile: string, options?: FileCreateHardLinkOptions): Promise<FileCreateHardLinkResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
@@ -1673,7 +1732,7 @@ export class ShareFileClient extends StorageClient {
     uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
     uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
-    uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
+    uploadStream(stream: NodeJS.ReadableStream, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
     withShareSnapshot(shareSnapshot: string): ShareFileClient;
 }
 
@@ -2085,16 +2144,7 @@ export interface SourceModifiedAccessConditions {
     sourceIfNoneMatchCrc64?: Uint8Array;
 }
 
-// @public
-export class StorageBrowserPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-}
-
-// @public
-export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
-}
+export { StorageBrowserPolicyFactory }
 
 // @public
 export enum StorageFileAudience {
@@ -2143,25 +2193,21 @@ export enum StorageRetryPolicyType {
     FIXED = 1
 }
 
-// @public
-export class StorageSharedKeyCredential extends Credential_2 {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
-}
+export { StorageSharedKeyCredential }
 
-// @public
-export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
-}
+export { StorageSharedKeyCredentialPolicy }
 
 // @public
 export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
+
+// @public
+export function toOctalFileMode(input?: NfsFileMode): string | undefined;
+
+// @public
+export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
 
 export { WebResource }
 

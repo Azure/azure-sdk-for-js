@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ProductSubscriptions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ProductSubscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SubscriptionContract,
   ProductSubscriptionsListNextOptionalParams,
   ProductSubscriptionsListOptionalParams,
   ProductSubscriptionsListResponse,
-  ProductSubscriptionsListNextResponse
-} from "../models";
+  ProductSubscriptionsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProductSubscriptions operations. */
@@ -45,13 +45,13 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductSubscriptionsListOptionalParams
+    options?: ProductSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       productId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
           serviceName,
           productId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
     serviceName: string,
     productId: string,
     options?: ProductSubscriptionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionContract[]> {
     let result: ProductSubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
         resourceGroupName,
         serviceName,
         productId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
         serviceName,
         productId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductSubscriptionsListOptionalParams
+    options?: ProductSubscriptionsListOptionalParams,
   ): AsyncIterableIterator<SubscriptionContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       productId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductSubscriptionsListOptionalParams
+    options?: ProductSubscriptionsListOptionalParams,
   ): Promise<ProductSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
     serviceName: string,
     productId: string,
     nextLink: string,
-    options?: ProductSubscriptionsListNextOptionalParams
+    options?: ProductSubscriptionsListNextOptionalParams,
   ): Promise<ProductSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,52 +171,51 @@ export class ProductSubscriptionsImpl implements ProductSubscriptions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/subscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/subscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionCollection
+      bodyMapper: Mappers.SubscriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionCollection
+      bodyMapper: Mappers.SubscriptionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

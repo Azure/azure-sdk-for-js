@@ -16,7 +16,7 @@ import {
   ManagedInstanceAdvancedThreatProtectionSettingsGetResponse,
   ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstanceAdvancedThreatProtectionSettings. */

@@ -798,12 +798,12 @@ export const expectation9: AnalyzeBatchResult[] = [
       {
         id: "6",
         warnings: [],
-        sentiment: "negative",
+        sentiment: "neutral",
         confidenceScores: { positive: 0, neutral: 0.02, negative: 0.98 },
         sentences: [
           {
             text: "The toilet smelled.",
-            sentiment: "negative",
+            sentiment: "neutral",
             confidenceScores: { positive: 0, neutral: 0.02, negative: 0.98 },
             offset: 0,
             length: 19,

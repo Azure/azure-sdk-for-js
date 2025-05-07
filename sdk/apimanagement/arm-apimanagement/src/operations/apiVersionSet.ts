@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiVersionSet } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiVersionSet } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiVersionSetContract,
   ApiVersionSetListByServiceNextOptionalParams,
@@ -28,8 +28,8 @@ import {
   ApiVersionSetUpdateOptionalParams,
   ApiVersionSetUpdateResponse,
   ApiVersionSetDeleteOptionalParams,
-  ApiVersionSetListByServiceNextResponse
-} from "../models";
+  ApiVersionSetListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiVersionSet operations. */
@@ -53,12 +53,12 @@ export class ApiVersionSetImpl implements ApiVersionSet {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiVersionSetListByServiceOptionalParams
+    options?: ApiVersionSetListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiVersionSetContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class ApiVersionSetImpl implements ApiVersionSet {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     resourceGroupName: string,
     serviceName: string,
     options?: ApiVersionSetListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiVersionSetContract[]> {
     let result: ApiVersionSetListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
       result = await this._listByService(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class ApiVersionSetImpl implements ApiVersionSet {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiVersionSetListByServiceOptionalParams
+    options?: ApiVersionSetListByServiceOptionalParams,
   ): AsyncIterableIterator<ApiVersionSetContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class ApiVersionSetImpl implements ApiVersionSet {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiVersionSetListByServiceOptionalParams
+    options?: ApiVersionSetListByServiceOptionalParams,
   ): Promise<ApiVersionSetListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     resourceGroupName: string,
     serviceName: string,
     versionSetId: string,
-    options?: ApiVersionSetGetEntityTagOptionalParams
+    options?: ApiVersionSetGetEntityTagOptionalParams,
   ): Promise<ApiVersionSetGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, versionSetId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     resourceGroupName: string,
     serviceName: string,
     versionSetId: string,
-    options?: ApiVersionSetGetOptionalParams
+    options?: ApiVersionSetGetOptionalParams,
   ): Promise<ApiVersionSetGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, versionSetId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -199,11 +199,11 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     serviceName: string,
     versionSetId: string,
     parameters: ApiVersionSetContract,
-    options?: ApiVersionSetCreateOrUpdateOptionalParams
+    options?: ApiVersionSetCreateOrUpdateOptionalParams,
   ): Promise<ApiVersionSetCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, versionSetId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -224,7 +224,7 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     versionSetId: string,
     ifMatch: string,
     parameters: ApiVersionSetUpdateParameters,
-    options?: ApiVersionSetUpdateOptionalParams
+    options?: ApiVersionSetUpdateOptionalParams,
   ): Promise<ApiVersionSetUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -233,9 +233,9 @@ export class ApiVersionSetImpl implements ApiVersionSet {
         versionSetId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -254,11 +254,11 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     serviceName: string,
     versionSetId: string,
     ifMatch: string,
-    options?: ApiVersionSetDeleteOptionalParams
+    options?: ApiVersionSetDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, versionSetId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -273,11 +273,11 @@ export class ApiVersionSetImpl implements ApiVersionSet {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApiVersionSetListByServiceNextOptionalParams
+    options?: ApiVersionSetListByServiceNextOptionalParams,
   ): Promise<ApiVersionSetListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -285,183 +285,177 @@ export class ApiVersionSetImpl implements ApiVersionSet {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiVersionSetCollection
+      bodyMapper: Mappers.ApiVersionSetCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiVersionSetGetEntityTagHeaders
+      headersMapper: Mappers.ApiVersionSetGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.versionSetId
+    Parameters.serviceName,
+    Parameters.versionSetId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ApiVersionSetContract,
-      headersMapper: Mappers.ApiVersionSetGetHeaders
+      headersMapper: Mappers.ApiVersionSetGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.versionSetId
+    Parameters.serviceName,
+    Parameters.versionSetId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.ApiVersionSetContract,
-      headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.ApiVersionSetContract,
-      headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiVersionSetCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.versionSetId
+    Parameters.serviceName,
+    Parameters.versionSetId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.ApiVersionSetContract,
-      headersMapper: Mappers.ApiVersionSetUpdateHeaders
+      headersMapper: Mappers.ApiVersionSetUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.versionSetId
+    Parameters.serviceName,
+    Parameters.versionSetId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.versionSetId
+    Parameters.serviceName,
+    Parameters.versionSetId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiVersionSetCollection
+      bodyMapper: Mappers.ApiVersionSetCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

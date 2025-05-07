@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a live output. Deleting a live output does not delete the asset the live output is writing to.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a live output. Deleting a live output does not delete the asset the live output is writing to.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-delete.json
  */
-async function deleteALiveOutput() {
+async function deleteALiveOutput(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "0a6ec948-5a62-437d-b9df-934dc7c1b722";
@@ -40,7 +38,7 @@ async function deleteALiveOutput() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteALiveOutput();
 }
 

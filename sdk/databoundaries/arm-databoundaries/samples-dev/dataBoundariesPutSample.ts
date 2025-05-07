@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DataBoundaryDefinition,
-  DataboundariesManegementClient,
-} from "@azure/arm-databoundaries";
+import type { DataBoundaryDefinition } from "@azure/arm-databoundaries";
+import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Opt-in tenant to data boundary.
@@ -23,22 +17,19 @@ dotenv.config();
  * @summary Opt-in tenant to data boundary.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/PutDataBoundary.json
  */
-async function optInToDataBoundary() {
+async function optInToDataBoundary(): Promise<void> {
   const defaultParam = "default";
   const dataBoundaryDefinition: DataBoundaryDefinition = {
     properties: { dataBoundary: "EU" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataboundariesManegementClient(credential);
-  const result = await client.dataBoundaries.put(
-    defaultParam,
-    dataBoundaryDefinition,
-  );
+  const result = await client.dataBoundaries.put(defaultParam, dataBoundaryDefinition);
   console.log(result);
 }
 
-async function main() {
-  optInToDataBoundary();
+async function main(): Promise<void> {
+  await optInToDataBoundary();
 }
 
 main().catch(console.error);

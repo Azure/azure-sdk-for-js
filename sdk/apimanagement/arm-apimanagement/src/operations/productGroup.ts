@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ProductGroup } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ProductGroup } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   GroupContract,
   ProductGroupListByProductNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   ProductGroupCreateOrUpdateOptionalParams,
   ProductGroupCreateOrUpdateResponse,
   ProductGroupDeleteOptionalParams,
-  ProductGroupListByProductNextResponse
-} from "../models";
+  ProductGroupListByProductNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProductGroup operations. */
@@ -50,13 +50,13 @@ export class ProductGroupImpl implements ProductGroup {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductGroupListByProductOptionalParams
+    options?: ProductGroupListByProductOptionalParams,
   ): PagedAsyncIterableIterator<GroupContract> {
     const iter = this.listByProductPagingAll(
       resourceGroupName,
       serviceName,
       productId,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class ProductGroupImpl implements ProductGroup {
           serviceName,
           productId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ProductGroupImpl implements ProductGroup {
     serviceName: string,
     productId: string,
     options?: ProductGroupListByProductOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GroupContract[]> {
     let result: ProductGroupListByProductResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class ProductGroupImpl implements ProductGroup {
         resourceGroupName,
         serviceName,
         productId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class ProductGroupImpl implements ProductGroup {
         serviceName,
         productId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class ProductGroupImpl implements ProductGroup {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductGroupListByProductOptionalParams
+    options?: ProductGroupListByProductOptionalParams,
   ): AsyncIterableIterator<GroupContract> {
     for await (const page of this.listByProductPagingPage(
       resourceGroupName,
       serviceName,
       productId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class ProductGroupImpl implements ProductGroup {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductGroupListByProductOptionalParams
+    options?: ProductGroupListByProductOptionalParams,
   ): Promise<ProductGroupListByProductResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, options },
-      listByProductOperationSpec
+      listByProductOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class ProductGroupImpl implements ProductGroup {
     serviceName: string,
     productId: string,
     groupId: string,
-    options?: ProductGroupCheckEntityExistsOptionalParams
+    options?: ProductGroupCheckEntityExistsOptionalParams,
   ): Promise<ProductGroupCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, groupId, options },
-      checkEntityExistsOperationSpec
+      checkEntityExistsOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class ProductGroupImpl implements ProductGroup {
     serviceName: string,
     productId: string,
     groupId: string,
-    options?: ProductGroupCreateOrUpdateOptionalParams
+    options?: ProductGroupCreateOrUpdateOptionalParams,
   ): Promise<ProductGroupCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, groupId, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -206,11 +206,11 @@ export class ProductGroupImpl implements ProductGroup {
     serviceName: string,
     productId: string,
     groupId: string,
-    options?: ProductGroupDeleteOptionalParams
+    options?: ProductGroupDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, groupId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class ProductGroupImpl implements ProductGroup {
     serviceName: string,
     productId: string,
     nextLink: string,
-    options?: ProductGroupListByProductNextOptionalParams
+    options?: ProductGroupListByProductNextOptionalParams,
   ): Promise<ProductGroupListByProductNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, nextLink, options },
-      listByProductNextOperationSpec
+      listByProductNextOperationSpec,
     );
   }
 }
@@ -239,124 +239,120 @@ export class ProductGroupImpl implements ProductGroup {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProductOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupCollection
+      bodyMapper: Mappers.GroupCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkEntityExistsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}",
   httpMethod: "HEAD",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.productId,
-    Parameters.groupId
+    Parameters.groupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupContract
+      bodyMapper: Mappers.GroupContract,
     },
     201: {
-      bodyMapper: Mappers.GroupContract
+      bodyMapper: Mappers.GroupContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.productId,
-    Parameters.groupId
+    Parameters.groupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/groups/{groupId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.productId,
-    Parameters.groupId
+    Parameters.groupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProductNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupCollection
+      bodyMapper: Mappers.GroupCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -9,8 +9,8 @@
 import {
   AuthorizationLoginRequestContract,
   AuthorizationLoginLinksPostOptionalParams,
-  AuthorizationLoginLinksPostResponse
-} from "../models";
+  AuthorizationLoginLinksPostResponse,
+} from "../models/index.js";
 
 /** Interface representing a AuthorizationLoginLinks. */
 export interface AuthorizationLoginLinks {
@@ -29,6 +29,6 @@ export interface AuthorizationLoginLinks {
     authorizationProviderId: string,
     authorizationId: string,
     parameters: AuthorizationLoginRequestContract,
-    options?: AuthorizationLoginLinksPostOptionalParams
+    options?: AuthorizationLoginLinksPostOptionalParams,
   ): Promise<AuthorizationLoginLinksPostResponse>;
 }

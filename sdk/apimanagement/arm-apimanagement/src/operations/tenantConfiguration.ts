@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { TenantConfiguration } from "../operationsInterfaces";
+import { TenantConfiguration } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DeployConfigurationParameters,
   ConfigurationIdName,
@@ -28,8 +28,8 @@ import {
   TenantConfigurationValidateOptionalParams,
   TenantConfigurationValidateResponse,
   TenantConfigurationGetSyncStateOptionalParams,
-  TenantConfigurationGetSyncStateResponse
-} from "../models";
+  TenantConfigurationGetSyncStateResponse,
+} from "../models/index.js";
 
 /** Class containing TenantConfiguration operations. */
 export class TenantConfigurationImpl implements TenantConfiguration {
@@ -57,7 +57,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationDeployOptionalParams
+    options?: TenantConfigurationDeployOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TenantConfigurationDeployResponse>,
@@ -66,21 +66,20 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TenantConfigurationDeployResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -89,8 +88,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -98,8 +97,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -110,9 +109,9 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         serviceName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: deployOperationSpec
+      spec: deployOperationSpec,
     });
     const poller = await createHttpPoller<
       TenantConfigurationDeployResponse,
@@ -120,7 +119,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -140,14 +139,14 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationDeployOptionalParams
+    options?: TenantConfigurationDeployOptionalParams,
   ): Promise<TenantConfigurationDeployResponse> {
     const poller = await this.beginDeploy(
       resourceGroupName,
       serviceName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -166,7 +165,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: SaveConfigurationParameter,
-    options?: TenantConfigurationSaveOptionalParams
+    options?: TenantConfigurationSaveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TenantConfigurationSaveResponse>,
@@ -175,21 +174,20 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TenantConfigurationSaveResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -198,8 +196,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -207,8 +205,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -219,9 +217,9 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         serviceName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: saveOperationSpec
+      spec: saveOperationSpec,
     });
     const poller = await createHttpPoller<
       TenantConfigurationSaveResponse,
@@ -229,7 +227,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -249,14 +247,14 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: SaveConfigurationParameter,
-    options?: TenantConfigurationSaveOptionalParams
+    options?: TenantConfigurationSaveOptionalParams,
   ): Promise<TenantConfigurationSaveResponse> {
     const poller = await this.beginSave(
       resourceGroupName,
       serviceName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,7 +273,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationValidateOptionalParams
+    options?: TenantConfigurationValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TenantConfigurationValidateResponse>,
@@ -284,21 +282,20 @@ export class TenantConfigurationImpl implements TenantConfiguration {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TenantConfigurationValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -307,8 +304,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -316,8 +313,8 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -328,9 +325,9 @@ export class TenantConfigurationImpl implements TenantConfiguration {
         serviceName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: validateOperationSpec
+      spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
       TenantConfigurationValidateResponse,
@@ -338,7 +335,7 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -358,14 +355,14 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     serviceName: string,
     configurationName: ConfigurationIdName,
     parameters: DeployConfigurationParameters,
-    options?: TenantConfigurationValidateOptionalParams
+    options?: TenantConfigurationValidateOptionalParams,
   ): Promise<TenantConfigurationValidateResponse> {
     const poller = await this.beginValidate(
       resourceGroupName,
       serviceName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -382,11 +379,11 @@ export class TenantConfigurationImpl implements TenantConfiguration {
     resourceGroupName: string,
     serviceName: string,
     configurationName: ConfigurationIdName,
-    options?: TenantConfigurationGetSyncStateOptionalParams
+    options?: TenantConfigurationGetSyncStateOptionalParams,
   ): Promise<TenantConfigurationGetSyncStateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, configurationName, options },
-      getSyncStateOperationSpec
+      getSyncStateOperationSpec,
     );
   }
 }
@@ -394,127 +391,123 @@ export class TenantConfigurationImpl implements TenantConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deployOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     201: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     202: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     204: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters71,
+  requestBody: Parameters.parameters86,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.configurationName
+    Parameters.serviceName,
+    Parameters.configurationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const saveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/save",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/save",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     201: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     202: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     204: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters87,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.configurationName
+    Parameters.serviceName,
+    Parameters.configurationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     201: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     202: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     204: {
-      bodyMapper: Mappers.OperationResultContract
+      bodyMapper: Mappers.OperationResultContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters71,
+  requestBody: Parameters.parameters86,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.configurationName
+    Parameters.serviceName,
+    Parameters.configurationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getSyncStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantConfigurationSyncStateContract
+      bodyMapper: Mappers.TenantConfigurationSyncStateContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.configurationName
+    Parameters.serviceName,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

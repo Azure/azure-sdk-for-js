@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DelegationSettings } from "../operationsInterfaces";
+import { DelegationSettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   DelegationSettingsGetEntityTagOptionalParams,
   DelegationSettingsGetEntityTagResponse,
@@ -21,8 +21,8 @@ import {
   DelegationSettingsCreateOrUpdateOptionalParams,
   DelegationSettingsCreateOrUpdateResponse,
   DelegationSettingsListSecretsOptionalParams,
-  DelegationSettingsListSecretsResponse
-} from "../models";
+  DelegationSettingsListSecretsResponse,
+} from "../models/index.js";
 
 /** Class containing DelegationSettings operations. */
 export class DelegationSettingsImpl implements DelegationSettings {
@@ -45,11 +45,11 @@ export class DelegationSettingsImpl implements DelegationSettings {
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    options?: DelegationSettingsGetEntityTagOptionalParams
+    options?: DelegationSettingsGetEntityTagOptionalParams,
   ): Promise<DelegationSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -62,11 +62,11 @@ export class DelegationSettingsImpl implements DelegationSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: DelegationSettingsGetOptionalParams
+    options?: DelegationSettingsGetOptionalParams,
   ): Promise<DelegationSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -84,11 +84,11 @@ export class DelegationSettingsImpl implements DelegationSettings {
     serviceName: string,
     ifMatch: string,
     parameters: PortalDelegationSettings,
-    options?: DelegationSettingsUpdateOptionalParams
+    options?: DelegationSettingsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, ifMatch, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -103,11 +103,11 @@ export class DelegationSettingsImpl implements DelegationSettings {
     resourceGroupName: string,
     serviceName: string,
     parameters: PortalDelegationSettings,
-    options?: DelegationSettingsCreateOrUpdateOptionalParams
+    options?: DelegationSettingsCreateOrUpdateOptionalParams,
   ): Promise<DelegationSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -120,11 +120,11 @@ export class DelegationSettingsImpl implements DelegationSettings {
   listSecrets(
     resourceGroupName: string,
     serviceName: string,
-    options?: DelegationSettingsListSecretsOptionalParams
+    options?: DelegationSettingsListSecretsOptionalParams,
   ): Promise<DelegationSettingsListSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listSecretsOperationSpec
+      listSecretsOperationSpec,
     );
   }
 }
@@ -132,123 +132,118 @@ export class DelegationSettingsImpl implements DelegationSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.DelegationSettingsGetEntityTagHeaders
+      headersMapper: Mappers.DelegationSettingsGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PortalDelegationSettings,
-      headersMapper: Mappers.DelegationSettingsGetHeaders
+      headersMapper: Mappers.DelegationSettingsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
   httpMethod: "PATCH",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters62,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalDelegationSettings
+      bodyMapper: Mappers.PortalDelegationSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters62,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation/listSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalSettingValidationKeyContract
+      bodyMapper: Mappers.PortalSettingValidationKeyContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -33,7 +33,7 @@ import {
   RemoteSupportRequest,
   ClustersConfigureRemoteSupportOptionalParams,
   ClustersConfigureRemoteSupportResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */

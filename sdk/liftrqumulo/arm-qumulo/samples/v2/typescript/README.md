@@ -69,7 +69,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [filesystemslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrqumulo/arm-qumulo/samples/v2/typescript/src/fileSystemsListBySubscriptionSample.ts
 [filesystemsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrqumulo/arm-qumulo/samples/v2/typescript/src/fileSystemsUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrqumulo/arm-qumulo/samples/v2/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-qumulo?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-qumulo?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrqumulo/arm-qumulo/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -19,7 +19,7 @@ import {
   ConfigurationProfileAssignmentsGetOptionalParams,
   ConfigurationProfileAssignmentsGetResponse,
   ConfigurationProfileAssignmentsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationProfileAssignments. */

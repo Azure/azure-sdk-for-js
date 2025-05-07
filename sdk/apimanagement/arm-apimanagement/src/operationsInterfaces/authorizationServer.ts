@@ -21,8 +21,8 @@ import {
   AuthorizationServerUpdateResponse,
   AuthorizationServerDeleteOptionalParams,
   AuthorizationServerListSecretsOptionalParams,
-  AuthorizationServerListSecretsResponse
-} from "../models";
+  AuthorizationServerListSecretsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AuthorizationServer. */
@@ -36,7 +36,7 @@ export interface AuthorizationServer {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: AuthorizationServerListByServiceOptionalParams
+    options?: AuthorizationServerListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationServerContract>;
   /**
    * Gets the entity state (Etag) version of the authorizationServer specified by its identifier.
@@ -49,7 +49,7 @@ export interface AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     authsid: string,
-    options?: AuthorizationServerGetEntityTagOptionalParams
+    options?: AuthorizationServerGetEntityTagOptionalParams,
   ): Promise<AuthorizationServerGetEntityTagResponse>;
   /**
    * Gets the details of the authorization server specified by its identifier.
@@ -62,7 +62,7 @@ export interface AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     authsid: string,
-    options?: AuthorizationServerGetOptionalParams
+    options?: AuthorizationServerGetOptionalParams,
   ): Promise<AuthorizationServerGetResponse>;
   /**
    * Creates new authorization server or updates an existing authorization server.
@@ -77,7 +77,7 @@ export interface AuthorizationServer {
     serviceName: string,
     authsid: string,
     parameters: AuthorizationServerContract,
-    options?: AuthorizationServerCreateOrUpdateOptionalParams
+    options?: AuthorizationServerCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationServerCreateOrUpdateResponse>;
   /**
    * Updates the details of the authorization server specified by its identifier.
@@ -95,7 +95,7 @@ export interface AuthorizationServer {
     authsid: string,
     ifMatch: string,
     parameters: AuthorizationServerUpdateContract,
-    options?: AuthorizationServerUpdateOptionalParams
+    options?: AuthorizationServerUpdateOptionalParams,
   ): Promise<AuthorizationServerUpdateResponse>;
   /**
    * Deletes specific authorization server instance.
@@ -111,7 +111,7 @@ export interface AuthorizationServer {
     serviceName: string,
     authsid: string,
     ifMatch: string,
-    options?: AuthorizationServerDeleteOptionalParams
+    options?: AuthorizationServerDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the client secret details of the authorization server.
@@ -124,6 +124,6 @@ export interface AuthorizationServer {
     resourceGroupName: string,
     serviceName: string,
     authsid: string,
-    options?: AuthorizationServerListSecretsOptionalParams
+    options?: AuthorizationServerListSecretsOptionalParams,
   ): Promise<AuthorizationServerListSecretsResponse>;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfTest, PerfOptionDictionary } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src/index.js";
 import { delay } from "@azure/core-util";
 
 interface SleepOptions {

@@ -13,17 +13,15 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the recovery points recommended for move to another tier
  *
  * @summary Lists the recovery points recommended for move to another tier
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
  */
-async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
+async function getProtectedAzureVMRecoveryPointsRecommendedForMove(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recoveryPointsRecommendedForMove.list(
+  for await (const item of client.recoveryPointsRecommendedForMove.list(
     vaultName,
     resourceGroupName,
     fabricName,
@@ -54,8 +52,8 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
   console.log(resArray);
 }
 
-async function main() {
-  getProtectedAzureVMRecoveryPointsRecommendedForMove();
+async function main(): Promise<void> {
+  await getProtectedAzureVMRecoveryPointsRecommendedForMove();
 }
 
 main().catch(console.error);

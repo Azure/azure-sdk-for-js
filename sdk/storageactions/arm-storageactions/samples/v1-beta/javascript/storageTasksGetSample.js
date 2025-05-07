@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { StorageActionsManagementClient } = require("@azure/arm-storageactions");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the storage task properties
@@ -30,7 +30,7 @@ async function getStorageTask() {
 }
 
 async function main() {
-  getStorageTask();
+  await getStorageTask();
 }
 
 main().catch(console.error);

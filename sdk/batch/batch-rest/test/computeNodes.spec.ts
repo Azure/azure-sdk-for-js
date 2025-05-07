@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import type {
@@ -29,7 +29,7 @@ describe("Compute node operations", async () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  beforeAll(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -73,7 +73,7 @@ describe("Compute node operations", async () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  afterAll(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -85,12 +85,12 @@ describe("Compute node operations", async () => {
     }
   });
 
-  beforeEach(async function (ctx: VitestTestContext) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

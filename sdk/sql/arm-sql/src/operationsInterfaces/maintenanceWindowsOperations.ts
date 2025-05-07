@@ -11,7 +11,7 @@ import {
   MaintenanceWindowsGetResponse,
   MaintenanceWindows,
   MaintenanceWindowsCreateOrUpdateOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MaintenanceWindowsOperations. */
 export interface MaintenanceWindowsOperations {

@@ -6,25 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PortalConfig } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PortalConfig } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
+  PortalConfigContract,
+  PortalConfigListByServiceNextOptionalParams,
   PortalConfigListByServiceOptionalParams,
   PortalConfigListByServiceResponse,
   PortalConfigGetEntityTagOptionalParams,
   PortalConfigGetEntityTagResponse,
   PortalConfigGetOptionalParams,
   PortalConfigGetResponse,
-  PortalConfigContract,
   PortalConfigUpdateOptionalParams,
   PortalConfigUpdateResponse,
   PortalConfigCreateOrUpdateOptionalParams,
-  PortalConfigCreateOrUpdateResponse
-} from "../models";
+  PortalConfigCreateOrUpdateResponse,
+  PortalConfigListByServiceNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PortalConfig operations. */
 export class PortalConfigImpl implements PortalConfig {
   private readonly client: ApiManagementClient;
@@ -43,14 +48,98 @@ export class PortalConfigImpl implements PortalConfig {
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
-  listByService(
+  public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalConfigListByServiceOptionalParams
+    options?: PortalConfigListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PortalConfigContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalConfigListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PortalConfigContract[]> {
+    let result: PortalConfigListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalConfigListByServiceOptionalParams,
+  ): AsyncIterableIterator<PortalConfigContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the developer portal configurations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PortalConfigListByServiceOptionalParams,
   ): Promise<PortalConfigListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -65,11 +154,11 @@ export class PortalConfigImpl implements PortalConfig {
     resourceGroupName: string,
     serviceName: string,
     portalConfigId: string,
-    options?: PortalConfigGetEntityTagOptionalParams
+    options?: PortalConfigGetEntityTagOptionalParams,
   ): Promise<PortalConfigGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, portalConfigId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -84,11 +173,11 @@ export class PortalConfigImpl implements PortalConfig {
     resourceGroupName: string,
     serviceName: string,
     portalConfigId: string,
-    options?: PortalConfigGetOptionalParams
+    options?: PortalConfigGetOptionalParams,
   ): Promise<PortalConfigGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, portalConfigId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -108,7 +197,7 @@ export class PortalConfigImpl implements PortalConfig {
     portalConfigId: string,
     ifMatch: string,
     parameters: PortalConfigContract,
-    options?: PortalConfigUpdateOptionalParams
+    options?: PortalConfigUpdateOptionalParams,
   ): Promise<PortalConfigUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -117,9 +206,9 @@ export class PortalConfigImpl implements PortalConfig {
         portalConfigId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -139,7 +228,7 @@ export class PortalConfigImpl implements PortalConfig {
     portalConfigId: string,
     ifMatch: string,
     parameters: PortalConfigContract,
-    options?: PortalConfigCreateOrUpdateOptionalParams
+    options?: PortalConfigCreateOrUpdateOptionalParams,
   ): Promise<PortalConfigCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -148,9 +237,28 @@ export class PortalConfigImpl implements PortalConfig {
         portalConfigId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: PortalConfigListByServiceNextOptionalParams,
+  ): Promise<PortalConfigListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -158,129 +266,145 @@ export class PortalConfigImpl implements PortalConfig {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalConfigCollection
+      bodyMapper: Mappers.PortalConfigCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.PortalConfigGetEntityTagHeaders
+      headersMapper: Mappers.PortalConfigGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalConfigId
+    Parameters.serviceName,
+    Parameters.portalConfigId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PortalConfigContract,
-      headersMapper: Mappers.PortalConfigGetHeaders
+      headersMapper: Mappers.PortalConfigGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalConfigId
+    Parameters.serviceName,
+    Parameters.portalConfigId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalConfigContract
+      bodyMapper: Mappers.PortalConfigContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters58,
+  requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalConfigId
+    Parameters.serviceName,
+    Parameters.portalConfigId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalConfigContract
+      bodyMapper: Mappers.PortalConfigContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters58,
+  requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.portalConfigId
+    Parameters.serviceName,
+    Parameters.portalConfigId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listByServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PortalConfigCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -12,7 +12,7 @@ import {
   AccessReviewScheduleSettings,
   AccessReviewDefaultSettingsPutOptionalParams,
   AccessReviewDefaultSettingsPutResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AccessReviewDefaultSettingsOperations. */
 export interface AccessReviewDefaultSettingsOperations {

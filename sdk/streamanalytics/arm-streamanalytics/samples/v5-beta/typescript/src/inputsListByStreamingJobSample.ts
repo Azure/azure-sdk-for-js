@@ -13,9 +13,7 @@ import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the inputs under the specified streaming job.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists all of the inputs under the specified streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_ListByStreamingJob.json
  */
-async function listAllInputsInAStreamingJob() {
+async function listAllInputsInAStreamingJob(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -51,7 +49,7 @@ async function listAllInputsInAStreamingJob() {
  * @summary Lists all of the inputs under the specified streaming job.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_ListByStreamingJob_Diagnostics.json
  */
-async function listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingTheSelectODataQueryParameter() {
+async function listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingTheSelectODataQueryParameter(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -76,7 +74,7 @@ async function listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingT
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllInputsInAStreamingJob();
   listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingTheSelectODataQueryParameter();
 }

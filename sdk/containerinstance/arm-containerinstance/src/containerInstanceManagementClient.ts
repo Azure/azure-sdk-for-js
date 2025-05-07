@@ -22,7 +22,7 @@ import {
   SubnetServiceAssociationLinkImpl,
   ContainerGroupProfilesImpl,
   ContainerGroupProfileOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ContainerGroups,
   Operations,
@@ -31,8 +31,8 @@ import {
   SubnetServiceAssociationLink,
   ContainerGroupProfiles,
   ContainerGroupProfileOperations,
-} from "./operationsInterfaces";
-import { ContainerInstanceManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ContainerInstanceManagementClientOptionalParams } from "./models/index.js";
 
 export class ContainerInstanceManagementClient extends coreClient.ServiceClient {
   $host: string;

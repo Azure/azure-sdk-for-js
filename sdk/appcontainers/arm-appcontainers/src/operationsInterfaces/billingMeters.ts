@@ -9,7 +9,7 @@
 import {
   BillingMetersGetOptionalParams,
   BillingMetersGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BillingMeters. */
 export interface BillingMeters {

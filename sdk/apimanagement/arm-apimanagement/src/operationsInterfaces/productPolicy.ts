@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  PolicyContract,
   ProductPolicyListByProductOptionalParams,
-  ProductPolicyListByProductResponse,
   PolicyIdName,
   ProductPolicyGetEntityTagOptionalParams,
   ProductPolicyGetEntityTagResponse,
   ProductPolicyGetOptionalParams,
   ProductPolicyGetResponse,
-  PolicyContract,
   ProductPolicyCreateOrUpdateOptionalParams,
   ProductPolicyCreateOrUpdateResponse,
-  ProductPolicyDeleteOptionalParams
-} from "../models";
+  ProductPolicyDeleteOptionalParams,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProductPolicy. */
 export interface ProductPolicy {
   /**
@@ -33,8 +34,8 @@ export interface ProductPolicy {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductPolicyListByProductOptionalParams
-  ): Promise<ProductPolicyListByProductResponse>;
+    options?: ProductPolicyListByProductOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyContract>;
   /**
    * Get the ETag of the policy configuration at the Product level.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -48,7 +49,7 @@ export interface ProductPolicy {
     serviceName: string,
     productId: string,
     policyId: PolicyIdName,
-    options?: ProductPolicyGetEntityTagOptionalParams
+    options?: ProductPolicyGetEntityTagOptionalParams,
   ): Promise<ProductPolicyGetEntityTagResponse>;
   /**
    * Get the policy configuration at the Product level.
@@ -63,7 +64,7 @@ export interface ProductPolicy {
     serviceName: string,
     productId: string,
     policyId: PolicyIdName,
-    options?: ProductPolicyGetOptionalParams
+    options?: ProductPolicyGetOptionalParams,
   ): Promise<ProductPolicyGetResponse>;
   /**
    * Creates or updates policy configuration for the Product.
@@ -80,7 +81,7 @@ export interface ProductPolicy {
     productId: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: ProductPolicyCreateOrUpdateOptionalParams
+    options?: ProductPolicyCreateOrUpdateOptionalParams,
   ): Promise<ProductPolicyCreateOrUpdateResponse>;
   /**
    * Deletes the policy configuration at the Product.
@@ -98,6 +99,6 @@ export interface ProductPolicy {
     productId: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: ProductPolicyDeleteOptionalParams
+    options?: ProductPolicyDeleteOptionalParams,
   ): Promise<void>;
 }

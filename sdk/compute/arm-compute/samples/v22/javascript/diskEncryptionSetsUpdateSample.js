@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -99,9 +99,9 @@ async function updateADiskEncryptionSet() {
 }
 
 async function main() {
-  updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded();
-  updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating();
-  updateADiskEncryptionSet();
+  await updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded();
+  await updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating();
+  await updateADiskEncryptionSet();
 }
 
 main().catch(console.error);

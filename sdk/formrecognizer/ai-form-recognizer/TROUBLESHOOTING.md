@@ -107,7 +107,7 @@ For simpler use-cases, you can use the `template` build mode which uses a differ
 - [Custom template models](https://aka.ms/custom-template-models)
 - [Custom neural models](https://aka.ms/custom-neural-models)
 
-_See also_: [`DocumentModelBuildMode` reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode).
+_See also_: [`DocumentModelBuildMode` reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode).
 
 ### Form Recognizer errors
 
@@ -117,15 +117,13 @@ For information about the error messages and codes produced by the Document Inte
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fformrecognizer%2Fai-form-recognizer%2FTROUBLESHOOTING.png)
 
 [`resterror`]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/src/restError.ts
 [fr-errors]: https://aka.ms/azsdk/formrecognizer/errors

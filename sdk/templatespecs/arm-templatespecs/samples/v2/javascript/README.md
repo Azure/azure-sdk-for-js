@@ -65,6 +65,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [templatespecslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/templatespecs/arm-templatespecs/samples/v2/javascript/templateSpecsListByResourceGroupSample.js
 [templatespecslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/templatespecs/arm-templatespecs/samples/v2/javascript/templateSpecsListBySubscriptionSample.js
 [templatespecsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/templatespecs/arm-templatespecs/samples/v2/javascript/templateSpecsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-templatespecs?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-templatespecs?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/templatespecs/arm-templatespecs/README.md

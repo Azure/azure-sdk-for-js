@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates Advanced Threat Protection settings.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates Advanced Threat Protection settings.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ManagedInstanceAdvancedThreatProtectionSettingsCreateMax.json
  */
-async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllParameters() {
+async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -52,7 +50,7 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllPara
  * @summary Creates or updates Advanced Threat Protection settings.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ManagedInstanceAdvancedThreatProtectionSettingsCreateMin.json
  */
-async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimalParameters() {
+async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -75,7 +73,7 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimal
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllParameters();
   updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimalParameters();
 }

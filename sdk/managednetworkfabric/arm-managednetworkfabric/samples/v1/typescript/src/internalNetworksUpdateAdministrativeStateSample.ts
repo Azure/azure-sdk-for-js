@@ -13,9 +13,7 @@ import {
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update Administrative state of  InternalNetworks on resources referred by their resource ids.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update Administrative state of  InternalNetworks on resources referred by their resource ids.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/InternalNetworks_UpdateAdministrativeState_MaximumSet_Gen.json
  */
-async function internalNetworksUpdateAdministrativeStateMaximumSetGen() {
+async function internalNetworksUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -49,7 +47,7 @@ async function internalNetworksUpdateAdministrativeStateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   internalNetworksUpdateAdministrativeStateMaximumSetGen();
 }
 

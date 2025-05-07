@@ -480,6 +480,7 @@ export interface EHNamespace extends TrackedResource {
     readonly createdAt?: Date;
     disableLocalAuth?: boolean;
     encryption?: Encryption;
+    geoDataReplication?: GeoDataReplicationProperties;
     identity?: Identity;
     isAutoInflateEnabled?: boolean;
     kafkaEnabled?: boolean;
@@ -553,7 +554,9 @@ export interface ErrorResponse {
 export interface Eventhub extends ProxyResource {
     captureDescription?: CaptureDescription;
     readonly createdAt?: Date;
+    readonly identifier?: string;
     messageRetentionInDays?: number;
+    messageTimestampDescription?: MessageTimestampDescription;
     partitionCount?: number;
     readonly partitionIds?: string[];
     retentionDescription?: RetentionDescription;
@@ -707,6 +710,21 @@ export interface EventHubsRegenerateKeysOptionalParams extends coreClient.Operat
 // @public
 export type EventHubsRegenerateKeysResponse = AccessKeys;
 
+// @public (undocumented)
+export interface FailOver {
+    force?: boolean;
+    primaryLocation?: string;
+}
+
+// @public
+export interface GeoDataReplicationProperties {
+    locations?: NamespaceReplicaLocation[];
+    maxReplicationLagDurationInSeconds?: number;
+}
+
+// @public
+export type GeoDRRoleType = string;
+
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
@@ -748,7 +766,8 @@ export enum KnownApplicationGroupPolicyType {
 // @public
 export enum KnownCleanupPolicyRetentionDescription {
     Compact = "Compact",
-    Delete = "Delete"
+    Delete = "Delete",
+    DeleteOrCompact = "DeleteOrCompact"
 }
 
 // @public
@@ -778,6 +797,12 @@ export enum KnownEndPointProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownGeoDRRoleType {
+    Primary = "Primary",
+    Secondary = "Secondary"
 }
 
 // @public
@@ -873,6 +898,8 @@ export enum KnownSchemaCompatibility {
 // @public
 export enum KnownSchemaType {
     Avro = "Avro",
+    Json = "Json",
+    ProtoBuf = "ProtoBuf",
     Unknown = "Unknown"
 }
 
@@ -891,6 +918,12 @@ export enum KnownSkuTier {
 }
 
 // @public
+export enum KnownTimestampType {
+    Create = "Create",
+    LogAppend = "LogAppend"
+}
+
+// @public
 export enum KnownTlsVersion {
     One0 = "1.0",
     One1 = "1.1",
@@ -901,7 +934,20 @@ export enum KnownTlsVersion {
 export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
+export interface MessageTimestampDescription {
+    timestampType?: TimestampType;
+}
+
+// @public
 export type MetricId = string;
+
+// @public
+export interface NamespaceReplicaLocation {
+    clusterArmId?: string;
+    locationName?: string;
+    readonly replicaState?: string;
+    roleType?: GeoDRRoleType;
+}
 
 // @public
 export interface Namespaces {
@@ -909,6 +955,8 @@ export interface Namespaces {
     beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
+    beginFailover(resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesFailoverResponse>, NamespacesFailoverResponse>>;
+    beginFailoverAndWait(resourceGroupName: string, namespaceName: string, parameters: FailOver, options?: NamespacesFailoverOptionalParams): Promise<NamespacesFailoverResponse>;
     checkNameAvailability(parameters: CheckNameAvailabilityParameter, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
     createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
     createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
@@ -964,6 +1012,21 @@ export interface NamespacesDeleteOptionalParams extends coreClient.OperationOpti
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface NamespacesFailoverHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface NamespacesFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespacesFailoverResponse = FailOver;
 
 // @public
 export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
@@ -1363,6 +1426,7 @@ export type ResourceAssociationAccessMode = string;
 // @public
 export interface RetentionDescription {
     cleanupPolicy?: CleanupPolicyRetentionDescription;
+    minCompactionLagInMins?: number;
     retentionTimeInHours?: number;
     tombstoneRetentionTimeInHours?: number;
 }
@@ -1473,6 +1537,9 @@ export interface ThrottlingPolicy extends ApplicationGroupPolicy {
     rateLimitThreshold: number;
     type: "ThrottlingPolicy";
 }
+
+// @public
+export type TimestampType = string;
 
 // @public
 export type TlsVersion = string;

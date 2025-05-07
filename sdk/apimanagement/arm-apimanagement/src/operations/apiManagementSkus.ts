@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiManagementSkus } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiManagementSkus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiManagementSku,
   ApiManagementSkusListNextOptionalParams,
   ApiManagementSkusListOptionalParams,
   ApiManagementSkusListResponse,
-  ApiManagementSkusListNextResponse
-} from "../models";
+  ApiManagementSkusListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiManagementSkus operations. */
@@ -39,7 +39,7 @@ export class ApiManagementSkusImpl implements ApiManagementSkus {
    * @param options The options parameters.
    */
   public list(
-    options?: ApiManagementSkusListOptionalParams
+    options?: ApiManagementSkusListOptionalParams,
   ): PagedAsyncIterableIterator<ApiManagementSku> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ApiManagementSkusImpl implements ApiManagementSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ApiManagementSkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiManagementSku[]> {
     let result: ApiManagementSkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ApiManagementSkusImpl implements ApiManagementSkus {
   }
 
   private async *listPagingAll(
-    options?: ApiManagementSkusListOptionalParams
+    options?: ApiManagementSkusListOptionalParams,
   ): AsyncIterableIterator<ApiManagementSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class ApiManagementSkusImpl implements ApiManagementSkus {
    * @param options The options parameters.
    */
   private _list(
-    options?: ApiManagementSkusListOptionalParams
+    options?: ApiManagementSkusListOptionalParams,
   ): Promise<ApiManagementSkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ApiManagementSkusImpl implements ApiManagementSkus {
    */
   private _listNext(
     nextLink: string,
-    options?: ApiManagementSkusListNextOptionalParams
+    options?: ApiManagementSkusListNextOptionalParams,
   ): Promise<ApiManagementSkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -117,38 +117,37 @@ export class ApiManagementSkusImpl implements ApiManagementSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/skus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementSkusResult
+      bodyMapper: Mappers.ApiManagementSkusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiManagementSkusResult
+      bodyMapper: Mappers.ApiManagementSkusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

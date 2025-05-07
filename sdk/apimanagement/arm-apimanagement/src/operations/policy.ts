@@ -6,12 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Policy } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Policy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
+  PolicyContract,
+  PolicyListByServiceNextOptionalParams,
   PolicyListByServiceOptionalParams,
   PolicyListByServiceResponse,
   PolicyIdName,
@@ -19,12 +23,13 @@ import {
   PolicyGetEntityTagResponse,
   PolicyGetOptionalParams,
   PolicyGetResponse,
-  PolicyContract,
   PolicyCreateOrUpdateOptionalParams,
   PolicyCreateOrUpdateResponse,
-  PolicyDeleteOptionalParams
-} from "../models";
+  PolicyDeleteOptionalParams,
+  PolicyListByServiceNextResponse,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Policy operations. */
 export class PolicyImpl implements Policy {
   private readonly client: ApiManagementClient;
@@ -43,14 +48,98 @@ export class PolicyImpl implements Policy {
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
-  listByService(
+  public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PolicyListByServiceOptionalParams
+    options?: PolicyListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<PolicyContract> {
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      serviceName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByServicePagingPage(
+          resourceGroupName,
+          serviceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByServicePagingPage(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<PolicyContract[]> {
+    let result: PolicyListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByServiceNext(
+        resourceGroupName,
+        serviceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByServicePagingAll(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
+  ): AsyncIterableIterator<PolicyContract> {
+    for await (const page of this.listByServicePagingPage(
+      resourceGroupName,
+      serviceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all the Global Policy definitions of the Api Management service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  private _listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: PolicyListByServiceOptionalParams,
   ): Promise<PolicyListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -65,11 +154,11 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     serviceName: string,
     policyId: PolicyIdName,
-    options?: PolicyGetEntityTagOptionalParams
+    options?: PolicyGetEntityTagOptionalParams,
   ): Promise<PolicyGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, policyId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -84,11 +173,11 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     serviceName: string,
     policyId: PolicyIdName,
-    options?: PolicyGetOptionalParams
+    options?: PolicyGetOptionalParams,
   ): Promise<PolicyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, policyId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -105,11 +194,11 @@ export class PolicyImpl implements Policy {
     serviceName: string,
     policyId: PolicyIdName,
     parameters: PolicyContract,
-    options?: PolicyCreateOrUpdateOptionalParams
+    options?: PolicyCreateOrUpdateOptionalParams,
   ): Promise<PolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, policyId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -127,11 +216,30 @@ export class PolicyImpl implements Policy {
     serviceName: string,
     policyId: PolicyIdName,
     ifMatch: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, policyId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * ListByServiceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param nextLink The nextLink from the previous successful call to the ListByService method.
+   * @param options The options parameters.
+   */
+  private _listByServiceNext(
+    resourceGroupName: string,
+    serviceName: string,
+    nextLink: string,
+    options?: PolicyListByServiceNextOptionalParams,
+  ): Promise<PolicyListByServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, nextLink, options },
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -139,127 +247,143 @@ export class PolicyImpl implements Policy {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyCollection
+      bodyMapper: Mappers.PolicyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.PolicyGetEntityTagHeaders
+      headersMapper: Mappers.PolicyGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.policyId
+    Parameters.serviceName,
+    Parameters.policyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.PolicyGetHeaders
+      headersMapper: Mappers.PolicyGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.format],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.policyId
+    Parameters.serviceName,
+    Parameters.policyId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.PolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.PolicyCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.PolicyContract,
-      headersMapper: Mappers.PolicyCreateOrUpdateHeaders
+      headersMapper: Mappers.PolicyCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.policyId
+    Parameters.serviceName,
+    Parameters.policyId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.policyId
+    Parameters.serviceName,
+    Parameters.policyId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
+};
+const listByServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

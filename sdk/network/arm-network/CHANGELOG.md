@@ -1,15 +1,168 @@
 # Release History
-
-## 33.4.1 (Unreleased)
-
+    
+## 33.5.0 (2024-12-10)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group IpamPools
+  - Added operation group ReachabilityAnalysisIntents
+  - Added operation group ReachabilityAnalysisRuns
+  - Added operation group StaticCidrs
+  - Added operation group VerifierWorkspaces
+  - Added operation LoadBalancerLoadBalancingRules.beginHealth
+  - Added operation LoadBalancerLoadBalancingRules.beginHealthAndWait
+  - Added operation VirtualNetworkGateways.beginGetFailoverAllTestDetails
+  - Added operation VirtualNetworkGateways.beginGetFailoverAllTestDetailsAndWait
+  - Added operation VirtualNetworkGateways.beginGetFailoverSingleTestDetails
+  - Added operation VirtualNetworkGateways.beginGetFailoverSingleTestDetailsAndWait
+  - Added operation VirtualNetworkGateways.beginStartExpressRouteSiteFailoverSimulation
+  - Added operation VirtualNetworkGateways.beginStartExpressRouteSiteFailoverSimulationAndWait
+  - Added operation VirtualNetworkGateways.beginStopExpressRouteSiteFailoverSimulation
+  - Added operation VirtualNetworkGateways.beginStopExpressRouteSiteFailoverSimulationAndWait
+  - Added Interface CommonErrorAdditionalInfo
+  - Added Interface CommonErrorDetail
+  - Added Interface CommonErrorResponse
+  - Added Interface CommonProxyResource
+  - Added Interface CommonResource
+  - Added Interface CommonTrackedResource
+  - Added Interface ExpressRouteFailoverCircuitResourceDetails
+  - Added Interface ExpressRouteFailoverConnectionResourceDetails
+  - Added Interface ExpressRouteFailoverRedundantRoute
+  - Added Interface ExpressRouteFailoverSingleTestDetails
+  - Added Interface ExpressRouteFailoverStopApiParameters
+  - Added Interface ExpressRouteFailoverTestDetails
+  - Added Interface FailoverConnectionDetails
+  - Added Interface IntentContent
+  - Added Interface IpamPool
+  - Added Interface IpamPoolList
+  - Added Interface IpamPoolPrefixAllocation
+  - Added Interface IpamPoolProperties
+  - Added Interface IpamPoolsCreateHeaders
+  - Added Interface IpamPoolsCreateOptionalParams
+  - Added Interface IpamPoolsDeleteHeaders
+  - Added Interface IpamPoolsDeleteOptionalParams
+  - Added Interface IpamPoolsGetOptionalParams
+  - Added Interface IpamPoolsGetPoolUsageOptionalParams
+  - Added Interface IpamPoolsListAssociatedResourcesNextOptionalParams
+  - Added Interface IpamPoolsListAssociatedResourcesOptionalParams
+  - Added Interface IpamPoolsListNextOptionalParams
+  - Added Interface IpamPoolsListOptionalParams
+  - Added Interface IpamPoolsUpdateOptionalParams
+  - Added Interface IpamPoolUpdate
+  - Added Interface IpamPoolUpdateProperties
+  - Added Interface IPTraffic
+  - Added Interface LoadBalancerHealthPerRule
+  - Added Interface LoadBalancerHealthPerRulePerBackendAddress
+  - Added Interface LoadBalancerLoadBalancingRulesHealthHeaders
+  - Added Interface LoadBalancerLoadBalancingRulesHealthOptionalParams
+  - Added Interface PoolAssociation
+  - Added Interface PoolAssociationList
+  - Added Interface PoolUsage
+  - Added Interface ReachabilityAnalysisIntent
+  - Added Interface ReachabilityAnalysisIntentListResult
+  - Added Interface ReachabilityAnalysisIntentProperties
+  - Added Interface ReachabilityAnalysisIntentsCreateOptionalParams
+  - Added Interface ReachabilityAnalysisIntentsDeleteOptionalParams
+  - Added Interface ReachabilityAnalysisIntentsGetOptionalParams
+  - Added Interface ReachabilityAnalysisIntentsListNextOptionalParams
+  - Added Interface ReachabilityAnalysisIntentsListOptionalParams
+  - Added Interface ReachabilityAnalysisRun
+  - Added Interface ReachabilityAnalysisRunListResult
+  - Added Interface ReachabilityAnalysisRunProperties
+  - Added Interface ReachabilityAnalysisRunsCreateOptionalParams
+  - Added Interface ReachabilityAnalysisRunsDeleteHeaders
+  - Added Interface ReachabilityAnalysisRunsDeleteOptionalParams
+  - Added Interface ReachabilityAnalysisRunsGetOptionalParams
+  - Added Interface ReachabilityAnalysisRunsListNextOptionalParams
+  - Added Interface ReachabilityAnalysisRunsListOptionalParams
+  - Added Interface ResourceBasics
+  - Added Interface StaticCidr
+  - Added Interface StaticCidrList
+  - Added Interface StaticCidrProperties
+  - Added Interface StaticCidrsCreateOptionalParams
+  - Added Interface StaticCidrsDeleteHeaders
+  - Added Interface StaticCidrsDeleteOptionalParams
+  - Added Interface StaticCidrsGetOptionalParams
+  - Added Interface StaticCidrsListNextOptionalParams
+  - Added Interface StaticCidrsListOptionalParams
+  - Added Interface VerifierWorkspace
+  - Added Interface VerifierWorkspaceListResult
+  - Added Interface VerifierWorkspaceProperties
+  - Added Interface VerifierWorkspacesCreateOptionalParams
+  - Added Interface VerifierWorkspacesDeleteHeaders
+  - Added Interface VerifierWorkspacesDeleteOptionalParams
+  - Added Interface VerifierWorkspacesGetOptionalParams
+  - Added Interface VerifierWorkspacesListNextOptionalParams
+  - Added Interface VerifierWorkspacesListOptionalParams
+  - Added Interface VerifierWorkspacesUpdateOptionalParams
+  - Added Interface VerifierWorkspaceUpdate
+  - Added Interface VerifierWorkspaceUpdateProperties
+  - Added Interface VirtualNetworkGatewaysGetFailoverAllTestDetailsHeaders
+  - Added Interface VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams
+  - Added Interface VirtualNetworkGatewaysGetFailoverSingleTestDetailsHeaders
+  - Added Interface VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams
+  - Added Interface VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationHeaders
+  - Added Interface VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams
+  - Added Interface VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationHeaders
+  - Added Interface VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams
+  - Added Type Alias AddressSpaceAggregationOption
+  - Added Type Alias FailoverConnectionStatus
+  - Added Type Alias FailoverTestStatus
+  - Added Type Alias FailoverTestStatusForSingleTest
+  - Added Type Alias FailoverTestType
+  - Added Type Alias IpamPoolsCreateResponse
+  - Added Type Alias IpamPoolsDeleteResponse
+  - Added Type Alias IpamPoolsGetPoolUsageResponse
+  - Added Type Alias IpamPoolsGetResponse
+  - Added Type Alias IpamPoolsListAssociatedResourcesNextResponse
+  - Added Type Alias IpamPoolsListAssociatedResourcesResponse
+  - Added Type Alias IpamPoolsListNextResponse
+  - Added Type Alias IpamPoolsListResponse
+  - Added Type Alias IpamPoolsUpdateResponse
+  - Added Type Alias IpType
+  - Added Type Alias LoadBalancerLoadBalancingRulesHealthResponse
+  - Added Type Alias NetworkProtocol
+  - Added Type Alias ReachabilityAnalysisIntentsCreateResponse
+  - Added Type Alias ReachabilityAnalysisIntentsGetResponse
+  - Added Type Alias ReachabilityAnalysisIntentsListNextResponse
+  - Added Type Alias ReachabilityAnalysisIntentsListResponse
+  - Added Type Alias ReachabilityAnalysisRunsCreateResponse
+  - Added Type Alias ReachabilityAnalysisRunsDeleteResponse
+  - Added Type Alias ReachabilityAnalysisRunsGetResponse
+  - Added Type Alias ReachabilityAnalysisRunsListNextResponse
+  - Added Type Alias ReachabilityAnalysisRunsListResponse
+  - Added Type Alias StaticCidrsCreateResponse
+  - Added Type Alias StaticCidrsDeleteResponse
+  - Added Type Alias StaticCidrsGetResponse
+  - Added Type Alias StaticCidrsListNextResponse
+  - Added Type Alias StaticCidrsListResponse
+  - Added Type Alias VerifierWorkspacesCreateResponse
+  - Added Type Alias VerifierWorkspacesDeleteResponse
+  - Added Type Alias VerifierWorkspacesGetResponse
+  - Added Type Alias VerifierWorkspacesListNextResponse
+  - Added Type Alias VerifierWorkspacesListResponse
+  - Added Type Alias VerifierWorkspacesUpdateResponse
+  - Added Type Alias VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse
+  - Added Type Alias VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse
+  - Added Type Alias VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse
+  - Added Type Alias VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse
+  - Interface AddressSpace has a new optional parameter ipamPoolPrefixAllocations
+  - Interface BastionHost has a new optional parameter enablePrivateOnlyBastion
+  - Interface NetworkInterface has a new optional parameter defaultOutboundConnectivityEnabled
+  - Interface SecurityAdminConfiguration has a new optional parameter networkGroupAddressSpaceAggregationOption
+  - Interface Subnet has a new optional parameter ipamPoolPrefixAllocations
+  - Added Enum KnownAddressSpaceAggregationOption
+  - Added Enum KnownFailoverConnectionStatus
+  - Added Enum KnownFailoverTestStatus
+  - Added Enum KnownFailoverTestStatusForSingleTest
+  - Added Enum KnownFailoverTestType
+  - Added Enum KnownIpType
+  - Added Enum KnownNetworkProtocol
+  - Enum KnownAddressPrefixType has a new value NetworkGroup
+  - Enum KnownProvisioningState has a new value Canceled
+  - Enum KnownProvisioningState has a new value Creating
+    
+    
 ## 33.4.0 (2024-09-13)
     
 ### Features Added

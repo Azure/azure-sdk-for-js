@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [quotascheckavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/typescript/src/quotasCheckAvailabilitySample.ts
 [quotasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/typescript/src/quotasGetSample.ts
 [quotaslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/arm-loadtesting/samples/v1/typescript/src/quotasListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/arm-loadtesting/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

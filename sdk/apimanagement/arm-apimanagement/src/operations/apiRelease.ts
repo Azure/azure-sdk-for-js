@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiRelease } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiRelease } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
   ApiReleaseContract,
   ApiReleaseListByServiceNextOptionalParams,
@@ -27,8 +27,8 @@ import {
   ApiReleaseUpdateOptionalParams,
   ApiReleaseUpdateResponse,
   ApiReleaseDeleteOptionalParams,
-  ApiReleaseListByServiceNextResponse
-} from "../models";
+  ApiReleaseListByServiceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiRelease operations. */
@@ -56,13 +56,13 @@ export class ApiReleaseImpl implements ApiRelease {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
+    options?: ApiReleaseListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiReleaseContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class ApiReleaseImpl implements ApiRelease {
           serviceName,
           apiId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +91,7 @@ export class ApiReleaseImpl implements ApiRelease {
     serviceName: string,
     apiId: string,
     options?: ApiReleaseListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiReleaseContract[]> {
     let result: ApiReleaseListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class ApiReleaseImpl implements ApiRelease {
         resourceGroupName,
         serviceName,
         apiId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class ApiReleaseImpl implements ApiRelease {
         serviceName,
         apiId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,13 +126,13 @@ export class ApiReleaseImpl implements ApiRelease {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
+    options?: ApiReleaseListByServiceOptionalParams,
   ): AsyncIterableIterator<ApiReleaseContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       apiId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,11 +151,11 @@ export class ApiReleaseImpl implements ApiRelease {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
+    options?: ApiReleaseListByServiceOptionalParams,
   ): Promise<ApiReleaseListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class ApiReleaseImpl implements ApiRelease {
     serviceName: string,
     apiId: string,
     releaseId: string,
-    options?: ApiReleaseGetEntityTagOptionalParams
+    options?: ApiReleaseGetEntityTagOptionalParams,
   ): Promise<ApiReleaseGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, releaseId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -195,11 +195,11 @@ export class ApiReleaseImpl implements ApiRelease {
     serviceName: string,
     apiId: string,
     releaseId: string,
-    options?: ApiReleaseGetOptionalParams
+    options?: ApiReleaseGetOptionalParams,
   ): Promise<ApiReleaseGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, releaseId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -219,11 +219,11 @@ export class ApiReleaseImpl implements ApiRelease {
     apiId: string,
     releaseId: string,
     parameters: ApiReleaseContract,
-    options?: ApiReleaseCreateOrUpdateOptionalParams
+    options?: ApiReleaseCreateOrUpdateOptionalParams,
   ): Promise<ApiReleaseCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, releaseId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -246,7 +246,7 @@ export class ApiReleaseImpl implements ApiRelease {
     releaseId: string,
     ifMatch: string,
     parameters: ApiReleaseContract,
-    options?: ApiReleaseUpdateOptionalParams
+    options?: ApiReleaseUpdateOptionalParams,
   ): Promise<ApiReleaseUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -256,9 +256,9 @@ export class ApiReleaseImpl implements ApiRelease {
         releaseId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -279,11 +279,11 @@ export class ApiReleaseImpl implements ApiRelease {
     apiId: string,
     releaseId: string,
     ifMatch: string,
-    options?: ApiReleaseDeleteOptionalParams
+    options?: ApiReleaseDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, releaseId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -300,11 +300,11 @@ export class ApiReleaseImpl implements ApiRelease {
     serviceName: string,
     apiId: string,
     nextLink: string,
-    options?: ApiReleaseListByServiceNextOptionalParams
+    options?: ApiReleaseListByServiceNextOptionalParams,
   ): Promise<ApiReleaseListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -312,190 +312,184 @@ export class ApiReleaseImpl implements ApiRelease {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiReleaseCollection
+      bodyMapper: Mappers.ApiReleaseCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
+      headersMapper: Mappers.ApiReleaseGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.releaseId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseGetHeaders
+      headersMapper: Mappers.ApiReleaseGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.releaseId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.releaseId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseUpdateHeaders
+      headersMapper: Mappers.ApiReleaseUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.releaseId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.releaseId
+    Parameters.releaseId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiReleaseCollection
+      bodyMapper: Mappers.ApiReleaseCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.apiId1
+    Parameters.serviceName,
+    Parameters.apiId1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

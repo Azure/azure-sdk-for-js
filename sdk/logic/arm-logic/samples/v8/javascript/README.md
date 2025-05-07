@@ -255,6 +255,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workflowsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/logic/arm-logic/samples/v8/javascript/workflowsUpdateSample.js
 [workflowsvalidatebylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/logic/arm-logic/samples/v8/javascript/workflowsValidateByLocationSample.js
 [workflowsvalidatebyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/logic/arm-logic/samples/v8/javascript/workflowsValidateByResourceGroupSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-logic?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-logic?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/logic/arm-logic/README.md

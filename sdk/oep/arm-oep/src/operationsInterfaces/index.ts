@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./locations";
-export * from "./energyServices";
-export * from "./operations";
+export * from "./locations.js";
+export * from "./energyServices.js";
+export * from "./operations.js";

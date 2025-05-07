@@ -17,7 +17,7 @@ import {
   TransformsDeleteOptionalParams,
   TransformsUpdateOptionalParams,
   TransformsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Transforms. */

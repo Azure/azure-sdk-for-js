@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceUnits } from "../operationsInterfaces";
+import { ServiceUnits } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureDeploymentManager } from "../azureDeploymentManager";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureDeploymentManager } from "../azureDeploymentManager.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   ServiceUnitResource,
   ServiceUnitsCreateOrUpdateOptionalParams,
@@ -22,7 +22,7 @@ import {
   ServiceUnitsDeleteOptionalParams,
   ServiceUnitsListOptionalParams,
   ServiceUnitsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ServiceUnits operations. */
 export class ServiceUnitsImpl implements ServiceUnits {

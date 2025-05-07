@@ -14,8 +14,8 @@ import {
   NotificationRecipientUserCheckEntityExistsResponse,
   NotificationRecipientUserCreateOrUpdateOptionalParams,
   NotificationRecipientUserCreateOrUpdateResponse,
-  NotificationRecipientUserDeleteOptionalParams
-} from "../models";
+  NotificationRecipientUserDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a NotificationRecipientUser. */
 export interface NotificationRecipientUser {
@@ -30,7 +30,7 @@ export interface NotificationRecipientUser {
     resourceGroupName: string,
     serviceName: string,
     notificationName: NotificationName,
-    options?: NotificationRecipientUserListByNotificationOptionalParams
+    options?: NotificationRecipientUserListByNotificationOptionalParams,
   ): Promise<NotificationRecipientUserListByNotificationResponse>;
   /**
    * Determine if the Notification Recipient User is subscribed to the notification.
@@ -45,7 +45,7 @@ export interface NotificationRecipientUser {
     serviceName: string,
     notificationName: NotificationName,
     userId: string,
-    options?: NotificationRecipientUserCheckEntityExistsOptionalParams
+    options?: NotificationRecipientUserCheckEntityExistsOptionalParams,
   ): Promise<NotificationRecipientUserCheckEntityExistsResponse>;
   /**
    * Adds the API Management User to the list of Recipients for the Notification.
@@ -60,7 +60,7 @@ export interface NotificationRecipientUser {
     serviceName: string,
     notificationName: NotificationName,
     userId: string,
-    options?: NotificationRecipientUserCreateOrUpdateOptionalParams
+    options?: NotificationRecipientUserCreateOrUpdateOptionalParams,
   ): Promise<NotificationRecipientUserCreateOrUpdateResponse>;
   /**
    * Removes the API Management user from the list of Notification.
@@ -75,6 +75,6 @@ export interface NotificationRecipientUser {
     serviceName: string,
     notificationName: NotificationName,
     userId: string,
-    options?: NotificationRecipientUserDeleteOptionalParams
+    options?: NotificationRecipientUserDeleteOptionalParams,
   ): Promise<void>;
 }

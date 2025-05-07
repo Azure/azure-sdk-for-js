@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { EventSubscriptions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { EventSubscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { EventGridManagementClient } from "../eventGridManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { EventGridManagementClient } from "../eventGridManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   EventSubscription,
   EventSubscriptionsListGlobalBySubscriptionNextOptionalParams,
@@ -51,8 +51,6 @@ import {
   EventSubscriptionsListByDomainTopicNextOptionalParams,
   EventSubscriptionsListByDomainTopicOptionalParams,
   EventSubscriptionsListByDomainTopicResponse,
-  EventSubscriptionsGetDeliveryAttributesOptionalParams,
-  EventSubscriptionsGetDeliveryAttributesResponse,
   EventSubscriptionsGetOptionalParams,
   EventSubscriptionsGetResponse,
   EventSubscriptionsCreateOrUpdateOptionalParams,
@@ -63,6 +61,8 @@ import {
   EventSubscriptionsUpdateResponse,
   EventSubscriptionsGetFullUrlOptionalParams,
   EventSubscriptionsGetFullUrlResponse,
+  EventSubscriptionsGetDeliveryAttributesOptionalParams,
+  EventSubscriptionsGetDeliveryAttributesResponse,
   EventSubscriptionsListGlobalBySubscriptionNextResponse,
   EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse,
   EventSubscriptionsListGlobalByResourceGroupNextResponse,
@@ -73,7 +73,7 @@ import {
   EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse,
   EventSubscriptionsListByResourceNextResponse,
   EventSubscriptionsListByDomainTopicNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EventSubscriptions operations. */
@@ -908,30 +908,6 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   }
 
   /**
-   * Get all delivery attributes for an event subscription.
-   * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
-   *              group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic.
-   *              For example, use '/subscriptions/{subscriptionId}/' for a subscription,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-   *              for a resource, and
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
-   *              for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    scope: string,
-    eventSubscriptionName: string,
-    options?: EventSubscriptionsGetDeliveryAttributesOptionalParams,
-  ): Promise<EventSubscriptionsGetDeliveryAttributesResponse> {
-    return this.client.sendOperationRequest(
-      { scope, eventSubscriptionName, options },
-      getDeliveryAttributesOperationSpec,
-    );
-  }
-
-  /**
    * Get properties of an event subscription.
    * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
    *              group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic.
@@ -1481,6 +1457,30 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   }
 
   /**
+   * Get all delivery attributes for an event subscription.
+   * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
+   *              group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic.
+   *              For example, use '/subscriptions/{subscriptionId}/' for a subscription,
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+   *              for a resource, and
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
+   *              for an EventGrid topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    scope: string,
+    eventSubscriptionName: string,
+    options?: EventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<EventSubscriptionsGetDeliveryAttributesResponse> {
+    return this.client.sendOperationRequest(
+      { scope, eventSubscriptionName, options },
+      getDeliveryAttributesOperationSpec,
+    );
+  }
+
+  /**
    * ListGlobalBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListGlobalBySubscription
    *                 method.
@@ -1686,24 +1686,6 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeliveryAttributeListResult,
-    },
-    default: {},
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.eventSubscriptionName,
-    Parameters.scope,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "GET",
@@ -1996,6 +1978,24 @@ const listByDomainTopicOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.domainName,
     Parameters.topicName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeliveryAttributeListResult,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.eventSubscriptionName,
+    Parameters.scope,
   ],
   headerParameters: [Parameters.accept],
   serializer,

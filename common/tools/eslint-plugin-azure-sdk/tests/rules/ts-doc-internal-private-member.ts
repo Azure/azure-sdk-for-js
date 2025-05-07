@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-doc-internal-private-member";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-doc-internal-private-member.js";
 
 //------------------------------------------------------------------------------
 // Tests

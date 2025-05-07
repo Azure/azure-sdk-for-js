@@ -95,7 +95,7 @@ import {
   AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse,
   AppServiceEnvironmentsUpdateWorkerPoolOptionalParams,
   AppServiceEnvironmentsUpdateWorkerPoolResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AppServiceEnvironments. */

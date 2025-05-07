@@ -7,14 +7,14 @@ import { ConfigurationClient } from "../src/index.js";
 import { describe, it } from "vitest";
 
 describe("snippets", function () {
-  it("new_configurationclient", function () {
+  it("ReadmeSampleCreateClient", () => {
     const client = new ConfigurationClient(
       process.env.ENDPOINT ?? "<app configuration endpoint>",
       new DefaultAzureCredential(),
     );
   });
 
-  it("setloglevel", () => {
+  it("SetLogLevel", () => {
     setLogLevel("verbose");
   });
 });

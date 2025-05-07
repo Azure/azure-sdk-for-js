@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List managed database columns
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List managed database columns
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedColumnsListByDatabaseMax.json
  */
-async function filterManagedDatabaseColumns() {
+async function filterManagedDatabaseColumns(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -60,7 +58,7 @@ async function filterManagedDatabaseColumns() {
  * @summary List managed database columns
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedColumnsListByDatabaseMin.json
  */
-async function listManagedDatabaseColumns() {
+async function listManagedDatabaseColumns(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -80,7 +78,7 @@ async function listManagedDatabaseColumns() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   filterManagedDatabaseColumns();
   listManagedDatabaseColumns();
 }

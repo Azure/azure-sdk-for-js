@@ -18,7 +18,7 @@ import {
   Patch,
   ReservationsUpdateByBillingAccountOptionalParams,
   ReservationsUpdateByBillingAccountResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Reservations. */

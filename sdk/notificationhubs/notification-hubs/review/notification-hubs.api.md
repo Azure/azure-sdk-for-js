@@ -787,7 +787,8 @@ export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrat
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
+type Notification_2 = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
+export { Notification_2 as Notification }
 
 // @public
 export interface NotificationCommon {
@@ -907,10 +908,10 @@ export class NotificationHubsClient {
     listRegistrations(options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByChannel(channel: RegistrationChannel, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
-    scheduleNotification(scheduledTime: Date, notification: Notification, options: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
-    sendBroadcastNotification(notification: Notification, options?: BroadcastSendNotificationOptions): Promise<NotificationHubsMessageResponse>;
-    sendNotification(notification: Notification, options: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification_2, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleNotification(scheduledTime: Date, notification: Notification_2, options: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendBroadcastNotification(notification: Notification_2, options?: BroadcastSendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendNotification(notification: Notification_2, options: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the list of assignments for an access policy of a redis cache
  *
  * @summary Gets the list of assignments for an access policy of a redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyAssignmentGet.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyAssignmentGet.json
  */
 async function redisCacheAccessPolicyAssignmentGet() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function redisCacheAccessPolicyAssignmentGet() {
 }
 
 async function main() {
-  redisCacheAccessPolicyAssignmentGet();
+  await redisCacheAccessPolicyAssignmentGet();
 }
 
 main().catch(console.error);

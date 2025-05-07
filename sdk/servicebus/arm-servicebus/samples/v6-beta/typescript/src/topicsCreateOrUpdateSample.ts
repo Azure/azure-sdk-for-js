@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SBTopic, ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a topic in the specified namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a topic in the specified namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Topics/SBTopicCreate.json
  */
-async function topicCreate() {
+async function topicCreate(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -40,7 +38,7 @@ async function topicCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   topicCreate();
 }
 

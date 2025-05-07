@@ -125,9 +125,43 @@ export interface BackupRequestBase {
 
 // @public
 export interface Backups {
+    beginCreate(resourceGroupName: string, serverName: string, backupName: string, options?: BackupsCreateOptionalParams): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, serverName: string, backupName: string, options?: BackupsCreateOptionalParams): Promise<BackupsCreateResponse>;
+    beginDelete(resourceGroupName: string, serverName: string, backupName: string, options?: BackupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BackupsDeleteResponse>, BackupsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, serverName: string, backupName: string, options?: BackupsDeleteOptionalParams): Promise<BackupsDeleteResponse>;
     get(resourceGroupName: string, serverName: string, backupName: string, options?: BackupsGetOptionalParams): Promise<BackupsGetResponse>;
     listByServer(resourceGroupName: string, serverName: string, options?: BackupsListByServerOptionalParams): PagedAsyncIterableIterator<ServerBackup>;
 }
+
+// @public
+export interface BackupsCreateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsCreateResponse = ServerBackup;
+
+// @public
+export interface BackupsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BackupsDeleteResponse = BackupsDeleteHeaders;
 
 // @public
 export interface BackupSettings {
@@ -800,6 +834,7 @@ export enum KnownHighAvailabilityMode {
 // @public
 export enum KnownIdentityType {
     None = "None",
+    SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -905,6 +940,7 @@ export enum KnownOperationOrigin {
 
 // @public
 export enum KnownOrigin {
+    CustomerOnDemand = "Customer On-Demand",
     Full = "Full"
 }
 
@@ -1417,12 +1453,6 @@ export interface NameAvailability extends CheckNameAvailabilityResponse {
 }
 
 // @public
-export interface NameProperty {
-    localizedValue?: string;
-    value?: string;
-}
-
-// @public
 export interface Network {
     delegatedSubnetResourceId?: string;
     privateDnsZoneArmResourceId?: string;
@@ -1524,8 +1554,6 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    quotaUsages: QuotaUsages;
     // (undocumented)
     replicas: Replicas;
     // (undocumented)
@@ -1694,40 +1722,6 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface QuotaUsage {
-    currentValue?: number;
-    id?: string;
-    limit?: number;
-    name?: NameProperty;
-    unit?: string;
-}
-
-// @public
-export interface QuotaUsages {
-    list(locationName: string, options?: QuotaUsagesListOptionalParams): PagedAsyncIterableIterator<QuotaUsage>;
-}
-
-// @public
-export interface QuotaUsagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaUsagesListNextResponse = QuotaUsagesListResult;
-
-// @public
-export interface QuotaUsagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotaUsagesListResponse = QuotaUsagesListResult;
-
-// @public
-export interface QuotaUsagesListResult {
-    readonly nextLink?: string;
-    readonly value?: QuotaUsage[];
-}
-
-// @public
 export type ReadReplicaPromoteMode = string;
 
 // @public
@@ -1838,6 +1832,7 @@ export type ServerCapabilitiesListResponse = CapabilitiesListResult;
 
 // @public
 export interface ServerForUpdate {
+    administratorLogin?: string;
     administratorLoginPassword?: string;
     authConfig?: AuthConfig;
     backup?: Backup;

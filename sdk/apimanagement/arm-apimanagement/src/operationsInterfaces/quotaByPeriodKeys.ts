@@ -11,8 +11,8 @@ import {
   QuotaByPeriodKeysGetResponse,
   QuotaCounterValueUpdateContract,
   QuotaByPeriodKeysUpdateOptionalParams,
-  QuotaByPeriodKeysUpdateResponse
-} from "../models";
+  QuotaByPeriodKeysUpdateResponse,
+} from "../models/index.js";
 
 /** Interface representing a QuotaByPeriodKeys. */
 export interface QuotaByPeriodKeys {
@@ -33,7 +33,7 @@ export interface QuotaByPeriodKeys {
     serviceName: string,
     quotaCounterKey: string,
     quotaPeriodKey: string,
-    options?: QuotaByPeriodKeysGetOptionalParams
+    options?: QuotaByPeriodKeysGetOptionalParams,
   ): Promise<QuotaByPeriodKeysGetResponse>;
   /**
    * Updates an existing quota counter value in the specified service instance.
@@ -53,6 +53,6 @@ export interface QuotaByPeriodKeys {
     quotaCounterKey: string,
     quotaPeriodKey: string,
     parameters: QuotaCounterValueUpdateContract,
-    options?: QuotaByPeriodKeysUpdateOptionalParams
+    options?: QuotaByPeriodKeysUpdateOptionalParams,
   ): Promise<QuotaByPeriodKeysUpdateResponse>;
 }

@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update recommended sensitivity labels states of a given database using an operations batch.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update recommended sensitivity labels states of a given database using an operations batch.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseSensitivityLabelsRecommendedUpdate.json
  */
-async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
+async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -49,7 +47,7 @@ async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperatio
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch();
 }
 
