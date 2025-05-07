@@ -15,15 +15,15 @@
     "@azure/event-hubs": "5.10.0",
     "@azure/storage-blob": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
-    "@azure/core-amqp": "3.2.0",
-    "dotenv": "^16.0.0",
+    "@azure/core-amqp": "workspace:*",
+    "dotenv": "catalog:testing",
     "minimist": "^1.2.8",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/uuid": "^8.3.0",
-    "typescript": "~5.8.2"
+    "typescript": "catalog:"
   }
 }

@@ -3,7 +3,7 @@ parameters:
 
 steps:
   - bash: |
-      node ../../../common/scripts/install-run-rushx.js test-opentelemetry-versions --verbose
+      pnpm run test-opentelemetry-versions --verbose
     condition: succeededOrFailed()
     displayName: "Test OpenTelemetry Versions - Monitor"
     workingDirectory: "${{parameters.PackagePath}}"
