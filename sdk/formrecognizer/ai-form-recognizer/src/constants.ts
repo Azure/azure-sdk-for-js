@@ -13,18 +13,18 @@
  */
 export enum KnownFormRecognizerAudience {
   /** Azure China */
-  AzureChina = "https://cognitiveservices.azure.cn/",
+  AzureChina = "https://cognitiveservices.azure.cn",
   /** Azure Government */
-  AzureGovernment = "https://cognitiveservices.azure.us/",
+  AzureGovernment = "https://cognitiveservices.azure.us",
   /** Azure Public Cloud */
-  AzurePublicCloud = "https://cognitiveservices.azure.com/",
+  AzurePublicCloud = "https://cognitiveservices.azure.com",
 }
 
 /**
  * The default Entra Id permissions scope for Cognitive Services.
  * @internal
  */
-export const DEFAULT_COGNITIVE_SCOPE = KnownFormRecognizerAudience.AzurePublicCloud;
+export const DEFAULT_COGNITIVE_SCOPE = `${KnownFormRecognizerAudience.AzurePublicCloud}/.default`;
 
 /**
  * @internal

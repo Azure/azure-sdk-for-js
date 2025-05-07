@@ -67,7 +67,10 @@ export function makeServiceClient(
   const authPolicy = isTokenCredential(credential)
     ? bearerTokenAuthenticationPolicy({
         credential,
-        scopes: options.audience ?? DEFAULT_COGNITIVE_SCOPE,
+        scopes: [options.audience ?? DEFAULT_COGNITIVE_SCOPE].map((scope) => {
+          if (scope.endsWith("/.default")) return scope;
+          return `${scope}/.default`;
+        }),
       })
     : createFormRecognizerAzureKeyCredentialPolicy(credential);
 

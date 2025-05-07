@@ -51,7 +51,7 @@ export interface DocumentAnalysisClientOptions extends CommonClientOptions {
    * Setting this option is only necessary
    * - if you are using Entra Id
    *   (and)
-   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/")
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com")
    *
    * The authentication scope will be set from this audience.
    * See {@link KnownFormRecognizerAudience} for known audience values.
@@ -69,7 +69,7 @@ export interface DocumentModelAdministrationClientOptions extends CommonClientOp
    * Setting this option is only necessary
    * - if you are using Entra Id
    *   (and)
-   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com/")
+   * - if you are using a cloud other than the `AzurePublicCloud` ("https://cognitiveservices.azure.com")
    *
    * The authentication scope will be set from this audience.
    * See {@link KnownFormRecognizerAudience} for known audience values.
