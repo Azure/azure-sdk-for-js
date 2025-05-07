@@ -43,7 +43,6 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
-
   // Create vector store file batch
   const vectorStoreFileBatch = await client.vectorStoreFileBatches.createAndPoll(vectorStore.id, {
     fileIds: [file1.id, file2.id],
@@ -63,8 +62,8 @@ export async function main(): Promise<void> {
   const vectorStoreFilesIterator = client.vectorStoreFileBatches.list(
     vectorStore.id,
     vectorStoreFileBatch.id,
-  ); 
-    
+  );
+
   // Iterate through all files in the batch
   console.log("List of vector store files in the batch:");
   for await (const file of vectorStoreFilesIterator) {

@@ -13,23 +13,18 @@ import type {
   MessageContent,
   MessageDeltaTextContent,
   MessageTextContent,
-  MessageDeltaTextUrlCitationAnnotation,
   MessageDeltaChunk,
   ThreadRun,
+  ThreadMessage,
 } from "@azure/ai-agents";
 import {
   AgentsClient,
   DoneEvent,
   ErrorEvent,
   MessageStreamEvent,
-  AgentStreamEvent,
   RunStreamEvent,
   ToolUtility,
-  connectionToolType,
   isOutputOfType,
-  RunStepDeltaChunk,
-  ThreadMessage,
-  RunStep,
 } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -44,7 +39,7 @@ export async function main(): Promise<void> {
   const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createBingGroundingTool(connectionId);
+  const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {
@@ -67,7 +62,7 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run with streaming in thread with tools
-  const streamEventMessages = await client.runs.create(thread.id, agent.id);
+  const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
@@ -104,12 +99,19 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.messages.list(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContent = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContent;
-    console.log(`Text Message Content - ${textContent.text.value}`);
+  // Convert the PagedAsyncIterableIterator to an array of messages
+  const messagesArray: ThreadMessage[] = [];
+  for await (const m of client.messages.list(thread.id)) {
+    messagesArray.push(m);
+  }
+
+  if (messagesArray.length > 0 && messagesArray[0].content.length > 0) {
+    const agentMessage: MessageContent = messagesArray[0].content[0];
+    if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+      const textContent = agentMessage as MessageTextContent;
+      console.log(`Text Message Content - ${textContent.text.value}`);
+    }
   }
 }
 

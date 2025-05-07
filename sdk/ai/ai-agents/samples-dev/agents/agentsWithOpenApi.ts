@@ -69,8 +69,12 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Get most recent message from the assistant
-  const messages = await client.messages.list(thread.id);
-  const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
+  const messagesIterator = client.messages.list(thread.id);
+  const messages = [];
+  for await (const m of messagesIterator) {
+    messages.push(m);
+  }
+  const assistantMessage = messages.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
       isOutputOfType<MessageTextContent>(content, "text"),

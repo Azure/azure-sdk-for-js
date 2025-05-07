@@ -23,7 +23,12 @@ export async function main(): Promise<void> {
 
   // List vector stores
   const vectorStores = await client.vectorStores.list();
-  console.log("List of vector stores:", vectorStores);
+  console.log("List of vector stores:");
+  const stores = [];
+  for await (const store of vectorStores) {
+    stores.push(store);
+  }
+  console.log(stores);
 
   // Modify the vector store
   const updatedVectorStore = await client.vectorStores.update(vectorStore.id, {

@@ -80,14 +80,19 @@ export async function main(): Promise<void> {
     order: "asc",
   });
 
-  for (const dataPoint of messages.data) {
+  for await (const dataPoint of messages) {
     const textContent = dataPoint.content.find((item) => item.type === "text");
     if (textContent && "text" in textContent) {
       console.log(`${dataPoint.role}: ${textContent.text.value}`);
     }
   }
 
-  console.log("Messages: ", messages);
+  const messagesIterator = client.messages.list(thread.id);
+  const allMessages = [];
+  for await (const m of messagesIterator) {
+    allMessages.push(m);
+  }
+  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

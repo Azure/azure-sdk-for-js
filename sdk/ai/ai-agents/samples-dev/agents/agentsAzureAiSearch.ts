@@ -70,9 +70,9 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Fetch run steps to get the details of agent run
-  const { data: runSteps } = await client.runSteps.list(thread.id, run.id);
+  const runSteps = await client.runSteps.list(thread.id, run.id);
 
-  for (const step of runSteps) {
+  for await (const step of runSteps) {
     console.log(`Step ID: ${step.id}, Status: ${step.status}`);
     const stepDetails = step.stepDetails;
     if (isOutputOfType<RunStepToolCallDetails>(stepDetails, "tool_calls")) {
@@ -96,12 +96,19 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.messages.list(thread.id);
+  const messagesIterator = client.messages.list(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContent = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContent;
-    console.log(`Text Message Content - ${textContent.text.value}`);
+
+  // Get the first message
+  for await (const m of messagesIterator) {
+    if (m.content.length > 0) {
+      const agentMessage: MessageContent = m.content[0];
+      if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+        const textContent = agentMessage as MessageTextContent;
+        console.log(`Text Message Content - ${textContent.text.value}`);
+      }
+    }
+    break; // Just process the first message
   }
 }
 

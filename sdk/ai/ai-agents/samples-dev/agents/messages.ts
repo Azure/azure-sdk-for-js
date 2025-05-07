@@ -30,9 +30,10 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(thread.id, "user", "hello, world!");
   console.log(`Created message, message ID: ${message.id}`);
 
-  const messages = await client.messages.list(thread.id);
+  const messages = client.messages.list(thread.id);
+  const firstMessage = (await messages.next()).value;
   console.log(
-    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContent).text.value}`,
+    `Message ${message.id} contents: ${firstMessage && (firstMessage.content[0] as MessageTextContent).text.value}`,
   );
 
   const updatedMessage = await client.messages.update(thread.id, message.id, {

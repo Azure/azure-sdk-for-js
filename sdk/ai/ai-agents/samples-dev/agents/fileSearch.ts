@@ -72,7 +72,7 @@ export async function main(): Promise<void> {
 
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.messages.list(thread.id);
-  await messages.data.forEach((threadMessage) => {
+  for await (const threadMessage of messages) {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
@@ -85,7 +85,7 @@ export async function main(): Promise<void> {
         console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
-  });
+  }
 
   // Delete agent
   await client.deleteAgent(agent.id);

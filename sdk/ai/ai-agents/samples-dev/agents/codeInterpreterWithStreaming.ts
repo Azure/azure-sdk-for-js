@@ -110,45 +110,46 @@ export async function main(): Promise<void> {
   console.log(`Deleted file, file ID : ${localFile.id}`);
 
   // Print the messages from the agent
-  const messages = await client.messages.list(thread.id);
-  console.log("Messages:", messages);
+  const messagesIterator = client.messages.list(thread.id);
+  const messagesArray = [];
+  for await (const m of messagesIterator) {
+    messagesArray.push(m);
+  }
+  console.log("Messages:", messagesArray);
 
   // Get most recent message from the assistant
-  const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
+  const assistantMessage = messagesArray.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
       isOutputOfType<MessageTextContent>(content, "text"),
     ) as MessageTextContent;
     if (textContent) {
-      console.log(`Last message: ${textContent.text.value}`);
+      // Save the newly created file
+      console.log(`Saving new files...`);
+      const imageFileOutput = messagesArray[0].content[0] as MessageImageFileContent;
+      const imageFile = imageFileOutput.imageFile.fileId;
+      const imageFileName = path.resolve(
+        "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
+      );
+      console.log(`Image file name : ${imageFileName}`);
+
+      const fileContent = await (await client.files.getContent(imageFile).asNodeStream()).body;
+      if (fileContent) {
+        const chunks: Buffer[] = [];
+        for await (const chunk of fileContent) {
+          chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+        }
+        const buffer = Buffer.concat(chunks);
+        fs.writeFileSync(imageFileName, buffer);
+      } else {
+        console.log("No file content available");
+      }
     }
   }
-
-  // Save the newly created file
-  console.log(`Saving new files...`);
-  const imageFileOutput = messages.data[0].content[0] as MessageImageFileContent;
-  const imageFile = imageFileOutput.imageFile.fileId;
-  const imageFileName = path.resolve(
-    "./data/" + (await client.files.get(imageFile)).filename + "ImageFile.png",
-  );
-  console.log(`Image file name : ${imageFileName}`);
-
-  const fileContent = await (await client.files.getContent(imageFile).asNodeStream()).body;
-  if (fileContent) {
-    const chunks: Buffer[] = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
-  } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
-  }
-  console.log(`Saved image file to: ${imageFileName}`);
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  await messages.data.forEach((m) => {
+  messagesArray.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
@@ -156,8 +157,8 @@ export async function main(): Promise<void> {
       console.log(`Text: ${textContent.text.value}`);
     }
     console.log(`File ID: ${m.id}`);
-    console.log(`Start Index: ${messages.firstId}`);
-    console.log(`End Index: ${messages.lastId}`);
+    // firstId and lastId are properties of the paginator, not the messages array
+    // Removing these references as they don't exist in this context
   });
 
   // Delete the agent once done

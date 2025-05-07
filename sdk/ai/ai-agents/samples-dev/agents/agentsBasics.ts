@@ -32,9 +32,9 @@ export async function main(): Promise<void> {
   console.log(`Created thread, thread ID : ${thread.id}`);
 
   // List all threads for the agent
-  const threads = await client.threads.list();
+  const threads = client.threads.list();
   console.log(`Threads for agent ${agent.id}:`);
-  for await (const t of (await threads).data) {
+  for await (const t of threads) {
     console.log(`Thread ID: ${t.id}`);
     console.log(`Created at: ${t.createdAt}`);
     console.log(`Metadata: ${t.metadata}`);

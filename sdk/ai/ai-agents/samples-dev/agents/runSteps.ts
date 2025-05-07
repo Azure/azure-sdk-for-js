@@ -49,8 +49,10 @@ async function main(): Promise<void> {
   const runSteps = await client.runSteps.list(thread.id, run.id);
   console.log(`Listed run steps, run ID: ${run.id}`);
 
-  // Get specific run step
-  const stepId = runSteps.data[0].id;
+  // Get the first run step
+  const firstStep = await runSteps.next();
+
+  const stepId = firstStep.value.id;
   const step = await client.runSteps.get(thread.id, run.id, stepId);
   console.log(`Retrieved run step, step ID: ${step.id}`);
 

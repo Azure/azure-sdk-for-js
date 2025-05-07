@@ -1077,7 +1077,7 @@ export function vectorStoreDataSourceDeserializer(item: any): VectorStoreDataSou
  */
 export enum VectorStoreDataSourceAssetType {
   UriAsset = "uri_asset",
-  IdAsset = "id_asset"
+  IdAsset = "id_asset",
 }
 
 /** A set of resources that are used by the `file_search` tool. */
@@ -3786,10 +3786,9 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy:!item["chunking_strategy"]
-      ? item["chunking_strategy"] : vectorStoreChunkingStrategyResponseUnionDeserializer(
-      item["chunking_strategy"],
-    ),
+    chunkingStrategy: !item["chunking_strategy"]
+      ? item["chunking_strategy"]
+      : vectorStoreChunkingStrategyResponseUnionDeserializer(item["chunking_strategy"]),
   };
 }
 

@@ -73,11 +73,15 @@ export async function main(): Promise<void> {
   console.log(`Deleted file, file ID: ${localFile.id}`);
 
   // Print the messages from the agent
-  const messages = await client.messages.list(thread.id);
-  console.log("Messages:", messages);
+  const messagesIterator = client.messages.list(thread.id);
+  const allMessages = [];
+  for await (const m of messagesIterator) {
+    allMessages.push(m);
+  }
+  console.log("Messages:", allMessages);
 
   // Get most recent message from the assistant
-  const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
+  const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
       isOutputOfType<MessageTextContent>(content, "text"),
@@ -89,7 +93,7 @@ export async function main(): Promise<void> {
 
   // Save the newly created file
   console.log(`Saving new files...`);
-  const imageFile = (messages.data[0].content[0] as MessageImageFileContent).imageFile;
+  const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
   console.log(`Image file ID : ${imageFile.fileId}`);
   const imageFileName = path.resolve(
     "./data/" + (await client.files.get(imageFile.fileId)).filename + "ImageFile.png",
@@ -110,7 +114,7 @@ export async function main(): Promise<void> {
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  await messages.data.forEach((m) => {
+  allMessages.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
@@ -118,8 +122,6 @@ export async function main(): Promise<void> {
       console.log(`Text: ${textContent.text.value}`);
     }
     console.log(`File ID: ${m.id}`);
-    console.log(`Start Index: ${messages.firstId}`);
-    console.log(`End Index: ${messages.lastId}`);
   });
 
   // Delete the agent once done
