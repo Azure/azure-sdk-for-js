@@ -114,8 +114,12 @@ async function run(): Promise<void> {
 
   // The maxConcurrentRequestsPerPartition is the maximum number of concurrent requests that can be sent to a single partition.
   // The default value is 10. The maximum value is 50.
-  const maxConcurrentRequestsPerPartition = 15
-  const response = await container.items.executeBulkOperations(operations, {}, maxConcurrentRequestsPerPartition);
+  const maxConcurrentRequestsPerPartition = 15;
+  const response = await container.items.executeBulkOperations(
+    operations,
+    {},
+    maxConcurrentRequestsPerPartition,
+  );
   logStep("Bulk response:");
   console.log(response);
   await finish();
