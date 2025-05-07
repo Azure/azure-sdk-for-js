@@ -5,69 +5,55 @@ import type { PrimitivePartitionKeyValue } from "../../documents/index.js";
 import { doubleToByteArrayBigInt } from "./encoding/number.js";
 import { BytePrefix } from "./encoding/prefix.js";
 import MurmurHash from "./murmurHash.js";
-import { concatUint8Arrays, hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
 
 export function hashV2PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
-  // Create a single Uint8Array from the concatenated prefixes for each partition key value.
-  const toHash: Uint8Array = concatUint8Arrays(partitionKey.map(prefixKeyByType));
-
-  // Compute the 128-bit hash. This returns a hex string.
+  const toHash: Buffer = Buffer.concat(partitionKey.map(prefixKeyByType));
   const hash = MurmurHash.x64.hash128(toHash);
-
-  // Convert the hex string hash to a Uint8Array and reverse it.
-  const reverseBuff: Uint8Array = reverse(hexStringToUint8Array(hash));
-
-  // Mask the first byte as required.
+  const reverseBuff: Buffer = reverse(Buffer.from(hash, "hex"));
   reverseBuff[0] &= 0x3f;
-
-  // Convert the reversed buffer back to a hex string, uppercase it, and return.
-  return uint8ArrayToHex(reverseBuff).toUpperCase();
+  return reverseBuff.toString("hex").toUpperCase();
 }
 
-function prefixKeyByType(key: PrimitivePartitionKeyValue): Uint8Array {
-  let bytes: Uint8Array;
+function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
+  let bytes: Buffer;
   switch (typeof key) {
     case "string": {
-      // For strings, concatenate:
-      // - The hex prefix for String
-      // - The UTF-8 bytes for the key (using Uint8Array.from should work for string iterables; alternatively use an encoder)
-      // - The hex prefix for Infinity
-      bytes = concatUint8Arrays([
-        hexStringToUint8Array(BytePrefix.String),
-        new TextEncoder().encode(key),
-        hexStringToUint8Array(BytePrefix.Infinity),
+      bytes = Buffer.concat([
+        Buffer.from(BytePrefix.String, "hex"),
+        Buffer.from(key),
+        Buffer.from(BytePrefix.Infinity, "hex"),
       ]);
       return bytes;
     }
     case "number": {
       const numberBytes = doubleToByteArrayBigInt(key);
-      bytes = concatUint8Arrays([hexStringToUint8Array(BytePrefix.Number), numberBytes]);
+      bytes = Buffer.concat([Buffer.from(BytePrefix.Number, "hex"), numberBytes]);
       return bytes;
     }
     case "boolean": {
       const prefix = key ? BytePrefix.True : BytePrefix.False;
-      return hexStringToUint8Array(prefix);
+      return Buffer.from(prefix, "hex");
     }
     case "object": {
       if (key === null) {
-        return hexStringToUint8Array(BytePrefix.Null);
+        return Buffer.from(BytePrefix.Null, "hex");
       }
-      return hexStringToUint8Array(BytePrefix.Undefined);
+      return Buffer.from(BytePrefix.Undefined, "hex");
     }
     case "undefined": {
-      return hexStringToUint8Array(BytePrefix.Undefined);
+      return Buffer.from(BytePrefix.Undefined, "hex");
     }
     default:
       throw new Error(`Unexpected type: ${typeof key}`);
   }
 }
 
-export function reverse(buff: Uint8Array): Uint8Array {
-  // Replace Uint8Array.allocUnsafe(buff.length) with new Uint8Array(buff.length)
-  const uint8array = new Uint8Array(buff.length);
+export function reverse(buff: Buffer): Buffer {
+  const buffer = Buffer.allocUnsafe(buff.length);
+
   for (let i = 0, j = buff.length - 1; i <= j; ++i, --j) {
-    uint8array[i] = buff[j];
-    uint8array[j] = buff[i];
+    buffer[i] = buff[j];
+    buffer[j] = buff[i];
   }
-  return uint8array;
+  return buffer;
 }
