@@ -11,10 +11,12 @@ import { OperationOptions } from "@azure-rest/core-client";
 import { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
-export interface VectorStoreFilesDeleteVectorStoreFileOptionalParams extends OperationOptions {}
+export interface VectorStoreFilesDeleteVectorStoreFileOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoreFilesGetVectorStoreFileOptionalParams extends OperationOptions {}
+export interface VectorStoreFilesGetVectorStoreFileOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VectorStoreFilesCreateVectorStoreFileOptionalParams
@@ -29,7 +31,8 @@ export interface VectorStoreFilesCreateVectorStoreFileOptionalParams
 }
 
 /** Optional parameters. */
-export interface VectorStoreFilesListVectorStoreFilesOptionalParams extends OperationOptions {
+export interface VectorStoreFilesListVectorStoreFilesOptionalParams
+  extends OperationOptions {
   /** Filter by file status. */
   filter?: VectorStoreFileStatusFilter;
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import { ThreadRun, OpenAIPageableListOfThreadRun, ToolOutput } from "../../models/models.js";
+import { ThreadRun, ToolOutput } from "../../models/models.js";
 import {
   RunsCancelRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
@@ -22,6 +22,7 @@ import {
 import { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
 import { CreateThreadAndRunOptionalParams } from "../../api/options.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Runs operations. */
 export interface RunsOperations {
@@ -50,7 +51,7 @@ export interface RunsOperations {
   list: (
     threadId: string,
     options?: RunsListRunsOptionalParams,
-  ) => Promise<OpenAIPageableListOfThreadRun>;
+  ) => PagedAsyncIterableIterator<ThreadRun>;
   /** Creates a new run for an agent thread. */
   create: (
     threadId: string,

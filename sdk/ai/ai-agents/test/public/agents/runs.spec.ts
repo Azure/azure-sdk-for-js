@@ -191,11 +191,18 @@ describe("Agents - Run", () => {
     console.log(`Created Run, Run ID:  ${run.id}`);
 
     // Get run status
-    const runs = await projectsClient.runs.list(thread.id);
-    assert.isNotNull(runs);
-    assert.isArray(runs.data);
-    console.log(`List  - found no of runs: ${runs.data.length}, first run ID: ${runs.firstId}`);
-    const runDetails = runs.data.find((threadRun) => threadRun.id === run.id);
+    const runsIterator = projectsClient.runs.list(thread.id);
+    assert.isNotNull(runsIterator);
+    
+    // Collect all runs into an array
+    const runsArray: Array<any> = [];
+    for await (const r of runsIterator) {
+      runsArray.push(r);
+    }
+    
+    assert.isArray(runsArray);
+    console.log(`List  - found no of runs: ${runsArray.length}, first run ID: ${runsArray[0]?.id}`);
+    const runDetails = runsArray.find((threadRun) => threadRun.id === run.id);
     assert.isNotNull(runDetails);
     if (runDetails) {
       console.log(`Run status - ${runDetails.status}, run ID: ${runDetails.id}`);

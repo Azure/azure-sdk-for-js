@@ -50,8 +50,9 @@ describe("Agents - run steps", () => {
     }
 
     // List run steps
-    const runSteps = await projectsClient.runSteps.list(thread.id, run.id);
-    assert.isNotNull(runSteps.data);
+    const runSteps = projectsClient.runSteps.list(thread.id, run.id);
+    const runStepsArray = await runSteps.byPage().next();
+    assert.isNotNull(runStepsArray.value);
 
     // Clean up
     await projectsClient.threads.delete(thread.id);
@@ -84,20 +85,23 @@ describe("Agents - run steps", () => {
     assert.oneOf(run.status, ["queued", "in_progress", "requires_action", "completed"]);
     console.log(`Run status - ${run.status}, run ID: ${run.id}`);
     while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await delay(1000);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       run = await projectsClient.runs.get(thread.id, run.id);
       console.log(`Run status - ${run.status}, run ID: ${run.id}`);
       assert.include(["queued", "in_progress", "requires_action", "completed"], run.status);
     }
-
     // List run steps
-    const runSteps = await projectsClient.runSteps.list(thread.id, run.id);
-    assert.isNotNull(runSteps.data);
-    assert.isTrue(runSteps.data.length > 0);
+    const runSteps = projectsClient.runSteps.list(thread.id, run.id);
+    const runStepsArray = [];
+    for await (const item of runSteps) {
+      runStepsArray.push(item);
+    }
+    assert.isNotNull(runStepsArray);
+    assert.isTrue(runStepsArray.length > 0);
     console.log(`Listed run steps, run ID: ${run.id}`);
 
     // Get specific run step
-    const stepId = runSteps.data[0].id;
+    const stepId = runStepsArray[0].id;
     const step = await projectsClient.runSteps.get(thread.id, run.id, stepId);
     console.log(`Retrieved run, step ID: ${stepId}`);
     assert.isNotNull(step);

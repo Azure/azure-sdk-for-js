@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
 import { AgentsContext } from "../../api/agentsContext.js";
 import {
   AgentThread,
-  OpenAIPageableListOfAgentThread,
   ThreadDeletionStatus,
 } from "../../models/models.js";
 import {
@@ -21,6 +21,7 @@ import {
   listThreads,
   createThread,
 } from "../../api/threads/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Threads operations. */
 export interface ThreadsOperations {
@@ -34,7 +35,7 @@ export interface ThreadsOperations {
   /** Gets information about an existing thread. */
   get: (threadId: string, options?: ThreadsGetThreadOptionalParams) => Promise<AgentThread>;
   /** Gets a list of threads that were previously created. */
-  list: (options?: ThreadsListThreadsOptionalParams) => Promise<OpenAIPageableListOfAgentThread>;
+  list: (options?: ThreadsListThreadsOptionalParams) => PagedAsyncIterableIterator<AgentThread>;
   /** Creates a new thread. Threads contain messages and can be run by agents. */
   create: (options?: ThreadsCreateThreadOptionalParams) => Promise<AgentThread>;
 }
@@ -52,7 +53,9 @@ function _getThreads(context: AgentsContext) {
   };
 }
 
-export function _getThreadsOperations(context: AgentsContext): ThreadsOperations {
+export function _getThreadsOperations(
+  context: AgentsContext,
+): ThreadsOperations {
   return {
     ..._getThreads(context),
   };

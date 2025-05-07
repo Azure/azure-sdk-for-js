@@ -62,7 +62,7 @@ export class AgentsClient {
     deleteAgent(assistantId: string, options?: DeleteAgentOptionalParams): Promise<AgentDeletionStatus>;
     readonly files: FilesOperations;
     getAgent(assistantId: string, options?: GetAgentOptionalParams): Promise<Agent>;
-    listAgents(options?: ListAgentsOptionalParams): Promise<OpenAIPageableListOfAgent>;
+    listAgents(options?: ListAgentsOptionalParams): PagedAsyncIterableIterator<Agent>;
     readonly messages: MessagesOperations;
     readonly pipeline: Pipeline;
     readonly runs: RunsOperations;
@@ -247,6 +247,11 @@ export enum connectionToolType {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export interface CreateAgentOptionalParams extends OperationOptions {
     description?: string | null;
     instructions?: string | null;
@@ -429,7 +434,9 @@ export function isOutputOfType<T extends {
 
 // @public
 export enum KnownVersions {
-    _20250515Preview = "2025-05-15-preview"
+    _20250515Preview = "2025-05-15-preview",
+    V1 = "v1",
+    V20250501 = "2025-05-01"
 }
 
 // @public
@@ -440,7 +447,7 @@ export interface ListAgentsOptionalParams extends OperationOptions {
     order?: ListSortOrder;
 }
 
-// @public (undocumented)
+// @public
 export type ListSortOrder = "asc" | "desc";
 
 // @public
@@ -647,7 +654,7 @@ export interface MessagesListMessagesOptionalParams extends OperationOptions {
 export interface MessagesOperations {
     create: (threadId: string, role: MessageRole, content: MessageInputContent, options?: MessagesCreateMessageOptionalParams) => Promise<ThreadMessage>;
     get: (threadId: string, messageId: string, options?: MessagesGetMessageOptionalParams) => Promise<ThreadMessage>;
-    list: (threadId: string, options?: MessagesListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessage>;
+    list: (threadId: string, options?: MessagesListMessagesOptionalParams) => PagedAsyncIterableIterator<ThreadMessage>;
     update: (threadId: string, messageId: string, options?: MessagesUpdateMessageOptionalParams) => Promise<ThreadMessage>;
 }
 
@@ -737,69 +744,6 @@ export interface MicrosoftFabricToolDefinition extends ToolDefinition {
 }
 
 // @public
-export interface OpenAIPageableListOfAgent {
-    data: Agent[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfAgentThread {
-    data: AgentThread[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfRunStep {
-    data: RunStep[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfThreadMessage {
-    data: ThreadMessage[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfThreadRun {
-    data: ThreadRun[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfVectorStore {
-    data: VectorStore[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfVectorStoreFile {
-    data: VectorStoreFile[];
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
 export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetails {
     type: "anonymous";
 }
@@ -850,6 +794,18 @@ export interface OpenApiManagedSecurityScheme {
 export interface OpenApiToolDefinition extends ToolDefinition {
     openapi: OpenApiFunctionDefinition;
     type: "openapi";
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -966,7 +922,7 @@ export interface RunsOperations {
     create: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) => AgentRunResponse;
     createThreadAndRun: (assistantId: string, options?: CreateThreadAndRunOptionalParams) => AgentRunResponse;
     get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) => Promise<ThreadRun>;
-    list: (threadId: string, options?: RunsListRunsOptionalParams) => Promise<OpenAIPageableListOfThreadRun>;
+    list: (threadId: string, options?: RunsListRunsOptionalParams) => PagedAsyncIterableIterator<ThreadRun>;
     submitToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams) => Promise<ThreadRun>;
     update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) => Promise<ThreadRun>;
 }
@@ -1261,7 +1217,7 @@ export interface RunStepsListRunStepsOptionalParams extends OperationOptions {
 // @public
 export interface RunStepsOperations {
     get: (threadId: string, runId: string, stepId: string, options?: RunStepsGetRunStepOptionalParams) => Promise<RunStep>;
-    list: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) => Promise<OpenAIPageableListOfRunStep>;
+    list: (threadId: string, runId: string, options?: RunStepsListRunStepsOptionalParams) => PagedAsyncIterableIterator<RunStep>;
 }
 
 // @public
@@ -1425,7 +1381,7 @@ export interface ThreadsOperations {
     create: (options?: ThreadsCreateThreadOptionalParams) => Promise<AgentThread>;
     delete: (threadId: string, options?: ThreadsDeleteThreadOptionalParams) => Promise<ThreadDeletionStatus>;
     get: (threadId: string, options?: ThreadsGetThreadOptionalParams) => Promise<AgentThread>;
-    list: (options?: ThreadsListThreadsOptionalParams) => Promise<OpenAIPageableListOfAgentThread>;
+    list: (options?: ThreadsListThreadsOptionalParams) => PagedAsyncIterableIterator<AgentThread>;
     update: (threadId: string, options?: ThreadsUpdateThreadOptionalParams) => Promise<AgentThread>;
 }
 
@@ -1716,7 +1672,7 @@ export interface VectorStoreFileBatchesOperations {
     create: (vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
     createAndPoll: (vectorStoreId: string, options?: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatch>, VectorStoreFileBatch>;
     get: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatch>;
-    list: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
+    list: (vectorStoreId: string, batchId: string, options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams) => PagedAsyncIterableIterator<VectorStoreFileBatch>;
 }
 
 // @public
@@ -1777,7 +1733,7 @@ export interface VectorStoreFilesOperations {
     createAndPoll: (vectorStoreId: string, options?: VectorStoreFilesCreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFile>, VectorStoreFile>;
     delete: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesDeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatus>;
     get: (vectorStoreId: string, fileId: string, options?: VectorStoreFilesGetVectorStoreFileOptionalParams) => Promise<VectorStoreFile>;
-    list: (vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFile>;
+    list: (vectorStoreId: string, options?: VectorStoreFilesListVectorStoreFilesOptionalParams) => PagedAsyncIterableIterator<VectorStoreFile>;
 }
 
 // @public
@@ -1825,7 +1781,7 @@ export interface VectorStoresOperations {
     createAndPoll(options?: VectorStoresCreateVectorStoreOptionalParams): PollerLike<OperationState<VectorStore>, VectorStore>;
     delete: (vectorStoreId: string, options?: VectorStoresDeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatus>;
     get: (vectorStoreId: string, options?: VectorStoresGetVectorStoreOptionalParams) => Promise<VectorStore>;
-    list: (options?: VectorStoresListVectorStoresOptionalParams) => Promise<OpenAIPageableListOfVectorStore>;
+    list: (options?: VectorStoresListVectorStoresOptionalParams) => PagedAsyncIterableIterator<VectorStore>;
     update: (vectorStoreId: string, options?: VectorStoresModifyVectorStoreOptionalParams) => Promise<VectorStore>;
 }
 

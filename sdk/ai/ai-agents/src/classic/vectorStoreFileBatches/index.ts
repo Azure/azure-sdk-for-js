@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import { OpenAIPageableListOfVectorStoreFile, VectorStoreFileBatch } from "../../models/models.js";
+import { VectorStoreFileBatch } from "../../models/models.js";
 import {
   VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
   VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams,
@@ -17,6 +17,7 @@ import {
   createVectorStoreFileBatchAndPoll,
 } from "../../api/vectorStoreFileBatches/operations.js";
 import { OperationState, PollerLike } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VectorStoreFileBatches operations. */
 export interface VectorStoreFileBatchesOperations {
@@ -25,7 +26,7 @@ export interface VectorStoreFileBatchesOperations {
     vectorStoreId: string,
     batchId: string,
     options?: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams,
-  ) => Promise<OpenAIPageableListOfVectorStoreFile>;
+  ) => PagedAsyncIterableIterator<VectorStoreFileBatch>;
   /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
   cancel: (
     vectorStoreId: string,

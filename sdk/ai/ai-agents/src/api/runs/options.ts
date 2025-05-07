@@ -16,7 +16,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface RunsCancelRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
+export interface RunsSubmitToolOutputsToRunOptionalParams
+  extends OperationOptions {
   /** If true, returns a stream of events that happen during the Run as SSE, terminating at `[DONE]`. */
   stream?: boolean | null;
 }

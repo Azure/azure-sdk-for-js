@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable no-unused-expressions */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-// ---------------------
+//---------------------
 // interfaces
-// ---------------------
+//---------------------
 interface ValueOptions {
   isFirst: boolean; // is first value in the expression
   op?: string; // operator
@@ -50,7 +46,10 @@ function isDefined(val: any) {
 }
 
 function getNamedAndIfEmpty(op?: string): [boolean, string] {
-  return [!!op && [";", "?", "&"].includes(op), !!op && ["?", "&"].includes(op) ? "=" : ""];
+  return [
+    !!op && [";", "?", "&"].includes(op),
+    !!op && ["?", "&"].includes(op) ? "=" : "",
+  ];
 }
 
 function getFirstOrSep(op?: string, isFirst = false) {
@@ -169,7 +168,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  return template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -180,7 +179,7 @@ export function expandUrlTemplate(
     const varList = expr.split(/,/g);
     const result = [];
     for (const varSpec of varList) {
-      const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
+      const varMatch = /([^:\*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }

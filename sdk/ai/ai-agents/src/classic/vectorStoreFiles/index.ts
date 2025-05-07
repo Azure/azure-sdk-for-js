@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 import { AgentsContext } from "../../api/agentsContext.js";
 import {
-  OpenAIPageableListOfVectorStoreFile,
   VectorStoreFile,
   VectorStoreFileDeletionStatus,
 } from "../../models/models.js";
@@ -21,6 +19,7 @@ import {
   createVectorStoreFileAndPoll,
 } from "../../api/vectorStoreFiles/operations.js";
 import { OperationState, PollerLike } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VectorStoreFiles operations. */
 export interface VectorStoreFilesOperations {
@@ -50,7 +49,7 @@ export interface VectorStoreFilesOperations {
   list: (
     vectorStoreId: string,
     options?: VectorStoreFilesListVectorStoreFilesOptionalParams,
-  ) => Promise<OpenAIPageableListOfVectorStoreFile>;
+  ) => PagedAsyncIterableIterator<VectorStoreFile>;
 }
 
 function _getVectorStoreFiles(context: AgentsContext) {
@@ -78,7 +77,9 @@ function _getVectorStoreFiles(context: AgentsContext) {
   };
 }
 
-export function _getVectorStoreFilesOperations(context: AgentsContext): VectorStoreFilesOperations {
+export function _getVectorStoreFilesOperations(
+  context: AgentsContext,
+): VectorStoreFilesOperations {
   return {
     ..._getVectorStoreFiles(context),
   };

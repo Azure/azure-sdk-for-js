@@ -2,13 +2,15 @@
 // Licensed under the MIT License.
 
 import { AgentsContext } from "../../api/agentsContext.js";
-import { RunStep, OpenAIPageableListOfRunStep } from "../../models/models.js";
+import { RunStep } from "../../models/models.js";
 import {
   RunStepsListRunStepsOptionalParams,
   RunStepsGetRunStepOptionalParams,
 } from "../../api/runSteps/options.js";
 import { listRunSteps, getRunStep } from "../../api/runSteps/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
+/** Interface representing a RunSteps operations. */
 /** Interface representing a RunSteps operations. */
 export interface RunStepsOperations {
   /** Gets a list of run steps from a thread run. */
@@ -16,7 +18,7 @@ export interface RunStepsOperations {
     threadId: string,
     runId: string,
     options?: RunStepsListRunStepsOptionalParams,
-  ) => Promise<OpenAIPageableListOfRunStep>;
+  ) => PagedAsyncIterableIterator<RunStep>;
   /** Retrieves a single run step from a thread run. */
   get: (
     threadId: string,
@@ -39,7 +41,10 @@ function _getRunSteps(context: AgentsContext) {
   };
 }
 
-export function _getRunStepsOperations(context: AgentsContext): RunStepsOperations {
+
+export function _getRunStepsOperations(
+  context: AgentsContext,
+): RunStepsOperations {
   return {
     ..._getRunSteps(context),
   };

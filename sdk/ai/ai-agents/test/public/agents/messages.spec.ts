@@ -54,12 +54,16 @@ describe("Agents - messages", () => {
     console.log(`Created messages, message IDs: ${firstMessage.id}, ${secondMessage.id}`);
 
     // List messages
-    const messages = await projectsClient.messages.list(thread.id);
+    const messagesIterator = projectsClient.messages.list(thread.id);
+    const messages = [];
+    for await (const message of messagesIterator) {
+      messages.push(message);
+    }
     assert.isNotEmpty(messages);
-    assert.equal(messages.data.length, 2);
-    assert.equal(messages.data[1].id, firstMessage.id);
-    assert.equal(messages.data[0].id, secondMessage.id);
-    console.log(`Listed ${messages.data.length} messages, thread ID: ${thread.id}`);
+    assert.equal(messages.length, 2);
+    assert.equal(messages[1].id, firstMessage.id);
+    assert.equal(messages[0].id, secondMessage.id);
+    console.log(`Listed ${messages.length} messages, thread ID: ${thread.id}`);
 
     // Delete thread
     await projectsClient.threads.delete(thread.id);

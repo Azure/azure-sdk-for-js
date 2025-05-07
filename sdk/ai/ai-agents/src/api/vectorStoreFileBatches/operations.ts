@@ -5,8 +5,8 @@ import { AgentsContext as Client } from "../index.js";
 import {
   vectorStoreDataSourceArraySerializer,
   vectorStoreChunkingStrategyRequestUnionSerializer,
-  OpenAIPageableListOfVectorStoreFile,
-  openAIPageableListOfVectorStoreFileDeserializer,
+  _AgentsPagedResultVectorStoreFile,
+  _agentsPagedResultVectorStoreFileDeserializer,
   VectorStoreFileBatch,
   vectorStoreFileBatchDeserializer,
 } from "../../models/models.js";
@@ -16,6 +16,10 @@ import {
   VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams,
   VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams,
 } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -35,11 +39,10 @@ export function _listVectorStoreFileBatchFilesSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?api%2Dversion,filter,limit,order,after,before}",
+    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?filter,limit,order,after,before}",
     {
       vectorStoreId: vectorStoreId,
       batchId: batchId,
-      "api%2Dversion": context.apiVersion,
       filter: options?.filter,
       limit: options?.limit,
       order: options?.order,
@@ -50,37 +53,51 @@ export function _listVectorStoreFileBatchFilesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listVectorStoreFileBatchFilesDeserialize(
   result: PathUncheckedResponse,
-): Promise<OpenAIPageableListOfVectorStoreFile> {
+): Promise<_AgentsPagedResultVectorStoreFile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return openAIPageableListOfVectorStoreFileDeserializer(result.body);
+  return _agentsPagedResultVectorStoreFileDeserializer(result.body);
 }
 
 /** Returns a list of vector store files in a batch. */
-export async function listVectorStoreFileBatchFiles(
+export function listVectorStoreFileBatchFiles(
   context: Client,
   vectorStoreId: string,
   batchId: string,
   options: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams = {
     requestOptions: {},
   },
-): Promise<OpenAIPageableListOfVectorStoreFile> {
-  const result = await _listVectorStoreFileBatchFilesSend(context, vectorStoreId, batchId, options);
-  return _listVectorStoreFileBatchFilesDeserialize(result);
+): PagedAsyncIterableIterator<VectorStoreFileBatch> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _listVectorStoreFileBatchFilesSend(
+        context,
+        vectorStoreId,
+        batchId,
+        options,
+      ),
+    _listVectorStoreFileBatchFilesDeserialize,
+    ["200"],
+    { itemName: "data" },
+  );
 }
 
 export function _cancelVectorStoreFileBatchSend(
@@ -102,13 +119,15 @@ export function _cancelVectorStoreFileBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _cancelVectorStoreFileBatchDeserialize(
@@ -131,7 +150,12 @@ export async function cancelVectorStoreFileBatch(
     requestOptions: {},
   },
 ): Promise<VectorStoreFileBatch> {
-  const result = await _cancelVectorStoreFileBatchSend(context, vectorStoreId, batchId, options);
+  const result = await _cancelVectorStoreFileBatchSend(
+    context,
+    vectorStoreId,
+    batchId,
+    options,
+  );
   return _cancelVectorStoreFileBatchDeserialize(result);
 }
 
@@ -154,13 +178,15 @@ export function _getVectorStoreFileBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getVectorStoreFileBatchDeserialize(
@@ -183,7 +209,12 @@ export async function getVectorStoreFileBatch(
     requestOptions: {},
   },
 ): Promise<VectorStoreFileBatch> {
-  const result = await _getVectorStoreFileBatchSend(context, vectorStoreId, batchId, options);
+  const result = await _getVectorStoreFileBatchSend(
+    context,
+    vectorStoreId,
+    batchId,
+    options,
+  );
   return _getVectorStoreFileBatchDeserialize(result);
 }
 
@@ -219,7 +250,9 @@ export function _createVectorStoreFileBatchSend(
         : vectorStoreDataSourceArraySerializer(options?.dataSources),
       chunking_strategy: !options?.chunkingStrategy
         ? options?.chunkingStrategy
-        : vectorStoreChunkingStrategyRequestUnionSerializer(options?.chunkingStrategy),
+        : vectorStoreChunkingStrategyRequestUnionSerializer(
+            options?.chunkingStrategy,
+          ),
     },
   });
 }
@@ -239,12 +272,17 @@ export async function _createVectorStoreFileBatchDeserialize(
 export async function createVectorStoreFileBatchInternal(
   context: Client,
   vectorStoreId: string,
-  options: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+  options: VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams = {
+    requestOptions: {},
+  },
 ): Promise<VectorStoreFileBatch> {
-  const result = await _createVectorStoreFileBatchSend(context, vectorStoreId, options);
+  const result = await _createVectorStoreFileBatchSend(
+    context,
+    vectorStoreId,
+    options,
+  );
   return _createVectorStoreFileBatchDeserialize(result);
 }
-
 /** Create a vector store file batch. */
 export function createVectorStoreFileBatch(
   context: Client,

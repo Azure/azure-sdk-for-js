@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext } from "../../api/agentsContext.js";
-import {
-  OpenAIPageableListOfVectorStore,
+import type { AgentsContext } from "../../api/agentsContext.js";
+import type {
   VectorStore,
-  VectorStoreDeletionStatus,
-} from "../../models/models.js";
+  VectorStoreDeletionStatus} from "../../models/models.js";
 import {
+  _AgentsPagedResultVectorStore
+} from "../../models/models.js";
+import type {
   VectorStoresDeleteVectorStoreOptionalParams,
   VectorStoresModifyVectorStoreOptionalParams,
   VectorStoresGetVectorStoreOptionalParams,
@@ -22,7 +23,8 @@ import {
   listVectorStores,
   createVectorStoreAndPoll,
 } from "../../api/vectorStores/operations.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VectorStores operations. */
 export interface VectorStoresOperations {
@@ -50,7 +52,7 @@ export interface VectorStoresOperations {
   /** Returns a list of vector stores. */
   list: (
     options?: VectorStoresListVectorStoresOptionalParams,
-  ) => Promise<OpenAIPageableListOfVectorStore>;
+  ) => PagedAsyncIterableIterator<VectorStore>;
 }
 
 function _getVectorStores(context: AgentsContext) {
@@ -70,7 +72,9 @@ function _getVectorStores(context: AgentsContext) {
   };
 }
 
-export function _getVectorStoresOperations(context: AgentsContext): VectorStoresOperations {
+export function _getVectorStoresOperations(
+  context: AgentsContext,
+): VectorStoresOperations {
   return {
     ..._getVectorStores(context),
   };

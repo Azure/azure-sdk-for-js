@@ -8,8 +8,8 @@ import {
   agentsResponseFormatOptionSerializer,
   Agent,
   agentDeserializer,
-  OpenAIPageableListOfAgent,
-  openAIPageableListOfAgentDeserializer,
+  _AgentsPagedResultAgent,
+  _agentsPagedResultAgentDeserializer,
   AgentDeletionStatus,
   agentDeletionStatusDeserializer,
   agentThreadCreationOptionsSerializer,
@@ -27,6 +27,10 @@ import {
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
 } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -54,6 +58,7 @@ import { IncomingMessage } from "http";
 import { logger } from "../logger.js";
 import { _createRunSend } from "./runs/operations.js";
 
+
 export function _createThreadAndRunSend(
   context: Client,
   assistantId: string,
@@ -68,42 +73,46 @@ export function _createThreadAndRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      assistant_id: assistantId,
-      thread: !options?.thread
-        ? options?.thread
-        : agentThreadCreationOptionsSerializer(options?.thread),
-      model: options?.model,
-      instructions: options?.instructions,
-      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : updateToolResourcesOptionsSerializer(options?.toolResources),
-      stream: options?.stream,
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      max_prompt_tokens: options?.maxPromptTokens,
-      max_completion_tokens: options?.maxCompletionTokens,
-      truncation_strategy: !options?.truncationStrategy
-        ? options?.truncationStrategy
-        : truncationObjectSerializer(options?.truncationStrategy),
-      tool_choice: !options?.toolChoice
-        ? options?.toolChoice
-        : agentsToolChoiceOptionSerializer(options?.toolChoice),
-      response_format: !options?.responseFormat
-        ? options?.responseFormat
-        : agentsResponseFormatOptionSerializer(options?.responseFormat),
-      parallel_tool_calls: options?.parallelToolCalls,
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        assistant_id: assistantId,
+        thread: !options?.thread
+          ? options?.thread
+          : agentThreadCreationOptionsSerializer(options?.thread),
+        model: options?.model,
+        instructions: options?.instructions,
+        tools: !options?.tools
+          ? options?.tools
+          : toolDefinitionUnionArraySerializer(options?.tools),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : updateToolResourcesOptionsSerializer(options?.toolResources),
+        stream: options?.stream,
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        max_prompt_tokens: options?.maxPromptTokens,
+        max_completion_tokens: options?.maxCompletionTokens,
+        truncation_strategy: !options?.truncationStrategy
+          ? options?.truncationStrategy
+          : truncationObjectSerializer(options?.truncationStrategy),
+        tool_choice: !options?.toolChoice
+          ? options?.toolChoice
+          : agentsToolChoiceOptionSerializer(options?.toolChoice),
+        response_format: !options?.responseFormat
+          ? options?.responseFormat
+          : agentsResponseFormatOptionSerializer(options?.responseFormat),
+        parallel_tool_calls: options?.parallelToolCalls,
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _createThreadAndRunDeserialize(
@@ -137,6 +146,7 @@ export function createThreadAndRun(
     },
   };
 }
+
 export function _deleteAgentSend(
   context: Client,
   assistantId: string,
@@ -152,13 +162,15 @@ export function _deleteAgentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteAgentDeserialize(
@@ -197,33 +209,39 @@ export function _updateAgentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      model: options?.model,
-      name: options?.name,
-      description: options?.description,
-      instructions: options?.instructions,
-      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      response_format: !options?.responseFormat
-        ? options?.responseFormat
-        : agentsResponseFormatOptionSerializer(options?.responseFormat),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        model: options?.model,
+        name: options?.name,
+        description: options?.description,
+        instructions: options?.instructions,
+        tools: !options?.tools
+          ? options?.tools
+          : toolDefinitionUnionArraySerializer(options?.tools),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        response_format: !options?.responseFormat
+          ? options?.responseFormat
+          : agentsResponseFormatOptionSerializer(options?.responseFormat),
+        metadata: options?.metadata,
+      },
+    });
 }
 
-export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _updateAgentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -257,16 +275,20 @@ export function _getAgentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _getAgentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -302,33 +324,40 @@ export function _listAgentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listAgentsDeserialize(
   result: PathUncheckedResponse,
-): Promise<OpenAIPageableListOfAgent> {
+): Promise<_AgentsPagedResultAgent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return openAIPageableListOfAgentDeserializer(result.body);
+  return _agentsPagedResultAgentDeserializer(result.body);
 }
 
 /** Gets a list of agents that were previously created. */
-export async function listAgents(
+export function listAgents(
   context: Client,
   options: ListAgentsOptionalParams = { requestOptions: {} },
-): Promise<OpenAIPageableListOfAgent> {
-  const result = await _listAgentsSend(context, options);
-  return _listAgentsDeserialize(result);
+): PagedAsyncIterableIterator<Agent> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listAgentsSend(context, options),
+    _listAgentsDeserialize,
+    ["200"],
+    { itemName: "data" },
+  );
 }
 
 export function _createAgentSend(
@@ -345,33 +374,39 @@ export function _createAgentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      model: model,
-      name: options?.name,
-      description: options?.description,
-      instructions: options?.instructions,
-      tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
-      tool_resources: !options?.toolResources
-        ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      response_format: !options?.responseFormat
-        ? options?.responseFormat
-        : agentsResponseFormatOptionSerializer(options?.responseFormat),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        model: model,
+        name: options?.name,
+        description: options?.description,
+        instructions: options?.instructions,
+        tools: !options?.tools
+          ? options?.tools
+          : toolDefinitionUnionArraySerializer(options?.tools),
+        tool_resources: !options?.toolResources
+          ? options?.toolResources
+          : toolResourcesSerializer(options?.toolResources),
+        temperature: options?.temperature,
+        top_p: options?.topP,
+        response_format: !options?.responseFormat
+          ? options?.responseFormat
+          : agentsResponseFormatOptionSerializer(options?.responseFormat),
+        metadata: options?.metadata,
+      },
+    });
 }
 
-export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _createAgentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);

@@ -11,10 +11,12 @@ import { OperationOptions } from "@azure-rest/core-client";
 import { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
-export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOptions {}
+export interface VectorStoresDeleteVectorStoreOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOptions {
+export interface VectorStoresModifyVectorStoreOptionalParams
+  extends OperationOptions {
   /** The name of the vector store. */
   name?: string | null;
   /** Details on when this vector store expires */
@@ -24,12 +26,13 @@ export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
-export interface VectorStoresGetVectorStoreOptionalParams extends OperationOptions {}
+export interface VectorStoresGetVectorStoreOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface VectorStoresCreateVectorStoreOptionalParams
-  extends OperationOptions,
-    PollingOptionsParams {
+  extends OperationOptions, 
+  PollingOptionsParams {
   /** A list of file IDs that the vector store should use. Useful for tools like `file_search` that can access files. */
   fileIds?: string[];
   /** The name of the vector store. */
@@ -45,7 +48,8 @@ export interface VectorStoresCreateVectorStoreOptionalParams
 }
 
 /** Optional parameters. */
-export interface VectorStoresListVectorStoresOptionalParams extends OperationOptions {
+export interface VectorStoresListVectorStoresOptionalParams
+  extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */

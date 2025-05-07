@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { deleteThread, updateThread, getThread, listThreads, createThread } from "./operations.js";
+export {
+  deleteThread,
+  updateThread,
+  getThread,
+  listThreads,
+  createThread,
+} from "./operations.js";
 export {
   ThreadsDeleteThreadOptionalParams,
   ThreadsUpdateThreadOptionalParams,

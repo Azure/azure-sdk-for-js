@@ -135,14 +135,20 @@ describe("projectsClient - vector stores file batches", () => {
     );
 
     // List vector store files in the batch
-    const vectorStoreFiles = await projectsClient.vectorStoreFileBatches.list(
+    const vectorStoreFiles = projectsClient.vectorStoreFileBatches.list(
       vectorStore.id,
       vectorStoreFileBatch.id,
     );
     assert.isNotNull(vectorStoreFiles);
-    assert.equal(vectorStoreFiles.data.length, 2);
+    
+    // Collect items from the PagedAsyncIterableIterator
+    const vectorStoreFilesList = [];
+    for await (const file of vectorStoreFiles) {
+      vectorStoreFilesList.push(file);
+    }
+    assert.equal(vectorStoreFilesList.length, 2);
     console.log(
-      `Listed ${vectorStoreFiles.data.length} vector store files in the batch, vector store file batch ID: ${vectorStoreFileBatch.id}`,
+      `Listed ${vectorStoreFilesList.length} vector store files in the batch, vector store file batch ID: ${vectorStoreFileBatch.id}`,
     );
 
     // Clean up

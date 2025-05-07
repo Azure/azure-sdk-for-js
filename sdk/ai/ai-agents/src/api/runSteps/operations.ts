@@ -5,10 +5,17 @@ import { AgentsContext as Client } from "../index.js";
 import {
   RunStep,
   runStepDeserializer,
-  OpenAIPageableListOfRunStep,
-  openAIPageableListOfRunStepDeserializer,
+  _AgentsPagedResultRunStep,
+  _agentsPagedResultRunStepDeserializer,
 } from "../../models/models.js";
-import { RunStepsListRunStepsOptionalParams, RunStepsGetRunStepOptionalParams } from "./options.js";
+import {
+  RunStepsListRunStepsOptionalParams,
+  RunStepsGetRunStepOptionalParams,
+} from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -24,16 +31,16 @@ export function _listRunStepsSend(
   options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps{?api%2Dversion,include%5B%5D,limit,order,after,before}",
+    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api%2Dversion,limit,order,after,before}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
       "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
             return p;
           }),
+      "api%2Dversion": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -43,35 +50,42 @@ export function _listRunStepsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listRunStepsDeserialize(
   result: PathUncheckedResponse,
-): Promise<OpenAIPageableListOfRunStep> {
+): Promise<_AgentsPagedResultRunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return openAIPageableListOfRunStepDeserializer(result.body);
+  return _agentsPagedResultRunStepDeserializer(result.body);
 }
 
 /** Gets a list of run steps from a thread run. */
-export async function listRunSteps(
+export function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
   options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
-): Promise<OpenAIPageableListOfRunStep> {
-  const result = await _listRunStepsSend(context, threadId, runId, options);
-  return _listRunStepsDeserialize(result);
+): PagedAsyncIterableIterator<RunStep> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listRunStepsSend(context, threadId, runId, options),
+    _listRunStepsDeserialize,
+    ["200"],
+    { itemName: "data" },
+  );
 }
 
 export function _getRunStepSend(
@@ -98,16 +112,20 @@ export function _getRunStepSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getRunStepDeserialize(result: PathUncheckedResponse): Promise<RunStep> {
+export async function _getRunStepDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -124,6 +142,12 @@ export async function getRunStep(
   stepId: string,
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): Promise<RunStep> {
-  const result = await _getRunStepSend(context, threadId, runId, stepId, options);
+  const result = await _getRunStepSend(
+    context,
+    threadId,
+    runId,
+    stepId,
+    options,
+  );
   return _getRunStepDeserialize(result);
 }

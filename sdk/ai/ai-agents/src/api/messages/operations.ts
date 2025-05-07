@@ -9,8 +9,8 @@ import {
   messageAttachmentArraySerializer,
   ThreadMessage,
   threadMessageDeserializer,
-  OpenAIPageableListOfThreadMessage,
-  openAIPageableListOfThreadMessageDeserializer,
+  _AgentsPagedResultThreadMessage,
+  _agentsPagedResultThreadMessageDeserializer,
 } from "../../models/models.js";
 import {
   MessagesUpdateMessageOptionalParams,
@@ -18,6 +18,10 @@ import {
   MessagesListMessagesOptionalParams,
   MessagesCreateMessageOptionalParams,
 } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -43,15 +47,17 @@ export function _updateMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { metadata: options?.metadata },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: { metadata: options?.metadata },
+    });
 }
 
 export async function _updateMessageDeserialize(
@@ -72,7 +78,12 @@ export async function updateMessage(
   messageId: string,
   options: MessagesUpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
-  const result = await _updateMessageSend(context, threadId, messageId, options);
+  const result = await _updateMessageSend(
+    context,
+    threadId,
+    messageId,
+    options,
+  );
   return _updateMessageDeserialize(result);
 }
 
@@ -93,13 +104,15 @@ export function _getMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getMessageDeserialize(
@@ -130,11 +143,11 @@ export function _listMessagesSend(
   options: MessagesListMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?api%2Dversion,run_id,limit,order,after,before}",
+    "/threads/{threadId}/messages{?run_id,api%2Dversion,limit,order,after,before}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
       run_id: options?.runId,
+      "api%2Dversion": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -144,34 +157,41 @@ export function _listMessagesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listMessagesDeserialize(
   result: PathUncheckedResponse,
-): Promise<OpenAIPageableListOfThreadMessage> {
+): Promise<_AgentsPagedResultThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return openAIPageableListOfThreadMessageDeserializer(result.body);
+  return _agentsPagedResultThreadMessageDeserializer(result.body);
 }
 
 /** Gets a list of messages that exist on a thread. */
-export async function listMessages(
+export function listMessages(
   context: Client,
   threadId: string,
   options: MessagesListMessagesOptionalParams = { requestOptions: {} },
-): Promise<OpenAIPageableListOfThreadMessage> {
-  const result = await _listMessagesSend(context, threadId, options);
-  return _listMessagesDeserialize(result);
+): PagedAsyncIterableIterator<ThreadMessage> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listMessagesSend(context, threadId, options),
+    _listMessagesDeserialize,
+    ["200"],
+    { itemName: "data" },
+  );
 }
 
 export function _createMessageSend(
@@ -191,22 +211,24 @@ export function _createMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      role: role,
-      content: messageInputContentSerializer(content),
-      attachments: !options?.attachments
-        ? options?.attachments
-        : messageAttachmentArraySerializer(options?.attachments),
-      metadata: options?.metadata,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        role: role,
+        content: messageInputContentSerializer(content),
+        attachments: !options?.attachments
+          ? options?.attachments
+          : messageAttachmentArraySerializer(options?.attachments),
+        metadata: options?.metadata,
+      },
+    });
 }
 
 export async function _createMessageDeserialize(
@@ -228,6 +250,12 @@ export async function createMessage(
   content: MessageInputContent,
   options: MessagesCreateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ThreadMessage> {
-  const result = await _createMessageSend(context, threadId, role, content, options);
+  const result = await _createMessageSend(
+    context,
+    threadId,
+    role,
+    content,
+    options,
+  );
   return _createMessageDeserialize(result);
 }

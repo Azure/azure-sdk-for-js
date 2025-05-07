@@ -6,7 +6,6 @@ import {
   MessageRole,
   MessageInputContent,
   ThreadMessage,
-  OpenAIPageableListOfThreadMessage,
 } from "../../models/models.js";
 import {
   MessagesUpdateMessageOptionalParams,
@@ -20,6 +19,7 @@ import {
   listMessages,
   createMessage,
 } from "../../api/messages/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Messages operations. */
 export interface MessagesOperations {
@@ -39,7 +39,7 @@ export interface MessagesOperations {
   list: (
     threadId: string,
     options?: MessagesListMessagesOptionalParams,
-  ) => Promise<OpenAIPageableListOfThreadMessage>;
+  ) => PagedAsyncIterableIterator<ThreadMessage>;
   /** Creates a new message on a specified thread. */
   create: (
     threadId: string,
@@ -66,7 +66,10 @@ function _getMessages(context: AgentsContext) {
   };
 }
 
-export function _getMessagesOperations(context: AgentsContext): MessagesOperations {
+
+export function _getMessagesOperations(
+  context: AgentsContext,
+): MessagesOperations {
   return {
     ..._getMessages(context),
   };

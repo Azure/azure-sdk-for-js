@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 import { FileContents } from "./static-helpers/multipartHelpers.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
 export { AgentsClient } from "./agentsClient.js";
 export * from "./models/streamingModels.js";
@@ -59,7 +64,6 @@ export {
   AgentsResponseFormatOption,
   AgentsResponseFormatMode,
   Agent,
-  OpenAIPageableListOfAgent,
   AgentDeletionStatus,
   AgentThreadCreationOptions,
   ThreadMessageOptions,
@@ -101,7 +105,6 @@ export {
   IncompleteDetailsReason,
   RunCompletionUsage,
   AgentThread,
-  OpenAIPageableListOfAgentThread,
   ThreadDeletionStatus,
   ThreadMessage,
   MessageStatus,
@@ -121,8 +124,6 @@ export {
   MessageTextFilePathDetails,
   MessageImageFileContent,
   MessageImageFileDetails,
-  OpenAIPageableListOfThreadMessage,
-  OpenAIPageableListOfThreadRun,
   ToolOutput,
   RunStep,
   RunStepType,
@@ -156,13 +157,11 @@ export {
   RunStepError,
   RunStepErrorCode,
   RunStepCompletionUsage,
-  OpenAIPageableListOfRunStep,
   FileListResponse,
   FileInfo,
   FilePurpose,
   FileState,
   FileDeletionStatus,
-  OpenAIPageableListOfVectorStore,
   VectorStore,
   VectorStoreFileCount,
   VectorStoreStatus,
@@ -175,7 +174,6 @@ export {
   VectorStoreStaticChunkingStrategyRequest,
   VectorStoreStaticChunkingStrategyOptions,
   VectorStoreDeletionStatus,
-  OpenAIPageableListOfVectorStoreFile,
   VectorStoreFile,
   VectorStoreFileStatus,
   VectorStoreFileError,
@@ -307,4 +305,5 @@ export {
   VectorStoreFilesOperations,
   VectorStoresOperations,
 } from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { FileContents };

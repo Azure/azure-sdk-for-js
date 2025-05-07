@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
 export * from "./streamingModels.js";
 export {
   ToolDefinition,
@@ -55,7 +54,6 @@ export {
   AgentsResponseFormatOption,
   AgentsResponseFormatMode,
   Agent,
-  OpenAIPageableListOfAgent,
   AgentDeletionStatus,
   AgentThreadCreationOptions,
   ThreadMessageOptions,
@@ -97,7 +95,6 @@ export {
   IncompleteDetailsReason,
   RunCompletionUsage,
   AgentThread,
-  OpenAIPageableListOfAgentThread,
   ThreadDeletionStatus,
   ThreadMessage,
   MessageStatus,
@@ -117,8 +114,6 @@ export {
   MessageTextFilePathDetails,
   MessageImageFileContent,
   MessageImageFileDetails,
-  OpenAIPageableListOfThreadMessage,
-  OpenAIPageableListOfThreadRun,
   ToolOutput,
   RunStep,
   RunStepType,
@@ -152,13 +147,11 @@ export {
   RunStepError,
   RunStepErrorCode,
   RunStepCompletionUsage,
-  OpenAIPageableListOfRunStep,
   FileListResponse,
   FileInfo,
   FilePurpose,
   FileState,
   FileDeletionStatus,
-  OpenAIPageableListOfVectorStore,
   VectorStore,
   VectorStoreFileCount,
   VectorStoreStatus,
@@ -171,7 +164,6 @@ export {
   VectorStoreStaticChunkingStrategyRequest,
   VectorStoreStaticChunkingStrategyOptions,
   VectorStoreDeletionStatus,
-  OpenAIPageableListOfVectorStoreFile,
   VectorStoreFile,
   VectorStoreFileStatus,
   VectorStoreFileError,

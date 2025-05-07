@@ -48,8 +48,8 @@ describe("Agents - assistants", () => {
     // List agents
     const assistants = await projectsClient.listAgents();
     assert.isNotEmpty(assistants);
-    assert.isAtLeast(assistants.data.length, 1);
-    console.log(`Listed agents, agents count: ${assistants.data.length}`);
+    assert.isNotNull((await assistants.next()).value);
+    console.log(`Listed agents: ${(await assistants.byPage().next()).value}`);
 
     // Delete agent
     await projectsClient.deleteAgent(agent.id);

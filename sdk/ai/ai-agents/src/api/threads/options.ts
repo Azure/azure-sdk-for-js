@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ToolResources, ThreadMessageOptions, ListSortOrder } from "../../models/models.js";
+import {
+  ToolResources,
+  ThreadMessageOptions,
+  ListSortOrder,
+} from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

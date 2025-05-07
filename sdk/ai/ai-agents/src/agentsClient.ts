@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsContext, AgentsClientOptionalParams } from "./api/index.js";
-import { createAgents } from "./api/index.js";
-import type { Agent, OpenAIPageableListOfAgent, AgentDeletionStatus } from "./models/models.js";
+import type {
+  AgentsContext,
+  AgentsClientOptionalParams} from "./api/index.js";
+import {
+  createAgents
+} from "./api/index.js";
+import type { Agent, AgentDeletionStatus } from "./models/models.js";
 import type {
   DeleteAgentOptionalParams,
   UpdateAgentOptionalParams,
@@ -11,23 +15,48 @@ import type {
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
 } from "./api/options.js";
-import { deleteAgent, updateAgent, getAgent, listAgents, createAgent } from "./api/operations.js";
-import type { VectorStoreFileBatchesOperations } from "./classic/vectorStoreFileBatches/index.js";
-import { _getVectorStoreFileBatchesOperations } from "./classic/vectorStoreFileBatches/index.js";
-import type { VectorStoreFilesOperations } from "./classic/vectorStoreFiles/index.js";
-import { _getVectorStoreFilesOperations } from "./classic/vectorStoreFiles/index.js";
-import type { VectorStoresOperations } from "./classic/vectorStores/index.js";
-import { _getVectorStoresOperations } from "./classic/vectorStores/index.js";
-import type { FilesOperations } from "./classic/files/index.js";
+import {
+  deleteAgent,
+  updateAgent,
+  getAgent,
+  listAgents,
+  createAgent,
+} from "./api/operations.js";
+import type {
+  VectorStoreFileBatchesOperations} from "./classic/vectorStoreFileBatches/index.js";
+import {
+  _getVectorStoreFileBatchesOperations,
+} from "./classic/vectorStoreFileBatches/index.js";
+import type {
+  VectorStoreFilesOperations} from "./classic/vectorStoreFiles/index.js";
+import {
+  _getVectorStoreFilesOperations,
+} from "./classic/vectorStoreFiles/index.js";
+import type {
+  VectorStoresOperations} from "./classic/vectorStores/index.js";
+import {
+  _getVectorStoresOperations,
+} from "./classic/vectorStores/index.js";
+import type { FilesOperations} from "./classic/files/index.js";
 import { _getFilesOperations } from "./classic/files/index.js";
-import type { RunStepsOperations } from "./classic/runSteps/index.js";
-import { _getRunStepsOperations } from "./classic/runSteps/index.js";
-import type { RunsOperations } from "./classic/runs/index.js";
+import type {
+  RunStepsOperations} from "./classic/runSteps/index.js";
+import {
+  _getRunStepsOperations,
+} from "./classic/runSteps/index.js";
+import type { RunsOperations} from "./classic/runs/index.js";
 import { _getRunsOperations } from "./classic/runs/index.js";
-import type { MessagesOperations } from "./classic/messages/index.js";
-import { _getMessagesOperations } from "./classic/messages/index.js";
-import type { ThreadsOperations } from "./classic/threads/index.js";
-import { _getThreadsOperations } from "./classic/threads/index.js";
+import type {
+  MessagesOperations} from "./classic/messages/index.js";
+import {
+  _getMessagesOperations,
+} from "./classic/messages/index.js";
+import type {
+  ThreadsOperations} from "./classic/threads/index.js";
+import {
+  _getThreadsOperations,
+} from "./classic/threads/index.js";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 
@@ -52,7 +81,9 @@ export class AgentsClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.vectorStoreFileBatches = _getVectorStoreFileBatchesOperations(this._client);
+    this.vectorStoreFileBatches = _getVectorStoreFileBatchesOperations(
+      this._client,
+    );
     this.vectorStoreFiles = _getVectorStoreFilesOperations(this._client);
     this.vectorStores = _getVectorStoresOperations(this._client);
     this.files = _getFilesOperations(this._client);
@@ -106,7 +137,7 @@ export class AgentsClient {
   /** Gets a list of agents that were previously created. */
   listAgents(
     options: ListAgentsOptionalParams = { requestOptions: {} },
-  ): Promise<OpenAIPageableListOfAgent> {
+  ): PagedAsyncIterableIterator<Agent> {
     return listAgents(this._client, options);
   }
 
