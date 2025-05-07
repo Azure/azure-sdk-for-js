@@ -8,7 +8,7 @@
 
 import fs from "fs-extra";
 import path from "node:path";
-import { spawn } from "node:child_process";
+import { spawn, SpawnOptions } from "node:child_process";
 import { makeCommandInfo, subCommand } from "../../framework/command";
 import { CommandOptions } from "../../framework/CommandInfo";
 import { CommandModule } from "../../framework/CommandModule";
@@ -25,15 +25,22 @@ const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", "
  * @param commandName - name of the command to run from DOT_BIN_PATH
  * @returns a function that executes the command and returns a boolean status
  */
-function makeCommandExecutor(commandName: string): (...args: string[]) => Promise<boolean> {
+function makeCommandExecutor(
+  commandName: string,
+  options?: SpawnOptions,
+): (...args: string[]) => Promise<boolean> {
   const commandPath = isWindows()
     ? path.join(DOT_BIN_PATH, `${commandName}.CMD`)
     : path.join(DOT_BIN_PATH, commandName);
 
+  const spawnOptions = options || {};
+  spawnOptions.stdio = "inherit";
+  spawnOptions.shell = isWindows();
+
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {
       log.debug("Running vendored command:", commandPath);
-      const command = spawn(commandPath, args, { stdio: "inherit", shell: isWindows() });
+      const command = spawn(commandPath, args, spawnOptions);
 
       // If the command exited 0, then we treat that as a success
       command.on("exit", (code) => {
@@ -66,3 +73,27 @@ export default async (...args: string[]): Promise<boolean> => {
 
   return executor(...args);
 };
+
+export async function vendoredWithOptions(
+  options: SpawnOptions,
+  ...args: string[]
+): Promise<boolean> {
+  const commands = (await fs.readdir(DOT_BIN_PATH)).filter((cmd) => !cmd.startsWith("_"));
+
+  const executor = subCommand(
+    commandInfo,
+    // Dynamically make a command dispatch from the command list in DOT_BIN_PATH
+    Object.fromEntries(
+      commands.map((commandName) => {
+        const moduleSham: CommandModule<CommandOptions> = {
+          commandInfo: makeCommandInfo(commandName, `run vendored "${commandName}" from dev-tool`),
+          default: makeCommandExecutor(commandName, options),
+        };
+
+        return [commandName, () => Promise.resolve(moduleSham)];
+      }),
+    ),
+  );
+
+  return executor(...args);
+}

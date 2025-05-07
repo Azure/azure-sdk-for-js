@@ -49,5 +49,5 @@ jobs:
         displayName: "linting dev-tool"
 
       - script: |
-          node common/scripts/install-run-rush.js unit-test:node -t @azure/dev-tool
+          node common/scripts/install-run-rush.js test:node -t @azure/dev-tool
         displayName: "running dev-tool unit tests"
