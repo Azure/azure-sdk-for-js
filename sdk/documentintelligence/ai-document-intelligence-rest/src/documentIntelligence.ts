@@ -41,7 +41,12 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [KnownDocumentIntelligenceAudience.AzurePublicCloud],
+      scopes: (
+        options.credentials?.scopes ?? [KnownDocumentIntelligenceAudience.AzurePublicCloud]
+      ).map((scope) => {
+        if (scope.endsWith("/.default")) return scope;
+        return `${scope}/.default`;
+      }),
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };

@@ -13,9 +13,9 @@
  */
 export enum KnownDocumentIntelligenceAudience {
   /** Azure China */
-  AzureChina = "https://cognitiveservices.azure.cn/.default",
+  AzureChina = "https://cognitiveservices.azure.cn",
   /** Azure Government */
-  AzureGovernment = "https://cognitiveservices.azure.us/.default",
+  AzureGovernment = "https://cognitiveservices.azure.us",
   /** Azure Public Cloud */
-  AzurePublicCloud = "https://cognitiveservices.azure.com/.default",
+  AzurePublicCloud = "https://cognitiveservices.azure.com",
 }
