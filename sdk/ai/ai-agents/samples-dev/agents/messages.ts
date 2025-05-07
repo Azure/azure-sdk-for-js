@@ -25,22 +25,23 @@ export async function main(): Promise<void> {
     name: "my-agent",
     instructions: "You are helpful agent",
   });
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
 
-  const message = await client.createMessage(thread.id, "user", "hello, world!");
+  const message = await client.messages.create(thread.id, "user", "hello, world!");
   console.log(`Created message, message ID: ${message.id}`);
 
-  const messages = await client.listMessages(thread.id);
+  const messages = client.messages.list(thread.id);
+  const firstMessage = (await messages.next()).value;
   console.log(
-    `Message ${message.id} contents: ${(messages.data[0].content[0] as MessageTextContent).text.value}`,
+    `Message ${message.id} contents: ${firstMessage && (firstMessage.content[0] as MessageTextContent).text.value}`,
   );
 
-  const updatedMessage = await client.updateMessage(thread.id, message.id, {
+  const updatedMessage = await client.messages.update(thread.id, message.id, {
     metadata: { introduction: "true" },
   });
   console.log(`Updated message metadata - introduction: ${updatedMessage.metadata?.introduction}`);
 
-  await client.deleteThread(thread.id);
+  await client.threads.delete(thread.id);
   console.log(`Deleted thread, thread ID : ${thread.id}`);
 
   await client.deleteAgent(agent.id);

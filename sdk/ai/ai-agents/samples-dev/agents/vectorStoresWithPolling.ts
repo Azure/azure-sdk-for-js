@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
   }
 
   // Create a vector, which will automatically poll until the operation is complete
-  const vectorStore1 = await client.createVectorStore({
+  const vectorStore1 = await client.vectorStores.create({
     name: "myVectorStore",
     pollingOptions: {
       intervalInMs: 2000,
@@ -40,7 +40,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStorePoller = client.createVectorStoreAndPoll({
+  const vectorStorePoller = client.vectorStores.createAndPoll({
     name: "myVectorStore",
     pollingOptions: {
       intervalInMs: 2000,
@@ -55,8 +55,8 @@ export async function main(): Promise<void> {
   );
 
   // Delete the vector store
-  await client.deleteVectorStore(vectorStore1.id);
-  await client.deleteVectorStore(vectorStore2.id);
+  await client.vectorStores.delete(vectorStore1.id);
+  await client.vectorStores.delete(vectorStore2.id);
   console.log(`Deleted vector stores, vector store IDs: ${vectorStore1.id} & ${vectorStore2.id}`);
 }
 

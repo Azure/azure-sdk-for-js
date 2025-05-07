@@ -24,21 +24,21 @@ export async function main(): Promise<void> {
   });
 
   // Create a thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   // Create a message
-  const message = await client.createMessage(thread.id, "user", "hello, world!");
+  const message = await client.messages.create(thread.id, "user", "hello, world!");
 
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create run
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   console.log(`Created run, run ID: ${run.id}`);
   // the usage should be null at this point
   console.log(`usage for run ${run.id}:`, JSON.stringify(run.usage, null, 2));
   // Wait for run to complete
   while (["queued", "in_progress", "requires_action"].includes(run.status)) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
     console.log(`Run status: ${run.status}`);
   }
 

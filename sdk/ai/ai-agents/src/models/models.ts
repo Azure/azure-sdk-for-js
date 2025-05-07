@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { randomUUID } from "@azure/core-util";
-import type { FileContents } from "../static-helpers/multipartHelpers.js";
-// import { createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+import { FileContents } from "../static-helpers/multipartHelpers.js";
 
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
@@ -270,21 +265,128 @@ export function functionDefinitionDeserializer(item: any): FunctionDefinition {
 export interface BingGroundingToolDefinition extends ToolDefinition {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
-  /** The list of connections used by the bing grounding tool. */
-  bingGrounding: ToolConnectionList;
+  /** The list of search configurations used by the bing grounding tool. */
+  bingGrounding: BingGroundingSearchConfigurationList;
 }
 
 export function bingGroundingToolDefinitionSerializer(item: BingGroundingToolDefinition): any {
   return {
     type: item["type"],
-    bing_grounding: toolConnectionListSerializer(item["bingGrounding"]),
+    bing_grounding: bingGroundingSearchConfigurationListSerializer(item["bingGrounding"]),
   };
 }
 
 export function bingGroundingToolDefinitionDeserializer(item: any): BingGroundingToolDefinition {
   return {
     type: item["type"],
-    bingGrounding: toolConnectionListDeserializer(item["bing_grounding"]),
+    bingGrounding: bingGroundingSearchConfigurationListDeserializer(item["bing_grounding"]),
+  };
+}
+
+/** A list of search configurations currently used by the `bing_grounding` tool. */
+export interface BingGroundingSearchConfigurationList {
+  /**
+   * The search configurations attached to this tool. There can be a maximum of 1
+   * search configuration resource attached to the tool.
+   */
+  searchConfigurations: BingGroundingSearchConfiguration[];
+}
+
+export function bingGroundingSearchConfigurationListSerializer(
+  item: BingGroundingSearchConfigurationList,
+): any {
+  return {
+    search_configurations: bingGroundingSearchConfigurationArraySerializer(
+      item["searchConfigurations"],
+    ),
+  };
+}
+
+export function bingGroundingSearchConfigurationListDeserializer(
+  item: any,
+): BingGroundingSearchConfigurationList {
+  return {
+    searchConfigurations: bingGroundingSearchConfigurationArrayDeserializer(
+      item["search_configurations"],
+    ),
+  };
+}
+
+export function bingGroundingSearchConfigurationArraySerializer(
+  result: Array<BingGroundingSearchConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return bingGroundingSearchConfigurationSerializer(item);
+  });
+}
+
+export function bingGroundingSearchConfigurationArrayDeserializer(
+  result: Array<BingGroundingSearchConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return bingGroundingSearchConfigurationDeserializer(item);
+  });
+}
+
+/** Search configuration for Bing Grounding */
+export interface BingGroundingSearchConfiguration {
+  /** Connection id for grounding with bing search */
+  connectionId: string;
+  /** The market where the results come from. */
+  market?: string;
+  /** The language to use for user interface strings when calling Bing API. */
+  setLang?: string;
+  /** The number of search results to return in the bing api response */
+  count?: number;
+  /** Filter search results by a specific time range. Accepted values: https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters */
+  freshness?: string;
+}
+
+export function bingGroundingSearchConfigurationSerializer(
+  item: BingGroundingSearchConfiguration,
+): any {
+  return {
+    connection_id: item["connectionId"],
+    market: item["market"],
+    set_lang: item["setLang"],
+    count: item["count"],
+    freshness: item["freshness"],
+  };
+}
+
+export function bingGroundingSearchConfigurationDeserializer(
+  item: any,
+): BingGroundingSearchConfiguration {
+  return {
+    connectionId: item["connection_id"],
+    market: item["market"],
+    setLang: item["set_lang"],
+    count: item["count"],
+    freshness: item["freshness"],
+  };
+}
+
+/** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
+export interface MicrosoftFabricToolDefinition extends ToolDefinition {
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
+  /** The list of connections used by the Microsoft Fabric tool. */
+  fabricDataagent: ToolConnectionList;
+}
+
+export function microsoftFabricToolDefinitionSerializer(item: MicrosoftFabricToolDefinition): any {
+  return {
+    type: item["type"],
+    fabric_dataagent: toolConnectionListSerializer(item["fabricDataagent"]),
+  };
+}
+
+export function microsoftFabricToolDefinitionDeserializer(
+  item: any,
+): MicrosoftFabricToolDefinition {
+  return {
+    type: item["type"],
+    fabricDataagent: toolConnectionListDeserializer(item["fabric_dataagent"]),
   };
 }
 
@@ -338,30 +440,6 @@ export function toolConnectionSerializer(item: ToolConnection): any {
 export function toolConnectionDeserializer(item: any): ToolConnection {
   return {
     connectionId: item["connection_id"],
-  };
-}
-
-/** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
-export interface MicrosoftFabricToolDefinition extends ToolDefinition {
-  /** The object type, which is always 'fabric_dataagent'. */
-  type: "fabric_dataagent";
-  /** The list of connections used by the Microsoft Fabric tool. */
-  fabricDataagent: ToolConnectionList;
-}
-
-export function microsoftFabricToolDefinitionSerializer(item: MicrosoftFabricToolDefinition): any {
-  return {
-    type: item["type"],
-    fabric_dataagent: toolConnectionListSerializer(item["fabricDataagent"]),
-  };
-}
-
-export function microsoftFabricToolDefinitionDeserializer(
-  item: any,
-): MicrosoftFabricToolDefinition {
-  return {
-    type: item["type"],
-    fabricDataagent: toolConnectionListDeserializer(item["fabric_dataagent"]),
   };
 }
 
@@ -632,7 +710,7 @@ export interface BingCustomSearchToolDefinition extends ToolDefinition {
   /** The object type, which is always 'bing_custom_search'. */
   type: "bing_custom_search";
   /** The list of search configurations used by the bing custom search tool. */
-  bingCustomSearch: SearchConfigurationList;
+  bingCustomSearch: BingCustomSearchConfigurationList;
 }
 
 export function bingCustomSearchToolDefinitionSerializer(
@@ -640,7 +718,7 @@ export function bingCustomSearchToolDefinitionSerializer(
 ): any {
   return {
     type: item["type"],
-    bing_custom_search: searchConfigurationListSerializer(item["bingCustomSearch"]),
+    bing_custom_search: bingCustomSearchConfigurationListSerializer(item["bingCustomSearch"]),
   };
 }
 
@@ -649,62 +727,92 @@ export function bingCustomSearchToolDefinitionDeserializer(
 ): BingCustomSearchToolDefinition {
   return {
     type: item["type"],
-    bingCustomSearch: searchConfigurationListDeserializer(item["bing_custom_search"]),
+    bingCustomSearch: bingCustomSearchConfigurationListDeserializer(item["bing_custom_search"]),
   };
 }
 
 /** A list of search configurations currently used by the `bing_custom_search` tool. */
-export interface SearchConfigurationList {
+export interface BingCustomSearchConfigurationList {
   /**
    * The connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
    */
-  searchConfigurations: SearchConfiguration[];
+  searchConfigurations: BingCustomSearchConfiguration[];
 }
 
-export function searchConfigurationListSerializer(item: SearchConfigurationList): any {
+export function bingCustomSearchConfigurationListSerializer(
+  item: BingCustomSearchConfigurationList,
+): any {
   return {
-    search_configurations: searchConfigurationArraySerializer(item["searchConfigurations"]),
+    search_configurations: bingCustomSearchConfigurationArraySerializer(
+      item["searchConfigurations"],
+    ),
   };
 }
 
-export function searchConfigurationListDeserializer(item: any): SearchConfigurationList {
+export function bingCustomSearchConfigurationListDeserializer(
+  item: any,
+): BingCustomSearchConfigurationList {
   return {
-    searchConfigurations: searchConfigurationArrayDeserializer(item["search_configurations"]),
+    searchConfigurations: bingCustomSearchConfigurationArrayDeserializer(
+      item["search_configurations"],
+    ),
   };
 }
 
-export function searchConfigurationArraySerializer(result: Array<SearchConfiguration>): any[] {
+export function bingCustomSearchConfigurationArraySerializer(
+  result: Array<BingCustomSearchConfiguration>,
+): any[] {
   return result.map((item) => {
-    return searchConfigurationSerializer(item);
+    return bingCustomSearchConfigurationSerializer(item);
   });
 }
 
-export function searchConfigurationArrayDeserializer(result: Array<SearchConfiguration>): any[] {
+export function bingCustomSearchConfigurationArrayDeserializer(
+  result: Array<BingCustomSearchConfiguration>,
+): any[] {
   return result.map((item) => {
-    return searchConfigurationDeserializer(item);
+    return bingCustomSearchConfigurationDeserializer(item);
   });
 }
 
-/** A custom search configuration. */
-export interface SearchConfiguration {
-  /** A connection in a ToolConnectionList attached to this tool. */
+/** A bing custom search configuration. */
+export interface BingCustomSearchConfiguration {
+  /** Connection id for grounding with bing search */
   connectionId: string;
   /** Name of the custom configuration instance given to config. */
   instanceName: string;
+  /** The market where the results come from. */
+  market?: string;
+  /** The language to use for user interface strings when calling Bing API. */
+  setLang?: string;
+  /** The number of search results to return in the bing api response */
+  count?: number;
+  /** Filter search results by a specific time range. Accepted values: https://learn.microsoft.com/bing/search-apis/bing-web-search/reference/query-parameters */
+  freshness?: string;
 }
 
-export function searchConfigurationSerializer(item: SearchConfiguration): any {
+export function bingCustomSearchConfigurationSerializer(item: BingCustomSearchConfiguration): any {
   return {
     connection_id: item["connectionId"],
     instance_name: item["instanceName"],
+    market: item["market"],
+    set_lang: item["setLang"],
+    count: item["count"],
+    freshness: item["freshness"],
   };
 }
 
-export function searchConfigurationDeserializer(item: any): SearchConfiguration {
+export function bingCustomSearchConfigurationDeserializer(
+  item: any,
+): BingCustomSearchConfiguration {
   return {
     connectionId: item["connection_id"],
     instanceName: item["instance_name"],
+    market: item["market"],
+    setLang: item["set_lang"],
+    count: item["count"],
+    freshness: item["freshness"],
   };
 }
 
@@ -967,7 +1075,10 @@ export function vectorStoreDataSourceDeserializer(item: any): VectorStoreDataSou
  * Type of vector storage asset. Asset type may be a uri_asset, in this case it should contain asset URI ID,
  * in the case of id_asset it should contain the data ID.
  */
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export enum VectorStoreDataSourceAssetType {
+  UriAsset = "uri_asset",
+  IdAsset = "id_asset",
+}
 
 /** A set of resources that are used by the `file_search` tool. */
 export interface FileSearchToolResource {
@@ -1118,8 +1229,10 @@ export interface AISearchIndexResource {
   queryType?: AzureAISearchQueryType;
   /** Number of documents to retrieve from search and present to the model. */
   topK?: number;
-  /** Odata filter string for search resource. */
+  /** filter string for search resource. */
   filter?: string;
+  /** Index asset id for search resource. */
+  indexAssetId?: string;
 }
 
 export function aiSearchIndexResourceSerializer(item: AISearchIndexResource): any {
@@ -1129,6 +1242,7 @@ export function aiSearchIndexResourceSerializer(item: AISearchIndexResource): an
     query_type: item["queryType"],
     top_k: item["topK"],
     filter: item["filter"],
+    index_asset_id: item["indexAssetId"],
   };
 }
 
@@ -1139,6 +1253,7 @@ export function aiSearchIndexResourceDeserializer(item: any): AISearchIndexResou
     queryType: item["query_type"],
     topK: item["top_k"],
     filter: item["filter"],
+    indexAssetId: item["index_asset_id"],
   };
 }
 
@@ -1154,16 +1269,16 @@ export type AzureAISearchQueryType =
  * An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run.
  * If `text` the model can return text or any value needed.
  */
-export interface AgentsApiResponseFormat {
+export interface AgentsResponseFormat {
   /** Must be one of `text` or `json_object`. */
   type?: ResponseFormat;
 }
 
-export function agentsApiResponseFormatSerializer(item: AgentsApiResponseFormat): any {
+export function agentsResponseFormatSerializer(item: AgentsResponseFormat): any {
   return { type: item["type"] };
 }
 
-export function agentsApiResponseFormatDeserializer(item: any): AgentsApiResponseFormat {
+export function agentsResponseFormatDeserializer(item: any): AgentsResponseFormat {
   return {
     type: item["type"],
   };
@@ -1232,25 +1347,23 @@ export function toolDefinitionUnionArrayDeserializer(result: Array<ToolDefinitio
   });
 }
 
-/** Alias for AgentsApiResponseFormatOption */
-export type AgentsApiResponseFormatOption =
+/** Alias for AgentsResponseFormatOption */
+export type AgentsResponseFormatOption =
   | string
-  | AgentsApiResponseFormatMode
-  | AgentsApiResponseFormat
+  | AgentsResponseFormatMode
+  | AgentsResponseFormat
   | ResponseFormatJsonSchemaType;
 
-export function agentsApiResponseFormatOptionSerializer(item: AgentsApiResponseFormatOption): any {
+export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatOption): any {
   return item;
 }
 
-export function agentsApiResponseFormatOptionDeserializer(
-  item: any,
-): AgentsApiResponseFormatOption {
+export function agentsResponseFormatOptionDeserializer(item: any): AgentsResponseFormatOption {
   return item;
 }
 
 /** Represents the mode in which the model will handle the return format of a tool call. */
-export type AgentsApiResponseFormatMode = "auto" | "none";
+export type AgentsResponseFormatMode = "auto" | "none";
 
 /** Represents an agent that can call the model and use tools. */
 export interface Agent {
@@ -1288,7 +1401,7 @@ export interface Agent {
    */
   topP: number | null;
   /** The response format of the tool calls used by this agent. */
-  responseFormat?: AgentsApiResponseFormatOption | null;
+  responseFormat?: AgentsResponseFormatOption | null;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata: Record<string, string> | null;
 }
@@ -1310,30 +1423,24 @@ export function agentDeserializer(item: any): Agent {
     topP: item["top_p"],
     responseFormat: !item["response_format"]
       ? item["response_format"]
-      : agentsApiResponseFormatOptionDeserializer(item["response_format"]),
+      : agentsResponseFormatOptionDeserializer(item["response_format"]),
     metadata: item["metadata"],
   };
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfAgent {
-  /** The object type, which is always list. */
-  object: "list";
+export interface _AgentsPagedResultAgent {
   /** The requested list of items. */
   data: Agent[];
-  /** The first ID represented in this list. */
-  firstId: string;
   /** The last ID represented in this list. */
-  lastId: string;
+  lastId?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }
 
-export function openAIPageableListOfAgentDeserializer(item: any): OpenAIPageableListOfAgent {
+export function _agentsPagedResultAgentDeserializer(item: any): _AgentsPagedResultAgent {
   return {
-    object: item["object"],
     data: agentArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
     lastId: item["last_id"],
     hasMore: item["has_more"],
   };
@@ -1361,6 +1468,38 @@ export function agentDeletionStatusDeserializer(item: any): AgentDeletionStatus 
     deleted: item["deleted"],
     object: item["object"],
   };
+}
+
+/** The details used to create a new agent thread. */
+export interface AgentThreadCreationOptions {
+  /** The initial messages to associate with the new thread. */
+  messages?: ThreadMessageOptions[];
+  /**
+   * A set of resources that are made available to the agent's tools in this thread. The resources are specific to the
+   * type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires
+   * a list of vector store IDs.
+   */
+  toolResources?: ToolResources | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: Record<string, string> | null;
+}
+
+export function agentThreadCreationOptionsSerializer(item: AgentThreadCreationOptions): any {
+  return {
+    messages: !item["messages"]
+      ? item["messages"]
+      : threadMessageOptionsArraySerializer(item["messages"]),
+    tool_resources: !item["toolResources"]
+      ? item["toolResources"]
+      : toolResourcesSerializer(item["toolResources"]),
+    metadata: item["metadata"],
+  };
+}
+
+export function threadMessageOptionsArraySerializer(result: Array<ThreadMessageOptions>): any[] {
+  return result.map((item) => {
+    return threadMessageOptionsSerializer(item);
+  });
 }
 
 /**
@@ -1608,10 +1747,493 @@ export function _messageAttachmentToolDeserializer(item: any): _MessageAttachmen
   return item;
 }
 
-export function threadMessageOptionsArraySerializer(result: Array<ThreadMessageOptions>): any[] {
+/**
+ * Request object. A set of resources that are used by the agent's tools. The resources are specific to the type of tool.
+ * For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of
+ * vector store IDs.
+ */
+export interface UpdateToolResourcesOptions {
+  /**
+   * Overrides the list of file IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files
+   * associated with the tool.
+   */
+  codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
+  /** Overrides the vector store attached to this agent. There can be a maximum of 1 vector store attached to the agent. */
+  fileSearch?: UpdateFileSearchToolResourceOptions;
+  /** Overrides the resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
+  azureAISearch?: AzureAISearchResource;
+}
+
+export function updateToolResourcesOptionsSerializer(item: UpdateToolResourcesOptions): any {
+  return {
+    code_interpreter: !item["codeInterpreter"]
+      ? item["codeInterpreter"]
+      : updateCodeInterpreterToolResourceOptionsSerializer(item["codeInterpreter"]),
+    file_search: !item["fileSearch"]
+      ? item["fileSearch"]
+      : updateFileSearchToolResourceOptionsSerializer(item["fileSearch"]),
+    azure_ai_search: !item["azureAISearch"]
+      ? item["azureAISearch"]
+      : azureAISearchResourceSerializer(item["azureAISearch"]),
+  };
+}
+
+export function updateToolResourcesOptionsDeserializer(item: any): UpdateToolResourcesOptions {
+  return {
+    codeInterpreter: !item["code_interpreter"]
+      ? item["code_interpreter"]
+      : updateCodeInterpreterToolResourceOptionsDeserializer(item["code_interpreter"]),
+    fileSearch: !item["file_search"]
+      ? item["file_search"]
+      : updateFileSearchToolResourceOptionsDeserializer(item["file_search"]),
+    azureAISearch: !item["azure_ai_search"]
+      ? item["azure_ai_search"]
+      : azureAISearchResourceDeserializer(item["azure_ai_search"]),
+  };
+}
+
+/** Request object to update `code_interpreted` tool resources. */
+export interface UpdateCodeInterpreterToolResourceOptions {
+  /** A list of file IDs to override the current list of the agent. */
+  fileIds?: string[];
+}
+
+export function updateCodeInterpreterToolResourceOptionsSerializer(
+  item: UpdateCodeInterpreterToolResourceOptions,
+): any {
+  return {
+    file_ids: !item["fileIds"]
+      ? item["fileIds"]
+      : item["fileIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function updateCodeInterpreterToolResourceOptionsDeserializer(
+  item: any,
+): UpdateCodeInterpreterToolResourceOptions {
+  return {
+    fileIds: !item["file_ids"]
+      ? item["file_ids"]
+      : item["file_ids"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Request object to update `file_search` tool resources. */
+export interface UpdateFileSearchToolResourceOptions {
+  /** A list of vector store IDs to override the current list of the agent. */
+  vectorStoreIds?: string[];
+}
+
+export function updateFileSearchToolResourceOptionsSerializer(
+  item: UpdateFileSearchToolResourceOptions,
+): any {
+  return {
+    vector_store_ids: !item["vectorStoreIds"]
+      ? item["vectorStoreIds"]
+      : item["vectorStoreIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function updateFileSearchToolResourceOptionsDeserializer(
+  item: any,
+): UpdateFileSearchToolResourceOptions {
+  return {
+    vectorStoreIds: !item["vector_store_ids"]
+      ? item["vector_store_ids"]
+      : item["vector_store_ids"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/**
+ * Controls for how a thread will be truncated prior to the run. Use this to control the initial
+ * context window of the run.
+ */
+export interface TruncationObject {
+  /**
+   * The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will
+   * be truncated to the `lastMessages` count most recent messages in the thread. When set to `auto`, messages in the middle of the thread
+   * will be dropped to fit the context length of the model, `max_prompt_tokens`.
+   */
+  type: TruncationStrategy;
+  /** The number of most recent messages from the thread when constructing the context for the run. */
+  lastMessages?: number | null;
+}
+
+export function truncationObjectSerializer(item: TruncationObject): any {
+  return { type: item["type"], last_messages: item["lastMessages"] };
+}
+
+export function truncationObjectDeserializer(item: any): TruncationObject {
+  return {
+    type: item["type"],
+    lastMessages: item["last_messages"],
+  };
+}
+
+/** Possible truncation strategies for the thread. */
+export type TruncationStrategy = "auto" | "last_messages";
+
+/** Specifies a tool the model should use. Use to force the model to call a specific tool. */
+export interface AgentsNamedToolChoice {
+  /** the type of tool. If type is `function`, the function name must be set. */
+  type: AgentsNamedToolChoiceType;
+  /** The name of the function to call */
+  function?: FunctionName;
+}
+
+export function agentsNamedToolChoiceSerializer(item: AgentsNamedToolChoice): any {
+  return {
+    type: item["type"],
+    function: !item["function"] ? item["function"] : functionNameSerializer(item["function"]),
+  };
+}
+
+export function agentsNamedToolChoiceDeserializer(item: any): AgentsNamedToolChoice {
+  return {
+    type: item["type"],
+    function: !item["function"] ? item["function"] : functionNameDeserializer(item["function"]),
+  };
+}
+
+/** Available tool types for agents named tools. */
+export type AgentsNamedToolChoiceType =
+  | "function"
+  | "code_interpreter"
+  | "file_search"
+  | "bing_grounding"
+  | "fabric_dataagent"
+  | "sharepoint_grounding"
+  | "azure_ai_search"
+  | "bing_custom_search"
+  | "connected_agent";
+
+/** The function name that will be used, if using the `function` tool */
+export interface FunctionName {
+  /** The name of the function to call */
+  name: string;
+}
+
+export function functionNameSerializer(item: FunctionName): any {
+  return { name: item["name"] };
+}
+
+export function functionNameDeserializer(item: any): FunctionName {
+  return {
+    name: item["name"],
+  };
+}
+
+/** Alias for AgentsToolChoiceOption */
+export type AgentsToolChoiceOption = string | AgentsToolChoiceOptionMode | AgentsNamedToolChoice;
+
+export function agentsToolChoiceOptionSerializer(item: AgentsToolChoiceOption): any {
+  return item;
+}
+
+export function agentsToolChoiceOptionDeserializer(item: any): AgentsToolChoiceOption {
+  return item;
+}
+
+/** Specifies how the tool choice will be used */
+export type AgentsToolChoiceOptionMode = "none" | "auto";
+
+/** Data representing a single evaluation run of an agent thread. */
+export interface ThreadRun {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always 'thread.run'. */
+  object: "thread.run";
+  /** The ID of the thread associated with this run. */
+  threadId: string;
+  /** The ID of the agent associated with the thread this run was performed against. */
+  assistantId: string;
+  /** The status of the agent thread run. */
+  status: RunStatus;
+  /** The details of the action required for the agent thread run to continue. */
+  requiredAction?: RequiredActionUnion | null;
+  /** The last error, if any, encountered by this agent thread run. */
+  lastError: RunError | null;
+  /** The ID of the model to use. */
+  model: string;
+  /** The overridden system instructions used for this agent thread run. */
+  instructions: string;
+  /** The overridden enabled tools used for this agent thread run. */
+  tools: ToolDefinitionUnion[];
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  createdAt: Date;
+  /** The Unix timestamp, in seconds, representing when this item expires. */
+  expiresAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this item was started. */
+  startedAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this completed. */
+  completedAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this was cancelled. */
+  cancelledAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this failed. */
+  failedAt: Date | null;
+  /** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
+  incompleteDetails: IncompleteRunDetails | null;
+  /** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
+  usage: RunCompletionUsage | null;
+  /** The sampling temperature used for this run. If not set, defaults to 1. */
+  temperature?: number | null;
+  /** The nucleus sampling value used for this run. If not set, defaults to 1. */
+  topP?: number | null;
+  /** The maximum number of prompt tokens specified to have been used over the course of the run. */
+  maxPromptTokens: number | null;
+  /** The maximum number of completion tokens specified to have been used over the course of the run. */
+  maxCompletionTokens: number | null;
+  /** The strategy to use for dropping messages as the context windows moves forward. */
+  truncationStrategy: TruncationObject | null;
+  /** Controls whether or not and which tool is called by the model. */
+  toolChoice: AgentsToolChoiceOption | null;
+  /** The response format of the tool calls used in this run. */
+  responseFormat: AgentsResponseFormatOption | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
+  /** Override the tools the agent can use for this run. This is useful for modifying the behavior on a per-run basis */
+  toolResources?: UpdateToolResourcesOptions | null;
+  /** Determines if tools can be executed in parallel within the run. */
+  parallelToolCalls: boolean;
+}
+
+export function threadRunDeserializer(item: any): ThreadRun {
+  return {
+    id: item["id"],
+    object: item["object"],
+    threadId: item["thread_id"],
+    assistantId: item["assistant_id"],
+    status: item["status"],
+    requiredAction: !item["required_action"]
+      ? item["required_action"]
+      : requiredActionUnionDeserializer(item["required_action"]),
+    lastError: !item["last_error"] ? item["last_error"] : runErrorDeserializer(item["last_error"]),
+    model: item["model"],
+    instructions: item["instructions"],
+    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
+    createdAt: new Date(item["created_at"] * 1000),
+    expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
+    startedAt: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
+    completedAt: !item["completed_at"]
+      ? item["completed_at"]
+      : new Date(item["completed_at"] * 1000),
+    cancelledAt: !item["cancelled_at"]
+      ? item["cancelled_at"]
+      : new Date(item["cancelled_at"] * 1000),
+    failedAt: !item["failed_at"] ? item["failed_at"] : new Date(item["failed_at"] * 1000),
+    incompleteDetails: !item["incomplete_details"]
+      ? item["incomplete_details"]
+      : incompleteRunDetailsDeserializer(item["incomplete_details"]),
+    usage: !item["usage"] ? item["usage"] : runCompletionUsageDeserializer(item["usage"]),
+    temperature: item["temperature"],
+    topP: item["top_p"],
+    maxPromptTokens: item["max_prompt_tokens"],
+    maxCompletionTokens: item["max_completion_tokens"],
+    truncationStrategy: !item["truncation_strategy"]
+      ? item["truncation_strategy"]
+      : truncationObjectDeserializer(item["truncation_strategy"]),
+    toolChoice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : agentsToolChoiceOptionDeserializer(item["tool_choice"]),
+    responseFormat: !item["response_format"]
+      ? item["response_format"]
+      : agentsResponseFormatOptionDeserializer(item["response_format"]),
+    metadata: item["metadata"],
+    toolResources: !item["tool_resources"]
+      ? item["tool_resources"]
+      : updateToolResourcesOptionsDeserializer(item["tool_resources"]),
+    parallelToolCalls: item["parallel_tool_calls"],
+  };
+}
+
+/** Possible values for the status of an agent thread run. */
+export type RunStatus =
+  | "queued"
+  | "in_progress"
+  | "requires_action"
+  | "cancelling"
+  | "cancelled"
+  | "failed"
+  | "completed"
+  | "expired";
+
+/** An abstract representation of a required action for an agent thread run to continue. */
+export interface RequiredAction {
+  /** The object type. */
+  /** The discriminator possible values: submit_tool_outputs */
+  type: string;
+}
+
+export function requiredActionDeserializer(item: any): RequiredAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for RequiredActionUnion */
+export type RequiredActionUnion = SubmitToolOutputsAction | RequiredAction;
+
+export function requiredActionUnionDeserializer(item: any): RequiredActionUnion {
+  switch (item.type) {
+    case "submit_tool_outputs":
+      return submitToolOutputsActionDeserializer(item as SubmitToolOutputsAction);
+
+    default:
+      return requiredActionDeserializer(item);
+  }
+}
+
+/** The details for required tool calls that must be submitted for an agent thread run to continue. */
+export interface SubmitToolOutputsAction extends RequiredAction {
+  /** The object type, which is always 'submit_tool_outputs'. */
+  type: "submit_tool_outputs";
+  /** The details describing tools that should be called to submit tool outputs. */
+  submitToolOutputs: SubmitToolOutputsDetails;
+}
+
+export function submitToolOutputsActionDeserializer(item: any): SubmitToolOutputsAction {
+  return {
+    type: item["type"],
+    submitToolOutputs: submitToolOutputsDetailsDeserializer(item["submit_tool_outputs"]),
+  };
+}
+
+/** The details describing tools that should be called to submit tool outputs. */
+export interface SubmitToolOutputsDetails {
+  /** The list of tool calls that must be resolved for the agent thread run to continue. */
+  toolCalls: RequiredToolCallUnion[];
+}
+
+export function submitToolOutputsDetailsDeserializer(item: any): SubmitToolOutputsDetails {
+  return {
+    toolCalls: requiredToolCallUnionArrayDeserializer(item["tool_calls"]),
+  };
+}
+
+export function requiredToolCallUnionArrayDeserializer(
+  result: Array<RequiredToolCallUnion>,
+): any[] {
   return result.map((item) => {
-    return threadMessageOptionsSerializer(item);
+    return requiredToolCallUnionDeserializer(item);
   });
+}
+
+/** An abstract representation of a tool invocation needed by the model to continue a run. */
+export interface RequiredToolCall {
+  /** The object type for the required tool call. */
+  /** The discriminator possible values: function */
+  type: string;
+  /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
+  id: string;
+}
+
+export function requiredToolCallDeserializer(item: any): RequiredToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+  };
+}
+
+/** Alias for RequiredToolCallUnion */
+export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredToolCall;
+
+export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
+  switch (item.type) {
+    case "function":
+      return requiredFunctionToolCallDeserializer(item as RequiredFunctionToolCall);
+
+    default:
+      return requiredToolCallDeserializer(item);
+  }
+}
+
+/** A representation of a requested call to a function tool, needed by the model to continue evaluation of a run. */
+export interface RequiredFunctionToolCall extends RequiredToolCall {
+  /** The object type of the required tool call. Always 'function' for function tools. */
+  type: "function";
+  /** Detailed information about the function to be executed by the tool that includes name and arguments. */
+  function: RequiredFunctionToolCallDetails;
+}
+
+export function requiredFunctionToolCallDeserializer(item: any): RequiredFunctionToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    function: requiredFunctionToolCallDetailsDeserializer(item["function"]),
+  };
+}
+
+/** The detailed information for a function invocation, as provided by a required action invoking a function tool, that includes the name of and arguments to the function. */
+export interface RequiredFunctionToolCallDetails {
+  /** The name of the function. */
+  name: string;
+  /** The arguments to use when invoking the named function, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
+  arguments: string;
+}
+
+export function requiredFunctionToolCallDetailsDeserializer(
+  item: any,
+): RequiredFunctionToolCallDetails {
+  return {
+    name: item["name"],
+    arguments: item["arguments"],
+  };
+}
+
+/** The details of an error as encountered by an agent thread run. */
+export interface RunError {
+  /** The status for the error. */
+  code: string;
+  /** The human-readable text associated with the error. */
+  message: string;
+}
+
+export function runErrorDeserializer(item: any): RunError {
+  return {
+    code: item["code"],
+    message: item["message"],
+  };
+}
+
+/** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
+export interface IncompleteRunDetails {
+  /** The reason why the run is incomplete. This indicates which specific token limit was reached during the run. */
+  reason: IncompleteDetailsReason;
+}
+
+export function incompleteRunDetailsDeserializer(item: any): IncompleteRunDetails {
+  return {
+    reason: item["reason"],
+  };
+}
+
+/** The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run. */
+export type IncompleteDetailsReason = "max_completion_tokens" | "max_prompt_tokens";
+
+/** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
+export interface RunCompletionUsage {
+  /** Number of completion tokens used over the course of the run. */
+  completionTokens: number;
+  /** Number of prompt tokens used over the course of the run. */
+  promptTokens: number;
+  /** Total number of tokens used (prompt + completion). */
+  totalTokens: number;
+}
+
+export function runCompletionUsageDeserializer(item: any): RunCompletionUsage {
+  return {
+    completionTokens: item["completion_tokens"],
+    promptTokens: item["prompt_tokens"],
+    totalTokens: item["total_tokens"],
+  };
 }
 
 /** Information about a single thread associated with an agent. */
@@ -1644,6 +2266,32 @@ export function agentThreadDeserializer(item: any): AgentThread {
   };
 }
 
+/** The response data for a requested list of items. */
+export interface _AgentsPagedResultAgentThread {
+  /** The requested list of items. */
+  data: AgentThread[];
+  /** The last ID represented in this list. */
+  lastId?: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  hasMore: boolean;
+}
+
+export function _agentsPagedResultAgentThreadDeserializer(
+  item: any,
+): _AgentsPagedResultAgentThread {
+  return {
+    data: agentThreadArrayDeserializer(item["data"]),
+    lastId: item["last_id"],
+    hasMore: item["has_more"],
+  };
+}
+
+export function agentThreadArrayDeserializer(result: Array<AgentThread>): any[] {
+  return result.map((item) => {
+    return agentThreadDeserializer(item);
+  });
+}
+
 /** The status of a thread deletion operation. */
 export interface ThreadDeletionStatus {
   /** The ID of the resource specified for deletion. */
@@ -1660,38 +2308,6 @@ export function threadDeletionStatusDeserializer(item: any): ThreadDeletionStatu
     deleted: item["deleted"],
     object: item["object"],
   };
-}
-
-/** The response data for a requested list of items. */
-export interface OpenAIPageableListOfAgentThread {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: AgentThread[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
-}
-
-export function openAIPageableListOfAgentThreadDeserializer(
-  item: any,
-): OpenAIPageableListOfAgentThread {
-  return {
-    object: item["object"],
-    data: agentThreadArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
-    lastId: item["last_id"],
-    hasMore: item["has_more"],
-  };
-}
-
-export function agentThreadArrayDeserializer(result: Array<AgentThread>): any[] {
-  return result.map((item) => {
-    return agentThreadDeserializer(item);
-  });
 }
 
 /** A single, existing message within an agent thread. */
@@ -2039,26 +2655,20 @@ export function messageImageFileDetailsDeserializer(item: any): MessageImageFile
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfThreadMessage {
-  /** The object type, which is always list. */
-  object: "list";
+export interface _AgentsPagedResultThreadMessage {
   /** The requested list of items. */
   data: ThreadMessage[];
-  /** The first ID represented in this list. */
-  firstId: string;
   /** The last ID represented in this list. */
-  lastId: string;
+  lastId?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }
 
-export function openAIPageableListOfThreadMessageDeserializer(
+export function _agentsPagedResultThreadMessageDeserializer(
   item: any,
-): OpenAIPageableListOfThreadMessage {
+): _AgentsPagedResultThreadMessage {
   return {
-    object: item["object"],
     data: threadMessageArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
     lastId: item["last_id"],
     hasMore: item["has_more"],
   };
@@ -2070,519 +2680,19 @@ export function threadMessageArrayDeserializer(result: Array<ThreadMessage>): an
   });
 }
 
-/**
- * Controls for how a thread will be truncated prior to the run. Use this to control the initial
- * context window of the run.
- */
-export interface TruncationObject {
-  /**
-   * The truncation strategy to use for the thread. The default is `auto`. If set to `last_messages`, the thread will
-   * be truncated to the `lastMessages` count most recent messages in the thread. When set to `auto`, messages in the middle of the thread
-   * will be dropped to fit the context length of the model, `max_prompt_tokens`.
-   */
-  type: TruncationStrategy;
-  /** The number of most recent messages from the thread when constructing the context for the run. */
-  lastMessages?: number | null;
-}
-
-export function truncationObjectSerializer(item: TruncationObject): any {
-  return { type: item["type"], last_messages: item["lastMessages"] };
-}
-
-export function truncationObjectDeserializer(item: any): TruncationObject {
-  return {
-    type: item["type"],
-    lastMessages: item["last_messages"],
-  };
-}
-
-/** Possible truncation strategies for the thread. */
-export type TruncationStrategy = "auto" | "last_messages";
-
-/** Specifies a tool the model should use. Use to force the model to call a specific tool. */
-export interface AgentsNamedToolChoice {
-  /** the type of tool. If type is `function`, the function name must be set. */
-  type: AgentsNamedToolChoiceType;
-  /** The name of the function to call */
-  function?: FunctionName;
-}
-
-export function agentsNamedToolChoiceSerializer(item: AgentsNamedToolChoice): any {
-  return {
-    type: item["type"],
-    function: !item["function"] ? item["function"] : functionNameSerializer(item["function"]),
-  };
-}
-
-export function agentsNamedToolChoiceDeserializer(item: any): AgentsNamedToolChoice {
-  return {
-    type: item["type"],
-    function: !item["function"] ? item["function"] : functionNameDeserializer(item["function"]),
-  };
-}
-
-/** Available tool types for agents named tools. */
-export type AgentsNamedToolChoiceType =
-  | "function"
-  | "code_interpreter"
-  | "file_search"
-  | "bing_grounding"
-  | "fabric_dataagent"
-  | "sharepoint_grounding"
-  | "azure_ai_search"
-  | "bing_custom_search"
-  | "connected_agent";
-
-/** The function name that will be used, if using the `function` tool */
-export interface FunctionName {
-  /** The name of the function to call */
-  name: string;
-}
-
-export function functionNameSerializer(item: FunctionName): any {
-  return { name: item["name"] };
-}
-
-export function functionNameDeserializer(item: any): FunctionName {
-  return {
-    name: item["name"],
-  };
-}
-
-/** Alias for AgentsApiToolChoiceOption */
-export type AgentsApiToolChoiceOption =
-  | string
-  | AgentsApiToolChoiceOptionMode
-  | AgentsNamedToolChoice;
-
-export function agentsApiToolChoiceOptionSerializer(item: AgentsApiToolChoiceOption): any {
-  return item;
-}
-
-export function agentsApiToolChoiceOptionDeserializer(item: any): AgentsApiToolChoiceOption {
-  return item;
-}
-
-/** Specifies how the tool choice will be used */
-export type AgentsApiToolChoiceOptionMode = "none" | "auto";
-
-/** Data representing a single evaluation run of an agent thread. */
-export interface ThreadRun {
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-  /** The object type, which is always 'thread.run'. */
-  object: "thread.run";
-  /** The ID of the thread associated with this run. */
-  threadId: string;
-  /** The ID of the agent associated with the thread this run was performed against. */
-  assistantId: string;
-  /** The status of the agent thread run. */
-  status: RunStatus;
-  /** The details of the action required for the agent thread run to continue. */
-  requiredAction?: RequiredActionUnion | null;
-  /** The last error, if any, encountered by this agent thread run. */
-  lastError: RunError | null;
-  /** The ID of the model to use. */
-  model: string;
-  /** The overridden system instructions used for this agent thread run. */
-  instructions: string;
-  /** The overridden enabled tools used for this agent thread run. */
-  tools: ToolDefinitionUnion[];
-  /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: Date;
-  /** The Unix timestamp, in seconds, representing when this item expires. */
-  expiresAt: Date | null;
-  /** The Unix timestamp, in seconds, representing when this item was started. */
-  startedAt: Date | null;
-  /** The Unix timestamp, in seconds, representing when this completed. */
-  completedAt: Date | null;
-  /** The Unix timestamp, in seconds, representing when this was cancelled. */
-  cancelledAt: Date | null;
-  /** The Unix timestamp, in seconds, representing when this failed. */
-  failedAt: Date | null;
-  /** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
-  incompleteDetails: IncompleteRunDetails | null;
-  /** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
-  usage: RunCompletionUsage | null;
-  /** The sampling temperature used for this run. If not set, defaults to 1. */
-  temperature?: number | null;
-  /** The nucleus sampling value used for this run. If not set, defaults to 1. */
-  topP?: number | null;
-  /** The maximum number of prompt tokens specified to have been used over the course of the run. */
-  maxPromptTokens: number | null;
-  /** The maximum number of completion tokens specified to have been used over the course of the run. */
-  maxCompletionTokens: number | null;
-  /** The strategy to use for dropping messages as the context windows moves forward. */
-  truncationStrategy: TruncationObject | null;
-  /** Controls whether or not and which tool is called by the model. */
-  toolChoice: AgentsApiToolChoiceOption | null;
-  /** The response format of the tool calls used in this run. */
-  responseFormat: AgentsApiResponseFormatOption | null;
-  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata: Record<string, string> | null;
-  /** Override the tools the agent can use for this run. This is useful for modifying the behavior on a per-run basis */
-  toolResources?: UpdateToolResourcesOptions | null;
-  /** Determines if tools can be executed in parallel within the run. */
-  parallelToolCalls: boolean;
-}
-
-export function threadRunDeserializer(item: any): ThreadRun {
-  return {
-    id: item["id"],
-    object: item["object"],
-    threadId: item["thread_id"],
-    assistantId: item["assistant_id"],
-    status: item["status"],
-    requiredAction: !item["required_action"]
-      ? item["required_action"]
-      : requiredActionUnionDeserializer(item["required_action"]),
-    lastError: !item["last_error"] ? item["last_error"] : runErrorDeserializer(item["last_error"]),
-    model: item["model"],
-    instructions: item["instructions"],
-    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
-    createdAt: new Date(item["created_at"] * 1000),
-    expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
-    startedAt: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
-    completedAt: !item["completed_at"]
-      ? item["completed_at"]
-      : new Date(item["completed_at"] * 1000),
-    cancelledAt: !item["cancelled_at"]
-      ? item["cancelled_at"]
-      : new Date(item["cancelled_at"] * 1000),
-    failedAt: !item["failed_at"] ? item["failed_at"] : new Date(item["failed_at"] * 1000),
-    incompleteDetails: !item["incomplete_details"]
-      ? item["incomplete_details"]
-      : incompleteRunDetailsDeserializer(item["incomplete_details"]),
-    usage: !item["usage"] ? item["usage"] : runCompletionUsageDeserializer(item["usage"]),
-    temperature: item["temperature"],
-    topP: item["top_p"],
-    maxPromptTokens: item["max_prompt_tokens"],
-    maxCompletionTokens: item["max_completion_tokens"],
-    truncationStrategy: !item["truncation_strategy"]
-      ? item["truncation_strategy"]
-      : truncationObjectDeserializer(item["truncation_strategy"]),
-    toolChoice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : agentsApiToolChoiceOptionDeserializer(item["tool_choice"]),
-    responseFormat: !item["response_format"]
-      ? item["response_format"]
-      : agentsApiResponseFormatOptionDeserializer(item["response_format"]),
-    metadata: item["metadata"],
-    toolResources: !item["tool_resources"]
-      ? item["tool_resources"]
-      : updateToolResourcesOptionsDeserializer(item["tool_resources"]),
-    parallelToolCalls: item["parallel_tool_calls"],
-  };
-}
-
-/** Possible values for the status of an agent thread run. */
-export type RunStatus =
-  | "queued"
-  | "in_progress"
-  | "requires_action"
-  | "cancelling"
-  | "cancelled"
-  | "failed"
-  | "completed"
-  | "expired";
-
-/** An abstract representation of a required action for an agent thread run to continue. */
-export interface RequiredAction {
-  /** The object type. */
-  /** The discriminator possible values: submit_tool_outputs */
-  type: string;
-}
-
-export function requiredActionDeserializer(item: any): RequiredAction {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for RequiredActionUnion */
-export type RequiredActionUnion = SubmitToolOutputsAction | RequiredAction;
-
-export function requiredActionUnionDeserializer(item: any): RequiredActionUnion {
-  switch (item.type) {
-    case "submit_tool_outputs":
-      return submitToolOutputsActionDeserializer(item as SubmitToolOutputsAction);
-
-    default:
-      return requiredActionDeserializer(item);
-  }
-}
-
-/** The details for required tool calls that must be submitted for an agent thread run to continue. */
-export interface SubmitToolOutputsAction extends RequiredAction {
-  /** The object type, which is always 'submit_tool_outputs'. */
-  type: "submit_tool_outputs";
-  /** The details describing tools that should be called to submit tool outputs. */
-  submitToolOutputs: SubmitToolOutputsDetails;
-}
-
-export function submitToolOutputsActionDeserializer(item: any): SubmitToolOutputsAction {
-  return {
-    type: item["type"],
-    submitToolOutputs: submitToolOutputsDetailsDeserializer(item["submit_tool_outputs"]),
-  };
-}
-
-/** The details describing tools that should be called to submit tool outputs. */
-export interface SubmitToolOutputsDetails {
-  /** The list of tool calls that must be resolved for the agent thread run to continue. */
-  toolCalls: RequiredToolCallUnion[];
-}
-
-export function submitToolOutputsDetailsDeserializer(item: any): SubmitToolOutputsDetails {
-  return {
-    toolCalls: requiredToolCallUnionArrayDeserializer(item["tool_calls"]),
-  };
-}
-
-export function requiredToolCallUnionArrayDeserializer(
-  result: Array<RequiredToolCallUnion>,
-): any[] {
-  return result.map((item) => {
-    return requiredToolCallUnionDeserializer(item);
-  });
-}
-
-/** An abstract representation of a tool invocation needed by the model to continue a run. */
-export interface RequiredToolCall {
-  /** The object type for the required tool call. */
-  /** The discriminator possible values: function */
-  type: string;
-  /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
-  id: string;
-}
-
-export function requiredToolCallDeserializer(item: any): RequiredToolCall {
-  return {
-    type: item["type"],
-    id: item["id"],
-  };
-}
-
-/** Alias for RequiredToolCallUnion */
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredToolCall;
-
-export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
-  switch (item.type) {
-    case "function":
-      return requiredFunctionToolCallDeserializer(item as RequiredFunctionToolCall);
-
-    default:
-      return requiredToolCallDeserializer(item);
-  }
-}
-
-/** A representation of a requested call to a function tool, needed by the model to continue evaluation of a run. */
-export interface RequiredFunctionToolCall extends RequiredToolCall {
-  /** The object type of the required tool call. Always 'function' for function tools. */
-  type: "function";
-  /** Detailed information about the function to be executed by the tool that includes name and arguments. */
-  function: RequiredFunctionToolCallDetails;
-}
-
-export function requiredFunctionToolCallDeserializer(item: any): RequiredFunctionToolCall {
-  return {
-    type: item["type"],
-    id: item["id"],
-    function: requiredFunctionToolCallDetailsDeserializer(item["function"]),
-  };
-}
-
-/** The detailed information for a function invocation, as provided by a required action invoking a function tool, that includes the name of and arguments to the function. */
-export interface RequiredFunctionToolCallDetails {
-  /** The name of the function. */
-  name: string;
-  /** The arguments to use when invoking the named function, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
-  arguments: string;
-}
-
-export function requiredFunctionToolCallDetailsDeserializer(
-  item: any,
-): RequiredFunctionToolCallDetails {
-  return {
-    name: item["name"],
-    arguments: item["arguments"],
-  };
-}
-
-/** The details of an error as encountered by an agent thread run. */
-export interface RunError {
-  /** The status for the error. */
-  code: string;
-  /** The human-readable text associated with the error. */
-  message: string;
-}
-
-export function runErrorDeserializer(item: any): RunError {
-  return {
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
-/** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
-export interface IncompleteRunDetails {
-  /** The reason why the run is incomplete. This indicates which specific token limit was reached during the run. */
-  reason: IncompleteDetailsReason;
-}
-
-export function incompleteRunDetailsDeserializer(item: any): IncompleteRunDetails {
-  return {
-    reason: item["reason"],
-  };
-}
-
-/** The reason why the run is incomplete. This will point to which specific token limit was reached over the course of the run. */
-export type IncompleteDetailsReason = "max_completion_tokens" | "max_prompt_tokens";
-
-/** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
-export interface RunCompletionUsage {
-  /** Number of completion tokens used over the course of the run. */
-  completionTokens: number;
-  /** Number of prompt tokens used over the course of the run. */
-  promptTokens: number;
-  /** Total number of tokens used (prompt + completion). */
-  totalTokens: number;
-}
-
-export function runCompletionUsageDeserializer(item: any): RunCompletionUsage {
-  return {
-    completionTokens: item["completion_tokens"],
-    promptTokens: item["prompt_tokens"],
-    totalTokens: item["total_tokens"],
-  };
-}
-
-/**
- * Request object. A set of resources that are used by the agent's tools. The resources are specific to the type of tool.
- * For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of
- * vector store IDs.
- */
-export interface UpdateToolResourcesOptions {
-  /**
-   * Overrides the list of file IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files
-   * associated with the tool.
-   */
-  codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
-  /** Overrides the vector store attached to this agent. There can be a maximum of 1 vector store attached to the agent. */
-  fileSearch?: UpdateFileSearchToolResourceOptions;
-  /** Overrides the resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
-  azureAISearch?: AzureAISearchResource;
-}
-
-export function updateToolResourcesOptionsSerializer(item: UpdateToolResourcesOptions): any {
-  return {
-    code_interpreter: !item["codeInterpreter"]
-      ? item["codeInterpreter"]
-      : updateCodeInterpreterToolResourceOptionsSerializer(item["codeInterpreter"]),
-    file_search: !item["fileSearch"]
-      ? item["fileSearch"]
-      : updateFileSearchToolResourceOptionsSerializer(item["fileSearch"]),
-    azure_ai_search: !item["azureAISearch"]
-      ? item["azureAISearch"]
-      : azureAISearchResourceSerializer(item["azureAISearch"]),
-  };
-}
-
-export function updateToolResourcesOptionsDeserializer(item: any): UpdateToolResourcesOptions {
-  return {
-    codeInterpreter: !item["code_interpreter"]
-      ? item["code_interpreter"]
-      : updateCodeInterpreterToolResourceOptionsDeserializer(item["code_interpreter"]),
-    fileSearch: !item["file_search"]
-      ? item["file_search"]
-      : updateFileSearchToolResourceOptionsDeserializer(item["file_search"]),
-    azureAISearch: !item["azure_ai_search"]
-      ? item["azure_ai_search"]
-      : azureAISearchResourceDeserializer(item["azure_ai_search"]),
-  };
-}
-
-/** Request object to update `code_interpreted` tool resources. */
-export interface UpdateCodeInterpreterToolResourceOptions {
-  /** A list of file IDs to override the current list of the agent. */
-  fileIds?: string[];
-}
-
-export function updateCodeInterpreterToolResourceOptionsSerializer(
-  item: UpdateCodeInterpreterToolResourceOptions,
-): any {
-  return {
-    file_ids: !item["fileIds"]
-      ? item["fileIds"]
-      : item["fileIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function updateCodeInterpreterToolResourceOptionsDeserializer(
-  item: any,
-): UpdateCodeInterpreterToolResourceOptions {
-  return {
-    fileIds: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Request object to update `file_search` tool resources. */
-export interface UpdateFileSearchToolResourceOptions {
-  /** A list of vector store IDs to override the current list of the agent. */
-  vectorStoreIds?: string[];
-}
-
-export function updateFileSearchToolResourceOptionsSerializer(
-  item: UpdateFileSearchToolResourceOptions,
-): any {
-  return {
-    vector_store_ids: !item["vectorStoreIds"]
-      ? item["vectorStoreIds"]
-      : item["vectorStoreIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function updateFileSearchToolResourceOptionsDeserializer(
-  item: any,
-): UpdateFileSearchToolResourceOptions {
-  return {
-    vectorStoreIds: !item["vector_store_ids"]
-      ? item["vector_store_ids"]
-      : item["vector_store_ids"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfThreadRun {
-  /** The object type, which is always list. */
-  object: "list";
+export interface _AgentsPagedResultThreadRun {
   /** The requested list of items. */
   data: ThreadRun[];
-  /** The first ID represented in this list. */
-  firstId: string;
   /** The last ID represented in this list. */
-  lastId: string;
+  lastId?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }
 
-export function openAIPageableListOfThreadRunDeserializer(
-  item: any,
-): OpenAIPageableListOfThreadRun {
+export function _agentsPagedResultThreadRunDeserializer(item: any): _AgentsPagedResultThreadRun {
   return {
-    object: item["object"],
     data: threadRunArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
     lastId: item["last_id"],
     hasMore: item["has_more"],
   };
@@ -2610,32 +2720,6 @@ export function toolOutputArraySerializer(result: Array<ToolOutput>): any[] {
   return result.map((item) => {
     return toolOutputSerializer(item);
   });
-}
-
-/** The details used to create a new agent thread. */
-export interface AgentThreadCreationOptions {
-  /** The initial messages to associate with the new thread. */
-  messages?: ThreadMessageOptions[];
-  /**
-   * A set of resources that are made available to the agent's tools in this thread. The resources are specific to the
-   * type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires
-   * a list of vector store IDs.
-   */
-  toolResources?: ToolResources | null;
-  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
-  metadata?: Record<string, string> | null;
-}
-
-export function agentThreadCreationOptionsSerializer(item: AgentThreadCreationOptions): any {
-  return {
-    messages: !item["messages"]
-      ? item["messages"]
-      : threadMessageOptionsArraySerializer(item["messages"]),
-    tool_resources: !item["toolResources"]
-      ? item["toolResources"]
-      : toolResourcesSerializer(item["toolResources"]),
-    metadata: item["metadata"],
-  };
 }
 
 /** Detailed information about a single step of an agent thread run. */
@@ -2814,7 +2898,7 @@ export type RunStepToolCallUnion =
   | RunStepAzureAISearchToolCall
   | RunStepSharepointToolCall
   | RunStepMicrosoftFabricToolCall
-  | RunStepCustomSearchToolCall
+  | RunStepBingCustomSearchToolCall
   | RunStepFunctionToolCall
   | RunStepOpenAPIToolCall
   | RunStepToolCall;
@@ -2840,7 +2924,7 @@ export function runStepToolCallUnionDeserializer(item: any): RunStepToolCallUnio
       return runStepMicrosoftFabricToolCallDeserializer(item as RunStepMicrosoftFabricToolCall);
 
     case "bing_custom_search":
-      return runStepCustomSearchToolCallDeserializer(item as RunStepCustomSearchToolCall);
+      return runStepBingCustomSearchToolCallDeserializer(item as RunStepBingCustomSearchToolCall);
 
     case "function":
       return runStepFunctionToolCallDeserializer(item as RunStepFunctionToolCall);
@@ -3163,14 +3247,16 @@ export function runStepMicrosoftFabricToolCallDeserializer(
  * A record of a call to a bing custom search tool, issued by the model in evaluation of a defined tool, that represents
  * executed search with bing custom search.
  */
-export interface RunStepCustomSearchToolCall extends RunStepToolCall {
+export interface RunStepBingCustomSearchToolCall extends RunStepToolCall {
   /** The object type, which is always 'bing_custom_search'. */
   type: "bing_custom_search";
   /** Reserved for future use. */
   bingCustomSearch: Record<string, string>;
 }
 
-export function runStepCustomSearchToolCallDeserializer(item: any): RunStepCustomSearchToolCall {
+export function runStepBingCustomSearchToolCallDeserializer(
+  item: any,
+): RunStepBingCustomSearchToolCall {
   return {
     type: item["type"],
     id: item["id"],
@@ -3203,8 +3289,6 @@ export interface RunStepFunctionToolCallDetails {
   name: string;
   /** The arguments that the model requires are provided to the named function. */
   arguments: string;
-  /** The output of the function, only populated for function calls that have already have had their outputs submitted. */
-  output: string | null;
 }
 
 export function runStepFunctionToolCallDetailsDeserializer(
@@ -3213,7 +3297,6 @@ export function runStepFunctionToolCallDetailsDeserializer(
   return {
     name: item["name"],
     arguments: item["arguments"],
-    output: item["output"],
   };
 }
 
@@ -3273,24 +3356,18 @@ export function runStepCompletionUsageDeserializer(item: any): RunStepCompletion
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfRunStep {
-  /** The object type, which is always list. */
-  object: "list";
+export interface _AgentsPagedResultRunStep {
   /** The requested list of items. */
   data: RunStep[];
-  /** The first ID represented in this list. */
-  firstId: string;
   /** The last ID represented in this list. */
-  lastId: string;
+  lastId?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }
 
-export function openAIPageableListOfRunStepDeserializer(item: any): OpenAIPageableListOfRunStep {
+export function _agentsPagedResultRunStepDeserializer(item: any): _AgentsPagedResultRunStep {
   return {
-    object: item["object"],
     data: runStepArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
     lastId: item["last_id"],
     hasMore: item["has_more"],
   };
@@ -3307,24 +3384,24 @@ export interface FileListResponse {
   /** The object type, which is always 'list'. */
   object: "list";
   /** The files returned for the request. */
-  data: OpenAIFile[];
+  data: FileInfo[];
 }
 
 export function fileListResponseDeserializer(item: any): FileListResponse {
   return {
     object: item["object"],
-    data: openAIFileArrayDeserializer(item["data"]),
+    data: fileInfoArrayDeserializer(item["data"]),
   };
 }
 
-export function openAIFileArrayDeserializer(result: Array<OpenAIFile>): any[] {
+export function fileInfoArrayDeserializer(result: Array<FileInfo>): any[] {
   return result.map((item) => {
-    return openAIFileDeserializer(item);
+    return fileInfoDeserializer(item);
   });
 }
 
 /** Represents an agent that can call the model and use tools. */
-export interface OpenAIFile {
+export interface FileInfo {
   /** The object type, which is always 'file'. */
   object: "file";
   /** The identifier, which can be referenced in API endpoints. */
@@ -3343,7 +3420,7 @@ export interface OpenAIFile {
   statusDetails?: string;
 }
 
-export function openAIFileDeserializer(item: any): OpenAIFile {
+export function fileInfoDeserializer(item: any): FileInfo {
   return {
     object: item["object"],
     id: item["id"],
@@ -3376,7 +3453,6 @@ export type FileState =
   | "deleted";
 
 /** model interface _UploadFileRequest */
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export interface _UploadFileRequest {
   /** The file data, in bytes. */
   file: FileContents | { contents: FileContents; contentType?: string; filename?: string };
@@ -3387,11 +3463,6 @@ export interface _UploadFileRequest {
 }
 
 export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
-  // return [
-  //   createFilePartDescriptor("file", item["file"],"multipart/form-data"),
-  //   { name: "purpose", body: item["purpose"] },
-  //   ...(item["filename"] === undefined ? [] : [{ name: "filename", body: item["filename"] }]),
-  // ];
   return [
     { name: "file" as const, body: item["file"], filename: item["filename"] ?? randomUUID() },
     { name: "purpose" as const, body: item["purpose"] },
@@ -3417,26 +3488,20 @@ export function fileDeletionStatusDeserializer(item: any): FileDeletionStatus {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfVectorStore {
-  /** The object type, which is always list. */
-  object: "list";
+export interface _AgentsPagedResultVectorStore {
   /** The requested list of items. */
   data: VectorStore[];
-  /** The first ID represented in this list. */
-  firstId: string;
   /** The last ID represented in this list. */
-  lastId: string;
+  lastId?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }
 
-export function openAIPageableListOfVectorStoreDeserializer(
+export function _agentsPagedResultVectorStoreDeserializer(
   item: any,
-): OpenAIPageableListOfVectorStore {
+): _AgentsPagedResultVectorStore {
   return {
-    object: item["object"],
     data: vectorStoreArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
     lastId: item["last_id"],
     hasMore: item["has_more"],
   };
@@ -3519,7 +3584,7 @@ export function vectorStoreFileCountDeserializer(item: any): VectorStoreFileCoun
 }
 
 /** Vector store possible status */
-export type VectorStoreStatus = string;
+export type VectorStoreStatus = "expired" | "in_progress" | "completed";
 
 /** The expiration policy for a vector store. */
 export interface VectorStoreExpirationPolicy {
@@ -3662,26 +3727,20 @@ export function vectorStoreDeletionStatusDeserializer(item: any): VectorStoreDel
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfVectorStoreFile {
-  /** The object type, which is always list. */
-  object: "list";
+export interface _AgentsPagedResultVectorStoreFile {
   /** The requested list of items. */
   data: VectorStoreFile[];
-  /** The first ID represented in this list. */
-  firstId: string;
   /** The last ID represented in this list. */
-  lastId: string;
+  lastId?: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
 }
 
-export function openAIPageableListOfVectorStoreFileDeserializer(
+export function _agentsPagedResultVectorStoreFileDeserializer(
   item: any,
-): OpenAIPageableListOfVectorStoreFile {
+): _AgentsPagedResultVectorStoreFile {
   return {
-    object: item["object"],
     data: vectorStoreFileArrayDeserializer(item["data"]),
-    firstId: item["first_id"],
     lastId: item["last_id"],
     hasMore: item["has_more"],
   };
@@ -4602,41 +4661,77 @@ export type _ =
   | ErrorEvent
   | DoneEvent;
 /** Thread operation related streaming events */
-export type ThreadStreamEvent = "thread.created";
+export enum ThreadStreamEvent {
+  /** Event emitted when a thread is created */
+  Created = "thread.created",
+}
+
 /** Run operation related streaming events */
-export type RunStreamEvent =
-  | "thread.run.created"
-  | "thread.run.queued"
-  | "thread.run.in_progress"
-  | "thread.run.requires_action"
-  | "thread.run.completed"
-  | "thread.run.incomplete"
-  | "thread.run.failed"
-  | "thread.run.cancelling"
-  | "thread.run.cancelled"
-  | "thread.run.expired";
+export enum RunStreamEvent {
+  /** Event emitted when a run is created */
+  ThreadRunCreated = "thread.run.created",
+  /** Event emitted when a run is queued */
+  ThreadRunQueued = "thread.run.queued",
+  /** Event emitted when a run is in progress */
+  ThreadRunInProgress = "thread.run.in_progress",
+  /** Event emitted when a run requires action */
+  ThreadRunRequiresAction = "thread.run.requires_action",
+  /** Event emitted when a run is completed */
+  ThreadRunCompleted = "thread.run.completed",
+  /** Event emitted when a run is incomplete */
+  ThreadRunIncomplete = "thread.run.incomplete",
+  /** Event emitted when a run has failed */
+  ThreadRunFailed = "thread.run.failed",
+  /** Event emitted when a run is being cancelled */
+  ThreadRunCancelling = "thread.run.cancelling",
+  /** Event emitted when a run has been cancelled */
+  ThreadRunCancelled = "thread.run.cancelled",
+  /** Event emitted when a run has expired */
+  ThreadRunExpired = "thread.run.expired",
+}
+
 /** Run step operation related streaming events */
 export enum RunStepStreamEvent {
+  /** Event emitted when a run step is created */
   ThreadRunStepCreated = "thread.run.step.created",
+  /** Event emitted when a run step is in progress */
   ThreadRunStepInProgress = "thread.run.step.in_progress",
+  /** Event emitted when a run step delta is received */
   ThreadRunStepDelta = "thread.run.step.delta",
+  /** Event emitted when a run step is completed */
   ThreadRunStepCompleted = "thread.run.step.completed",
+  /** Event emitted when a run step has failed */
   ThreadRunStepFailed = "thread.run.step.failed",
+  /** Event emitted when a run step has been cancelled */
   ThreadRunStepCancelled = "thread.run.step.cancelled",
-  ThreadRunStepExpired = "thread.run.step.expired"
+  /** Event emitted when a run step has expired */
+  ThreadRunStepExpired = "thread.run.step.expired",
 }
+
 /** Message operation related streaming events */
 export enum MessageStreamEvent {
+  /** Event emitted when a message is created */
   ThreadMessageCreated = "thread.message.created",
+  /** Event emitted when a message is in progress */
   ThreadMessageInProgress = "thread.message.in_progress",
+  /** Event emitted when a message delta is received */
   ThreadMessageDelta = "thread.message.delta",
+  /** Event emitted when a message is completed */
   ThreadMessageCompleted = "thread.message.completed",
-  ThreadMessageIncomplete = "thread.message.incomplete"
+  /** Event emitted when a message is incomplete */
+  ThreadMessageIncomplete = "thread.message.incomplete",
 }
 /** Terminal event indicating a server side error while streaming. */
-export enum ErrorEvent{ Error= "error"};
+export enum ErrorEvent {
+  /** Server error while streaming */
+  Error = "error",
+}
 /** Terminal event indicating the successful end of a stream. */
-export enum DoneEvent { Done= "done"};
+
+export enum DoneEvent {
+  /** Event emitted when a stream has completed successfully */
+  Done = "done",
+}
 /** The available sorting options when requesting a list of response objects. */
 export type ListSortOrder = "asc" | "desc";
 /** A list of additional fields to include in the response. */
@@ -4646,6 +4741,10 @@ export type VectorStoreFileStatusFilter = "in_progress" | "completed" | "failed"
 
 /** Azure AI Agents API versions */
 export enum KnownVersions {
-  /** Azure AI API version 2025-05-15-preview. */
+  /** Azure AI API version 2025-05-15. */
   _20250515Preview = "2025-05-15-preview",
+  /** Azure AI API version 2025-05-01. */
+  V20250501 = "2025-05-01",
+  /** Azure AI API version v1. */
+  V1 = "v1",
 }

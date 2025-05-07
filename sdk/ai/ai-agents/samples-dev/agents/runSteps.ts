@@ -27,35 +27,37 @@ async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message
-  const message = await client.createMessage(thread.id, "user", "hello, world!");
+  const message = await client.messages.create(thread.id, "user", "hello, world!");
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create run
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   console.log(`Created run, run ID: ${run.id}`);
 
   // Wait for run to complete
   while (["queued", "in_progress", "requires_action"].includes(run.status)) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
     console.log(`Run status: ${run.status}`);
   }
 
   // List run steps
-  const runSteps = await client.listRunSteps(thread.id, run.id);
+  const runSteps = await client.runSteps.list(thread.id, run.id);
   console.log(`Listed run steps, run ID: ${run.id}`);
 
-  // Get specific run step
-  const stepId = runSteps.data[0].id;
-  const step = await client.getRunStep(thread.id, run.id, stepId);
+  // Get the first run step
+  const firstStep = await runSteps.next();
+
+  const stepId = firstStep.value.id;
+  const step = await client.runSteps.get(thread.id, run.id, stepId);
   console.log(`Retrieved run step, step ID: ${step.id}`);
 
   // Clean up
-  await client.deleteThread(thread.id);
+  await client.threads.delete(thread.id);
   console.log(`Deleted thread, thread ID: ${thread.id}`);
   await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);

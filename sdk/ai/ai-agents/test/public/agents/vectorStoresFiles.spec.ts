@@ -26,18 +26,18 @@ describe("projectsClient - vector stores files", () => {
 
   it("should create a vector store file", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
     const fileContent = await generateFileStream();
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await projectsClient.createVectorStoreFile(vectorStore.id, {
+    const vectorStoreFile = await projectsClient.vectorStoreFiles.create(vectorStore.id, {
       fileId: file.id,
     });
     assert.isNotNull(vectorStoreFile);
@@ -45,34 +45,34 @@ describe("projectsClient - vector stores files", () => {
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Clean up
-    await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    await projectsClient.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);
     console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
     console.log(`Deleted file, file ID: ${file.id}`);
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should retrieve a vector store file", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
     const fileContent = await generateFileStream();
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await projectsClient.createVectorStoreFile(vectorStore.id, {
+    const vectorStoreFile = await projectsClient.vectorStoreFiles.create(vectorStore.id, {
       fileId: file.id,
     });
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Retrieve vector store file
-    const _vectorStoreFile = await projectsClient.getVectorStoreFile(
+    const _vectorStoreFile = await projectsClient.vectorStoreFiles.get(
       vectorStore.id,
       vectorStoreFile.id,
     );
@@ -81,86 +81,86 @@ describe("projectsClient - vector stores files", () => {
     console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
 
     // Clean up
-    await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    await projectsClient.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);
     console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
     console.log(`Deleted file, file ID: ${file.id}`);
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should list vector store files", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
     const fileContent = await generateFileStream();
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await projectsClient.createVectorStoreFile(vectorStore.id, {
+    const vectorStoreFile = await projectsClient.vectorStoreFiles.create(vectorStore.id, {
       fileId: file.id,
     });
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Clean up
-    await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    await projectsClient.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);
     console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
     console.log(`Deleted file, file ID: ${file.id}`);
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should delete a vector store file", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
     const fileContent = await generateFileStream();
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file
-    const vectorStoreFile = await projectsClient.createVectorStoreFile(vectorStore.id, {
+    const vectorStoreFile = await projectsClient.vectorStoreFiles.create(vectorStore.id, {
       fileId: file.id,
     });
     console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
     // Clean up
-    const deletionStatus = await projectsClient.deleteVectorStoreFile(
+    const deletionStatus = await projectsClient.vectorStoreFiles.delete(
       vectorStore.id,
       vectorStoreFile.id,
     );
     assert(deletionStatus.deleted);
     console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
     console.log(`Deleted file, file ID: ${file.id}`);
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should create a vector store file and poll (through original method)", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
     const fileContent = await generateFileStream();
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
-    const vectorStoreFilePoller = projectsClient.createVectorStoreFileAndPoll(vectorStore.id, {
+    const vectorStoreFilePoller = projectsClient.vectorStoreFiles.createAndPoll(vectorStore.id, {
       fileId: file.id,
     });
     assert.isNotNull(vectorStoreFilePoller);
@@ -175,28 +175,28 @@ describe("projectsClient - vector stores files", () => {
     );
 
     // Clean up
-    await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    await projectsClient.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);
     console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
     console.log(`Deleted file, file ID: ${file.id}`);
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
   it("should create a vector store file and poll (through creation method)", async function () {
     // Create vector store
-    const vectorStore = await projectsClient.createVectorStore();
+    const vectorStore = await projectsClient.vectorStores.create();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
     const fileContent = await generateFileStream();
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
     // Create vector store file and poll
-    const vectorStoreFilePoller = projectsClient.createVectorStoreFileAndPoll(vectorStore.id, {
+    const vectorStoreFilePoller = projectsClient.vectorStoreFiles.createAndPoll(vectorStore.id, {
       fileId: file.id,
     });
     assert.isNotNull(vectorStoreFilePoller);
@@ -211,11 +211,11 @@ describe("projectsClient - vector stores files", () => {
     );
 
     // Clean up
-    await projectsClient.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    await projectsClient.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);
     console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
     console.log(`Deleted file, file ID: ${file.id}`);
-    await projectsClient.deleteVectorStore(vectorStore.id);
+    await projectsClient.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 });

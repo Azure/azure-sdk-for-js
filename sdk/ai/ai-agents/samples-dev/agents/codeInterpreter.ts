@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
   // Upload file and wait for it to be processed
   const filePath = "./data/nifty500QuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.uploadFile(localFileStream, "assistants", {
+  const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "localFile",
   });
 
@@ -44,23 +44,23 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create a thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create a message
-  const message = await client.createMessage(thread.id, {
-    role: "user",
-    content:
-      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
-  });
+  const message = await client.messages.create(
+    thread.id,
+    "user",
+    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+  );
 
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and execute a run
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   while (run.status === "queued" || run.status === "in_progress") {
     await delay(1000);
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
   }
   if (run.status === "failed") {
     // Check if you got "Rate limit is exceeded.", then you want to get more quota
@@ -69,15 +69,19 @@ export async function main(): Promise<void> {
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)
-  await client.deleteFile(localFile.id);
+  await client.files.delete(localFile.id);
   console.log(`Deleted file, file ID: ${localFile.id}`);
 
   // Print the messages from the agent
-  const messages = await client.listMessages(thread.id);
-  console.log("Messages:", messages);
+  const messagesIterator = client.messages.list(thread.id);
+  const allMessages = [];
+  for await (const m of messagesIterator) {
+    allMessages.push(m);
+  }
+  console.log("Messages:", allMessages);
 
   // Get most recent message from the assistant
-  const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
+  const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
   if (assistantMessage) {
     const textContent = assistantMessage.content.find((content) =>
       isOutputOfType<MessageTextContent>(content, "text"),
@@ -89,13 +93,13 @@ export async function main(): Promise<void> {
 
   // Save the newly created file
   console.log(`Saving new files...`);
-  const imageFile = (messages.data[0].content[0] as MessageImageFileContent).imageFile;
+  const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
   console.log(`Image file ID : ${imageFile.fileId}`);
   const imageFileName = path.resolve(
-    "./data/" + (await client.getFile(imageFile.fileId)).filename + "ImageFile.png",
+    "./data/" + (await client.files.get(imageFile.fileId)).filename + "ImageFile.png",
   );
 
-  const fileContent = await (await client.getFileContent(imageFile.fileId).asNodeStream()).body;
+  const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
   if (fileContent) {
     const chunks: Buffer[] = [];
     for await (const chunk of fileContent) {
@@ -110,7 +114,7 @@ export async function main(): Promise<void> {
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
-  await messages.data.forEach((m) => {
+  allMessages.forEach((m) => {
     console.log(`File Paths:`);
     console.log(`Type: ${m.content[0].type}`);
     if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
@@ -118,8 +122,6 @@ export async function main(): Promise<void> {
       console.log(`Text: ${textContent.text.value}`);
     }
     console.log(`File ID: ${m.id}`);
-    console.log(`Start Index: ${messages.firstId}`);
-    console.log(`End Index: ${messages.lastId}`);
   });
 
   // Delete the agent once done

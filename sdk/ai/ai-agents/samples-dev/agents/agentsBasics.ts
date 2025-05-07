@@ -28,13 +28,13 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create a thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID : ${thread.id}`);
 
   // List all threads for the agent
-  const threads = await client.listThreads();
+  const threads = client.threads.list();
   console.log(`Threads for agent ${agent.id}:`);
-  for await (const t of (await threads).data) {
+  for await (const t of threads) {
     console.log(`Thread ID: ${t.id}`);
     console.log(`Created at: ${t.createdAt}`);
     console.log(`Metadata: ${t.metadata}`);
@@ -42,12 +42,12 @@ export async function main(): Promise<void> {
   }
 
   // Create a message
-  const message = await client.createMessage(thread.id, "user", "Hello, tell me a joke");
+  const message = await client.messages.create(thread.id, "user", "Hello, tell me a joke");
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and poll a run
   console.log("Creating run...");
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
 
   // Poll the run as long as run status is queued or in progress
   while (
@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
     // Wait for a second
     console.log(`Run status: ${run.status}, waiting...`);
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
   }
   console.log(`Run status: ${run.status}`);
 

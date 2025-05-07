@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
   }
 
   // Upload file, which will automatically poll until the operation is complete
-  const file1 = await client.uploadFile(readable1, "assistants", {
+  const file1 = await client.files.upload(readable1, "assistants", {
     fileName: "myPollingFile.txt",
     onResponse: onResponse,
   });
@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const filePoller = client.uploadFileAndPoll(readable2, "assistants", {
+  const filePoller = client.files.uploadAndPoll(readable2, "assistants", {
     fileName: "myPollingFile.txt",
     onResponse: onResponse,
   });
@@ -54,8 +54,8 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file with status ${file2.status}, file ID: ${file2.id}`);
 
   // Delete file
-  await client.deleteFile(file1.id);
-  await client.deleteFile(file2.id);
+  await client.files.delete(file1.id);
+  await client.files.delete(file2.id);
   console.log(`Deleted files, file IDs: ${file1.id} & ${file2.id}`);
 }
 

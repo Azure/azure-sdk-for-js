@@ -131,11 +131,11 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID: ${agent.id}`);
 
   // Create thread
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created Thread, thread ID:  ${thread.id}`);
 
   // Create message
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "What's the weather like in my favorite city?",
@@ -143,12 +143,12 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID ${message.id}`);
 
   // Create run
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   console.log(`Created Run, Run ID:  ${run.id}`);
 
   while (["queued", "in_progress", "requires_action"].includes(run.status)) {
     await delay(1000);
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
     if (run.status === "requires_action" && run.requiredAction) {
       console.log(`Run requires action - ${run.requiredAction}`);
@@ -165,7 +165,7 @@ export async function main(): Promise<void> {
           }
         }
         if (toolResponses.length > 0) {
-          run = await client.submitToolOutputsToRun(thread.id, run.id, toolResponses);
+          run = await client.runs.submitToolOutputs(thread.id, run.id, toolResponses);
           console.log(`Submitted tool response - ${run.status}`);
         }
       }
@@ -173,8 +173,8 @@ export async function main(): Promise<void> {
   }
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
-  const messages = await client.listMessages(thread.id);
-  await messages.data.forEach((threadMessage) => {
+  const messages = client.messages.list(thread.id);
+  for await (const threadMessage of messages) {
     console.log(
       `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
     );
@@ -187,7 +187,7 @@ export async function main(): Promise<void> {
         console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
       }
     });
-  });
+  }
   // Delete agent
   await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);

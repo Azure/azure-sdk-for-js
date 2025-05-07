@@ -31,13 +31,13 @@ describe("Agents - Run", () => {
     console.log(`Created agent, agent ID:  ${agent.id}`);
 
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create run
-    const run = await projectsClient.createRun(thread.id, agent.id);
+    const run = await projectsClient.runs.create(thread.id, agent.id);
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
@@ -45,7 +45,7 @@ describe("Agents - Run", () => {
     // Delete agent and thread
     await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
@@ -60,19 +60,19 @@ describe("Agents - Run", () => {
     console.log(`Created agent, agent ID:  ${agent.id}`);
 
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create run
-    const run = await projectsClient.createRun(thread.id, agent.id);
+    const run = await projectsClient.runs.create(thread.id, agent.id);
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
 
     // Get run
-    const runDetails = await projectsClient.getRun(thread.id, run.id);
+    const runDetails = await projectsClient.runs.get(thread.id, run.id);
     assert.isNotNull(runDetails);
     assert.isNotNull(runDetails.id);
     assert.equal(run.id, runDetails.id);
@@ -81,7 +81,7 @@ describe("Agents - Run", () => {
     // Delete agent and thread
     await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
@@ -96,24 +96,28 @@ describe("Agents - Run", () => {
     console.log(`Created agent, agent ID:  ${agent.id}`);
 
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user", "Hello, tell me a joke");
+    const message = await projectsClient.messages.create(
+      thread.id,
+      "user",
+      "Hello, tell me a joke",
+    );
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
     // Create run
-    const run = await projectsClient.createRun(thread.id, agent.id);
+    const run = await projectsClient.runs.create(thread.id, agent.id);
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
 
     // Get run status
-    let runDetails = await projectsClient.getRun(thread.id, run.id);
+    let runDetails = await projectsClient.runs.get(thread.id, run.id);
     assert.isNotNull(runDetails);
     assert.isNotNull(runDetails.id);
     assert.equal(run.id, runDetails.id);
@@ -132,7 +136,7 @@ describe("Agents - Run", () => {
     ]);
     while (["queued", "in_progress", "requires_action"].includes(runDetails.status)) {
       await delay(1000);
-      runDetails = await projectsClient.getRun(thread.id, run.id);
+      runDetails = await projectsClient.runs.get(thread.id, run.id);
       if (runDetails.lastError) {
         console.log(
           `Run status ${runDetails.status} - ${runDetails.lastError.code} - ${runDetails.lastError.message}`,
@@ -151,7 +155,7 @@ describe("Agents - Run", () => {
     // Delete agent and thread
     await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
@@ -166,28 +170,39 @@ describe("Agents - Run", () => {
     console.log(`Created agent, agent ID:  ${agent.id}`);
 
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
     // Create message
-    const message = await projectsClient.createMessage(thread.id, "user", "Hello, tell me a joke");
+    const message = await projectsClient.messages.create(
+      thread.id,
+      "user",
+      "Hello, tell me a joke",
+    );
     assert.isNotNull(message.id);
     console.log(`Created message, message ID ${message.id}`);
 
     // Create run
-    const run = await projectsClient.createRun(thread.id, agent.id);
+    const run = await projectsClient.runs.create(thread.id, agent.id);
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
 
     // Get run status
-    const runs = await projectsClient.listRuns(thread.id);
-    assert.isNotNull(runs);
-    assert.isArray(runs.data);
-    console.log(`List  - found no of runs: ${runs.data.length}, first run ID: ${runs.firstId}`);
-    const runDetails = runs.data.find((threadRun) => threadRun.id === run.id);
+    const runsIterator = projectsClient.runs.list(thread.id);
+    assert.isNotNull(runsIterator);
+
+    // Collect all runs into an array
+    const runsArray: Array<any> = [];
+    for await (const r of runsIterator) {
+      runsArray.push(r);
+    }
+
+    assert.isArray(runsArray);
+    console.log(`List  - found no of runs: ${runsArray.length}, first run ID: ${runsArray[0]?.id}`);
+    const runDetails = runsArray.find((threadRun) => threadRun.id === run.id);
     assert.isNotNull(runDetails);
     if (runDetails) {
       console.log(`Run status - ${runDetails.status}, run ID: ${runDetails.id}`);
@@ -198,7 +213,7 @@ describe("Agents - Run", () => {
     // Delete agent and thread
     await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
@@ -213,7 +228,7 @@ describe("Agents - Run", () => {
     console.log(`Created agent, agent ID:  ${agent.id}`);
 
     // Create run
-    const run = await projectsClient.createThreadAndRun(agent.id, {
+    const run = await projectsClient.runs.createThreadAndRun(agent.id, {
       thread: {
         messages: [
           {
@@ -230,7 +245,7 @@ describe("Agents - Run", () => {
     console.log(`Started : ${run.createdAt}`);
 
     // Get run
-    const runDetails = await projectsClient.getRun(run.threadId, run.id);
+    const runDetails = await projectsClient.runs.get(run.threadId, run.id);
     assert.isNotNull(runDetails);
     assert.isNotNull(runDetails.id);
     assert.equal(run.id, runDetails.id);
@@ -239,7 +254,7 @@ describe("Agents - Run", () => {
     // Delete agent and thread
     await projectsClient.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    await projectsClient.deleteThread(run.threadId);
+    await projectsClient.threads.delete(run.threadId);
     console.log(`Deleted Thread, thread ID:  ${run.threadId}`);
   });
 });

@@ -20,7 +20,7 @@ export async function main(): Promise<void> {
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create vector store
-  const vectorStore = await client.createVectorStore();
+  const vectorStore = await client.vectorStores.create();
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create and upload file
@@ -28,7 +28,7 @@ export async function main(): Promise<void> {
   const readable = new Readable();
   await readable.push(fileContent);
   await readable.push(null); // end the stream
-  const file = await client.uploadFile(readable, "assistants", {
+  const file = await client.files.upload(readable, "assistants", {
     fileName: "vectorFile.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   }
 
   // Create vector store file, which will automatically poll until the operation is complete
-  const vectorStoreFile1 = await client.createVectorStoreFile(vectorStore.id, {
+  const vectorStoreFile1 = await client.vectorStoreFiles.create(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       intervalInMs: 2000,
@@ -54,7 +54,7 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFilePoller = client.createVectorStoreFileAndPoll(vectorStore.id, {
+  const vectorStoreFilePoller = client.vectorStoreFiles.createAndPoll(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       intervalInMs: 2000,
@@ -69,11 +69,11 @@ export async function main(): Promise<void> {
   );
 
   // Delete file
-  await client.deleteFile(file.id);
+  await client.files.delete(file.id);
   console.log(`Deleted file, file ID: ${file.id}`);
 
   // Delete vector store
-  await client.deleteVectorStore(vectorStore.id);
+  await client.vectorStores.delete(vectorStore.id);
   console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 

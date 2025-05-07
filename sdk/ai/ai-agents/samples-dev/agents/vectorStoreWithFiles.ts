@@ -20,7 +20,7 @@ export async function main(): Promise<void> {
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Create vector store
-  const vectorStore = await client.createVectorStore();
+  const vectorStore = await client.vectorStores.create();
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
   // Create and upload file
@@ -28,35 +28,39 @@ export async function main(): Promise<void> {
   const readable = new Readable();
   await readable.push(fileContent);
   await readable.push(null); // end the stream
-  const file = await client.uploadFile(readable, "assistants", {
+  const file = await client.files.upload(readable, "assistants", {
     fileName: "vectorFile.txt",
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
   // Create vector store file
-  const vectorStoreFile = await client.createVectorStoreFile(vectorStore.id, {
+  const vectorStoreFile = await client.vectorStoreFiles.create(vectorStore.id, {
     fileId: file.id,
   });
   console.log(`Created vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
   // Retrieve vector store file
-  const _vectorStoreFile = await client.getVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+  const _vectorStoreFile = await client.vectorStoreFiles.get(vectorStore.id, vectorStoreFile.id);
   console.log(`Retrieved vector store file, vector store file ID: ${_vectorStoreFile.id}`);
 
   // List vector store files
-  const vectorStoreFiles = await client.listVectorStoreFiles(vectorStore.id);
-  console.log(`List of vector store files: ${vectorStoreFiles.data.map((f) => f.id).join(", ")}`);
+  const vectorStoreFiles = client.vectorStoreFiles.list(vectorStore.id);
+  const vectorStoreFileIds = [];
+  for await (const f of vectorStoreFiles) {
+    vectorStoreFileIds.push(f.id);
+  }
+  console.log(`List of vector store files: ${vectorStoreFileIds.join(", ")}`);
 
   // Delete vector store file
-  await client.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+  await client.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);
   console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
 
   // Delete file
-  await client.deleteFile(file.id);
+  await client.files.delete(file.id);
   console.log(`Deleted file, file ID: ${file.id}`);
 
   // Delete vector store
-  await client.deleteVectorStore(vectorStore.id);
+  await client.vectorStores.delete(vectorStore.id);
   console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 }
 

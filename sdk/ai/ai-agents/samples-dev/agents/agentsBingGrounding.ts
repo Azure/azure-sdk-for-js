@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
   const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize agent bing tool with the connection id
-  const bingTool = ToolUtility.createBingGroundingTool(connectionId);
+  const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
 
   // Create agent with the bing tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {
@@ -37,11 +37,11 @@ export async function main(): Promise<void> {
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "How does wikipedia explain Euler's Identity?",
@@ -49,10 +49,10 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID : ${message.id}`);
 
   // Create and process agent run in thread with tools
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   while (run.status === "queued" || run.status === "in_progress") {
     await delay(1000);
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
   }
   if (run.status === "failed") {
     console.log(`Run failed: ${run.lastError?.message}`);
@@ -64,12 +64,17 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.listMessages(thread.id);
+  const messagesIterator = client.messages.list(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContent = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContent;
-    console.log(`Text Message Content - ${textContent.text.value}`);
+
+  // Get the first message
+  const firstMessage = await messagesIterator.next();
+  if (!firstMessage.done && firstMessage.value) {
+    const agentMessage: MessageContent = firstMessage.value.content[0];
+    if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+      const textContent = agentMessage as MessageTextContent;
+      console.log(`Text Message Content - ${textContent.text.value}`);
+    }
   }
 }
 

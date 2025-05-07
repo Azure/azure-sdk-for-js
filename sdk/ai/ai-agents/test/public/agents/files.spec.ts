@@ -24,7 +24,7 @@ describe("Agents - files", () => {
   });
 
   it("should list files", async function () {
-    const files = await projectsClient.listFiles();
+    const files = await projectsClient.files.list();
     assert.isNotEmpty(files);
   });
 
@@ -35,7 +35,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     assert.isNotEmpty(file);
@@ -48,7 +48,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const filePoller = projectsClient.uploadFileAndPoll(fileContent, "assistants", {
+    const filePoller = projectsClient.files.uploadAndPoll(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     const initialState = filePoller.poll();
@@ -65,7 +65,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const filePoller = projectsClient.uploadFileAndPoll(fileContent, "assistants", {
+    const filePoller = projectsClient.files.uploadAndPoll(fileContent, "assistants", {
       fileName: "filename.txt",
     });
     const initialState = filePoller.poll();
@@ -82,10 +82,10 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
-    const deleted = await projectsClient.deleteFile(file.id);
+    const deleted = await projectsClient.files.delete(file.id);
     assert.isNotNull(deleted);
   });
 
@@ -96,12 +96,12 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await projectsClient.uploadFile(fileContent, "assistants", {
+    const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
-    const _file = await projectsClient.getFile(file.id);
+    const _file = await projectsClient.files.get(file.id);
     assert.isNotEmpty(_file);
     assert.equal(_file.id, file.id);
-    await projectsClient.deleteFile(file.id);
+    await projectsClient.files.delete(file.id);
   });
 });

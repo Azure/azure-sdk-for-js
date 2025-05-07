@@ -25,40 +25,40 @@ describe("projectsClient - threads", () => {
 
   it("should create thread", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
 
     // Delete thread
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should retrieve thread", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Retrieve thread
-    const _thread = await projectsClient.getThread(thread.id);
+    const _thread = await projectsClient.threads.get(thread.id);
     assert.isNotEmpty(_thread);
     assert.equal(_thread.id, thread.id);
     console.log(`Retrieved thread, thread ID: ${_thread.id}`);
 
     // Delete thread
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should update thread", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Update thread
-    await projectsClient.updateThread(thread.id, { metadata: { key: "value" } });
-    const _thread = await projectsClient.getThread(thread.id);
+    await projectsClient.threads.update(thread.id, { metadata: { key: "value" } });
+    const _thread = await projectsClient.threads.get(thread.id);
     assert.equal(_thread.id, thread.id);
     assert.isNotEmpty(_thread.metadata);
     assert.equal(_thread.metadata?.key, "value");
@@ -67,17 +67,17 @@ describe("projectsClient - threads", () => {
     );
 
     // Delete thread
-    await projectsClient.deleteThread(thread.id);
+    await projectsClient.threads.delete(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should delete thread", async function () {
     // Create thread
-    const thread = await projectsClient.createThread();
+    const thread = await projectsClient.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Delete thread
-    const deleted = await projectsClient.deleteThread(thread.id);
+    const deleted = await projectsClient.threads.delete(thread.id);
     assert.isNotNull(deleted);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });

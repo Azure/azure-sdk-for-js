@@ -10,6 +10,10 @@
 
 import {
   AgentsClient,
+  DoneEvent,
+  ErrorEvent,
+  MessageStreamEvent,
+  RunStreamEvent,
   type MessageDeltaChunk,
   type MessageDeltaTextContent,
   type ThreadRun,
@@ -17,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-import {
-  RunStreamEvent,
-  MessageStreamEvent,
-  ErrorEvent,
-  DoneEvent,
-} from "../../dist/esm/models/streamingModels.js";
 
 const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
@@ -38,15 +36,15 @@ export async function main(): Promise<void> {
 
   console.log(`Created agent, agent ID : ${agent.id}`);
 
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
 
   console.log(`Created thread, thread ID : ${thread.id}`);
 
-  await client.createMessage(thread.id, "user", "Hello, tell me a joke");
+  await client.messages.create(thread.id, "user", "Hello, tell me a joke");
 
   console.log(`Created message, thread ID : ${thread.id}`);
 
-  const streamEventMessages = await client.createRun(thread.id, agent.id).stream();
+  const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
 
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {

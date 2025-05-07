@@ -23,12 +23,10 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
-  const connectionId = process.env["SHAREPOINT_CONNECTION_ID"] || "<connection-id>";
-
   // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = ToolUtility.createConnectionTool(connectionToolType.SharepointGrounding, [
-    connectionId,
-  ]);
+  const sharepointTool = ToolUtility.createSharepointGroundingTool(
+    connectionToolType.SharepointGrounding,
+  );
 
   // Create agent with the Sharepoint tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {
@@ -36,15 +34,14 @@ export async function main(): Promise<void> {
     instructions: "You are a helpful agent",
     tools: [sharepointTool.definition],
   });
-  console.log(connectionId);
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication
-  const thread = await client.createThread();
+  const thread = await client.threads.create();
   console.log(`Created thread, thread ID: ${thread.id}`);
 
   // Create message to thread
-  const message = await client.createMessage(
+  const message = await client.messages.create(
     thread.id,
     "user",
     "Hello, tell me about my health insurance options",
@@ -52,10 +49,10 @@ export async function main(): Promise<void> {
   console.log(`Created message, message ID: ${message.id}`);
 
   // Create and process agent run in thread with tools
-  let run = await client.createRun(thread.id, agent.id);
+  let run = await client.runs.create(thread.id, agent.id);
   while (run.status === "queued" || run.status === "in_progress") {
     await delay(1000);
-    run = await client.getRun(thread.id, run.id);
+    run = await client.runs.get(thread.id, run.id);
   }
   if (run.status === "failed") {
     console.log(`Run failed: ${run.lastError}`);
@@ -67,12 +64,16 @@ export async function main(): Promise<void> {
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
-  const messages = await client.listMessages(thread.id);
+  const messagesIterator = await client.messages.list(thread.id);
   console.log(`Messages:`);
-  const agentMessage: MessageContent = messages.data[0].content[0];
-  if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-    const textContent = agentMessage as MessageTextContent;
-    console.log(`Text Message Content - ${textContent.text.value}`);
+  // Get the first message
+  for await (const m of messagesIterator) {
+    const agentMessage: MessageContent = message.content[0];
+    if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+      const textContent = agentMessage as MessageTextContent;
+      console.log(`Text Message Content - ${textContent.text.value}`);
+    }
+    break; // Only process the first message
   }
 }
 
