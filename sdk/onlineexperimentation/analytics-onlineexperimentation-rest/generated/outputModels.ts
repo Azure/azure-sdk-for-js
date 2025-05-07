@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  KnownDesiredDirection,
-  KnownDiagnosticCode,
-  KnownLifecycleStage,
-  KnownValidationResult,
-} from "./extensibleEnums.js";
-
 /** Defines experiment metric metadata and computation details. */
 export interface ExperimentMetricOutput {
   /** Identifier for this experiment metric. Must start with a lowercase letter and contain only lowercase letters, numbers, and underscores. */
@@ -44,7 +37,8 @@ export interface ExperimentMetricDefinitionOutputParent {
 }
 
 /** The definition of an EventCount metric definition. Counts the occurrences of a specified event. */
-export interface EventCountMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface EventCountMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "EventCount";
   /** Event to observe. */
@@ -60,7 +54,8 @@ export interface ObservedEventOutput {
 }
 
 /** The definition of a UserCount metric definition. Counts unique users who encounter a specified event. */
-export interface UserCountMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface UserCountMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "UserCount";
   /** Event to observe. */
@@ -68,7 +63,8 @@ export interface UserCountMetricDefinitionOutput extends ExperimentMetricDefinit
 }
 
 /** The definition of an EventRate metric definition. Calculates the percentage of events satisfying a specified condition. */
-export interface EventRateMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface EventRateMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "EventRate";
   /** Event to observe as the rate denominator. */
@@ -78,7 +74,8 @@ export interface EventRateMetricDefinitionOutput extends ExperimentMetricDefinit
 }
 
 /** The definition of a UserRate metric definition. Calculates the percentage of users who encounter a start event and subsequently an end event. Users must encounter events in the specified order. */
-export interface UserRateMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface UserRateMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "UserRate";
   /** The start event to observe as the rate denominator. */
@@ -88,7 +85,8 @@ export interface UserRateMetricDefinitionOutput extends ExperimentMetricDefiniti
 }
 
 /** The definition of a Sum metric definition. Calculates the sum of a specified event property. Experiment analysis accounts for unequal traffic allocation. */
-export interface SumMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface SumMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "Sum";
   /** The value to aggregate. */
@@ -106,7 +104,8 @@ export interface AggregatedValueOutput {
 }
 
 /** The definition of an Average metric definition. Calculates the average value of a specified event property. */
-export interface AverageMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface AverageMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "Average";
   /** The value to aggregate. */
@@ -114,7 +113,8 @@ export interface AverageMetricDefinitionOutput extends ExperimentMetricDefinitio
 }
 
 /** The definition of a Percentile metric definition. Calculates a specified percentile of an event property. */
-export interface PercentileMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface PercentileMetricDefinitionOutput
+  extends ExperimentMetricDefinitionOutputParent {
   /** The type of metric. */
   type: "Percentile";
   /** The value to aggregate, including the event name and property to measure. */

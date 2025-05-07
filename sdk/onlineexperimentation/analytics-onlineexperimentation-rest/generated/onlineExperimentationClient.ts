@@ -3,7 +3,7 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger.js";
+import { logger } from "../../../../../../../logger.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { OnlineExperimentationClient } from "./clientDefinitions.js";
 
@@ -22,7 +22,10 @@ export interface OnlineExperimentationClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2025-05-31-preview", ...options }: OnlineExperimentationClientOptions = {},
+  {
+    apiVersion = "2025-05-31-preview",
+    ...options
+  }: OnlineExperimentationClientOptions = {},
 ): OnlineExperimentationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-analytics-onlineexperimentation-rest/1.0.0-beta.1`;
@@ -42,7 +45,11 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? ["https://exp.azure.net/.default"],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as OnlineExperimentationClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as OnlineExperimentationClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

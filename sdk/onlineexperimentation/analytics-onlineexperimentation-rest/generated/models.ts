@@ -1,23 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  KnownDesiredDirection,
-  KnownDiagnosticCode,
-  KnownLifecycleStage,
-  KnownValidationResult,
-} from "./extensibleEnums.js";
-
 /** Defines experiment metric metadata and computation details. */
-export interface ExperimentMetricOutput {
-  /** Identifier for this experiment metric. Must start with a lowercase letter and contain only lowercase letters, numbers, and underscores. */
-  readonly id: string;
+export interface ExperimentMetric {
   /**
    * Determines whether it is included in experiment analysis.
    *
    * Possible values: "Active", "Inactive"
    */
-  lifecycle: LifecycleStageOutput;
+  lifecycle: LifecycleStage;
   /** A user-friendly display name for the experiment metric shown in reports and dashboards. */
   displayName: string;
   /** A detailed description of the experiment metric. */
@@ -29,30 +20,27 @@ export interface ExperimentMetricOutput {
    *
    * Possible values: "Increase", "Decrease", "Neutral"
    */
-  desiredDirection: DesiredDirectionOutput;
+  desiredDirection: DesiredDirection;
   /** The metric definition specifying how the metric value is calculated from event data. */
-  definition: ExperimentMetricDefinitionOutput;
-  /** ETag of the experiment metric. */
-  readonly eTag: string;
-  /** The timestamp (UTC) of the last modification to the experiment metric resource. */
-  readonly lastModifiedAt: string;
+  definition: ExperimentMetricDefinition;
 }
 
 /** The metric definition, which determines how the metric value is calculated from event data. */
-export interface ExperimentMetricDefinitionOutputParent {
+export interface ExperimentMetricDefinitionParent {
   type: string;
 }
 
 /** The definition of an EventCount metric definition. Counts the occurrences of a specified event. */
-export interface EventCountMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface EventCountMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "EventCount";
   /** Event to observe. */
-  event: ObservedEventOutput;
+  event: ObservedEvent;
 }
 
 /** An event observed by a metric. */
-export interface ObservedEventOutput {
+export interface ObservedEvent {
   /** The name of the event. */
   eventName: string;
   /** [Optional] A condition to filter events. */
@@ -60,43 +48,46 @@ export interface ObservedEventOutput {
 }
 
 /** The definition of a UserCount metric definition. Counts unique users who encounter a specified event. */
-export interface UserCountMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface UserCountMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "UserCount";
   /** Event to observe. */
-  event: ObservedEventOutput;
+  event: ObservedEvent;
 }
 
 /** The definition of an EventRate metric definition. Calculates the percentage of events satisfying a specified condition. */
-export interface EventRateMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface EventRateMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "EventRate";
   /** Event to observe as the rate denominator. */
-  event: ObservedEventOutput;
+  event: ObservedEvent;
   /** The event contributes to the rate numerator if it satisfies this condition. */
   rateCondition: string;
 }
 
 /** The definition of a UserRate metric definition. Calculates the percentage of users who encounter a start event and subsequently an end event. Users must encounter events in the specified order. */
-export interface UserRateMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface UserRateMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "UserRate";
   /** The start event to observe as the rate denominator. */
-  startEvent: ObservedEventOutput;
+  startEvent: ObservedEvent;
   /** The end event to observe, which is a condition for the rate numerator. */
-  endEvent: ObservedEventOutput;
+  endEvent: ObservedEvent;
 }
 
 /** The definition of a Sum metric definition. Calculates the sum of a specified event property. Experiment analysis accounts for unequal traffic allocation. */
-export interface SumMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface SumMetricDefinition extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "Sum";
   /** The value to aggregate. */
-  value: AggregatedValueOutput;
+  value: AggregatedValue;
 }
 
 /** An event property value aggregated by a metric. */
-export interface AggregatedValueOutput {
+export interface AggregatedValue {
   /** The name of the event. */
   eventName: string;
   /** [Optional] A condition to filter events. */
@@ -106,64 +97,36 @@ export interface AggregatedValueOutput {
 }
 
 /** The definition of an Average metric definition. Calculates the average value of a specified event property. */
-export interface AverageMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface AverageMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "Average";
   /** The value to aggregate. */
-  value: AggregatedValueOutput;
+  value: AggregatedValue;
 }
 
 /** The definition of a Percentile metric definition. Calculates a specified percentile of an event property. */
-export interface PercentileMetricDefinitionOutput extends ExperimentMetricDefinitionOutputParent {
+export interface PercentileMetricDefinition
+  extends ExperimentMetricDefinitionParent {
   /** The type of metric. */
   type: "Percentile";
   /** The value to aggregate, including the event name and property to measure. */
-  value: AggregatedValueOutput;
+  value: AggregatedValue;
   /** The percentile to measure. */
   percentile: number;
 }
 
-/** The result of validating an experiment metric. */
-export interface ExperimentMetricValidationResultOutput {
-  /** Indicates whether the experiment metric is valid. */
-  isValid: boolean;
-  /** Diagnostic details from the validation process. */
-  readonly diagnostics: Array<DiagnosticDetailOutput>;
-}
-
-/** Diagnostic details for validation errors. */
-export interface DiagnosticDetailOutput {
-  /** A human-readable error message. */
-  readonly message: string;
-  /**
-   * The diagnostic error code.
-   *
-   * Possible values: "FailedSchemaValidation", "InvalidEventCondition", "UnsupportedEventCondition", "InvalidExperimentMetricDefinition"
-   */
-  readonly code: DiagnosticCodeOutput;
-}
-
-/** Paged collection of ExperimentMetric items */
-export interface PagedExperimentMetricOutput {
-  /** The ExperimentMetric items on this page */
-  value: Array<ExperimentMetricOutput>;
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
 /** The metric definition, which determines how the metric value is calculated from event data. */
-export type ExperimentMetricDefinitionOutput =
-  | ExperimentMetricDefinitionOutputParent
-  | EventCountMetricDefinitionOutput
-  | UserCountMetricDefinitionOutput
-  | EventRateMetricDefinitionOutput
-  | UserRateMetricDefinitionOutput
-  | SumMetricDefinitionOutput
-  | AverageMetricDefinitionOutput
-  | PercentileMetricDefinitionOutput;
-/** Alias for LifecycleStageOutput */
-export type LifecycleStageOutput = string;
-/** Alias for DesiredDirectionOutput */
-export type DesiredDirectionOutput = string;
-/** Alias for DiagnosticCodeOutput */
-export type DiagnosticCodeOutput = string;
+export type ExperimentMetricDefinition =
+  | ExperimentMetricDefinitionParent
+  | EventCountMetricDefinition
+  | UserCountMetricDefinition
+  | EventRateMetricDefinition
+  | UserRateMetricDefinition
+  | SumMetricDefinition
+  | AverageMetricDefinition
+  | PercentileMetricDefinition;
+/** Alias for LifecycleStage */
+export type LifecycleStage = string;
+/** Alias for DesiredDirection */
+export type DesiredDirection = string;
