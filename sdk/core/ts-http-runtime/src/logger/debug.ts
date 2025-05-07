@@ -124,6 +124,11 @@ function enabled(namespace: string): boolean {
   return false;
 }
 
+/**
+ * Given a namespace, check if it matches a pattern.
+ * Patterns only have a single wildcard character which is *.
+ * The behavior of * is that it matches zero or more other characters.
+ */
 function namespaceMatches(namespace: string, pattern: string): boolean {
   let namespaceIndex = 0;
   let patternIndex = 0;
@@ -137,6 +142,7 @@ function namespaceMatches(namespace: string, pattern: string): boolean {
       lastWildcard = patternIndex;
       patternIndex++;
       if (patternIndex === patternLength) {
+        // if wildcard is the last character, it will match the remaining namespace string
         return true;
       }
       let nextPatternChar = pattern[patternIndex];
@@ -144,36 +150,48 @@ function namespaceMatches(namespace: string, pattern: string): boolean {
       while (nextPatternChar === "*") {
         lastWildcard = patternIndex;
         patternIndex++;
+        // this handles patterns that ends in multiple wildcard characters
         if (patternIndex === patternLength) {
           return true;
         }
         nextPatternChar = pattern[patternIndex];
       }
 
+      // now we let the wildcard eat characters until we match the next literal in the pattern
       let nextNamespaceChar = namespace[namespaceIndex];
       while (nextNamespaceChar !== nextPatternChar) {
         namespaceIndex++;
+        // reached the end of the namespace without a match
         if (namespaceIndex === namespaceLength) {
           return false;
         }
         nextNamespaceChar = namespace[namespaceIndex];
       }
 
+      // now that we have a match, let's try to continue on
+      // however, it's possible we could find a later match
+      // so keep a reference in case we have to backtrack
       lastWildcardNamespace = namespaceIndex;
       namespaceIndex++;
       patternIndex++;
       continue;
     } else if (pattern[patternIndex] === namespace[namespaceIndex]) {
+      // simple case: literal pattern matches so keep going
       patternIndex++;
       namespaceIndex++;
     } else if (lastWildcard >= 0) {
+      // special case: we don't have a literal match, but there is a previous wildcard
+      // which we can backtrack to and try having the wildcard eat the match instead
       patternIndex = lastWildcard + 1;
+      // we know the last wildcard was not the final character since we handle that in the earlier branch
       const nextPatternChar = pattern[patternIndex];
       namespaceIndex = lastWildcardNamespace + 1;
+      // we've reached the end of the namespace without a match
       if (namespaceIndex === namespaceLength) {
         return false;
       }
       let nextNamespaceChar = namespace[namespaceIndex];
+      // similar to the previous logic, let's keep going until we find the next literal match
       while (nextNamespaceChar !== nextPatternChar) {
         namespaceIndex++;
         if (namespaceIndex === namespaceLength) {
@@ -190,9 +208,10 @@ function namespaceMatches(namespace: string, pattern: string): boolean {
     }
   }
 
-  // handle trailing *
   const namespaceDone = namespaceIndex === namespace.length;
   const patternDone = patternIndex === pattern.length;
+  // this is to detect the case of an unneeded final wildcard
+  // e.g. the pattern `ab*` should match the string `ab`
   const trailingWildCard = patternIndex === pattern.length - 1 && pattern[patternIndex] === "*";
   return namespaceDone && (patternDone || trailingWildCard);
 }
