@@ -56,6 +56,7 @@ export async function main(): Promise<void> {
     console.log(`Run failed: ${run.lastError}`);
   }
   console.log(`Run finished with status: ${run.status}`);
+  console.log(`Failure: ${run.lastError?.message}`);
 
   // Delete the agent when done
   await client.deleteAgent(agent.id);

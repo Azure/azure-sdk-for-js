@@ -4707,40 +4707,77 @@ export type _ =
   | ErrorEvent
   | DoneEvent;
 /** Thread operation related streaming events */
-export type ThreadStreamEvent = "thread.created";
+export enum ThreadStreamEvent {
+  /** Event emitted when a thread is created */
+  Created = "thread.created"
+}
+
 /** Run operation related streaming events */
-export type RunStreamEvent =
-  | "thread.run.created"
-  | "thread.run.queued"
-  | "thread.run.in_progress"
-  | "thread.run.requires_action"
-  | "thread.run.completed"
-  | "thread.run.incomplete"
-  | "thread.run.failed"
-  | "thread.run.cancelling"
-  | "thread.run.cancelled"
-  | "thread.run.expired";
+export enum RunStreamEvent {
+  /** Event emitted when a run is created */
+  ThreadRunCreated = "thread.run.created",
+  /** Event emitted when a run is queued */
+  ThreadRunQueued = "thread.run.queued",
+  /** Event emitted when a run is in progress */
+  ThreadRunInProgress = "thread.run.in_progress",
+  /** Event emitted when a run requires action */
+  ThreadRunRequiresAction = "thread.run.requires_action",
+  /** Event emitted when a run is completed */
+  ThreadRunCompleted = "thread.run.completed",
+  /** Event emitted when a run is incomplete */
+  ThreadRunIncomplete = "thread.run.incomplete",
+  /** Event emitted when a run has failed */
+  ThreadRunFailed = "thread.run.failed",
+  /** Event emitted when a run is being cancelled */
+  ThreadRunCancelling = "thread.run.cancelling",
+  /** Event emitted when a run has been cancelled */
+  ThreadRunCancelled = "thread.run.cancelled",
+  /** Event emitted when a run has expired */
+  ThreadRunExpired = "thread.run.expired"
+}
+
 /** Run step operation related streaming events */
-export type RunStepStreamEvent =
-  | "thread.run.step.created"
-  | "thread.run.step.in_progress"
-  | "thread.run.step.delta"
-  | "thread.run.step.completed"
-  | "thread.run.step.failed"
-  | "thread.run.step.cancelled"
-  | "thread.run.step.expired";
+export enum RunStepStreamEvent {
+  /** Event emitted when a run step is created */
+  ThreadRunStepCreated = "thread.run.step.created",
+  /** Event emitted when a run step is in progress */
+  ThreadRunStepInProgress = "thread.run.step.in_progress",
+  /** Event emitted when a run step delta is received */
+  ThreadRunStepDelta = "thread.run.step.delta",
+  /** Event emitted when a run step is completed */
+  ThreadRunStepCompleted = "thread.run.step.completed",
+  /** Event emitted when a run step has failed */
+  ThreadRunStepFailed = "thread.run.step.failed",
+  /** Event emitted when a run step has been cancelled */
+  ThreadRunStepCancelled = "thread.run.step.cancelled",
+  /** Event emitted when a run step has expired */
+  ThreadRunStepExpired = "thread.run.step.expired"
+}
+
 /** Message operation related streaming events */
-export type MessageStreamEvent =
-  | "thread.message.created"
-  | "thread.message.in_progress"
-  | "thread.message.delta"
-  | "thread.message.completed"
-  | "thread.message.incomplete";
+export enum MessageStreamEvent {
+  /** Event emitted when a message is created */
+  ThreadMessageCreated = "thread.message.created",
+  /** Event emitted when a message is in progress */
+  ThreadMessageInProgress = "thread.message.in_progress",
+  /** Event emitted when a message delta is received */
+  ThreadMessageDelta = "thread.message.delta",
+  /** Event emitted when a message is completed */
+  ThreadMessageCompleted = "thread.message.completed",
+  /** Event emitted when a message is incomplete */
+  ThreadMessageIncomplete = "thread.message.incomplete"
+}
 /** Terminal event indicating a server side error while streaming. */
-export type ErrorEvent = "error";
+export enum ErrorEvent {
+  /** Server error while streaming */
+  Error = "error"
+}
 /** Terminal event indicating the successful end of a stream. */
-export type DoneEvent = "done";
-/** The available sorting options when requesting a list of response objects. */
+
+export enum DoneEvent {
+  /** Event emitted when a stream has completed successfully */
+  Done = "done"
+}
 export type ListSortOrder = "asc" | "desc";
 /** A list of additional fields to include in the response. */
 export type RunAdditionalFieldList = "step_details.tool_calls[*].file_search.results[*].content";

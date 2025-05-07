@@ -23,8 +23,6 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
-  const connectionId = process.env["SHAREPOINT_CONNECTION_ID"] || "<connection-id>";
-
   // Initialize agent Sharepoint tool with the connection id
   const sharepointTool = ToolUtility.createSharepointGroundingTool(connectionToolType.SharepointGrounding);
 
@@ -34,7 +32,6 @@ export async function main(): Promise<void> {
     instructions: "You are a helpful agent",
     tools: [sharepointTool.definition],
   });
-  console.log(connectionId);
   console.log(`Created agent, agent ID : ${agent.id}`);
 
   // Create thread for communication

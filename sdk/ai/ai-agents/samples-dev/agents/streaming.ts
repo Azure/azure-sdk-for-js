@@ -10,6 +10,10 @@
 
 import {
   AgentsClient,
+  DoneEvent,
+  ErrorEvent,
+  MessageStreamEvent,
+  RunStreamEvent,
   type MessageDeltaChunk,
   type MessageDeltaTextContent,
   type ThreadRun,
@@ -17,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-import {
-  RunStreamEvent,
-  MessageStreamEvent,
-  ErrorEvent,
-  DoneEvent,
-} from "../../dist/esm/models/streamingModels.js";
 
 const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";

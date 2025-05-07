@@ -40,8 +40,8 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
   // Create vector store for file search tool
-  const vectorStore = await client
-    .createVectorStoreAndPoll({
+  const vectorStore = await client.vectorStores
+    .createAndPoll({
       fileIds: [fileSearchFile.id],
     })
     .pollUntilDone();

@@ -10,6 +10,7 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -282,10 +283,14 @@ export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DoneEvent = "done";
+export enum DoneEvent {
+    Done = "done"
+}
 
 // @public
-type ErrorEvent_2 = "error";
+enum ErrorEvent_2 {
+    Error = "error"
+}
 export { ErrorEvent_2 as ErrorEvent }
 
 // @public
@@ -370,7 +375,7 @@ export interface FilesListFilesOptionalParams extends OperationOptions {
 export interface FilesOperations {
     delete: (fileId: string, options?: FilesDeleteFileOptionalParams) => Promise<FileDeletionStatus>;
     get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
-    getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => Promise<Uint8Array>;
+    getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     list: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
     upload: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
     uploadAndPoll: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
@@ -435,7 +440,7 @@ export interface ListAgentsOptionalParams extends OperationOptions {
     order?: ListSortOrder;
 }
 
-// @public
+// @public (undocumented)
 export type ListSortOrder = "asc" | "desc";
 
 // @public
@@ -650,7 +655,13 @@ export interface MessagesOperations {
 export type MessageStatus = "in_progress" | "incomplete" | "completed";
 
 // @public
-export type MessageStreamEvent = "thread.message.created" | "thread.message.in_progress" | "thread.message.delta" | "thread.message.completed" | "thread.message.incomplete";
+export enum MessageStreamEvent {
+    ThreadMessageCompleted = "thread.message.completed",
+    ThreadMessageCreated = "thread.message.created",
+    ThreadMessageDelta = "thread.message.delta",
+    ThreadMessageIncomplete = "thread.message.incomplete",
+    ThreadMessageInProgress = "thread.message.in_progress"
+}
 
 // @public
 export interface MessagesUpdateMessageOptionalParams extends OperationOptions {
@@ -1257,7 +1268,15 @@ export interface RunStepsOperations {
 export type RunStepStatus = "in_progress" | "cancelled" | "failed" | "completed" | "expired";
 
 // @public
-export type RunStepStreamEvent = "thread.run.step.created" | "thread.run.step.in_progress" | "thread.run.step.delta" | "thread.run.step.completed" | "thread.run.step.failed" | "thread.run.step.cancelled" | "thread.run.step.expired";
+export enum RunStepStreamEvent {
+    ThreadRunStepCancelled = "thread.run.step.cancelled",
+    ThreadRunStepCompleted = "thread.run.step.completed",
+    ThreadRunStepCreated = "thread.run.step.created",
+    ThreadRunStepDelta = "thread.run.step.delta",
+    ThreadRunStepExpired = "thread.run.step.expired",
+    ThreadRunStepFailed = "thread.run.step.failed",
+    ThreadRunStepInProgress = "thread.run.step.in_progress"
+}
 
 // @public
 export interface RunStepToolCall {
@@ -1278,7 +1297,18 @@ export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileS
 export type RunStepType = "message_creation" | "tool_calls";
 
 // @public
-export type RunStreamEvent = "thread.run.created" | "thread.run.queued" | "thread.run.in_progress" | "thread.run.requires_action" | "thread.run.completed" | "thread.run.incomplete" | "thread.run.failed" | "thread.run.cancelling" | "thread.run.cancelled" | "thread.run.expired";
+export enum RunStreamEvent {
+    ThreadRunCancelled = "thread.run.cancelled",
+    ThreadRunCancelling = "thread.run.cancelling",
+    ThreadRunCompleted = "thread.run.completed",
+    ThreadRunCreated = "thread.run.created",
+    ThreadRunExpired = "thread.run.expired",
+    ThreadRunFailed = "thread.run.failed",
+    ThreadRunIncomplete = "thread.run.incomplete",
+    ThreadRunInProgress = "thread.run.in_progress",
+    ThreadRunQueued = "thread.run.queued",
+    ThreadRunRequiresAction = "thread.run.requires_action"
+}
 
 // @public
 export interface RunsUpdateRunOptionalParams extends OperationOptions {
@@ -1400,7 +1430,9 @@ export interface ThreadsOperations {
 }
 
 // @public
-export type ThreadStreamEvent = "thread.created";
+export enum ThreadStreamEvent {
+    Created = "thread.created"
+}
 
 // @public
 export interface ThreadsUpdateThreadOptionalParams extends OperationOptions {

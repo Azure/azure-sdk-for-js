@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
-import {
+import type { AgentsContext as Client } from "../index.js";
+import type {
   FileListResponse,
-  fileListResponseDeserializer,
   FileInfo,
-  fileInfoDeserializer,
   FilePurpose,
+  FileDeletionStatus} from "../../models/models.js";
+import {
+  fileListResponseDeserializer,
+  fileInfoDeserializer,
   _uploadFileRequestSerializer,
-  FileDeletionStatus,
   fileDeletionStatusDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   FilesGetFileContentOptionalParams,
   FilesGetFileOptionalParams,
   FilesDeleteFileOptionalParams,
@@ -20,20 +21,21 @@ import {
   FilesListFilesOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
 export function _getFileContentSend(
   context: Client,
   fileId: string,
   options: FilesGetFileContentOptionalParams = { requestOptions: {} },
-): StreamableMethod {
+): StreamableMethod<string | Uint8Array> {
   const path = expandUrlTemplate(
     "/files/{fileId}/content{?api%2Dversion}",
     {
@@ -53,25 +55,14 @@ export function _getFileContentSend(
   });
 }
 
-export async function _getFileContentDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Uint8Array> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return result.body;
-}
-
 /** Retrieves the raw content of a specific file. */
-export async function getFileContent(
+export function getFileContent(
   context: Client,
   fileId: string,
   options: FilesGetFileContentOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
-  const result = await _getFileContentSend(context, fileId, options);
-  return _getFileContentDeserialize(result);
+): StreamableMethod<string | Uint8Array> {
+  const result = _getFileContentSend(context, fileId, options);
+  return result
 }
 
 export function _getFileSend(

@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
   // Upload local file
   const filePath = "./data/localFile.txt";
   const localFileStream = fs.createReadStream(filePath);
-  const localFile = await client.files.upload(localFileStream, "assistants");
+  const localFile = await client.files.upload(localFileStream, "assistants", { fileName: "localFile.txt" });
 
   console.log(`Uploaded local file, file ID : ${localFile.id}`);
 

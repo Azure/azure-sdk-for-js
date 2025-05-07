@@ -14,15 +14,14 @@ import type {
   MessageDeltaTextContent,
   MessageImageFileContent,
   MessageTextContent,
-  ThreadRun,
-} from "@azure/ai-agents";
+  ThreadRun} from "@azure/ai-agents";
 import {
-  AgentsClient,
+  RunStreamEvent,
+  MessageStreamEvent,
   DoneEvent,
   ErrorEvent,
+  AgentsClient,
   isOutputOfType,
-  MessageStreamEvent,
-  RunStreamEvent,
   ToolUtility,
 } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -161,7 +160,7 @@ export async function main(): Promise<void> {
   });
 
   // Delete the agent once done
-  await client.agents.deleteAgent(agent.id);
+  await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 }
 
