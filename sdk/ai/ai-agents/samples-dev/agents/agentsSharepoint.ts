@@ -24,7 +24,9 @@ export async function main(): Promise<void> {
   const client = new AgentsClient(connectionString, new DefaultAzureCredential());
 
   // Initialize agent Sharepoint tool with the connection id
-  const sharepointTool = ToolUtility.createSharepointGroundingTool(connectionToolType.SharepointGrounding);
+  const sharepointTool = ToolUtility.createSharepointGroundingTool(
+    connectionToolType.SharepointGrounding,
+  );
 
   // Create agent with the Sharepoint tool and process assistant run
   const agent = await client.createAgent(modelDeploymentName, {

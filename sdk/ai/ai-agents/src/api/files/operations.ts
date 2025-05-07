@@ -6,7 +6,8 @@ import type {
   FileListResponse,
   FileInfo,
   FilePurpose,
-  FileDeletionStatus} from "../../models/models.js";
+  FileDeletionStatus,
+} from "../../models/models.js";
 import {
   fileListResponseDeserializer,
   fileInfoDeserializer,
@@ -21,13 +22,8 @@ import type {
   FilesListFilesOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
@@ -62,7 +58,7 @@ export function getFileContent(
   options: FilesGetFileContentOptionalParams = { requestOptions: {} },
 ): StreamableMethod<string | Uint8Array> {
   const result = _getFileContentSend(context, fileId, options);
-  return result
+  return result;
 }
 
 export function _getFileSend(

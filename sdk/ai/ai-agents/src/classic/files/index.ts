@@ -29,7 +29,10 @@ import { StreamableMethod } from "@azure-rest/core-client";
 /** Interface representing a Files operations. */
 export interface FilesOperations {
   /** Retrieves the raw content of a specific file. */
-  getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
+  getContent: (
+    fileId: string,
+    options?: FilesGetFileContentOptionalParams,
+  ) => StreamableMethod<string | Uint8Array>;
   /** Returns information about a specific file. Does not retrieve file content. */
   get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
   /** Delete a previously uploaded file. */

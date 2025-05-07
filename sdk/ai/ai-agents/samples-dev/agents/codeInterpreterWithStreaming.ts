@@ -14,7 +14,8 @@ import type {
   MessageDeltaTextContent,
   MessageImageFileContent,
   MessageTextContent,
-  ThreadRun} from "@azure/ai-agents";
+  ThreadRun,
+} from "@azure/ai-agents";
 import {
   RunStreamEvent,
   MessageStreamEvent,

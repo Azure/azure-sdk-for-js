@@ -4709,7 +4709,7 @@ export type _ =
 /** Thread operation related streaming events */
 export enum ThreadStreamEvent {
   /** Event emitted when a thread is created */
-  Created = "thread.created"
+  Created = "thread.created",
 }
 
 /** Run operation related streaming events */
@@ -4733,7 +4733,7 @@ export enum RunStreamEvent {
   /** Event emitted when a run has been cancelled */
   ThreadRunCancelled = "thread.run.cancelled",
   /** Event emitted when a run has expired */
-  ThreadRunExpired = "thread.run.expired"
+  ThreadRunExpired = "thread.run.expired",
 }
 
 /** Run step operation related streaming events */
@@ -4751,7 +4751,7 @@ export enum RunStepStreamEvent {
   /** Event emitted when a run step has been cancelled */
   ThreadRunStepCancelled = "thread.run.step.cancelled",
   /** Event emitted when a run step has expired */
-  ThreadRunStepExpired = "thread.run.step.expired"
+  ThreadRunStepExpired = "thread.run.step.expired",
 }
 
 /** Message operation related streaming events */
@@ -4765,18 +4765,18 @@ export enum MessageStreamEvent {
   /** Event emitted when a message is completed */
   ThreadMessageCompleted = "thread.message.completed",
   /** Event emitted when a message is incomplete */
-  ThreadMessageIncomplete = "thread.message.incomplete"
+  ThreadMessageIncomplete = "thread.message.incomplete",
 }
 /** Terminal event indicating a server side error while streaming. */
 export enum ErrorEvent {
   /** Server error while streaming */
-  Error = "error"
+  Error = "error",
 }
 /** Terminal event indicating the successful end of a stream. */
 
 export enum DoneEvent {
   /** Event emitted when a stream has completed successfully */
-  Done = "done"
+  Done = "done",
 }
 export type ListSortOrder = "asc" | "desc";
 /** A list of additional fields to include in the response. */
