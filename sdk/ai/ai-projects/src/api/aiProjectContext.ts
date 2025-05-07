@@ -12,6 +12,8 @@ export interface AIProjectContext extends Client {
   apiVersion: string;
   /** The endpoint URL used to construct AIProjectClient. */
   getEndpointUrl(): string;
+  /** The user agent string used to construct AIProjectClient. */
+  getUserAgent(): { userAgentPrefix: string };
   /** The credential used to construct AIProjectClient. */
   getCredential(): TokenCredential;
 }
@@ -67,5 +69,6 @@ export function createAIProject(
     apiVersion,
     getEndpointUrl: () => endpointUrl,
     getCredential: () => credential,
+    getUserAgent: () => ({ userAgentPrefix }),
   } as AIProjectContext;
 }
