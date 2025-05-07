@@ -9,8 +9,9 @@ import "dotenv/config";
 import { handleError, finish, logStep } from "./Shared/handleError.js";
 import type { OperationInput } from "@azure/cosmos";
 import { BulkOperationType, CosmosClient, PatchOperationType } from "@azure/cosmos";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const key = process.env.COSMOS_KEY || "<cosmos key>";
+const credentials = new DefaultAzureCredential();
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 function addEntropy(name: string): string {
   return name + getEntropy();
@@ -23,9 +24,10 @@ function getEntropy(): string {
 async function run(): Promise<void> {
   const containerId = "bulkContainer";
   const client = new CosmosClient({
-    key: key,
     endpoint: endpoint,
+    aadCredentials: credentials,
   });
+
   const { database } = await client.databases.create({ id: addEntropy("bulk db") });
   logStep(`Create multi-partition container '${containerId}' with partition key /key`);
   const { container } = await database.containers.create({
@@ -109,7 +111,11 @@ async function run(): Promise<void> {
   );
   logStep("Bulk Operations Input to 'container.items.executeBulkOperations(operations):'");
   console.log(operations);
-  const response = await container.items.executeBulkOperations(operations);
+
+  // The maxConcurrentRequestsPerPartition is the maximum number of concurrent requests that can be sent to a single partition.
+  // The default value is 10. The maximum value is 50.
+  const maxConcurrentRequestsPerPartition = 15
+  const response = await container.items.executeBulkOperations(operations, {}, maxConcurrentRequestsPerPartition);
   logStep("Bulk response:");
   console.log(response);
   await finish();
