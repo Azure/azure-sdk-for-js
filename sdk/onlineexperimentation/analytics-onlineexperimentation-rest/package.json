@@ -20,7 +20,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "type": "module",
   "keywords": [
@@ -51,7 +52,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/Azure\\sdk-repos\\azure-sdk-for-js-pr\\sdk\\onlineexperimentation\\analytics-onlineexperimentation-rest\\generated/onlineExperimentationClient.ts",
+        "path": "src/Azure\\sdk-repos\\azure-sdk-for-js\\sdk\\onlineexperimentation\\analytics-onlineexperimentation-rest\\generated/onlineExperimentationClient.ts",
         "prefix": "userAgentInfo"
       }
     ]
