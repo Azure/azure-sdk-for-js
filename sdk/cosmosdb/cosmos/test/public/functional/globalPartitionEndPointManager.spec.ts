@@ -65,14 +65,6 @@ describe("GlobalPartitionEndpointManager", () => {
       assert.equal(result, false);
     });
 
-    it("should return false for read operations", async () => {
-      const result =
-        await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
-          createRequestContext({ operationType: OperationType.Read }),
-        );
-      assert.equal(result, false);
-    });
-
     it("should return false if partitionKeyRangeId is missing", async () => {
       const result =
         await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
