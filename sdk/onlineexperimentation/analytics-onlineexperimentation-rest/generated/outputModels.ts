@@ -125,14 +125,10 @@ export interface PercentileMetricDefinitionOutput
 
 /** The result of validating an experiment metric. */
 export interface ExperimentMetricValidationResultOutput {
+  /** Indicates whether the experiment metric is valid. */
+  isValid: boolean;
   /** Diagnostic details from the validation process. */
   readonly diagnostics: Array<DiagnosticDetailOutput>;
-  /**
-   * Indicates whether the experiment metric is valid.
-   *
-   * Possible values: "Valid", "Invalid"
-   */
-  result: ValidationResultOutput;
 }
 
 /** Diagnostic details for validation errors. */
@@ -171,5 +167,3 @@ export type LifecycleStageOutput = string;
 export type DesiredDirectionOutput = string;
 /** Alias for DiagnosticCodeOutput */
 export type DiagnosticCodeOutput = string;
-/** Alias for ValidationResultOutput */
-export type ValidationResultOutput = string;
