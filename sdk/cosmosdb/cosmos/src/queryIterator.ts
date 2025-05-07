@@ -226,7 +226,7 @@ export class QueryIterator<T> {
    * const queryIterator = container.items.query(querySpec, queryOptions);
    * while (queryIterator.hasMoreResults()) {
    *   const { resources: result } = await queryIterator.fetchNext();
-   *   //Do something with result
+   *   // process results
    * }
    * ```
    */
@@ -290,7 +290,7 @@ export class QueryIterator<T> {
    * const queryIterator = container.items.query(querySpec);
    * while (queryIterator.hasMoreResults()) {
    *   const { resources: result } = await queryIterator.fetchNext();
-   *   //Do something with result
+   *   // process results
    * }
    * queryIterator.reset();
    * ```
