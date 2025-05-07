@@ -5,8 +5,8 @@ import OnlineExperimentationClient from "@azure-rest/analytics-onlineexperimenta
 import {
   isUnexpected,
   paginate,
-  DesiredDirectionEnum,
-  LifecycleStageEnum,
+  KnownDesiredDirection,
+  KnownLifecycleStage,
 } from "@azure-rest/analytics-onlineexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
@@ -41,11 +41,11 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "Total number of prompts sent",
           description: "Counts the total number of prompts sent by users to the chatbot",
           categories: ["Usage"],
-          desiredDirection: DesiredDirectionEnum.Increase,
+          desiredDirection: KnownDesiredDirection.Increase,
           definition: {
             type: "EventCount",
             event: { eventName: "PromptSent" },
@@ -68,12 +68,12 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "Users with at least one prompt sent on checkout page",
           description:
             "Counts unique users who sent at least one prompt while on the checkout page",
           categories: ["Usage"],
-          desiredDirection: DesiredDirectionEnum.Increase,
+          desiredDirection: KnownDesiredDirection.Increase,
           definition: {
             type: "UserCount",
             event: {
@@ -99,12 +99,12 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "% evaluated conversations with good relevance",
           description:
             "Percentage of evaluated conversations where the LLM response has good relevance (score >= 4)",
           categories: ["Quality"],
-          desiredDirection: DesiredDirectionEnum.Increase,
+          desiredDirection: KnownDesiredDirection.Increase,
           definition: {
             type: "EventRate",
             event: { eventName: "EvaluateLLM" },
@@ -131,12 +131,12 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "% users with LLM interaction who made a high-value purchase",
           description:
             "Percentage of users who received a response from the LLM and then made a purchase of $100 or more",
           categories: ["Business"],
-          desiredDirection: DesiredDirectionEnum.Increase,
+          desiredDirection: KnownDesiredDirection.Increase,
           definition: {
             type: "UserRate",
             startEvent: { eventName: "ResponseReceived" },
@@ -163,11 +163,11 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "Total revenue",
           description: "Sum of revenue from all purchase transactions",
           categories: ["Business"],
-          desiredDirection: DesiredDirectionEnum.Increase,
+          desiredDirection: KnownDesiredDirection.Increase,
           definition: {
             type: "Sum",
             value: {
@@ -194,11 +194,11 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "Average revenue per purchase",
           description: "The average revenue per purchase transaction in USD",
           categories: ["Business"],
-          desiredDirection: DesiredDirectionEnum.Increase,
+          desiredDirection: KnownDesiredDirection.Increase,
           definition: {
             type: "Average",
             value: {
@@ -224,7 +224,7 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
           displayName: "P95 LLM response time [seconds]",
           description: "The 95th percentile of response time in seconds for LLM responses",
           categories: ["Performance"],
@@ -251,21 +251,19 @@ describe("snippets", () => {
     const client = OnlineExperimentationClient(endpoint, credential);
 
     // Validate the metric definition
-    const validationResponse = await client
-      .path("/experiment-metrics/{experimentMetricId}:validate", "test_metric_id")
-      .post({
-        body: {
-          lifecycle: LifecycleStageEnum.Active,
-          displayName: "Test metric for validation",
-          description: "This metric definition will be validated before creation",
-          categories: ["Test"],
-          desiredDirection: DesiredDirectionEnum.Increase,
-          definition: {
-            type: "EventCount",
-            event: { eventName: "TestEvent" },
-          },
+    const validationResponse = await client.path("/experiment-metrics:validate").post({
+      body: {
+        lifecycle: KnownLifecycleStage.Active,
+        displayName: "Test metric for validation",
+        description: "This metric definition will be validated before creation",
+        categories: ["Test"],
+        desiredDirection: KnownDesiredDirection.Increase,
+        definition: {
+          type: "EventCount",
+          event: { eventName: "TestEvent" },
         },
-      });
+      },
+    });
 
     if (isUnexpected(validationResponse)) {
       throw validationResponse.body.error;
@@ -365,7 +363,7 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Inactive,
+          lifecycle: KnownLifecycleStage.Inactive,
         },
       });
 
@@ -384,7 +382,7 @@ describe("snippets", () => {
       .patch({
         contentType: "application/merge-patch+json",
         body: {
-          lifecycle: LifecycleStageEnum.Active,
+          lifecycle: KnownLifecycleStage.Active,
         },
       });
 

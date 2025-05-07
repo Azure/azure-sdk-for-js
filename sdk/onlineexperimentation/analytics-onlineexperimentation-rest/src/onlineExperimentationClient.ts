@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2025-05-31-preview", ...options }: OnlineExperimentationClientOptions = {},
 ): OnlineExperimentationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-analytics-onlineexperimentation-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-@azure-rest/analytics-onlineexperimentation/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
