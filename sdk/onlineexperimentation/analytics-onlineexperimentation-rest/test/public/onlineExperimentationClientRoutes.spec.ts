@@ -242,7 +242,7 @@ describe("OnlineExperimentationClient Routes", () => {
             description: updatedDescription,
           },
           headers: {
-            "If-Match": `"${metric.eTag}"`,
+            "If-Match": metric.eTag,
           },
         });
 
@@ -343,7 +343,7 @@ describe("OnlineExperimentationClient Routes", () => {
       assert.isNotNull(response.body);
       assert.strictEqual(response.body.id, metricId);
       assert.strictEqual(response.body.eTag, metric.eTag);
-      assert.strictEqual(response.headers.etag, `"${metric.eTag}"`);
+      assert.strictEqual(response.headers.etag, metric.eTag);
     });
 
     it("should return error when retrieving a non-existent metric", async () => {
@@ -390,7 +390,7 @@ describe("OnlineExperimentationClient Routes", () => {
         throw response;
       }
 
-      assert.strictEqual(response.body.result, "Valid");
+      assert.isTrue(response.body.isValid);
       assert.isArray(response.body.diagnostics);
       assert.isEmpty(response.body.diagnostics);
     });
@@ -422,7 +422,7 @@ describe("OnlineExperimentationClient Routes", () => {
         throw response;
       }
 
-      assert.strictEqual(response.body.result, "Invalid");
+      assert.isFalse(response.body.isValid);
       assert.isArray(response.body.diagnostics);
       assert.isNotEmpty(response.body.diagnostics);
     });
@@ -467,7 +467,7 @@ describe("OnlineExperimentationClient Routes", () => {
         .path("/experiment-metrics/{experimentMetricId}", metricId)
         .delete({
           headers: {
-            "If-Match": `"${metric.eTag}"`,
+            "If-Match": metric.eTag,
           },
         });
 

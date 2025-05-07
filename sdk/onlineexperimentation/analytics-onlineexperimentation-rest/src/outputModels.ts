@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  KnownDesiredDirection,
-  KnownDiagnosticCode,
-  KnownLifecycleStage,
-  KnownValidationResult,
-} from "./extensibleEnums.js";
-
 /** Defines experiment metric metadata and computation details. */
 export interface ExperimentMetricOutput {
   /** Identifier for this experiment metric. Must start with a lowercase letter and contain only lowercase letters, numbers, and underscores. */

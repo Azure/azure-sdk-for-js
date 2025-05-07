@@ -170,10 +170,10 @@ export type DeleteMetricParameters = DeleteMetricHeaderParam & RequestParameters
 export type DesiredDirection = string;
 
 // @public
-export type DesiredDirectionOutput = KnownDesiredDirection | string;
+export type DesiredDirectionOutput = string;
 
 // @public
-export type DiagnosticCodeOutput = KnownDiagnosticCode | string;
+export type DiagnosticCodeOutput = string;
 
 // @public
 export interface DiagnosticDetailOutput {
@@ -254,7 +254,7 @@ export type ExperimentMetricResourceMergeAndPatch = Partial<ExperimentMetric>;
 // @public
 export interface ExperimentMetricValidationResultOutput {
     readonly diagnostics: Array<DiagnosticDetailOutput>;
-    result: ValidationResultOutput;
+    isValid: boolean;
 }
 
 // @public
@@ -379,7 +379,7 @@ export enum KnownValidationResult {
 export type LifecycleStage = string;
 
 // @public
-export type LifecycleStageOutput = KnownLifecycleStage | string;
+export type LifecycleStageOutput = string;
 
 // @public (undocumented)
 export interface ListMetrics {
@@ -610,9 +610,6 @@ export interface ValidateMetricHeaders {
 
 // @public (undocumented)
 export type ValidateMetricParameters = ValidateMetricHeaderParam & ValidateMetricBodyParam & RequestParameters;
-
-// @public
-export type ValidationResultOutput = KnownValidationResult | string;
 
 // (No @packageDocumentation comment for this package)
 
