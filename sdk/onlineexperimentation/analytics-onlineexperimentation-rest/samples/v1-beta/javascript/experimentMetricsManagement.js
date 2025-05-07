@@ -57,7 +57,7 @@ async function main() {
     throw validationResponse.body.error;
   }
 
-  console.log(`Experiment metric definition is: ${validationResponse.body.result}.`);
+  console.log(`Experiment metric definition valid: ${validationResponse.body.isValid}.`);
   for (const detail of validationResponse.body.diagnostics ?? []) {
     // Inspect details of why the metric definition was rejected as Invalid.
     console.log(`- ${detail.code}: ${detail.message}`);
