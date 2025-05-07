@@ -186,7 +186,6 @@ export {
   PhoneNumberSearchResult,
   PhoneNumberSearchResultError,
   PhoneNumbersPurchaseReservationHeaders,
-  PhoneNumbersPurchaseReservationOptionalParams,
   PhoneNumbersPurchaseReservationResponse,
   PhoneNumbersReservation,
   PhoneNumberType,

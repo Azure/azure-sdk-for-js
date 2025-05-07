@@ -294,13 +294,6 @@ export interface PhoneNumbersPurchaseReservationHeaders {
 }
 
 // @public
-export interface PhoneNumbersPurchaseReservationOptionalParams extends coreClient.OperationOptions {
-    agreeToNotResell?: boolean;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type PhoneNumbersPurchaseReservationResponse = PhoneNumbersPurchaseReservationHeaders;
 
 // @public
