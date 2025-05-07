@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 
 export function hexStringToUint8Array(hex: string): Uint8Array {
-  if (hex.length % 2 !== 0) {
-    throw new Error("Invalid hex string");
-  }
   const arr = new Uint8Array(hex.length / 2);
   for (let i = 0; i < hex.length; i += 2) {
     arr[i / 2] = parseInt(hex.substr(i, 2), 16);
