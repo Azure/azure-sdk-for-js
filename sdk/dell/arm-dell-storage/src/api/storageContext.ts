@@ -28,8 +28,7 @@ export function createStorage(
   subscriptionId: string,
   options: StorageClientOptionalParams = {},
 ): StorageContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-dell-storage/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

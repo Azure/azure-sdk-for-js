@@ -4,12 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface FileSystemsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface FileSystemsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FileSystemsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface FileSystemsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FileSystemsDeleteOptionalParams extends OperationOptions {
@@ -21,8 +19,7 @@ export interface FileSystemsDeleteOptionalParams extends OperationOptions {
 export interface FileSystemsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FileSystemsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface FileSystemsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
