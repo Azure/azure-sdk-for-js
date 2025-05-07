@@ -22,6 +22,7 @@ import type {
   PhoneNumberCountry,
   PhoneNumberLocality,
   PhoneNumberOffering,
+  PhoneNumbersBrowseResult,
   PhoneNumberSearchResult,
   PhoneNumbersReservation,
   PurchasedPhoneNumber,
@@ -312,7 +313,7 @@ export class PhoneNumbersClient {
   public browseAvailablePhoneNumbers(
     request: BrowseAvailableNumbersRequest,
     options?: BrowseAvailableNumbersOptions,
-  ): Promise<AvailablePhoneNumber[]> {
+  ): Promise<PhoneNumbersBrowseResult> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-browseAvailableNumbers",
       options,
@@ -324,9 +325,6 @@ export class PhoneNumbersClient {
         .browseAvailableNumbers(countryCode, phoneNumberType, {
           ...updatedOptions,
           ...rest,
-        })
-        .then((response) => {
-          return response.phoneNumbers;
         });
     } catch (e: any) {
       span.setStatus({

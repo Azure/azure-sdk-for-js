@@ -43,9 +43,9 @@ matrix([[true, false]], async (useAad) => {
           assignmentType: "application",
         },
       );
-      assert.isTrue(browseAvailableNumbers.length > 0);
+      assert.isTrue(browseAvailableNumbers.phoneNumbers.length > 0);
 
-      for (const phoneNumber of browseAvailableNumbers) {
+      for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
         assert.equal(phoneNumber.phoneNumberType, "tollFree");
         assert.isTrue(phoneNumber.capabilities.calling.includes("outbound"));
         assert.equal(phoneNumber.assignmentType, "application");
@@ -59,9 +59,9 @@ matrix([[true, false]], async (useAad) => {
       const browseGeographicAvailableNumbers = await client.browseAvailablePhoneNumbers(
         browseGeographicAvailableNumberRequest,
       );
-      assert.isTrue(browseGeographicAvailableNumbers.length > 0);
+      assert.isTrue(browseGeographicAvailableNumbers.phoneNumbers.length > 0);
 
-      for (const phoneNumber of browseGeographicAvailableNumbers) {
+      for (const phoneNumber of browseGeographicAvailableNumbers.phoneNumbers) {
         assert.equal(phoneNumber.phoneNumberType, "geographic");
       }
     });
@@ -108,7 +108,7 @@ matrix([[true, false]], async (useAad) => {
         },
       );
 
-      const phoneNumbers = browseAvailableNumbers;
+      const phoneNumbers = browseAvailableNumbers.phoneNumbers;
       const phoneNumbersList = [phoneNumbers[0]];
 
       const reservationResponse = await client.createOrUpdateReservation({
@@ -180,7 +180,7 @@ matrix([[true, false]], async (useAad) => {
           },
         );
 
-        const phoneNumbers = browseAvailableNumbers;
+        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
         const phoneNumbersList = [phoneNumbers[0]];
 
         const reservationResponse = await client.createOrUpdateReservation({

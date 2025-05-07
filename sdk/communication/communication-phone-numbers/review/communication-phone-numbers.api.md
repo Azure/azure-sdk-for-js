@@ -221,6 +221,11 @@ export interface PhoneNumberOffering {
 }
 
 // @public
+export interface PhoneNumbersBrowseResult {
+    phoneNumbers: AvailablePhoneNumber[];
+}
+
+// @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
@@ -230,7 +235,7 @@ export class PhoneNumbersClient {
     beginReservationPurchase(reservationId: string, options?: BeginReservationPurchaseOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
-    browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest, options?: BrowseAvailableNumbersOptions): Promise<AvailablePhoneNumber[]>;
+    browseAvailablePhoneNumbers(request: BrowseAvailableNumbersRequest, options?: BrowseAvailableNumbersOptions): Promise<PhoneNumbersBrowseResult>;
     createOrUpdateReservation(options?: CreateOrUpdateReservationOptions): Promise<PhoneNumbersReservation>;
     deleteReservation(reservationId: string, options?: DeleteReservationOptions): Promise<void>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;

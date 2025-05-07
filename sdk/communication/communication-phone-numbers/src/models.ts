@@ -174,6 +174,7 @@ export {
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
+  PhoneNumbersBrowseResult,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
