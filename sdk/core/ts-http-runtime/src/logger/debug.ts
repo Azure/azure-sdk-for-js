@@ -69,8 +69,8 @@ const debugEnvVariable =
   (typeof process !== "undefined" && process.env && process.env.DEBUG) || undefined;
 
 let enabledString: string | undefined;
-let enabledNamespaces: RegExp[] = [];
-let skippedNamespaces: RegExp[] = [];
+let enabledNamespaces: string[] = [];
+let skippedNamespaces: string[] = [];
 const debuggers: Debugger[] = [];
 
 if (debugEnvVariable) {
@@ -93,13 +93,12 @@ function enable(namespaces: string): void {
   enabledString = namespaces;
   enabledNamespaces = [];
   skippedNamespaces = [];
-  const wildcard = /\*/g;
-  const namespaceList = namespaces.split(",").map((ns) => ns.trim().replace(wildcard, ".*?"));
+  const namespaceList = namespaces.split(",").map((ns) => ns.trim());
   for (const ns of namespaceList) {
     if (ns.startsWith("-")) {
-      skippedNamespaces.push(new RegExp(`^${ns.substr(1)}$`));
+      skippedNamespaces.push(ns.substring(1));
     } else {
-      enabledNamespaces.push(new RegExp(`^${ns}$`));
+      enabledNamespaces.push(ns);
     }
   }
   for (const instance of debuggers) {
@@ -113,16 +112,89 @@ function enabled(namespace: string): boolean {
   }
 
   for (const skipped of skippedNamespaces) {
-    if (skipped.test(namespace)) {
+    if (namespaceMatches(namespace, skipped)) {
       return false;
     }
   }
   for (const enabledNamespace of enabledNamespaces) {
-    if (enabledNamespace.test(namespace)) {
+    if (namespaceMatches(namespace, enabledNamespace)) {
       return true;
     }
   }
   return false;
+}
+
+function namespaceMatches(namespace: string, pattern: string): boolean {
+  let namespaceIndex = 0;
+  let patternIndex = 0;
+  const patternLength = pattern.length;
+  const namespaceLength = namespace.length;
+  let lastWildcard = -1;
+  let lastWildcardNamespace = -1;
+
+  while (namespaceIndex < namespaceLength && patternIndex < patternLength) {
+    if (pattern[patternIndex] === "*") {
+      lastWildcard = patternIndex;
+      patternIndex++;
+      if (patternIndex === patternLength) {
+        return true;
+      }
+      let nextPatternChar = pattern[patternIndex];
+      // ignore successive wildcards
+      while (nextPatternChar === "*") {
+        lastWildcard = patternIndex;
+        patternIndex++;
+        if (patternIndex === patternLength) {
+          return true;
+        }
+        nextPatternChar = pattern[patternIndex];
+      }
+
+      let nextNamespaceChar = namespace[namespaceIndex];
+      while (nextNamespaceChar !== nextPatternChar) {
+        namespaceIndex++;
+        if (namespaceIndex === namespaceLength) {
+          return false;
+        }
+        nextNamespaceChar = namespace[namespaceIndex];
+      }
+
+      lastWildcardNamespace = namespaceIndex;
+      namespaceIndex++;
+      patternIndex++;
+      continue;
+    } else if (pattern[patternIndex] === namespace[namespaceIndex]) {
+      patternIndex++;
+      namespaceIndex++;
+    } else if (lastWildcard >= 0) {
+      patternIndex = lastWildcard + 1;
+      const nextPatternChar = pattern[patternIndex];
+      namespaceIndex = lastWildcardNamespace + 1;
+      if (namespaceIndex === namespaceLength) {
+        return false;
+      }
+      let nextNamespaceChar = namespace[namespaceIndex];
+      while (nextNamespaceChar !== nextPatternChar) {
+        namespaceIndex++;
+        if (namespaceIndex === namespaceLength) {
+          return false;
+        }
+        nextNamespaceChar = namespace[namespaceIndex];
+      }
+      lastWildcardNamespace = namespaceIndex;
+      namespaceIndex++;
+      patternIndex++;
+      continue;
+    } else {
+      return false;
+    }
+  }
+
+  // handle trailing *
+  const namespaceDone = namespaceIndex === namespace.length;
+  const patternDone = patternIndex === pattern.length;
+  const trailingWildCard = patternIndex === pattern.length - 1 && pattern[patternIndex] === "*";
+  return namespaceDone && (patternDone || trailingWildCard);
 }
 
 function disable(): string {
