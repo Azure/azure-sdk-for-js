@@ -1075,7 +1075,10 @@ export function vectorStoreDataSourceDeserializer(item: any): VectorStoreDataSou
  * Type of vector storage asset. Asset type may be a uri_asset, in this case it should contain asset URI ID,
  * in the case of id_asset it should contain the data ID.
  */
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export enum VectorStoreDataSourceAssetType {
+  UriAsset = "uri_asset",
+  IdAsset = "id_asset"
+}
 
 /** A set of resources that are used by the `file_search` tool. */
 export interface FileSearchToolResource {
@@ -3783,7 +3786,8 @@ export function vectorStoreFileDeserializer(item: any): VectorStoreFile {
     lastError: !item["last_error"]
       ? item["last_error"]
       : vectorStoreFileErrorDeserializer(item["last_error"]),
-    chunkingStrategy: vectorStoreChunkingStrategyResponseUnionDeserializer(
+    chunkingStrategy:!item["chunking_strategy"]
+      ? item["chunking_strategy"] : vectorStoreChunkingStrategyResponseUnionDeserializer(
       item["chunking_strategy"],
     ),
   };

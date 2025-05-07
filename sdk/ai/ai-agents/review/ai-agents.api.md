@@ -1602,7 +1602,12 @@ export interface VectorStoreDataSource {
 }
 
 // @public
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export enum VectorStoreDataSourceAssetType {
+    // (undocumented)
+    IdAsset = "id_asset",
+    // (undocumented)
+    UriAsset = "uri_asset"
+}
 
 // @public
 export interface VectorStoreDeletionStatus {

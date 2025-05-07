@@ -43,8 +43,9 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
+
   // Create vector store file batch
-  const vectorStoreFileBatch = await client.vectorStoreFileBatches.create(vectorStore.id, {
+  const vectorStoreFileBatch = await client.vectorStoreFileBatches.createAndPoll(vectorStore.id, {
     fileIds: [file1.id, file2.id],
   });
   console.log(
@@ -59,21 +60,16 @@ export async function main(): Promise<void> {
   console.log(
     `Retrieved vector store file batch, vector store file batch ID: ${_vectorStoreFileBatch.id}`,
   );
-  // List vector store files in the batch
-  const vectorStoreFiles = client.vectorStoreFileBatches.list(
+  const vectorStoreFilesIterator = client.vectorStoreFileBatches.list(
     vectorStore.id,
     vectorStoreFileBatch.id,
-  );
-
-  // Collect all items into an array
-  const vectorStoreFilesList = [];
-  for await (const file of vectorStoreFiles) {
-    vectorStoreFilesList.push(file);
+  ); 
+    
+  // Iterate through all files in the batch
+  console.log("List of vector store files in the batch:");
+  for await (const file of vectorStoreFilesIterator) {
+    console.log(`- File ID: ${file.id}`);
   }
-
-  console.log(
-    `List of vector store files in the batch: ${vectorStoreFilesList.map((f) => f.id).join(", ")}`,
-  );
 
   // Delete files
   await client.files.delete(file1.id);

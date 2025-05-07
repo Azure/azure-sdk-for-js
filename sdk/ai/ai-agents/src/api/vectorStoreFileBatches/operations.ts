@@ -38,23 +38,9 @@ export function _listVectorStoreFileBatchFilesSend(
     requestOptions: {},
   },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files{?filter,limit,order,after,before}",
-    {
-      vectorStoreId: vectorStoreId,
-      batchId: batchId,
-      filter: options?.filter,
-      limit: options?.limit,
-      order: options?.order,
-      after: options?.after,
-      before: options?.before,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
-  return context.path(path).get({
+  return context
+    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/files", vectorStoreId, batchId)
+    .get({
     ...operationOptionsToRequestParameters(options),
     headers: {
       accept: "application/json",
