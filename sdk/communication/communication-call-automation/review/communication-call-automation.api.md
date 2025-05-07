@@ -62,8 +62,6 @@ export interface AnswerCallOptions extends OperationOptions {
     transcriptionOptions?: TranscriptionOptions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CallResult" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type AnswerCallResult = CallResult;
 
@@ -87,6 +85,9 @@ interface AudioData_2 {
     timestamp?: Date;
 }
 export { AudioData_2 as AudioData }
+
+// @public
+export type AudioFormat = string;
 
 // @public
 export interface AudioMetadata {
@@ -303,6 +304,14 @@ export class CallRecording {
 
 // @public
 export type CallRejectReason = string;
+
+// @public
+export interface CallResult {
+    // (undocumented)
+    callConnection: CallConnection;
+    // (undocumented)
+    callConnectionProperties: CallConnectionProperties;
+}
 
 // Warning: (ae-forgotten-export) The symbol "RestCallTransferAccepted" needs to be exported by the entry point index.d.ts
 //
@@ -591,6 +600,12 @@ export enum MediaKind {
     StopAudio = "stopAudio"
 }
 
+// @public
+export type MediaStreamingAudioChannelType = string;
+
+// @public
+export type MediaStreamingContentType = string;
+
 // Warning: (ae-forgotten-export) The symbol "RestMediaStreamingFailed" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -602,10 +617,18 @@ export interface MediaStreamingFailed extends Omit<RestMediaStreamingFailed, "ca
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "MediaStreamingOptionsInternal" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type MediaStreamingOptions = MediaStreamingOptionsInternal | WebSocketMediaStreamingOptions;
+export interface MediaStreamingOptions {
+    audioChannelType: MediaStreamingAudioChannelType;
+    audioFormat?: AudioFormat;
+    // (undocumented)
+    contentType?: MediaStreamingContentType;
+    enableBidirectional?: boolean;
+    enableDtmfTones?: boolean;
+    startMediaStreaming?: boolean;
+    transportType: "websocket";
+    transportUrl?: string;
+}
 
 // Warning: (ae-forgotten-export) The symbol "RestMediaStreamingStarted" needs to be exported by the entry point index.d.ts
 //
@@ -1028,6 +1051,9 @@ export enum StreamingDataKind {
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
 
 // @public
+export type StreamingTransportType = string;
+
+// @public
 export enum TextFormat {
     Display = "display"
 }
@@ -1083,10 +1109,15 @@ export interface TranscriptionMetadata {
     subscriptionId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "TranscriptionOptionsInternal" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type TranscriptionOptions = TranscriptionOptionsInternal | WebSocketTranscriptionOptions;
+export interface TranscriptionOptions {
+    enableIntermediateResults?: boolean;
+    locale: string;
+    speechModelEndpointId?: string;
+    startTranscription?: boolean;
+    transportType: "websocket";
+    transportUrl?: string;
+}
 
 // Warning: (ae-forgotten-export) The symbol "RestTranscriptionStarted" needs to be exported by the entry point index.d.ts
 //
@@ -1159,12 +1190,11 @@ export interface VoipHeader extends CustomCallingContextHeader {
     kind: "voip";
 }
 
+// Warning: (ae-forgotten-export) The symbol "MediaStreamingOptionsInternal" needs to be exported by the entry point index.d.ts
+//
 // @public
 export interface WebSocketMediaStreamingOptions extends MediaStreamingOptionsInternal {
-    // Warning: (ae-forgotten-export) The symbol "AudioFormat" needs to be exported by the entry point index.d.ts
     audioFormat?: AudioFormat;
-    // Warning: (ae-forgotten-export) The symbol "MediaStreamingContentType" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     contentType?: MediaStreamingContentType;
     enableBidirectional?: boolean;
@@ -1174,6 +1204,8 @@ export interface WebSocketMediaStreamingOptions extends MediaStreamingOptionsInt
     transportUrl?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "TranscriptionOptionsInternal" needs to be exported by the entry point index.d.ts
+//
 // @public
 export interface WebSocketTranscriptionOptions extends TranscriptionOptionsInternal {
     enableIntermediateResults?: boolean;

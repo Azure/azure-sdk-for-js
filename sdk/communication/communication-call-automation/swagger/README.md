@@ -185,7 +185,22 @@ directive:
       to: RestMediaStreamingFailed
   - rename-model:
       from: PlayStarted
-      to: RestPlayStarted      
+      to: RestPlayStarted
+  - rename-model:
+      from: MediaStreamingOptions
+      to: MediaStreamingOptionsInternal
+  - rename-model:
+      from: MediaStreamingStopped
+      to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
+  - rename-model:
+      from: MediaStreamingFailed
+      to: RestMediaStreamingFailed
+  - rename-model:
+      from: PlayStarted
+      to: RestPlayStarted 
 ```
 
 ```yaml
