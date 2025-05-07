@@ -208,7 +208,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js test:$(TestType)
+              node ../../../common/scripts/install-run-rushx.js test:live:$(TestType)
               exit $LASTEXITCODE
           displayName: "Test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
