@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the quality measuref the Radiology Insights request.
+ * @summary Displays the quality measure the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -21,7 +21,7 @@ import AzureHealthInsightsClient, {
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the clincal guidance inference
+ * Print the quality measure inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
