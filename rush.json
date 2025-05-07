@@ -1,8 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */
-{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -822,6 +821,11 @@
     {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/mcp-server",
+      "projectFolder": "common/tools/mcp-server",
       "versionPolicyName": "utility"
     },
     {
@@ -2332,6 +2336,36 @@
     {
       "packageName": "@azure/arm-weightsandbiases",
       "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-lambdatesthyperexecute",
+      "projectFolder": "sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dependencymap",
+      "projectFolder": "sdk/dependencymap/arm-dependencymap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-programmableconnectivity",
+      "projectFolder": "sdk/programmableconnectivity/arm-programmableconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portalservicescopilot",
+      "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-carbonoptimization",
+      "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
       "versionPolicyName": "management"
     },
     {

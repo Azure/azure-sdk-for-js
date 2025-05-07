@@ -1,6 +1,6 @@
 {
   "name": "@typespec/ts-http-runtime",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -63,6 +63,24 @@
         "types": "./dist/commonjs/logger/internal.d.ts",
         "default": "./dist/commonjs/logger/internal.js"
       }
+    },
+    "./internal/policies": {
+      "browser": {
+        "types": "./dist/browser/policies/internal.d.ts",
+        "default": "./dist/browser/policies/internal.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/policies/internal.d.ts",
+        "default": "./dist/react-native/policies/internal.js"
+      },
+      "import": {
+        "types": "./dist/esm/policies/internal.d.ts",
+        "default": "./dist/esm/policies/internal.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/policies/internal.d.ts",
+        "default": "./dist/commonjs/policies/internal.js"
+      }
     }
   },
   "files": [
@@ -90,24 +108,18 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
-    "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\"  \"*.{js,cjs,mjs,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "lint": "tsx scripts/azure-diff.ts && eslint README.md package.json api-extractor.json src test",
-    "lint:fix": "tsx scripts/azure-diff.ts --update && eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
-    "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
+    "test:node:esm": "dev-tool run test:vitest --esm --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//metadata": {
@@ -141,16 +153,17 @@
     "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
     "playwright": "^1.41.2",
+    "tsx": "^4.19.1",
     "typescript": "~5.8.2",
-    "vitest": "^3.0.9",
-    "tsx": "^4.19.1"
+    "vitest": "^3.0.9"
   },
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./internal/util": "./src/util/internal.ts",
-      "./internal/logger": "./src/logger/internal.ts"
+      "./internal/logger": "./src/logger/internal.ts",
+      "./internal/policies": "./src/policies/internal.ts"
     },
     "dialects": [
       "esm",

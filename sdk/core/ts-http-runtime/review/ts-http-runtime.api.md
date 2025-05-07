@@ -113,10 +113,17 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    pipeline?: Pipeline;
 };
 
 // @public
 export function createClientLogger(namespace: string): TypeSpecRuntimeLogger;
+
+// @public
+export function createDefaultHttpClient(): HttpClient;
+
+// @public
+export function createEmptyPipeline(): Pipeline;
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;

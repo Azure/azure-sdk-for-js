@@ -1,5 +1,11 @@
 # Release History
-    
+
+## 18.5.0 (2025-04-18)
+
+### Features Added
+
+  - Type ProvisioningState has a new value Accepted
+
 ## 18.4.0 (2025-02-27)
     
 ### Features Added

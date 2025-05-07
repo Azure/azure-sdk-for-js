@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Fetches the result of any operation on the backup item.
  *
  * @summary Fetches the result of any operation on the backup item.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectedItemOperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectedItemOperationResults.json
  */
 async function getOperationResultsOfProtectedVM() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function getOperationResultsOfProtectedVM() {
 }
 
 async function main() {
-  getOperationResultsOfProtectedVM();
+  await getOperationResultsOfProtectedVM();
 }
 
 main().catch(console.error);
