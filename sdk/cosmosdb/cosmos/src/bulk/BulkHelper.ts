@@ -52,6 +52,7 @@ export class BulkHelper {
   private staleRidError: ErrorResponse | undefined;
   private readonly operationsPerSleep: number = 100; // Number of operations to add per sleep
   private readonly intervalForPartialBatchInMs: number = 1000; // Sleep interval before adding partial batch to dispatch queue
+  private readonly maxConcurrentRequestsPerPartition: number;
 
   /**
    * @internal
@@ -61,6 +62,7 @@ export class BulkHelper {
     clientContext: ClientContext,
     partitionKeyRangeCache: PartitionKeyRangeCache,
     options: RequestOptions,
+    maxConcurrentRequestsPerPartition: number,
   ) {
     this.container = container;
     this.clientContext = clientContext;
@@ -72,6 +74,7 @@ export class BulkHelper {
     this.refreshPartitionKeyRangeCache = this.refreshPartitionKeyRangeCache.bind(this);
     this.isCancelled = false;
     this.runCongestionControlTimer();
+    this.maxConcurrentRequestsPerPartition = maxConcurrentRequestsPerPartition;
   }
 
   /**
@@ -375,6 +378,7 @@ export class BulkHelper {
       this.clientContext.getClientConfig(),
       this.container.encryptionProcessor,
       this.processedOperationCountRef,
+      this.maxConcurrentRequestsPerPartition,
     );
     this.helpersByPartitionKeyRangeId.set(pkRangeId, newHelper);
     return newHelper;

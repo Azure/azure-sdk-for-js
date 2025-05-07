@@ -1435,7 +1435,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<BulkOperationResult[]>;
+    executeBulkOperations(operations: OperationInput[], options?: RequestOptions, maxConcurrentRequestsPerPartition?: number): Promise<BulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;

@@ -31,7 +31,7 @@ import {
   TriggerType,
   UserDefinedFunctionDefinition,
   StoredProcedureDefinition,
-} from "../src/index.js";
+} from "@azure/cosmos";
 import { ClientSecretCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 
@@ -1106,8 +1106,12 @@ describe("snippets", () => {
         resourceBody: { id: "doc2", name: "other", key: "A" },
       },
     ];
+    const maxConcurrency = 5;
+    const options = {
+      contentResponseOnWriteEnabled: false,
+    };
     // @ts-preserve-whitespace
-    await container.items.executeBulkOperations(operations);
+    await container.items.executeBulkOperations(operations, options, maxConcurrency);
   });
 
   it("ItemsBatch", async () => {

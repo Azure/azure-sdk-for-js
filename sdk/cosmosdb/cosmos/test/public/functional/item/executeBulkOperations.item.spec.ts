@@ -775,4 +775,38 @@ describe("test executeBulkOperations", () => {
     });
     await testContainer.delete();
   });
+  it("should throw with invalid maxConcurrentRequestsPerPartition", async () => {
+    const operations: OperationInput[] = Array.from({ length: 5 }, (_, i) => {
+      return {
+        operationType: BulkOperationType.Create,
+        partitionKey: i,
+        resourceBody: {
+          id: addEntropy(`doc${i}`),
+          name: "sample",
+          key: i,
+        },
+      };
+    });
+    // should throw with invalid maxConcurrentRequestsPerPartition
+    let maxConcurrency = 0;
+    try {
+      await container.items.executeBulkOperations(operations, {}, maxConcurrency);
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          `maxConcurrentRequestsPerPartition should be between 1 and ${Constants.BulkMaxDegreeOfConcurrency}`,
+        ),
+      );
+    }
+    maxConcurrency = 60;
+    try {
+      await container.items.executeBulkOperations(operations, {}, maxConcurrency);
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          `maxConcurrentRequestsPerPartition should be between 1 and ${Constants.BulkMaxDegreeOfConcurrency}`,
+        ),
+      );
+    }
+  });
 });

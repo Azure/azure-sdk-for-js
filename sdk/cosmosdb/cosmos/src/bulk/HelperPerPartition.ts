@@ -44,6 +44,7 @@ export class HelperPerPartition {
     clientConfig: ClientConfigDiagnostic,
     encryptionProcessor: EncryptionProcessor,
     processedOperationCountRef: { count: number },
+    maxConcurrentRequestsPerPartition: number,
   ) {
     this.executor = executor;
     this.retrier = retrier;
@@ -65,6 +66,7 @@ export class HelperPerPartition {
       this.dispatchLimiterQueue,
       this.partitionMetric,
       this.oldPartitionMetric,
+      maxConcurrentRequestsPerPartition,
     );
     this.currentBatcher = this.createBatcher();
   }

@@ -12,6 +12,7 @@ describe("CongestionAlgorithm", () => {
   let limiter: LimiterQueue;
   let oldPartitionMetric: PartitionMetric;
   let partitionMetric: PartitionMetric;
+  let maxDegreeOfConcurrency: number;
 
   const mockRetrier: RetryCallback = async () => {};
 
@@ -19,12 +20,18 @@ describe("CongestionAlgorithm", () => {
     oldPartitionMetric = new PartitionMetric();
     partitionMetric = new PartitionMetric();
     limiter = new LimiterQueue(1, partitionMetric, mockRetrier, {} as any);
+    maxDegreeOfConcurrency = Constants.BulkMaxDegreeOfConcurrency;
   });
   it("should increase concurrency by 1 when there is no throttling and items are processed", () => {
     const itemsCount = 10; // 10 items processed
     const timeTakenInMs = 1100; // should be greater than congestionWaitTimeInMs (1000 ms)
     const numberOfThrottles = 0; // no throttling
-    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(
+      limiter,
+      partitionMetric,
+      oldPartitionMetric,
+      maxDegreeOfConcurrency,
+    );
     algorithm["currentDegreeOfConcurrency"] = 1;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -35,7 +42,12 @@ describe("CongestionAlgorithm", () => {
     const itemsCount = 10; // 10 items processed
     let timeTakenInMs = 1100; // should be greater than congestionWaitTimeInMs (1000 ms)
     const numberOfThrottles = 2; // throttling
-    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(
+      limiter,
+      partitionMetric,
+      oldPartitionMetric,
+      maxDegreeOfConcurrency,
+    );
     algorithm["currentDegreeOfConcurrency"] = 12;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -58,7 +70,12 @@ describe("CongestionAlgorithm", () => {
     let itemsCount = 10;
     const timeTakenInMs = 100;
     let numberOfThrottles = 2;
-    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(
+      limiter,
+      partitionMetric,
+      oldPartitionMetric,
+      maxDegreeOfConcurrency,
+    );
     algorithm["currentDegreeOfConcurrency"] = 10;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -76,7 +93,12 @@ describe("CongestionAlgorithm", () => {
     const itemsCount = 10;
     const timeTakenInMs = 1100;
     const numberOfThrottles = 2;
-    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(
+      limiter,
+      partitionMetric,
+      oldPartitionMetric,
+      maxDegreeOfConcurrency,
+    );
     algorithm["currentDegreeOfConcurrency"] = 1;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
@@ -87,10 +109,27 @@ describe("CongestionAlgorithm", () => {
     const itemsCount = 10;
     const timeTakenInMs = 1100;
     const numberOfThrottles = 0;
-    const algorithm = new CongestionAlgorithm(limiter, partitionMetric, oldPartitionMetric);
+    const algorithm = new CongestionAlgorithm(
+      limiter,
+      partitionMetric,
+      oldPartitionMetric,
+      maxDegreeOfConcurrency,
+    );
     algorithm["currentDegreeOfConcurrency"] = Constants.BulkMaxDegreeOfConcurrency;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
     assert.strictEqual(algorithm["currentDegreeOfConcurrency"], 50);
+
+    // set new max degree of concurrency as 15
+    const newMaxDegreeOfConcurrency = 15;
+    algorithm["maxDegreeOfConcurrency"] = newMaxDegreeOfConcurrency;
+    algorithm["currentDegreeOfConcurrency"] = 15;
+    partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
+    algorithm.run();
+    assert.strictEqual(
+      algorithm["currentDegreeOfConcurrency"],
+      15,
+      "should not exceed max degree of concurrency",
+    );
   });
 });
