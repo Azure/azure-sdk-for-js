@@ -12,6 +12,10 @@ import type {
   CallConnectionStateModel,
   MediaStreamingSubscription,
   TranscriptionSubscription,
+  MediaStreamingOptionsInternal,
+  TranscriptionOptionsInternal,
+  WebSocketMediaStreamingOptions,
+  WebSocketTranscriptionOptions
 } from "../generated/src/index.js";
 
 export {
@@ -20,13 +24,9 @@ export {
   KnownCallRejectReason,
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingOptions,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
-  TranscriptionOptions,
-  TranscriptionTransportType,
+  KnownStreamingTransportType,
+  WebSocketMediaStreamingOptions,
+  WebSocketTranscriptionOptions,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
@@ -262,3 +262,9 @@ export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
 }
+
+/** Configuration of Media streaming. */
+export type MediaStreamingOptions = MediaStreamingOptionsInternal | WebSocketMediaStreamingOptions;
+
+/** Configuration of live transcription. */
+export type TranscriptionOptions  = TranscriptionOptionsInternal | WebSocketTranscriptionOptions;

@@ -11,10 +11,11 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2024-09-01-preview
+module-kind: esm
+tag: package-2025-05-15
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/691fea3efb9ff22b20904e92d5116223f452a3b1/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.3.0-beta.1
+  - https://github.com/Azure/azure-rest-api-specs/blob/8bf7f264d186b52eccb579accd3f584788511049/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.4.0-beta.2
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -50,6 +51,12 @@ directive:
   - rename-model:
       from: RecognizeInputType
       to: RecognizeInputTypeInternal
+  - rename-model:
+      from: MediaStreamingOptions
+      to: MediaStreamingOptionsInternal
+  - rename-model:
+      from: TranscriptionOptions
+      to: TranscriptionOptionsInternal
   - rename-model:
       from: TextSource
       to: TextSourceInternal
@@ -165,8 +172,20 @@ directive:
       from: HoldFailed
       to: RestHoldFailed
   - rename-model:
-      from: IncomingCall
-      to: RestIncomingCall
+      from: ConnectFailed
+      to: RestConnectFailed
+  - rename-model:
+      from: MediaStreamingStopped
+      to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
+  - rename-model:
+      from: MediaStreamingFailed
+      to: RestMediaStreamingFailed
+  - rename-model:
+      from: PlayStarted
+      to: RestPlayStarted      
 ```
 
 ```yaml

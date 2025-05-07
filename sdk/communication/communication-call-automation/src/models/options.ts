@@ -263,9 +263,7 @@ export type GetParticipantOptions = OperationOptions;
  */
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. (Only one of callLocator or callConnectionId to be used) */
-  callLocator?: CallLocator;
-  /** The call connectionId. (Only one of callLocator or callConnectionId to be used) */
-  callConnectionId?: string;
+  callLocator: CallLocator;
   /** The url to send notifications to. */
   recordingStateCallbackEndpointUrl?: string;
   /** The content type of call recording. */
@@ -404,7 +402,7 @@ export interface HoldOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
   /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUri?: string;
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -464,12 +462,4 @@ export interface UpdateTranscriptionOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
-}
-
-/**
- * Options to interrupt audio and announce.
- */
-export interface InterruptAudioAndAnnounceOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
 }
