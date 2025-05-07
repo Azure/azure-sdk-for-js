@@ -13,8 +13,13 @@ import { describe, it, afterEach, beforeEach, vi, expect } from "vitest";
 
 describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
   let httpClient: HttpClient;
+  let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(async () => {
+    // Save the entire process.env object and reset it
+    originalEnv = { ...process.env };
+    process.env = {};
+
     // Let the IMDS ping request succeed, but fail the token acquisition
     httpClient = createDefaultHttpClient();
     vi.spyOn(httpClient, "sendRequest").mockImplementation((request) => {
@@ -27,6 +32,9 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
   });
 
   afterEach(async () => {
+    // Restore original environment
+    process.env = { ...originalEnv };
+
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
   });
