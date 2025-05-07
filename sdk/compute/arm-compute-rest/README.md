@@ -62,14 +62,17 @@ The following section shows you how to initialize and authenticate your client, 
 
 ```ts snippet:ReadmeSampleVirtualMachinesList
 import { DefaultAzureCredential } from "@azure/identity";
-import ComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
+import ComputeManagementClient, {
+  VirtualMachinesListParameters,
+  paginate,
+} from "@azure-rest/arm-compute";
 
 const credential = new DefaultAzureCredential();
 const client = ComputeManagementClient(credential);
 
 const subscriptionId = "";
 const resourceGroupName = "rgcompute";
-const options = {
+const options: VirtualMachinesListParameters = {
   queryParameters: {
     $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
     "api-version": "2022-08-01",

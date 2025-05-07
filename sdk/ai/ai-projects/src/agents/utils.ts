@@ -9,7 +9,7 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
-  OpenApiFunctionDefinition,
+  SearchConfigurationOutput,
   OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
@@ -20,6 +20,7 @@ import type {
   VectorStoreDataSource,
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
+  OpenApiFunctionDefinition,
 } from "./inputOutputs.js";
 import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
@@ -48,6 +49,8 @@ export enum connectionToolType {
   SharepointGrounding = "sharepoint_grounding",
   /** Azure Function tool */
   AzureFunction = "azure_function",
+  /** Bing custom search tool */
+  BingCustomSearch = "bing_custom_search",
 }
 
 const toolMap = {
@@ -55,6 +58,7 @@ const toolMap = {
   fabric_dataagent: "fabric_dataagent",
   sharepoint_grounding: "sharepointGrounding",
   azure_function: "azureFunction",
+  bing_custom_search: "bingCustomSearch",
 };
 
 /**
@@ -77,6 +81,30 @@ export class ToolUtility {
         type: toolType,
         [toolMap[toolType]]: {
           connections: connectionIds.map((connectionId) => ({ connectionId: connectionId })),
+        },
+      },
+    };
+  }
+
+  /**
+   * Creates a bing custom search tool
+   *
+   * @param searchConfigurations - The ID of bing search connection and instanceName.
+   *
+   * @returns An object containing the definition and resources for the bing custom search tool
+   */
+
+  static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
+    definition: ToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "bing_custom_search",
+        bingCustomSearch: {
+          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
+            connectionId: searchConfiguration.connectionId,
+            instanceName: searchConfiguration.instanceName,
+          })),
         },
       },
     };
@@ -238,7 +266,6 @@ export class ToolUtility {
     };
   }
 }
-
 /**
  * Represents a set of tools with their definitions and resources.
  */

@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents";
+
+import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents/index.js";
 import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-} from "../../../src/documents";
-import { getTestDatabase } from "../common/TestHelpers";
-import type { Database } from "../../../src/client/Database/Database";
-import type { Container } from "../../../src/client";
+} from "../../../src/documents/index.js";
+import { getTestDatabase } from "../common/TestHelpers.js";
+import type { Database } from "../../../src/client/Database/Database.js";
+import type { Container } from "../../../src/client/index.js";
+import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 // Skipping these tests as they are not supported by public emulator
 describe("Vector search feature", async () => {
   describe("VectorEmbeddingPolicy", async () => {
     let database: Database;
-    before(async function () {
-      // removeAllDatabases();
+    beforeAll(async () => {
       database = await getTestDatabase("vector embedding database");
     });
 
-    it("validate-VectorEmbeddingPolicy", async function () {
+    it("validate-VectorEmbeddingPolicy", async () => {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
           { path: "/vector1", type: VectorIndexType.Flat },
@@ -63,10 +63,15 @@ describe("Vector search feature", async () => {
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
+      try {
+        await database.container(containerName).delete();
+      } catch {
+        // Ignore if container is not found
+      }
     });
 
     // skipping the test case for now. Will enable it once the changes are live on backend
-    it.skip("validate VectorEmbeddingPolicy", async function () {
+    it.skip("validate VectorEmbeddingPolicy", async () => {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
           { path: "/vector1", type: VectorIndexType.Flat },
@@ -138,7 +143,7 @@ describe("Vector search feature", async () => {
       assert(containerdef.indexingPolicy.vectorIndexes[2].vectorIndexShardKey[0] === "/ZipCode");
     });
 
-    it("should fail to create vector indexing policy", async function () {
+    it("should fail to create vector indexing policy", async () => {
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
           {
@@ -181,9 +186,14 @@ describe("Vector search feature", async () => {
         assert(e.code === 400);
         assert(e.body.message.includes("vector2 not matching in Embedding's path"));
       }
+      try {
+        await database.container(containerName).delete();
+      } catch {
+        // Ignore if container is not found
+      }
     });
 
-    it("should fail to replace vector indexing policy", async function () {
+    it("should fail to replace vector indexing policy", async () => {
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
           {
@@ -215,9 +225,14 @@ describe("Vector search feature", async () => {
       } catch (e) {
         assert(e.code === 400);
       }
+      try {
+        await database.container(containerId).delete();
+      } catch {
+        // Ignore if container is not found
+      }
     });
 
-    it.skip("should fail to create vector embedding policy", async function () {
+    it.skip("should fail to create vector embedding policy", async () => {
       // Using too many dimensions
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
@@ -262,7 +277,7 @@ describe("Vector search feature", async () => {
       }
     });
 
-    after(async function () {
+    afterAll(async () => {
       await database.delete();
     });
   });
@@ -271,7 +286,7 @@ describe("Vector search feature", async () => {
     let database: Database;
     let container: Container;
 
-    before(async function () {
+    beforeAll(async () => {
       database = await getTestDatabase("vector search database");
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [{ path: "/vector1", type: VectorIndexType.Flat }],
@@ -320,49 +335,49 @@ describe("Vector search feature", async () => {
       });
     });
 
-    it("should execute vector search query", async function () {
+    it("should execute vector search query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT TOP 10 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
       await executeQueryAndVerifyOrder(container, query, 3, false);
     });
 
-    it("should execute distinct vector search query", async function () {
+    it("should execute distinct vector search query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT distinct TOP 10 c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'})";
       await executeQueryAndVerifyOrder(container, query, 3, false);
     });
 
-    it("should execute vector search query with limit in query", async function () {
+    it("should execute vector search query with limit in query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector2, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
       await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
-    it("should execute distinct vector search query with limit in query", async function () {
+    it("should execute distinct vector search query with limit in query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT distinct c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector2, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 2";
       await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
-    it("should execute vector search query with top in query", async function () {
+    it("should execute vector search query with top in query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT TOP 2 c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector2, true, {distanceFunction:'dotProduct'}) AS similarityScore from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
       await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
-    it("should execute distinct vector search query with top in query", async function () {
+    it("should execute distinct vector search query with top in query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT distinct TOP 2 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector2, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'})";
       await executeQueryAndVerifyOrder(container, query, 2, true);
     });
 
-    it("should execute vector search query with filter in query", async function () {
+    it("should execute vector search query with filter in query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
@@ -377,7 +392,7 @@ describe("Vector search feature", async () => {
         }
       }
     });
-    it("should execute distinct vector search query with filter in query", async function () {
+    it("should execute distinct vector search query with filter in query", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT distinct c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) AS similarityScore  from c WHERE VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'euclidean'}) >= 0.0";
@@ -392,7 +407,8 @@ describe("Vector search feature", async () => {
         }
       }
     });
-    after(async function () {
+
+    afterAll(async () => {
       await database.delete();
     });
   });
@@ -401,7 +417,7 @@ describe("Vector search feature", async () => {
     let database: Database;
     let container: Container;
 
-    before(async function () {
+    beforeAll(async () => {
       database = await getTestDatabase("vector search database");
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [{ path: "/vector1", type: VectorIndexType.Flat }],
@@ -438,35 +454,35 @@ describe("Vector search feature", async () => {
       }
     });
 
-    it("should execute vector search query, large data OFFSET 0 LIMIT 1000", async function () {
+    it("should execute vector search query, large data OFFSET 0 LIMIT 1000", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id, VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
       await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
-    it("should execute distinct vector search query, large data OFFSET 0 LIMIT", async function () {
+    it("should execute distinct vector search query, large data OFFSET 0 LIMIT", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT DISTINCT c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 0 LIMIT 1000";
       await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
-    it("should execute vector search query with top in query, large data", async function () {
+    it("should execute vector search query with top in query, large data", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT TOP 1000 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
       await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
-    it("should execute distinct vector search query with top in query, large data", async function () {
+    it("should execute distinct vector search query with top in query, large data", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT DISTINCT TOP 1000 c.id AS Id, VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'})";
       await executeQueryAndVerifyOrder(container, query, 1000, true);
     });
 
-    it.skip("should execute vector search query, large data with offset 1000 and limit 500", async function () {
+    it.skip("should execute vector search query, large data with offset 1000 and limit 500", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotProduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
@@ -487,7 +503,7 @@ describe("Vector search feature", async () => {
       assert.equal(id, 500);
     });
 
-    it.skip("should execute distinct vector search query, large data with offset 1000 and limit 500", async function () {
+    it.skip("should execute distinct vector search query, large data with offset 1000 and limit 500", async () => {
       // create a queryiterator to run vector search query
       const query =
         "SELECT DISTINCT c.id AS Id,  VectorDistance([0.056419, -0.021141], c.vector1, true, {distanceFunction:'dotproduct'}) AS similarityScore  from c ORDER BY VectorDistance([0.0001, 0.0001], c.vector1, true, {distanceFunction:'dotProduct'}) OFFSET 1000 LIMIT 500";
@@ -508,7 +524,7 @@ describe("Vector search feature", async () => {
       assert.equal(id, 500);
     });
 
-    after(async function () {
+    afterAll(async () => {
       await database.delete();
     });
   });
@@ -546,11 +562,11 @@ async function executeQueryAndVerifyOrder(
 describe("Full text search feature", async () => {
   let database: Database;
 
-  before(async function () {
+  beforeAll(async () => {
     database = await getTestDatabase("full text search database");
   });
 
-  after(async function () {
+  afterAll(async () => {
     await database.delete();
   });
 
@@ -568,7 +584,7 @@ describe("Full text search feature", async () => {
     ],
   };
 
-  it("validate full text search policy", async function () {
+  it("validate full text search policy", async () => {
     const containerName = "full text search container policy";
     const { resource: containerdef } = await database.containers.createIfNotExists({
       id: containerName,
@@ -583,9 +599,10 @@ describe("Full text search feature", async () => {
     assert(containerdef.fullTextPolicy.fullTextPaths.length === 2);
     assert(containerdef.fullTextPolicy.fullTextPaths[0].path === "/text1");
     assert(containerdef.fullTextPolicy.fullTextPaths[1].path === "/text2");
+    await database.container(containerName).delete();
   });
 
-  it("should execute a full text query", async function () {
+  it("should execute a full text query", async () => {
     const containerName = "full text search container 1";
     const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text1, ['swim', 'run'])";
 
@@ -604,9 +621,10 @@ describe("Full text search feature", async () => {
       result.push(...(await queryIterator.fetchNext()).resources);
     }
     assert(result.length === 2);
+    await database.container(containerName).delete();
   });
 
-  it("should execute a full text query with RRF score", async function () {
+  it("should execute a full text query with RRF score", async () => {
     const containerName = "full text search container 2";
     const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
       vectorEmbeddings: [
@@ -652,9 +670,10 @@ describe("Full text search feature", async () => {
     }
 
     assert(result.length === 2);
+    await database.container(containerName).delete();
   });
 
-  it("should execute a full text query with fetchAll", async function () {
+  it("should execute a full text query with fetchAll", async () => {
     const containerName = "full text search container 3";
     const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text, ['swim', 'run'])";
 
@@ -670,5 +689,6 @@ describe("Full text search feature", async () => {
     const queryIterator = container.items.query(query, queryOptions);
     const result = await queryIterator.fetchAll();
     assert(result.resources.length === 2);
+    await database.container(containerName).delete();
   });
 });

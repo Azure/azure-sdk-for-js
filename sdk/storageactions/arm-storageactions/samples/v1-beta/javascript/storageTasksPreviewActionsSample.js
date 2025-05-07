@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { StorageActionsManagementClient } = require("@azure/arm-storageactions");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Runs the input conditions against input object metadata properties and designates matched objects in response.
@@ -78,7 +78,7 @@ async function performStorageTaskActionsPreview() {
 }
 
 async function main() {
-  performStorageTaskActionsPreview();
+  await performStorageTaskActionsPreview();
 }
 
 main().catch(console.error);

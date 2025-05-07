@@ -17,7 +17,7 @@ import {
   QueryRequest as QueryRequestMapper,
   BlobTags as BlobTagsMapper,
   BlockLookupList as BlockLookupListMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

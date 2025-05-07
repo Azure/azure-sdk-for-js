@@ -34,6 +34,7 @@ import {
   ItemDefinition,
 } from "@azure/cosmos";
 import { ClientSecretCredential } from "@azure/identity";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", () => {

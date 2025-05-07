@@ -379,6 +379,38 @@ const agent = await client.agents.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
+#### Create Agent With OpenAPI
+
+OpenAPI specifications describe REST operations against a specific endpoint. Agents SDK can read an OpenAPI spec, create a function from it, and call that function against the REST endpoint without additional client-side execution.
+Here is an example creating an OpenAPI tool (using anonymous authentication):
+
+```ts snippet:createAgentWithOpenApi
+import { ToolUtility } from "@azure/ai-projects";
+
+// Read in OpenApi spec
+const filePath = "./data/weatherOpenApi.json";
+const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+// Define OpenApi function
+const openApiFunction = {
+  name: "getWeather",
+  spec: openApiSpec,
+  description: "Retrieve weather information for a location",
+  auth: {
+    type: "anonymous",
+  },
+  default_params: ["format"], // optional
+};
+// Create OpenApi tool
+const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
+// Create agent with OpenApi tool
+const agent = await client.agents.createAgent("gpt-4o-mini", {
+  name: "myAgent",
+  instructions: "You are a helpful agent",
+  tools: [openApiTool.definition],
+});
+console.log(`Created agent, agent ID: ${agent.id}`);
+```
+
 #### Create an Agent with Fabric
 
 To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
@@ -439,6 +471,21 @@ console.log(`Created agent, agent ID : ${agent.id}`);
 const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
 ```
 
+#### List Threads
+
+To list all threads attached to a given agent, use the list_threads API:
+
+```ts snippet:listThreads
+const threads = await client.agents.listThreads();
+console.log(`Threads for agent ${agent.id}:`);
+for await (const t of (await threads).data) {
+  console.log(`Thread ID: ${t.id}`);
+  console.log(`Created at: ${t.createdAt}`);
+  console.log(`Metadata: ${t.metadata}`);
+  console.log(`---- `);
+}
+```
+
 #### Create Message
 
 To create a message for assistant to process, you pass `user` as `role` and a question as `content`:
@@ -497,6 +544,116 @@ const message = await client.agents.createMessage(thread.id, {
     fileId: file.id,
     tools: [codeInterpreterTool.definition],
   },
+});
+console.log(`Created message, message ID: ${message.id}`);
+```
+
+#### Create Message with Image Inputs
+
+You can send messages to Azure agents with image inputs in following ways:
+
+- **Using an image stored as a uploaded file**
+- **Using a public image accessible via URL**
+- **Using a base64 encoded image string**
+
+The following examples demonstrate each method:
+
+##### Create message using uploaded image file
+
+```ts snippet:imageInputWithFile
+// Upload the local image file
+const fileStream = fs.createReadStream(imagePath);
+const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
+  fileName: "image_file.png",
+});
+console.log(`Uploaded file, file ID: ${imageFile.id}`);
+// Create a message with both text and image content
+console.log("Creating message with image content...");
+const inputMessage = "Hello, what is in the image?";
+const content = [
+  {
+    type: "text",
+    text: inputMessage,
+  },
+  {
+    type: "image_file",
+    image_file: {
+      file_id: imageFile.id,
+      detail: "high",
+    },
+  },
+];
+const message = await client.agents.createMessage(thread.id, {
+  role: "user",
+  content: content,
+});
+console.log(`Created message, message ID: ${message.id}`);
+```
+
+##### Create message with an image URL input
+
+```ts snippet:imageInputWithUrl
+// Specify the public image URL
+const imageUrl =
+  "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
+// Create content directly referencing image URL
+const inputMessage = "Hello, what is in the image?";
+const content = [
+  {
+    type: "text",
+    text: inputMessage,
+  },
+  {
+    type: "image_url",
+    image_url: {
+      url: imageUrl,
+      detail: "high",
+    },
+  },
+];
+const message = await client.agents.createMessage(thread.id, {
+  role: "user",
+  content: content,
+});
+console.log(`Created message, message ID: ${message.id}`);
+```
+
+##### Create message with base64-encoded image input
+
+```ts snippet:imageInputWithBase64
+function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
+  try {
+    // Read the image file as binary
+    const imageBuffer = fs.readFileSync(imagePath);
+    // Convert to base64
+    const base64Data = imageBuffer.toString("base64");
+    // Format as a data URL
+    return `data:${mimeType};base64,${base64Data}`;
+  } catch (error) {
+    console.error(`Error reading image file at ${imagePath}:`, error);
+    throw error;
+  }
+}
+// Convert your image file to base64 format
+const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
+// Create a message with both text and image content
+const inputMessage = "Hello, what is in the image?";
+const content = [
+  {
+    type: "text",
+    text: inputMessage,
+  },
+  {
+    type: "image_url",
+    image_url: {
+      url: imageDataUrl,
+      detail: "high",
+    },
+  },
+];
+const message = await client.agents.createMessage(thread.id, {
+  role: "user",
+  content: content,
 });
 console.log(`Created message, message ID: ${message.id}`);
 ```
@@ -592,7 +749,7 @@ for await (const eventMessage of streamEventMessages) {
 To retrieve messages from agents, use the following example:
 
 ```ts snippet:listMessages
-import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "../src/index.js";
+import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
 
 const messages = await client.agents.listMessages(thread.id);
 while (messages.hasMore) {
@@ -627,7 +784,7 @@ import {
   isOutputOfType,
   MessageTextContentOutput,
   MessageImageFileContentOutput,
-} from "../src/index.js";
+} from "@azure/ai-projects";
 
 const messages = await client.agents.listMessages(thread.id);
 // Get most recent message from the assistant

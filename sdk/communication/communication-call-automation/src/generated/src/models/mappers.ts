@@ -2378,71 +2378,6 @@ export const ErrorModel: coreClient.CompositeMapper = {
   },
 };
 
-export const IncomingCall: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IncomingCall",
-    modelProperties: {
-      to: {
-        serializedName: "to",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel",
-        },
-      },
-      from: {
-        serializedName: "from",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel",
-        },
-      },
-      callerDisplayName: {
-        serializedName: "callerDisplayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      serverCallId: {
-        serializedName: "serverCallId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      customContext: {
-        serializedName: "customContext",
-        type: {
-          name: "Composite",
-          className: "CustomCallingContextInternal",
-        },
-      },
-      incomingCallContext: {
-        serializedName: "incomingCallContext",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      onBehalfOfCallee: {
-        serializedName: "onBehalfOfCallee",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel",
-        },
-      },
-      correlationId: {
-        serializedName: "correlationId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const DtmfResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4986,6 +4921,71 @@ export const RestHoldAudioCompleted: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RestResultInformation",
+        },
+      },
+    },
+  },
+};
+
+export const RestIncomingCall: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestIncomingCall",
+    modelProperties: {
+      to: {
+        serializedName: "to",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      from: {
+        serializedName: "from",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      callerDisplayName: {
+        serializedName: "callerDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      customContext: {
+        serializedName: "customContext",
+        type: {
+          name: "Composite",
+          className: "CustomCallingContextInternal",
+        },
+      },
+      incomingCallContext: {
+        serializedName: "incomingCallContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      onBehalfOfCallee: {
+        serializedName: "onBehalfOfCallee",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },

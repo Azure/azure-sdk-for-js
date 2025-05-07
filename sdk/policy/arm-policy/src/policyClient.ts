@@ -8,34 +8,28 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
 import {
-  DataPolicyManifestsImpl,
   PolicyDefinitionsImpl,
   PolicyDefinitionVersionsImpl,
   PolicySetDefinitionsImpl,
   PolicySetDefinitionVersionsImpl,
   PolicyAssignmentsImpl,
-  PolicyExemptionsImpl,
-  VariablesImpl,
-  VariableValuesImpl,
 } from "./operations/index.js";
-import {
-  DataPolicyManifests,
+import type {
   PolicyDefinitions,
   PolicyDefinitionVersions,
   PolicySetDefinitions,
   PolicySetDefinitionVersions,
   PolicyAssignments,
-  PolicyExemptions,
-  Variables,
-  VariableValues,
 } from "./operationsInterfaces/index.js";
-import { PolicyClientOptionalParams } from "./models/index.js";
+import type { PolicyClientOptionalParams } from "./models/index.js";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId?: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the PolicyClient class.
@@ -48,10 +42,7 @@ export class PolicyClient extends coreClient.ServiceClient {
     subscriptionId: string,
     options?: PolicyClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: PolicyClientOptionalParams,
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: PolicyClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: PolicyClientOptionalParams | string,
@@ -78,7 +69,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-policy/5.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-policy/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -90,8 +81,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -101,8 +91,7 @@ export class PolicyClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -118,11 +107,9 @@ export class PolicyClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -132,26 +119,43 @@ export class PolicyClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.dataPolicyManifests = new DataPolicyManifestsImpl(this);
+    this.apiVersion = options.apiVersion || "2024-05-01";
     this.policyDefinitions = new PolicyDefinitionsImpl(this);
     this.policyDefinitionVersions = new PolicyDefinitionVersionsImpl(this);
     this.policySetDefinitions = new PolicySetDefinitionsImpl(this);
-    this.policySetDefinitionVersions = new PolicySetDefinitionVersionsImpl(
-      this,
-    );
+    this.policySetDefinitionVersions = new PolicySetDefinitionVersionsImpl(this);
     this.policyAssignments = new PolicyAssignmentsImpl(this);
-    this.policyExemptions = new PolicyExemptionsImpl(this);
-    this.variables = new VariablesImpl(this);
-    this.variableValues = new VariableValuesImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  dataPolicyManifests: DataPolicyManifests;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
   policyDefinitions: PolicyDefinitions;
   policyDefinitionVersions: PolicyDefinitionVersions;
   policySetDefinitions: PolicySetDefinitions;
   policySetDefinitionVersions: PolicySetDefinitionVersions;
   policyAssignments: PolicyAssignments;
-  policyExemptions: PolicyExemptions;
-  variables: Variables;
-  variableValues: VariableValues;
 }

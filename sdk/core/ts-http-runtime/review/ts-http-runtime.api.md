@@ -113,10 +113,17 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    pipeline?: Pipeline;
 };
 
 // @public
 export function createClientLogger(namespace: string): TypeSpecRuntimeLogger;
+
+// @public
+export function createDefaultHttpClient(): HttpClient;
+
+// @public
+export function createEmptyPipeline(): Pipeline;
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
@@ -165,6 +172,9 @@ export interface GetBearerTokenOptions {
 
 // @public
 export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
+
+// @public
+export function getLogLevel(): TypeSpecRuntimeLogLevel | undefined;
 
 // @public
 export interface GetOAuth2TokenOptions {
@@ -355,6 +365,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
@@ -377,6 +388,7 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;
@@ -487,6 +499,9 @@ export interface RestErrorOptions {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
+export function setLogLevel(logLevel?: TypeSpecRuntimeLogLevel): void;
+
+// @public
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
@@ -518,15 +533,18 @@ export type TransferProgressEvent = {
 export type TypeSpecRuntimeClientLogger = Debugger;
 
 // @public
-export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger;
-
-// @public
 export interface TypeSpecRuntimeLogger {
     error: Debugger;
     info: Debugger;
     verbose: Debugger;
     warning: Debugger;
 }
+
+// @public
+export const TypeSpecRuntimeLogger: TypeSpecRuntimeClientLogger;
+
+// @public
+export type TypeSpecRuntimeLogLevel = "verbose" | "info" | "warning" | "error";
 
 // @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;

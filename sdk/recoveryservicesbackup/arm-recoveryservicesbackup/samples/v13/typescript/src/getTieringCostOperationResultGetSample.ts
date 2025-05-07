@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the result of async operation for tiering cost
  *
  * @summary Gets the result of async operation for tiering cost
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/GetTieringCostOperationResult.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/GetTieringCostOperationResult.json
  */
 async function fetchTieringCostOperationResult(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function fetchTieringCostOperationResult(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fetchTieringCostOperationResult();
+  await fetchTieringCostOperationResult();
 }
 
 main().catch(console.error);

@@ -231,6 +231,7 @@ class NodeHttpClient implements HttpClient {
       port: url.port,
       method: request.method,
       headers: request.headers.toJSON({ preserveCase: true }),
+      ...request.requestOverrides,
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {

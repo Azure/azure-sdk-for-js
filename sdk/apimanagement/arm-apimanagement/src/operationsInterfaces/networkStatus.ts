@@ -7,39 +7,39 @@
  */
 
 import {
-    NetworkStatusListByLocationOptionalParams,
-    NetworkStatusListByLocationResponse,
-    NetworkStatusListByServiceOptionalParams,
-    NetworkStatusListByServiceResponse
+  NetworkStatusListByServiceOptionalParams,
+  NetworkStatusListByServiceResponse,
+  NetworkStatusListByLocationOptionalParams,
+  NetworkStatusListByLocationResponse,
 } from "../models/index.js";
 
 /** Interface representing a NetworkStatus. */
 export interface NetworkStatus {
-    /**
-     * Gets the Connectivity Status to the external resources on which the Api Management service depends
-     * from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: NetworkStatusListByServiceOptionalParams
-    ): Promise<NetworkStatusListByServiceResponse>;
-    /**
-     * Gets the Connectivity Status to the external resources on which the Api Management service depends
-     * from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param locationName Location in which the API Management service is deployed. This is one of the
-     *                     Azure Regions like West US, East US, South Central US.
-     * @param options The options parameters.
-     */
-    listByLocation(
-        resourceGroupName: string,
-        serviceName: string,
-        locationName: string,
-        options?: NetworkStatusListByLocationOptionalParams
-    ): Promise<NetworkStatusListByLocationResponse>;
+  /**
+   * Gets the Connectivity Status to the external resources on which the Api Management service depends
+   * from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: NetworkStatusListByServiceOptionalParams,
+  ): Promise<NetworkStatusListByServiceResponse>;
+  /**
+   * Gets the Connectivity Status to the external resources on which the Api Management service depends
+   * from inside the Cloud Service. This also returns the DNS Servers as visible to the CloudService.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param locationName Location in which the API Management service is deployed. This is one of the
+   *                     Azure Regions like West US, East US, South Central US.
+   * @param options The options parameters.
+   */
+  listByLocation(
+    resourceGroupName: string,
+    serviceName: string,
+    locationName: string,
+    options?: NetworkStatusListByLocationOptionalParams,
+  ): Promise<NetworkStatusListByLocationResponse>;
 }

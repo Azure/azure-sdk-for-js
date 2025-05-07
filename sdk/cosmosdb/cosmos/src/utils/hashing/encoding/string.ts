@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BytePrefix } from "./prefix";
+import { BytePrefix } from "./prefix.js";
 
 export function writeStringForBinaryEncoding(payload: string): Buffer {
   let outputStream = Buffer.from(BytePrefix.String, "hex");

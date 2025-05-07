@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2024-01-26-preview", ...options }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
-  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.0-beta.1`;
+  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.2-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

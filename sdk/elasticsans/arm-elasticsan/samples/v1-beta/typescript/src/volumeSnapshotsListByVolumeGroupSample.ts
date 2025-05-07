@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
  *
  * @summary List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumeSnapshotsListByVolumeGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function volumeSnapshotsListByVolumeGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumeSnapshots.listByVolumeGroup(
+  for await (const item of client.volumeSnapshots.listByVolumeGroup(
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
@@ -48,7 +48,7 @@ async function volumeSnapshotsListByVolumeGroupMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
  *
  * @summary List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumeSnapshotsListByVolumeGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -60,7 +60,7 @@ async function volumeSnapshotsListByVolumeGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumeSnapshots.listByVolumeGroup(
+  for await (const item of client.volumeSnapshots.listByVolumeGroup(
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
@@ -71,8 +71,8 @@ async function volumeSnapshotsListByVolumeGroupMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumeSnapshotsListByVolumeGroupMaximumSetGen();
-  volumeSnapshotsListByVolumeGroupMinimumSetGen();
+  await volumeSnapshotsListByVolumeGroupMaximumSetGen();
+  await volumeSnapshotsListByVolumeGroupMinimumSetGen();
 }
 
 main().catch(console.error);

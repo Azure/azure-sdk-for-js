@@ -17,6 +17,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   NetAppResourceImpl,
+  NetAppResourceUsagesImpl,
   NetAppResourceQuotaLimitsImpl,
   NetAppResourceRegionInfosImpl,
   AccountsImpl,
@@ -37,6 +38,7 @@ import {
 import {
   Operations,
   NetAppResource,
+  NetAppResourceUsages,
   NetAppResourceQuotaLimits,
   NetAppResourceRegionInfos,
   Accounts,
@@ -88,7 +90,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/21.4.1`;
+    const packageDetails = `azsdk-js-arm-netapp/21.5.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -142,9 +144,10 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-09-01";
+    this.apiVersion = options.apiVersion || "2025-01-01";
     this.operations = new OperationsImpl(this);
     this.netAppResource = new NetAppResourceImpl(this);
+    this.netAppResourceUsages = new NetAppResourceUsagesImpl(this);
     this.netAppResourceQuotaLimits = new NetAppResourceQuotaLimitsImpl(this);
     this.netAppResourceRegionInfos = new NetAppResourceRegionInfosImpl(this);
     this.accounts = new AccountsImpl(this);
@@ -194,6 +197,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
   operations: Operations;
   netAppResource: NetAppResource;
+  netAppResourceUsages: NetAppResourceUsages;
   netAppResourceQuotaLimits: NetAppResourceQuotaLimits;
   netAppResourceRegionInfos: NetAppResourceRegionInfos;
   accounts: Accounts;

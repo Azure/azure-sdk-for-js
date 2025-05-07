@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Client-Side Encryption
  */
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import { ClientSecretCredential } from "@azure/identity";
-
+import type {
+  EncryptionKeyWrapMetadata,
+  ClientEncryptionIncludedPath,
+  ClientEncryptionPolicy,
+} from "@azure/cosmos";
 import {
   CosmosClient,
   AzureKeyVaultEncryptionKeyResolver,
   EncryptionKeyResolverName,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
-  EncryptionKeyWrapMetadata,
-  ClientEncryptionIncludedPath,
   EncryptionType,
-  ClientEncryptionPolicy,
   EncryptionQueryBuilder,
 } from "@azure/cosmos";
-import { finish, handleError, logStep } from "./Shared/handleError";
-import { log } from "console";
+import { finish, handleError, logStep } from "./Shared/handleError.js";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -31,7 +29,7 @@ const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 let client: CosmosClient;
 
-async function run() {
+async function run(): Promise<void> {
   logStep("Create encryption enabled cosmos client");
   const credentials = new ClientSecretCredential("<tenant-id>", "<client-id>", "<app-secret>");
 

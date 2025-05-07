@@ -48,7 +48,7 @@ describe("Storage test", () => {
     const credential = createTestCredential();
     client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     resourceGroup = "myjstest";
-    storageAccountName = "storageaccountzzzxxx1";
+    storageAccountName = "storageaccountzzzxxx2";
     containerName = "mycontainerxxx";
   });
 

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver.js";
 import type { KeyWrapAlgorithm } from "@azure/keyvault-keys";
 import { KeyClient } from "@azure/keyvault-keys";
-import { ErrorResponse } from "../../request";
-import { EncryptionKeyResolverName } from "../enums";
+import { ErrorResponse } from "../../request/index.js";
+import { EncryptionKeyResolverName } from "../enums/index.js";
 
 /**
  * Implementation of EncryptionKeyResolver that uses Azure Key Vault for customer managed keys.

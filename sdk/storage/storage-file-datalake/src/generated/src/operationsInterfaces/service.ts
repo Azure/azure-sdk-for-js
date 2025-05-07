@@ -9,7 +9,7 @@
 import {
   ServiceListFileSystemsOptionalParams,
   ServiceListFileSystemsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Service. */
 export interface Service {

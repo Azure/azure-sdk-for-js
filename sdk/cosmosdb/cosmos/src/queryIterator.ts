@@ -2,39 +2,41 @@
 // Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
-import type { ClientContext } from "./ClientContext";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import type { ClientContext } from "./ClientContext.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "./diagnostics/DiagnosticNodeInternal.js";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common/index.js";
 import type {
   CosmosHeaders,
   ExecutionContext,
   FetchFunctionCallback,
   SqlQuerySpec,
-} from "./queryExecutionContext";
+} from "./queryExecutionContext/index.js";
 import {
   DefaultQueryExecutionContext,
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-} from "./queryExecutionContext";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import type { Response } from "./request";
+} from "./queryExecutionContext/index.js";
+import type { Response } from "./request/index.js";
 import type {
   ErrorResponse,
   PartitionedQueryExecutionInfo,
   QueryRange,
-} from "./request/ErrorResponse";
-import type { FeedOptions } from "./request/FeedOptions";
-import { FeedResponse } from "./request/FeedResponse";
+} from "./request/ErrorResponse.js";
+import type { FeedOptions } from "./request/FeedOptions.js";
+import { FeedResponse } from "./request/FeedResponse.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
   withMetadataDiagnostics,
-} from "./utils/diagnostics";
-import { MetadataLookUpType } from "./CosmosDiagnostics";
+} from "./utils/diagnostics.js";
+import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext";
-import { PartitionKeyRangeCache } from "./routing";
+import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
+import { PartitionKeyRangeCache } from "./routing/index.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables

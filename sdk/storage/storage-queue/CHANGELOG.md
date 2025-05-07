@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 12.26.0 (2025-03-18)

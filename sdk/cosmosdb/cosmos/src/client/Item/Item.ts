@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   Constants,
   copyObject,
@@ -11,20 +11,19 @@ import {
   isItemResourceValid,
   ResourceType,
   StatusCodes,
-} from "../../common";
-import type { PartitionKey, PartitionKeyInternal } from "../../documents";
-import { convertToInternalPartitionKey } from "../../documents";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import type { RequestOptions, Response } from "../../request";
-import { ErrorResponse } from "../../request";
-import type { PatchRequestBody } from "../../utils/patch";
-import { PatchOperationType } from "../../utils/patch";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import type { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";
+} from "../../common/index.js";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
+import type { RequestOptions, Response } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
+import type { PatchRequestBody } from "../../utils/patch.js";
+import { PatchOperationType } from "../../utils/patch.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
+import { ItemResponse } from "./ItemResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
 
 /**
  * Used to perform operations on a specific item.

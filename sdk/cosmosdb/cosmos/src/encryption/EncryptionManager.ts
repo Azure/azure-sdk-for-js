@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProtectedDataEncryptionKeyCache } from "./Cache/ProtectedDataEncryptionKeyCache";
-import { KeyEncryptionKeyCache } from "./Cache/KeyEncryptionKeyCache";
-import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache";
-import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache";
-import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
-import { Constants } from "../common/constants";
-import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
+import { ProtectedDataEncryptionKeyCache } from "./Cache/ProtectedDataEncryptionKeyCache.js";
+import { KeyEncryptionKeyCache } from "./Cache/KeyEncryptionKeyCache.js";
+import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache.js";
+import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache.js";
+import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider.js";
+import { Constants } from "../common/constants.js";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
 /**
  * Cache manager for encryption related caches.
  * @hidden

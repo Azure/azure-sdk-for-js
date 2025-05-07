@@ -1,35 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
-import type { CosmosClient } from "../../CosmosClient";
-import { ErrorResponse, type RequestOptions } from "../../request";
-import { Container, Containers } from "../Container";
-import { User, Users } from "../User";
-import type { DatabaseDefinition } from "./DatabaseDefinition";
-import { DatabaseResponse } from "./DatabaseResponse";
-import type { OfferDefinition } from "../Offer";
-import { OfferResponse, Offer } from "../Offer";
-import type { Resource } from "../Resource";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import {
+  createDatabaseUri,
+  getIdFromLink,
+  getPathFromLink,
+  ResourceType,
+} from "../../common/index.js";
+import type { CosmosClient } from "../../CosmosClient.js";
+import { ErrorResponse, type RequestOptions } from "../../request/index.js";
+import { Container, Containers } from "../Container/index.js";
+import { User, Users } from "../User/index.js";
+import type { DatabaseDefinition } from "./DatabaseDefinition.js";
+import { DatabaseResponse } from "./DatabaseResponse.js";
+import type { OfferDefinition } from "../Offer/index.js";
+import { OfferResponse, Offer } from "../Offer/index.js";
+import type { Resource } from "../Resource.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
   withMetadataDiagnostics,
-} from "../../utils/diagnostics";
-import { MetadataLookUpType } from "../../CosmosDiagnostics";
+} from "../../utils/diagnostics.js";
+import { MetadataLookUpType } from "../../CosmosDiagnostics.js";
 import type {
   ClientEncryptionKeyRequest,
   KeyEncryptionKey,
   EncryptionKeyWrapMetadata,
   ClientEncryptionKeyProperties,
-} from "../../encryption";
+} from "../../encryption/index.js";
 import {
   ClientEncryptionKeyResponse,
   EncryptionAlgorithm,
   KeyEncryptionAlgorithm,
-} from "../../encryption";
-import type { EncryptionManager } from "../../encryption/EncryptionManager";
+} from "../../encryption/index.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 /**
  * Operations for reading or deleting an existing database.
  *
