@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- fix an issue where `customHeaders` option value is lost [PR #33794](https://github.com/Azure/azure-sdk-for-js/pull/33794)
+- Fix an issue where `customHeaders` option value is lost [PR #33794](https://github.com/Azure/azure-sdk-for-js/pull/33794)
 
 ## 1.3.1 (2024-07-31)
 
