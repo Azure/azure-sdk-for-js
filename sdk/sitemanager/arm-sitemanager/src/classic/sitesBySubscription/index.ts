@@ -28,10 +28,7 @@ export interface SitesBySubscriptionOperations {
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete: (
-    siteName: string,
-    options?: SitesBySubscriptionDeleteOptionalParams,
-  ) => Promise<void>;
+  delete: (siteName: string, options?: SitesBySubscriptionDeleteOptionalParams) => Promise<void>;
   /** Update a Site */
   update: (
     siteName: string,
@@ -45,22 +42,15 @@ export interface SitesBySubscriptionOperations {
     options?: SitesBySubscriptionCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Site>, Site>;
   /** Get a Site */
-  get: (
-    siteName: string,
-    options?: SitesBySubscriptionGetOptionalParams,
-  ) => Promise<Site>;
+  get: (siteName: string, options?: SitesBySubscriptionGetOptionalParams) => Promise<Site>;
   /** List Site resources by subscription ID */
-  list: (
-    options?: SitesBySubscriptionListOptionalParams,
-  ) => PagedAsyncIterableIterator<Site>;
+  list: (options?: SitesBySubscriptionListOptionalParams) => PagedAsyncIterableIterator<Site>;
 }
 
 function _getSitesBySubscription(context: EdgeContext) {
   return {
-    delete: (
-      siteName: string,
-      options?: SitesBySubscriptionDeleteOptionalParams,
-    ) => $delete(context, siteName, options),
+    delete: (siteName: string, options?: SitesBySubscriptionDeleteOptionalParams) =>
+      $delete(context, siteName, options),
     update: (
       siteName: string,
       properties: SiteUpdate,
@@ -73,8 +63,7 @@ function _getSitesBySubscription(context: EdgeContext) {
     ) => createOrUpdate(context, siteName, resource, options),
     get: (siteName: string, options?: SitesBySubscriptionGetOptionalParams) =>
       get(context, siteName, options),
-    list: (options?: SitesBySubscriptionListOptionalParams) =>
-      list(context, options),
+    list: (options?: SitesBySubscriptionListOptionalParams) => list(context, options),
   };
 }
 

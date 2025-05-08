@@ -14,25 +14,21 @@ async function sitesByServiceGroupCreateOrUpdateGeneratedByMaximumSetRule(): Pro
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new EdgeClient(credential, subscriptionId);
-  const result = await client.sitesByServiceGroup.createOrUpdate(
-    "string",
-    "string",
-    {
-      properties: {
-        displayName: "string",
-        labels: { key8188: "mcgnu" },
-        description: "enxcmpvfvadbapo",
-        siteAddress: {
-          streetAddress1: "fodimymrxbhrfslsmzfhmitn",
-          streetAddress2: "widjg",
-          city: "zkcbzjkatafo",
-          stateOrProvince: "wk",
-          country: "xeevcfvimlfzsfuxtyujw",
-          postalCode: "qbrhqk",
-        },
+  const result = await client.sitesByServiceGroup.createOrUpdate("string", "string", {
+    properties: {
+      displayName: "string",
+      labels: { key8188: "mcgnu" },
+      description: "enxcmpvfvadbapo",
+      siteAddress: {
+        streetAddress1: "fodimymrxbhrfslsmzfhmitn",
+        streetAddress2: "widjg",
+        city: "zkcbzjkatafo",
+        stateOrProvince: "wk",
+        country: "xeevcfvimlfzsfuxtyujw",
+        postalCode: "qbrhqk",
       },
     },
-  );
+  });
   console.log(result);
 }
 
