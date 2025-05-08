@@ -1305,8 +1305,8 @@ packages:
     resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/ai-agents@1.0.0-alpha.20250502.6':
-    resolution: {integrity: sha512-hd25RVHYVPrMCRH78J3x3e7/rJ6mWPaHGPNs/Eyc4DJ4MTHsXDCXK2A8ZXbtjCmDOqIa9G9lpNSDoWVpROpB9Q==}
+  '@azure/ai-agents@1.0.0-alpha.20250507.2':
+    resolution: {integrity: sha512-UDpd4Qf/GcIYlINqYVf4tJOSZiy4l+MBJtnxA9Ya69ZcK6+Ua+Ar36hVDXElTgNtrj7Z8OTY8drkYqcLG6KK0g==}
     engines: {node: '>=18.0.0'}
 
   '@azure/app-configuration@1.8.0':
@@ -2445,7 +2445,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-v+Dx8RUySMKsw+LTUmOnq6yg654SoxefVvKZ/6jiwm+KaBfy3qhOb8U58m9DWItcQ4yy/5/jBpHSNlcy6UjYNg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-c8PK8h5/+CSoTCut52wQz+lVsaEGJ7qPB4ZdkypInaOt/3ZbhUSUrqlvBwghYvzETqT2Nhs6MoqGzYtpBYQhIw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -7323,7 +7323,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@azure/ai-agents@1.0.0-alpha.20250502.6':
+  '@azure/ai-agents@1.0.0-alpha.20250507.2':
     dependencies:
       '@azure-rest/core-client': 2.4.0
       '@azure/abort-controller': 2.1.2
@@ -9178,7 +9178,7 @@ snapshots:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(ws@8.18.2)(yaml@2.7.1)(zod@3.24.4)':
     dependencies:
-      '@azure/ai-agents': 1.0.0-alpha.20250502.6
+      '@azure/ai-agents': 1.0.0-alpha.20250507.2
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.200.0
       '@opentelemetry/exporter-logs-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)

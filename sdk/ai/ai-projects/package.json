@@ -61,7 +61,7 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure-rest/ai-inference": "^1.0.0-beta.6",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/ai-agents": "1.0.0-alpha.20250502.6",
+    "@azure/ai-agents": "1.0.0-alpha.20250507.2",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-util": "^1.9.0",
