@@ -114,7 +114,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | ConnectFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | CreateCallFailed | AnswerFailed | StartRecordingFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | ConnectFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | CreateCallFailed | AnswerFailed | StartRecordingFailed | IncomingCall;
 
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
@@ -516,6 +516,20 @@ export interface HoldOptions extends OperationOptions {
     operationCallbackUrl?: string;
     operationContext?: string;
     playSource?: FileSource | TextSource | SsmlSource;
+}
+
+// @public
+export interface IncomingCall {
+    callConnectionId: string;
+    callerDisplayName?: string;
+    correlationId: string;
+    customContext?: CustomCallingContext;
+    from?: CommunicationIdentifier;
+    incomingCallContext?: string;
+    kind: "IncomingCall";
+    onBehalfOfCallee?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    to?: CommunicationIdentifier;
 }
 
 // @public

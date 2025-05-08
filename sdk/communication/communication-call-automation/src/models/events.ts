@@ -44,7 +44,7 @@ import {
   StartRecordingFailed as RestStartRecordingFailed,
 } from "../generated/src/models/index.js";
 
-import type { CallParticipant } from "./models.js";
+import type { CallParticipant, CustomCallingContext } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
@@ -76,53 +76,54 @@ export type CallAutomationEvent =
   | TranscriptionStarted
   | TranscriptionStopped
   | TranscriptionUpdated
-  | TranscriptionFailed  
+  | TranscriptionFailed
   | HoldFailed
   | MediaStreamingStarted
   | MediaStreamingStopped
   | MediaStreamingFailed
   | CreateCallFailed
   | AnswerFailed
-  | StartRecordingFailed;
+  | StartRecordingFailed
+  | IncomingCall;
 
-  export {
-    RestAddParticipantSucceeded,
-    RestAddParticipantFailed,
-    RestRemoveParticipantSucceeded,
-    RestRemoveParticipantFailed,
-    RestCallConnected,
-    RestCallDisconnected,
-    RestCallTransferAccepted,
-    RestCallTransferFailed,
-    RestParticipantsUpdated,
-    RestRecordingStateChanged,
-    RestPlayStarted,
-    RestPlayCompleted,
-    RestPlayFailed,
-    RestPlayCanceled,
-    RestRecognizeCompleted,
-    RestRecognizeFailed,
-    RestRecognizeCanceled,
-    RestResultInformation,
-    RestContinuousDtmfRecognitionToneReceived,
-    RestContinuousDtmfRecognitionToneFailed,
-    RestContinuousDtmfRecognitionStopped,
-    RestSendDtmfTonesCompleted,
-    RestSendDtmfTonesFailed,
-    RestCancelAddParticipantSucceeded,
-    RestCancelAddParticipantFailed,
-    RestConnectFailed,
-    RestTranscriptionStarted,
-    RestTranscriptionStopped,
-    RestTranscriptionUpdated,
-    RestTranscriptionFailed,
-    RestHoldFailed,
-    RestMediaStreamingStarted,
-    RestMediaStreamingStopped,
-    RestMediaStreamingFailed,
-    RestCreateCallFailed,
-    RestAnswerFailed,
-  };
+export {
+  RestAddParticipantSucceeded,
+  RestAddParticipantFailed,
+  RestRemoveParticipantSucceeded,
+  RestRemoveParticipantFailed,
+  RestCallConnected,
+  RestCallDisconnected,
+  RestCallTransferAccepted,
+  RestCallTransferFailed,
+  RestParticipantsUpdated,
+  RestRecordingStateChanged,
+  RestPlayStarted,
+  RestPlayCompleted,
+  RestPlayFailed,
+  RestPlayCanceled,
+  RestRecognizeCompleted,
+  RestRecognizeFailed,
+  RestRecognizeCanceled,
+  RestResultInformation,
+  RestContinuousDtmfRecognitionToneReceived,
+  RestContinuousDtmfRecognitionToneFailed,
+  RestContinuousDtmfRecognitionStopped,
+  RestSendDtmfTonesCompleted,
+  RestSendDtmfTonesFailed,
+  RestCancelAddParticipantSucceeded,
+  RestCancelAddParticipantFailed,
+  RestConnectFailed,
+  RestTranscriptionStarted,
+  RestTranscriptionStopped,
+  RestTranscriptionUpdated,
+  RestTranscriptionFailed,
+  RestHoldFailed,
+  RestMediaStreamingStarted,
+  RestMediaStreamingStopped,
+  RestMediaStreamingFailed,
+  RestCreateCallFailed,
+  RestAnswerFailed,
+};
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
   /** The error code. */
@@ -229,6 +230,30 @@ export interface CallConnected
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CallConnected";
+}
+
+/** Event when call was initiated. */
+export interface IncomingCall {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** The communication identifier of the target user.*/
+  to?: CommunicationIdentifier;
+  /** The communication identifier of the user who initiated the call.*/
+  from?: CommunicationIdentifier;
+  /** Display name of caller.*/
+  callerDisplayName?: string;
+  /** Custom Context of Incoming Call */
+  customContext?: CustomCallingContext;
+  /** Incoming call context.*/
+  incomingCallContext?: string;
+  /** The communication identifier of the user on behalf of whom the call is made.*/
+  onBehalfOfCallee?: CommunicationIdentifier;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "IncomingCall";
 }
 
 /** Event when all participants left and call was terminated. */
