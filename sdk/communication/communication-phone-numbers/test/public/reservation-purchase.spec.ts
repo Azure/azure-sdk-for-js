@@ -48,17 +48,18 @@ matrix([[true, false]], async (useAad) => {
           },
         );
 
-        const phoneNumberForPurchase = browseAvailableNumbers[0].phoneNumber
-          ? browseAvailableNumbers[0].phoneNumber
-          : "";
+        const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+        const phoneNumbersList = [phoneNumbers[0]];
+        const phoneNumberForPurchase = phoneNumbersList[0].id ? phoneNumbersList[0].id : "";
 
-        assert.isNotEmpty(phoneNumberForPurchase);
-        const phoneNumbersList = [browseAvailableNumbers[0]];
-
-        const reservationResponse = await client.createOrUpdateReservation({
-          reservationId: reservationId,
-          add: phoneNumbersList,
-        });
+        const reservationResponse = await client.createOrUpdateReservation(
+          {
+            reservationId: getReservationId(),
+          },
+          {
+            add: phoneNumbersList,
+          },
+        );
         const responseReservationId = reservationResponse.id ? reservationResponse.id : "";
         assert.equal(reservationResponse.status, "active");
         assert.isTrue(reservationResponse.id !== "");
