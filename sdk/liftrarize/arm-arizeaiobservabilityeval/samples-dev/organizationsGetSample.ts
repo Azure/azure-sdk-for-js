@@ -14,10 +14,7 @@ async function organizationsGetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4DEBE8B4-8BA4-42F8-AE50-FBEF318751D1";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
-  const result = await client.organizations.get(
-    "rgopenapi",
-    "test-organization-1",
-  );
+  const result = await client.organizations.get("rgopenapi", "test-organization-1");
   console.log(result);
 }
 
