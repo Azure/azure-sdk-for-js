@@ -65,9 +65,10 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { StorageClient } from "@azure/arm-dell-storage";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
+  clientId: "<YOUR_CLIENT_ID>",
  });
 const client = new StorageClient(credential, subscriptionId);
 ```
