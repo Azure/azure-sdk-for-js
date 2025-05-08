@@ -12,7 +12,7 @@ export default mergeConfig(
       include: ["dist-test/browser/test/**/*.spec.js"],
       exclude: [
         "dist-test/browser/test/snippets.spec.js",
-        "dist-test/browser/test/integraion/**/*.spec.js"
+        "dist-test/browser/test/integration/**/*.spec.js"
       ],
       alias: {
         "@azure/identity": resolve("./dist/browser/index.js"),
