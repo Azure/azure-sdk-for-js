@@ -746,9 +746,9 @@ export enum KnownFontWeight {
 
 // @public
 export enum KnownFormRecognizerAudience {
-    AzureChina = "https://cognitiveservices.azure.cn/",
-    AzureGovernment = "https://cognitiveservices.azure.us/",
-    AzurePublicCloud = "https://cognitiveservices.azure.com/"
+    AzureChina = "https://cognitiveservices.azure.cn",
+    AzureGovernment = "https://cognitiveservices.azure.us",
+    AzurePublicCloud = "https://cognitiveservices.azure.com"
 }
 
 // @public
