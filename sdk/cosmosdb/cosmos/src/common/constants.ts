@@ -226,7 +226,7 @@ export const Constants = {
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
   MaxBulkOperationsCount: 100,
-  BulkMaxDegreeOfConcurrency: 50,
+  BulkMaxDegreeOfConcurrency: 20,
 
   // Encryption
   Encryption: {

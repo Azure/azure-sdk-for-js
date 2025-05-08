@@ -12,7 +12,7 @@ import type { LimiterQueue } from "./Limiter.js";
  * degree of concurrency (either by a factor of 5 or half the current degree of concurrency, whichever is smaller)
  * and increase the wait time to run the algorithm again by 1 second.
  * If it sees no throttling and the number of items processed increased, it will increase the degree of concurrency
- * (by a factor of 1) which cannot exceed the max degree of concurrency (Min(50, concurrency set by user)).
+ * (by a factor of 1) which cannot exceed the max degree of concurrency (Min(20, concurrency set by user)).
  * It uses the @see {@link PartitionMetric} to capture the metrics.
  * @hidden
  */
