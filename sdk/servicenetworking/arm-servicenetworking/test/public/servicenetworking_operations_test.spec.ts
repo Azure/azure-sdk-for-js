@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("ServiceNetworking test", () => {
+describe("ServiceNetworking test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ServiceNetworkingManagementClient;
@@ -49,7 +49,7 @@ describe.skip("ServiceNetworking test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "centraluseuap";
+    location = "eastus";
     resourceGroup = "myjstest";
     trafficControllerName = "TC1";
   });
