@@ -26,7 +26,8 @@ export function createWeightsAndBiases(
   subscriptionId: string,
   options: WeightsAndBiasesClientOptionalParams = {},
 ): WeightsAndBiasesContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-weightsandbiases/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -42,7 +43,7 @@ export function createWeightsAndBiases(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-09-18-preview";
+  const apiVersion = options.apiVersion ?? "2024-09-18";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
