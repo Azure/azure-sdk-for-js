@@ -91,6 +91,6 @@ describe("CongestionAlgorithm", () => {
     algorithm["currentDegreeOfConcurrency"] = Constants.BulkMaxDegreeOfConcurrency;
     partitionMetric.add(itemsCount, timeTakenInMs, numberOfThrottles);
     algorithm.run();
-    assert.strictEqual(algorithm["currentDegreeOfConcurrency"], 50);
+    assert.strictEqual(algorithm["currentDegreeOfConcurrency"], 20);
   });
 });
