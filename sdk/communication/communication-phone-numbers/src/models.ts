@@ -117,7 +117,11 @@ export interface BeginReservationPurchaseOptions extends OperationOptions {
 /**
  * Required fields for create or update a phone numbers reservation.
  */
+<<<<<<< HEAD
 export interface CreateOrUpdateReservationRequest extends OperationOptions {
+=======
+export interface CreateOrUpdateReservationOptions extends OperationOptions {
+>>>>>>> 3ac827b0e0d4e3784d88601f2f102df79f31656a
   /**
    * The id of the reservation.
    */

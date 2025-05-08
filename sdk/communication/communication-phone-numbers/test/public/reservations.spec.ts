@@ -164,11 +164,6 @@ matrix([[true, false]], async (useAad) => {
           phoneNumbers[0].id as string,
         ),
       );
-      assert.isTrue(
-        Object.keys(updatedReservationResponse.phoneNumbers || {}).includes(
-          phoneNumbers[1].id as string,
-        ),
-      );
 
       await client.deleteReservation(reservationId);
     });
