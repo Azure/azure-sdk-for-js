@@ -1,10 +1,10 @@
-# A description of your services client library samples for JavaScript (Beta)
+# Azure Online Experimentation REST client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for A description of your services in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Online Experimentation in common scenarios.
 
-| **File Name**                                                 | **Description**                                                            |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [experimentMetricsManagement.js][experimentmetricsmanagement] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**                                                 | **Description**                                                                                      |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [experimentMetricsManagement.js][experimentmetricsmanagement] | Demonstrates how to manage experiment metrics using the Online Experimentation REST client for Azure. |
 
 ## Prerequisites
 

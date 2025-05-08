@@ -1,10 +1,10 @@
-# A description of your services client library samples for TypeScript (Beta)
+# Azure Online Experimentation REST client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for A description of your services in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Online Experimentation in common scenarios.
 
-| **File Name**                                                 | **Description**                                                            |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [experimentMetricsManagement.ts][experimentmetricsmanagement] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**                                                 | **Description**                                                                                      |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [src/experimentMetricsManagement.ts][experimentMetricsManagement] | Demonstrates how to manage experiment metrics using the Online Experimentation REST client for Azure. |
 
 ## Prerequisites
 
