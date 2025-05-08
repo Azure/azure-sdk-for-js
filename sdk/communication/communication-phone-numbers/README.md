@@ -149,7 +149,7 @@ PhoneNumbersClient
 - [Broswse and reserve available phone numbers](#broswse-and-reserve-available-phone-numbers)
 - [Release a purchased phone number](#release-a-purchased-phone-number)
 - [Update phone number capabilities](#update-phone-number-capabilities)
-- [Purchase Reservation](#purchase-reservation)
+- [Purchase reservation](#purchase-reservation)
 - [Get a purchased phone number](#get-a-purchased-phone-number)
 - [List purchased phone numbers](#list-purchased-phone-numbers)
 
@@ -266,7 +266,7 @@ Use the Browse and Reservations API to reserve a phone number
     const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
     const reservationResponse = await client.createOrUpdateReservation(
          {
-            reservationId: getReservationId(),
+            reservationId: "reservationId",
           },
           {
             add: phoneNumbersList,
@@ -361,7 +361,7 @@ console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
 console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 ```
 
-#### Purchase Reservation
+#### Purchase reservation
 
 Given an existing and active reservation, purchase the phone numbers in that reservation.
 

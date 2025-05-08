@@ -625,7 +625,7 @@ export class PhoneNumbersClient {
    * const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
    * const reservationResponse = await client.createOrUpdateReservation(
    *      {
-   *         reservationId: getReservationId(),
+   *         reservationId: reservationId,
    *       },
    *       {
    *         add: phoneNumbersList,
