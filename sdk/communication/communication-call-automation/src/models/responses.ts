@@ -8,7 +8,7 @@ import { RecordingState, RecordingKind } from "../generated/src/index.js";
 /**
  * The interface used as parent of [action]CallResult
  */
-interface CallResult {
+export interface CallResult {
   /*
    * The callConnectionProperties
    */

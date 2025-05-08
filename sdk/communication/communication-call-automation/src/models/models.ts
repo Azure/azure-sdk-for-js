@@ -22,6 +22,20 @@ export {
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
   KnownMediaStreamingTransportType,
+  KnownCallConnectionStateModel,
+  KnownTranscriptionTransportType,
+  KnownRecognitionType,
+  KnownRecordingState,
+  KnownRecordingKind,
+  KnownTone,
+  KnownAudioFormat,
+  KnownMediaStreamingSubscriptionState,
+  KnownTranscriptionResultState,
+  KnownTranscriptionSubscriptionState,
+  KnownMediaStreamingStatus,
+  KnownMediaStreamingStatusDetails,
+  KnownTranscriptionStatus,
+  KnownTranscriptionStatusDetails,
   MediaStreamingAudioChannelType,
   MediaStreamingOptions,
   MediaStreamingContentType,
@@ -35,8 +49,19 @@ export {
   DtmfResult,
   SpeechResult,
   RecordingState,
+  RecordingKind,
   Tone,
   AudioFormat,
+  MediaStreamingUpdate,
+  MediaStreamingSubscriptionState,
+  TranscriptionResultState,
+  TranscriptionUpdate,
+  TranscriptionSubscriptionState,
+  MediaStreamingStatus,
+  MediaStreamingStatusDetails,
+  TranscriptionStatus,
+  TranscriptionStatusDetails,
+
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -180,11 +205,11 @@ export enum RecognizeInputType {
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier, MicrosoftTeamsAppIdentifier or TeamsExtensionUserIdentifier. */
   readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier
-    | TeamsExtensionUserIdentifier;
+  | PhoneNumberIdentifier
+  | CommunicationUserIdentifier
+  | MicrosoftTeamsUserIdentifier
+  | MicrosoftTeamsAppIdentifier
+  | TeamsExtensionUserIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -203,9 +228,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The format type of a call recording. */
-export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
 
 /** The storage type of a call recording. */
 export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
@@ -229,7 +251,7 @@ export interface RecordingStorage {
   recordingDestinationContainerUrl?: string;
 }
 
-interface CustomCallingContextHeader {
+export interface CustomCallingContextHeader {
   key: string;
   value: string;
 }
