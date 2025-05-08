@@ -622,7 +622,7 @@ export class PhoneNumbersClient {
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const reservationId = "<reservation-id>";
-   * const phoneNumbersList = [[phoneNumbers[0], phoneNumbers[1]];
+   * const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
    * const reservationResponse = await client.createOrUpdateReservation(
    *      {
    *         reservationId: getReservationId(),
