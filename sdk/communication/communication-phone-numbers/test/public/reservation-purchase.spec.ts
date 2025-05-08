@@ -50,7 +50,9 @@ matrix([[true, false]], async (useAad) => {
 
         const phoneNumbers = browseAvailableNumbers.phoneNumbers;
         const phoneNumbersList = [phoneNumbers[0]];
-        const phoneNumberForPurchase = phoneNumbersList[0].phoneNumber ? phoneNumbersList[0].phoneNumber : "";
+        const phoneNumberForPurchase = phoneNumbersList[0].phoneNumber
+          ? phoneNumbersList[0].phoneNumber
+          : "";
 
         const reservationResponse = await client.createOrUpdateReservation(
           {
