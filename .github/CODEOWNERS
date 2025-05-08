@@ -875,6 +875,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/search/arm-search/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/sitemanager/arm-sitemanager/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
