@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { WeightsAndBiasesContext } from "../../api/weightsAndBiasesContext.js";
-import {
-  InstanceResource,
-  InstanceResourceUpdate,
-} from "../../models/models.js";
+import { InstanceResource, InstanceResourceUpdate } from "../../models/models.js";
 import {
   InstancesListBySubscriptionOptionalParams,
   InstancesListByResourceGroupOptionalParams,
@@ -93,25 +90,13 @@ function _getInstances(context: WeightsAndBiasesContext) {
       instancename: string,
       resource: InstanceResource,
       options?: InstancesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        instancename,
-        resource,
-        options,
-      ),
-    get: (
-      resourceGroupName: string,
-      instancename: string,
-      options?: InstancesGetOptionalParams,
-    ) => get(context, resourceGroupName, instancename, options),
+    ) => createOrUpdate(context, resourceGroupName, instancename, resource, options),
+    get: (resourceGroupName: string, instancename: string, options?: InstancesGetOptionalParams) =>
+      get(context, resourceGroupName, instancename, options),
   };
 }
 
-export function _getInstancesOperations(
-  context: WeightsAndBiasesContext,
-): InstancesOperations {
+export function _getInstancesOperations(context: WeightsAndBiasesContext): InstancesOperations {
   return {
     ..._getInstances(context),
   };
