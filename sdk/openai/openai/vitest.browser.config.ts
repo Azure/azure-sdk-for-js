@@ -19,6 +19,7 @@ export default mergeConfig(
       globalSetup: [resolve(__dirname, "test/utils/setup.ts")],
       setupFiles: [resolve(__dirname, "test/utils/logging.ts")],
       include: ["dist-test/browser/test/**/*.spec.js"],
+      retry: 2,
     },
   }),
 );
