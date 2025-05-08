@@ -109,19 +109,12 @@ async function run(): Promise<void> {
   logStep(
     `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`,
   );
-  logStep("Bulk Operations Input to 'container.items.executeBulkOperations(operations):'");
-  console.log(operations);
+  logStep(`Bulk Operations Input to 'container.items.executeBulkOperations(operations): ${operations}`);
 
-  // The maxConcurrentRequestsPerPartition is the maximum number of concurrent requests that can be sent to a single partition.
-  // The default value is 10. The maximum value is 50.
-  const maxConcurrentRequestsPerPartition = 15;
   const response = await container.items.executeBulkOperations(
     operations,
-    {},
-    maxConcurrentRequestsPerPartition,
   );
-  logStep("Bulk response:");
-  console.log(response);
+  logStep(`Bulk response => ${response}`);
   await finish();
 }
 

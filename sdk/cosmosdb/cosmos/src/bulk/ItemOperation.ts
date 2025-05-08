@@ -11,7 +11,7 @@ import type { ItemOperationContext } from "./ItemOperationContext.js";
 
 export interface ItemOperation {
   // stores unencrypted operationInput to avoid decryption of operationInput in bulk response.
-  plainTextOperationInput: OperationInput;
+  unencryptedOperationInput: OperationInput;
   operationInput: OperationInput;
   operationContext: ItemOperationContext;
 }

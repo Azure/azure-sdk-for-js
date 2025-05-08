@@ -181,7 +181,7 @@ export class BulkHelper {
 
     let operationError: Error | undefined;
     let diagnosticNode: DiagnosticNodeInternal;
-    let plainTextOperation: OperationInput;
+    let unencryptedOperation: OperationInput;
     let partitionKeyRangeId: string;
     try {
       diagnosticNode = new DiagnosticNodeInternal(
@@ -207,7 +207,7 @@ export class BulkHelper {
         }
         await this.partitionKeyDefinitionPromise;
       }
-      plainTextOperation = copyObject(operation);
+      unencryptedOperation = copyObject(operation);
       // If encryption is enabled, encrypt the operation input.
       if (this.clientContext.enableEncryption) {
         operation = copyObject(operation);
@@ -232,7 +232,7 @@ export class BulkHelper {
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
     const itemOperation: ItemOperation = {
-      plainTextOperationInput: plainTextOperation,
+      unencryptedOperationInput: unencryptedOperation,
       operationInput: operation,
       operationContext: context,
     };
@@ -242,7 +242,7 @@ export class BulkHelper {
 
     if (operationError) {
       const response: BulkOperationResult = {
-        operationInput: plainTextOperation,
+        operationInput: unencryptedOperation,
         error: Object.assign(new ErrorResponse(operationError.message), {
           code: StatusCodes.InternalServerError,
           diagnostics: diagnosticNode?.toDiagnostic(this.clientContext.getClientConfig()),

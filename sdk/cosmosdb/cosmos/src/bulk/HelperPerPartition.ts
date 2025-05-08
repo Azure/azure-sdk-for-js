@@ -89,7 +89,7 @@ export class HelperPerPartition {
           resolve();
         } catch (err) {
           const response: BulkOperationResult = {
-            operationInput: operation.plainTextOperationInput,
+            operationInput: operation.unencryptedOperationInput,
             error: Object.assign(new Error(err.message), {
               code: StatusCodes.InternalServerError,
               diagnostics: operation.operationContext.diagnosticNode.toDiagnostic(

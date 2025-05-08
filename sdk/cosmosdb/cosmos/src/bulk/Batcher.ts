@@ -170,7 +170,7 @@ export class Batcher {
           this.clientConfigDiagnostics,
         );
         const bulkItemResponse: BulkOperationResult = {
-          operationInput: operation.plainTextOperationInput,
+          operationInput: operation.unencryptedOperationInput,
         };
         if (bulkOperationResult instanceof ErrorResponse) {
           bulkItemResponse.error = bulkOperationResult;

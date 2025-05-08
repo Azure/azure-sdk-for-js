@@ -90,7 +90,6 @@ export class BulkResponse {
   }
 
   private static populateFromResponse(
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
     responseMessage: Response<any>,
     operations: ItemOperation[],
   ): BulkResponse {
