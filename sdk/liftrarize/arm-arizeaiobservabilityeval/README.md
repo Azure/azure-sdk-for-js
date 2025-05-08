@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrarize/arm-arizeaiobservabilityeval)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-arizeaiobservabilityeval)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples)
 
 ## Getting started
@@ -65,10 +65,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ObservabilityEvalClient } from "@azure/arm-arizeaiobservabilityeval";
 
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new ObservabilityEvalClient(credential, subscriptionId);
 ```
 
