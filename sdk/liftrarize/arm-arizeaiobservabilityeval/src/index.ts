@@ -10,6 +10,15 @@ import {
 export { ObservabilityEvalClient } from "./observabilityEvalClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   OrganizationResource,
   OrganizationProperties,
   MarketplaceDetails,
@@ -34,16 +43,7 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   OrganizationResourceUpdate,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
   KnownVersions,
 } from "./models/index.js";
 export { ObservabilityEvalClientOptionalParams } from "./api/index.js";
@@ -56,5 +56,8 @@ export {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./api/organizations/index.js";
-export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
+export {
+  OperationsOperations,
+  OrganizationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

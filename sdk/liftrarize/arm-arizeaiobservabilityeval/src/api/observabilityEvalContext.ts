@@ -26,7 +26,8 @@ export function createObservabilityEval(
   subscriptionId: string,
   options: ObservabilityEvalClientOptionalParams = {},
 ): ObservabilityEvalContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-arizeaiobservabilityeval/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -42,7 +43,7 @@ export function createObservabilityEval(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-10-01-preview";
+  const apiVersion = options.apiVersion ?? "2024-10-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
