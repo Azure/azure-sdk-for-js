@@ -174,10 +174,10 @@ export type PurchaseReservationResult = PhoneNumbersPurchaseReservationHeaders;
 export {
   AvailablePhoneNumber,
   AvailablePhoneNumberError,
-  AvailablePhoneNumberStatus,
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
+  PhoneNumberAvailabilityStatus,
   PhoneNumbersBrowseResult,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

@@ -24,7 +24,7 @@ export interface AvailablePhoneNumber {
     isAgreementToNotResellRequired?: boolean;
     phoneNumber?: string;
     phoneNumberType: PhoneNumberType;
-    status?: AvailablePhoneNumberStatus;
+    status?: PhoneNumberAvailabilityStatus;
 }
 
 // @public
@@ -32,9 +32,6 @@ export interface AvailablePhoneNumberError {
     code: string;
     message: string;
 }
-
-// @public
-export type AvailablePhoneNumberStatus = "available" | "reserved" | "expired" | "error" | "purchased";
 
 // @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
@@ -181,6 +178,9 @@ export interface PhoneNumberAreaCode {
 
 // @public
 export type PhoneNumberAssignmentType = "person" | "application";
+
+// @public
+export type PhoneNumberAvailabilityStatus = "available" | "reserved" | "expired" | "error" | "purchased";
 
 // @public
 export interface PhoneNumberCapabilities {

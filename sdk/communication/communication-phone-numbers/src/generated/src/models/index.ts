@@ -110,7 +110,7 @@ export interface AvailablePhoneNumber {
   /** The incurred cost for this phone number. */
   cost?: PhoneNumberCost;
   /** Represents the status of the phone number. Possible values include: 'available', 'reserved', 'expired', 'error', 'purchased'. */
-  status?: AvailablePhoneNumberStatus;
+  status?: PhoneNumberAvailabilityStatus;
   /** Indicates if do not resell agreement is required. If true, the phone number cannot be acquired unless the customer provides explicit agreement to not resell it. */
   isAgreementToNotResellRequired?: boolean;
   /** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
@@ -434,8 +434,8 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
-/** Defines values for AvailablePhoneNumberStatus. */
-export type AvailablePhoneNumberStatus =
+/** Defines values for PhoneNumberAvailabilityStatus. */
+export type PhoneNumberAvailabilityStatus =
   | "available"
   | "reserved"
   | "expired"
