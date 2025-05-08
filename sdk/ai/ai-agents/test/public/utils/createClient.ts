@@ -19,7 +19,8 @@ const replaceableVariables: Record<string, string> = {
   TENANT_ID: "00000000-0000-0000-0000-000000000000",
   USER_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
-  PROJECT_ENDPOINT: `Sanitized.azure.com;00000000-0000-0000-0000-000000000000;00000;00000`,
+  PROJECT_NAME: "00000",
+  PROJECT_ENDPOINT: `https://Sanitized.azure.com/api/projects/00000`,
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -68,13 +69,14 @@ const recorderEnvSetup: RecorderStartOptions = {
         value: replaceableVariables.ENDPOINT,
         groupForReplace: "2",
       },
+      {
+        regex: true,
+        target: "/projects/([-\\w\\._\\(\\)]+)(?=/|$)",
+        value: replaceableVariables.PROJECT_NAME,
+        groupForReplace: "1",  
+      },
     ],
     bodyKeySanitizers: [
-      {
-        jsonPath: "properties.ConnectionString",
-        value:
-          "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://region.applicationinsights.azure.com/;LiveEndpoint=https://region.livediagnostics.monitor.azure.com/;ApplicationId=00000000-0000-0000-0000-000000000000",
-      },
       { jsonPath: "properties.credentials.key", value: replaceableVariables.API_KEY },
     ],
   },

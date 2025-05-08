@@ -24,20 +24,6 @@ export function createAgents(
   credential: KeyCredential | TokenCredential,
   options: AgentsClientOptionalParams = {},
 ): AgentsContext {
-  // Remove custom code when 1dp is available
-  const parts = endpointParam.split(";");
-  let endpointUrl = endpointParam;
-  if (parts.length === 4) {
-    const endpoint = "https://" + parts[0];
-    const subscriptionId = parts[1];
-    const resourceGroupName = parts[2];
-    const projectName = parts[3];
-    endpointUrl =
-      options.endpoint ??
-      options.baseUrl ??
-      `${endpoint}/agents/v1.0/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`;
-  }
-  // end of custom code
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-agents/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -51,7 +37,7 @@ export function createAgents(
       scopes: options.credentials?.scopes ?? ["https://ai.azure.com/.default"],
     },
   };
-  const clientContext = getClient(endpointUrl, credential, updatedOptions);
+  const clientContext = getClient(endpointParam, credential, updatedOptions);
 
   if (isKeyCredential(credential)) {
     clientContext.pipeline.addPolicy({
