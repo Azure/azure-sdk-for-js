@@ -6,34 +6,25 @@ import {
   AgentsClient,
   ToolSet,
   ToolUtility,
-  connectionToolType,
   FunctionToolDefinition,
-  RequiredToolCallOutput,
-  FunctionToolDefinitionOutput,
   ToolOutput,
   DoneEvent,
   MessageDeltaChunk,
   MessageDeltaTextContent,
   MessageStreamEvent,
   RunStreamEvent,
-  ThreadRunOutput,
-  MessageContentOutput,
+  ErrorEvent,
   isOutputOfType,
-  MessageTextContentOutput,
-  MessageImageFileContentOutput,
+  MessageImageFileContent,
+  MessageTextContent,
+  RequiredToolCall,
+  ThreadRun,
 } from "@azure/ai-agents";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
 import * as fs from "fs";
 import { delay } from "@azure/core-util";
-import { trace } from "@opentelemetry/api";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-import {
-  ConsoleSpanExporter,
-  NodeTracerProvider,
-  SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-node";
 import { RestError } from "@azure/core-rest-pipeline";
 
 // TODO update all snippets when samples are working
@@ -46,9 +37,9 @@ describe("snippets", function () {
   });
 
   it("setup", async function () {
-    const connectionString = process.env.PROJECT_ENDPOINT ?? "<connectionString>";
+    const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
     const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
-    const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+    const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   });
 
   it("createAgent", async function () {
@@ -59,10 +50,12 @@ describe("snippets", function () {
   });
 
   it("toolSet", async function () {
+    // Create tool set
     const toolSet = new ToolSet();
-    toolSet.addFileSearchTool([vectorStore.id]);
-    toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+    await toolSet.addFileSearchTool([vectorStore.id]);
+    await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
+    // Create agent with tool set
     const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
@@ -73,21 +66,22 @@ describe("snippets", function () {
   });
 
   it("fileSearch", async function () {
+    const filePath = "./data/sampleFileForUpload.txt";
     const localFileStream = fs.createReadStream(filePath);
-    const file = await client.agents.uploadFile(localFileStream, "assistants", {
-      fileName: "sample_file_for_upload.txt",
+    const file = await client.files.upload(localFileStream, "assistants", {
+      fileName: "sampleFileForUpload.txt",
     });
-    console.log(`Uploaded file, ID: ${file.id}`);
+    console.log(`Uploaded file, file ID: ${file.id}`);
 
-    const vectorStore = await client.agents.createVectorStore({
+    const vectorStore = await client.vectorStores.create({
       fileIds: [file.id],
-      name: "my_vector_store",
+      name: "myVectorStore",
     });
-    console.log(`Created vector store, ID: ${vectorStore.id}`);
+    console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
-    const agent = await client.agents.createAgent("gpt-4o", {
+    const agent = await client.createAgent("gpt-4o", {
       name: "SDK Test Agent - Retrieval",
       instructions: "You are helpful agent that can help fetch data from files you know about.",
       tools: [fileSearchTool.definition],
@@ -97,16 +91,18 @@ describe("snippets", function () {
   });
 
   it("codeInterpreter", async function () {
+    const filePath = "./data/nifty500QuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
-    const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
+    const localFile = await client.files.upload(localFileStream, "assistants", {
       fileName: "localFile",
     });
+
     console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
     const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
 
     // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-    const agent = await client.agents.createAgent("gpt-4o-mini", {
+    const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
       tools: [codeInterpreterTool.definition],
@@ -116,16 +112,13 @@ describe("snippets", function () {
   });
 
   it("bingGrounding", async function () {
-    const bingConnection = await client.connections.getConnection(
-      process.env.BING_CONNECTION_NAME ?? "<connection-name>",
-    );
-    const connectionId = bingConnection.id;
+    const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
 
-    const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
-      connectionId,
-    ]);
+    // Initialize agent bing tool with the connection id
+    const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
 
-    const agent = await client.agents.createAgent("gpt-4o", {
+    // Create agent with the bing tool and process assistant run
+    const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
       tools: [bingTool.definition],
@@ -134,13 +127,23 @@ describe("snippets", function () {
   });
 
   it("AISearch", async function () {
-    const connectionName =
-      process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
-    const connection = await client.connections.getConnection(connectionName);
+    const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
 
-    const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
+    // Initialize Azure AI Search tool
+    const azureAISearchTool = ToolUtility.createAzureAISearchTool(
+      connectionId,
+      "ai-search-sample",
+      {
+        queryType: "simple",
+        topK: 3,
+        filter: "",
+        indexConnectionId: "",
+        indexName: "",
+      },
+    );
 
-    const agent = await client.agents.createAgent("gpt-4-0125-preview", {
+    // Create agent with the Azure AI search tool
+    const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
       tools: [azureAISearchTool.definition],
@@ -197,16 +200,16 @@ describe("snippets", function () {
         return { location: "Seattle, WA" };
       }
 
-      private getCityNickname(location: string): {} {
+      private getCityNickname(_location: string): {} {
         return { nickname: "The Emerald City" };
       }
 
-      private getWeather(location: string, unit: string): {} {
+      private getWeather(_location: string, unit: string): {} {
         return { weather: unit === "f" ? "72f" : "22c" };
       }
 
       public invokeTool(
-        toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
+        toolCall: RequiredToolCall & FunctionToolDefinition,
       ): ToolOutput | undefined {
         console.log(`Function tool call - ${toolCall.function.name}`);
         const args = [];
@@ -243,7 +246,7 @@ describe("snippets", function () {
 
     const functionToolExecutor = new FunctionToolExecutor();
     const functionTools = functionToolExecutor.getFunctionDefinitions();
-    const agent = await client.agents.createAgent("gpt-4o", {
+    const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
       instructions:
         "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
@@ -272,7 +275,7 @@ describe("snippets", function () {
     const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
 
     // Create agent with OpenApi tool
-    const agent = await client.agents.createAgent("gpt-4o-mini", {
+    const agent = await client.createAgent("gpt-4o", {
       name: "myAgent",
       instructions: "You are a helpful agent",
       tools: [openApiTool.definition],
@@ -281,17 +284,13 @@ describe("snippets", function () {
   });
 
   it("createAgentWithFabric", async function () {
-    const fabricConnection = await client.connections.getConnection(
-      process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
-    );
-
-    const connectionId = fabricConnection.id;
+    const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
 
     // Initialize agent Microsoft Fabric tool with the connection id
     const fabricTool = ToolUtility.createFabricTool(connectionId);
 
     // Create agent with the Microsoft Fabric tool and process assistant run
-    const agent = await client.agents.createAgent("gpt-4o", {
+    const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
       tools: [fabricTool.definition],
@@ -300,17 +299,19 @@ describe("snippets", function () {
   });
 
   it("createThread", async function () {
-    const thread = await client.agents.createThread();
+    const thread = await client.threads.create();
+    console.log(`Created thread, thread ID: ${thread.id}`);
   });
 
   it("threadWithTool", async function () {
+    const filePath = "./data/nifty500QuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
-    const file = await client.agents.uploadFile(localFileStream, "assistants", {
+    const file = await client.files.upload(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.csv",
     });
     console.log(`Uploaded file, ID: ${file.id}`);
 
-    const vectorStore = await client.agents.createVectorStore({
+    const vectorStore = await client.agents.vectorStores.create()({
       fileIds: [file.id],
     });
     console.log(`Created vector store, ID: ${vectorStore.id}`);
@@ -326,13 +327,13 @@ describe("snippets", function () {
 
     // Create thread with file resources.
     // If the agent has multiple threads, only this thread can search this file.
-    const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
+    const thread = await client.threads.create({ toolResources: fileSearchTool.resources });
   });
 
   it("listThreads", async function () {
-    const threads = await client.agents.listThreads();
+    const threads = client.threads.list();
     console.log(`Threads for agent ${agent.id}:`);
-    for await (const t of (await threads).data) {
+    for await (const t of threads) {
       console.log(`Thread ID: ${t.id}`);
       console.log(`Created at: ${t.createdAt}`);
       console.log(`Metadata: ${t.metadata}`);
@@ -341,55 +342,62 @@ describe("snippets", function () {
   });
 
   it("createMessage", async function () {
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: "hello, world!",
-    });
+    const message = await client.messages.create(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
   });
 
   it("messageWithFileSearch", async function () {
     const fileSearchTool = ToolUtility.createFileSearchTool();
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: "What feature does Smart Eyewear offer?",
-      attachments: {
-        fileId: file.id,
-        tools: [fileSearchTool.definition],
+    const message = await client.messages.create(
+      thread.id,
+      "user",
+      "What feature does Smart Eyewear offer?",
+      {
+        attachments: [
+          {
+            fileId: file.id,
+            tools: [fileSearchTool.definition],
+          },
+        ],
       },
-    });
+    );
   });
 
   it("messageWithCodeInterpreter", async function () {
     // notice that CodeInterpreter must be enabled in the agent creation,
     // otherwise the agent will not be able to see the file attachment for code interpretation
     const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
-    const agent = await client.agents.createAgent("gpt-4-1106-preview", {
+    const agent = await client.agents.createAgent("gpt-4o", {
       name: "my-assistant",
       instructions: "You are helpful assistant",
       tools: [codeInterpreterTool.definition],
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
 
-    const thread = await client.agents.createThread();
+    const thread = await client.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
 
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content:
-        "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
-      attachments: {
-        fileId: file.id,
-        tools: [codeInterpreterTool.definition],
+    const message = await client.messages.create(
+      thread.id,
+      "user",
+      "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+      {
+        attachments: [
+          {
+            fileId: file.id,
+            tools: [codeInterpreterTool.definition],
+          },
+        ],
       },
-    });
+    );
     console.log(`Created message, message ID: ${message.id}`);
   });
 
   it("imageInputWithFile", async function () {
+    const imagePath = "./data/image_file.png";
     // Upload the local image file
     const fileStream = fs.createReadStream(imagePath);
-    const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
+    const imageFile = await client.files.upload(fileStream, "assistants", {
       fileName: "image_file.png",
     });
     console.log(`Uploaded file, file ID: ${imageFile.id}`);
@@ -410,19 +418,16 @@ describe("snippets", function () {
         },
       },
     ];
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: content,
-    });
+    const message = await client.messages.create(thread.id, "user", content);
     console.log(`Created message, message ID: ${message.id}`);
   });
 
   it("imageInputWithUrl", async function () {
-    // Specify the public image URL
     const imageUrl =
       "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
 
-    // Create content directly referencing image URL
+    // Create a message with both text and image content
+    console.log("Creating message with image content...");
     const inputMessage = "Hello, what is in the image?";
     const content = [
       {
@@ -437,10 +442,8 @@ describe("snippets", function () {
         },
       },
     ];
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: content,
-    });
+
+    const message = await client.messages.create(thread.id, "user", content);
     console.log(`Created message, message ID: ${message.id}`);
   });
 
@@ -460,9 +463,11 @@ describe("snippets", function () {
     }
 
     // Convert your image file to base64 format
+    const filePath = "./data/image_file.png";
     const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
 
     // Create a message with both text and image content
+    console.log("Creating message with image content...");
     const inputMessage = "Hello, what is in the image?";
     const content = [
       {
@@ -478,29 +483,24 @@ describe("snippets", function () {
       },
     ];
 
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: content,
-    });
+    const message = await client.messages.create(thread.id, "user", content);
     console.log(`Created message, message ID: ${message.id}`);
   });
-  it("createRun", async function () {
-    let run = await client.agents.createRun(thread.id, agent.id);
 
-    // Poll the run as long as run status is queued or in progress
-    while (
-      run.status === "queued" ||
-      run.status === "in_progress" ||
-      run.status === "requires_action"
-    ) {
-      // Wait for a second
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      run = await client.agents.getRun(thread.id, run.id);
+  it("createRun", async function () {
+    let run = await client.runs.create(thread.id, agent.id);
+    console.log(`Created run, run ID: ${run.id}`);
+
+    // Wait for run to complete
+    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
+      await delay(1000);
+      run = await client.runs.get(thread.id, run.id);
+      console.log(`Run status: ${run.status}`);
     }
   });
 
   it("createThreadAndRun", async function () {
-    const run = await client.agents.createThreadAndRun(agent.id, {
+    const run = await client.runs.createThreadAndRun(agent.id, {
       thread: {
         messages: [
           {
@@ -513,15 +513,16 @@ describe("snippets", function () {
   });
 
   it("createRunStream", async function () {
-    const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
+    const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
   });
 
   it("eventHandling", async function () {
-    const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
+    const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
+
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
+          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           {
@@ -550,54 +551,54 @@ describe("snippets", function () {
   });
 
   it("listMessages", async function () {
-    const messages = await client.agents.listMessages(thread.id);
-    while (messages.hasMore) {
-      const nextMessages = await client.agents.listMessages(currentRun.threadId, {
-        after: messages.lastId,
-      });
-      messages.data = messages.data.concat(nextMessages.data);
-      messages.hasMore = nextMessages.hasMore;
-      messages.lastId = nextMessages.lastId;
+    const messagesIterator = client.messages.list(thread.id);
+    const allMessages = [];
+    for await (const m of messagesIterator) {
+      allMessages.push(m);
     }
+    console.log("Messages:", allMessages);
 
     // The messages are following in the reverse order,
     // we will iterate them and output only text contents.
-    for (const dataPoint of messages.data.reverse()) {
-      const lastMessageContent: MessageContentOutput =
-        dataPoint.content[dataPoint.content.length - 1];
-      console.log(lastMessageContent);
-      if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
-        console.log(
-          `${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`,
-        );
+    const messages = await client.messages.list(thread.id, {
+      order: "asc",
+    });
+
+    for await (const dataPoint of messages) {
+      const textContent = dataPoint.content.find((item) => item.type === "text");
+      if (textContent && "text" in textContent) {
+        console.log(`${dataPoint.role}: ${textContent.text.value}`);
       }
     }
   });
 
   it("retrieveFile", async function () {
-    const messages = await client.agents.listMessages(thread.id);
+    const messagesIterator = client.messages.list(thread.id);
+    const allMessages = [];
+    for await (const m of messagesIterator) {
+      allMessages.push(m);
+    }
+    console.log("Messages:", allMessages);
 
     // Get most recent message from the assistant
-    const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
+    const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
     if (assistantMessage) {
       const textContent = assistantMessage.content.find((content) =>
-        isOutputOfType<MessageTextContentOutput>(content, "text"),
-      ) as MessageTextContentOutput;
+        isOutputOfType<MessageTextContent>(content, "text"),
+      ) as MessageTextContent;
       if (textContent) {
         console.log(`Last message: ${textContent.text.value}`);
       }
     }
 
-    const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
-    const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
+    const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
+    const imageFileName = (await client.agents.files.get(imageFile.fileId)).filename;
 
-    const fileContent = await (
-      await client.agents.getFileContent(imageFile.fileId).asNodeStream()
-    ).body;
+    const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
     if (fileContent) {
       const chunks: Buffer[] = [];
       for await (const chunk of fileContent) {
-        chunks.push(Buffer.from(chunk));
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
       }
       const buffer = Buffer.concat(chunks);
       fs.writeFileSync(imageFileName, buffer);
@@ -608,41 +609,14 @@ describe("snippets", function () {
   });
 
   it("teardown", async function () {
-    await client.agents.deleteVectorStore(vectorStore.id);
+    await client.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
 
-    await client.agents.deleteFile(file.id);
-    console.log(`Deleted file, file ID: ${file.id}`);
+    await client.files.delete(file.id);
+    console.log(`Deleted file, file ID : ${file.id}`);
 
-    client.agents.deleteAgent(agent.id);
+    await client.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
-  });
-
-  it("tracing", async function () {
-    const provider = new NodeTracerProvider();
-    provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.register();
-
-    const tracer = trace.getTracer("Agents Sample", "1.0.0");
-
-    let appInsightsConnectionString =
-      process.env.APP_INSIGHTS_CONNECTION_STRING ?? "<appInsightsConnectionString>";
-
-    if (appInsightsConnectionString == "<appInsightsConnectionString>") {
-      appInsightsConnectionString = await client.telemetry.getConnectionString();
-    }
-
-    if (appInsightsConnectionString) {
-      const exporter = new AzureMonitorTraceExporter({
-        connectionString: appInsightsConnectionString,
-      });
-      provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-    }
-
-    await tracer.startActiveSpan("main", async (span) => {
-      client.telemetry.updateSettings({ enableContentRecording: true });
-      // ...
-    });
   });
 
   it("exceptions", async function () {
