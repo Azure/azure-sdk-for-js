@@ -32,6 +32,8 @@ export interface ConnectionPolicy {
   enableBackgroundEndpointRefreshing?: boolean;
   /** Flag to enable/disable the Per Partition Level Failover. Defaults to false */
   enablePartitionLevelFailover?: boolean;
+  /** Flag to enable/disable the Per Partition Level Circuit Breaker. Defaults to false */
+  enablePartitionLevelCircuitBreaker?: boolean;
 }
 
 /**
@@ -51,4 +53,5 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   endpointRefreshRateInMs: 300000,
   enableBackgroundEndpointRefreshing: true,
   enablePartitionLevelFailover: false,
+  enablePartitionLevelCircuitBreaker: false,
 });
