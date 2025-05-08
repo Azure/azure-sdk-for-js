@@ -12,11 +12,11 @@ import { AgentsClient } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
-  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   // Create a vector store
   const vectorStore = await client.vectorStores.create({ name: "myVectorStore" });
   console.log(`Created vector store, vector store ID: ${vectorStore.id}`);

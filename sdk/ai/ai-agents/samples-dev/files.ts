@@ -13,11 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { Readable } from "node:stream";
 import "dotenv/config";
 
-const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
-  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Create and upload file
   const fileContent = "Hello, World!";

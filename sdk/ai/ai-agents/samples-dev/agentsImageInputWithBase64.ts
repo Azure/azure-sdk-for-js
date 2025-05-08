@@ -7,11 +7,12 @@
  */
 
 import { AgentsClient } from "@azure/ai-agents";
+import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
 // Load environment variables
-const connectionString = process.env.PROJECT_ENDPOINT || "<connection-string>";
+const projectEndpoint = process.env.PROJECT_ENDPOINT || "<connection-string>";
 const modelDeployment = process.env.MODEL_DEPLOYMENT_NAME || "<model-deployment-name>";
 const filePath = "./data/image_file.png";
 
@@ -39,7 +40,7 @@ export async function main(): Promise<void> {
   console.log("== AI Projects Agent with Base64 Image Input Sample ==");
 
   // Create an Azure AI Client
-  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Create an agent
   console.log(`Creating agent with model ${modelDeployment}...`);
@@ -90,7 +91,7 @@ export async function main(): Promise<void> {
   ) {
     // Wait for a second
     console.log(`Run status: ${run.status}, waiting...`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await delay(1000);
     run = await client.runs.get(thread.id, run.id);
   }
   console.log(`Run complete with status: ${run.status}`);

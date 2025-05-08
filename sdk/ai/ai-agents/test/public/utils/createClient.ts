@@ -94,9 +94,9 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 
 export function createProjectsClient(recorder?: Recorder, options?: ClientOptions): AgentsClient {
   const credential = createTestCredential();
-  const connectionString = process.env["PROJECT_ENDPOINT"] || "";
+  const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "";
   return new AgentsClient(
-    connectionString,
+    projectEndpoint,
     credential,
     recorder ? recorder.configureClientOptions(options ?? {}) : options,
   );
@@ -122,6 +122,6 @@ export function createMockProjectsClient(
     position: "perCall",
   });
   const credential = createTestCredential();
-  const connectionString = process.env["PROJECT_ENDPOINT"] || "";
-  return new AgentsClient(connectionString, credential, options);
+  const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "";
+  return new AgentsClient(projectEndpoint, credential, options);
 }

@@ -9,15 +9,16 @@
  */
 
 import { AgentsClient } from "@azure/ai-agents";
+import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main(): Promise<void> {
   // Create an Azure AI Client
-  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // Create agent
   const agent = await client.createAgent(modelDeploymentName, {
@@ -40,7 +41,7 @@ async function main(): Promise<void> {
 
   // Wait for run to complete
   while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await delay(1000);
     run = await client.runs.get(thread.id, run.id);
     console.log(`Run status: ${run.status}`);
   }

@@ -13,11 +13,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
-const connectionString = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
-  const client = new AgentsClient(connectionString, new DefaultAzureCredential());
+  const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
   // (Optional) Define an onResponse callback to monitor the progress of polling
   function onResponse(response: any): void {
