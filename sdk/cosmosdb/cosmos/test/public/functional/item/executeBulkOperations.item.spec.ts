@@ -447,7 +447,7 @@ describe("test executeBulkOperations", () => {
 
       // surfaces 413 error if individual operation is greater than threshold
       const operation: OperationInput = generateItemOperationOfSize(
-        Constants.DefaultMaxBulkRequestBodySizeInBytes * 10,
+        Constants.DefaultMaxBulkRequestBodySizeInBytes * 11,
         randomUUID(),
         "key_value",
       );
@@ -456,6 +456,10 @@ describe("test executeBulkOperations", () => {
       assert.equal(result.length, 1);
       assert.ok(result[0].error);
       assert.strictEqual(result[0].error.code, StatusCodes.RequestEntityTooLarge);
+      assert.ok(
+        result[0].error.message.includes(`Message: {"Errors":["Request size is too large"]}\r\n`),
+      );
+      assert.ok(result[0].error.body);
     }
   });
 

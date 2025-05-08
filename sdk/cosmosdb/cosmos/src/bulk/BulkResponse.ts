@@ -46,7 +46,7 @@ export class BulkResponse {
     headers: CosmosHeaders,
   ): BulkResponse {
     const bulkResponse = new BulkResponse(statusCode, subStatusCode, headers, operations);
-    bulkResponse.createAndPopulateResults(operations, 0);
+    bulkResponse.createAndPopulateResults(operations, 0, new ErrorResponse());
     return bulkResponse;
   }
 
@@ -80,7 +80,11 @@ export class BulkResponse {
         retryAfterMilliseconds = !retryAfter || isNaN(Number(retryAfter)) ? 0 : Number(retryAfter);
       }
 
-      bulkResponse.createAndPopulateResults(operations, retryAfterMilliseconds);
+      bulkResponse.createAndPopulateResults(
+        operations,
+        retryAfterMilliseconds,
+        responseMessage as ErrorResponse,
+      );
     }
     return bulkResponse;
   }
@@ -149,15 +153,20 @@ export class BulkResponse {
     return bulkResponse;
   }
 
-  private createAndPopulateResults(operations: ItemOperation[], retryAfterInMs: number): void {
+  private createAndPopulateResults(
+    operations: ItemOperation[],
+    retryAfterInMs: number,
+    error: ErrorResponse,
+  ): void {
     this.results = operations.map(() => {
       const errorResponse = new ErrorResponse();
+      errorResponse.message = error.message;
       errorResponse.code = this.statusCode;
       errorResponse.substatus = this.subStatusCode;
       errorResponse.retryAfterInMs = retryAfterInMs;
       errorResponse.activityId = this.headers?.[Constants.HttpHeaders.ActivityId];
-      errorResponse.body = undefined;
-      errorResponse.diagnostics = null;
+      errorResponse.body = error.body;
+      errorResponse.diagnostics = error.diagnostics;
       errorResponse.headers = this.headers;
       return errorResponse;
     });
