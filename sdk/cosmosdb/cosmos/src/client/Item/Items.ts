@@ -734,7 +734,6 @@ export class Items {
   /**
    * Execute bulk operations on items.
    * @param operations - List of operations
-   * @param maxConcurrentRequestsPerPartition - Maximum number of concurrent requests (can be set between 1 to 50) that can be sent to a specific partition at a time. Default is 10.
    * @param options - used for modifying the request
    * @returns list of operation results corresponding to the operations
    *
@@ -761,33 +760,19 @@ export class Items {
    *     resourceBody: { id: "doc2", name: "other", key: "A" },
    *   },
    * ];
-   * const maxConcurrency = 5;
-   * const options = {
-   *   contentResponseOnWriteEnabled: false,
-   * };
    *
-   * await container.items.executeBulkOperations(operations, options, maxConcurrency);
+   * await container.items.executeBulkOperations(operations);
    * ```
    */
   public async executeBulkOperations(
     operations: OperationInput[],
     options: RequestOptions = {},
-    maxConcurrentRequestsPerPartition: number = 10,
   ): Promise<BulkOperationResult[]> {
-    if (
-      maxConcurrentRequestsPerPartition < 1 ||
-      maxConcurrentRequestsPerPartition > Constants.BulkMaxDegreeOfConcurrency
-    ) {
-      throw new ErrorResponse(
-        `maxConcurrentRequestsPerPartition should be between 1 and ${Constants.BulkMaxDegreeOfConcurrency}`,
-      );
-    }
     const bulkHelper = new BulkHelper(
       this.container,
       this.clientContext,
       this.partitionKeyRangeCache,
       options,
-      maxConcurrentRequestsPerPartition,
     );
     return bulkHelper.execute(operations);
   }

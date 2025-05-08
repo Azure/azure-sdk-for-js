@@ -29,22 +29,16 @@ export class CongestionAlgorithm {
   private congestionIncreaseFactor: number = 1;
   private congestionDecreaseFactor: number = 5;
   private currentDegreeOfConcurrency: number;
-  private maxDegreeOfConcurrency: number;
 
   constructor(
     limiterQueue: LimiterQueue,
     partitionMetric: PartitionMetric,
     oldPartitionMetric: PartitionMetric,
-    maxConcurrentRequestsPerPartition: number,
   ) {
     this.limiterQueue = limiterQueue;
     this.oldPartitionMetric = oldPartitionMetric;
     this.partitionMetric = partitionMetric;
     this.currentDegreeOfConcurrency = 1;
-    this.maxDegreeOfConcurrency = Math.min(
-      Constants.BulkMaxDegreeOfConcurrency,
-      maxConcurrentRequestsPerPartition,
-    );
   }
 
   run(): void {
@@ -85,7 +79,7 @@ export class CongestionAlgorithm {
   private increaseConcurrency(): void {
     if (
       this.currentDegreeOfConcurrency + this.congestionIncreaseFactor <=
-      this.maxDegreeOfConcurrency
+      Constants.BulkMaxDegreeOfConcurrency
     ) {
       this.currentDegreeOfConcurrency += this.congestionIncreaseFactor;
       this.limiterQueue.setConcurrency(this.currentDegreeOfConcurrency);
