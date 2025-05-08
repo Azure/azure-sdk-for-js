@@ -24,8 +24,6 @@ export {
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
   KnownStreamingTransportType,
-  WebSocketMediaStreamingOptions,
-  WebSocketTranscriptionOptions,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
@@ -34,7 +32,9 @@ export {
   Tone,
   MediaStreamingAudioChannelType,
   MediaStreamingContentType,
-  AudioFormat
+  AudioFormat,
+  TranscriptionUpdate,
+  MediaStreamingUpdate
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -58,8 +58,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */

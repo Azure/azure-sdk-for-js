@@ -42,8 +42,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
-  /** speechModelEndpointId. */
-  speechModelEndpointId?: string;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -149,10 +147,7 @@ export interface AnswerCallOptions extends OperationOptions {
 /**
  * Options to redirect call.
  */
-export interface RedirectCallOptions extends OperationOptions {
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
-}
+export type RedirectCallOptions = OperationOptions;
 
 /**
  * Options to reject call.
