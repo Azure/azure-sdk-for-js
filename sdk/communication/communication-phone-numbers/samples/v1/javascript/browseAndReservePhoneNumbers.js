@@ -5,6 +5,7 @@
  * @summary Browse and reserve an available phone number.
  */
 
+import { randomUUID } from "@azure/core-util";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
@@ -38,9 +39,10 @@ export async function main() {
   );
   const phoneNumbers = browseAvailableNumbers.phoneNumbers;
   const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
+  const reservationId = randomUUID();
   const reservationResponse = await client.createOrUpdateReservation(
     {
-      reservationId: "reservationId",
+      reservationId: reservationId,
     },
     {
       add: phoneNumbersList,
@@ -57,6 +59,7 @@ export async function main() {
   } else {
     console.log("Reservation operation completed without errors.");
   }
+  await client.deleteReservation(reservationId);
 }
 
 main().catch((error) => {
