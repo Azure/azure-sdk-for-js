@@ -510,7 +510,7 @@ describe("snippets", () => {
     while (queryIterator.hasMoreResults()) {
       // @ts-ignore
       const { resources: result } = await queryIterator.fetchNext();
-      //Do something with result
+      // process results
     }
   });
 
@@ -1727,7 +1727,7 @@ describe("snippets", () => {
     while (queryIterator.hasMoreResults()) {
       // @ts-ignore
       const { resources: result } = await queryIterator.fetchNext();
-      //Do something with result
+      // process results
     }
     queryIterator.reset();
   });
