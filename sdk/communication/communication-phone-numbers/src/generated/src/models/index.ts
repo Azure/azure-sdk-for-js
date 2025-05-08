@@ -113,8 +113,8 @@ export interface AvailablePhoneNumber {
   status?: PhoneNumberAvailabilityStatus;
   /** Indicates if do not resell agreement is required. If true, the phone number cannot be acquired unless the customer provides explicit agreement to not resell it. */
   isAgreementToNotResellRequired?: boolean;
-  /** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
-  error?: AvailablePhoneNumberError;
+  /** The Communication Services error. */
+  error?: CommunicationError;
 }
 
 /** Capabilities of a phone number. */
@@ -133,14 +133,6 @@ export interface PhoneNumberCost {
   currencyCode: string;
   /** The frequency with which the cost gets billed. */
   billingFrequency: "monthly";
-}
-
-/** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
-export interface AvailablePhoneNumberError {
-  /** The error code indicating the reason why the operation performed on the phone number failed. */
-  code: string;
-  /** The error message describing the failure that occurred. */
-  message: string;
 }
 
 /** Represents a wrapper around a list of cities or towns. */
@@ -362,6 +354,14 @@ export interface OperatorDetails {
   mobileNetworkCode?: string;
   /** Mobile Country Code, 3 decimal digits that identify a country/region */
   mobileCountryCode?: string;
+}
+
+/** Contains error details in case of failure when reserving, releasing or purchasing the phone number. Note that this is ignored by the service when present in requests. */
+export interface AvailablePhoneNumberError {
+  /** The error code indicating the reason why the operation performed on the phone number failed. */
+  code: string;
+  /** The error message describing the failure that occurred. */
+  message: string;
 }
 
 /** Defines headers for PhoneNumbers_purchaseReservation operation. */

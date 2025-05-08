@@ -19,18 +19,12 @@ export interface AvailablePhoneNumber {
     capabilities: PhoneNumberCapabilities;
     cost?: PhoneNumberCost;
     countryCode: string;
-    error?: AvailablePhoneNumberError;
+    error?: CommunicationError;
     id?: string;
     isAgreementToNotResellRequired?: boolean;
     phoneNumber?: string;
     phoneNumberType: PhoneNumberType;
     status?: PhoneNumberAvailabilityStatus;
-}
-
-// @public
-export interface AvailablePhoneNumberError {
-    code: string;
-    message: string;
 }
 
 // @public
@@ -69,6 +63,15 @@ export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptio
 export interface BrowseAvailableNumbersRequest {
     countryCode: string;
     phoneNumberType: PhoneNumberType;
+}
+
+// @public
+export interface CommunicationError {
+    code: string;
+    readonly details?: CommunicationError[];
+    readonly innerError?: CommunicationError;
+    message: string;
+    readonly target?: string;
 }
 
 // @public

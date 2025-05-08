@@ -319,7 +319,7 @@ export const AvailablePhoneNumber: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "AvailablePhoneNumberError",
+          className: "CommunicationError",
         },
       },
     },
@@ -372,29 +372,6 @@ export const PhoneNumberCost: coreClient.CompositeMapper = {
         defaultValue: "monthly",
         isConstant: true,
         serializedName: "billingFrequency",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const AvailablePhoneNumberError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AvailablePhoneNumberError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        required: true,
         type: {
           name: "String",
         },
@@ -1068,6 +1045,29 @@ export const OperatorDetails: coreClient.CompositeMapper = {
       },
       mobileCountryCode: {
         serializedName: "mobileCountryCode",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AvailablePhoneNumberError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailablePhoneNumberError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        required: true,
         type: {
           name: "String",
         },

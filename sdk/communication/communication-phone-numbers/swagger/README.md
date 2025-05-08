@@ -146,3 +146,13 @@ directive:
   transform: >
     $["name"] = "PhoneNumberAvailabilityStatus";
 ```
+
+### Replace type from AvailablePhoneNumberError to CommunicationError
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumber.properties.error
+    transform: >
+      $.type = "object";
+      $.$ref = "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationError";
+```
