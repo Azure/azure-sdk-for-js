@@ -88,6 +88,28 @@ const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"
 });
 ```
 
+### Sovereign Clouds
+
+Connect to alternative Azure cloud environments (such as Azure China or Azure Government) by specifying the `scopes` field in the `credentials` option and use the appropriate value from `KnownDocumentIntelligenceAudience`.
+
+```ts
+import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+  {
+    credentials: {
+      // Use the correct audience for your cloud environment
+      scopes: [KnownDocumentIntelligenceAudience.AzureGovernment]
+    }
+  }
+);
+```
+
+If you do not specify `scopes`, the client will default to the Azure Public Cloud (`https://cognitiveservices.azure.com`).
+
 ## Document Models
 
 ### Analyze prebuilt-layout (urlSource)
