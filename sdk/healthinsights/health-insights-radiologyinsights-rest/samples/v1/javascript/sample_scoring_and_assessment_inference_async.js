@@ -2,58 +2,73 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the follow up communication of the Radiology Insights request.
+ * @summary Displays the quality measure the Radiology Insights request.
  */
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-import type {
-  CreateJobParameters,
-  RadiologyInsightsJobOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
-import AzureHealthInsightsClient, {
-  getLongRunningPoller,
-  isUnexpected,
-} from "@azure-rest/health-insights-radiologyinsights";
+const { DefaultAzureCredential } = require("@azure/identity");
+
+const dotenv = require("dotenv");
+const AzureHealthInsightsClient = require("../src").default,
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
+
+dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
- * Print the follow up communication inference
+ * Print the scoring and assessment inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
         patientResult.inferences.forEach(
           (inference: {
-            kind: string;
-            communicatedAt: any[];
-            recipient: any[];
-            wasAcknowledged: string;
+            kind; category; categoryDescription; singleValue?; rangeValue?
+
           }) => {
-            if (inference.kind === "followupCommunication") {
-              console.log("Followup Communication Inference found");
-              if ("communicatedAt" in inference) {
-                console.log("Communicated at: " + inference.communicatedAt.join(" "));
+            if (inference.kind === "scoringAndAssessment") {
+              console.log("Scoring and Assessment Inference found:");
+
+              if ("category" in inference) {
+                console.log("   Category: ", inference.category);
               }
-              if ("recipient" in inference) {
-                console.log("Recipient: " + inference.recipient.join(" "));
+
+              if ("categoryDescription" in inference) {
+                console.log("   Category Description: ", inference.categoryDescription);
               }
-              console.log("   Aknowledged: " + inference.wasAcknowledged);
+
+              if ("singleValue" in inference) {
+                console.log("   Singe Value: ", inference.singleValue);
+              }
+
+              if ("rangeValue" in inference) {
+                console.log("   Range Value: ");
+                displayValueRange(inference.rangeValue);
+              }
+
+
             }
-          },
-        );
+          })
       });
+    } else {
+      const error = radiologyInsightsResult.error;
+      if (error) {
+        console.log(error.code, ":", error.message);
+      }
     }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
+  }
+}
+
+function displayValueRange(range: any): void {
+  if ("minimum" in range) {
+    console.log("     Min: ", range.minimum);
+  }
+  if ("maximum" in range) {
+    console.log("     Max: ", range.maximum);
   }
 }
 
@@ -61,8 +76,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "76856",
-    display: "US PELVIS COMPLETE",
+    code: "USTHY",
+    display: "US THYROID",
   };
 
   const code = {
@@ -90,7 +105,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE",
+    description: "CT CHEST WO CONTRAST",
   };
 
   const administrativeMetadata = {
@@ -100,29 +115,26 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `CLINICAL HISTORY:
-  20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
-
-  COMPARISON:
-  Right upper quadrant sonographic performed 1 day prior.
-
-  TECHNIQUE:
-  Transabdominal grayscale pelvic sonography with duplex color Doppler
-  and spectral waveform analysis of the ovaries.
-
-  FINDINGS:
-  The uterus is unremarkable given the transabdominal technique with
-  endometrial echo complex within physiologic normal limits. The
-  ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the
-  left measuring 2.8 x 1.5 x 1.9 cm.
-
-  On duplex imaging, Doppler signal is symmetric.
-
-  IMPRESSION:
-  1. Normal pelvic sonography. Findings of testicular torsion.
-  A new US pelvis within the next 6 months is recommended.
-
-  These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
+    value: `Exam: US THYROID
+        
+        Clinical History: Thyroid nodules. 76 year old patient.
+        
+        Comparison: none.
+        
+        Findings:
+          Right lobe: 4.8 x 1.6 x 1.4 cm
+          Left Lobe: 4.1 x 1.3 x 1.3 cm
+          
+        Isthmus: 4 mm
+        
+        There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+        
+        In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
+        
+        Impression:
+          Multiple bilateral small cystic benign thyroid nodules.
+          A low suspicion 9 mm left lobe thyroid nodule (TI-RAD 3) which, given its small size, does not warrant follow-up.
+          CADRADS 3/4.`,
   };
 
   const patientDocumentData = {
@@ -135,7 +147,7 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: "2021-05-31T16:00:00.000Z",
-    orderedProceduresAsCsv: "US PELVIS COMPLETE",
+    orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
   };
 
   const patientData = {
@@ -199,7 +211,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main(): Promise<void> {
+async function main() {
   const credential = new DefaultAzureCredential();
   const client = AzureHealthInsightsClient(endpoint, credential);
 
@@ -221,9 +233,11 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  await printResults(resultBody);
+  printResults(resultBody);
 }
 
 main().catch((err) => {
-  console.error("The follow up communication encountered an error:", err);
+  console.error("The quality measure encountered an error:", err);
 });
+
+module.exports = { main };
