@@ -203,7 +203,7 @@ export class PhoneNumbersClient {
    * Retrieves the reservation with the given ID, including all of the phone numbers associated with it.
    *
    * Example usage:
-   * ```ts snippet:PhoneNumbersClientListPurchasedPhoneNumbers
+   * ```ts snippet:PhoneNumbersClientGetReservation
    * import { DefaultAzureCredential } from "@azure/identity";
    * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
@@ -293,15 +293,19 @@ export class PhoneNumbersClient {
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-   *   countryCode: "US",
-   *   phoneNumberType: "tollFree",
-   *   capabilities: {
-   *     sms: "outbound",
-   *     calling: "none",
-   *   },
+   *    countryCode: "FR",
+   *    phoneNumberType: "tollFree",
+   *    };
+   *
+   * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+   *    browseAvailableNumberRequest,
+   *   {
+   *      capabilities: {
+   *        calling: "outbound",
+   *     },
    *   assignmentType: "application",
-   * };
-   * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(browseAvailableNumberRequest);
+   *   },
+   * );
    * for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
    *   console.log("Found phone number: ", phoneNumber.phoneNumber);
    * }
@@ -528,7 +532,7 @@ export class PhoneNumbersClient {
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
     return tracingClient.withSpan(
-      "PhoneNumbersClient-beginPurchaseReservation",
+      "PhoneNumbersClient-beginReservationPurchase",
       options,
       (updatedOptions) => {
         return this.client.phoneNumbers.beginPurchaseReservation(reservationId, {
@@ -619,18 +623,20 @@ export class PhoneNumbersClient {
    *
    * const reservationId = "<reservation-id>";
    * const phoneNumbersList = [[phoneNumbers[0], phoneNumbers[1]];
-   * const reservationResponse = await client.createOrUpdateReservation(reservationId, {addOrUpdate: phoneNumbersList}, options);
-   *
-   * console.log(`Reservation updated with status: ${reservationResponse.status}`);
-   * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
-   *
-   * const reservationResponse = await client.createOrUpdateReservation(phoneNumbersReservation, options);
-   *
+   * const reservationResponse = await client.createOrUpdateReservation(
+   *      {
+   *         reservationId: getReservationId(),
+   *       },
+   *       {
+   *         add: phoneNumbersList,
+   *       },
+   *     );
    * console.log(`Reservation updated with status: ${reservationResponse.status}`);
    * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
    * ```
    *
    * Create or update a reservation.
+   * @param request - The request parameters for creating or updating a reservation.
    * @param options - The options parameters.
    */
   public async createOrUpdateReservation(

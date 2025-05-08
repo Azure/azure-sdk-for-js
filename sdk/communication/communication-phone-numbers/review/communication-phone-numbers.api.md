@@ -29,7 +29,6 @@ export interface AvailablePhoneNumber {
 
 // @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
-    // (undocumented)
     agreeToNotResell?: boolean;
 }
 
@@ -59,7 +58,7 @@ export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptio
     phoneNumberPrefixes?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface BrowseAvailableNumbersRequest {
     countryCode: string;
     phoneNumberType: PhoneNumberType;

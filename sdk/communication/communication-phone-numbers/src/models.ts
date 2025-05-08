@@ -44,6 +44,9 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
   countryCode: string;
 }
 
+/**
+ * Represents mandatory fields for a phone number browse request.
+ */
 export interface BrowseAvailableNumbersRequest {
   /** Represents the number type of the offering. */
   phoneNumberType: PhoneNumberType;
