@@ -24,7 +24,7 @@ async function credentialsCreate() {
   const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const credentialName = "exampleCredential";
-  const credential = {
+  const credentials = {
     properties: {
       type: "ManagedIdentity",
       resourceId:
@@ -37,7 +37,7 @@ async function credentialsCreate() {
     resourceGroupName,
     factoryName,
     credentialName,
-    credential,
+    credentials,
   );
   console.log(result);
 }
