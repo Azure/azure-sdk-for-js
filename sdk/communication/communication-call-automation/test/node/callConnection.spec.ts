@@ -25,7 +25,6 @@ import type {
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
-  TeamsPhoneCallDetails,
 } from "../../src/index.js";
 import {
   CALL_TARGET_ID,
@@ -76,6 +75,7 @@ describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
   let phoneTarget: CallInvite;
   let phoneTarget2: CallInvite;
+  let teamsTarget: CallInvite;
   let callConnection: MockedObject<CallConnection>;
 
   beforeEach(() => {
@@ -105,6 +105,43 @@ describe("CallConnection Unit Tests", () => {
           value: "TestValue2",
           sipHeaderPrefix: "X-",
         },
+      ],
+    };
+
+    teamsTarget = {
+      targetParticipant: { teamsAppId: "teamsAppId123" },
+      customCallingContext: [
+        {
+          kind: "voip",
+          key: "teamsKey",
+          value: "teamsValue",
+        },
+        {
+          kind: "teamsPhoneCallDetails",
+          teamsPhoneCallDetails: {
+            teamsPhoneCallerDetails: {
+              caller: { teamsAppId: "teamsAppId123" },
+              name: "John Doe",
+              phoneNumber: "+14255551234",
+              additionalCallerInformation: {
+                Department: "Sales",
+                Priority: "High"
+              }
+            },
+            teamsPhoneSourceDetails: {
+              source: { teamsAppId: "teamsAppId123" },
+              language: "en-US",
+              status: "Active"
+            },
+            sessionId: "session-123-abc",
+            intent: "Sales Inquiry",
+            callTopic: "New Product Information",
+            callContext: "Customer is interested in our latest product line",
+            transcriptUrl: "https://transcripts.example.com/call/123",
+            callSentiment: "Positive",
+            suggestedActions: "Offer product demo, Schedule follow-up"
+          }
+        }
       ],
     };
 
@@ -412,8 +449,7 @@ describe("CallConnection Unit Tests", () => {
     );
     assert.equal(result, transferCallResultMock);
   });
-
-  it("TransferCallToParticipantMicrosoftTeamsAppWithTeamsCallDetails", async () => {
+  it("TransferCallToParticipantWithTransfereeTeamsHeader", async () => {
     // mocks
     const transferCallResultMock: TransferCallResult = {
       waitForEventProcessor: async () => {
@@ -426,50 +462,14 @@ describe("CallConnection Unit Tests", () => {
       }),
     );
 
-    // Create the Teams app target with TeamsPhoneCallDetails in customCallingContext
-    const teamsAppTarget: CallInvite = {
-      targetParticipant: { teamsAppId: "teamsAppId123" },
-      customCallingContext: [
-        {
-          kind: "voip",
-          key: "teamsKey",
-          value: "teamsValue",
-        },
-        {
-          kind: "teamsPhoneCallDetails",
-          teamsPhoneCallDetails: {
-            teamsPhoneCallerDetails: {
-              caller: { teamsAppId: "teamsAppId123" },
-              name: "John Doe",
-              phoneNumber: "+14255551234",
-              additionalCallerInformation: {
-                Department: "Sales",
-                Priority: "High",
-              },
-            },
-            teamsPhoneSourceDetails: {
-              source: { teamsAppId: "teamsAppId123" },
-              language: "en-US",
-              status: "Active",
-            },
-            sessionId: "session-123-abc",
-            intent: "Sales Inquiry",
-            callTopic: "New Product Information",
-            callContext: "Customer is interested in our latest product line",
-            transcriptUrl: "https://transcripts.example.com/call/123",
-            callSentiment: "Positive",
-            suggestedActions: "Offer product demo, Schedule follow-up",
-          },
-        },
-      ],
-    };
+    const transferee = { teamsAppId: "teamsAppId123" };
 
     const options: TransferCallToParticipantOptions = {
-      customCallingContext: teamsAppTarget.customCallingContext,
+      customCallingContext: teamsTarget.customCallingContext,
+      transferee: transferee,
     };
-
     const promiseResult = callConnection.transferCallToParticipant(
-      teamsAppTarget.targetParticipant,
+      teamsTarget.targetParticipant,
       options,
     );
 
@@ -477,7 +477,7 @@ describe("CallConnection Unit Tests", () => {
     const result = await promiseResult;
     assert.isNotNull(result);
     expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
-      teamsAppTarget.targetParticipant,
+      teamsTarget.targetParticipant,
       options,
     );
     assert.equal(result, transferCallResultMock);
