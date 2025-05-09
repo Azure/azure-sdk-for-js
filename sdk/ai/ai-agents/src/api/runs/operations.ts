@@ -36,6 +36,8 @@ import {
 } from "@azure-rest/core-client";
 import { AgentRunResponse, AgentEventMessageStream } from "../../models/streamingModels.js";
 import { createRunStreaming } from "../operations.js";
+import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import { createPoller } from "../poller.js";
 
 export function _cancelRunSend(
   context: Client,
@@ -372,4 +374,40 @@ export function createRun(
       return createRunStreaming(context, assistantId, threadId, options);
     },
   };
+}
+
+export function createRunAndPoll(
+  context: Client,
+  threadId: string,
+  assistantId: string,
+  options: RunsCreateRunOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<ThreadRun>, ThreadRun> {
+  return createPoller<ThreadRun>({
+    initOperation: async () => {
+      const runResponse = createRun(context, threadId, assistantId, options);
+      return runResponse;
+    },
+    pollOperation: async (currentRun: ThreadRun) => {
+      return getRun(context, threadId, currentRun.id, options);
+    },
+    getOperationStatus: getLroOperationStatus,
+    intervalInMs: options.pollingOptions?.intervalInMs,
+  });
+}
+
+function getLroOperationStatus(result: ThreadRun): OperationStatus {
+  switch (result.status) {
+    case "queued":
+      return "notStarted";
+    case "in_progress":
+      return "running";
+    case "completed":
+      return "succeeded";
+    case "requires_action":
+    case "cancelling":
+    case "cancelled":
+    case "expired":
+    default:
+      return "failed";
+  }
 }
