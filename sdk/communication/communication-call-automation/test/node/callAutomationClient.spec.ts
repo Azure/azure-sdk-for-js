@@ -13,7 +13,12 @@ import type {
   CommunicationIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import type { CallInvite, CallConnection, AnswerCallOptions, TeamsPhoneCallDetails} from "../../src/index.js";
+import type {
+  CallInvite,
+  CallConnection,
+  AnswerCallOptions,
+  TeamsPhoneCallDetails,
+} from "../../src/index.js";
 import type {
   AnswerCallEventResult,
   CreateCallEventResult,
@@ -227,7 +232,7 @@ describe("Call Automation Client Unit Tests", () => {
       },
     };
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
-    
+
     // Create TeamsPhoneCallDetails
     const teamsCallDetails: TeamsPhoneCallDetails = {
       teamsPhoneCallerDetails: {
@@ -236,28 +241,28 @@ describe("Call Automation Client Unit Tests", () => {
         phoneNumber: "+14255551234",
         additionalCallerInformation: {
           Department: "Sales",
-          Priority: "High"
-        }
+          Priority: "High",
+        },
       },
       teamsPhoneSourceDetails: {
         source: { teamsAppId: "teamsAppId123" },
         language: "en-US",
-        status: "Active"
+        status: "Active",
       },
       sessionId: "session-123-abc",
       intent: "Sales Inquiry",
       callTopic: "New Product Information",
-      callContext: "Customer inquiry about latest offerings"
+      callContext: "Customer inquiry about latest offerings",
     };
-    
+
     const answerCallOptions: AnswerCallOptions = {
       operationContext: "operationContextAnswerCall",
       customCallingContext: [
         { kind: "voip", key: "foo", value: "bar" },
-        { kind: "teamsPhoneCallDetails", teamsPhoneCallDetails: teamsCallDetails }
+        { kind: "teamsPhoneCallDetails", teamsPhoneCallDetails: teamsCallDetails },
       ],
     };
-    
+
     const promiseResult = client.answerCall(
       CALL_INCOMING_CALL_CONTEXT,
       CALL_CALLBACK_URL,

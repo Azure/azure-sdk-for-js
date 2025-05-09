@@ -125,13 +125,13 @@ describe("CallConnection Unit Tests", () => {
               phoneNumber: "+14255551234",
               additionalCallerInformation: {
                 Department: "Sales",
-                Priority: "High"
-              }
+                Priority: "High",
+              },
             },
             teamsPhoneSourceDetails: {
               source: { teamsAppId: "teamsAppId123" },
               language: "en-US",
-              status: "Active"
+              status: "Active",
             },
             sessionId: "session-123-abc",
             intent: "Sales Inquiry",
@@ -139,9 +139,9 @@ describe("CallConnection Unit Tests", () => {
             callContext: "Customer is interested in our latest product line",
             transcriptUrl: "https://transcripts.example.com/call/123",
             callSentiment: "Positive",
-            suggestedActions: "Offer product demo, Schedule follow-up"
-          }
-        }
+            suggestedActions: "Offer product demo, Schedule follow-up",
+          },
+        },
       ],
     };
 
