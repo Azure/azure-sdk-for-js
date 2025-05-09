@@ -4,9 +4,9 @@ parameters:
   type: string
   default: 'Linux'
 - name: LanguageVersion
-  displayName: LanguageVersion (14, 16, 18)
+  displayName: LanguageVersion (MAINTENANCE, CURRENT, ACTIVE)
   type: string
-  default: '18'
+  default: '$(NODE_VERSION_LTS_MAINTENANCE)'
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string
@@ -18,7 +18,7 @@ parameters:
 - name: Arguments
   displayName: Arguments (regex of arguments to run)
   type: string
-  default: '(15)' 
+  default: '(15)'
 - name: Iterations
   displayName: Iterations (times to run each test)
   type: number

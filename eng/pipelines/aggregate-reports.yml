@@ -20,10 +20,12 @@ stages:
     jobs:
       - job: GenerateReports
         timeoutInMinutes: 360
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 18.x
+              NodeVersion: $(NODE_VERSION_LTS_MAINTENANCE)
 
           - task: PowerShell@2
             inputs:
