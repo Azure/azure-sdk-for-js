@@ -69,7 +69,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(location, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -77,7 +77,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     while (continuationToken) {
       result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -101,7 +101,10 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     location: string,
     options?: TrustedAccessRolesListOptionalParams,
   ): Promise<TrustedAccessRolesListResponse> {
-    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { location, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -115,7 +118,10 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
     nextLink: string,
     options?: TrustedAccessRolesListNextOptionalParams,
   ): Promise<TrustedAccessRolesListNextResponse> {
-    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -133,7 +139,11 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

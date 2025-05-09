@@ -113,10 +113,17 @@ export type ClientOptions = PipelineOptions & {
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
+    pipeline?: Pipeline;
 };
 
 // @public
 export function createClientLogger(namespace: string): TypeSpecRuntimeLogger;
+
+// @public
+export function createDefaultHttpClient(): HttpClient;
+
+// @public
+export function createEmptyPipeline(): Pipeline;
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
@@ -358,6 +365,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tlsSettings?: TlsSettings;
@@ -380,6 +388,7 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    requestOverrides?: Record<string, unknown>;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;

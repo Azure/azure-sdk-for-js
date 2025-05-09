@@ -14,6 +14,8 @@ import type {
   DeleteAgentDefaultResponse,
   CreateThread200Response,
   CreateThreadDefaultResponse,
+  ListThreads200Response,
+  ListThreadsDefaultResponse,
   GetThread200Response,
   GetThreadDefaultResponse,
   UpdateThread200Response,
@@ -116,6 +118,7 @@ const responseMap: Record<string, string[]> = {
   "POST /assistants/{assistantId}": ["200"],
   "DELETE /assistants/{assistantId}": ["200"],
   "POST /threads": ["200"],
+  "GET /threads": ["200"],
   "GET /threads/{threadId}": ["200"],
   "POST /threads/{threadId}": ["200"],
   "DELETE /threads/{threadId}": ["200"],
@@ -183,6 +186,9 @@ export function isUnexpected(
 export function isUnexpected(
   response: CreateThread200Response | CreateThreadDefaultResponse,
 ): response is CreateThreadDefaultResponse;
+export function isUnexpected(
+  response: ListThreads200Response | ListThreadsDefaultResponse,
+): response is ListThreadsDefaultResponse;
 export function isUnexpected(
   response: GetThread200Response | GetThreadDefaultResponse,
 ): response is GetThreadDefaultResponse;
@@ -356,6 +362,8 @@ export function isUnexpected(
     | DeleteAgentDefaultResponse
     | CreateThread200Response
     | CreateThreadDefaultResponse
+    | ListThreads200Response
+    | ListThreadsDefaultResponse
     | GetThread200Response
     | GetThreadDefaultResponse
     | UpdateThread200Response
@@ -456,6 +464,7 @@ export function isUnexpected(
   | UpdateAgentDefaultResponse
   | DeleteAgentDefaultResponse
   | CreateThreadDefaultResponse
+  | ListThreadsDefaultResponse
   | GetThreadDefaultResponse
   | UpdateThreadDefaultResponse
   | DeleteThreadDefaultResponse

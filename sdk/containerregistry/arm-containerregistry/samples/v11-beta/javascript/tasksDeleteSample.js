@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes a specified task.
  *
  * @summary Deletes a specified task.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TasksDelete.json
  */
 async function tasksDelete() {
   const subscriptionId =
@@ -26,7 +26,7 @@ async function tasksDelete() {
   const taskName = "myTask";
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
-  const result = await client.tasks.beginDeleteAndWait(resourceGroupName, registryName, taskName);
+  const result = await client.tasks.delete(resourceGroupName, registryName, taskName);
   console.log(result);
 }
 

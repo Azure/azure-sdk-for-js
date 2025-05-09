@@ -10,7 +10,6 @@ import type {
   FunctionDefinition,
   FunctionToolDefinition,
   SearchConfigurationOutput,
-  OpenApiFunctionDefinition,
   OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
@@ -21,6 +20,7 @@ import type {
   VectorStoreDataSource,
   AzureFunctionStorageQueue,
   AzureFunctionDefinition,
+  OpenApiFunctionDefinition,
 } from "./inputOutputs.js";
 import type { CreateAzureAISearchToolOptions } from "../customization/models.js";
 
@@ -266,7 +266,6 @@ export class ToolUtility {
     };
   }
 }
-
 /**
  * Represents a set of tools with their definitions and resources.
  */

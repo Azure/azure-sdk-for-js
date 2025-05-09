@@ -210,10 +210,10 @@
 # AzureSdkOwners: @joheredi
 
 # PRLabel: %ConfidentialLedger
-/sdk/confidentialledger/ @joheredi
+/sdk/confidentialledger/ @amruthashree18 @taicchoumsft
 
 # ServiceLabel: %ConfidentialLedger
-# AzureSdkOwners: @joheredi
+# AzureSdkOwners: @amruthashree18 @taicchoumsft
 
 # PRLabel: %DocumentTranslator
 /sdk/documenttranslator/ @joheredi
@@ -261,10 +261,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
+sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # ServiceLabel: %AI Projects
-# ServiceOwners: @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
+# ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -305,14 +305,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # ServiceLabel: %Search
 # AzureSdkOwners: @dgetu
-
-# PRLabel: %Mixed Reality
-# ServiceLabel: %Mixed Reality
-/sdk/mixedreality/ @RamonArguelles
-
-# PRLabel: %Remote Rendering
-# ServiceLabel: %Remote Rendering
-/sdk/remoterendering/ @FlorianBorn71
 
 # PRLabel: %Maps
 # ServiceLabel: %Maps
@@ -415,6 +407,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/changeanalysis/arm-changeanalysis/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/carbonoptimization/arm-carbonoptimization/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -515,6 +510,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/dependencymap/arm-dependencymap/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao
@@ -670,6 +668,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -739,9 +740,6 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mixedreality/arm-mixedreality/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -787,6 +785,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/oracledatabase/arm-oracledatabase/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/onlineexperimentation/arm-onlineexperimentation/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -809,6 +810,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/programmableconnectivity/arm-programmableconnectivity/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/powerbidedicated/arm-powerbidedicated/ @qiaozha @MaryGao
@@ -994,6 +998,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 /sdk/portal/arm-portal/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/portalservices/arm-portalservicescopilot/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/loadtesting/arm-loadtesting/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1019,8 +1026,10 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms @rads-1996
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms @rads-1996
+
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
+
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1100,7 +1109,7 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham @glharper @dargilco @jhakulin @ZachhK
 #/<NotInRepo>/          @divka78 @amitchat @aishu
 
 # ServiceLabel: %Azure Stack %Service Attention
-#/<NotInRepo>/          @sijuman @sarathys @bganapa @rakku-ms
+#/<NotInRepo>/          @sarathys @bganapa @rakku-ms
 
 # ServiceLabel: %Batch %Service Attention
 #/<NotInRepo>/          @mksuni @bgklein @mscurrell @cRui861 @paterasMSFT @gingi @dpwatrous

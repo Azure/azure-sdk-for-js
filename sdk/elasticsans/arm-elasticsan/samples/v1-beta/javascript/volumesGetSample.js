@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get an Volume.
  *
  * @summary Get an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Get_MaximumSet_Gen.json
  */
 async function volumesGetMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -39,7 +39,7 @@ async function volumesGetMaximumSetGen() {
  * This sample demonstrates how to Get an Volume.
  *
  * @summary Get an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Volumes_Get_MinimumSet_Gen.json
  */
 async function volumesGetMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -59,8 +59,8 @@ async function volumesGetMinimumSetGen() {
 }
 
 async function main() {
-  volumesGetMaximumSetGen();
-  volumesGetMinimumSetGen();
+  await volumesGetMaximumSetGen();
+  await volumesGetMinimumSetGen();
 }
 
 main().catch(console.error);

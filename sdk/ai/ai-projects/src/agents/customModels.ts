@@ -18,6 +18,7 @@ import type {
 import type {
   ListMessagesQueryParamProperties,
   ListFilesQueryParamProperties,
+  ListThreadsQueryParamProperties,
 } from "../customization/parameters.js";
 import type {
   CreateVectorStoreFileBatchOptions,
@@ -155,6 +156,12 @@ export interface UpdateAgentThreadOptionalParams
  */
 export interface DeleteAgentThreadOptionalParams extends OperationOptions {}
 
+/**
+ * Optional parameters for deleting an agent thread.
+ */
+export interface ListAgentThreadOptionalParams
+  extends ListThreadsQueryParamProperties,
+    OperationOptions {}
 /**
  * Optional parameters for getting an run step.
  */
