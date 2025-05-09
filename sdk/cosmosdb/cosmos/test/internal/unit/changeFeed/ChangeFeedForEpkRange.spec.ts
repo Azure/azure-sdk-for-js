@@ -108,7 +108,7 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
     }
   });
 
-  it.skip("should handle partition split into three ranges and retry accordingly", async () => {
+  it("should handle partition split into three ranges and retry accordingly", async () => {
     // first call: return 410/Gone to trigger shouldRetryOnFailure
     const queue: FeedRangeQueue<ChangeFeedRange> = new FeedRangeQueue();
     queue.enqueue(new ChangeFeedRange("", "DD", "cont1"));
@@ -185,7 +185,7 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
     expect(result.statusCode).toBe(StatusCodes.Ok);
   });
 
-  it.skip("should modify first element when shiftLeft=true in handleSplitOrMerge", async () => {
+  it("should modify first element when shiftLeft=true in handleSplitOrMerge", async () => {
     // replace queue with a single original feed range
     (changeFeedForEpkRange as any).queue = new FeedRangeQueue<ChangeFeedRange>();
     const queue: FeedRangeQueue<ChangeFeedRange> = new FeedRangeQueue();
