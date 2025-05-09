@@ -6701,7 +6701,7 @@ export const AcsCallEndedBy: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel",
         },
       },
-      type: {
+      kind: {
         serializedName: "type",
         required: true,
         type: {
@@ -6906,42 +6906,36 @@ export const AcsRecordingFileStatusUpdatedEventData: coreClient.CompositeMapper 
         },
         recordingStartTime: {
           serializedName: "recordingStartTime",
-          required: true,
           type: {
             name: "String",
           },
         },
         recordingDurationMs: {
           serializedName: "recordingDurationMs",
-          required: true,
           type: {
             name: "Number",
           },
         },
         recordingContentType: {
           serializedName: "recordingContentType",
-          required: true,
           type: {
             name: "String",
           },
         },
         recordingChannelType: {
           serializedName: "recordingChannelType",
-          required: true,
           type: {
             name: "String",
           },
         },
         recordingFormatType: {
           serializedName: "recordingFormatType",
-          required: true,
           type: {
             name: "String",
           },
         },
         sessionEndReason: {
           serializedName: "sessionEndReason",
-          required: true,
           type: {
             name: "String",
           },
@@ -7052,14 +7046,12 @@ export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper
         },
         messageId: {
           serializedName: "messageId",
-          required: true,
           type: {
             name: "String",
           },
         },
         status: {
           serializedName: "status",
-          required: true,
           type: {
             name: "String",
           },
@@ -7073,7 +7065,6 @@ export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper
         },
         deliveryAttemptTimestamp: {
           serializedName: "deliveryAttemptTimestamp",
-          required: true,
           type: {
             name: "String",
           },
@@ -9386,7 +9377,6 @@ export const AcsRouterJobEventData: coreClient.CompositeMapper = {
       ...AcsRouterEventData.type.modelProperties,
       queueId: {
         serializedName: "queueId",
-        required: true,
         type: {
           name: "String",
         },
@@ -11077,7 +11067,6 @@ export const AcsChatParticipantAddedToThreadWithUserEventData: coreClient.Compos
         ...AcsChatThreadEventBase.type.modelProperties,
         time: {
           serializedName: "time",
-          required: true,
           type: {
             name: "String",
           },
@@ -11109,7 +11098,6 @@ export const AcsChatParticipantRemovedFromThreadWithUserEventData: coreClient.Co
         ...AcsChatThreadEventBase.type.modelProperties,
         time: {
           serializedName: "time",
-          required: true,
           type: {
             name: "String",
           },
@@ -11342,7 +11330,6 @@ export const AcsChatThreadPropertiesUpdatedEventData: coreClient.CompositeMapper
         },
         editTime: {
           serializedName: "editTime",
-          required: true,
           type: {
             name: "String",
           },

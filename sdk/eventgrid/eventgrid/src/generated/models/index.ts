@@ -2250,7 +2250,7 @@ export interface AcsCallParticipant {
   /** The communication identifier of the call ended by */
   communicationIdentifier: CommunicationIdentifierModel;
   /** The role of participant user. */
-  role: string;
+  role: AcsCallParticipantKind;
 }
 
 /** Schema of common properties of all calling events */
@@ -2288,7 +2288,7 @@ export interface AcsCallEndedBy {
   /** The communication identifier of the call ended by */
   communicationIdentifier: CommunicationIdentifierModel;
   /** The type of the call ended by. */
-  type: AcsCallEndedByKind;
+  kind: AcsCallEndedByKind;
   /** The name of the call ended by. */
   name: string;
 }
@@ -2356,17 +2356,17 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   /** The details of recording storage information */
   recordingStorageInfo: AcsRecordingStorageInfo;
   /** The time at which the recording started */
-  recordingStartTime: string;
+  recordingStartTime?: string;
   /** The recording duration in milliseconds */
-  recordingDurationMs: number;
+  recordingDurationMs?: number;
   /** The recording content type- AudioVideo, or Audio */
-  recordingContentType: RecordingContentType;
+  recordingContentType?: RecordingContentType;
   /** The recording  channel type - Mixed, Unmixed */
-  recordingChannelType: RecordingChannelType;
+  recordingChannelType?: RecordingChannelType;
   /** The recording format type - Mp4, Mp3, Wav */
-  recordingFormatType: RecordingFormatType;
+  recordingFormatType?: RecordingFormatType;
   /** The reason for ending recording session */
-  sessionEndReason: string;
+  sessionEndReason?: string;
 }
 
 /** Schema for all properties of Recording Storage Information. */
@@ -2400,13 +2400,13 @@ export interface AcsEmailDeliveryReportReceivedEventData {
   /** The Internet Message Id of the email been sent */
   internetMessageId: string;
   /** The Id of the email been sent */
-  messageId: string;
+  messageId?: string;
   /** The status of the email. Any value other than Delivered is considered failed. */
-  status: AcsEmailDeliveryReportStatus;
+  status?: AcsEmailDeliveryReportStatus;
   /** Detailed information about the status if any */
   deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
   /** The time at which the email delivery report received timestamp */
-  deliveryAttemptTimestamp: string;
+  deliveryAttemptTimestamp?: string;
 }
 
 /** Detailed information about the status if any */
@@ -3175,7 +3175,7 @@ export interface AppConfigurationSnapshotModifiedEventData
 /** Schema of common properties of all Router Job events */
 export interface AcsRouterJobEventData extends AcsRouterEventData {
   /** Router Job events Queue Id */
-  queueId: string;
+  queueId?: string;
   /** Router Job events Labels */
   labels: { [propertyName: string]: string };
   /** Router Jobs events Tags */
@@ -3218,7 +3218,7 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
   /** The chat message id */
   messageId: string;
   /** The communication identifier of the sender */
-  senderCommunicationIdentifier?: CommunicationIdentifierModel;
+  senderCommunicationIdentifier: CommunicationIdentifierModel;
   /** The display name of the sender */
   senderDisplayName?: string;
   /** The original compose time of the message */
@@ -3721,7 +3721,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData
 export interface AcsChatParticipantAddedToThreadWithUserEventData
   extends AcsChatThreadEventBase {
   /** The time at which the user was added to the thread */
-  time: string;
+  time?: string;
   /** The communication identifier of the user who added the user */
   addedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The details of the user who was added */
@@ -3732,7 +3732,7 @@ export interface AcsChatParticipantAddedToThreadWithUserEventData
 export interface AcsChatParticipantRemovedFromThreadWithUserEventData
   extends AcsChatThreadEventBase {
   /** The time at which the user was removed to the thread */
-  time: string;
+  time?: string;
   /** The communication identifier of the user who removed the user */
   removedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The details of the user who was removed */
@@ -3812,7 +3812,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
-  editTime: string;
+  editTime?: string;
   /** The updated thread properties */
   properties: { [propertyName: string]: Record<string, unknown> };
   /** The thread metadata */
@@ -4247,6 +4247,33 @@ export enum KnownAcsRouterUpdatedWorkerProperty {
  * **ChannelConfigurations**
  */
 export type AcsRouterUpdatedWorkerProperty = string;
+
+/** Known values of {@link AcsCallParticipantKind} that the service accepts. */
+export enum KnownAcsCallParticipantKind {
+  /** Call participant role is an attendee. */
+  Attendee = "Attendee",
+  /** Call participant role is presenter. */
+  Presenter = "Presenter",
+  /** Call participant role is consumer. */
+  Consumer = "Consumer",
+  /** Call participant role is collaborator. */
+  Collaborator = "Collaborator",
+  /** Call participant role is organizer. */
+  Organizer = "Organizer",
+}
+
+/**
+ * Defines values for AcsCallParticipantKind. \
+ * {@link KnownAcsCallParticipantKind} can be used interchangeably with AcsCallParticipantKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Attendee**: Call participant role is an attendee. \
+ * **Presenter**: Call participant role is presenter. \
+ * **Consumer**: Call participant role is consumer. \
+ * **Collaborator**: Call participant role is collaborator. \
+ * **Organizer**: Call participant role is organizer.
+ */
+export type AcsCallParticipantKind = string;
 
 /** Known values of {@link AcsCallEndedByKind} that the service accepts. */
 export enum KnownAcsCallEndedByKind {

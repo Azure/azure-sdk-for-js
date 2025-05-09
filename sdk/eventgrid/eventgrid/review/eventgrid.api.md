@@ -15,8 +15,8 @@ import type { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AcsCallEndedBy {
     communicationIdentifier: CommunicationIdentifierModel;
+    kind: AcsCallEndedByKind;
     name: string;
-    type: AcsCallEndedByKind;
 }
 
 // @public
@@ -55,7 +55,8 @@ export interface AcsCallingEvent {
 // @public
 export interface AcsCallParticipant {
     communicationIdentifier: CommunicationIdentifierModel;
-    role: string;
+    // Warning: (ae-forgotten-export) The symbol "AcsCallParticipantKind" needs to be exported by the entry point index.d.ts
+    role: AcsCallParticipantKind;
 }
 
 // @public
@@ -136,7 +137,7 @@ export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEve
 export interface AcsChatMessageEventBase extends AcsChatEventBase {
     composeTime?: string;
     messageId: string;
-    senderCommunicationIdentifier?: CommunicationIdentifierModel;
+    senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
     type: string;
     version?: number;
@@ -180,7 +181,7 @@ export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventIn
 export interface AcsChatParticipantAddedToThreadWithUserEventData extends AcsChatThreadEventBase {
     addedByCommunicationIdentifier: CommunicationIdentifierModel;
     participantAdded: AcsChatThreadParticipant;
-    time: string;
+    time?: string;
 }
 
 // @public
@@ -195,7 +196,7 @@ export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEve
 export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends AcsChatThreadEventBase {
     participantRemoved: AcsChatThreadParticipant;
     removedByCommunicationIdentifier: CommunicationIdentifierModel;
-    time: string;
+    time?: string;
 }
 
 // @public
@@ -252,7 +253,7 @@ export interface AcsChatThreadParticipant {
 // @public
 export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEventInThreadBase {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
-    editTime: string;
+    editTime?: string;
     metadata: {
         [propertyName: string]: string;
     };
@@ -289,13 +290,13 @@ export interface AcsChatTypingIndicatorReceivedInThreadEventData extends AcsChat
 
 // @public
 export interface AcsEmailDeliveryReportReceivedEventData {
-    deliveryAttemptTimestamp: string;
+    deliveryAttemptTimestamp?: string;
     deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
     internetMessageId: string;
-    messageId: string;
+    messageId?: string;
     recipient: string;
     sender: string;
-    status: AcsEmailDeliveryReportStatus;
+    status?: AcsEmailDeliveryReportStatus;
 }
 
 // @public
@@ -442,13 +443,13 @@ export interface AcsRecordingChunkInfo {
 
 // @public
 export interface AcsRecordingFileStatusUpdatedEventData {
-    recordingChannelType: RecordingChannelType;
-    recordingContentType: RecordingContentType;
-    recordingDurationMs: number;
-    recordingFormatType: RecordingFormatType;
-    recordingStartTime: string;
+    recordingChannelType?: RecordingChannelType;
+    recordingContentType?: RecordingContentType;
+    recordingDurationMs?: number;
+    recordingFormatType?: RecordingFormatType;
+    recordingStartTime?: string;
     recordingStorageInfo: AcsRecordingStorageInfo;
-    sessionEndReason: string;
+    sessionEndReason?: string;
 }
 
 // @public
@@ -521,7 +522,7 @@ export interface AcsRouterJobEventData extends AcsRouterEventData {
     labels: {
         [propertyName: string]: string;
     };
-    queueId: string;
+    queueId?: string;
     tags: {
         [propertyName: string]: string;
     };
