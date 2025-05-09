@@ -33,7 +33,7 @@ npm install @azure-rest/analytics-onlineexperimentation
 The Azure Online Experimentation client library initialization requires two parameters:
 
 - The `endpoint` property value from the [`Microsoft.OnlineExperimentation/workspaces`](https://learn.microsoft.com/azure/templates/microsoft.onlineexperimentation/workspaces) resource.
-- A `TokenCredential` for authentication, the simplest approach is to use [`DefaultAzureCredential`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library.
+- A `TokenCredential` for authentication, the simplest approach is to use [`DefaultAzureCredential`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library.
 
 ```ts snippet:InitializeClient
 import { DefaultAzureCredential } from "@azure/identity";
@@ -47,8 +47,8 @@ const client = OnlineExperimentationClient(endpoint, credential);
 
 ## Examples
 
-- [Examples](./Examples.md) demonstrating individual API operations.
-- Example demonstrating experiment metrics management lifecycle: [TypeScript](./samples/v1-beta/typescript/README.md) and [JavaScript](./samples/v1-beta/javascript/README.md).
+- [Examples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/analytics-onlineexperimentation-rest/EXAMPLES.md) demonstrating individual API operations.
+- Example demonstrating experiment metrics management lifecycle: [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/analytics-onlineexperimentation-rest/samples/v1-beta/typescript/README.md) and [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/analytics-onlineexperimentation-rest/samples/v1-beta/javascript/README.md).
 
 ## Troubleshooting
 
