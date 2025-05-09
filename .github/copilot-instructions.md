@@ -50,7 +50,9 @@ Always attempt to browse the following resources and incorporate relevant inform
 
 When reviewing documentation URLs (especially Azure SDK documentation), extract key points, principles, and examples to inform your responses.
 Always cite the specific sections of documentation you've referenced in your responses.
+## Basic instructions:
 
+Always run the resolve-merge-conflict mcp tool from the repository root and the current branch.
 ## Repository structure
 
 ### Core Packages
