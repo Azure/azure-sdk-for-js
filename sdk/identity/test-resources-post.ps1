@@ -147,12 +147,16 @@ az container create -g $($DeploymentOutputs['IDENTITY_RESOURCE_GROUP']) -n $($De
   --acr-identity $($DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']) `
   --assign-identity [system] $($DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']) `
   --role "Storage Blob Data Reader" `
+  --cpu 1 `
+  --ip-address Public `
+  --memory 1.0 `
+  --os-type Linux `
   --scope $($DeploymentOutputs['IDENTITY_STORAGE_ID_1']) `
   -e IDENTITY_STORAGE_NAME=$($DeploymentOutputs['IDENTITY_STORAGE_NAME_1']) `
      IDENTITY_STORAGE_NAME_USER_ASSIGNED=$($DeploymentOutputs['IDENTITY_STORAGE_NAME_2']) `
      IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID=$($DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']) `
      FUNCTIONS_CUSTOMHANDLER_PORT=80
   
-$aciIP = az container show -g $rg -n $aciName --query ipAddress.ip --output tsv
+$aciIP = az container show -g $($DeploymentOutputs['IDENTITY_RESOURCE_GROUP']) -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --query ipAddress.ip --output tsv
 Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"
 Write-Host "Deployed Azure Container Instance"
