@@ -41,6 +41,7 @@ import type {
   MediaStreamingFailed,
   StartRecordingFailed,
   PlayStarted,
+  IncomingCall,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -83,6 +84,9 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CallConnected":
       callbackEvent = { kind: "CallConnected" } as CallConnected;
+      break;
+    case "Microsoft.Communication.IncomingCall":
+      callbackEvent = { kind: "IncomingCall" } as IncomingCall;
       break;
     case "Microsoft.Communication.CallDisconnected":
       callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;

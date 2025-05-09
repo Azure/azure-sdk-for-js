@@ -53,7 +53,8 @@ export type CallAutomationEvent =
   | MediaStreamingFailed
   | CreateCallFailed
   | AnswerFailed
-  | StartRecordingFailed;
+  | StartRecordingFailed
+  | IncomingCall;
 
 export interface ResultInformation {
   /** The error code. */
@@ -150,6 +151,30 @@ export interface CallConnected {
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CallConnected";
+}
+
+/** Event when call was initiated. */
+export interface IncomingCall {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** The communication identifier of the target user.*/
+  to?: CommunicationIdentifier;
+  /** The communication identifier of the user who initiated the call.*/
+  from?: CommunicationIdentifier;
+  /** Display name of caller.*/
+  callerDisplayName?: string;
+  /** Custom Context of Incoming Call */
+  customContext?: CustomCallingContext;
+  /** Incoming call context.*/
+  incomingCallContext?: string;
+  /** The communication identifier of the user on behalf of whom the call is made.*/
+  onBehalfOfCallee?: CommunicationIdentifier;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "IncomingCall";
 }
 
 /** Event when all participants left and call was terminated. */

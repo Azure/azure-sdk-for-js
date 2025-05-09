@@ -62,7 +62,9 @@ directive:
   - rename-model:
       from: CustomCallingContext
       to: CustomCallingContextInternal
-
+  - rename-model:
+      from: IncomingCall
+      to: RestIncomingCall
 module-kind: esm
 ```
 
