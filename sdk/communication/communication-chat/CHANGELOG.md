@@ -1,5 +1,11 @@
 # Release History
 
+## 1.6.0-beta.6 (2025-05-12)
+
+### Features Added
+
+- Updated to @azure/communication-common@2.3.2-beta.1
+
 ## 1.6.0-beta.5 (2025-02-20)
 
 ### Bugs Fixed
