@@ -1,6 +1,6 @@
-# Azure AI Projects client library for JavaScript
+# Azure AI Agents client library for JavaScript
 
-Use the AI Projects client library (in preview) to:
+Use the AI Agents client library (in preview) to:
 
 - **Enumerate connections** in your Azure AI Foundry project and get connection properties.
   For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
@@ -9,7 +9,7 @@ Use the AI Projects client library (in preview) to:
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 
-| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
+| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
 
@@ -92,7 +92,7 @@ const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
 ### Agents (Preview)
 
-Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) for additional Agent samples.
+Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples) for additional Agent samples.
 
 Agents are actively being developed. A sign-up form for private preview is coming soon.
 
@@ -815,7 +815,7 @@ To report issues with the client library, or request additional features, please
 
 ## Next steps
 
-Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) folder, containing fully runnable code.
+Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples) folder, containing fully runnable code.
 
 ## Contributing
 
