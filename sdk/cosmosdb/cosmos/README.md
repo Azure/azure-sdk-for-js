@@ -698,9 +698,11 @@ try {
 ### Limitations
 
 Currently the features below are **not supported**. For alternatives options, check the **Workarounds** section below.
+
 - Client-side encryption is currently not supported in browser environment.
 
 ### Data Plane Limitations:
+
 - Queries with COUNT from a DISTINCT subquery​
 - Direct TCP Mode access​
 - Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
@@ -744,10 +746,10 @@ const queryOptions = {
   maxItemCount: 10, // maximum number of items to return per page
   enableCrossPartitionQuery: true,
 };
-const querIterator = container.items.query(querySpec, queryOptions);
-while (querIterator.hasMoreResults()) {
-  const { resources: result } = await querIterator.fetchNext();
-  //Do something with result
+const queryIterator = container.items.query(querySpec, queryOptions);
+while (queryIterator.hasMoreResults()) {
+  const { resources: result } = await queryIterator.fetchNext();
+  // process results
 }
 ```
 

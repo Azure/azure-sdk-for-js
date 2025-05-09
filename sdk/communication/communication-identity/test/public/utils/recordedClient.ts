@@ -13,9 +13,10 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING:
+    "endpoint=https://endpoint.communication.azure.com/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
+  COMMUNICATION_ENDPOINT: "https://endpoint.communication.azure.com/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",

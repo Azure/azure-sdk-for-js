@@ -1072,8 +1072,8 @@ export const SkuDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      customerFacingSizeInGB: {
-        serializedName: "customerFacingSizeInGB",
+      sizeInGB: {
+        serializedName: "sizeInGB",
         readOnly: true,
         type: {
           name: "Number",

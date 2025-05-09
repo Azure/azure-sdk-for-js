@@ -10,6 +10,7 @@ export * from "./operations.js";
 export * from "./managedClusters.js";
 export * from "./containerService.js";
 export * from "./maintenanceConfigurations.js";
+export * from "./namespaces.js";
 export * from "./agentPools.js";
 export * from "./machines.js";
 export * from "./privateEndpointConnections.js";

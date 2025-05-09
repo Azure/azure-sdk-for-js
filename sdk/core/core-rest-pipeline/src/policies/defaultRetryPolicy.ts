@@ -3,15 +3,16 @@
 
 import type { PipelineRetryOptions } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
-import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
-import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
-import { retryPolicy } from "./retryPolicy.js";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
+
+import {
+  defaultRetryPolicyName as tspDefaultRetryPolicyName,
+  defaultRetryPolicy as tspDefaultRetryPolicy,
+} from "@typespec/ts-http-runtime/internal/policies";
 
 /**
  * Name of the {@link defaultRetryPolicy}
  */
-export const defaultRetryPolicyName = "defaultRetryPolicy";
+export const defaultRetryPolicyName = tspDefaultRetryPolicyName;
 
 /**
  * Options that control how to retry failed requests.
@@ -25,10 +26,5 @@ export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {}
  * - Or otherwise if the outgoing request fails, it will retry with an exponentially increasing delay.
  */
 export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
-  return {
-    name: defaultRetryPolicyName,
-    sendRequest: retryPolicy([throttlingRetryStrategy(), exponentialRetryStrategy(options)], {
-      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
-    }).sendRequest,
-  };
+  return tspDefaultRetryPolicy(options);
 }
