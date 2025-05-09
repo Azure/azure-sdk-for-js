@@ -597,8 +597,8 @@ export class DigitalTwinsClient {
   ): Promise<void> {
     const eventRoute = {
       endpointName: endpointId,
-          filter,
-    }
+      filter,
+    };
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertEventRoute",
       {
