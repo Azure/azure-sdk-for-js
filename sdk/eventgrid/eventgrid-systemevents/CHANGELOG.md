@@ -4,6 +4,20 @@
 
 ### Features Added
 
+- Added new System Events:
+
+  - `Microsoft.ApiManagement.CircuitBreaker.Closed`
+  - `Microsoft.ApiManagement.CircuitBreaker.Opened`
+  - `Microsoft.ApiManagement.GatewayTokenExpired`
+  - `Microsoft.ApiManagement.GatewayTokenNearExpiry`
+  - `Microsoft.Communication.CallEnded": AcsCallEndedEventData`
+  - `Microsoft.Communication.CallParticipantAdded`
+  - `Microsoft.Communication.CallParticipantRemoved`
+  - `Microsoft.Communication.CallStarted`
+  - `Microsoft.Communication.ChatAzureBotCommandReceivedInThread`
+  - `Microsoft.Communication.ChatTypingIndicatorReceivedInThread`
+  - `Microsoft.Edge.SolutionVersionPublished`
+
 ### Breaking Changes
 
 ### Bugs Fixed
