@@ -13,8 +13,7 @@ import { AgentsClient, ToolUtility, connectionToolType, isOutputOfType } from "@
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
