@@ -10,6 +10,7 @@ import type {
   SerializedCommunicationIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
+  TeamsExtensionUserIdentifier,
 } from "@azure/communication-common";
 import {
   serializeCommunicationIdentifier,
@@ -18,6 +19,7 @@ import {
   isUnknownIdentifier,
   isMicrosoftTeamsUserIdentifier,
   isMicrosoftTeamsAppIdentifier,
+  isTeamsExtensionUserIdentifier,
 } from "@azure/communication-common";
 import type {
   CallParticipantInternal,
@@ -45,6 +47,9 @@ function extractKind(
   }
   if (identifierModel.microsoftTeamsApp !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp;
+  }
+  if (identifierModel.teamsExtensionUser !== undefined) {
+    return KnownCommunicationIdentifierModelKind.TeamsExtensionUser;
   }
   return KnownCommunicationIdentifierModelKind.Unknown;
 }
@@ -132,6 +137,19 @@ export function communicationIdentifierConverter(
     };
     return microsoftTeamsAppIdentifier;
   }
+  if (
+    kind === KnownCommunicationIdentifierModelKind.TeamsExtensionUser &&
+    identifierModel.teamsExtensionUser !== undefined
+  ) {
+    const teamsExtensionUserIdentifier: TeamsExtensionUserIdentifier = {
+      rawId: rawId,
+      userId: identifierModel.teamsExtensionUser.userId,
+      resourceId: identifierModel.teamsExtensionUser.resourceId,
+      tenantId: identifierModel.teamsExtensionUser.tenantId,
+      cloud: identifierModel.teamsExtensionUser.cloud as KnownCommunicationCloudEnvironmentModel,
+    };
+    return teamsExtensionUserIdentifier;
+  }
 
   const unknownIdentifier: UnknownIdentifier = {
     id: rawId ? rawId : "",
@@ -176,7 +194,13 @@ export function communicationIdentifierModelConverter(
     };
     return microsoftTeamsAppIdentifierModel;
   }
-
+  if (isTeamsExtensionUserIdentifier(identifier)) {
+    const teamsExtensionUserIdentifierModel: CommunicationIdentifierModel = {
+      kind: KnownCommunicationIdentifierModelKind.TeamsExtensionUser,
+      ...serializedIdentifier,
+    };
+    return teamsExtensionUserIdentifierModel;
+  }
   if (isUnknownIdentifier(identifier)) {
     const unknownIdentifierModel: CommunicationIdentifierModel = {
       kind: KnownCommunicationIdentifierModelKind.Unknown,

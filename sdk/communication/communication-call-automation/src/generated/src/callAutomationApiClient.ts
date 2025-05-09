@@ -15,13 +15,11 @@ import {
 import {
   CallConnectionImpl,
   CallMediaImpl,
-  CallDialogImpl,
   CallRecordingImpl,
 } from "./operations/index.js";
 import {
   CallConnection,
   CallMedia,
-  CallDialog,
   CallRecording,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
@@ -87,10 +85,9 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-09-01-preview";
+    this.apiVersion = options.apiVersion || "2025-03-30-preview";
     this.callConnection = new CallConnectionImpl(this);
     this.callMedia = new CallMediaImpl(this);
-    this.callDialog = new CallDialogImpl(this);
     this.callRecording = new CallRecordingImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -200,7 +197,6 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
 
   callConnection: CallConnection;
   callMedia: CallMedia;
-  callDialog: CallDialog;
   callRecording: CallRecording;
 }
 // Operation Specifications
