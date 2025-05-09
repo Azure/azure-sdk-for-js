@@ -27,8 +27,6 @@ import * as fs from "fs";
 import { delay } from "@azure/core-util";
 import { RestError } from "@azure/core-rest-pipeline";
 
-// TODO update all snippets when samples are working
-
 describe("snippets", function () {
   let client: AgentsClient;
 
@@ -37,7 +35,7 @@ describe("snippets", function () {
   });
 
   it("setup", async function () {
-    const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+    const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
     const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
     const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   });
@@ -54,7 +52,7 @@ describe("snippets", function () {
     const toolSet = new ToolSet();
     await toolSet.addFileSearchTool([vectorStore.id]);
     await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
-
+    // @ts-preserve-whitespace
     // Create agent with tool set
     const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
@@ -72,15 +70,15 @@ describe("snippets", function () {
       fileName: "sampleFileForUpload.txt",
     });
     console.log(`Uploaded file, file ID: ${file.id}`);
-
+    // @ts-preserve-whitespace
     const vectorStore = await client.vectorStores.create({
       fileIds: [file.id],
       name: "myVectorStore",
     });
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
-
+    // @ts-preserve-whitespace
     const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
-
+    // @ts-preserve-whitespace
     const agent = await client.createAgent("gpt-4o", {
       name: "SDK Test Agent - Retrieval",
       instructions: "You are helpful agent that can help fetch data from files you know about.",
@@ -96,11 +94,11 @@ describe("snippets", function () {
     const localFile = await client.files.upload(localFileStream, "assistants", {
       fileName: "localFile",
     });
-
+    // @ts-preserve-whitespace
     console.log(`Uploaded local file, file ID : ${localFile.id}`);
-
+    // @ts-preserve-whitespace
     const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
-
+    // @ts-preserve-whitespace
     // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
     const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
@@ -113,10 +111,10 @@ describe("snippets", function () {
 
   it("bingGrounding", async function () {
     const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
-
+    // @ts-preserve-whitespace
     // Initialize agent bing tool with the connection id
     const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
-
+    // @ts-preserve-whitespace
     // Create agent with the bing tool and process assistant run
     const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
@@ -128,7 +126,7 @@ describe("snippets", function () {
 
   it("AISearch", async function () {
     const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
-
+    // @ts-preserve-whitespace
     // Initialize Azure AI Search tool
     const azureAISearchTool = ToolUtility.createAzureAISearchTool(
       connectionId,
@@ -141,7 +139,7 @@ describe("snippets", function () {
         indexName: "",
       },
     );
-
+    // @ts-preserve-whitespace
     // Create agent with the Azure AI search tool
     const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
@@ -155,7 +153,7 @@ describe("snippets", function () {
   it("functionTools", async function () {
     class FunctionToolExecutor {
       private functionTools: { func: Function; definition: FunctionToolDefinition }[];
-
+    // @ts-preserve-whitespace
       constructor() {
         this.functionTools = [
           {
@@ -195,19 +193,19 @@ describe("snippets", function () {
           },
         ];
       }
-
+    // @ts-preserve-whitespace
       private getUserFavoriteCity(): {} {
         return { location: "Seattle, WA" };
       }
-
+    // @ts-preserve-whitespace
       private getCityNickname(_location: string): {} {
         return { nickname: "The Emerald City" };
       }
-
+    // @ts-preserve-whitespace
       private getWeather(_location: string, unit: string): {} {
         return { weather: unit === "f" ? "72f" : "22c" };
       }
-
+    // @ts-preserve-whitespace
       public invokeTool(
         toolCall: RequiredToolCall & FunctionToolDefinition,
       ): ToolOutput | undefined {
@@ -236,7 +234,7 @@ describe("snippets", function () {
             }
           : undefined;
       }
-
+    // @ts-preserve-whitespace
       public getFunctionDefinitions(): FunctionToolDefinition[] {
         return this.functionTools.map((tool) => {
           return tool.definition;
@@ -259,7 +257,7 @@ describe("snippets", function () {
     // Read in OpenApi spec
     const filePath = "./data/weatherOpenApi.json";
     const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
+    // @ts-preserve-whitespace
     // Define OpenApi function
     const openApiFunction = {
       name: "getWeather",
@@ -270,10 +268,10 @@ describe("snippets", function () {
       },
       default_params: ["format"], // optional
     };
-
+    // @ts-preserve-whitespace
     // Create OpenApi tool
     const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
-
+    // @ts-preserve-whitespace
     // Create agent with OpenApi tool
     const agent = await client.createAgent("gpt-4o", {
       name: "myAgent",
@@ -285,10 +283,10 @@ describe("snippets", function () {
 
   it("createAgentWithFabric", async function () {
     const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
-
+    // @ts-preserve-whitespace
     // Initialize agent Microsoft Fabric tool with the connection id
     const fabricTool = ToolUtility.createFabricTool(connectionId);
-
+    // @ts-preserve-whitespace
     // Create agent with the Microsoft Fabric tool and process assistant run
     const agent = await client.createAgent("gpt-4o", {
       name: "my-agent",
@@ -310,21 +308,21 @@ describe("snippets", function () {
       fileName: "sample_file_for_upload.csv",
     });
     console.log(`Uploaded file, ID: ${file.id}`);
-
+    // @ts-preserve-whitespace
     const vectorStore = await client.agents.vectorStores.create()({
       fileIds: [file.id],
     });
     console.log(`Created vector store, ID: ${vectorStore.id}`);
-
+    // @ts-preserve-whitespace
     const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
-
+    // @ts-preserve-whitespace
     const agent = await client.agents.createAgent("gpt-4o", {
       name: "myAgent",
       instructions: "You are helpful agent that can help fetch data from files you know about.",
       tools: [fileSearchTool.definition],
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-
+    // @ts-preserve-whitespace
     // Create thread with file resources.
     // If the agent has multiple threads, only this thread can search this file.
     const thread = await client.threads.create({ toolResources: fileSearchTool.resources });
@@ -373,10 +371,10 @@ describe("snippets", function () {
       tools: [codeInterpreterTool.definition],
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
-
+    // @ts-preserve-whitespace
     const thread = await client.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
-
+    // @ts-preserve-whitespace
     const message = await client.messages.create(
       thread.id,
       "user",
@@ -401,7 +399,7 @@ describe("snippets", function () {
       fileName: "image_file.png",
     });
     console.log(`Uploaded file, file ID: ${imageFile.id}`);
-
+    // @ts-preserve-whitespace
     // Create a message with both text and image content
     console.log("Creating message with image content...");
     const inputMessage = "Hello, what is in the image?";
@@ -425,7 +423,7 @@ describe("snippets", function () {
   it("imageInputWithUrl", async function () {
     const imageUrl =
       "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
-
+    // @ts-preserve-whitespace
     // Create a message with both text and image content
     console.log("Creating message with image content...");
     const inputMessage = "Hello, what is in the image?";
@@ -442,7 +440,7 @@ describe("snippets", function () {
         },
       },
     ];
-
+    // @ts-preserve-whitespace
     const message = await client.messages.create(thread.id, "user", content);
     console.log(`Created message, message ID: ${message.id}`);
   });
@@ -461,11 +459,11 @@ describe("snippets", function () {
         throw error;
       }
     }
-
+    // @ts-preserve-whitespace
     // Convert your image file to base64 format
     const filePath = "./data/image_file.png";
     const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
-
+    // @ts-preserve-whitespace
     // Create a message with both text and image content
     console.log("Creating message with image content...");
     const inputMessage = "Hello, what is in the image?";
@@ -482,7 +480,7 @@ describe("snippets", function () {
         },
       },
     ];
-
+    // @ts-preserve-whitespace
     const message = await client.messages.create(thread.id, "user", content);
     console.log(`Created message, message ID: ${message.id}`);
   });
@@ -490,7 +488,7 @@ describe("snippets", function () {
   it("createRun", async function () {
     let run = await client.runs.create(thread.id, agent.id);
     console.log(`Created run, run ID: ${run.id}`);
-
+    // @ts-preserve-whitespace
     // Wait for run to complete
     while (["queued", "in_progress", "requires_action"].includes(run.status)) {
       await delay(1000);
@@ -518,7 +516,7 @@ describe("snippets", function () {
 
   it("eventHandling", async function () {
     const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
-
+    // @ts-preserve-whitespace
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
@@ -536,7 +534,7 @@ describe("snippets", function () {
             });
           }
           break;
-
+    // @ts-preserve-whitespace
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
           break;
@@ -557,13 +555,13 @@ describe("snippets", function () {
       allMessages.push(m);
     }
     console.log("Messages:", allMessages);
-
+    // @ts-preserve-whitespace
     // The messages are following in the reverse order,
     // we will iterate them and output only text contents.
     const messages = await client.messages.list(thread.id, {
       order: "asc",
     });
-
+    // @ts-preserve-whitespace
     for await (const dataPoint of messages) {
       const textContent = dataPoint.content.find((item) => item.type === "text");
       if (textContent && "text" in textContent) {
@@ -579,7 +577,7 @@ describe("snippets", function () {
       allMessages.push(m);
     }
     console.log("Messages:", allMessages);
-
+    // @ts-preserve-whitespace
     // Get most recent message from the assistant
     const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
     if (assistantMessage) {
@@ -590,10 +588,10 @@ describe("snippets", function () {
         console.log(`Last message: ${textContent.text.value}`);
       }
     }
-
+    // @ts-preserve-whitespace
     const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
     const imageFileName = (await client.agents.files.get(imageFile.fileId)).filename;
-
+    // @ts-preserve-whitespace
     const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
     if (fileContent) {
       const chunks: Buffer[] = [];
@@ -611,10 +609,10 @@ describe("snippets", function () {
   it("teardown", async function () {
     await client.vectorStores.delete(vectorStore.id);
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
-
+    // @ts-preserve-whitespace
     await client.files.delete(file.id);
     console.log(`Deleted file, file ID : ${file.id}`);
-
+    // @ts-preserve-whitespace
     await client.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });

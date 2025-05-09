@@ -118,6 +118,7 @@ import { ToolSet } from "@azure/ai-agents";
 const toolSet = new ToolSet();
 await toolSet.addFileSearchTool([vectorStore.id]);
 await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+
 // Create agent with tool set
 const agent = await client.createAgent("gpt-4o", {
   name: "my-agent",
@@ -141,12 +142,15 @@ const file = await client.files.upload(localFileStream, "assistants", {
   fileName: "sampleFileForUpload.txt",
 });
 console.log(`Uploaded file, file ID: ${file.id}`);
+
 const vectorStore = await client.vectorStores.create({
   fileIds: [file.id],
   name: "myVectorStore",
 });
 console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
+
 const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
+
 const agent = await client.createAgent("gpt-4o", {
   name: "SDK Test Agent - Retrieval",
   instructions: "You are helpful agent that can help fetch data from files you know about.",
@@ -168,8 +172,11 @@ const localFileStream = fs.createReadStream(filePath);
 const localFile = await client.files.upload(localFileStream, "assistants", {
   fileName: "localFile",
 });
+
 console.log(`Uploaded local file, file ID : ${localFile.id}`);
+
 const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
+
 // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
 const agent = await client.createAgent("gpt-4o", {
   name: "my-agent",
@@ -190,8 +197,10 @@ Here is an example:
 import { ToolUtility } from "@azure/ai-agents";
 
 const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
+
 // Initialize agent bing tool with the connection id
 const bingTool = ToolUtility.createBingGroundingTool([{ connectionId: connectionId }]);
+
 // Create agent with the bing tool and process assistant run
 const agent = await client.createAgent("gpt-4o", {
   name: "my-agent",
@@ -211,6 +220,7 @@ Here is an example to integrate Azure AI Search:
 import { ToolUtility } from "@azure/ai-agents";
 
 const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
+
 // Initialize Azure AI Search tool
 const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-search-sample", {
   queryType: "simple",
@@ -219,6 +229,7 @@ const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-
   indexConnectionId: "",
   indexName: "",
 });
+
 // Create agent with the Azure AI search tool
 const agent = await client.createAgent("gpt-4o", {
   name: "my-agent",
@@ -248,6 +259,7 @@ class FunctionToolExecutor {
     func: Function;
     definition: FunctionToolDefinition;
   }[];
+
   constructor() {
     this.functionTools = [
       {
@@ -287,15 +299,19 @@ class FunctionToolExecutor {
       },
     ];
   }
+
   private getUserFavoriteCity(): {} {
     return { location: "Seattle, WA" };
   }
+
   private getCityNickname(_location: string): {} {
     return { nickname: "The Emerald City" };
   }
+
   private getWeather(_location: string, unit: string): {} {
     return { weather: unit === "f" ? "72f" : "22c" };
   }
+
   public invokeTool(toolCall: RequiredToolCall & FunctionToolDefinition): ToolOutput | undefined {
     console.log(`Function tool call - ${toolCall.function.name}`);
     const args = [];
@@ -322,6 +338,7 @@ class FunctionToolExecutor {
         }
       : undefined;
   }
+
   public getFunctionDefinitions(): FunctionToolDefinition[] {
     return this.functionTools.map((tool) => {
       return tool.definition;
@@ -350,6 +367,7 @@ import { ToolUtility } from "@azure/ai-agents";
 // Read in OpenApi spec
 const filePath = "./data/weatherOpenApi.json";
 const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
 // Define OpenApi function
 const openApiFunction = {
   name: "getWeather",
@@ -360,8 +378,10 @@ const openApiFunction = {
   },
   default_params: ["format"], // optional
 };
+
 // Create OpenApi tool
 const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
+
 // Create agent with OpenApi tool
 const agent = await client.createAgent("gpt-4o", {
   name: "myAgent",
@@ -381,8 +401,10 @@ Here is an example:
 import { ToolUtility } from "@azure/ai-agents";
 
 const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
+
 // Initialize agent Microsoft Fabric tool with the connection id
 const fabricTool = ToolUtility.createFabricTool(connectionId);
+
 // Create agent with the Microsoft Fabric tool and process assistant run
 const agent = await client.createAgent("gpt-4o", {
   name: "my-agent",
@@ -414,17 +436,21 @@ const file = await client.files.upload(localFileStream, "assistants", {
   fileName: "sample_file_for_upload.csv",
 });
 console.log(`Uploaded file, ID: ${file.id}`);
+
 const vectorStore = await client.agents.vectorStores.create()({
   fileIds: [file.id],
 });
 console.log(`Created vector store, ID: ${vectorStore.id}`);
+
 const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
+
 const agent = await client.agents.createAgent("gpt-4o", {
   name: "myAgent",
   instructions: "You are helpful agent that can help fetch data from files you know about.",
   tools: [fileSearchTool.definition],
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
+
 // Create thread with file resources.
 // If the agent has multiple threads, only this thread can search this file.
 const thread = await client.threads.create({ toolResources: fileSearchTool.resources });
@@ -495,8 +521,10 @@ const agent = await client.agents.createAgent("gpt-4o", {
   tools: [codeInterpreterTool.definition],
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
+
 const thread = await client.threads.create();
 console.log(`Created thread, thread ID: ${thread.id}`);
+
 const message = await client.messages.create(
   thread.id,
   "user",
@@ -533,6 +561,7 @@ const imageFile = await client.files.upload(fileStream, "assistants", {
   fileName: "image_file.png",
 });
 console.log(`Uploaded file, file ID: ${imageFile.id}`);
+
 // Create a message with both text and image content
 console.log("Creating message with image content...");
 const inputMessage = "Hello, what is in the image?";
@@ -558,6 +587,7 @@ console.log(`Created message, message ID: ${message.id}`);
 ```ts snippet:imageInputWithUrl
 const imageUrl =
   "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
+
 // Create a message with both text and image content
 console.log("Creating message with image content...");
 const inputMessage = "Hello, what is in the image?";
@@ -574,6 +604,7 @@ const content = [
     },
   },
 ];
+
 const message = await client.messages.create(thread.id, "user", content);
 console.log(`Created message, message ID: ${message.id}`);
 ```
@@ -594,9 +625,11 @@ function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
     throw error;
   }
 }
+
 // Convert your image file to base64 format
 const filePath = "./data/image_file.png";
 const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
+
 // Create a message with both text and image content
 console.log("Creating message with image content...");
 const inputMessage = "Hello, what is in the image?";
@@ -613,6 +646,7 @@ const content = [
     },
   },
 ];
+
 const message = await client.messages.create(thread.id, "user", content);
 console.log(`Created message, message ID: ${message.id}`);
 ```
@@ -626,6 +660,7 @@ import { delay } from "@azure/core-util";
 
 let run = await client.runs.create(thread.id, agent.id);
 console.log(`Created run, run ID: ${run.id}`);
+
 // Wait for run to complete
 while (["queued", "in_progress", "requires_action"].includes(run.status)) {
   await delay(1000);
@@ -673,6 +708,7 @@ import {
 } from "@azure/ai-agents";
 
 const streamEventMessages = await client.runs.create(thread.id, agent.id).stream();
+
 for await (const eventMessage of streamEventMessages) {
   switch (eventMessage.event) {
     case RunStreamEvent.ThreadRunCreated:
@@ -690,6 +726,7 @@ for await (const eventMessage of streamEventMessages) {
         });
       }
       break;
+
     case RunStreamEvent.ThreadRunCompleted:
       console.log("Thread Run Completed");
       break;
@@ -714,11 +751,13 @@ for await (const m of messagesIterator) {
   allMessages.push(m);
 }
 console.log("Messages:", allMessages);
+
 // The messages are following in the reverse order,
 // we will iterate them and output only text contents.
 const messages = await client.messages.list(thread.id, {
   order: "asc",
 });
+
 for await (const dataPoint of messages) {
   const textContent = dataPoint.content.find((item) => item.type === "text");
   if (textContent && "text" in textContent) {
@@ -742,6 +781,7 @@ for await (const m of messagesIterator) {
   allMessages.push(m);
 }
 console.log("Messages:", allMessages);
+
 // Get most recent message from the assistant
 const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
 if (assistantMessage) {
@@ -752,8 +792,10 @@ if (assistantMessage) {
     console.log(`Last message: ${textContent.text.value}`);
   }
 }
+
 const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
 const imageFileName = (await client.agents.files.get(imageFile.fileId)).filename;
+
 const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
 if (fileContent) {
   const chunks: Buffer[] = [];
@@ -775,8 +817,10 @@ To remove resources after completing tasks, use the following functions:
 ```ts snippet:teardown
 await client.vectorStores.delete(vectorStore.id);
 console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
+
 await client.files.delete(file.id);
 console.log(`Deleted file, file ID : ${file.id}`);
+
 await client.deleteAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
