@@ -25,8 +25,8 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
   await recorder.start({
     envSetupForPlayback: replaceableVariables,
     removeCentralSanitizers: [
-      "AZSDK3430" // don't sanitize "id" property in request body 
-    ]
+      "AZSDK3430", // don't sanitize "id" property in request body
+    ],
   });
   return recorder;
 }
