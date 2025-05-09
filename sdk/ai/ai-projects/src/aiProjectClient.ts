@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
+import { AgentsClient } from "@azure/ai-agents";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
@@ -44,6 +45,7 @@ export class AIProjectClient {
   private _client: AIProjectContext;
   private _endpoint: string;
   private _credential: TokenCredential;
+  private _agents: AgentsClient | undefined;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -121,5 +123,20 @@ export class AIProjectClient {
     options: AIProjectClientOptionalParams = {},
   ): AIProjectClient {
     return new AIProjectClient(endpoint, credential, options);
+  }
+
+  /**
+   * Get the AgentsClient associated with this AIProjectClient.
+   *
+   * @returns The AgentsClient associated with this AIProjectClient
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
+  public get agents(): AgentsClient {
+    if (!this._agents) {
+      this._agents = new AgentsClient(this._endpoint, this._credential, {
+        userAgentOptions: this._client.getUserAgent(),
+      });
+    }
+    return this._agents;
   }
 }

@@ -13,6 +13,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                         | **Description**                                                                                                                                                                                        |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [agents/agentsBasics.ts][agents_agentsbasics]                         | Create and delete an agent.                                                                                                                                                                            |
 | [connections/connectionsBasics.ts][connections_connectionsbasics]     | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
 | [datasets/datasetsBasics.ts][datasets_datasetsbasics]                 | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                   |
 | [deployments/deploymentsBasics.ts][deployments_deploymentsbasics]     | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
@@ -63,19 +64,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/connections\connectionsBasics.js
+node dist/agents\agentsBasics.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_AI_PROJECT_ENDPOINT_STRING="<azure ai project endpoint string>" node dist/connections\connectionsBasics.js
+npx dev-tool run vendored cross-env AZURE_AI_PROJECT_ENDPOINT_STRING="<azure ai project endpoint string>" node dist/agents\agentsBasics.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/agentsBasics.ts
 [connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/connections/connectionsBasics.ts
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/datasets/datasetsBasics.ts
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/deployments/deploymentsBasics.ts
