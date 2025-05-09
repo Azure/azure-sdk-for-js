@@ -447,7 +447,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
-      const finalFeedRange = this.queue.peek();
+      const finalFeedRange = this.fetchFinalFeedRange();
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
         path: this.resourceLink,
         resourceType: ResourceType.item,
@@ -486,6 +486,16 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       errorResponse.code = err.code;
       errorResponse.headers = err.headers;
       throw errorResponse;
+    }
+  }
+  private fetchFinalFeedRange(): ChangeFeedRange {
+    // this is used to fetch the final feed range before making a call to fetch the results.
+    // In case of merge, the final updated feed range is present in the queue and needs to be returned.
+    const feedRange = this.queue.peek();
+    if (feedRange) {
+      return feedRange;
+    } else {
+      throw new ErrorResponse("No feed range found.");
     }
   }
 }
