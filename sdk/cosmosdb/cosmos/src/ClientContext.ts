@@ -279,9 +279,7 @@ export class ClientContext {
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
-    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
-      options.disableNonStreamingOrderByQuery,
-    );
+    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(options);
 
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
