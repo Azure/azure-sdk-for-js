@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list OrganizationResource resources by subscription ID
  *
  * @summary list OrganizationResource resources by subscription ID
- * x-ms-original-file: 2024-10-01-preview/Organizations_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Organizations_ListBySubscription_MaximumSet_Gen.json
  */
 async function organizationsListBySubscriptionGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
