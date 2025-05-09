@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import { Container, Resource } from "../../client";
-import { ClientContext } from "../../ClientContext";
-import { Constants, copyObject, ResourceType, StatusCodes } from "../../common";
-import { FeedOptions, Response, ErrorResponse } from "../../request";
-import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
-import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { PartitionKey, convertToInternalPartitionKey } from "../../documents";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { ChangeFeedMode } from "./ChangeFeedMode";
-import { decryptChangeFeedResponse } from "./changeFeedUtils";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
+import { Container, Resource } from "../../client/index.js";
+import { ClientContext } from "../../ClientContext.js";
+import { Constants, copyObject, ResourceType, StatusCodes } from "../../common/index.js";
+import { FeedOptions, Response, ErrorResponse } from "../../request/index.js";
+import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey.js";
+import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import { PartitionKey, convertToInternalPartitionKey } from "../../documents/index.js";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { ChangeFeedMode } from "./ChangeFeedMode.js";
+import { decryptChangeFeedResponse } from "./changeFeedUtils.js";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.

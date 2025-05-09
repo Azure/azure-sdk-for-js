@@ -1,8 +1,10 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.3.0 (Unreleased)
 
 ### Features Added
+
+- Add an optional `requestOverrides` property to `WebResourceLike` [PR #33724](https://github.com/Azure/azure-sdk-for-js/pull/33724).
 
 ### Breaking Changes
 

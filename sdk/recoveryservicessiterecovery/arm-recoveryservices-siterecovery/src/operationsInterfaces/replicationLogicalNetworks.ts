@@ -19,30 +19,30 @@ import {
 export interface ReplicationLogicalNetworks {
   /**
    * Lists all the logical networks of the Azure Site Recovery fabric.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Server Id.
    * @param options The options parameters.
    */
   listByReplicationFabrics(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     options?: ReplicationLogicalNetworksListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<LogicalNetwork>;
   /**
    * Gets the details of a logical network.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Server Id.
    * @param logicalNetworkName Logical network name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     logicalNetworkName: string,
     options?: ReplicationLogicalNetworksGetOptionalParams,

@@ -25,7 +25,12 @@ vi.mock("http", async () => {
 import * as https from "https";
 import * as http from "http";
 import { createDefaultHttpClient } from "../../src/defaultHttpClient.js";
-import { delay } from "../../src/util/delay.js";
+
+function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeInMs);
+  });
+}
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;

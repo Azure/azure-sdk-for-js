@@ -12,9 +12,9 @@ import {
   QueueImpl,
   MessagesImpl,
   MessageIdImpl
-} from "./operations";
-import { Service, Queue, Messages, MessageId } from "./operationsInterfaces";
-import { StorageClientOptionalParams } from "./models";
+} from "./operations/index.js";
+import { Service, Queue, Messages, MessageId } from "./operationsInterfaces/index.js";
+import { StorageClientOptionalParams } from "./models/index.js";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;

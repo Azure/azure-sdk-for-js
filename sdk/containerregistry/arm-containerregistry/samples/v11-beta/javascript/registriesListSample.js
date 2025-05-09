@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to Lists all the container registries under the specified subscription.
  *
  * @summary Lists all the container registries under the specified subscription.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistryList.json
  */
 async function registryList() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function registryList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.registries.list()) {
+  for await (const item of client.registries.list()) {
     resArray.push(item);
   }
   console.log(resArray);

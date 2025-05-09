@@ -23,7 +23,7 @@ export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
   {
-    apiVersion = "2024-08-22-preview",
+    apiVersion = "2024-12-09-preview",
     ...options
   }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {

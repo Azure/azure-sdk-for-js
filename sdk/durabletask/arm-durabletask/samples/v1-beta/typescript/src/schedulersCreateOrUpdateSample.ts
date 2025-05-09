@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Scheduler
  *
  * @summary create or update a Scheduler
- * x-ms-original-file: 2024-10-01-preview/Schedulers_CreateOrUpdate.json
+ * x-ms-original-file: 2025-04-01-preview/Schedulers_CreateOrUpdate.json
  */
 async function schedulersCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,7 @@ async function schedulersCreateOrUpdate(): Promise<void> {
   const result = await client.schedulers.createOrUpdate("rgopenapi", "testscheduler", {
     location: "northcentralus",
     properties: { ipAllowlist: ["10.0.0.0/8"], sku: { name: "Dedicated" } },
-    tags: { key7131: "ryohwcoiccwsnewjigfmijz", key2138: "fjaeecgnvqd" },
+    tags: { department: "research", development: "true" },
   });
   console.log(result);
 }

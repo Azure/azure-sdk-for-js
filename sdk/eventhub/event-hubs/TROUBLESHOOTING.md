@@ -242,11 +242,11 @@ When filing GitHub issues, the following details are requested:
 
 <!-- repo links -->
 
-[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionString.js
+[iothubconnectionstring]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/iothubConnectionString.js
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/migrationguide.md
-[publisheventstospecificpartition]: https://github.com/Azure/azure-sdk-for-js/blob/3a2686448200fd2e961b6edaa3bc99557cd32093/sdk/eventhub/event-hubs/samples/v5/javascript/sendEventsToSpecificPartition.js
-[publisheventswithazureidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/receiveEvents.js
-[publisheventswithwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
+[publisheventstospecificpartition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/sendEventsToSpecificPartition.js
+[publisheventswithazureidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/receiveEvents.js
+[publisheventswithwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v6/javascript/websockets.js
 [support]: https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md
 
 <!-- learn.microsoft.com links -->

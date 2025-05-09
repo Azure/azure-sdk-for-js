@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BlobSASPermissions } from "./BlobSASPermissions";
-import type { UserDelegationKey } from "../BlobServiceClient";
-import { ContainerSASPermissions } from "./ContainerSASPermissions";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import type { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "../utils/constants";
-import { truncatedISO8061Date } from "../utils/utils.common";
+import { BlobSASPermissions } from "./BlobSASPermissions.js";
+import type { UserDelegationKey } from "../BlobServiceClient.js";
+import { ContainerSASPermissions } from "./ContainerSASPermissions.js";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import type { SASProtocol } from "./SASQueryParameters.js";
+import { SASQueryParameters } from "./SASQueryParameters.js";
+import { SERVICE_VERSION } from "../utils/constants.js";
+import { truncatedISO8061Date } from "../utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -139,24 +139,55 @@ export interface BlobSASSignatureValues {
  *
  * Example usage:
  *
- * ```js
+ * ```ts snippet:GenerateBlobSASQueryParameters
+ * import {
+ *   StorageSharedKeyCredential,
+ *   generateBlobSASQueryParameters,
+ *   ContainerSASPermissions,
+ *   SASProtocol,
+ * } from "@azure/storage-blob";
+ *
+ * const account = "<account>";
+ * const accountKey = "<accountkey>";
+ * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+ * const containerName = "<container name>";
+ *
  * // Generate service level SAS for a container
- * const containerSAS = generateBlobSASQueryParameters({
+ * const containerSAS = generateBlobSASQueryParameters(
+ *   {
  *     containerName, // Required
  *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
  *     startsOn: new Date(), // Optional
  *     expiresOn: new Date(new Date().valueOf() + 86400 * 1000), // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
- *     version: "2016-05-31" // Optional
+ *     version: "2016-05-31", // Optional
  *   },
- *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
+ *   sharedKeyCredential,
  * ).toString();
  * ```
  *
  * Example using an identifier:
  *
- * ```js
+ * ```ts snippet:GenerateBlobSASQueryParametersWithIdentifier
+ * import {
+ *   StorageSharedKeyCredential,
+ *   BlobServiceClient,
+ *   ContainerSASPermissions,
+ *   generateBlobSASQueryParameters,
+ * } from "@azure/storage-blob";
+ *
+ * const account = "<account>";
+ * const accountKey = "<accountkey>";
+ * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+ * const blobServiceClient = new BlobServiceClient(
+ *   `https://${account}.blob.core.windows.net`,
+ *   sharedKeyCredential,
+ * );
+ *
+ * const containerName = "<container name>";
+ * const containerClient = blobServiceClient.getContainerClient(containerName);
+ *
  * // Generate service level SAS for a container with identifier
  * // startsOn & permissions are optional when identifier is provided
  * const identifier = "unique-id";
@@ -165,26 +196,41 @@ export interface BlobSASSignatureValues {
  *     accessPolicy: {
  *       expiresOn: new Date(new Date().valueOf() + 86400 * 1000), // Date type
  *       permissions: ContainerSASPermissions.parse("racwdl").toString(),
- *       startsOn: new Date() // Date type
+ *       startsOn: new Date(), // Date type
  *     },
- *     id: identifier
- *   }
+ *     id: identifier,
+ *   },
  * ]);
  *
  * const containerSAS = generateBlobSASQueryParameters(
  *   {
  *     containerName, // Required
- *     identifier // Required
+ *     identifier, // Required
  *   },
- *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
+ *   sharedKeyCredential,
  * ).toString();
  * ```
  *
  * Example using a blob name:
  *
- * ```js
+ * ```ts snippet:GenerateBlobSASQueryParametersWithBlobName
+ * import {
+ *   StorageSharedKeyCredential,
+ *   generateBlobSASQueryParameters,
+ *   BlobSASPermissions,
+ *   SASProtocol,
+ * } from "@azure/storage-blob";
+ *
+ * const account = "<account>";
+ * const accountKey = "<accountkey>";
+ * const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+ *
+ * const containerName = "<container name>";
+ * const blobName = "<blob name>";
+ *
  * // Generate service level SAS for a blob
- * const blobSAS = generateBlobSASQueryParameters({
+ * const blobSAS = generateBlobSASQueryParameters(
+ *   {
  *     containerName, // Required
  *     blobName, // Required
  *     permissions: BlobSASPermissions.parse("racwd"), // Required
@@ -197,9 +243,9 @@ export interface BlobSASSignatureValues {
  *     contentType: "content-type-override", // Optional
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
- *     version: "2016-05-31" // Optional
+ *     version: "2016-05-31", // Optional
  *   },
- *   sharedKeyCredential // StorageSharedKeyCredential - `new StorageSharedKeyCredential(account, accountKey)`
+ *   sharedKeyCredential,
  * ).toString();
  * ```
  *
@@ -219,20 +265,40 @@ export function generateBlobSASQueryParameters(
  *
  * Example usage:
  *
- * ```js
+ * ```ts snippet:GenerateBlobSASQueryParametersWithUserDelegationKey
+ * import {
+ *   BlobServiceClient,
+ *   generateBlobSASQueryParameters,
+ *   ContainerSASPermissions,
+ *   SASProtocol,
+ * } from "@azure/storage-blob";
+ * import { DefaultAzureCredential } from "@azure/identity";
+ *
+ * const account = "<account>";
+ * const blobServiceClient = new BlobServiceClient(
+ *   `https://${account}.blob.core.windows.net`,
+ *   new DefaultAzureCredential(),
+ * );
+ *
+ * const containerName = "<container name>";
+ * const accountName = "<account name>";
+ * const startsOn = new Date();
+ * const expiresOn = new Date(new Date().valueOf() + 86400 * 1000);
+ *
  * // Generate user delegation SAS for a container
  * const userDelegationKey = await blobServiceClient.getUserDelegationKey(startsOn, expiresOn);
- * const containerSAS = generateBlobSASQueryParameters({
+ * const containerSAS = generateBlobSASQueryParameters(
+ *   {
  *     containerName, // Required
  *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
  *     startsOn, // Optional. Date type
  *     expiresOn, // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
- *     version: "2018-11-09" // Must greater than or equal to 2018-11-09 to generate user delegation SAS
+ *     version: "2018-11-09", // Must greater than or equal to 2018-11-09 to generate user delegation SAS
  *   },
  *   userDelegationKey, // UserDelegationKey
- *   accountName
+ *   accountName,
  * ).toString();
  * ```
  *

@@ -6,6 +6,10 @@ import {
   DurableTaskContext,
   DurableTaskClientOptionalParams,
 } from "./api/index.js";
+import {
+  RetentionPoliciesOperations,
+  _getRetentionPoliciesOperations,
+} from "./classic/retentionPolicies/index.js";
 import { TaskHubsOperations, _getTaskHubsOperations } from "./classic/taskHubs/index.js";
 import { SchedulersOperations, _getSchedulersOperations } from "./classic/schedulers/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
@@ -33,11 +37,14 @@ export class DurableTaskClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.retentionPolicies = _getRetentionPoliciesOperations(this._client);
     this.taskHubs = _getTaskHubsOperations(this._client);
     this.schedulers = _getSchedulersOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for retentionPolicies */
+  public readonly retentionPolicies: RetentionPoliciesOperations;
   /** The operation groups for taskHubs */
   public readonly taskHubs: TaskHubsOperations;
   /** The operation groups for schedulers */

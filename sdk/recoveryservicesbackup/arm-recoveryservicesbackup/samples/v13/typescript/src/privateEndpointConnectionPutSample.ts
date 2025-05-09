@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
  *
  * @summary Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
  */
 async function updatePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
@@ -56,7 +56,7 @@ async function updatePrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatePrivateEndpointConnection();
+  await updatePrivateEndpointConnection();
 }
 
 main().catch(console.error);

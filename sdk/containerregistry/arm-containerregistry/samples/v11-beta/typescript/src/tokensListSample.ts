@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the tokens for the specified container registry.
  *
  * @summary Lists all the tokens for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/TokenList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/TokenList.json
  */
 async function tokenList(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,10 @@ async function tokenList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.tokens.list(resourceGroupName, registryName)) {
+  for await (const item of client.tokens.list(
+    resourceGroupName,
+    registryName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

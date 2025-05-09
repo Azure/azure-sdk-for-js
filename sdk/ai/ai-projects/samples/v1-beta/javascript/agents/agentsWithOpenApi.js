@@ -15,6 +15,7 @@ require("dotenv/config");
 
 const connectionString =
   process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   const client = AIProjectsClient.fromConnectionString(
@@ -34,13 +35,14 @@ async function main() {
     auth: {
       type: "anonymous",
     },
+    default_params: ["format"], // optional
   };
 
   // Create OpenApi tool
   const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
 
   // Create agent with OpenApi tool
-  const agent = await client.agents.createAgent("gpt-4o-mini", {
+  const agent = await client.agents.createAgent(modelDeploymentName, {
     name: "myAgent",
     instructions: "You are a helpful agent",
     tools: [openApiTool.definition],

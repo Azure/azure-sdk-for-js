@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-durabletask",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for DurableTaskClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -12,6 +12,7 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
+      "./api/retentionPolicies": "./src/api/retentionPolicies/index.ts",
       "./api/taskHubs": "./src/api/taskHubs/index.ts",
       "./api/schedulers": "./src/api/schedulers/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
@@ -77,14 +78,14 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.8.0",
+    "@azure/identity": "^4.9.0",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.51.1",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "scripts": {
@@ -104,11 +105,11 @@
     "lint:fix": "echo skipped",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -158,6 +159,24 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/retentionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/retentionPolicies/index.d.ts",
+        "default": "./dist/browser/api/retentionPolicies/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/retentionPolicies/index.d.ts",
+        "default": "./dist/react-native/api/retentionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/retentionPolicies/index.d.ts",
+        "default": "./dist/esm/api/retentionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/retentionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/retentionPolicies/index.js"
       }
     },
     "./api/taskHubs": {

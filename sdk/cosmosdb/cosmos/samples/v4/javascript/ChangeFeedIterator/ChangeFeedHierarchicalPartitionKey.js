@@ -5,9 +5,8 @@
  * @summary Demonstrates using a ChangeFeed for a partition key
  */
 
-require("dotenv").config();
-
-const { finish, handleError, logSampleHeader } = require("../Shared/handleError");
+require("dotenv/config");
+const { finish, handleError, logSampleHeader } = require("../Shared/handleError.js");
 const {
   CosmosClient,
   PartitionKeyDefinitionVersion,

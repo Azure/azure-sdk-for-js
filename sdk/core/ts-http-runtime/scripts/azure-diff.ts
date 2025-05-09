@@ -16,7 +16,6 @@ const AZURE_SOURCES = {
   "../abort-controller/src/": "./src/abort-controller/",
   "../core-client-rest/src/": "./src/client/",
   "../core-tracing/src/": "./src/tracing/",
-  "../logger/src/": "./src/logger/",
 };
 
 const {

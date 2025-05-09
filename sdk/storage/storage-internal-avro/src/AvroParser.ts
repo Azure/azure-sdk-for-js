@@ -5,8 +5,8 @@
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { AvroReadable } from "./AvroReadable";
-import type { KeyValuePair } from "./utils/utils.common";
+import type { AvroReadable } from "./AvroReadable.js";
+import type { KeyValuePair } from "./utils/utils.common.js";
 
 /**
  * Options to configure the AvroParser read methods.

@@ -8,6 +8,7 @@
 
 export * from "./operations.js";
 export * from "./netAppResource.js";
+export * from "./netAppResourceUsages.js";
 export * from "./netAppResourceQuotaLimits.js";
 export * from "./netAppResourceRegionInfos.js";
 export * from "./accounts.js";

@@ -2,19 +2,24 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-durabletask in some common scenarios.
 
-| **File Name**                                                                 | **Description**                                                                                              |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| [operationsListSample.js][operationslistsample]                               | list the operations for the provider x-ms-original-file: 2024-10-01-preview/Operations_List.json             |
-| [schedulersCreateOrUpdateSample.js][schedulerscreateorupdatesample]           | create or update a Scheduler x-ms-original-file: 2024-10-01-preview/Schedulers_CreateOrUpdate.json           |
-| [schedulersDeleteSample.js][schedulersdeletesample]                           | delete a Scheduler x-ms-original-file: 2024-10-01-preview/Schedulers_Delete.json                             |
-| [schedulersGetSample.js][schedulersgetsample]                                 | get a Scheduler x-ms-original-file: 2024-10-01-preview/Schedulers_Get.json                                   |
-| [schedulersListByResourceGroupSample.js][schedulerslistbyresourcegroupsample] | list Schedulers by resource group x-ms-original-file: 2024-10-01-preview/Schedulers_ListByResourceGroup.json |
-| [schedulersListBySubscriptionSample.js][schedulerslistbysubscriptionsample]   | list Schedulers by subscription x-ms-original-file: 2024-10-01-preview/Schedulers_ListBySubscription.json    |
-| [schedulersUpdateSample.js][schedulersupdatesample]                           | update a Scheduler x-ms-original-file: 2024-10-01-preview/Schedulers_Update.json                             |
-| [taskHubsCreateOrUpdateSample.js][taskhubscreateorupdatesample]               | create or Update a Task Hub x-ms-original-file: 2024-10-01-preview/TaskHubs_CreateOrUpdate.json              |
-| [taskHubsDeleteSample.js][taskhubsdeletesample]                               | delete a Task Hub x-ms-original-file: 2024-10-01-preview/TaskHubs_Delete.json                                |
-| [taskHubsGetSample.js][taskhubsgetsample]                                     | get a Task Hub x-ms-original-file: 2024-10-01-preview/TaskHubs_Get.json                                      |
-| [taskHubsListBySchedulerSample.js][taskhubslistbyschedulersample]             | list Task Hubs x-ms-original-file: 2024-10-01-preview/TaskHubs_ListByScheduler.json                          |
+| **File Name**                                                                       | **Description**                                                                                                                  |
+| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [operationsListSample.js][operationslistsample]                                     | list the operations for the provider x-ms-original-file: 2025-04-01-preview/Operations_List.json                                 |
+| [retentionPoliciesCreateOrReplaceSample.js][retentionpoliciescreateorreplacesample] | create or Update a Retention Policy x-ms-original-file: 2025-04-01-preview/RetentionPolicies_CreateOrReplace_MaximumSet_Gen.json |
+| [retentionPoliciesDeleteSample.js][retentionpoliciesdeletesample]                   | delete a Retention Policy x-ms-original-file: 2025-04-01-preview/RetentionPolicies_Delete_MaximumSet_Gen.json                    |
+| [retentionPoliciesGetSample.js][retentionpoliciesgetsample]                         | get a Retention Policy x-ms-original-file: 2025-04-01-preview/RetentionPolicies_Get_MaximumSet_Gen.json                          |
+| [retentionPoliciesListBySchedulerSample.js][retentionpolicieslistbyschedulersample] | list Retention Policies x-ms-original-file: 2025-04-01-preview/RetentionPolicies_ListByScheduler_MaximumSet_Gen.json             |
+| [retentionPoliciesUpdateSample.js][retentionpoliciesupdatesample]                   | update a Retention Policy x-ms-original-file: 2025-04-01-preview/RetentionPolicies_Update_MaximumSet_Gen.json                    |
+| [schedulersCreateOrUpdateSample.js][schedulerscreateorupdatesample]                 | create or update a Scheduler x-ms-original-file: 2025-04-01-preview/Schedulers_CreateOrUpdate.json                               |
+| [schedulersDeleteSample.js][schedulersdeletesample]                                 | delete a Scheduler x-ms-original-file: 2025-04-01-preview/Schedulers_Delete.json                                                 |
+| [schedulersGetSample.js][schedulersgetsample]                                       | get a Scheduler x-ms-original-file: 2025-04-01-preview/Schedulers_Get.json                                                       |
+| [schedulersListByResourceGroupSample.js][schedulerslistbyresourcegroupsample]       | list Schedulers by resource group x-ms-original-file: 2025-04-01-preview/Schedulers_ListByResourceGroup.json                     |
+| [schedulersListBySubscriptionSample.js][schedulerslistbysubscriptionsample]         | list Schedulers by subscription x-ms-original-file: 2025-04-01-preview/Schedulers_ListBySubscription.json                        |
+| [schedulersUpdateSample.js][schedulersupdatesample]                                 | update a Scheduler x-ms-original-file: 2025-04-01-preview/Schedulers_Update.json                                                 |
+| [taskHubsCreateOrUpdateSample.js][taskhubscreateorupdatesample]                     | create or Update a Task Hub x-ms-original-file: 2025-04-01-preview/TaskHubs_CreateOrUpdate.json                                  |
+| [taskHubsDeleteSample.js][taskhubsdeletesample]                                     | delete a Task Hub x-ms-original-file: 2025-04-01-preview/TaskHubs_Delete.json                                                    |
+| [taskHubsGetSample.js][taskhubsgetsample]                                           | get a Task Hub x-ms-original-file: 2025-04-01-preview/TaskHubs_Get.json                                                          |
+| [taskHubsListBySchedulerSample.js][taskhubslistbyschedulersample]                   | list Task Hubs x-ms-original-file: 2025-04-01-preview/TaskHubs_ListByScheduler.json                                              |
 
 ## Prerequisites
 
@@ -55,6 +60,11 @@ npx dev-tool run vendored cross-env  node operationsListSample.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/operationsListSample.js
+[retentionpoliciescreateorreplacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/retentionPoliciesCreateOrReplaceSample.js
+[retentionpoliciesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/retentionPoliciesDeleteSample.js
+[retentionpoliciesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/retentionPoliciesGetSample.js
+[retentionpolicieslistbyschedulersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/retentionPoliciesListBySchedulerSample.js
+[retentionpoliciesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/retentionPoliciesUpdateSample.js
 [schedulerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/schedulersCreateOrUpdateSample.js
 [schedulersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/schedulersDeleteSample.js
 [schedulersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/durabletask/arm-durabletask/samples/v1-beta/javascript/schedulersGetSample.js

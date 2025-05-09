@@ -5,15 +5,14 @@
  * @summary use advanced HTTP pipeline and request options for several methods
  */
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";

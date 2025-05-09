@@ -37,6 +37,7 @@ enum Tools {
   FileSearch = "file_search",
   Function = "function",
   BingGrounding = "bing_grounding",
+  BingCustomSearch = "bing_custom_search",
   MicrosoftFabric = "fabric_dataagent",
   SharepointGrounding = "sharepoint_grounding",
   AzureAISearch = "azure_ai_search",

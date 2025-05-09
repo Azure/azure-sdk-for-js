@@ -72,45 +72,45 @@ import {
 export interface ReplicationProtectedItems {
   /**
    * Gets the list of ASR replication protected items in the protection container.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   listByReplicationProtectionContainers(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationProtectedItem>;
   /**
    * Gets the list of ASR replication protected items in the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   list(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationProtectedItemsListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationProtectedItem>;
   /**
    * Gets the details of an ASR replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric unique name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -118,9 +118,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsGetResponse>;
   /**
    * The operation to create an ASR replication protected item (Enable replication).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Name of the fabric.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName A name for the replication protected item.
@@ -128,8 +128,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginCreate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -143,9 +143,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * The operation to create an ASR replication protected item (Enable replication).
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Name of the fabric.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName A name for the replication protected item.
@@ -153,8 +153,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginCreateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -165,17 +165,17 @@ export interface ReplicationProtectedItems {
    * The operation to delete or purge a replication protected item. This operation will force delete the
    * replication protected item. Use the remove operation on replication protected item to perform a
    * clean disable replication for the item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   beginPurge(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -185,17 +185,17 @@ export interface ReplicationProtectedItems {
    * The operation to delete or purge a replication protected item. This operation will force delete the
    * replication protected item. Use the remove operation on replication protected item to perform a
    * clean disable replication for the item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   beginPurgeAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -203,9 +203,9 @@ export interface ReplicationProtectedItems {
   ): Promise<void>;
   /**
    * The operation to update the recovery settings of an ASR replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -213,8 +213,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUpdate(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -228,9 +228,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * The operation to update the recovery settings of an ASR replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -238,8 +238,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUpdateAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -248,9 +248,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsUpdateResponse>;
   /**
    * Operation to add disks(s) to the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -258,8 +258,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginAddDisks(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -273,9 +273,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to add disks(s) to the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -283,8 +283,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginAddDisksAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -293,9 +293,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsAddDisksResponse>;
   /**
    * The operation to change the recovery point of a failed over replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The ARM fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replicated protected item name.
@@ -303,8 +303,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginApplyRecoveryPoint(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -318,9 +318,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * The operation to change the recovery point of a failed over replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The ARM fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replicated protected item name.
@@ -328,8 +328,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginApplyRecoveryPointAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -338,17 +338,17 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsApplyRecoveryPointResponse>;
   /**
    * Operation to cancel the failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   beginFailoverCancel(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -361,17 +361,17 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to cancel the failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   beginFailoverCancelAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -379,17 +379,17 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsFailoverCancelResponse>;
   /**
    * Operation to commit the failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   beginFailoverCommit(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -402,17 +402,17 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to commit the failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   beginFailoverCommitAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -420,9 +420,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsFailoverCommitResponse>;
   /**
    * Operation to initiate a planned failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -430,8 +430,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginPlannedFailover(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -445,9 +445,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to initiate a planned failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -455,8 +455,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginPlannedFailoverAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -466,9 +466,9 @@ export interface ReplicationProtectedItems {
   /**
    * The operation to disable replication on a replication protected item. This will also remove the
    * item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -476,8 +476,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginDelete(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -487,9 +487,9 @@ export interface ReplicationProtectedItems {
   /**
    * The operation to disable replication on a replication protected item. This will also remove the
    * item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -497,8 +497,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -507,9 +507,9 @@ export interface ReplicationProtectedItems {
   ): Promise<void>;
   /**
    * Operation to remove disk(s) from the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -517,8 +517,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginRemoveDisks(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -532,9 +532,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to remove disk(s) from the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -542,8 +542,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginRemoveDisksAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -553,17 +553,17 @@ export interface ReplicationProtectedItems {
   /**
    * The operation to start resynchronize/repair replication for a replication protected item requiring
    * resynchronization.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric.
    * @param protectionContainerName The name of the container.
    * @param replicatedProtectedItemName The name of the replication protected item.
    * @param options The options parameters.
    */
   beginRepairReplication(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -577,17 +577,17 @@ export interface ReplicationProtectedItems {
   /**
    * The operation to start resynchronize/repair replication for a replication protected item requiring
    * resynchronization.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric.
    * @param protectionContainerName The name of the container.
    * @param replicatedProtectedItemName The name of the replication protected item.
    * @param options The options parameters.
    */
   beginRepairReplicationAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -595,9 +595,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsRepairReplicationResponse>;
   /**
    * Operation to reprotect or reverse replicate a failed over replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -605,8 +605,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginReprotect(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -620,9 +620,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to reprotect or reverse replicate a failed over replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -630,8 +630,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginReprotectAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -640,9 +640,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsReprotectResponse>;
   /**
    * Operation to resolve health issues of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -650,8 +650,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginResolveHealthErrors(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -665,9 +665,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to resolve health issues of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -675,8 +675,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginResolveHealthErrorsAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -685,9 +685,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsResolveHealthErrorsResponse>;
   /**
    * Operation to initiate a switch provider of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -695,8 +695,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginSwitchProvider(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -710,9 +710,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to initiate a switch provider of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -720,8 +720,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginSwitchProviderAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -730,9 +730,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsSwitchProviderResponse>;
   /**
    * Operation to perform a test failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -740,8 +740,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginTestFailover(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -755,9 +755,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to perform a test failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -765,8 +765,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginTestFailoverAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -775,9 +775,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsTestFailoverResponse>;
   /**
    * Operation to clean up the test failover of a replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -785,8 +785,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginTestFailoverCleanup(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -800,9 +800,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to clean up the test failover of a replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -810,8 +810,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginTestFailoverCleanupAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -820,9 +820,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsTestFailoverCleanupResponse>;
   /**
    * Operation to initiate a failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -830,8 +830,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUnplannedFailover(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -845,9 +845,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * Operation to initiate a failover of the replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Unique fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -855,8 +855,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUnplannedFailoverAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -865,9 +865,9 @@ export interface ReplicationProtectedItems {
   ): Promise<ReplicationProtectedItemsUnplannedFailoverResponse>;
   /**
    * The operation to update appliance of an ASR replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -875,8 +875,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUpdateAppliance(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -890,9 +890,9 @@ export interface ReplicationProtectedItems {
   >;
   /**
    * The operation to update appliance of an ASR replication protected item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
@@ -900,8 +900,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUpdateApplianceAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -911,9 +911,9 @@ export interface ReplicationProtectedItems {
   /**
    * The operation to update(push update) the installed mobility service software on a replication
    * protected item to the latest available version.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric containing the protected item.
    * @param protectionContainerName The name of the container containing the protected item.
    * @param replicatedProtectedItemName The name of the protected item on which the agent is to be
@@ -922,8 +922,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUpdateMobilityService(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -938,9 +938,9 @@ export interface ReplicationProtectedItems {
   /**
    * The operation to update(push update) the installed mobility service software on a replication
    * protected item to the latest available version.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName The name of the fabric containing the protected item.
    * @param protectionContainerName The name of the container containing the protected item.
    * @param replicatedProtectedItemName The name of the protected item on which the agent is to be
@@ -949,8 +949,8 @@ export interface ReplicationProtectedItems {
    * @param options The options parameters.
    */
   beginUpdateMobilityServiceAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,

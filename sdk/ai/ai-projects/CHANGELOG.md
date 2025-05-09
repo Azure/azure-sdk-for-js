@@ -1,14 +1,21 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2025-04-18)
 
 ### Features Added
 
-### Breaking Changes
+- Adding image input support with samples
+- Adding list threads support and sample
+- Adding sharepoint sample
 
 ### Bugs Fixed
 
+- fixed an issue with tool_calls naming in convertOutputModelsFromWire
+
 ### Other Changes
+
+- OpenAPI schema updates
+- Using MODEL_DEPLOYMENT_NAME environment variable in samples
 
 ## 1.0.0-beta.4 (2025-03-31)
 

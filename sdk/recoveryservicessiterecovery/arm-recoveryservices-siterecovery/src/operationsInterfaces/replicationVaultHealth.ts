@@ -18,26 +18,26 @@ import {
 export interface ReplicationVaultHealth {
   /**
    * Gets the health details of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultHealthGetOptionalParams,
   ): Promise<ReplicationVaultHealthGetResponse>;
   /**
    * Refreshes health summary of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   beginRefresh(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -47,14 +47,14 @@ export interface ReplicationVaultHealth {
   >;
   /**
    * Refreshes health summary of the vault.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param options The options parameters.
    */
   beginRefreshAndWait(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<ReplicationVaultHealthRefreshResponse>;
 }

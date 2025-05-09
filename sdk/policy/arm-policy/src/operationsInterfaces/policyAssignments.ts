@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   PolicyAssignment,
   PolicyAssignmentsListForResourceGroupOptionalParams,
   PolicyAssignmentsListForResourceOptionalParams,
@@ -124,9 +124,7 @@ export interface PolicyAssignments {
    * assignments of the policy definition whose id is {value}.
    * @param options The options parameters.
    */
-  list(
-    options?: PolicyAssignmentsListOptionalParams,
-  ): PagedAsyncIterableIterator<PolicyAssignment>;
+  list(options?: PolicyAssignmentsListOptionalParams): PagedAsyncIterableIterator<PolicyAssignment>;
   /**
    * This operation deletes a policy assignment, given its name and the scope it was created in. The
    * scope of a policy assignment is the part of its ID preceding

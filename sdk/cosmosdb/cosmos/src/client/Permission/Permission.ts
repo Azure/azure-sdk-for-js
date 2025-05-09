@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   createPermissionUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
   ResourceType,
-} from "../../common";
-import type { RequestOptions } from "../../request/RequestOptions";
-import type { User } from "../User";
-import type { PermissionBody } from "./PermissionBody";
-import type { PermissionDefinition } from "./PermissionDefinition";
-import { PermissionResponse } from "./PermissionResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+} from "../../common/index.js";
+import type { RequestOptions } from "../../request/RequestOptions.js";
+import type { User } from "../User/index.js";
+import type { PermissionBody } from "./PermissionBody.js";
+import type { PermissionDefinition } from "./PermissionDefinition.js";
+import { PermissionResponse } from "./PermissionResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Use to read, replace, or delete a given {@link Permission} by id.

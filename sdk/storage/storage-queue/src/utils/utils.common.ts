@@ -8,7 +8,7 @@ import {
   URLConstants,
   DevelopmentConnectionString,
   PathStylePorts,
-} from "./constants";
+} from "./constants.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
