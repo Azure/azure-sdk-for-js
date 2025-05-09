@@ -13,7 +13,7 @@ import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main(): Promise<void> {
