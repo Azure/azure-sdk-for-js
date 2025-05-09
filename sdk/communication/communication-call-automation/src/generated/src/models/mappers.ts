@@ -91,7 +91,7 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
         serializedName: "transcriptionOptions",
         type: {
           name: "Composite",
-          className: "TranscriptionOptions",
+          className: "TranscriptionOptionsInternal",
         },
       },
     },
@@ -552,10 +552,10 @@ export const MediaStreamingOptions: coreClient.CompositeMapper = {
   },
 };
 
-export const TranscriptionOptions: coreClient.CompositeMapper = {
+export const TranscriptionOptionsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TranscriptionOptions",
+    className: "TranscriptionOptionsInternal",
     modelProperties: {
       transportUrl: {
         serializedName: "transportUrl",
@@ -899,7 +899,7 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
         serializedName: "transcriptionOptions",
         type: {
           name: "Composite",
-          className: "TranscriptionOptions",
+          className: "TranscriptionOptionsInternal",
         },
       },
     },
@@ -1001,7 +1001,7 @@ export const ConnectRequest: coreClient.CompositeMapper = {
         serializedName: "transcriptionOptions",
         type: {
           name: "Composite",
-          className: "TranscriptionOptions",
+          className: "TranscriptionOptionsInternal",
         },
       },
     },

@@ -12,6 +12,7 @@ import type {
   CallConnectionStateModel,
   MediaStreamingSubscription,
   TranscriptionSubscription,
+  TranscriptionTransportType,
 } from "../generated/src/index.js";
 
 export {
@@ -25,7 +26,6 @@ export {
   MediaStreamingOptions,
   MediaStreamingContentType,
   MediaStreamingTransportType,
-  TranscriptionOptions,
   TranscriptionTransportType,
   RecognitionType,
   ChoiceResult,
@@ -324,4 +324,19 @@ export type CustomCallingContext = (
 export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
+}
+/** Configuration of live transcription. */
+export interface TranscriptionOptions {
+  /** Transport URL for live transcription */
+  transportUrl: string;
+  /** The type of transport to be used for live transcription, eg. Websocket */
+  transportType: TranscriptionTransportType;
+  /** Defines the locale for the data e.g en-CA, en-AU */
+  locale: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
+  /** Determines if the transcription should be started immediately after call is answered or not. */
+  startTranscription: boolean;
+  /** Enables intermediate results for the transcribed speech. */
+  enableIntermediateResults?: boolean;
 }

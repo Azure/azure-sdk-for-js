@@ -145,6 +145,9 @@ directive:
       from: CustomCallingContext
       to: CustomCallingContextInternal
   - rename-model:
+      from: TranscriptionOptions
+      to: TranscriptionOptionsInternal
+  - rename-model:
       from: TranscriptionStarted
       to: RestTranscriptionStarted
   - rename-model:

@@ -40,7 +40,7 @@ export interface CreateCallRequest {
   /** Media Streaming Options. */
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Transcription Options. */
-  transcriptionOptions?: TranscriptionOptions;
+  transcriptionOptions?: TranscriptionOptionsInternal;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -196,7 +196,7 @@ export interface MediaStreamingOptions {
 }
 
 /** Configuration of live transcription. */
-export interface TranscriptionOptions {
+export interface TranscriptionOptionsInternal {
   /** Transport URL for live transcription */
   transportUrl: string;
   /** The type of transport to be used for live transcription, eg. Websocket */
@@ -314,7 +314,7 @@ export interface AnswerCallRequest {
   /** Media Streaming Options. */
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Transcription Options. */
-  transcriptionOptions?: TranscriptionOptions;
+  transcriptionOptions?: TranscriptionOptionsInternal;
 }
 
 /** The request payload for redirecting the call. */
@@ -348,7 +348,7 @@ export interface ConnectRequest {
   /** Media Streaming Options. */
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Transcription Options. */
-  transcriptionOptions?: TranscriptionOptions;
+  transcriptionOptions?: TranscriptionOptionsInternal;
 }
 
 /** The locator used for joining or taking action on a call */

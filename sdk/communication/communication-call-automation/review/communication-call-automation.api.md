@@ -1343,7 +1343,7 @@ export interface TranscriptionMetadata {
 export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
     locale: string;
-    speechModelEndpointId?: string;
+    speechRecognitionModelEndpointId?: string;
     startTranscription: boolean;
     transportType: TranscriptionTransportType;
     transportUrl: string;
