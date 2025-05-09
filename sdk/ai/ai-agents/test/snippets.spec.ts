@@ -153,7 +153,7 @@ describe("snippets", function () {
   it("functionTools", async function () {
     class FunctionToolExecutor {
       private functionTools: { func: Function; definition: FunctionToolDefinition }[];
-    // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       constructor() {
         this.functionTools = [
           {
@@ -193,19 +193,19 @@ describe("snippets", function () {
           },
         ];
       }
-    // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       private getUserFavoriteCity(): {} {
         return { location: "Seattle, WA" };
       }
-    // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       private getCityNickname(_location: string): {} {
         return { nickname: "The Emerald City" };
       }
-    // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       private getWeather(_location: string, unit: string): {} {
         return { weather: unit === "f" ? "72f" : "22c" };
       }
-    // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       public invokeTool(
         toolCall: RequiredToolCall & FunctionToolDefinition,
       ): ToolOutput | undefined {
@@ -234,7 +234,7 @@ describe("snippets", function () {
             }
           : undefined;
       }
-    // @ts-preserve-whitespace
+      // @ts-preserve-whitespace
       public getFunctionDefinitions(): FunctionToolDefinition[] {
         return this.functionTools.map((tool) => {
           return tool.definition;
@@ -534,7 +534,7 @@ describe("snippets", function () {
             });
           }
           break;
-    // @ts-preserve-whitespace
+        // @ts-preserve-whitespace
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
           break;
