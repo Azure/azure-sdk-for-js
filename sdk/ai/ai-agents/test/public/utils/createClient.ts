@@ -73,7 +73,7 @@ const recorderEnvSetup: RecorderStartOptions = {
         regex: true,
         target: "/projects/([-\\w\\._\\(\\)]+)(?=/|$)",
         value: replaceableVariables.PROJECT_NAME,
-        groupForReplace: "1",  
+        groupForReplace: "1",
       },
     ],
     bodyKeySanitizers: [
