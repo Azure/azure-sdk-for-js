@@ -40,6 +40,9 @@ import {
   CancelAddParticipantRequest,
   CallConnectionCancelAddParticipantOptionalParams,
   CallConnectionCancelAddParticipantResponse,
+  MoveParticipantsRequest,
+  CallConnectionMoveParticipantsOptionalParams,
+  CallConnectionMoveParticipantsResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
   CallConnectionGetParticipantsNextResponse,
@@ -291,6 +294,23 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
+   * Add a participant to the call.
+   * @param callConnectionId The call connection Id
+   * @param moveParticipantRequest The move participants request.
+   * @param options The options parameters.
+   */
+  moveParticipants(
+    callConnectionId: string,
+    moveParticipantRequest: MoveParticipantsRequest,
+    options?: CallConnectionMoveParticipantsOptionalParams,
+  ): Promise<CallConnectionMoveParticipantsResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, moveParticipantRequest, options },
+      moveParticipantsOperationSpec,
+    );
+  }
+
+  /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
    * @param participantRawId Raw id of the participant to retrieve.
@@ -518,6 +538,29 @@ const cancelAddParticipantOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.cancelAddParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const moveParticipantsOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:moveHere",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.MoveParticipantsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.moveParticipantRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [
