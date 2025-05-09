@@ -3,16 +3,23 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { helloWorldSchema, helloWorld } from "./tools/helloWorld.js";
+import { listPackages, listPackagesArgsSchema } from "./tools/listPackages.js";
+import { prettierSchema, prettierTool } from "./tools/prettier.js";
 
 const server = new McpServer({
   name: "Azure SDK MCP Server",
   version: "1.0.0-beta.1",
 });
 
-// Register a tool
-server.tool("hello_world", "Prints hello world", helloWorldSchema.shape, (args) =>
-  helloWorld(args),
+server.tool(
+  "list_packages",
+  "List packages in the monorepo",
+  listPackagesArgsSchema.shape,
+  async (args) => listPackages(args),
+);
+
+server.tool("is_formatted", "Check if code is formatted", prettierSchema.shape, (args) =>
+  prettierTool(args),
 );
 
 async function main() {
