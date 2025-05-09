@@ -10,7 +10,7 @@ Use the AI Projects client library (in preview) to:
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
-| [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
+| [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
 
 ## Table of contents

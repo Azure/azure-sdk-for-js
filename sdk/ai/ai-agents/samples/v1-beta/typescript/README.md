@@ -11,37 +11,37 @@ urlFragment: ai-agents-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Agents in some common scenarios.
 
-| **File Name**                                                                               | **Description**                                                                                                            |
-| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| [agents/codeInterpreterWithStreaming.ts][agents_codeinterpreterwithstreaming]               | demonstrates how to use agent operations with code interpreter.                                                            |
-| [agents/agentTokenUsage.ts][agents_agenttokenusage]                                         | demonstrates how to track the token usage of an Agent.                                                                     |
-| [agents/agentsAzureAiSearch.ts][agents_agentsazureaisearch]                                 | demonstrates how to use agent operations with the Azure AI Search tool.                                                    |
-| [agents/agentsBasics.ts][agents_agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                            |
-| [agents/agentsBingGrounding.ts][agents_agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                         |
-| [agents/agentsBingGroundingWithStreaming.ts][agents_agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                         |
-| [agents/agentsFabric.ts][agents_agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                   |
-| [agents/agentsImageInputWithBase64.ts][agents_agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
-| [agents/agentsImageInputWithFile.ts][agents_agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
-| [agents/agentsImageInputWithUrl.ts][agents_agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
-| [agents/agentsSharepoint.ts][agents_agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                         |
-| [agents/agentsWithFunctionTool.ts][agents_agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
-| [agents/agentsWithOpenApi.ts][agents_agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
-| [agents/agentsWithToolset.ts][agents_agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                     |
-| [agents/batchVectorStoreWithFiles.ts][agents_batchvectorstorewithfiles]                     | demonstrates how to create the batch vector store with the list of files.                                                  |
-| [agents/batchVectorStoreWithFilesAndPolling.ts][agents_batchvectorstorewithfilesandpolling] | demonstrates how to create the batch vector store with the list of files using polling operation.                          |
-| [agents/codeInterpreter.ts][agents_codeinterpreter]                                         | demonstrates how to use agent operations with code interpreter.                                                            |
-| [agents/fileSearch.ts][agents_filesearch]                                                   | This sample demonstrates how to use agent operations with file searching.                                                  |
-| [agents/files.ts][agents_files]                                                             | demonstrates how to use basic files agent operations.                                                                      |
-| [agents/filesWithLocalUpload.ts][agents_fileswithlocalupload]                               | demonstrates how to use basic files agent operations with local file upload.                                               |
-| [agents/filesWithPolling.ts][agents_fileswithpolling]                                       | demonstrates how to upload a file and poll for its status.                                                                 |
-| [agents/messages.ts][agents_messages]                                                       | demonstrates how to use basic message agent operations.                                                                    |
-| [agents/runSteps.ts][agents_runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                        |
-| [agents/streaming.ts][agents_streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                     |
-| [agents/threads.ts][agents_threads]                                                         | demonstrates how to use basic thread agent operations.                                                                     |
-| [agents/vectorStoreWithFiles.ts][agents_vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                        |
-| [agents/vectorStoreWithFilesAndPolling.ts][agents_vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                |
-| [agents/vectorStores.ts][agents_vectorstores]                                               | demonstrates how to create the vector store.                                                                               |
-| [agents/vectorStoresWithPolling.ts][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                       |
+| **File Name**                                                                 | **Description**                                                                                                            |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [codeInterpreterWithStreaming.ts][codeinterpreterwithstreaming]               | demonstrates how to use agent operations with code interpreter.                                                            |
+| [agentTokenUsage.ts][agenttokenusage]                                         | demonstrates how to track the token usage of an Agent.                                                                     |
+| [agentsAzureAiSearch.ts][agentsazureaisearch]                                 | demonstrates how to use agent operations with the Azure AI Search tool.                                                    |
+| [agentsBasics.ts][agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                            |
+| [agentsBingGrounding.ts][agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                         |
+| [agentsBingGroundingWithStreaming.ts][agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                         |
+| [agentsFabric.ts][agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                   |
+| [agentsImageInputWithBase64.ts][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
+| [agentsImageInputWithFile.ts][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
+| [agentsImageInputWithUrl.ts][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
+| [agentsSharepoint.ts][agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                         |
+| [agentsWithFunctionTool.ts][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
+| [agentsWithOpenApi.ts][agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
+| [agentsWithToolset.ts][agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                     |
+| [batchVectorStoreWithFiles.ts][batchvectorstorewithfiles]                     | demonstrates how to create the batch vector store with the list of files.                                                  |
+| [batchVectorStoreWithFilesAndPolling.ts][batchvectorstorewithfilesandpolling] | demonstrates how to create the batch vector store with the list of files using polling operation.                          |
+| [codeInterpreter.ts][codeinterpreter]                                         | demonstrates how to use agent operations with code interpreter.                                                            |
+| [fileSearch.ts][filesearch]                                                   | This sample demonstrates how to use agent operations with file searching.                                                  |
+| [files.ts][files]                                                             | demonstrates how to use basic files agent operations.                                                                      |
+| [filesWithLocalUpload.ts][fileswithlocalupload]                               | demonstrates how to use basic files agent operations with local file upload.                                               |
+| [filesWithPolling.ts][fileswithpolling]                                       | demonstrates how to upload a file and poll for its status.                                                                 |
+| [messages.ts][messages]                                                       | demonstrates how to use basic message agent operations.                                                                    |
+| [runSteps.ts][runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                        |
+| [streaming.ts][streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                     |
+| [threads.ts][threads]                                                         | demonstrates how to use basic thread agent operations.                                                                     |
+| [vectorStoreWithFiles.ts][vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                        |
+| [vectorStoreWithFilesAndPolling.ts][vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                |
+| [vectorStores.ts][vectorstores]                                               | demonstrates how to create the vector store.                                                                               |
+| [vectorStoresWithPolling.ts][vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                       |
 
 ## Prerequisites
 
@@ -80,49 +80,49 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/agents\codeInterpreterWithStreaming.js
+node dist/codeInterpreterWithStreaming.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env PROJECT_ENDPOINT="<project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/agents\codeInterpreterWithStreaming.js
+npx dev-tool run vendored cross-env PROJECT_ENDPOINT="<project endpoint>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node dist/codeInterpreterWithStreaming.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[agents_codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/codeInterpreterWithStreaming.ts
-[agents_agenttokenusage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentTokenUsage.ts
-[agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsAzureAiSearch.ts
-[agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsBasics.ts
-[agents_agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsBingGrounding.ts
-[agents_agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsBingGroundingWithStreaming.ts
-[agents_agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsFabric.ts
-[agents_agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsImageInputWithBase64.ts
-[agents_agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsImageInputWithFile.ts
-[agents_agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsImageInputWithUrl.ts
-[agents_agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsSharepoint.ts
-[agents_agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsWithFunctionTool.ts
-[agents_agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsWithOpenApi.ts
-[agents_agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/agentsWithToolset.ts
-[agents_batchvectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/batchVectorStoreWithFiles.ts
-[agents_batchvectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/batchVectorStoreWithFilesAndPolling.ts
-[agents_codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/codeInterpreter.ts
-[agents_filesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/fileSearch.ts
-[agents_files]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/files.ts
-[agents_fileswithlocalupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/filesWithLocalUpload.ts
-[agents_fileswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/filesWithPolling.ts
-[agents_messages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/messages.ts
-[agents_runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/runSteps.ts
-[agents_streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/streaming.ts
-[agents_threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/threads.ts
-[agents_vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/vectorStoreWithFiles.ts
-[agents_vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/vectorStoreWithFilesAndPolling.ts
-[agents_vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/vectorStores.ts
-[agents_vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agents/vectorStoresWithPolling.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-agents
+[codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/codeInterpreterWithStreaming.ts
+[agenttokenusage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentTokenUsage.ts
+[agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsAzureAiSearch.ts
+[agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBasics.ts
+[agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGrounding.ts
+[agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsBingGroundingWithStreaming.ts
+[agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsFabric.ts
+[agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithBase64.ts
+[agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithFile.ts
+[agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsImageInputWithUrl.ts
+[agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsSharepoint.ts
+[agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithFunctionTool.ts
+[agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithOpenApi.ts
+[agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/agentsWithToolset.ts
+[batchvectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/batchVectorStoreWithFiles.ts
+[batchvectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/batchVectorStoreWithFilesAndPolling.ts
+[codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/codeInterpreter.ts
+[filesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/fileSearch.ts
+[files]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/files.ts
+[fileswithlocalupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/filesWithLocalUpload.ts
+[fileswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/filesWithPolling.ts
+[messages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/messages.ts
+[runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/runSteps.ts
+[streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/streaming.ts
+[threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/threads.ts
+[vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoreWithFiles.ts
+[vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoreWithFilesAndPolling.ts
+[vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStores.ts
+[vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/typescript/src/vectorStoresWithPolling.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
