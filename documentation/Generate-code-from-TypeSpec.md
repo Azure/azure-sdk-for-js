@@ -33,13 +33,13 @@ It is recommended to configure TypeSpec package on [REST API specifications](htt
 
 ### How to configure tspconfig.yaml
 You can reference these two config files to configure the Modular or RLC package:
-- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
+- [Modular tspconfig.yaml for MPG](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
 - [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
 
-Please make sure `service-dir`, `package-dir`, `package-details`, `is-modular-library`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.
-If you want to enable sample generation with typespec-ts, you should add 
+Please make sure `service-dir`, `package-dir`, `package-details`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.
+For MPG ,`is-modular-library` default behavior is true. If you want to generate modular sdk for DPG, you should add
 ```
-generate-sample:true
+is-modular-library:true
 ```
 in your tspconfig.yaml
 
