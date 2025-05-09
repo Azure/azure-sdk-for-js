@@ -100,7 +100,7 @@
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
