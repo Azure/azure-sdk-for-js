@@ -36,6 +36,7 @@ param principalUserType string = 'User'
 var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
+var acrPull = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d') // ACR Pull
 
 // Cluster parameters
 var kubernetesVersion = latestAksVersion
@@ -102,6 +103,16 @@ resource webRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
     principalId: testApplicationOid
     roleDefinitionId: websiteContributor
     principalType: principalUserType
+  }
+}
+
+resource acrPullContainerInstance 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: acrResource
+  name: guid(resourceGroup().id, acrPull, 'containerInstance')
+  properties: {
+    principalId: userAssignedIdentity.properties.principalId
+    roleDefinitionId: acrPull
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -334,8 +345,11 @@ output IdentityUserDefinedClientId string = userAssignedIdentity.properties.clie
 output IdentityUserDefinedIdentityName string = userAssignedIdentity.name
 output IdentityStorageName1 string = storageAccount.name
 output IdentityStorageName2 string = storageAccount2.name
+output IdentityStorageId1 string = storageAccount.id
+output IdentityStorageId2 string = storageAccount2.id
 output IdentityFunctionName string = azureFunction.name
 output IdentityAksClusterName string = kubernetesCluster.name
+output IdentityContainerInstanceName string = 'javascript-container-app'
 output IdentityAksPodName string = 'javascript-test-app'
 output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer
