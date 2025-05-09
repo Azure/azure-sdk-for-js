@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list InstanceResource resources by resource group
  *
  * @summary list InstanceResource resources by resource group
- * x-ms-original-file: 2024-09-18-preview/Instances_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-18/Instances_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function instancesListByResourceGroupGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function instancesListByResourceGroupGeneratedByMaximumSetRule(): Promise<
  * This sample demonstrates how to list InstanceResource resources by resource group
  *
  * @summary list InstanceResource resources by resource group
- * x-ms-original-file: 2024-09-18-preview/Instances_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2024-09-18/Instances_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function instancesListByResourceGroupGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

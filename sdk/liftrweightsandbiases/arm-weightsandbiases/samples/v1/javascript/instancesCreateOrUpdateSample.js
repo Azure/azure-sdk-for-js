@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WeightsAndBiasesClient } from "@azure/arm-weightsandbiases";
-import { DefaultAzureCredential } from "@azure/identity";
+const { WeightsAndBiasesClient } = require("@azure/arm-weightsandbiases");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a InstanceResource
  *
  * @summary create a InstanceResource
- * x-ms-original-file: 2024-09-18-preview/Instances_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-09-18/Instances_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function instancesCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
+async function instancesCreateOrUpdateGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0BCB047F-CB71-4DFE-B0BD-88519F411C2F";
   const client = new WeightsAndBiasesClient(credential, subscriptionId);
@@ -54,7 +54,7 @@ async function instancesCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void>
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await instancesCreateOrUpdateGeneratedByMaximumSetRule();
 }
 
