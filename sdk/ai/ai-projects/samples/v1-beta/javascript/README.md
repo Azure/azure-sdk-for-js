@@ -13,6 +13,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                                         | **Description**                                                                                                                                                                                        |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [agents/agentsBasics.js][agents_agentsbasics]                         | Create and delete an agent.                                                                                                                                                                            |
 | [connections/connectionsBasics.js][connections_connectionsbasics]     | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
 | [datasets/datasetsBasics.js][datasets_datasetsbasics]                 | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                   |
 | [deployments/deploymentsBasics.js][deployments_deploymentsbasics]     | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
@@ -51,19 +52,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node connections\connectionsBasics.js
+node agents\agentsBasics.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_AI_PROJECT_ENDPOINT_STRING="<azure ai project endpoint string>" node connections\connectionsBasics.js
+npx dev-tool run vendored cross-env AZURE_AI_PROJECT_ENDPOINT_STRING="<azure ai project endpoint string>" node agents\agentsBasics.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBasics.js
 [connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/connections/connectionsBasics.js
 [datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/datasets/datasetsBasics.js
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/deployments/deploymentsBasics.js
