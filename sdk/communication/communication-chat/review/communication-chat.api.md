@@ -20,6 +20,11 @@ import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
+import { StreamEndReason } from '@azure/communication-signaling';
+import { StreamingChatMessageChunkReceivedEvent } from '@azure/communication-signaling';
+import { StreamingChatMessageStartEvent } from '@azure/communication-signaling';
+import { StreamingMessageMetadata } from '@azure/communication-signaling';
+import { StreamingMessageType } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
@@ -64,6 +69,8 @@ export class ChatClient {
     off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    off(event: "streamingChatMessageStarted", listener: (e: StreamingChatMessageStartEvent) => void): void;
+    off(event: "streamingChatMessageChunkReceived", listener: (e: StreamingChatMessageChunkReceivedEvent) => void): void;
     on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
     on(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
     on(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
@@ -74,6 +81,8 @@ export class ChatClient {
     on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    on(event: "streamingChatMessageStarted", listener: (e: StreamingChatMessageStartEvent) => void): void;
+    on(event: "streamingChatMessageChunkReceived", listener: (e: StreamingChatMessageChunkReceivedEvent) => void): void;
     on(event: "realTimeNotificationConnected", listener: () => void): void;
     on(event: "realTimeNotificationDisconnected", listener: () => void): void;
     startRealtimeNotifications(): Promise<void>;
@@ -94,7 +103,7 @@ export interface ChatError {
 }
 
 // @public (undocumented)
-export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
+export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "streamingChatMessageStarted" | "streamingChatMessageChunkReceived" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
 
 // @public
 export interface ChatMessage {
@@ -104,6 +113,7 @@ export interface ChatMessage {
     editedOn?: Date;
     id: string;
     metadata?: Record<string, string>;
+    policyViolation?: PolicyViolation;
     sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
     sequenceId: string;
@@ -140,13 +150,18 @@ export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdd
 export interface ChatParticipant {
     displayName?: string;
     id: CommunicationIdentifier;
+    metadata?: Record<string, string>;
     shareHistoryTime?: Date;
 }
+
+// @public
+export type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy | NoneRetentionPolicy;
 
 // @public
 export class ChatThreadClient {
     constructor(endpoint: string, threadId: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addParticipants(request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
+    deleteImage(imageId: string, options?: DeleteImageOptions): Promise<void>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<void>;
     getMessage(messageId: string, options?: GetMessageOptions): Promise<ChatMessage>;
     getProperties(options?: GetPropertiesOptions): Promise<ChatThreadProperties>;
@@ -159,7 +174,10 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
+    updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
+    uploadImage(image: ArrayBuffer | Blob, imageFilename: string, options?: UploadImageOptions): Promise<UploadChatImageResult>;
+    uploadImage(image: ReadableStream<Uint8Array> | NodeJS.ReadableStream, imageFileName: string, imageBytesLength: number, options?: UploadImageStreamOptions): Promise<UploadChatImageResult>;
 }
 
 // @public
@@ -184,6 +202,9 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
+    messagingPolicy?: MessagingPolicy;
+    metadata?: Record<string, string>;
+    retentionPolicy?: ChatRetentionPolicy;
     topic: string;
 }
 
@@ -192,7 +213,9 @@ export { ChatThreadPropertiesUpdatedEvent }
 // @public
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
+    metadata?: Record<string, string>;
     participants?: ChatParticipant[];
+    retentionPolicy?: ChatRetentionPolicy;
 }
 
 // @public
@@ -208,6 +231,9 @@ export interface CreateChatThreadResult {
 
 // @public
 export type DeleteChatThreadOptions = OperationOptions;
+
+// @public
+export type DeleteImageOptions = OperationOptions;
 
 // @public
 export type DeleteMessageOptions = OperationOptions;
@@ -235,9 +261,27 @@ export type ListParticipantsOptions = RestListParticipantsOptions;
 // @public
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 
+// @public
+export interface MessagingPolicy {
+    textOnlyChat?: boolean;
+}
+
+// @public
+export interface NoneRetentionPolicy {
+    kind: "none";
+}
+
 export { ParticipantsAddedEvent }
 
 export { ParticipantsRemovedEvent }
+
+// @public
+export interface PolicyViolation {
+    result: PolicyViolationMessageResult;
+}
+
+// @public
+export type PolicyViolationMessageResult = "contentBlocked" | "warning";
 
 export { ReadReceiptReceivedEvent }
 
@@ -275,6 +319,7 @@ export interface SendChatMessageResult {
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     metadata?: Record<string, string>;
     senderDisplayName?: string;
     type?: ChatMessageType;
@@ -298,10 +343,34 @@ export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
 }
 
+export { StreamEndReason }
+
+export { StreamingChatMessageChunkReceivedEvent }
+
+export { StreamingChatMessageStartEvent }
+
+export { StreamingMessageMetadata }
+
+export { StreamingMessageType }
+
+// @public
+export interface ThreadCreationDateRetentionPolicy {
+    deleteThreadAfterDays: number;
+    kind: "threadCreationDate";
+}
+
 export { TypingIndicatorReceivedEvent }
 
 // @public
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+    retentionPolicy?: ChatRetentionPolicy;
+    topic?: string;
+}
+
+// @public
 export interface UpdateMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     content?: string;
     metadata?: Record<string, string>;
 }
@@ -309,6 +378,21 @@ export interface UpdateMessageOptions extends OperationOptions {
 // @public
 export interface UpdateTopicOptions extends OperationOptions {
 }
+
+// @public
+export interface UploadChatImageResult {
+    attachmentType?: ChatAttachmentType;
+    id: string;
+    name?: string;
+}
+
+// @public
+export interface UploadImageOptions extends OperationOptions {
+    imageBytesLength?: number;
+}
+
+// @public
+export type UploadImageStreamOptions = OperationOptions;
 
 // (No @packageDocumentation comment for this package)
 

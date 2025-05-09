@@ -27,7 +27,30 @@ export interface ChatThreadProperties {
   readonly createdBy?: CommunicationIdentifierKind;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
+  /** metadata */
+  metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
+  /** Messaging policy for a chat thread. */
+  messagingPolicy?: MessagingPolicy;
 }
+
+/** Thread retention policy based on thread creation date. */
+export interface ThreadCreationDateRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "threadCreationDate";
+  /** Indicates how many days after the thread creation the thread will be deleted. */
+  deleteThreadAfterDays: number;
+}
+
+/** No thread retention policy. */
+export interface NoneRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "none";
+}
+
+/** Data retention policy for auto deletion. */
+export declare type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy | NoneRetentionPolicy;
 
 /** Chat message. */
 export interface ChatMessage {
@@ -53,6 +76,8 @@ export interface ChatMessage {
   editedOn?: Date;
   /** metadata */
   metadata?: Record<string, string>;
+  /** Policy Violation of a chat message. */
+  policyViolation?: PolicyViolation;
 }
 
 /** Content of a chat message. */
@@ -63,10 +88,24 @@ export interface ChatMessageContent {
   topic?: string;
   /** Chat message content for messages of types participantAdded or participantRemoved. */
   participants?: ChatParticipant[];
-  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
-  initiator?: CommunicationIdentifierKind;
   /** List of attachments for this message */
   attachments?: ChatAttachment[];
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+  initiator?: CommunicationIdentifierKind;
+}
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: ChatAttachmentType;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url?: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }
 
 /** A chat message read receipt indicates the time a chat message was read by a recipient. */
@@ -87,6 +126,8 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
+  /** metadata */
+  metadata?: Record<string, string>;
 }
 
 /** Result of the create chat thread operation. */
@@ -111,19 +152,30 @@ export interface ListPageSettings {
   continuationToken?: string;
 }
 
-/** Defines values for AttachmentType. */
-export type ChatAttachmentType = "image" | "file" | "unknown";
-
-/** An attachment in a chat message. */
-export interface ChatAttachment {
-  /** Id of the attachment */
+/** Result payload for uploading an image. */
+export interface UploadChatImageResult {
+  /** Id of the image. */
   id: string;
   /** The type of attachment. */
-  attachmentType: ChatAttachmentType;
-  /** The name of the attachment content. */
+  attachmentType?: ChatAttachmentType;
+  /** The name including file extension type of the attachment. */
   name?: string;
-  /** The URL where the attachment can be downloaded */
-  url?: string;
-  /** The URL where the preview of attachment can be downloaded */
-  previewUrl?: string;
+}
+
+/** Type of Supported Attachments. */
+export type ChatAttachmentType = "image" | "file" | "unknown";
+
+/** Result of Policy Violation message. */
+export type PolicyViolationMessageResult = "contentBlocked" | "warning";
+
+/** Policy violation of a message (if applicable). */
+export interface PolicyViolation {
+  /** Result of Policy Violation message. */
+  result: PolicyViolationMessageResult;
+}
+
+/** Messaging policy of a chat thread. */
+export interface MessagingPolicy {
+  /** Boolean to track whether or not messages is restricted to only text. */
+  textOnlyChat?: boolean;
 }
