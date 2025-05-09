@@ -9,7 +9,7 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import OnlineExperimentationClient from "../../../src/index.js";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_ONLINEEXPERIMENTATION_ENDPOINT: "https://workspaceId.region.exp.azure.net",
+  AZURE_ONLINEEXPERIMENTATION_ENDPOINT: "https://workspaceId.eastus2.exp.azure.net",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -22,7 +22,12 @@ const replaceableVariables: Record<string, string> = {
  */
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
-  await recorder.start({ envSetupForPlayback: replaceableVariables });
+  await recorder.start({
+    envSetupForPlayback: replaceableVariables,
+    removeCentralSanitizers: [
+      "AZSDK3430" // don't sanitize "id" property in request body 
+    ]
+  });
   return recorder;
 }
 
