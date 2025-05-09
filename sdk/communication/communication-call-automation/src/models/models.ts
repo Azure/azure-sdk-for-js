@@ -254,8 +254,71 @@ export interface SipCustomHeader extends CustomCallingContextHeader {
 /** The type of the Sip header prefix. */
 export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
+/** Teams phone call details */
+export interface TeamsPhoneCallDetails {
+  /** Container for details relating to the original caller of the call */
+  teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+  /** Container for details relating to the entity responsible for the creation of these call details */
+  teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+  /** Id to exclusively identify this call session. IVR will use this for their telemetry/reporting. */
+  sessionId?: string;
+  /** The intent of the call */
+  intent?: string;
+  /** A very short description (max 48 chars) of the reason for the call. To be displayed in Teams CallNotification */
+  callTopic?: string;
+  /** A summary of the call thus far. It will be displayed on a side panel in the Teams UI */
+  callContext?: string;
+  /** Url for fetching the transcript of the call */
+  transcriptUrl?: string;
+  /** Sentiment of the call thus far */
+  callSentiment?: string;
+  /** Recommendations for resolving the issue based on the customer's intent and interaction history */
+  suggestedActions?: string;
+}
+
+/** Container for details relating to the original caller of the call */
+export interface TeamsPhoneCallerDetails {
+  /** Caller's ID */
+  caller: CommunicationIdentifier;
+  /** Caller's name */
+  name: string;
+  /** Caller's phone number */
+  phoneNumber: string;
+  /** Caller's record ID (ex in CRM) */
+  recordId?: string;
+  /** Caller's screen pop URL */
+  screenPopUrl?: string;
+  /** Flag indicating whether the caller was authenticated */
+  isAuthenticated?: boolean;
+  /** A set of key value pairs (max 10, any additional entries would be ignored) which a bot author wants to pass to the Teams Client for display to the agent */
+  additionalCallerInformation?: { [propertyName: string]: string };
+}
+
+/** Container for details relating to the entity responsible for the creation of these call details */
+export interface TeamsPhoneSourceDetails {
+  /** ID of the source entity passing along the call details (ex. Application Instance ID of - CQ/AA) */
+  source: CommunicationIdentifier;
+  /** Language of the source entity passing along the call details, passed in the ISO-639 standard */
+  language: string;
+  /** Status of the source entity passing along the call details */
+  status: string;
+  /** Intended targets of the source entity passing along the call details */
+  intendedTargets?: { [propertyName: string]: CommunicationIdentifier };
+}
+
+/** Teams phone call details header */
+export interface TeamsPhoneCallDetailsHeader {
+  kind: "teamsPhoneCallDetails";
+  teamsPhoneCallDetails: TeamsPhoneCallDetails;
+}
+
 /** Custom Calling Context */
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+export type CustomCallingContext = (
+  | VoipHeader
+  | SipUserToUserHeader
+  | SipCustomHeader
+  | TeamsPhoneCallDetailsHeader
+)[];
 
 /** AI options for the call. */
 export interface CallIntelligenceOptions {

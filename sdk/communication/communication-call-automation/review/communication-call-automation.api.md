@@ -543,7 +543,7 @@ export interface CreateCallResult {
 }
 
 // @public
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetailsHeader)[];
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -1133,6 +1133,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 
 // @public
 export interface SpeechResult {
+    confidence?: number;
     speech?: string;
 }
 
@@ -1239,6 +1240,50 @@ export enum StreamingDataKind {
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
 
 // @public
+export interface TeamsPhoneCallDetails {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallDetailsHeader {
+    // (undocumented)
+    kind: "teamsPhoneCallDetails";
+    // (undocumented)
+    teamsPhoneCallDetails: TeamsPhoneCallDetails;
+}
+
+// @public
+export interface TeamsPhoneCallerDetails {
+    additionalCallerInformation?: {
+        [propertyName: string]: string;
+    };
+    caller: CommunicationIdentifier;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetails {
+    intendedTargets?: {
+        [propertyName: string]: CommunicationIdentifier;
+    };
+    language: string;
+    source: CommunicationIdentifier;
+    status: string;
+}
+
+// @public
 export enum TextFormat {
     Display = "display"
 }
@@ -1298,7 +1343,7 @@ export interface TranscriptionMetadata {
 export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
     locale: string;
-    speechRecognitionModelEndpointId?: string;
+    speechModelEndpointId?: string;
     startTranscription: boolean;
     transportType: TranscriptionTransportType;
     transportUrl: string;

@@ -30,6 +30,17 @@ import type {
 } from "../generated/src/index.js";
 import { KnownCommunicationIdentifierModelKind } from "../generated/src/index.js";
 import type { CallParticipant } from "../models/models.js";
+import type {
+  TeamsPhoneCallDetails,
+  TeamsPhoneCallerDetails,
+  TeamsPhoneSourceDetails,
+} from "../models/models.js";
+
+import type {
+  TeamsPhoneCallDetails as TeamsPhoneCallDetailsInternal,
+  TeamsPhoneCallerDetails as TeamsPhoneCallerDetailsInternal,
+  TeamsPhoneSourceDetails as TeamsPhoneSourceDetailsInternal,
+} from "../generated/src/index.js";
 
 function extractKind(
   identifierModel: CommunicationIdentifierModel,
@@ -243,4 +254,78 @@ export function microsoftTeamsAppIdentifierConverter(
   }
 
   return { teamsAppId: identifier.appId };
+}
+
+/**
+ * Converts from public TeamsPhoneCallerDetails to internal TeamsPhoneCallerDetailsModel
+ */
+export function teamsPhoneCallerDetailsModelConverter(
+  teamsPhoneCallerDetails?: TeamsPhoneCallerDetails,
+): TeamsPhoneCallerDetailsInternal | undefined {
+  if (!teamsPhoneCallerDetails) {
+    return undefined;
+  }
+
+  return {
+    caller: communicationIdentifierModelConverter(teamsPhoneCallerDetails.caller),
+    name: teamsPhoneCallerDetails.name,
+    phoneNumber: teamsPhoneCallerDetails.phoneNumber,
+    recordId: teamsPhoneCallerDetails.recordId,
+    screenPopUrl: teamsPhoneCallerDetails.screenPopUrl,
+    isAuthenticated: teamsPhoneCallerDetails.isAuthenticated,
+    additionalCallerInformation: teamsPhoneCallerDetails.additionalCallerInformation,
+  };
+}
+
+/**
+ * Converts from public TeamsPhoneSourceDetails to internal TeamsPhoneSourceDetailsModel
+ */
+export function teamsPhoneSourceDetailsModelConverter(
+  teamsPhoneSourceDetails?: TeamsPhoneSourceDetails,
+): TeamsPhoneSourceDetailsInternal | undefined {
+  if (!teamsPhoneSourceDetails) {
+    return undefined;
+  }
+
+  const intendedTargets: { [key: string]: CommunicationIdentifierModel } = {};
+
+  if (teamsPhoneSourceDetails.intendedTargets) {
+    for (const [key, value] of Object.entries(teamsPhoneSourceDetails.intendedTargets)) {
+      intendedTargets[key] = communicationIdentifierModelConverter(value);
+    }
+  }
+
+  return {
+    source: communicationIdentifierModelConverter(teamsPhoneSourceDetails.source),
+    language: teamsPhoneSourceDetails.language,
+    status: teamsPhoneSourceDetails.status,
+    intendedTargets: Object.keys(intendedTargets).length > 0 ? intendedTargets : undefined,
+  };
+}
+
+/**
+ * Converts from public TeamsPhoneCallDetails to internal TeamsPhoneCallDetailsModel
+ */
+export function teamsPhoneCallDetailsModelConverter(
+  teamsPhoneCallDetails?: TeamsPhoneCallDetails,
+): TeamsPhoneCallDetailsInternal | undefined {
+  if (!teamsPhoneCallDetails) {
+    return undefined;
+  }
+
+  return {
+    teamsPhoneCallerDetails: teamsPhoneCallerDetailsModelConverter(
+      teamsPhoneCallDetails.teamsPhoneCallerDetails,
+    ),
+    teamsPhoneSourceDetails: teamsPhoneSourceDetailsModelConverter(
+      teamsPhoneCallDetails.teamsPhoneSourceDetails,
+    ),
+    sessionId: teamsPhoneCallDetails.sessionId,
+    intent: teamsPhoneCallDetails.intent,
+    callTopic: teamsPhoneCallDetails.callTopic,
+    callContext: teamsPhoneCallDetails.callContext,
+    transcriptUrl: teamsPhoneCallDetails.transcriptUrl,
+    callSentiment: teamsPhoneCallDetails.callSentiment,
+    suggestedActions: teamsPhoneCallDetails.suggestedActions,
+  };
 }

@@ -25,6 +25,7 @@ import type {
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
+  TeamsPhoneCallDetails,
 } from "../../src/index.js";
 import {
   CALL_TARGET_ID,
@@ -407,6 +408,76 @@ describe("CallConnection Unit Tests", () => {
     assert.isNotNull(result);
     expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
       phoneTarget2.targetParticipant,
+      options,
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+
+  it("TransferCallToParticipantMicrosoftTeamsAppWithTeamsCallDetails", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {
+      waitForEventProcessor: async () => {
+        return {} as TransferCallToParticipantEventResult;
+      },
+    };
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    // Create the Teams app target with TeamsPhoneCallDetails in customCallingContext
+    const teamsAppTarget: CallInvite = {
+      targetParticipant: { teamsAppId: "teamsAppId123" },
+      customCallingContext: [
+        {
+          kind: "voip",
+          key: "teamsKey",
+          value: "teamsValue",
+        },
+        {
+          kind: "teamsPhoneCallDetails",
+          teamsPhoneCallDetails: {
+            teamsPhoneCallerDetails: {
+              caller: { teamsAppId: "teamsAppId123" },
+              name: "John Doe",
+              phoneNumber: "+14255551234",
+              additionalCallerInformation: {
+                Department: "Sales",
+                Priority: "High",
+              },
+            },
+            teamsPhoneSourceDetails: {
+              source: { teamsAppId: "teamsAppId123" },
+              language: "en-US",
+              status: "Active",
+            },
+            sessionId: "session-123-abc",
+            intent: "Sales Inquiry",
+            callTopic: "New Product Information",
+            callContext: "Customer is interested in our latest product line",
+            transcriptUrl: "https://transcripts.example.com/call/123",
+            callSentiment: "Positive",
+            suggestedActions: "Offer product demo, Schedule follow-up",
+          },
+        },
+      ],
+    };
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: teamsAppTarget.customCallingContext,
+    };
+
+    const promiseResult = callConnection.transferCallToParticipant(
+      teamsAppTarget.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      teamsAppTarget.targetParticipant,
       options,
     );
     assert.equal(result, transferCallResultMock);
