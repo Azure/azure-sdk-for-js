@@ -9,7 +9,7 @@ import {
   DEFAULT_TOKEN_CACHE_NAME,
 } from "../../constants.js";
 
-import type { MsalClientOptions } from "./msalClient.js";
+import { msalLogger, type MsalClientOptions } from "./msalClient.js";
 import type { NativeBrokerPluginControl } from "../../plugins/provider.js";
 import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
 
@@ -111,7 +111,9 @@ export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
  * @param options - options for creating the MSAL client
  * @returns plugin configuration
  */
-function generatePluginConfiguration(options: MsalClientOptions): PluginConfiguration {
+async function generatePluginConfiguration(
+  options: MsalClientOptions
+): Promise<PluginConfiguration> {
   const config: PluginConfiguration = {
     cache: {},
     broker: {
@@ -129,7 +131,7 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
-        ].join(" "),
+        ].join(" ")
       );
     }
 
@@ -145,6 +147,9 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
   }
 
   if (options.brokerOptions?.enabled) {
+    nativeBrokerInfo ??= await tryLoadBrokerPlugin();
+    // "Broker for WAM was requested to be enabled, but no native broker was configured.",
+    //"You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
     if (nativeBrokerInfo === undefined) {
       throw new Error(
         [
@@ -152,7 +157,7 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
           "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
-        ].join(" "),
+        ].join(" ")
       );
     }
     config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
@@ -167,3 +172,25 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
 export const msalPlugins = {
   generatePluginConfiguration,
 };
+
+async function tryLoadBrokerPlugin(): Promise<
+  | {
+      broker: msalNode.INativeBrokerPlugin;
+    }
+  | undefined
+> {
+  try {
+    msalLogger.info(
+      "Attempting to load the native broker plugin within the code (not by user). If this fails, it is expected if the plugin is not installed."
+    );
+    // @ts-expect-error Testing for the presence of the plugin
+    const { NativeBrokerPlugin } = await import("@azure/msal-node-extensions");
+
+    return {
+      broker: new NativeBrokerPlugin(),
+    };
+  } catch (e) {
+    // Ignore the error, as this is expected if the plugin is not installed.
+    return undefined;
+  }
+}
