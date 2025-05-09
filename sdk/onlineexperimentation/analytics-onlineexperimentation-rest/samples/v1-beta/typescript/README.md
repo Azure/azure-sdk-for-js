@@ -57,7 +57,7 @@ npx dev-tool run vendored cross-env AZURE_ONLINEEXPERIMENTATION_ENDPOINT="<azure
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [experimentmetricsmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/analytics-onlineexperimentation-rest/samples/v1-beta/typescript/src/experimentMetricsManagement.ts
-[apiref]: the-link-to-your-service-on-learn.microsoft.com
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/analytics-onlineexperimentation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/analytics-onlineexperimentation-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

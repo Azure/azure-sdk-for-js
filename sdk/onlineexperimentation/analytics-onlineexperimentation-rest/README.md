@@ -8,7 +8,6 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/analytics-onlineexperimentation-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/analytics-onlineexperimentation)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/analytics-onlineexperimentation?view=azure-node-preview)
 
 ## Getting started
 
