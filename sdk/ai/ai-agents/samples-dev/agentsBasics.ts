@@ -9,7 +9,6 @@
  */
 
 import { AgentsClient } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -59,7 +58,7 @@ export async function main(): Promise<void> {
       onResponse: onResponse,
     },
   );
-  console.log(`Run status: ${run.status}`);
+  console.log(`Run finished with status: ${run.status}`);
 
   // Delete agent
   await client.deleteAgent(agent.id);

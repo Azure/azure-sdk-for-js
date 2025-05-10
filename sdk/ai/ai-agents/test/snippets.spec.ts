@@ -486,15 +486,21 @@ describe("snippets", function () {
   });
 
   it("createRun", async function () {
-    let run = await client.runs.create(thread.id, agent.id);
-    console.log(`Created run, run ID: ${run.id}`);
-    // @ts-preserve-whitespace
-    // Wait for run to complete
-    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await delay(1000);
-      run = await client.runs.get(thread.id, run.id);
-      console.log(`Run status: ${run.status}`);
+    function onResponse(response: any): void {
+      console.log(`Received response with status: ${response.parsedBody?.status}`);
     }
+    // @ts-preserve-whitespace
+    // Create and poll a run
+    console.log("Creating run...");
+    const run = await client.runs.createAndPoll(thread.id, agent.id,
+      {
+        pollingOptions: {
+          intervalInMs: 2000,
+        },
+        onResponse: onResponse,
+      },
+    );
+    console.log(`Run finished with status: ${run.status}`);
   });
 
   it("createThreadAndRun", async function () {
