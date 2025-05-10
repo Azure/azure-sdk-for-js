@@ -1,6 +1,10 @@
 <!-- dev-tool snippets ignore -->
 
 # Release History
+## 4.4.0 (unreleased)
+
+### Features Added
+### Bugs Fixed
 
 ## 4.3.0 (2025-03-18)
 
