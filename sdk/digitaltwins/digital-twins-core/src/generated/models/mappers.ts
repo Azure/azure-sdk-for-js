@@ -17,45 +17,45 @@ export const DigitalTwinsModelData: coreClient.CompositeMapper = {
         serializedName: "displayName",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       description: {
         serializedName: "description",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       id: {
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       uploadTime: {
         serializedName: "uploadTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       decommissioned: {
         defaultValue: false,
         serializedName: "decommissioned",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       model: {
         serializedName: "model",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -67,11 +67,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreClient.CompositeMapper = {
@@ -83,15 +83,15 @@ export const ErrorModel: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -101,20 +101,20 @@ export const ErrorModel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorModel"
-            }
-          }
-        }
+              className: "ErrorModel",
+            },
+          },
+        },
       },
       innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "InnerError"
-        }
-      }
-    }
-  }
+          className: "InnerError",
+        },
+      },
+    },
+  },
 };
 
 export const InnerError: coreClient.CompositeMapper = {
@@ -125,46 +125,48 @@ export const InnerError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "InnerError"
-        }
-      }
-    }
-  }
+          className: "InnerError",
+        },
+      },
+    },
+  },
 };
 
-export const PagedDigitalTwinsModelDataCollection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PagedDigitalTwinsModelDataCollection",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DigitalTwinsModelData"
-            }
-          }
-        }
+export const PagedDigitalTwinsModelDataCollection: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PagedDigitalTwinsModelDataCollection",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "DigitalTwinsModelData",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const QuerySpecification: coreClient.CompositeMapper = {
   type: {
@@ -174,17 +176,17 @@ export const QuerySpecification: coreClient.CompositeMapper = {
       query: {
         serializedName: "query",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       continuationToken: {
         serializedName: "continuationToken",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QueryResult: coreClient.CompositeMapper = {
@@ -194,24 +196,25 @@ export const QueryResult: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Dictionary",
-              value: { type: { name: "any" } }
-            }
-          }
-        }
+              value: { type: { name: "any" } },
+            },
+          },
+        },
       },
       continuationToken: {
         serializedName: "continuationToken",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RelationshipCollection: coreClient.CompositeMapper = {
@@ -221,24 +224,25 @@ export const RelationshipCollection: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Dictionary",
-              value: { type: { name: "any" } }
-            }
-          }
-        }
+              value: { type: { name: "any" } },
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const IncomingRelationshipCollection: coreClient.CompositeMapper = {
@@ -248,24 +252,25 @@ export const IncomingRelationshipCollection: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "IncomingRelationship"
-            }
-          }
-        }
+              className: "IncomingRelationship",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const IncomingRelationship: coreClient.CompositeMapper = {
@@ -276,29 +281,29 @@ export const IncomingRelationship: coreClient.CompositeMapper = {
       relationshipId: {
         serializedName: "$relationshipId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceId: {
         serializedName: "$sourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       relationshipName: {
         serializedName: "$relationshipName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       relationshipLink: {
         serializedName: "$relationshipLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EventRouteCollection: coreClient.CompositeMapper = {
@@ -308,24 +313,25 @@ export const EventRouteCollection: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "EventRoute"
-            }
-          }
-        }
+              className: "EventRoute",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EventRoute: coreClient.CompositeMapper = {
@@ -337,26 +343,310 @@ export const EventRoute: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       endpointName: {
         serializedName: "endpointName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       filter: {
         serializedName: "filter",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
+
+export const ImportJobCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImportJob",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJob",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      inputBlobUri: {
+        serializedName: "inputBlobUri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      outputBlobUri: {
+        serializedName: "outputBlobUri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "notstarted",
+            "running",
+            "failed",
+            "succeeded",
+            "cancelling",
+            "cancelled",
+          ],
+        },
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      finishedDateTime: {
+        serializedName: "finishedDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      purgeDateTime: {
+        serializedName: "purgeDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJob",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["notstarted", "running", "failed", "succeeded"],
+        },
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      finishedDateTime: {
+        serializedName: "finishedDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      purgeDateTime: {
+        serializedName: "purgeDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJobCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJobCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeleteJob",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DigitalTwinModelsAddExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinModelsAddExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinModelsListExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinModelsListExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinModelsGetByIdExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinModelsGetByIdExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinModelsUpdateExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinModelsUpdateExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinModelsDeleteExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinModelsDeleteExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinModelsListNextExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinModelsListNextExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const QueryQueryTwinsHeaders: coreClient.CompositeMapper = {
   type: {
@@ -366,11 +656,26 @@ export const QueryQueryTwinsHeaders: coreClient.CompositeMapper = {
       queryCharge: {
         serializedName: "query-charge",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const QueryQueryTwinsExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryQueryTwinsExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DigitalTwinsGetByIdHeaders: coreClient.CompositeMapper = {
@@ -381,11 +686,26 @@ export const DigitalTwinsGetByIdHeaders: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DigitalTwinsGetByIdExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DigitalTwinsGetByIdExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DigitalTwinsAddHeaders: coreClient.CompositeMapper = {
@@ -396,11 +716,41 @@ export const DigitalTwinsAddHeaders: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DigitalTwinsAddExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DigitalTwinsAddExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DigitalTwinsDeleteExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DigitalTwinsDeleteExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DigitalTwinsUpdateHeaders: coreClient.CompositeMapper = {
@@ -411,27 +761,59 @@ export const DigitalTwinsUpdateHeaders: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const DigitalTwinsGetRelationshipByIdHeaders: coreClient.CompositeMapper = {
+export const DigitalTwinsUpdateExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DigitalTwinsGetRelationshipByIdHeaders",
+    className: "DigitalTwinsUpdateExceptionHeaders",
     modelProperties: {
-      etag: {
-        serializedName: "etag",
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
+
+export const DigitalTwinsGetRelationshipByIdHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsGetRelationshipByIdHeaders",
+      modelProperties: {
+        etag: {
+          serializedName: "etag",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsGetRelationshipByIdExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsGetRelationshipByIdExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const DigitalTwinsAddRelationshipHeaders: coreClient.CompositeMapper = {
   type: {
@@ -441,27 +823,140 @@ export const DigitalTwinsAddRelationshipHeaders: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const DigitalTwinsUpdateRelationshipHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DigitalTwinsUpdateRelationshipHeaders",
-    modelProperties: {
-      etag: {
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const DigitalTwinsAddRelationshipExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsAddRelationshipExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsDeleteRelationshipExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsDeleteRelationshipExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsUpdateRelationshipHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsUpdateRelationshipHeaders",
+      modelProperties: {
+        etag: {
+          serializedName: "etag",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsUpdateRelationshipExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsUpdateRelationshipExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsListRelationshipsExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsListRelationshipsExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsListIncomingRelationshipsExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsListIncomingRelationshipsExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsSendTelemetryExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsSendTelemetryExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsSendComponentTelemetryExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsSendComponentTelemetryExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const DigitalTwinsGetComponentHeaders: coreClient.CompositeMapper = {
   type: {
@@ -471,12 +966,28 @@ export const DigitalTwinsGetComponentHeaders: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
+
+export const DigitalTwinsGetComponentExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsGetComponentExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const DigitalTwinsUpdateComponentHeaders: coreClient.CompositeMapper = {
   type: {
@@ -486,9 +997,297 @@ export const DigitalTwinsUpdateComponentHeaders: coreClient.CompositeMapper = {
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DigitalTwinsUpdateComponentExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsUpdateComponentExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsListRelationshipsNextExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsListRelationshipsNextExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DigitalTwinsListIncomingRelationshipsNextExceptionHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DigitalTwinsListIncomingRelationshipsNextExceptionHeaders",
+      modelProperties: {
+        xMsErrorCode: {
+          serializedName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const EventRoutesListExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventRoutesListExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EventRoutesGetByIdExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventRoutesGetByIdExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EventRoutesAddExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventRoutesAddExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EventRoutesDeleteExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventRoutesDeleteExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EventRoutesListNextExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventRoutesListNextExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJobsListExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobsListExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJobsAddExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobsAddExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJobsGetByIdExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobsGetByIdExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJobsDeleteExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobsDeleteExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJobsCancelExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobsCancelExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ImportJobsListNextExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImportJobsListNextExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJobsAddHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJobsAddHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJobsAddExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJobsAddExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJobsListExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJobsListExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJobsGetByIdExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJobsGetByIdExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeleteJobsListNextExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteJobsListNextExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };

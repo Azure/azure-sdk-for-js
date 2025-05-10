@@ -6,6 +6,8 @@
 
 ### Features Added
 
+- Updated service API version to use API version 2023-10-31 by default.
+
 ### Breaking Changes
 
 - Migrated to use `@azure/core-rest-pipeline`. For more information, please refer to [the documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core#core-v1-and-core-v2). As a result of this migration:

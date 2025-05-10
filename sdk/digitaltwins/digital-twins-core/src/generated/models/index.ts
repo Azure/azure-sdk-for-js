@@ -27,7 +27,7 @@ export interface DigitalTwinsModelData {
 /** Error response. */
 export interface ErrorResponse {
   /** The error details. */
-  error?: ErrorModel;
+  error: ErrorModel;
 }
 
 /** Error definition. */
@@ -62,7 +62,7 @@ export interface InnerError {
 /** A collection of DigitalTwinsModelData objects. */
 export interface PagedDigitalTwinsModelDataCollection {
   /** The DigitalTwinsModelData objects. */
-  value?: DigitalTwinsModelData[];
+  value: DigitalTwinsModelData[];
   /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
@@ -78,7 +78,7 @@ export interface QuerySpecification {
 /** The results of a query operation and an optional continuation token. */
 export interface QueryResult {
   /** The query results. */
-  value?: Record<string, unknown>[];
+  value: Record<string, unknown>[];
   /** A token which can be used to construct a new QuerySpecification to retrieve the next set of results. */
   continuationToken?: string;
 }
@@ -86,14 +86,14 @@ export interface QueryResult {
 /** A collection of relationships which relate digital twins together. */
 export interface RelationshipCollection {
   /** The relationship objects. */
-  value?: Record<string, unknown>[];
+  value: Record<string, unknown>[];
   /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
 
 /** A collection of incoming relationships which relate digital twins together. */
 export interface IncomingRelationshipCollection {
-  value?: IncomingRelationship[];
+  value: IncomingRelationship[];
   /** A URI to retrieve the next page of objects. */
   nextLink?: string;
 }
@@ -113,7 +113,7 @@ export interface IncomingRelationship {
 /** A collection of EventRoute objects. */
 export interface EventRouteCollection {
   /** The EventRoute objects. */
-  value?: EventRoute[];
+  value: EventRoute[];
   /** A URI to retrieve the next page of results. */
   nextLink?: string;
 }
@@ -131,10 +131,139 @@ export interface EventRoute {
   filter: string;
 }
 
+/** A collection of import job objects. */
+export interface ImportJobCollection {
+  /** The list of import job objects. */
+  value: ImportJob[];
+  /** A URI to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** A job which contains a reference to the operations to perform, results, and execution metadata. */
+export interface ImportJob {
+  /**
+   * The identifier of the import job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The path to the input Azure storage blob that contains file(s) describing the operations to perform in the job. */
+  inputBlobUri: string;
+  /** The path to the output Azure storage blob that will contain the errors and progress logs of import job. */
+  outputBlobUri: string;
+  /**
+   * Status of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: Status;
+  /**
+   * Start time of the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * Last time service performed any action from the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastActionDateTime?: Date;
+  /**
+   * End time of the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly finishedDateTime?: Date;
+  /**
+   * Time at which job will be purged by the service from the system. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purgeDateTime?: Date;
+  /** Details of the error(s) that occurred executing the import job. */
+  error?: ErrorModel;
+}
+
+/** A job which contains a reference to the operations to perform, results, and execution metadata. */
+export interface DeleteJob {
+  /**
+   * The identifier of the delete job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Status of the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: DeleteJobStatus;
+  /**
+   * Start time of the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * End time of the job. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly finishedDateTime?: Date;
+  /**
+   * Time at which job will be purged by the service from the system. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purgeDateTime?: Date;
+  /** Details of the error(s) that occurred executing the import job. */
+  error?: ErrorModel;
+}
+
+/** A collection of delete job objects. */
+export interface DeleteJobCollection {
+  /** The list of delete job objects. */
+  value: DeleteJob[];
+  /** A URI to retrieve the next page of results. */
+  nextLink?: string;
+}
+
+/** Defines headers for DigitalTwinModels_add operation. */
+export interface DigitalTwinModelsAddExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwinModels_list operation. */
+export interface DigitalTwinModelsListExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwinModels_getById operation. */
+export interface DigitalTwinModelsGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwinModels_update operation. */
+export interface DigitalTwinModelsUpdateExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwinModels_delete operation. */
+export interface DigitalTwinModelsDeleteExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwinModels_listNext operation. */
+export interface DigitalTwinModelsListNextExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for Query_queryTwins operation. */
 export interface QueryQueryTwinsHeaders {
   /** The query charge. */
   queryCharge?: number;
+}
+
+/** Defines headers for Query_queryTwins operation. */
+export interface QueryQueryTwinsExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
 /** Defines headers for DigitalTwins_getById operation. */
@@ -143,10 +272,28 @@ export interface DigitalTwinsGetByIdHeaders {
   etag?: string;
 }
 
+/** Defines headers for DigitalTwins_getById operation. */
+export interface DigitalTwinsGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for DigitalTwins_add operation. */
 export interface DigitalTwinsAddHeaders {
   /** Weak Etag. */
   etag?: string;
+}
+
+/** Defines headers for DigitalTwins_add operation. */
+export interface DigitalTwinsAddExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_delete operation. */
+export interface DigitalTwinsDeleteExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
 /** Defines headers for DigitalTwins_update operation. */
@@ -155,10 +302,22 @@ export interface DigitalTwinsUpdateHeaders {
   etag?: string;
 }
 
+/** Defines headers for DigitalTwins_update operation. */
+export interface DigitalTwinsUpdateExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for DigitalTwins_getRelationshipById operation. */
 export interface DigitalTwinsGetRelationshipByIdHeaders {
   /** Weak Etag. */
   etag?: string;
+}
+
+/** Defines headers for DigitalTwins_getRelationshipById operation. */
+export interface DigitalTwinsGetRelationshipByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
 /** Defines headers for DigitalTwins_addRelationship operation. */
@@ -167,10 +326,52 @@ export interface DigitalTwinsAddRelationshipHeaders {
   etag?: string;
 }
 
+/** Defines headers for DigitalTwins_addRelationship operation. */
+export interface DigitalTwinsAddRelationshipExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_deleteRelationship operation. */
+export interface DigitalTwinsDeleteRelationshipExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for DigitalTwins_updateRelationship operation. */
 export interface DigitalTwinsUpdateRelationshipHeaders {
   /** Weak Etag. */
   etag?: string;
+}
+
+/** Defines headers for DigitalTwins_updateRelationship operation. */
+export interface DigitalTwinsUpdateRelationshipExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_listRelationships operation. */
+export interface DigitalTwinsListRelationshipsExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_listIncomingRelationships operation. */
+export interface DigitalTwinsListIncomingRelationshipsExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_sendTelemetry operation. */
+export interface DigitalTwinsSendTelemetryExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_sendComponentTelemetry operation. */
+export interface DigitalTwinsSendComponentTelemetryExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
 /** Defines headers for DigitalTwins_getComponent operation. */
@@ -179,18 +380,146 @@ export interface DigitalTwinsGetComponentHeaders {
   etag?: string;
 }
 
+/** Defines headers for DigitalTwins_getComponent operation. */
+export interface DigitalTwinsGetComponentExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for DigitalTwins_updateComponent operation. */
 export interface DigitalTwinsUpdateComponentHeaders {
   /** Weak Etag. */
   etag?: string;
 }
 
+/** Defines headers for DigitalTwins_updateComponent operation. */
+export interface DigitalTwinsUpdateComponentExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_listRelationshipsNext operation. */
+export interface DigitalTwinsListRelationshipsNextExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DigitalTwins_listIncomingRelationshipsNext operation. */
+export interface DigitalTwinsListIncomingRelationshipsNextExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for EventRoutes_list operation. */
+export interface EventRoutesListExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for EventRoutes_getById operation. */
+export interface EventRoutesGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for EventRoutes_add operation. */
+export interface EventRoutesAddExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for EventRoutes_delete operation. */
+export interface EventRoutesDeleteExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for EventRoutes_listNext operation. */
+export interface EventRoutesListNextExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for ImportJobs_list operation. */
+export interface ImportJobsListExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for ImportJobs_add operation. */
+export interface ImportJobsAddExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for ImportJobs_getById operation. */
+export interface ImportJobsGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for ImportJobs_delete operation. */
+export interface ImportJobsDeleteExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for ImportJobs_cancel operation. */
+export interface ImportJobsCancelExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for ImportJobs_listNext operation. */
+export interface ImportJobsListNextExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DeleteJobs_add operation. */
+export interface DeleteJobsAddHeaders {
+  /** The URL to track the status of the long running operation. */
+  operationLocation?: string;
+}
+
+/** Defines headers for DeleteJobs_add operation. */
+export interface DeleteJobsAddExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DeleteJobs_list operation. */
+export interface DeleteJobsListExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DeleteJobs_getById operation. */
+export interface DeleteJobsGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for DeleteJobs_listNext operation. */
+export interface DeleteJobsListNextExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines values for Status. */
+export type Status =
+  | "notstarted"
+  | "running"
+  | "failed"
+  | "succeeded"
+  | "cancelling"
+  | "cancelled";
+/** Defines values for DeleteJobStatus. */
+export type DeleteJobStatus = "notstarted" | "running" | "failed" | "succeeded";
+
 /** Optional parameters. */
 export interface DigitalTwinModelsAddOptionalParams
-  extends coreClient.OperationOptions {
-  /** An array of models to add. */
-  models?: Record<string, unknown>[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the add operation. */
 export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[];
@@ -198,7 +527,7 @@ export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[];
 /** Optional parameters. */
 export interface DigitalTwinModelsListOptionalParams
   extends coreClient.OperationOptions {
-  /** The set of the models which will have their dependencies retrieved. If omitted, all models are retrieved. */
+  /** If specified, only return the set of the specified models along with their dependencies. If omitted, all models are retrieved. */
   dependenciesFor?: string[];
   /** When true the model definition will be returned as part of the result. */
   includeModelDefinition?: boolean;
@@ -207,7 +536,8 @@ export interface DigitalTwinModelsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection;
+export type DigitalTwinModelsListResponse =
+  PagedDigitalTwinsModelDataCollection;
 
 /** Optional parameters. */
 export interface DigitalTwinModelsGetByIdOptionalParams
@@ -235,7 +565,8 @@ export interface DigitalTwinModelsListNextOptionalParams
 }
 
 /** Contains response data for the listNext operation. */
-export type DigitalTwinModelsListNextResponse = PagedDigitalTwinsModelDataCollection;
+export type DigitalTwinModelsListNextResponse =
+  PagedDigitalTwinsModelDataCollection;
 
 /** Optional parameters. */
 export interface QueryQueryTwinsOptionalParams
@@ -252,8 +583,9 @@ export interface DigitalTwinsGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsAddOptionalParams
@@ -263,8 +595,9 @@ export interface DigitalTwinsAddOptionalParams
 }
 
 /** Contains response data for the add operation. */
-export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
+  [propertyName: string]: any;
+};
 
 /** Optional parameters. */
 export interface DigitalTwinsDeleteOptionalParams
@@ -288,8 +621,8 @@ export interface DigitalTwinsGetRelationshipByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRelationshipById operation. */
-export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsGetRelationshipByIdResponse =
+  DigitalTwinsGetRelationshipByIdHeaders & { [propertyName: string]: any };
 
 /** Optional parameters. */
 export interface DigitalTwinsAddRelationshipOptionalParams
@@ -299,8 +632,8 @@ export interface DigitalTwinsAddRelationshipOptionalParams
 }
 
 /** Contains response data for the addRelationship operation. */
-export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsAddRelationshipResponse =
+  DigitalTwinsAddRelationshipHeaders & { [propertyName: string]: any };
 
 /** Optional parameters. */
 export interface DigitalTwinsDeleteRelationshipOptionalParams
@@ -317,7 +650,8 @@ export interface DigitalTwinsUpdateRelationshipOptionalParams
 }
 
 /** Contains response data for the updateRelationship operation. */
-export type DigitalTwinsUpdateRelationshipResponse = DigitalTwinsUpdateRelationshipHeaders;
+export type DigitalTwinsUpdateRelationshipResponse =
+  DigitalTwinsUpdateRelationshipHeaders;
 
 /** Optional parameters. */
 export interface DigitalTwinsListRelationshipsOptionalParams
@@ -334,7 +668,8 @@ export interface DigitalTwinsListIncomingRelationshipsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listIncomingRelationships operation. */
-export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection;
+export type DigitalTwinsListIncomingRelationshipsResponse =
+  IncomingRelationshipCollection;
 
 /** Optional parameters. */
 export interface DigitalTwinsSendTelemetryOptionalParams
@@ -355,8 +690,8 @@ export interface DigitalTwinsGetComponentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getComponent operation. */
-export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders &
-  Record<string, unknown>;
+export type DigitalTwinsGetComponentResponse =
+  DigitalTwinsGetComponentHeaders & { [propertyName: string]: any };
 
 /** Optional parameters. */
 export interface DigitalTwinsUpdateComponentOptionalParams
@@ -366,7 +701,8 @@ export interface DigitalTwinsUpdateComponentOptionalParams
 }
 
 /** Contains response data for the updateComponent operation. */
-export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHeaders;
+export type DigitalTwinsUpdateComponentResponse =
+  DigitalTwinsUpdateComponentHeaders;
 
 /** Optional parameters. */
 export interface DigitalTwinsListRelationshipsNextOptionalParams
@@ -380,7 +716,8 @@ export interface DigitalTwinsListIncomingRelationshipsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listIncomingRelationshipsNext operation. */
-export type DigitalTwinsListIncomingRelationshipsNextResponse = IncomingRelationshipCollection;
+export type DigitalTwinsListIncomingRelationshipsNextResponse =
+  IncomingRelationshipCollection;
 
 /** Optional parameters. */
 export interface EventRoutesListOptionalParams
@@ -401,10 +738,7 @@ export type EventRoutesGetByIdResponse = EventRoute;
 
 /** Optional parameters. */
 export interface EventRoutesAddOptionalParams
-  extends coreClient.OperationOptions {
-  /** The event route data */
-  eventRoute?: EventRoute;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface EventRoutesDeleteOptionalParams
@@ -421,12 +755,100 @@ export interface EventRoutesListNextOptionalParams
 export type EventRoutesListNextResponse = EventRouteCollection;
 
 /** Optional parameters. */
+export interface ImportJobsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ImportJobsListResponse = ImportJobCollection;
+
+/** Optional parameters. */
+export interface ImportJobsAddOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the add operation. */
+export type ImportJobsAddResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsGetByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getById operation. */
+export type ImportJobsGetByIdResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ImportJobsCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the cancel operation. */
+export type ImportJobsCancelResponse = ImportJob;
+
+/** Optional parameters. */
+export interface ImportJobsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type ImportJobsListNextResponse = ImportJobCollection;
+
+/** Optional parameters. */
+export interface DeleteJobsAddOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the add operation. */
+export type DeleteJobsAddResponse = DeleteJobsAddHeaders & DeleteJob;
+
+/** Optional parameters. */
+export interface DeleteJobsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
+}
+
+/** Contains response data for the list operation. */
+export type DeleteJobsListResponse = DeleteJobCollection;
+
+/** Optional parameters. */
+export interface DeleteJobsGetByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getById operation. */
+export type DeleteJobsGetByIdResponse = DeleteJob;
+
+/** Optional parameters. */
+export interface DeleteJobsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of items to retrieve per request. The server may choose to return less than the requested number. */
+  resultsPerPage?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type DeleteJobsListNextResponse = DeleteJobCollection;
+
+/** Optional parameters. */
 export interface AzureDigitalTwinsAPIOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
   apiVersion?: string;
+  /** ID for the operation's status monitor. The ID is generated if header was not passed by the client. */
+  operationId?: string;
+  /** Desired timeout for the delete job. Once the specified timeout is reached, service will stop any delete operations triggered by the current delete job that are in progress, and go to a failed state. Please note that this will leave your instance in an unknown state as there won't be any rollback operation. */
+  timeoutInMinutes?: number;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

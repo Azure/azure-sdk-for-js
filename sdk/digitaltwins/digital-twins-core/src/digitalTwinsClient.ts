@@ -504,7 +504,7 @@ export class DigitalTwinsClient {
         models: dtdlModels,
       },
       async (updatedOptions) => {
-        return this.client.digitalTwinModels.add(updatedOptions);
+        return this.client.digitalTwinModels.add(dtdlModels, updatedOptions);
       },
     );
   }
@@ -595,17 +595,18 @@ export class DigitalTwinsClient {
     filter: string,
     options: OperationOptions = {},
   ): Promise<void> {
+    const eventRoute = {
+      endpointName: endpointId,
+      filter,
+    };
     return tracingClient.withSpan(
       "DigitalTwinsClient.upsertEventRoute",
       {
-        eventRoute: {
-          endpointName: endpointId,
-          filter,
-        },
+        eventRoute,
         ...options,
       },
       async (updatedOptions) => {
-        return this.client.eventRoutes.add(eventRouteId, updatedOptions);
+        return this.client.eventRoutes.add(eventRouteId, eventRoute, updatedOptions);
       },
     );
   }
