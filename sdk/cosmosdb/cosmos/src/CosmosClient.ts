@@ -22,6 +22,7 @@ import type { RequestOptions } from "./request/index.js";
 import { ResourceResponse } from "./request/index.js";
 import { checkURL } from "./utils/checkURL.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics.js";
+import { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -154,6 +155,11 @@ export class CosmosClient {
         this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
+    const globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+      optionsOrConnectionString,
+      globalEndpointManager,
+    );
+
     this.clientContext = new ClientContext(
       optionsOrConnectionString,
       globalEndpointManager,
@@ -162,6 +168,7 @@ export class CosmosClient {
         optionsOrConnectionString.diagnosticLevel,
         getDiagnosticLevelFromEnvironment(),
       ),
+      globalPartitionEndpointManager,
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&

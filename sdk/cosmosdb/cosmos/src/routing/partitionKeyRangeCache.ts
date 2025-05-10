@@ -9,6 +9,10 @@ import { withMetadataDiagnostics } from "../utils/diagnostics.js";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory.js";
 import type { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap.js";
 import type { QueryRange } from "./QueryRange.js";
+import type { PartitionKeyDefinition } from "../documents/PartitionKeyDefinition.js";
+import type { PartitionKeyInternal } from "../documents/PartitionKeyInternal.js";
+import { isKeyInRange } from "../utils/batch.js";
+import { hashPartitionKey } from "../utils/hashing/hash.js";
 
 /** @hidden */
 export class PartitionKeyRangeCache {
@@ -67,5 +71,32 @@ export class PartitionKeyRangeCache {
       MetadataLookUpType.PartitionKeyRangeLookUp,
     );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
+  }
+
+  /**
+   * @hidden
+   */
+  public async getPartitionKeyRangeIdFromPartitionKey(
+    collectionLink: string,
+    partitionKey: PartitionKeyInternal,
+    partitionKeyDefinition: PartitionKeyDefinition,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<string> {
+    const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
+    const partitionKeyRanges = (
+      await this.onCollectionRoutingMap(collectionLink, diagnosticNode)
+    ).getOrderedParitionKeyRanges();
+
+    for (const partitionKeyRange of partitionKeyRanges) {
+      if (
+        isKeyInRange(
+          partitionKeyRange.minInclusive,
+          partitionKeyRange.maxExclusive,
+          hashedPartitionKey,
+        )
+      ) {
+        return partitionKeyRange.id;
+      }
+    }
   }
 }

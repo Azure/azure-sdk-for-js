@@ -118,6 +118,19 @@ describe("RetryPolicy", () => {
         databaseAccountResponse,
         collectionResponse,
         { code: 503, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
+        {
+          code: 200,
+          result: {
+            PartitionKeyRanges: [
+              {
+                minInclusive: "",
+                maxExclusive: "FF",
+              },
+            ],
+          },
+          headers: {},
+          diagnostics: getEmptyCosmosDiagnostics(),
+        },
         { code: 200, result: {}, headers: {}, diagnostics: getEmptyCosmosDiagnostics() },
       ];
       const options = {
@@ -130,7 +143,7 @@ describe("RetryPolicy", () => {
         .database("foo")
         .container("foo")
         .items.upsert({ id: "foo", _partitionKey: "bar" });
-      assert.equal(lastEndpointCalled.length, 4);
+      assert.equal(lastEndpointCalled.length, 5);
       assert.equal(lastEndpointCalled[2], "https://failovertest-eastus.documents.azure.com:443/");
       assert.equal(
         lastEndpointCalled[3],

@@ -33,6 +33,7 @@ export class GlobalEndpointManager {
   private readableLocations: Location[] = [];
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
+  private enableMultipleWriteLocations: boolean;
 
   public preferredLocationsCount: number;
   /**
@@ -76,6 +77,12 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
+  public async getAvailableReadEndpoints(): Promise<ReadonlyArray<string>> {
+    return this.readableLocations
+      .filter((loc) => !loc.unavailable)
+      .map((loc) => loc.databaseAccountEndpoint);
+  }
+
   public async markCurrentLocationUnavailableForRead(
     diagnosticNode: DiagnosticNodeInternal,
     endpoint: string,
@@ -108,7 +115,8 @@ export class GlobalEndpointManager {
     resourceType?: ResourceType,
     operationType?: OperationType,
   ): boolean {
-    let canUse = this.options.connectionPolicy.useMultipleWriteLocations;
+    let canUse =
+      this.options.connectionPolicy.useMultipleWriteLocations && this.enableMultipleWriteLocations;
 
     if (resourceType) {
       canUse =
@@ -154,6 +162,7 @@ export class GlobalEndpointManager {
 
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
+      this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
     }
 
     const locations = isReadRequest(operationType)
