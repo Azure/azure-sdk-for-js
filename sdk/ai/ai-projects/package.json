@@ -109,6 +109,7 @@
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
+    "prettier": "^3.2.5",
     "playwright": "^1.41.2",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9"
