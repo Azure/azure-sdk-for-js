@@ -38,22 +38,12 @@ To use the MCP inspector, simply run `rushx start:inspect` from this directory a
 - **Tools**: Extendable functionalities registered with the server, such as the `hello_world` tool.
 - **Schemas**: Validation schemas for tool inputs, defined using [Zod](https://zod.dev/).
 
-## Examples
+## Tools
 
-### Hello World Tool
+The MCP server includes the following tools:
 
-The `hello_world` tool demonstrates a simple implementation:
-
-```ts snippet:ReadmeSampleHelloWorld
-import { helloWorldSchema, helloWorld } from "../src/tools/helloWorld.js";
-
-server.tool(
-  "hello_world",
-  "Prints hello world",
-  helloWorldSchema.shape,
-  async (args) => await helloWorld(args),
-);
-```
+- **list_packages**: Lists all packages in the repository with an optional filter for package names or package types.
+- **is_formatted**: Checks if code is formatted correctly using Prettier.
 
 ## Next Steps
 
