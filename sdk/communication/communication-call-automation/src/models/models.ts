@@ -6,6 +6,7 @@ import type {
   CommunicationUserIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
+  TeamsExtensionUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
 import type {
@@ -21,18 +22,45 @@ export {
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
   KnownMediaStreamingTransportType,
+  KnownCallConnectionStateModel,
+  KnownTranscriptionTransportType,
+  KnownRecognitionType,
+  KnownRecordingState,
+  KnownRecordingKind,
+  KnownTone,
+  KnownAudioFormat,
+  KnownMediaStreamingSubscriptionState,
+  KnownTranscriptionResultState,
+  KnownTranscriptionSubscriptionState,
+  KnownMediaStreamingStatus,
+  KnownMediaStreamingStatusDetails,
+  KnownTranscriptionStatus,
+  KnownTranscriptionStatusDetails,
   MediaStreamingAudioChannelType,
   MediaStreamingOptions,
   MediaStreamingContentType,
   MediaStreamingTransportType,
+  MediaStreamingSubscription,
   TranscriptionOptions,
   TranscriptionTransportType,
+  TranscriptionSubscription,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
   SpeechResult,
   RecordingState,
+  RecordingKind,
   Tone,
+  AudioFormat,
+  MediaStreamingUpdate,
+  MediaStreamingSubscriptionState,
+  TranscriptionResultState,
+  TranscriptionUpdate,
+  TranscriptionSubscriptionState,
+  MediaStreamingStatus,
+  MediaStreamingStatusDetails,
+  TranscriptionStatus,
+  TranscriptionStatusDetails,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -56,8 +84,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
@@ -98,8 +124,6 @@ export enum VoiceKind {
 export interface PlaySource {
   /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
   playsourcacheid?: string;
-  /** Sets the play source cache id.*/
-  playSourceCacheId?: string;
 }
 
 /** The FileSource model. */
@@ -174,18 +198,17 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
 export interface CallInvite {
-  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
+  /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier, MicrosoftTeamsAppIdentifier or TeamsExtensionUserIdentifier. */
   readonly targetParticipant:
     | PhoneNumberIdentifier
     | CommunicationUserIdentifier
     | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier;
+    | MicrosoftTeamsAppIdentifier
+    | TeamsExtensionUserIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -204,9 +227,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The format type of a call recording. */
-export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
 
 /** The storage type of a call recording. */
 export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
@@ -230,7 +250,7 @@ export interface RecordingStorage {
   recordingDestinationContainerUrl?: string;
 }
 
-interface CustomCallingContextHeader {
+export interface CustomCallingContextHeader {
   key: string;
   value: string;
 }
@@ -248,11 +268,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 /** SIP Custom header. */
 export interface SipCustomHeader extends CustomCallingContextHeader {
   kind: "sipx";
-  sipHeaderPrefix?: SipHeaderPrefix;
 }
-
-/** The type of the Sip header prefix. */
-export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Custom Calling Context */
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];

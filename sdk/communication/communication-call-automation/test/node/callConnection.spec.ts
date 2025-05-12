@@ -14,10 +14,6 @@ import type {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
-  AddParticipantEventResult,
-  TransferCallToParticipantEventResult,
-  RemoveParticipantEventResult,
-  CancelAddParticipantEventResult,
   CancelAddParticipantSucceeded,
   CreateCallOptions,
   AnswerCallOptions,
@@ -26,12 +22,7 @@ import type {
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
 } from "../../src/index.js";
-import {
-  CALL_TARGET_ID,
-  CALL_TARGET_ID_2,
-  PHONE_TARGET_ID,
-  PHONE_TARGET_ID_2,
-} from "../utils/connectionUtils.js";
+import { CALL_TARGET_ID, CALL_TARGET_ID_2, PHONE_TARGET_ID } from "../utils/connectionUtils.js";
 import {
   createRecorder,
   createTestUser,
@@ -74,7 +65,6 @@ import { CallConnection } from "../../src/index.js";
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
   let phoneTarget: CallInvite;
-  let phoneTarget2: CallInvite;
   let callConnection: MockedObject<CallConnection>;
 
   beforeEach(() => {
@@ -88,21 +78,8 @@ describe("CallConnection Unit Tests", () => {
       customCallingContext: [
         {
           kind: "sipx",
-          key: "TestKey",
+          key: "X-MS-Custom-TestKey",
           value: "TestValue",
-          sipHeaderPrefix: "X-MS-Custom-",
-        },
-      ],
-    };
-
-    phoneTarget2 = {
-      targetParticipant: { phoneNumber: PHONE_TARGET_ID_2 },
-      customCallingContext: [
-        {
-          kind: "sipx",
-          key: "TestKey2",
-          value: "TestValue2",
-          sipHeaderPrefix: "X-",
         },
       ],
     };
@@ -110,7 +87,6 @@ describe("CallConnection Unit Tests", () => {
     // stub CallConnection
     callConnection = vi.mocked(
       new CallConnection(
-        expect.anything(),
         expect.anything(),
         expect.anything(),
         expect.anything(),
@@ -205,11 +181,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("AddParticipant", async () => {
     // mocks
-    const addParticipantResultMock: AddParticipantResult = {
-      waitForEventProcessor: async () => {
-        return {} as AddParticipantEventResult;
-      },
-    };
+    const addParticipantResultMock: AddParticipantResult = {};
     callConnection.addParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
@@ -227,11 +199,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipant", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -249,11 +217,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipantPSTNXMSCustomHeader", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -280,46 +244,9 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
-  it("TransferCallToParticipantPSTNXHeader", async () => {
-    // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
-    callConnection.transferCallToParticipant.mockReturnValue(
-      new Promise((resolve) => {
-        resolve(transferCallResultMock);
-      }),
-    );
-
-    const options: TransferCallToParticipantOptions = {
-      customCallingContext: phoneTarget2.customCallingContext,
-      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
-    };
-
-    const promiseResult = callConnection.transferCallToParticipant(
-      phoneTarget2.targetParticipant,
-      options,
-    );
-
-    // asserts
-    const result = await promiseResult;
-    assert.isNotNull(result);
-    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
-      phoneTarget2.targetParticipant,
-      options,
-    );
-    assert.equal(result, transferCallResultMock);
-  });
-
   it("TransferCallToParticipantWithTransferee", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -344,11 +271,7 @@ describe("CallConnection Unit Tests", () => {
 
   it("TransferCallToParticipantWithTransfereePSTNXMSHeader", async () => {
     // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
+    const transferCallResultMock: TransferCallResult = {};
     callConnection.transferCallToParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
@@ -377,48 +300,9 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
-  it("TransferCallToParticipantWithTransfereePSTNXHeader", async () => {
-    // mocks
-    const transferCallResultMock: TransferCallResult = {
-      waitForEventProcessor: async () => {
-        return {} as TransferCallToParticipantEventResult;
-      },
-    };
-    callConnection.transferCallToParticipant.mockReturnValue(
-      new Promise((resolve) => {
-        resolve(transferCallResultMock);
-      }),
-    );
-
-    const transferee = { communicationUserId: CALL_TARGET_ID };
-
-    const options: TransferCallToParticipantOptions = {
-      customCallingContext: phoneTarget2.customCallingContext,
-      sourceCallIdNumber: { phoneNumber: PHONE_TARGET_ID_2 },
-      transferee: transferee,
-    };
-    const promiseResult = callConnection.transferCallToParticipant(
-      phoneTarget2.targetParticipant,
-      options,
-    );
-
-    // asserts
-    const result = await promiseResult;
-    assert.isNotNull(result);
-    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
-      phoneTarget2.targetParticipant,
-      options,
-    );
-    assert.equal(result, transferCallResultMock);
-  });
-
   it("RemoveParticipant", async () => {
     // mocks
-    const removeParticipantResultMock: RemoveParticipantResult = {
-      waitForEventProcessor: async () => {
-        return {} as RemoveParticipantEventResult;
-      },
-    };
+    const removeParticipantResultMock: RemoveParticipantResult = {};
     callConnection.removeParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);
@@ -454,22 +338,19 @@ describe("CallConnection Unit Tests", () => {
 
   it("CancelAddParticipant", async () => {
     const invitationId = "invitationId";
-    const cancelAddParticipantResultMock: CancelAddParticipantOperationResult = {
+    const cancelAddParticipantOperationResultMock: CancelAddParticipantOperationResult = {
       invitationId,
-      waitForEventProcessor: async () => {
-        return {} as CancelAddParticipantEventResult;
-      },
     };
     callConnection.cancelAddParticipantOperation.mockReturnValue(
       new Promise((resolve) => {
-        resolve(cancelAddParticipantResultMock);
+        resolve(cancelAddParticipantOperationResultMock);
       }),
     );
 
     const result = await callConnection.cancelAddParticipantOperation(invitationId);
     assert.isNotNull(result);
     expect(callConnection.cancelAddParticipantOperation).toHaveBeenCalledWith(invitationId);
-    assert.equal(result, cancelAddParticipantResultMock);
+    assert.equal(result, cancelAddParticipantOperationResultMock);
   });
 });
 
@@ -493,6 +374,13 @@ describe("CallConnection Live Tests", function () {
 
   afterEach(async function () {
     persistEvents(testName);
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch (e) {
+        console.log("Call is terminated");
+      }
+    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
