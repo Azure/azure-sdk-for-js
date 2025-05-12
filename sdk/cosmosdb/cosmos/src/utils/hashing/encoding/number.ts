@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { concatUint8Arrays, hexStringToUint8Array } from "../../uint8.js";
 import { BytePrefix } from "./prefix.js";
 
-export function writeNumberForBinaryEncodingBigInt(hash: number): Buffer {
+export function writeNumberForBinaryEncodingBigInt(hash: number): Uint8Array {
   let payload = encodeNumberAsUInt64BigInt(hash);
-  let outputStream = Buffer.from(BytePrefix.Number, "hex");
-  const firstChunk = (payload >> BigInt(56)) & BigInt(0xff);
+  // Convert the BytePrefix.Number hex string to Uint8Array.
+  let outputStream = hexStringToUint8Array(BytePrefix.Number);
 
-  outputStream = Buffer.concat([
+  const firstChunk = (payload >> BigInt(56)) & BigInt(0xff);
+  outputStream = concatUint8Arrays([
     outputStream,
-    Buffer.from(firstChunk.toString(16).padStart(2, "0"), "hex"),
+    hexStringToUint8Array(firstChunk.toString(16).padStart(2, "0")),
   ]);
+
   payload = (payload << BigInt(8)) & BigInt("0xffffffffffffffff");
 
   let byteToWrite = BigInt(0);
@@ -21,7 +24,7 @@ export function writeNumberForBinaryEncodingBigInt(hash: number): Buffer {
     if (!firstIteration) {
       const padded = byteToWrite.toString(16).padStart(2, "0");
       if (padded !== "00") {
-        outputStream = Buffer.concat([outputStream, Buffer.from(padded, "hex")]);
+        outputStream = concatUint8Arrays([outputStream, hexStringToUint8Array(padded)]);
       }
     } else {
       firstIteration = false;
@@ -35,7 +38,7 @@ export function writeNumberForBinaryEncodingBigInt(hash: number): Buffer {
   const lastChunk = byteToWrite & BigInt(0xfe);
   const padded = lastChunk.toString(16).padStart(2, "0");
   if (padded !== "00") {
-    outputStream = Buffer.concat([outputStream, Buffer.from(padded, "hex")]);
+    outputStream = concatUint8Arrays([outputStream, hexStringToUint8Array(padded)]);
   }
 
   return outputStream;
@@ -43,24 +46,26 @@ export function writeNumberForBinaryEncodingBigInt(hash: number): Buffer {
 
 function encodeNumberAsUInt64BigInt(value: number): bigint {
   const rawValueBits = getRawBitsBigInt(value);
-  const mask = BigInt(0x8000000000000000);
+  const mask = BigInt("0x8000000000000000");
   return mask > rawValueBits ? rawValueBits ^ mask : ~rawValueBits + BigInt(1);
 }
 
 function getRawBitsBigInt(value: number): bigint {
-  const view = new DataView(new ArrayBuffer(8));
+  const buffer = new ArrayBuffer(8);
+  const view = new DataView(buffer);
   view.setFloat64(0, value);
-  return BigInt(`0x${buf2hex(view.buffer)}`);
+  // Convert the underlying bytes to a hex string.
+  return BigInt("0x" + buf2hex(new Uint8Array(buffer)));
 }
 
-function buf2hex(buffer: ArrayBuffer): string {
-  return Array.prototype.map
-    .call(new Uint8Array(buffer), (x: number) => ("00" + x.toString(16)).slice(-2))
+function buf2hex(arr: Uint8Array): string {
+  return Array.from(arr)
+    .map((x) => x.toString(16).padStart(2, "0"))
     .join("");
 }
 
-export function doubleToByteArrayBigInt(double: number): Buffer {
-  const output: Buffer = Buffer.alloc(8);
+export function doubleToByteArrayBigInt(double: number): Uint8Array {
+  const output = new Uint8Array(8);
   const lng = getRawBitsBigInt(double);
   for (let i = 0; i < 8; i++) {
     output[i] = Number((lng >> BigInt(i * 8)) & BigInt(0xff));
