@@ -23,8 +23,8 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: ai
-    # TODO: put artifacts for inference and agents back when ready for release
     Artifacts:
+      # TODO: put artifacts for inference and agents back when ready for release
       - name: azure-ai-projects
         safeName: azureaaiprojects
 

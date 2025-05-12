@@ -42,8 +42,8 @@ export async function main(): Promise<void> {
           deploymentName: "gpt-4o-mini",
         },
         dataMapping: {
-          "query": "${data.query}",
-          "response": "${data.response}",
+          query: "${data.query}",
+          response: "${data.response}",
         },
       },
     },

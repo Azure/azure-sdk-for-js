@@ -31,7 +31,11 @@ export async function main(): Promise<void> {
   };
 
   // Create a new Index
-  const newIndex = await project.indexes.createOrUpdate(indexName, version, azureAIConnectionConfig);
+  const newIndex = await project.indexes.createOrUpdate(
+    indexName,
+    version,
+    azureAIConnectionConfig,
+  );
   console.log("Created a new Index:", newIndex);
   console.log(`Get an existing Index version '${version}':`);
   const index = await project.indexes.get(indexName, version);
