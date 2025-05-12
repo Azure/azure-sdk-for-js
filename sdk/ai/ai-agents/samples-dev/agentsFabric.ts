@@ -71,7 +71,7 @@ export async function main(): Promise<void> {
 
   // Get the first message
   for await (const m of messagesIterator) {
-    const agentMessage: MessageContent = message.content[0];
+    const agentMessage: MessageContent = m.content[0];
     if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
       const textContent = agentMessage as MessageTextContent;
       console.log(`Text Message Content - ${textContent.text.value}`);

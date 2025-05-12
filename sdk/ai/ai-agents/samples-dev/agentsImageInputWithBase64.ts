@@ -110,7 +110,7 @@ export async function main(): Promise<void> {
     }
   }
 
-  const messagesIterator = await client.messages.list(thread.id);
+  const messagesIterator = client.messages.list(thread.id);
   const allMessages = [];
   for await (const m of messagesIterator) {
     allMessages.push(m);
