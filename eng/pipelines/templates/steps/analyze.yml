@@ -42,14 +42,17 @@ steps:
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
 
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: ""
-        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: sdk/${{ parameters.ServiceDirectory }}
-      CheckLinkGuidance: $true
+  # DISABLING LINK CHECKING DUE TO ISSUES WITH GH
+  # https://github.com/orgs/community/discussions/157887
+  # PR To help: https://github.com/Azure/azure-sdk-tools/pull/10593/
+  # - template: /eng/common/pipelines/templates/steps/verify-links.yml
+  #   parameters:
+  #     ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  #       Directory: ""
+  #       Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
+  #     ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+  #       Directory: sdk/${{ parameters.ServiceDirectory }}
+  #     CheckLinkGuidance: $true
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
