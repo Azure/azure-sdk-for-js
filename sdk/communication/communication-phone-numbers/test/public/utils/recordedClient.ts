@@ -52,7 +52,7 @@ const sanitizerOptions: SanitizerOptions = {
     {
       regex: true,
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
-      value: `sanitized`,
+      value: `00000000-0000-0000-0000-000000000000`,
     },
   ],
 };

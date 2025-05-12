@@ -18,8 +18,19 @@ import {
   PhoneNumbersListAvailableLocalitiesOptionalParams,
   PhoneNumberOffering,
   PhoneNumbersListOfferingsOptionalParams,
+  PhoneNumbersReservation,
+  PhoneNumbersListReservationsOptionalParams,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersOptionalParams,
+  PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersBrowseAvailableNumbersResponse,
+  PhoneNumbersCreateOrUpdateReservationOptionalParams,
+  PhoneNumbersCreateOrUpdateReservationResponse,
+  PhoneNumbersGetReservationOptionalParams,
+  PhoneNumbersGetReservationResponse,
+  PhoneNumbersDeleteReservationOptionalParams,
+  PhoneNumbersPurchaseReservationOptionalParams,
+  PhoneNumbersPurchaseReservationResponse,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
@@ -81,12 +92,99 @@ export interface PhoneNumbers {
     options?: PhoneNumbersListOfferingsOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumberOffering>;
   /**
+   * Retrieves a paginated list of all phone number reservations. Note that the reservations will not be
+   * populated with the phone numbers associated with them.
+   * @param options The options parameters.
+   */
+  listReservations(
+    options?: PhoneNumbersListReservationsOptionalParams,
+  ): PagedAsyncIterableIterator<PhoneNumbersReservation>;
+  /**
    * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
   listPhoneNumbers(
     options?: PhoneNumbersListPhoneNumbersOptionalParams,
   ): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
+  /**
+   * Browses for available phone numbers to purchase. The response will be a randomized list of phone
+   * numbers available to purchase matching the browsing criteria. This operation is not paginated. Since
+   * the results are randomized, repeating the same request will not guarantee the same results.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param phoneNumberType Represents the number type of the offering.
+   * @param options The options parameters.
+   */
+  browseAvailableNumbers(
+    countryCode: string,
+    phoneNumberType: PhoneNumberType,
+    options?: PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  ): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
+  /**
+   * Adds and removes phone numbers from the reservation with the given ID. The response will be the
+   * updated state of the reservation. Phone numbers can be reserved by including them in the payload. If
+   * a number is already in the reservation, it will be ignored. To remove a phone number, set it
+   * explicitly to null in the request payload. This operation is idempotent. If a reservation with the
+   * same ID already exists, it will be updated, otherwise a new one is created. Only reservations with
+   * 'active' status can be updated. Updating a reservation will extend the expiration time of the
+   * reservation to 15 minutes after the last change, up to a maximum of 2 hours from creation time.
+   * Partial success is possible, in which case the response will have a 207 status code.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  createOrUpdateReservation(
+    reservationId: string,
+    options?: PhoneNumbersCreateOrUpdateReservationOptionalParams,
+  ): Promise<PhoneNumbersCreateOrUpdateReservationResponse>;
+  /**
+   * Retrieves the reservation with the given ID, including all of the phone numbers associated with it.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  getReservation(
+    reservationId: string,
+    options?: PhoneNumbersGetReservationOptionalParams,
+  ): Promise<PhoneNumbersGetReservationResponse>;
+  /**
+   * Deletes the reservation with the given ID. Any phone number in the reservation will be released and
+   * made available for others to purchase. Only reservations with 'active' status can be deleted.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  deleteReservation(
+    reservationId: string,
+    options?: PhoneNumbersDeleteReservationOptionalParams,
+  ): Promise<void>;
+  /**
+   * Starts a long running operation to purchase all of the phone numbers in the reservation. Purchase
+   * can only be started for active reservations that at least one phone number. If any of the phone
+   * numbers in the reservation is from a country where reselling is not permitted, do not resell
+   * agreement is required. The response will include an 'Operation-Location' header that can be used to
+   * query the status of the operation.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  beginPurchaseReservation(
+    reservationId: string,
+    options?: PhoneNumbersPurchaseReservationOptionalParams,
+  ): Promise<
+    PollerLike<
+      PollOperationState<PhoneNumbersPurchaseReservationResponse>,
+      PhoneNumbersPurchaseReservationResponse
+    >
+  >;
+  /**
+   * Starts a long running operation to purchase all of the phone numbers in the reservation. Purchase
+   * can only be started for active reservations that at least one phone number. If any of the phone
+   * numbers in the reservation is from a country where reselling is not permitted, do not resell
+   * agreement is required. The response will include an 'Operation-Location' header that can be used to
+   * query the status of the operation.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  beginPurchaseReservationAndWait(
+    reservationId: string,
+    options?: PhoneNumbersPurchaseReservationOptionalParams,
+  ): Promise<PhoneNumbersPurchaseReservationResponse>;
   /**
    * Search for available phone numbers to purchase.
    * @param countryCode The ISO 3166-2 country code, e.g. US.
