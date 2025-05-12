@@ -15,9 +15,7 @@ async function organizationsListByResourceGroupMaximumSet(): Promise<void> {
   const subscriptionId = "4AFC1287-D389-4265-B2D4-59B96A45CACC";
   const client = new AtlasClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.organizations.listByResourceGroup(
-    "rgopenapi",
-  )) {
+  for await (const item of client.organizations.listByResourceGroup("rgopenapi")) {
     resArray.push(item);
   }
 
@@ -35,9 +33,7 @@ async function organizationsListByResourceGroupMaximumSetGeneratedByMinimumSetRu
   const subscriptionId = "422A4D59-A5BC-4DBB-8831-EC666633F64F";
   const client = new AtlasClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.organizations.listByResourceGroup(
-    "rgopenapi",
-  )) {
+  for await (const item of client.organizations.listByResourceGroup("rgopenapi")) {
     resArray.push(item);
   }
 

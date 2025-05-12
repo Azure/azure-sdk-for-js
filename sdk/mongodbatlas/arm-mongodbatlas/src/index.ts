@@ -50,8 +50,5 @@ export {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./api/organizations/index.js";
-export {
-  OperationsOperations,
-  OrganizationsOperations,
-} from "./classic/index.js";
+export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
