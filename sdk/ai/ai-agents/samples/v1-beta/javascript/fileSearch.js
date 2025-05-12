@@ -8,13 +8,12 @@
  */
 
 const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents");
-const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const fs = require("fs");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -60,15 +59,19 @@ async function main() {
   );
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create run
-  let run = await client.runs.create(thread.id, agent.id);
-  while (["queued", "in_progress"].includes(run.status)) {
-    await delay(500);
-    run = await client.runs.get(thread.id, run.id);
-    console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
+  function onResponse(response) {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
   }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: onResponse,
+  });
+  console.log(`Run finished with status: ${run.status}`);
 
-  console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.messages.list(thread.id);
   for await (const threadMessage of messages) {
     console.log(

@@ -13,7 +13,7 @@ import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -45,17 +45,18 @@ export async function main(): Promise<void> {
   );
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create and process agent run in thread with tools
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
+  function onResponse(response: any): void {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
   }
-  if (run.status === "failed") {
-    console.log(`Run failed: ${run.lastError}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: onResponse,
+  });
   console.log(`Run finished with status: ${run.status}`);
-  console.log(`Failure: ${run.lastError?.message}`);
 
   // Delete the agent when done
   await client.deleteAgent(agent.id);
@@ -67,7 +68,7 @@ export async function main(): Promise<void> {
 
   // Get the first message
   for await (const m of messagesIterator) {
-    const agentMessage: MessageContent = message.content[0];
+    const agentMessage: MessageContent = m.content[0];
     if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
       const textContent = agentMessage as MessageTextContent;
       console.log(`Text Message Content - ${textContent.text.value}`);
