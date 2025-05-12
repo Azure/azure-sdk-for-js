@@ -3277,7 +3277,7 @@ describe("FileClient - NFS", () => {
   it("createSymbolicLink & getSymbolicLink", async function () {
     const owner = "123";
     const group = "456";
-    const expectedFileMode = parseSymbolicFileMode("rwxrwxrwx")
+    const expectedFileMode = parseSymbolicFileMode("rwxrwxrwx");
     const resp = await fileClient.createSymbolicLink("APath", { owner: owner, group: group });
     assert.deepEqual(resp.posixProperties?.owner, owner);
     assert.deepEqual(resp.posixProperties?.group, group);

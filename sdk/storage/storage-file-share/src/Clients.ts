@@ -3489,7 +3489,6 @@ export interface FileCreateHardLinkOptions extends CommonOptions {
  * - {@link ShareFileClient.createSymbolicLink}
  */
 export interface FileCreateSymbolicLinkOptions extends CommonOptions {
-
   /**
    * Metadata of the Azure file.
    */
@@ -3509,13 +3508,13 @@ export interface FileCreateSymbolicLinkOptions extends CommonOptions {
    */
   lastWriteTime?: Date | TimeNowType;
 
-  /** Optional, NFS only. 
-   * The owner of the file or directory. 
+  /** Optional, NFS only.
+   * The owner of the file or directory.
    * */
   owner?: string;
 
-  /** Optional, NFS only. 
-   * The owning group of the file or directory. 
+  /** Optional, NFS only.
+   * The owning group of the file or directory.
    * */
   group?: string;
 
@@ -5588,9 +5587,8 @@ export class ShareFileClient extends StorageClient {
             fileMode: parseOctalFileMode(rawResponse.fileMode),
             owner: rawResponse.owner,
             group: rawResponse.group,
-            fileType: rawResponse.nfsFileType
-
-          }
+            fileType: rawResponse.nfsFileType,
+          },
         } as any);
       },
     );
@@ -5607,10 +5605,12 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-getSymbolicLink",
       options,
       async (updatedOptions) => {
-        return assertResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>(await this.context.getSymbolicLink({
-          ...updatedOptions,
-          ...this.shareClientConfig,
-        }));
+        return assertResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>(
+          await this.context.getSymbolicLink({
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        );
       },
     );
   }
