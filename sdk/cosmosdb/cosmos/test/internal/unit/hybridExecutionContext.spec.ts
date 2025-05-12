@@ -7,6 +7,7 @@ import {
   DiagnosticNodeType,
 } from "../../../src/index.js";
 import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
+import type { ComponentWeight } from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
@@ -210,7 +211,12 @@ describe("hybridQueryExecutionContext", () => {
       ];
       const expectedSortedRids = ["3", "2", "1"];
 
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const comparator = (x: number, y: number): number => -1 * (x - y);
+      const componentWeights = [
+        { weight: 1, comparator },
+        { weight: 1, comparator },
+      ];
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       const resultRids = result.map((res) => res.rid);
       // Assert that the result rids are equal to the expected sorted rids
       assert.deepStrictEqual(resultRids, expectedSortedRids);
@@ -222,9 +228,11 @@ describe("hybridQueryExecutionContext", () => {
         { rid: "2", componentScores: [20], data: {}, score: 0, ranks: [] },
         { rid: "3", componentScores: [25], data: {}, score: 0, ranks: [] },
       ];
+      const comparator = (x: number, y: number): number => -1 * (x - y);
+      const componentWeights = [{ weight: 1, comparator }];
       const expectedSortedRids = ["1", "3", "2"];
 
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       const resultRids = result.map((res) => res.rid);
       // Assert that the result rids are equal to the expected sorted rids
       assert.deepStrictEqual(resultRids, expectedSortedRids);
@@ -236,7 +244,13 @@ describe("hybridQueryExecutionContext", () => {
       ];
       const expectedSortedRids = ["1"];
 
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const comparator = (x: number, y: number): number => -1 * (x - y);
+      const componentWeights = [
+        { weight: 1, comparator },
+        { weight: 1, comparator },
+        { weight: 1, comparator },
+      ];
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       const resultRids = result.map((res) => res.rid);
       // Assert that the result rids are equal to the expected sorted rids
       assert.deepStrictEqual(resultRids, expectedSortedRids);
@@ -244,7 +258,8 @@ describe("hybridQueryExecutionContext", () => {
 
     it("sortHybridSearchResultByRRFScore method should handle empty HybridSearchQueryResult array", async () => {
       const input: HybridSearchQueryResult[] = [];
-      const result = context["sortHybridSearchResultByRRFScore"](input);
+      const componentWeights: ComponentWeight[] = [];
+      const result = context["sortHybridSearchResultByRRFScore"](input, componentWeights);
       assert.deepStrictEqual(input, result);
     });
   });

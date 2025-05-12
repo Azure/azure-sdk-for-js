@@ -11,7 +11,7 @@
         }
       },
       "ArmTemplateParameters": "@{deployMIResources = $true}",
-      "TestType": "managed-identity",
+      "TestType": "node:managed-identity",
       "NodeTestVersion": "18.x",
       "TestResultsFiles": "**/test-results.xml"
     }

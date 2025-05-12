@@ -80,6 +80,10 @@ export interface HybridSearchQueryInfo {
    * Whether the query requires global statistics
    */
   requiresGlobalStatistics: boolean;
+  /**
+   * Represents the weights for each component in a hybrid search query.
+   */
+  componentWeights?: number[];
 }
 
 export type GroupByExpressions = string[];
