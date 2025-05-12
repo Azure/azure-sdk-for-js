@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-lambdatesthyperexecute": [
-        "./dist/esm"
-      ]
+      "@azure/arm-lambdatesthyperexecute": ["./dist/esm"]
     }
   }
 }
