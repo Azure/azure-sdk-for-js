@@ -13,4 +13,4 @@ export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./extensibleEnums.js";
 
-export default OnlineExperimentationClient;
+export { OnlineExperimentationClient };
