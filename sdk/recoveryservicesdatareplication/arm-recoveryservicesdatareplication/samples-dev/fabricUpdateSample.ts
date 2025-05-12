@@ -17,8 +17,8 @@ async function updatesTheFabric(): Promise<void> {
   const result = await client.fabric.update("rgswagger_2024-09-01", "wPR", {
     properties: {
       customProperties: {
-        instanceType: "FabricModelCustomProperties"
-      }
+        instanceType: "FabricModelCustomProperties",
+      },
     },
     tags: {},
   });

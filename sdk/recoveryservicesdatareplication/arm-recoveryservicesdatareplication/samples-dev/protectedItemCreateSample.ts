@@ -19,8 +19,8 @@ async function putsTheProtectedItem(): Promise<void> {
       policyName: "tjoeiynplt",
       replicationExtensionName: "jwxdo",
       customProperties: {
-        instanceType: "ProtectedItemModelCustomProperties"
-      }
+        instanceType: "ProtectedItemModelCustomProperties",
+      },
     },
   });
   console.log(result);

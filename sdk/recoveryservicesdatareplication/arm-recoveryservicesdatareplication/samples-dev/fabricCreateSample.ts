@@ -18,8 +18,8 @@ async function putsTheFabric(): Promise<void> {
     location: "tqygutlpob",
     properties: {
       customProperties: {
-        instanceType: "FabricModelCustomProperties"
-      }
+        instanceType: "FabricModelCustomProperties",
+      },
     },
   });
   console.log(result);

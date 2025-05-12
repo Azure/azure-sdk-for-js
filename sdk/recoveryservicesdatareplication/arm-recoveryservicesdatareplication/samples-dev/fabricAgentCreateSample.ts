@@ -33,8 +33,8 @@ async function putsTheFabricAgent(): Promise<void> {
         aadAuthority: "bubwwbowfhdmujrt",
       },
       customProperties: {
-        instanceType: "FabricAgentModelCustomProperties"
-      }
+        instanceType: "FabricAgentModelCustomProperties",
+      },
     },
   });
   console.log(result);

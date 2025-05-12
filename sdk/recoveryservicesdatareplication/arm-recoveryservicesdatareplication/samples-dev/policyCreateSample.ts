@@ -17,8 +17,8 @@ async function putsThePolicy(): Promise<void> {
   const result = await client.policy.create("rgrecoveryservicesdatareplication", "4", "fafqwc", {
     properties: {
       customProperties: {
-        instanceType: "PolicyModelCustomProperties"
-      }
+        instanceType: "PolicyModelCustomProperties",
+      },
     },
   });
   console.log(result);

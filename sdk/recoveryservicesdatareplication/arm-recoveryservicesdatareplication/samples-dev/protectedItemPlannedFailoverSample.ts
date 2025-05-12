@@ -21,9 +21,9 @@ async function performsPlannedFailover(): Promise<void> {
     {
       properties: {
         customProperties: {
-          instanceType: "PlannedFailoverModelCustomProperties"
-        }
-      }
+          instanceType: "PlannedFailoverModelCustomProperties",
+        },
+      },
     },
   );
   console.log(result);

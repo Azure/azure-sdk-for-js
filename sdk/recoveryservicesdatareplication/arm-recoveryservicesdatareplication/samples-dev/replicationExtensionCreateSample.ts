@@ -21,9 +21,9 @@ async function putsTheReplicationExtension(): Promise<void> {
     {
       properties: {
         customProperties: {
-          instanceType: "ReplicationExtensionModelCustomProperties"
-        }
-      }
+          instanceType: "ReplicationExtensionModelCustomProperties",
+        },
+      },
     },
   );
   console.log(result);
