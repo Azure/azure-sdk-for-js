@@ -2449,6 +2449,7 @@ packages:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
     resolution: {integrity: sha512-fQmp5+bBbTNGjhyJTmoHMUyu3tg3/C/ljfOKpANSUTWLvTHHwmgLdK6zVp5cZz4v8C74jGU1wN0CBXtei6fqkg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-c8PK8h5/+CSoTCut52wQz+lVsaEGJ7qPB4ZdkypInaOt/3ZbhUSUrqlvBwghYvzETqT2Nhs6MoqGzYtpBYQhIw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -7347,6 +7348,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/ai-agents@1.0.0-alpha.20250507.2':
+    dependencies:
+      '@azure-rest/core-client': 2.3.5
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-lro': 3.2.0
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-sse': 2.2.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/app-configuration@1.8.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -7535,6 +7552,13 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
+
+  '@azure/core-lro@3.2.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
 
   '@azure/core-paging@1.6.2':
     dependencies:
