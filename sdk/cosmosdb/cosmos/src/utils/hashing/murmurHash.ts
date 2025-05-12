@@ -9,7 +9,7 @@
 
 // PRIVATE FUNCTIONS
 // -----------------
-
+import { hexStringToUint8Array, uint8ArrayToHex } from "../uint8.js";
 function _x86Multiply(m: number, n: number) {
   //
   // Given two 32bit ints, returns the two multiplied together as a
@@ -175,7 +175,7 @@ function _x64Fmix(h: number[]) {
 // PUBLIC FUNCTIONS
 // ----------------
 
-function x86Hash32(bytes: Buffer, seed?: number) {
+function x86Hash32(bytes: Uint8Array, seed?: number) {
   //
   // Given a string and an optional seed as an int, returns a 32 bit hash
   // using the x86 flavor of MurmurHash3, as an unsigned int.
@@ -229,7 +229,7 @@ function x86Hash32(bytes: Buffer, seed?: number) {
   return h1 >>> 0;
 }
 
-function x86Hash128(bytes: Buffer, seed?: number) {
+function x86Hash128(bytes: Uint8Array, seed?: number) {
   //
   // Given a string and an optional seed as an int, returns a 128 bit
   // hash using the x86 flavor of MurmurHash3, as an unsigned hex.
@@ -399,7 +399,7 @@ function x86Hash128(bytes: Buffer, seed?: number) {
   );
 }
 
-function x64Hash128(bytes: Buffer, seed?: number) {
+function x64Hash128(bytes: Uint8Array, seed?: number) {
   //
   // Given a string and an optional seed as an int, returns a 128 bit
   // hash using the x64 flavor of MurmurHash3, as an unsigned hex.
@@ -521,29 +521,29 @@ function x64Hash128(bytes: Buffer, seed?: number) {
 
   // Here we reverse h1 and h2 in Cosmos
   // This is an implementation detail and not part of the public spec
-  const h1Buff = Buffer.from(
+  // Convert h1 to hex string and then to Uint8Array.
+  const h1Hex =
     ("00000000" + (h1[0] >>> 0).toString(16)).slice(-8) +
-      ("00000000" + (h1[1] >>> 0).toString(16)).slice(-8),
-    "hex",
-  );
-  const h1Reversed = reverse(h1Buff).toString("hex");
-  const h2Buff = Buffer.from(
+    ("00000000" + (h1[1] >>> 0).toString(16)).slice(-8);
+  const h1Buff = hexStringToUint8Array(h1Hex);
+  const h1Reversed = uint8ArrayToHex(reverse(h1Buff));
+
+  const h2Hex =
     ("00000000" + (h2[0] >>> 0).toString(16)).slice(-8) +
-      ("00000000" + (h2[1] >>> 0).toString(16)).slice(-8),
-    "hex",
-  );
-  const h2Reversed = reverse(h2Buff).toString("hex");
+    ("00000000" + (h2[1] >>> 0).toString(16)).slice(-8);
+  const h2Buff = hexStringToUint8Array(h2Hex);
+  const h2Reversed = uint8ArrayToHex(reverse(h2Buff));
   return h1Reversed + h2Reversed;
 }
 
-export function reverse(buff: Buffer) {
-  const buffer = Buffer.allocUnsafe(buff.length);
+export function reverse(buff: Uint8Array) {
+  const uint8array = new Uint8Array(buff.length);
 
   for (let i = 0, j = buff.length - 1; i <= j; ++i, --j) {
-    buffer[i] = buff[j];
-    buffer[j] = buff[i];
+    uint8array[i] = buff[j];
+    uint8array[j] = buff[i];
   }
-  return buffer;
+  return uint8array;
 }
 
 export default {
