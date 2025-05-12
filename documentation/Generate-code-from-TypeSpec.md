@@ -33,11 +33,11 @@ It is recommended to configure TypeSpec package on [REST API specifications](htt
 
 ### How to configure tspconfig.yaml
 You can reference these two config files to configure the Modular or RLC package:
-- [Modular tspconfig.yaml for MPG](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
-- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/ai/Face/tspconfig.yaml)
+- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
+- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml)
 
 Please make sure `service-dir`, `package-dir`, `package-details`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.
-For MPG ,`is-modular-library` default behavior is true. If you want to generate modular sdk for DPG, you should add
+For control-plane SDKs, the `is-modular-library` option is true by default, while for data-plane SDKs it is false. If you want to generate Modular libraries for data-plane SDKs, you should add
 ```
 is-modular-library:true
 ```
