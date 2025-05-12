@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
   const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-search-sample", {
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "search-index", {
     queryType: "simple",
     topK: 3,
     filter: "",
