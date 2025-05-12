@@ -16,7 +16,10 @@ export interface BeginReleasePhoneNumberOptions extends OperationOptions {}
 /**
  * Additional options for the purchase phone number operation.
  */
-export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {}
+export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
+  /** The agreement to not resell the phone numbers. Defaults to false if not provided. */
+  agreeToNotResell?: boolean;
+}
 
 /**
  * Additional options for the update phone number capabilities operation.
