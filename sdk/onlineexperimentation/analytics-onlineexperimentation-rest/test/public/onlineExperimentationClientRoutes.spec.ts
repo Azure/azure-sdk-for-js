@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ExperimentMetric, ExperimentMetricOutput } from "../../src/index.js";
-import type OnlineExperimentationClient from "../../src/index.js";
+import type { OnlineExperimentationClient } from "../../src/index.js";
 import {
   KnownDesiredDirection,
   isUnexpected,

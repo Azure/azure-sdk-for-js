@@ -36,7 +36,7 @@ The Azure Online Experimentation client library initialization requires two para
 
 ```ts snippet:InitializeClient
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient from "@azure-rest/analytics-onlineexperimentation";
+import { OnlineExperimentationClient } from "@azure-rest/analytics-onlineexperimentation";
 
 const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
 const credential = new DefaultAzureCredential();

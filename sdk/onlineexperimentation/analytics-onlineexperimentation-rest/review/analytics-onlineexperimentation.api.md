@@ -41,10 +41,6 @@ export interface AverageMetricDefinitionOutput extends ExperimentMetricDefinitio
     value: AggregatedValueOutput;
 }
 
-// @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: OnlineExperimentationClientOptions): OnlineExperimentationClient;
-export default createClient;
-
 // @public (undocumented)
 export interface CreateOrUpdateMetric200Headers {
     "x-ms-client-request-id"?: string;
@@ -455,10 +451,10 @@ export interface ObservedEventOutput {
     filter?: string;
 }
 
-// @public (undocumented)
-export type OnlineExperimentationClient = Client & {
-    path: Routes;
-};
+// Warning: (ae-forgotten-export) The symbol "OnlineExperimentationClient_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function OnlineExperimentationClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: OnlineExperimentationClientOptions): OnlineExperimentationClient_2;
 
 // @public
 export interface OnlineExperimentationClientOptions extends ClientOptions {

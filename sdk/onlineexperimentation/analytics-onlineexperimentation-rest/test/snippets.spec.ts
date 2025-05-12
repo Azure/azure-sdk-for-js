@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import OnlineExperimentationClient from "@azure-rest/analytics-onlineexperimentation";
 import {
+  OnlineExperimentationClient,
   isUnexpected,
   paginate,
   KnownDesiredDirection,
@@ -269,7 +269,7 @@ describe("snippets", () => {
       throw validationResponse.body.error;
     }
 
-    if (validationResponse.body.result != "Valid") {
+    if (validationResponse.body.isValid !== true) {
       // Inspect the validation errors
       for (const error of validationResponse.body.diagnostics) {
         console.log(`- [${error.code}] ${error.message}`);

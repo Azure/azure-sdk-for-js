@@ -6,7 +6,7 @@
  */
 
 import type { ExperimentMetric } from "@azure-rest/analytics-onlineexperimentation";
-import OnlineExperimentationClient, { isUnexpected, KnownLifecycleStage, KnownDesiredDirection, KnownExperimentMetricType } from "@azure-rest/analytics-onlineexperimentation";
+import { OnlineExperimentationClient, isUnexpected, KnownLifecycleStage, KnownDesiredDirection, KnownExperimentMetricType } from "@azure-rest/analytics-onlineexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

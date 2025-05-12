@@ -5,13 +5,13 @@
  * @summary Demonstrates the use of a ConfigurationClient to retrieve a setting value.
  */
 
-const OnlineExperimentationClient = require("@azure-rest/analytics-onlineexperimentation").default,
-  {
-    isUnexpected,
-    KnownLifecycleStage,
-    KnownDesiredDirection,
-    KnownExperimentMetricType,
-  } = require("@azure-rest/analytics-onlineexperimentation");
+const {
+  OnlineExperimentationClient,
+  isUnexpected,
+  KnownLifecycleStage,
+  KnownDesiredDirection,
+  KnownExperimentMetricType,
+} = require("@azure-rest/analytics-onlineexperimentation");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists

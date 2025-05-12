@@ -31,7 +31,7 @@ Create an Online Experimentation client with default API version.
 
 ```ts snippet:InitializeClient
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient from "@azure-rest/analytics-onlineexperimentation";
+import { OnlineExperimentationClient } from "@azure-rest/analytics-onlineexperimentation";
 
 const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
 const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ Create an Online Experimentation client with a specific API version.
 
 ```ts snippet:InitializeClientWithApiVersion
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient from "@azure-rest/analytics-onlineexperimentation";
+import { OnlineExperimentationClient } from "@azure-rest/analytics-onlineexperimentation";
 
 const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
 const credential = new DefaultAzureCredential();
@@ -67,7 +67,8 @@ List experiment metrics with pagination.
 
 ```ts snippet:ListExperimentMetrics
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   isUnexpected,
   paginate,
 } from "@azure-rest/analytics-onlineexperimentation";
@@ -97,7 +98,8 @@ Retrieve an existing experiment metric by ID.
 
 ```ts snippet:GetExistingMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   isUnexpected,
 } from "@azure-rest/analytics-onlineexperimentation";
 
@@ -124,7 +126,8 @@ Validate an experiment metric definition before creating it.
 
 ```ts snippet:ValidateExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -150,7 +153,7 @@ const validationResponse = await client.path("/experiment-metrics:validate").pos
 if (isUnexpected(validationResponse)) {
   throw validationResponse.body.error;
 }
-if (validationResponse.body.result != "Valid") {
+if (validationResponse.body.isValid !== true) {
   // Inspect the validation errors
   for (const error of validationResponse.body.diagnostics) {
     console.log(`- [${error.code}] ${error.message}`);
@@ -164,7 +167,8 @@ Create a metric that counts the number of times a specific event occurs.
 
 ```ts snippet:CreateEventCountMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -200,7 +204,8 @@ Create a metric that counts the number of unique users who performed a specific 
 
 ```ts snippet:CreateUserCountMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -239,7 +244,8 @@ Create a metric that measures the percentage of events that meet a condition.
 
 ```ts snippet:CreateEventRateMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -277,7 +283,8 @@ Create a metric that measures the percentage of users who perform a start event 
 
 ```ts snippet:CreateUserRateMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -318,7 +325,8 @@ Create a metric that sums up a numeric property across all events.
 
 ```ts snippet:CreateSumMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -358,7 +366,8 @@ Create a metric that calculates the average of a numeric property across events.
 
 ```ts snippet:CreateAverageMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   KnownDesiredDirection,
   isUnexpected,
@@ -397,7 +406,8 @@ Create a metric that calculates a percentile of a numeric property across events
 
 ```ts snippet:CreatePercentileMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   isUnexpected,
 } from "@azure-rest/analytics-onlineexperimentation";
@@ -436,7 +446,8 @@ Update an existing experiment metric.
 
 ```ts snippet:UpdateExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   isUnexpected,
 } from "@azure-rest/analytics-onlineexperimentation";
 
@@ -477,7 +488,8 @@ Stop a metric from being computed by updating its `lifecycle` property to `Inact
 
 ```ts snippet:DeactivateExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   isUnexpected,
 } from "@azure-rest/analytics-onlineexperimentation";
@@ -504,7 +516,8 @@ Resume metric computation by updating its `lifecycle` property to `Active`.
 
 ```ts snippet:ReactivateExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   KnownLifecycleStage,
   isUnexpected,
 } from "@azure-rest/analytics-onlineexperimentation";
@@ -531,7 +544,8 @@ Permanently delete an experiment metric defintion.
 
 ```ts snippet:DeleteExperimentMetric
 import { DefaultAzureCredential } from "@azure/identity";
-import OnlineExperimentationClient, {
+import {
+  OnlineExperimentationClient,
   isUnexpected,
 } from "@azure-rest/analytics-onlineexperimentation";
 
