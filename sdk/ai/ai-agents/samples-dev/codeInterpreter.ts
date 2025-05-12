@@ -69,14 +69,12 @@ export async function main(): Promise<void> {
   }
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id,
-    {
-      pollingOptions: {
-        intervalInMs: 2000,
-      },
-      onResponse: onResponse,
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
     },
-  );
+    onResponse: onResponse,
+  });
   console.log(`Run finished with status: ${run.status}`);
 
   // Delete the original file from the agent to free up space (note: this does not delete your version of the file)

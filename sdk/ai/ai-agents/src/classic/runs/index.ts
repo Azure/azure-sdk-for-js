@@ -18,7 +18,7 @@ import {
   getRun,
   listRuns,
   createRun,
-  createRunAndPoll
+  createRunAndPoll,
 } from "../../api/runs/operations.js";
 import { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
@@ -40,7 +40,7 @@ export interface RunsOperations {
     runId: string,
     toolOutputs: ToolOutput[],
     options?: RunsSubmitToolOutputsToRunOptionalParams,
-  ) => Promise<ThreadRun>;
+  ) => AgentRunResponse;
   /** Modifies an existing thread run. */
   update: (
     threadId: string,
@@ -62,9 +62,9 @@ export interface RunsOperations {
   ) => AgentRunResponse;
   /** Creates a new run for an agent thread with polling. */
   createAndPoll: (
-  threadId: string,
-  assistantId: string,
-  options?: RunsCreateRunOptionalParams,
+    threadId: string,
+    assistantId: string,
+    options?: RunsCreateRunOptionalParams,
   ) => PollerLike<OperationState<ThreadRun>, ThreadRun>;
   /** Creates a new thread and run for an agent. */
   createThreadAndRun: (
@@ -91,11 +91,8 @@ function _getRuns(context: AgentsContext) {
       listRuns(context, threadId, options),
     create: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) =>
       createRun(context, threadId, assistantId, options),
-    createAndPoll: (
-      threadId: string,
-      assistantId: string,
-      options?: RunsCreateRunOptionalParams,
-    ) => createRunAndPoll(context, threadId, assistantId, options),
+    createAndPoll: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) =>
+      createRunAndPoll(context, threadId, assistantId, options),
     createThreadAndRun: (assistantId: string, options?: RunsCreateRunOptionalParams) =>
       createThreadAndRun(context, assistantId, options),
   };

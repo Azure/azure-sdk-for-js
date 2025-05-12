@@ -49,23 +49,23 @@ describe("Agents - run steps", () => {
         "completed",
         "expired",
       ]);
-      
+
       if (response.parsedBody?.lastError) {
         console.log(
-          `Run status ${status} - ${response.parsedBody.lastError.code} - ${response.parsedBody.lastError.message}`
+          `Run status ${status} - ${response.parsedBody.lastError.code} - ${response.parsedBody.lastError.message}`,
         );
       }
-      
+
       console.log(`Run status - ${status}, run ID: ${response.parsedBody?.id}`);
     }
-    
+
     const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
       pollingOptions: {
         intervalInMs: 2000,
       },
       onResponse: onResponse,
     });
-    
+
     assert.isNotNull(run);
     assert.oneOf(run.status, ["cancelled", "failed", "completed", "expired"]);
     console.log(`Run finished with status: ${run.status}, run ID: ${run.id}`);
@@ -99,19 +99,22 @@ describe("Agents - run steps", () => {
     console.log(`Created message, message ID: ${message.id}`);
 
     function onResponse(response: any): void {
-      assert.oneOf(response.parsedBody?.status, ["queued", "in_progress", "requires_action", "completed"]);
+      assert.oneOf(response.parsedBody?.status, [
+        "queued",
+        "in_progress",
+        "requires_action",
+        "completed",
+      ]);
       console.log(`Received response with status: ${response.parsedBody?.status}`);
     }
     // Create and poll a run
     console.log("Creating run...");
-    const run = await projectsClient.runs.createAndPoll(thread.id, agent.id,
-      {
-        pollingOptions: {
-          intervalInMs: 2000,
-        },
-        onResponse: onResponse,
+    const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
+      pollingOptions: {
+        intervalInMs: 2000,
       },
-    );
+      onResponse: onResponse,
+    });
     console.log(`Created run, run ID: ${run.id}`);
     console.log(`Run finished with status: ${run.status}`);
     // List run steps

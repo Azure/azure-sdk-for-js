@@ -67,16 +67,14 @@ export async function main(): Promise<void> {
   }
   // Create and poll a run
   console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id,
-    {
-      pollingOptions: {
-        intervalInMs: 2000,
-      },
-      onResponse: onResponse,
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
     },
-  );
+    onResponse: onResponse,
+  });
   console.log(`Run finished with status: ${run.status}`);
-  
+
   const messages = await client.messages.list(thread.id);
   for await (const threadMessage of messages) {
     console.log(

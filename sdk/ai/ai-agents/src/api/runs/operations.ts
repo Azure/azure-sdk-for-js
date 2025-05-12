@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentsContext as Client } from "../index.js";
+import type { AgentsContext as Client } from "../index.js";
+import type { ThreadRun, _AgentsPagedResultThreadRun, ToolOutput } from "../../models/models.js";
 import {
   toolDefinitionUnionArraySerializer,
   agentsResponseFormatOptionSerializer,
   threadMessageOptionsArraySerializer,
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
-  ThreadRun,
   threadRunDeserializer,
-  _AgentsPagedResultThreadRun,
   _agentsPagedResultThreadRunDeserializer,
-  ToolOutput,
   toolOutputArraySerializer,
 } from "../../models/models.js";
-import {
+import type {
   RunsCancelRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
   RunsUpdateRunOptionalParams,
@@ -23,20 +21,14 @@ import {
   RunsListRunsOptionalParams,
   RunsCreateRunOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { AgentRunResponse, AgentEventMessageStream } from "../../models/streamingModels.js";
-import { createRunStreaming } from "../operations.js";
-import { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { AgentRunResponse, AgentEventMessageStream } from "../../models/streamingModels.js";
+import { createRunStreaming, submitToolOutputsToRunStreaming } from "../operations.js";
+import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
 export function _cancelRunSend(
@@ -112,7 +104,7 @@ export function _submitToolOutputsToRunSend(
     },
     body: {
       tool_outputs: toolOutputArraySerializer(toolOutputs),
-      stream: options?.stream,
+      stream: false,
     },
   });
 }
@@ -129,15 +121,32 @@ export async function _submitToolOutputsToRunDeserialize(
 }
 
 /** Submits outputs from tools as requested by tool calls in a run. */
-export async function submitToolOutputsToRun(
+export function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
   toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
-): Promise<ThreadRun> {
-  const result = await _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, options);
-  return _submitToolOutputsToRunDeserialize(result);
+): AgentRunResponse {
+  async function executeSubmitToolOutputsToRun(): Promise<ThreadRun> {
+    const result = await _submitToolOutputsToRunSend(
+      context,
+      threadId,
+      runId,
+      toolOutputs,
+      options,
+    );
+    return _submitToolOutputsToRunDeserialize(result);
+  }
+
+  return {
+    then: function (onFulfilled, onRejected) {
+      return executeSubmitToolOutputsToRun().then(onFulfilled, onRejected).catch(onRejected);
+    },
+    async stream(): Promise<AgentEventMessageStream> {
+      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
+    },
+  };
 }
 
 export function _updateRunSend(
@@ -400,11 +409,10 @@ function getLroOperationStatus(result: ThreadRun): OperationStatus {
     case "queued":
       return "notStarted";
     case "in_progress":
+    case "requires_action":
       return "running";
     case "completed":
       return "succeeded";
-    case "requires_action":
-    case "cancelling":
     case "cancelled":
     case "expired":
     default:
