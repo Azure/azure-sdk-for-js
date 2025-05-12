@@ -96,7 +96,6 @@ export class BulkResponse {
     const results: (ExtendedOperationResponse | ErrorResponse)[] = [];
 
     if (responseMessage.result) {
-      const requestCharge = "requestCharge";
       for (let i = 0; i < operations.length; i++) {
         const itemResponse = responseMessage.result[i];
 
@@ -118,7 +117,7 @@ export class BulkResponse {
           error.code = itemResponse?.statusCode;
           error.substatus = itemResponse?.subStatusCode;
           error.message = itemResponse?.message;
-          error[requestCharge] = itemResponse?.requestCharge;
+          error.requestCharge = itemResponse?.requestCharge;
           error.body = itemResponse?.resourceBody;
           error.headers = responseMessage.headers;
           error.activityId = responseMessage.headers?.[Constants.HttpHeaders.ActivityId];
@@ -170,6 +169,7 @@ export class BulkResponse {
       errorResponse.body = error.body;
       errorResponse.diagnostics = error.diagnostics;
       errorResponse.headers = this.headers;
+      errorResponse.requestCharge = error.requestCharge;
       return errorResponse;
     });
   }
