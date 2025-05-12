@@ -36,9 +36,9 @@ async function organizationsUpdateMaximumSet(): Promise<void> {
         offerDetails: {
           publisherId: "",
           offerId: "",
-          planId: ""
-        }
-      }
+          planId: "",
+        },
+      },
     },
     identity: { type: "None", userAssignedIdentities: {} },
   });
