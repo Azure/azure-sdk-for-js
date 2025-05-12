@@ -14,12 +14,12 @@ import { diag } from "@opentelemetry/api";
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
   if (request && request.headers) {
     if (
-      (request.headers["User-Agent"] &&
-        request.headers["User-Agent"]
+      ((request.headers as any)["User-Agent"] &&
+        (request.headers as any)["User-Agent"]
           .toString()
           .indexOf("azsdk-js-monitor-opentelemetry-exporter") > -1) ||
-      (request.headers["user-agent"] &&
-        request.headers["user-agent"]
+      ((request.headers as any)["user-agent"] &&
+        (request.headers as any)["user-agent"]
           .toString()
           .indexOf("azsdk-js-monitor-opentelemetry-exporter") > -1)
     ) {
