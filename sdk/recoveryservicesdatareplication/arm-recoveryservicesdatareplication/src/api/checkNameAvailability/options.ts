@@ -5,8 +5,7 @@ import { CheckNameAvailabilityModel } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface CheckNameAvailabilityPostOptionalParams
-  extends OperationOptions {
+export interface CheckNameAvailabilityPostOptionalParams extends OperationOptions {
   /** Resource details. */
   body?: CheckNameAvailabilityModel;
 }

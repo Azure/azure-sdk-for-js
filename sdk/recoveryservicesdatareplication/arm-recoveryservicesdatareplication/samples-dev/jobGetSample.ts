@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getsTheJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.job.get(
-    "rgrecoveryservicesdatareplication",
-    "4",
-    "ZGH4y",
-  );
+  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const result = await client.job.get("rgrecoveryservicesdatareplication", "4", "ZGH4y");
   console.log(result);
 }
 

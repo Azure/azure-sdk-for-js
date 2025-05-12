@@ -15,14 +15,10 @@ export interface CheckNameAvailabilityOperations {
   ) => Promise<CheckNameAvailabilityResponseModel>;
 }
 
-function _getCheckNameAvailability(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getCheckNameAvailability(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
-    post: (
-      location: string,
-      options?: CheckNameAvailabilityPostOptionalParams,
-    ) => post(context, location, options),
+    post: (location: string, options?: CheckNameAvailabilityPostOptionalParams) =>
+      post(context, location, options),
   };
 }
 

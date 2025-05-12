@@ -52,11 +52,8 @@ export interface PolicyOperations {
 
 function _getPolicy(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
-    list: (
-      resourceGroupName: string,
-      vaultName: string,
-      options?: PolicyListOptionalParams,
-    ) => list(context, resourceGroupName, vaultName, options),
+    list: (resourceGroupName: string, vaultName: string, options?: PolicyListOptionalParams) =>
+      list(context, resourceGroupName, vaultName, options),
     delete: (
       resourceGroupName: string,
       vaultName: string,
@@ -69,15 +66,7 @@ function _getPolicy(context: AzureSiteRecoveryManagementServiceAPIContext) {
       policyName: string,
       resource: PolicyModel,
       options?: PolicyCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        vaultName,
-        policyName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, vaultName, policyName, resource, options),
     get: (
       resourceGroupName: string,
       vaultName: string,

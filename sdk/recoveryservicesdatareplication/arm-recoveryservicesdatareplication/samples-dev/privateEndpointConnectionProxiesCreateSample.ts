@@ -13,10 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createsThePrivateEndpointConnectionProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(
-    credential,
-    subscriptionId,
-  );
+  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
   const result = await client.privateEndpointConnectionProxies.create(
     "rgswagger_2024-09-01",
     "4",

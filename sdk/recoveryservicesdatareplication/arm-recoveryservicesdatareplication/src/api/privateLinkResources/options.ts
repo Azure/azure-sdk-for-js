@@ -4,9 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListOptionalParams
-  extends OperationOptions {}
+export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {}

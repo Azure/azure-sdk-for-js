@@ -16,8 +16,7 @@ export interface AzureSiteRecoveryManagementServiceAPIContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface AzureSiteRecoveryManagementServiceAPIOptionalParams
-  extends ClientOptions {
+export interface AzureSiteRecoveryManagementServiceAPIOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,8 +28,7 @@ export function createAzureSiteRecoveryManagementServiceAPI(
   subscriptionId: string,
   options: AzureSiteRecoveryManagementServiceAPIOptionalParams = {},
 ): AzureSiteRecoveryManagementServiceAPIContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-recoveryservicesdatareplication/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

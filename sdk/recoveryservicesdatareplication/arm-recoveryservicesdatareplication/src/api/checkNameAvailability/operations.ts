@@ -33,19 +33,17 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: !options["body"]
-        ? options["body"]
-        : checkNameAvailabilityModelSerializer(options["body"]),
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: !options["body"]
+      ? options["body"]
+      : checkNameAvailabilityModelSerializer(options["body"]),
+  });
 }
 
 export async function _postDeserialize(

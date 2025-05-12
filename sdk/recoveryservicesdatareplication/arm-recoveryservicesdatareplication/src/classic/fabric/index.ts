@@ -72,11 +72,8 @@ function _getFabric(context: AzureSiteRecoveryManagementServiceAPIContext) {
       listBySubscription(context, options),
     list: (resourceGroupName: string, options?: FabricListOptionalParams) =>
       list(context, resourceGroupName, options),
-    delete: (
-      resourceGroupName: string,
-      fabricName: string,
-      options?: FabricDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, fabricName, options),
+    delete: (resourceGroupName: string, fabricName: string, options?: FabricDeleteOptionalParams) =>
+      $delete(context, resourceGroupName, fabricName, options),
     update: (
       resourceGroupName: string,
       fabricName: string,
@@ -89,11 +86,8 @@ function _getFabric(context: AzureSiteRecoveryManagementServiceAPIContext) {
       resource: FabricModel,
       options?: FabricCreateOptionalParams,
     ) => create(context, resourceGroupName, fabricName, resource, options),
-    get: (
-      resourceGroupName: string,
-      fabricName: string,
-      options?: FabricGetOptionalParams,
-    ) => get(context, resourceGroupName, fabricName, options),
+    get: (resourceGroupName: string, fabricName: string, options?: FabricGetOptionalParams) =>
+      get(context, resourceGroupName, fabricName, options),
   };
 }
 

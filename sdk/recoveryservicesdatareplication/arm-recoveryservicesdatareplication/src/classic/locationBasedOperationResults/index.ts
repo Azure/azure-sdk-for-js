@@ -17,9 +17,7 @@ export interface LocationBasedOperationResultsOperations {
   ) => Promise<OperationStatus>;
 }
 
-function _getLocationBasedOperationResults(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getLocationBasedOperationResults(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     get: (
       resourceGroupName: string,

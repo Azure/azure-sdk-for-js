@@ -16,9 +16,7 @@ export interface DeploymentPreflightOperations {
   ) => Promise<DeploymentPreflightModel>;
 }
 
-function _getDeploymentPreflight(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getDeploymentPreflight(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     post: (
       resourceGroupName: string,

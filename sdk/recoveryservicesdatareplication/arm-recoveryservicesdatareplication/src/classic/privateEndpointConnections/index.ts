@@ -9,12 +9,7 @@ import {
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import {
-  list,
-  $delete,
-  update,
-  get,
-} from "../../api/privateEndpointConnections/operations.js";
+import { list, $delete, update, get } from "../../api/privateEndpointConnections/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -55,9 +50,7 @@ export interface PrivateEndpointConnectionsOperations {
   ) => Promise<PrivateEndpointConnection>;
 }
 
-function _getPrivateEndpointConnections(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getPrivateEndpointConnections(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -69,14 +62,7 @@ function _getPrivateEndpointConnections(
       vaultName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        vaultName,
-        privateEndpointConnectionName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, vaultName, privateEndpointConnectionName, options),
     update: (
       resourceGroupName: string,
       vaultName: string,
@@ -97,14 +83,7 @@ function _getPrivateEndpointConnections(
       vaultName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        vaultName,
-        privateEndpointConnectionName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, vaultName, privateEndpointConnectionName, options),
   };
 }
 

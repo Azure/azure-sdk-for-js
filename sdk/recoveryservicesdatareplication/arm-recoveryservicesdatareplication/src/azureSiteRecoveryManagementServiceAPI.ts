@@ -46,29 +46,17 @@ import {
   PrivateEndpointConnectionsOperations,
   _getPrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import {
-  PolicyOperations,
-  _getPolicyOperations,
-} from "./classic/policy/index.js";
+import { PolicyOperations, _getPolicyOperations } from "./classic/policy/index.js";
 import { JobOperations, _getJobOperations } from "./classic/job/index.js";
-import {
-  FabricAgentOperations,
-  _getFabricAgentOperations,
-} from "./classic/fabricAgent/index.js";
-import {
-  FabricOperations,
-  _getFabricOperations,
-} from "./classic/fabric/index.js";
+import { FabricAgentOperations, _getFabricAgentOperations } from "./classic/fabricAgent/index.js";
+import { FabricOperations, _getFabricOperations } from "./classic/fabric/index.js";
 import { EventOperations, _getEventOperations } from "./classic/event/index.js";
 import { VaultOperations, _getVaultOperations } from "./classic/vault/index.js";
 import {
   EmailConfigurationOperations,
   _getEmailConfigurationOperations,
 } from "./classic/emailConfiguration/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -89,32 +77,23 @@ export class AzureSiteRecoveryManagementServiceAPI {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureSiteRecoveryManagementServiceAPI(
-      credential,
-      subscriptionId,
-      { ...options, userAgentOptions: { userAgentPrefix } },
-    );
+    this._client = createAzureSiteRecoveryManagementServiceAPI(credential, subscriptionId, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
     this.pipeline = this._client.pipeline;
-    this.locationBasedOperationResults =
-      _getLocationBasedOperationResultsOperations(this._client);
+    this.locationBasedOperationResults = _getLocationBasedOperationResultsOperations(this._client);
     this.operationResults = _getOperationResultsOperations(this._client);
     this.deploymentPreflight = _getDeploymentPreflightOperations(this._client);
-    this.checkNameAvailability = _getCheckNameAvailabilityOperations(
-      this._client,
-    );
-    this.replicationExtension = _getReplicationExtensionOperations(
-      this._client,
-    );
+    this.checkNameAvailability = _getCheckNameAvailabilityOperations(this._client);
+    this.replicationExtension = _getReplicationExtensionOperations(this._client);
     this.recoveryPoint = _getRecoveryPointOperations(this._client);
     this.protectedItem = _getProtectedItemOperations(this._client);
-    this.privateLinkResources = _getPrivateLinkResourcesOperations(
+    this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
+    this.privateEndpointConnectionProxies = _getPrivateEndpointConnectionProxiesOperations(
       this._client,
     );
-    this.privateEndpointConnectionProxies =
-      _getPrivateEndpointConnectionProxiesOperations(this._client);
-    this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(
-      this._client,
-    );
+    this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.policy = _getPolicyOperations(this._client);
     this.job = _getJobOperations(this._client);
     this.fabricAgent = _getFabricAgentOperations(this._client);

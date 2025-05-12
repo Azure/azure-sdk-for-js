@@ -176,10 +176,7 @@ export {
   EmailConfigurationCreateOptionalParams,
   EmailConfigurationGetOptionalParams,
 } from "./api/emailConfiguration/index.js";
-export {
-  EventListOptionalParams,
-  EventGetOptionalParams,
-} from "./api/event/index.js";
+export { EventListOptionalParams, EventGetOptionalParams } from "./api/event/index.js";
 export {
   FabricListBySubscriptionOptionalParams,
   FabricListOptionalParams,
@@ -194,10 +191,7 @@ export {
   FabricAgentCreateOptionalParams,
   FabricAgentGetOptionalParams,
 } from "./api/fabricAgent/index.js";
-export {
-  JobListOptionalParams,
-  JobGetOptionalParams,
-} from "./api/job/index.js";
+export { JobListOptionalParams, JobGetOptionalParams } from "./api/job/index.js";
 export { LocationBasedOperationResultsGetOptionalParams } from "./api/locationBasedOperationResults/index.js";
 export { OperationResultsGetOptionalParams } from "./api/operationResults/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";

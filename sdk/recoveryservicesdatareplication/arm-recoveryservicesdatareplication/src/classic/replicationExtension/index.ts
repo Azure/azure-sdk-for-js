@@ -9,12 +9,7 @@ import {
   ReplicationExtensionCreateOptionalParams,
   ReplicationExtensionGetOptionalParams,
 } from "../../api/replicationExtension/options.js";
-import {
-  list,
-  $delete,
-  create,
-  get,
-} from "../../api/replicationExtension/operations.js";
+import { list, $delete, create, get } from "../../api/replicationExtension/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -45,10 +40,7 @@ export interface ReplicationExtensionOperations {
     replicationExtensionName: string,
     resource: ReplicationExtensionModel,
     options?: ReplicationExtensionCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<ReplicationExtensionModel>,
-    ReplicationExtensionModel
-  >;
+  ) => PollerLike<OperationState<ReplicationExtensionModel>, ReplicationExtensionModel>;
   /** Gets the details of the replication extension. */
   get: (
     resourceGroupName: string,
@@ -58,9 +50,7 @@ export interface ReplicationExtensionOperations {
   ) => Promise<ReplicationExtensionModel>;
 }
 
-function _getReplicationExtension(
-  context: AzureSiteRecoveryManagementServiceAPIContext,
-) {
+function _getReplicationExtension(context: AzureSiteRecoveryManagementServiceAPIContext) {
   return {
     list: (
       resourceGroupName: string,
@@ -72,42 +62,20 @@ function _getReplicationExtension(
       vaultName: string,
       replicationExtensionName: string,
       options?: ReplicationExtensionDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        vaultName,
-        replicationExtensionName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, vaultName, replicationExtensionName, options),
     create: (
       resourceGroupName: string,
       vaultName: string,
       replicationExtensionName: string,
       resource: ReplicationExtensionModel,
       options?: ReplicationExtensionCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        resourceGroupName,
-        vaultName,
-        replicationExtensionName,
-        resource,
-        options,
-      ),
+    ) => create(context, resourceGroupName, vaultName, replicationExtensionName, resource, options),
     get: (
       resourceGroupName: string,
       vaultName: string,
       replicationExtensionName: string,
       options?: ReplicationExtensionGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        vaultName,
-        replicationExtensionName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, vaultName, replicationExtensionName, options),
   };
 }
 

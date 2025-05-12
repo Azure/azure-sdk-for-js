@@ -13,35 +13,27 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function putsTheFabricAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
-  const client = new AzureSiteRecoveryManagementServiceAPI(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.fabricAgent.create(
-    "rgswagger_2024-09-01",
-    "wPR",
-    "M",
-    {
-      properties: {
-        machineId: "envzcoijbqhtrpncbjbhk",
-        machineName: "y",
-        authenticationIdentity: {
-          tenantId: "joclkkdovixwapephhxaqtefubhhmq",
-          applicationId: "cwktzrwajuvfyyymfstpey",
-          objectId: "khsiaqfbpuhp",
-          audience: "dkjobanyqgzenivyxhvavottpc",
-          aadAuthority: "bubwwbowfhdmujrt",
-        },
-        resourceAccessIdentity: {
-          tenantId: "joclkkdovixwapephhxaqtefubhhmq",
-          applicationId: "cwktzrwajuvfyyymfstpey",
-          objectId: "khsiaqfbpuhp",
-          audience: "dkjobanyqgzenivyxhvavottpc",
-          aadAuthority: "bubwwbowfhdmujrt",
-        },
+  const client = new AzureSiteRecoveryManagementServiceAPI(credential, subscriptionId);
+  const result = await client.fabricAgent.create("rgswagger_2024-09-01", "wPR", "M", {
+    properties: {
+      machineId: "envzcoijbqhtrpncbjbhk",
+      machineName: "y",
+      authenticationIdentity: {
+        tenantId: "joclkkdovixwapephhxaqtefubhhmq",
+        applicationId: "cwktzrwajuvfyyymfstpey",
+        objectId: "khsiaqfbpuhp",
+        audience: "dkjobanyqgzenivyxhvavottpc",
+        aadAuthority: "bubwwbowfhdmujrt",
+      },
+      resourceAccessIdentity: {
+        tenantId: "joclkkdovixwapephhxaqtefubhhmq",
+        applicationId: "cwktzrwajuvfyyymfstpey",
+        objectId: "khsiaqfbpuhp",
+        audience: "dkjobanyqgzenivyxhvavottpc",
+        aadAuthority: "bubwwbowfhdmujrt",
       },
     },
-  );
+  });
   console.log(result);
 }
 
