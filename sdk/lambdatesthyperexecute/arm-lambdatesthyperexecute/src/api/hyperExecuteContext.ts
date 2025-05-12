@@ -26,7 +26,8 @@ export function createHyperExecute(
   subscriptionId: string,
   options: HyperExecuteClientOptionalParams = {},
 ): HyperExecuteContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-lambdatesthyperexecute/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -42,7 +43,7 @@ export function createHyperExecute(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-02-01-preview";
+  const apiVersion = options.apiVersion ?? "2024-02-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
