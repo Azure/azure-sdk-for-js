@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.2 (2025-05-06)
+
+### Bugs Fixed
+
+- Fix an issue where `customHeaders` option value is lost [PR #33794](https://github.com/Azure/azure-sdk-for-js/pull/33794)
+
 ## 1.3.1 (2024-07-31)
 
 ### Bugs Fixed
