@@ -25,6 +25,10 @@ describe("Azure Container Instance Integration test", function () {
     const response = await client.sendRequest(request);
 
     console.log(JSON.stringify(response, null, 2));
-    assert.strictEqual(response.status, 200, `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`);
+    assert.strictEqual(
+      response.status,
+      200,
+      `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
+    );
   });
 });
