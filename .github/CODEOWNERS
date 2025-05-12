@@ -746,6 +746,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
