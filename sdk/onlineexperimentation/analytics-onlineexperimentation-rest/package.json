@@ -109,7 +109,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "<the-link-to-your-service-on-learn.microsoft.com>"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/analytics-onlineexperimentation?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
