@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a OrganizationResource
  *
  * @summary get a OrganizationResource
- * x-ms-original-file: 2024-10-01-preview/Organizations_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Organizations_Get_MaximumSet_Gen.json
  */
 async function organizationsGetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

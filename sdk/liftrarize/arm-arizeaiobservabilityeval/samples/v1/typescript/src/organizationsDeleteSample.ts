@@ -5,21 +5,20 @@ import { ObservabilityEvalClient } from "@azure/arm-arizeaiobservabilityeval";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get a OrganizationResource
+ * This sample demonstrates how to delete a OrganizationResource
  *
- * @summary get a OrganizationResource
- * x-ms-original-file: 2024-10-01-preview/Organizations_Get_MaximumSet_Gen.json
+ * @summary delete a OrganizationResource
+ * x-ms-original-file: 2024-10-01/Organizations_Delete_MaximumSet_Gen.json
  */
-async function organizationsGetGeneratedByMaximumSetRule(): Promise<void> {
+async function organizationsDeleteGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4DEBE8B4-8BA4-42F8-AE50-FBEF318751D1";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
-  const result = await client.organizations.get("rgopenapi", "test-organization-1");
-  console.log(result);
+  await client.organizations.delete("rgopenapi", "test-organization-1");
 }
 
 async function main(): Promise<void> {
-  await organizationsGetGeneratedByMaximumSetRule();
+  await organizationsDeleteGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

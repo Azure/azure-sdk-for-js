@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a OrganizationResource
  *
  * @summary create a OrganizationResource
- * x-ms-original-file: 2024-10-01-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function organizationsCreateOrUpdateGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
