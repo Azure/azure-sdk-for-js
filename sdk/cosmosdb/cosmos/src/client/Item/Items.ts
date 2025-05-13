@@ -522,6 +522,18 @@ export class Items {
         }
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        let partitionKeyRangeId: string;
+        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
+        }
+
         response = await this.clientContext.create<T>({
           body,
           path,
@@ -530,6 +542,7 @@ export class Items {
           diagnosticNode,
           options,
           partitionKey,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -676,6 +689,18 @@ export class Items {
 
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        let partitionKeyRangeId: string;
+        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
+        }
+
         response = await this.clientContext.upsert<T>({
           body,
           path,
@@ -684,6 +709,7 @@ export class Items {
           options,
           partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -1165,6 +1191,21 @@ export class Items {
           );
         }
 
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        let partitionKeyRangeId: string;
+        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
+        }
+
         response = await this.clientContext.batch({
           body: operations,
           partitionKey,
@@ -1172,6 +1213,7 @@ export class Items {
           resourceId: this.container.url,
           options,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {

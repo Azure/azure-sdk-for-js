@@ -376,10 +376,10 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
       containerDefinitionWithCompositeIndex,
     );
 
-    containerWithCompositeIndexDef.items.create({ id: "1", pk: "1", key: "1", field: "4" });
-    containerWithCompositeIndexDef.items.create({ id: "2", pk: "1", key: "2", field: "3" });
-    containerWithCompositeIndexDef.items.create({ id: "3", pk: "1", key: "3", field: "2" });
-    containerWithCompositeIndexDef.items.create({ id: "4", pk: "1", key: "4", field: "1" });
+    await containerWithCompositeIndexDef.items.create({ id: "1", pk: "1", key: "1", field: "4" });
+    await containerWithCompositeIndexDef.items.create({ id: "2", pk: "1", key: "2", field: "3" });
+    await containerWithCompositeIndexDef.items.create({ id: "3", pk: "1", key: "3", field: "2" });
+    await containerWithCompositeIndexDef.items.create({ id: "4", pk: "1", key: "4", field: "1" });
     const queryIterator1 = containerWithCompositeIndexDef.items.query(
       "SELECT * FROM r ORDER BY r.key, r.field",
     );
