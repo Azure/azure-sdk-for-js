@@ -263,13 +263,14 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         ];
       } else {
         // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
+        // We will throw an error here to prevent the creation of the DefaultAzureCredential.
         const errorMessage = `Unsupported value set for the environment AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Only supported values are "development" and "production". Cannot create DefaultAzureCredential.`;
         logger.warning(errorMessage);
         throw new Error(errorMessage);
       }
     }
 
-    // DefaultCredential constructors should not throw, instead throwing on getToken() which is handled by ChainedTokenCredential.
+    // Errors from individual credentials should not be thrown in the DefaultAzureCredential constructor, instead throwing on getToken() which is handled by ChainedTokenCredential.
     // When adding new credentials to the default chain, consider:
     // 1. Making the constructor parameters required and explicit
     // 2. Validating any required parameters in the factory function
