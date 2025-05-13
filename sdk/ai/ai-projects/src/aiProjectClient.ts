@@ -70,11 +70,11 @@ export class AIProjectClient {
       ...options,
       credentials: {
         ...options.credentials,
-        scopes: ['https://ai.azure.com/.default'],
+        scopes: ["https://ai.azure.com/.default"],
       },
       userAgentOptions: { userAgentPrefix },
     });
-    
+
     this.pipeline = this._cognitiveScopeClient.pipeline;
     this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
     this.deployments = _getDeploymentsOperations(this._cognitiveScopeClient);
