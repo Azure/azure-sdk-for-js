@@ -4,24 +4,19 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ReservationsGetBillingReportOptionalParams
-  extends OperationOptions {}
+export interface ReservationsGetBillingReportOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ReservationsGetBillingStatusOptionalParams
-  extends OperationOptions {}
+export interface ReservationsGetBillingStatusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ReservationsGetResourceLimitsOptionalParams
-  extends OperationOptions {}
+export interface ReservationsGetResourceLimitsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ReservationsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface ReservationsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ReservationsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface ReservationsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ReservationsDeleteOptionalParams extends OperationOptions {

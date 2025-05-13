@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  listByAvsStorageContainer,
-  $delete,
-  get,
-  update,
-} from "./operations.js";
+export { listByAvsStorageContainer, $delete, get, update } from "./operations.js";
 export {
   AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
   AvsStorageContainerVolumesDeleteOptionalParams,

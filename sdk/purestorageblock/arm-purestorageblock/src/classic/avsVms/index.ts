@@ -9,12 +9,7 @@ import {
   AvsVmsGetOptionalParams,
   AvsVmsUpdateOptionalParams,
 } from "../../api/avsVms/options.js";
-import {
-  listByStoragePool,
-  $delete,
-  get,
-  update,
-} from "../../api/avsVms/operations.js";
+import { listByStoragePool, $delete, get, update } from "../../api/avsVms/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -61,8 +56,7 @@ function _getAvsVms(context: BlockContext) {
       resourceGroupName: string,
       storagePoolName: string,
       options?: AvsVmsListByStoragePoolOptionalParams,
-    ) =>
-      listByStoragePool(context, resourceGroupName, storagePoolName, options),
+    ) => listByStoragePool(context, resourceGroupName, storagePoolName, options),
     delete: (
       resourceGroupName: string,
       storagePoolName: string,
@@ -81,15 +75,7 @@ function _getAvsVms(context: BlockContext) {
       avsVmId: string,
       properties: AvsVmUpdate,
       options?: AvsVmsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        avsVmId,
-        properties,
-        options,
-      ),
+    ) => update(context, resourceGroupName, storagePoolName, avsVmId, properties, options),
   };
 }
 

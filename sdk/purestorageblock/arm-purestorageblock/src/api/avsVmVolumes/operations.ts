@@ -51,15 +51,13 @@ export function _listByAvsVmSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByAvsVmDeserialize(
@@ -85,14 +83,7 @@ export function listByAvsVm(
 ): PagedAsyncIterableIterator<AvsVmVolume> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByAvsVmSend(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        avsVmId,
-        options,
-      ),
+    () => _listByAvsVmSend(context, resourceGroupName, storagePoolName, avsVmId, options),
     _listByAvsVmDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -121,20 +112,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -159,25 +146,13 @@ export function $delete(
   volumeId: string,
   options: AvsVmVolumesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          resourceGroupName,
-          storagePoolName,
-          avsVmId,
-          volumeId,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, storagePoolName, avsVmId, volumeId, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _getSend(
@@ -202,20 +177,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AvsVmVolume> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<AvsVmVolume> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -269,22 +240,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: avsVmVolumeUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: avsVmVolumeUpdateSerializer(properties),
+  });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AvsVmVolume> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AvsVmVolume> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

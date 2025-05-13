@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -205,9 +187,7 @@ export function reservationSerializer(item: Reservation): any {
     location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
-      : reservationPropertiesBaseResourcePropertiesSerializer(
-          item["properties"],
-        ),
+      : reservationPropertiesBaseResourcePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -223,9 +203,7 @@ export function reservationDeserializer(item: any): Reservation {
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : reservationPropertiesBaseResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : reservationPropertiesBaseResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -401,18 +379,14 @@ export interface CompanyDetails {
 export function companyDetailsSerializer(item: CompanyDetails): any {
   return {
     companyName: item["companyName"],
-    address: !item["address"]
-      ? item["address"]
-      : addressSerializer(item["address"]),
+    address: !item["address"] ? item["address"] : addressSerializer(item["address"]),
   };
 }
 
 export function companyDetailsDeserializer(item: any): CompanyDetails {
   return {
     companyName: item["companyName"],
-    address: !item["address"]
-      ? item["address"]
-      : addressDeserializer(item["address"]),
+    address: !item["address"] ? item["address"] : addressDeserializer(item["address"]),
   };
 }
 
@@ -553,9 +527,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -632,9 +604,7 @@ export interface ReservationUpdateProperties {
   user?: UserDetails;
 }
 
-export function reservationUpdatePropertiesSerializer(
-  item: ReservationUpdateProperties,
-): any {
+export function reservationUpdatePropertiesSerializer(item: ReservationUpdateProperties): any {
   return {
     user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
   };
@@ -648,9 +618,7 @@ export interface _ReservationListResult {
   nextLink?: string;
 }
 
-export function _reservationListResultDeserializer(
-  item: any,
-): _ReservationListResult {
+export function _reservationListResultDeserializer(item: any): _ReservationListResult {
   return {
     value: reservationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -663,9 +631,7 @@ export function reservationArraySerializer(result: Array<Reservation>): any[] {
   });
 }
 
-export function reservationArrayDeserializer(
-  result: Array<Reservation>,
-): any[] {
+export function reservationArrayDeserializer(result: Array<Reservation>): any[] {
   return result.map((item) => {
     return reservationDeserializer(item);
   });
@@ -687,12 +653,8 @@ export function limitDetailsDeserializer(item: any): LimitDetails {
   return {
     storagePool: storagePoolLimitsDeserializer(item["storagePool"]),
     volume: volumeLimitsDeserializer(item["volume"]),
-    protectionPolicy: protectionPolicyLimitsDeserializer(
-      item["protectionPolicy"],
-    ),
-    performancePolicy: performancePolicyLimitsDeserializer(
-      item["performancePolicy"],
-    ),
+    protectionPolicy: protectionPolicyLimitsDeserializer(item["protectionPolicy"]),
+    performancePolicy: performancePolicyLimitsDeserializer(item["performancePolicy"]),
   };
 }
 
@@ -708,15 +670,11 @@ export interface StoragePoolLimits {
 
 export function storagePoolLimitsDeserializer(item: any): StoragePoolLimits {
   return {
-    provisionedBandwidthMbPerSec: rangeLimitsDeserializer(
-      item["provisionedBandwidthMbPerSec"],
-    ),
+    provisionedBandwidthMbPerSec: rangeLimitsDeserializer(item["provisionedBandwidthMbPerSec"]),
     provisionedIops: rangeLimitsDeserializer(item["provisionedIops"]),
-    physicalAvailabilityZones: item["physicalAvailabilityZones"].map(
-      (p: any) => {
-        return p;
-      },
-    ),
+    physicalAvailabilityZones: item["physicalAvailabilityZones"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -755,9 +713,7 @@ export interface ProtectionPolicyLimits {
   retention: RangeLimits;
 }
 
-export function protectionPolicyLimitsDeserializer(
-  item: any,
-): ProtectionPolicyLimits {
+export function protectionPolicyLimitsDeserializer(item: any): ProtectionPolicyLimits {
   return {
     frequency: rangeLimitsDeserializer(item["frequency"]),
     retention: rangeLimitsDeserializer(item["retention"]),
@@ -772,9 +728,7 @@ export interface PerformancePolicyLimits {
   bandwidthLimit: RangeLimits;
 }
 
-export function performancePolicyLimitsDeserializer(
-  item: any,
-): PerformancePolicyLimits {
+export function performancePolicyLimitsDeserializer(item: any): PerformancePolicyLimits {
   return {
     iopsLimit: rangeLimitsDeserializer(item["iopsLimit"]),
     bandwidthLimit: rangeLimitsDeserializer(item["bandwidthLimit"]),
@@ -813,9 +767,7 @@ export interface ReservationBillingStatus {
   totalPerformanceOverage: number;
 }
 
-export function reservationBillingStatusDeserializer(
-  item: any,
-): ReservationBillingStatus {
+export function reservationBillingStatusDeserializer(item: any): ReservationBillingStatus {
   return {
     timestamp: item["timestamp"],
     totalUsedCapacityReported: item["totalUsedCapacityReported"],
@@ -823,10 +775,8 @@ export function reservationBillingStatusDeserializer(
     drrWeightedAverage: item["drrWeightedAverage"],
     totalNonReducibleReported: item["totalNonReducibleReported"],
     extraUsedCapacityNonReducible: item["extraUsedCapacityNonReducible"],
-    extraUsedCapacityLowUsageRounding:
-      item["extraUsedCapacityLowUsageRounding"],
-    extraUsedCapacityNonReduciblePlanDiscount:
-      item["extraUsedCapacityNonReduciblePlanDiscount"],
+    extraUsedCapacityLowUsageRounding: item["extraUsedCapacityLowUsageRounding"],
+    extraUsedCapacityNonReduciblePlanDiscount: item["extraUsedCapacityNonReduciblePlanDiscount"],
     totalUsedCapacityBilled: item["totalUsedCapacityBilled"],
     totalUsedCapacityIncludedPlan: item["totalUsedCapacityIncludedPlan"],
     totalUsedCapacityOverage: item["totalUsedCapacityOverage"],
@@ -851,16 +801,12 @@ export function reservationBillingUsageReportDeserializer(
 ): ReservationBillingUsageReport {
   return {
     timestamp: item["timestamp"],
-    billingUsageProperties: billingUsagePropertyArrayDeserializer(
-      item["billingUsageProperties"],
-    ),
+    billingUsageProperties: billingUsagePropertyArrayDeserializer(item["billingUsageProperties"]),
     overallStatusMessage: item["overallStatusMessage"],
   };
 }
 
-export function billingUsagePropertyArrayDeserializer(
-  result: Array<BillingUsageProperty>,
-): any[] {
+export function billingUsagePropertyArrayDeserializer(result: Array<BillingUsageProperty>): any[] {
   return result.map((item) => {
     return billingUsagePropertyDeserializer(item);
   });
@@ -884,9 +830,7 @@ export interface BillingUsageProperty {
   subProperties?: BillingUsageProperty[];
 }
 
-export function billingUsagePropertyDeserializer(
-  item: any,
-): BillingUsageProperty {
+export function billingUsagePropertyDeserializer(item: any): BillingUsageProperty {
   return {
     propertyId: item["propertyId"],
     propertyName: item["propertyName"],
@@ -986,9 +930,7 @@ export interface StoragePoolProperties {
   reservationResourceId: string;
 }
 
-export function storagePoolPropertiesSerializer(
-  item: StoragePoolProperties,
-): any {
+export function storagePoolPropertiesSerializer(item: StoragePoolProperties): any {
   return {
     availabilityZone: item["availabilityZone"],
     vnetInjection: vnetInjectionSerializer(item["vnetInjection"]),
@@ -997,9 +939,7 @@ export function storagePoolPropertiesSerializer(
   };
 }
 
-export function storagePoolPropertiesDeserializer(
-  item: any,
-): StoragePoolProperties {
+export function storagePoolPropertiesDeserializer(item: any): StoragePoolProperties {
   return {
     storagePoolInternalId: item["storagePoolInternalId"],
     availabilityZone: item["availabilityZone"],
@@ -1007,9 +947,7 @@ export function storagePoolPropertiesDeserializer(
     dataRetentionPeriod: item["dataRetentionPeriod"],
     provisionedBandwidthMbPerSec: item["provisionedBandwidthMbPerSec"],
     provisionedIops: item["provisionedIops"],
-    avs: !item["avs"]
-      ? item["avs"]
-      : azureVmwareServiceDeserializer(item["avs"]),
+    avs: !item["avs"] ? item["avs"] : azureVmwareServiceDeserializer(item["avs"]),
     provisioningState: item["provisioningState"],
     reservationResourceId: item["reservationResourceId"],
   };
@@ -1061,18 +999,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -1113,15 +1047,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -1156,9 +1086,7 @@ export interface StoragePoolUpdateProperties {
   provisionedBandwidthMbPerSec?: number;
 }
 
-export function storagePoolUpdatePropertiesSerializer(
-  item: StoragePoolUpdateProperties,
-): any {
+export function storagePoolUpdatePropertiesSerializer(item: StoragePoolUpdateProperties): any {
   return { provisionedBandwidthMbPerSec: item["provisionedBandwidthMbPerSec"] };
 }
 
@@ -1170,9 +1098,7 @@ export interface _StoragePoolListResult {
   nextLink?: string;
 }
 
-export function _storagePoolListResultDeserializer(
-  item: any,
-): _StoragePoolListResult {
+export function _storagePoolListResultDeserializer(item: any): _StoragePoolListResult {
   return {
     value: storagePoolArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1185,9 +1111,7 @@ export function storagePoolArraySerializer(result: Array<StoragePool>): any[] {
   });
 }
 
-export function storagePoolArrayDeserializer(
-  result: Array<StoragePool>,
-): any[] {
+export function storagePoolArrayDeserializer(result: Array<StoragePool>): any[] {
   return result.map((item) => {
     return storagePoolDeserializer(item);
   });
@@ -1201,9 +1125,7 @@ export interface StoragePoolHealthInfo {
   alerts: Alert[];
 }
 
-export function storagePoolHealthInfoDeserializer(
-  item: any,
-): StoragePoolHealthInfo {
+export function storagePoolHealthInfoDeserializer(item: any): StoragePoolHealthInfo {
   return {
     health: healthDetailsDeserializer(item["health"]),
     alerts: alertArrayDeserializer(item["alerts"]),
@@ -1352,9 +1274,7 @@ export function avsConnectionDeserializer(item: any): AvsConnection {
     serviceInitializationHandleEnc: item["serviceInitializationHandleEnc"],
     serviceInitializationHandle: !item["serviceInitializationHandle"]
       ? item["serviceInitializationHandle"]
-      : serviceInitializationHandleDeserializer(
-          item["serviceInitializationHandle"],
-        ),
+      : serviceInitializationHandleDeserializer(item["serviceInitializationHandle"]),
   };
 }
 
@@ -1366,9 +1286,7 @@ export interface ServiceInitializationHandle {
   serviceAccountUsername?: string;
 }
 
-export function serviceInitializationHandleDeserializer(
-  item: any,
-): ServiceInitializationHandle {
+export function serviceInitializationHandleDeserializer(item: any): ServiceInitializationHandle {
   return {
     clusterResourceId: item["sddcResourceId"],
     serviceAccountUsername: item["serviceAccountUsername"],
@@ -1436,9 +1354,7 @@ export interface ServiceInitializationInfo {
   vSphereCertificate?: string;
 }
 
-export function serviceInitializationInfoSerializer(
-  item: ServiceInitializationInfo,
-): any {
+export function serviceInitializationInfoSerializer(item: ServiceInitializationInfo): any {
   return {
     serviceAccountUsername: item["serviceAccountUsername"],
     serviceAccountPassword: item["serviceAccountPassword"],
@@ -1453,9 +1369,7 @@ export interface AvsStorageContainer extends ProxyResource {
   properties?: AvsStorageContainerProperties;
 }
 
-export function avsStorageContainerDeserializer(
-  item: any,
-): AvsStorageContainer {
+export function avsStorageContainerDeserializer(item: any): AvsStorageContainer {
   return {
     id: item["id"],
     name: item["name"],
@@ -1526,9 +1440,7 @@ export function _avsStorageContainerListResultDeserializer(
   };
 }
 
-export function avsStorageContainerArrayDeserializer(
-  result: Array<AvsStorageContainer>,
-): any[] {
+export function avsStorageContainerArrayDeserializer(result: Array<AvsStorageContainer>): any[] {
   return result.map((item) => {
     return avsStorageContainerDeserializer(item);
   });
@@ -1591,9 +1503,7 @@ export interface AvsStorageContainerVolume extends ProxyResource {
   properties?: VolumeProperties;
 }
 
-export function avsStorageContainerVolumeDeserializer(
-  item: any,
-): AvsStorageContainerVolume {
+export function avsStorageContainerVolumeDeserializer(item: any): AvsStorageContainerVolume {
   return {
     id: item["id"],
     name: item["name"],
@@ -1739,9 +1649,7 @@ export interface AvsVmUpdateProperties {
   softDeletion?: SoftDeletion;
 }
 
-export function avsVmUpdatePropertiesSerializer(
-  item: AvsVmUpdateProperties,
-): any {
+export function avsVmUpdatePropertiesSerializer(item: AvsVmUpdateProperties): any {
   return {
     softDeletion: !item["softDeletion"]
       ? item["softDeletion"]
@@ -1899,9 +1807,7 @@ export interface AvsVmVolumeUpdateProperties {
   softDeletion?: SoftDeletion;
 }
 
-export function avsVmVolumeUpdatePropertiesSerializer(
-  item: AvsVmVolumeUpdateProperties,
-): any {
+export function avsVmVolumeUpdatePropertiesSerializer(item: AvsVmVolumeUpdateProperties): any {
   return {
     softDeletion: !item["softDeletion"]
       ? item["softDeletion"]
@@ -1937,18 +1843,14 @@ export interface _AvsVmVolumeListResult {
   nextLink?: string;
 }
 
-export function _avsVmVolumeListResultDeserializer(
-  item: any,
-): _AvsVmVolumeListResult {
+export function _avsVmVolumeListResultDeserializer(item: any): _AvsVmVolumeListResult {
   return {
     value: avsVmVolumeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function avsVmVolumeArrayDeserializer(
-  result: Array<AvsVmVolume>,
-): any[] {
+export function avsVmVolumeArrayDeserializer(result: Array<AvsVmVolume>): any[] {
   return result.map((item) => {
     return avsVmVolumeDeserializer(item);
   });

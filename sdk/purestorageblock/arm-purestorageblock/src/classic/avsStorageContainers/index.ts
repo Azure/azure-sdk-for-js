@@ -8,11 +8,7 @@ import {
   AvsStorageContainersDeleteOptionalParams,
   AvsStorageContainersGetOptionalParams,
 } from "../../api/avsStorageContainers/options.js";
-import {
-  listByStoragePool,
-  $delete,
-  get,
-} from "../../api/avsStorageContainers/operations.js";
+import { listByStoragePool, $delete, get } from "../../api/avsStorageContainers/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -51,34 +47,19 @@ function _getAvsStorageContainers(context: BlockContext) {
       resourceGroupName: string,
       storagePoolName: string,
       options?: AvsStorageContainersListByStoragePoolOptionalParams,
-    ) =>
-      listByStoragePool(context, resourceGroupName, storagePoolName, options),
+    ) => listByStoragePool(context, resourceGroupName, storagePoolName, options),
     delete: (
       resourceGroupName: string,
       storagePoolName: string,
       storageContainerName: string,
       options?: AvsStorageContainersDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        storageContainerName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, storagePoolName, storageContainerName, options),
     get: (
       resourceGroupName: string,
       storagePoolName: string,
       storageContainerName: string,
       options?: AvsStorageContainersGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        storageContainerName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, storagePoolName, storageContainerName, options),
   };
 }
 

@@ -138,45 +138,24 @@ function _getStoragePools(context: BlockContext) {
       resourceGroupName: string,
       storagePoolName: string,
       options?: StoragePoolsRepairAvsConnectionOptionalParams,
-    ) =>
-      repairAvsConnection(context, resourceGroupName, storagePoolName, options),
+    ) => repairAvsConnection(context, resourceGroupName, storagePoolName, options),
     finalizeAvsConnection: (
       resourceGroupName: string,
       storagePoolName: string,
       properties: StoragePoolFinalizeAvsConnectionPost,
       options?: StoragePoolsFinalizeAvsConnectionOptionalParams,
-    ) =>
-      finalizeAvsConnection(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        properties,
-        options,
-      ),
+    ) => finalizeAvsConnection(context, resourceGroupName, storagePoolName, properties, options),
     disableAvsConnection: (
       resourceGroupName: string,
       storagePoolName: string,
       options?: StoragePoolsDisableAvsConnectionOptionalParams,
-    ) =>
-      disableAvsConnection(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        options,
-      ),
+    ) => disableAvsConnection(context, resourceGroupName, storagePoolName, options),
     enableAvsConnection: (
       resourceGroupName: string,
       storagePoolName: string,
       properties: StoragePoolEnableAvsConnectionPost,
       options?: StoragePoolsEnableAvsConnectionOptionalParams,
-    ) =>
-      enableAvsConnection(
-        context,
-        resourceGroupName,
-        storagePoolName,
-        properties,
-        options,
-      ),
+    ) => enableAvsConnection(context, resourceGroupName, storagePoolName, properties, options),
     getAvsStatus: (
       resourceGroupName: string,
       storagePoolName: string,
@@ -192,9 +171,8 @@ function _getStoragePools(context: BlockContext) {
       storagePoolName: string,
       options?: StoragePoolsGetHealthStatusOptionalParams,
     ) => getHealthStatus(context, resourceGroupName, storagePoolName, options),
-    listBySubscription: (
-      options?: StoragePoolsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: StoragePoolsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: StoragePoolsListByResourceGroupOptionalParams,
@@ -209,8 +187,7 @@ function _getStoragePools(context: BlockContext) {
       storagePoolName: string,
       properties: StoragePoolUpdate,
       options?: StoragePoolsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, storagePoolName, properties, options),
+    ) => update(context, resourceGroupName, storagePoolName, properties, options),
     create: (
       resourceGroupName: string,
       storagePoolName: string,
@@ -225,9 +202,7 @@ function _getStoragePools(context: BlockContext) {
   };
 }
 
-export function _getStoragePoolsOperations(
-  context: BlockContext,
-): StoragePoolsOperations {
+export function _getStoragePoolsOperations(context: BlockContext): StoragePoolsOperations {
   return {
     ..._getStoragePools(context),
   };

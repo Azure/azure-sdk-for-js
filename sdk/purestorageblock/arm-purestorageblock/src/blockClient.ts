@@ -1,19 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createBlock,
-  BlockContext,
-  BlockClientOptionalParams,
-} from "./api/index.js";
+import { createBlock, BlockContext, BlockClientOptionalParams } from "./api/index.js";
 import {
   AvsVmVolumesOperations,
   _getAvsVmVolumesOperations,
 } from "./classic/avsVmVolumes/index.js";
-import {
-  AvsVmsOperations,
-  _getAvsVmsOperations,
-} from "./classic/avsVms/index.js";
+import { AvsVmsOperations, _getAvsVmsOperations } from "./classic/avsVms/index.js";
 import {
   AvsStorageContainerVolumesOperations,
   _getAvsStorageContainerVolumesOperations,
@@ -30,10 +23,7 @@ import {
   ReservationsOperations,
   _getReservationsOperations,
 } from "./classic/reservations/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -60,12 +50,8 @@ export class BlockClient {
     this.pipeline = this._client.pipeline;
     this.avsVmVolumes = _getAvsVmVolumesOperations(this._client);
     this.avsVms = _getAvsVmsOperations(this._client);
-    this.avsStorageContainerVolumes = _getAvsStorageContainerVolumesOperations(
-      this._client,
-    );
-    this.avsStorageContainers = _getAvsStorageContainersOperations(
-      this._client,
-    );
+    this.avsStorageContainerVolumes = _getAvsStorageContainerVolumesOperations(this._client);
+    this.avsStorageContainers = _getAvsStorageContainersOperations(this._client);
     this.storagePools = _getStoragePoolsOperations(this._client);
     this.reservations = _getReservationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
