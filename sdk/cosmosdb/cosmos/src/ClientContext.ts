@@ -1054,4 +1054,11 @@ export class ClientContext {
   public getRetryOptions(): RetryOptions {
     return this.connectionPolicy.retryOptions;
   }
+
+  /**
+   * @internal
+   */
+  public getIsPartitionLevelFailOverEnabled(): boolean {
+    return this.connectionPolicy.enablePartitionLevelFailover;
+  }
 }

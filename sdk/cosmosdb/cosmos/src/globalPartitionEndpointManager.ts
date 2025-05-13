@@ -358,6 +358,12 @@ export class GlobalPartitionEndpointManager {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+  /**
+   * Attempts to open connections to unhealthy endpoints and initiates failback if the connections are successful.
+   * This method checks the partition key ranges that have failed locations and tries to re-establish connections
+   * to those locations. If a connection is successfully re-established, it initiates a failback to the original
+   * location for the partition key range.
+   */
   private async tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync(): Promise<void> {
     const pkRangeToEndpointMappings = new Map<string, [string, HealthStatus]>();
 
@@ -384,10 +390,25 @@ export class GlobalPartitionEndpointManager {
       for (const pkRange of pkRangeToEndpointMappings.keys()) {
         const [_, currentHealthState] = pkRangeToEndpointMappings.get(pkRange);
         if (currentHealthState === HealthStatus.Connected) {
+          // Initiate Failback to the original failed location.
           this.partitionKeyRangeToLocationForReadAndWrite.delete(pkRange);
         }
       }
     }
+  }
+
+  /**
+   * Attempts to mark the unhealthy endpoints for a faulty partition to healthy state, un-deterministically. This is done
+   * specifically for the gateway mode to get the faulty partition failed back to the original location.
+   */
+  private async backgroundOpenConnectionTask(
+    pkRangeToEndpointMappings: Map<string, [string, HealthStatus]>,
+  ): Promise<void> {
+    for (const [pkRange, [originalFailedLocation, _]] of pkRangeToEndpointMappings) {
+      // Un-deterministically marking the original failed endpoint for the PkRange back to healthy.
+      pkRangeToEndpointMappings.set(pkRange, [originalFailedLocation, HealthStatus.Connected]);
+    }
+    return;
   }
 }
 /**

@@ -293,8 +293,14 @@ export class Item {
           this.container,
         );
         let partitionKeyRangeId: string;
-        // TODO : if ppaf is enabled ?
-        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        if (
+          isPartitionLevelFailOverEnabled &&
+          partitionKey &&
+          partitionKey.length > 0 &&
+          partitionKeyDefinition
+        ) {
           partitionKeyRangeId =
             await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
               this.container.url,
@@ -425,7 +431,14 @@ export class Item {
           this.container,
         );
         let partitionKeyRangeId: string;
-        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        if (
+          isPartitionLevelFailOverEnabled &&
+          partitionKey &&
+          partitionKey.length > 0 &&
+          partitionKeyDefinition
+        ) {
           partitionKeyRangeId =
             await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
               this.container.url,
@@ -570,7 +583,14 @@ export class Item {
           this.container,
         );
         let partitionKeyRangeId: string;
-        if (partitionKey && partitionKey.length > 0 && partitionKeyDefinition) {
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+        if (
+          isPartitionLevelFailOverEnabled &&
+          partitionKey &&
+          partitionKey.length > 0 &&
+          partitionKeyDefinition
+        ) {
           partitionKeyRangeId =
             await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
               this.container.url,
