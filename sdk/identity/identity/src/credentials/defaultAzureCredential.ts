@@ -246,7 +246,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.
     // The value of AZURE_TOKEN_CREDENTIALS should be either "development" or "production".
     if (process.env.AZURE_TOKEN_CREDENTIALS) {
-      if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "production") {
+      if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "prod") {
         // If AZURE_TOKEN_CREDENTIALS is set to "production", use the production credential chain.
         credentialFunctions = [
           createEnvironmentCredential,
