@@ -259,7 +259,9 @@ export function inputDataUnionSerializer(item: InputDataUnion): any {
   }
 }
 
-export function inputDataUnionDeserializer(item: any): InputDataUnion {
+export function inputDataUnionDeserializer(_item: any): InputDataUnion {
+  const item = _item || {};
+  
   switch (item.type) {
     case "dataset":
       return inputDatasetDeserializer(item as InputDataset);
