@@ -287,9 +287,7 @@ export function generateDataLakeSASQueryParametersInternal(
           dataLakeSASSignatureValues,
           userDelegationKeyCredential!,
         );
-
-      }
-      else {
+      } else {
         return generateBlobSASQueryParametersUDK20201206(
           dataLakeSASSignatureValues,
           userDelegationKeyCredential!,

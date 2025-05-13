@@ -358,8 +358,7 @@ export function generateBlobSASQueryParametersInternal(
           blobSASSignatureValues,
           userDelegationKeyCredential!,
         );
-      }
-      else {
+      } else {
         return generateBlobSASQueryParametersUDK20201206(
           blobSASSignatureValues,
           userDelegationKeyCredential!,

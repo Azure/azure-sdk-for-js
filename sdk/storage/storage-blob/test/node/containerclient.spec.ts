@@ -118,7 +118,7 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
   });
-  
+
   it("setAccessPolicy with OAuth", async () => {
     const containerClientWithOAuthToken = new ContainerClient(
       containerClient.url,
@@ -127,7 +127,7 @@ describe("ContainerClient Node.js only", () => {
     configureBlobStorageClient(recorder, containerClientWithOAuthToken);
     const exists = await containerClientWithOAuthToken.exists();
     assert.strictEqual(true, exists);
-    
+
     const containerAcl = [
       {
         accessPolicy: {

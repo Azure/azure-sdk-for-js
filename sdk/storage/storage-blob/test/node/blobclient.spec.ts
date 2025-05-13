@@ -1282,10 +1282,10 @@ describe("BlobClient Copy from file Node.js only", () => {
         scheme: "Bearer",
         value: accessToken!.token,
       },
-      sourceShareTokenIntent: 'backup'
+      sourceShareTokenIntent: "backup",
     });
     assert.ok(result.copyId);
-    
+
     // Validate source and destination blob content match.
     const downloadRes = await newBlobClient.download();
     assert.equal(await bodyToString(downloadRes, content.length), content);

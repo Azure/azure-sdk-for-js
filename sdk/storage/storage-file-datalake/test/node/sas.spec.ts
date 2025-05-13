@@ -1890,7 +1890,7 @@ describe.skip("Generate user delegation SAS against file system Node.js only", (
     const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
     assert.deepEqual(signature, getSignatureFromSasUrl(containerSasUrl));
   });
-  
+
   it("generateUserDelegationSasUrl should work with 2020-12-06", async () => {
     const containerSasOptions = {
       expiresOn: tmr,
@@ -2308,7 +2308,7 @@ describe.skip("Generate user delegation SAS against path Node.js only", () => {
     const dirSasOptions = {
       expiresOn: tmr,
       permissions: DirectorySASPermissions.parse("racwdmeop"),
-      version: "2020-12-06"
+      version: "2020-12-06",
     };
 
     const directorySasUrl = await directoryClient.generateUserDelegationSasUrl(

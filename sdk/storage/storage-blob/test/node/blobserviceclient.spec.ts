@@ -150,13 +150,13 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
   });
-  
-    it("getAccountInfo with OAuth", async () => {
-      const blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
-  
-      const accountInfo = await blobServiceClient.getAccountInfo();
-      assert.ok(accountInfo.accountKind);
-      assert.ok(accountInfo.skuName);
-      assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
-    });
+
+  it("getAccountInfo with OAuth", async () => {
+    const blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+
+    const accountInfo = await blobServiceClient.getAccountInfo();
+    assert.ok(accountInfo.accountKind);
+    assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
+  });
 });
