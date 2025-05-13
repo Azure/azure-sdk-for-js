@@ -48,34 +48,34 @@ describe("snippets", function () {
   });
 
   it("toolSet", async function () {
-      // Upload file for code interpreter tool
-      const filePath1 = "./data/nifty500QuarterlyResults.csv";
-      const fileStream1 = fs.createReadStream(filePath1);
-      const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
-        fileName: "myLocalFile",
-      });
+    // Upload file for code interpreter tool
+    const filePath1 = "./data/nifty500QuarterlyResults.csv";
+    const fileStream1 = fs.createReadStream(filePath1);
+    const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
+      fileName: "myLocalFile",
+    });
 
-      console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
+    console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
 
-      // Upload file for file search tool
-      const filePath2 = "./data/sampleFileForUpload.txt";
-      const fileStream2 = fs.createReadStream(filePath2);
-      const fileSearchFile = await client.files.upload(fileStream2, "assistants", {
-        fileName: "sampleFileForUpload.txt",
-      });
-      console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
+    // Upload file for file search tool
+    const filePath2 = "./data/sampleFileForUpload.txt";
+    const fileStream2 = fs.createReadStream(filePath2);
+    const fileSearchFile = await client.files.upload(fileStream2, "assistants", {
+      fileName: "sampleFileForUpload.txt",
+    });
+    console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
 
-      // Create vector store for file search tool
-      const vectorStore = await client.vectorStores
-        .createAndPoll({
-          fileIds: [fileSearchFile.id],
-        })
-        .pollUntilDone();
+    // Create vector store for file search tool
+    const vectorStore = await client.vectorStores
+      .createAndPoll({
+        fileIds: [fileSearchFile.id],
+      })
+      .pollUntilDone();
 
-      // Create tool set
-      const toolSet = new ToolSet();
-      toolSet.addFileSearchTool([vectorStore.id]);
-      toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+    // Create tool set
+    const toolSet = new ToolSet();
+    toolSet.addFileSearchTool([vectorStore.id]);
+    toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
   });
 
   it("fileSearch", async function () {
@@ -144,12 +144,12 @@ describe("snippets", function () {
     // @ts-preserve-whitespace
     // Initialize Azure AI Search tool
     const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
-        queryType: "simple",
-        topK: 3,
-        filter: "", // Add string here to filter results
-        indexConnectionId: connectionName,
-        indexName: "search-index"
-      });
+      queryType: "simple",
+      topK: 3,
+      filter: "", // Add string here to filter results
+      indexConnectionId: connectionName,
+      indexName: "search-index",
+    });
 
     // @ts-preserve-whitespace
     // Create agent with the Azure AI search tool
@@ -218,7 +218,9 @@ describe("snippets", function () {
         return { weather: unit === "f" ? "72f" : "22c" };
       }
       // @ts-preserve-whitespace
-      public invokeTool(toolCall: RequiredToolCall & FunctionToolDefinition): ToolOutput | undefined {
+      public invokeTool(
+        toolCall: RequiredToolCall & FunctionToolDefinition,
+      ): ToolOutput | undefined {
         console.log(`Function tool call - ${toolCall.function.name}`);
         const args: any[] = [];
         if (toolCall.function.parameters) {
@@ -235,7 +237,11 @@ describe("snippets", function () {
           }
         }
         const result = this.functionTools
-          .map((tool) => (tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined))
+          .map((tool) =>
+            tool.definition.function.name === toolCall.function.name
+              ? tool.func(...args)
+              : undefined,
+          )
           .find((r) => r !== undefined);
         return result
           ? {
@@ -244,7 +250,9 @@ describe("snippets", function () {
             }
           : {
               toolCallId: toolCall.id,
-              output: JSON.stringify({ error: `No matching tool found for function: ${toolCall.function.name}` }),
+              output: JSON.stringify({
+                error: `No matching tool found for function: ${toolCall.function.name}`,
+              }),
             };
       }
       // @ts-preserve-whitespace

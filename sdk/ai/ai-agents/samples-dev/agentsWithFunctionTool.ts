@@ -103,7 +103,9 @@ export async function main(): Promise<void> {
         }
       }
       const result = this.functionTools
-        .map((tool) => (tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined))
+        .map((tool) =>
+          tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined,
+        )
         .find((r) => r !== undefined);
       return result
         ? {
@@ -112,7 +114,9 @@ export async function main(): Promise<void> {
           }
         : {
             toolCallId: toolCall.id,
-            output: JSON.stringify({ error: `No matching tool found for function: ${toolCall.function.name}` }),
+            output: JSON.stringify({
+              error: `No matching tool found for function: ${toolCall.function.name}`,
+            }),
           };
     }
 
