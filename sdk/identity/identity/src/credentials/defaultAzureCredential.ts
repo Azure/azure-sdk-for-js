@@ -234,39 +234,45 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
   constructor(options?: DefaultAzureCredentialOptions) {
     // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
-    let credentialFunctions = [
-      createEnvironmentCredential,
-      createDefaultWorkloadIdentityCredential,
-      createDefaultManagedIdentityCredential,
+    const azureTokenCredentials = (process.env.AZURE_TOKEN_CREDENTIALS)?.toLowerCase();
+    let devCredentialFunctions = [
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,
     ];
-
+    let prodCredentialFunctions = [
+      createEnvironmentCredential,
+      createDefaultWorkloadIdentityCredential,
+      createDefaultManagedIdentityCredential,
+    ];
+    let credentialFunctions = [];
     // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.
-    // The value of AZURE_TOKEN_CREDENTIALS should be either "development" or "production".
-    if (process.env.AZURE_TOKEN_CREDENTIALS) {
-      if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "prod") {
-        // If AZURE_TOKEN_CREDENTIALS is set to "production", use the production credential chain.
-        credentialFunctions = [
-          createEnvironmentCredential,
-          createDefaultWorkloadIdentityCredential,
-          createDefaultManagedIdentityCredential,
-        ];
-      } else if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "dev") {
-        // If AZURE_TOKEN_CREDENTIALS is set to "development", use the development credential chain.
-        credentialFunctions = [
-          createDefaultAzureCliCredential,
-          createDefaultAzurePowershellCredential,
-          createDefaultAzureDeveloperCliCredential,
-        ];
-      } else {
-        // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
-        // We will throw an error here to prevent the creation of the DefaultAzureCredential.
-        const errorMessage = `Unsupported value set for the environment AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Only supported values are "development" and "production". Cannot create DefaultAzureCredential.`;
+    // The value of AZURE_TOKEN_CREDENTIALS should be either "dev" or "prod".
+    if (azureTokenCredentials) {
+      switch (azureTokenCredentials) {
+        case "dev":
+          // If AZURE_TOKEN_CREDENTIALS is set to "dev", use the developer-tool based credential chain.
+          credentialFunctions = devCredentialFunctions;
+          break;
+        case "prod":
+          // If AZURE_TOKEN_CREDENTIALS is set to "prod", use the production credential chain.
+          credentialFunctions = prodCredentialFunctions;
+          break;
+        default:
+          // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
+          // We will throw an error here to prevent the creation of the DefaultAzureCredential.
+          // We will throw an error here to prevent the creation of the DefaultAzureCredential.
+          const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev'.`;
         logger.warning(errorMessage);
         throw new Error(errorMessage);
       }
+    }
+    else {
+      // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
+      credentialFunctions = [
+        ...prodCredentialFunctions,
+        ...devCredentialFunctions
+      ];
     }
 
     // Errors from individual credentials should not be thrown in the DefaultAzureCredential constructor, instead throwing on getToken() which is handled by ChainedTokenCredential.
