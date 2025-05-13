@@ -108,7 +108,7 @@ export function _createRunSend(
 }
 
 export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<Evaluation> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }

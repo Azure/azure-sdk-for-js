@@ -42,7 +42,8 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {EnableTelemetryType} enableTelemetry - The operation groups for enabling telemetry
  */
 export class AIProjectClient {
-  private _client: AIProjectContext;
+  private _cognitiveScopeClient: AIProjectContext;
+  private _azureScopeClient: AIProjectContext;
   private _endpoint: string;
   private _credential: TokenCredential;
   private _agents: AgentsClient | undefined;
@@ -60,18 +61,28 @@ export class AIProjectClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAIProject(endpointParam, credential, {
+    this._cognitiveScopeClient = createAIProject(endpointParam, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
-    this.pipeline = this._client.pipeline;
-    this.redTeams = _getRedTeamsOperations(this._client);
-    this.deployments = _getDeploymentsOperations(this._client);
-    this.indexes = _getIndexesOperations(this._client);
-    this.datasets = _getDatasetsOperations(this._client);
-    this.evaluations = _getEvaluationsOperations(this._client);
-    this.connections = _getConnectionsOperations(this._client);
-    this.inference = _getInferenceOperations(this._client, this.connections);
+
+    this._azureScopeClient = createAIProject(endpointParam, credential, {
+      ...options,
+      credentials: {
+        ...options.credentials,
+        scopes: ["https://ai.azure.com/.default"],
+      },
+      userAgentOptions: { userAgentPrefix },
+    });
+
+    this.pipeline = this._cognitiveScopeClient.pipeline;
+    this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
+    this.deployments = _getDeploymentsOperations(this._cognitiveScopeClient);
+    this.indexes = _getIndexesOperations(this._cognitiveScopeClient);
+    this.datasets = _getDatasetsOperations(this._cognitiveScopeClient);
+    this.evaluations = _getEvaluationsOperations(this._azureScopeClient);
+    this.connections = _getConnectionsOperations(this._cognitiveScopeClient);
+    this.inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
     this.telemetry = _getTelemetryOperations(this.connections);
     this.enableTelemetry = enableTelemetry;
   }
@@ -134,7 +145,7 @@ export class AIProjectClient {
   public get agents(): AgentsClient {
     if (!this._agents) {
       this._agents = new AgentsClient(this._endpoint, this._credential, {
-        userAgentOptions: this._client.getUserAgent(),
+        userAgentOptions: this._cognitiveScopeClient.getUserAgent(),
       });
     }
     return this._agents;
