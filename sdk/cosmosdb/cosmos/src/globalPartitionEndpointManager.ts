@@ -109,11 +109,7 @@ export class GlobalPartitionEndpointManager {
   public async tryAddPartitionLevelLocationOverride(
     requestContext: RequestContext,
   ): Promise<boolean | [boolean, string]> {
-    const isRequestEligibleForPartitionFailover = await this.isRequestEligibleForPartitionFailover(
-      requestContext,
-      false,
-    );
-    if (!isRequestEligibleForPartitionFailover) {
+    if (!(await this.isRequestEligibleForPartitionFailover(requestContext, false))) {
       return false;
     }
 
