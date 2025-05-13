@@ -59,14 +59,22 @@ export class GlobalPartitionEndpointManager {
   public async tryMarkEndpointUnavailableForPartitionKeyRange(
     requestContext: RequestContext,
   ): Promise<boolean> {
-    const isRequestEligibleForPartitionFailover = await this.isRequestEligibleForPartitionFailover(
-      requestContext,
-      true,
-    );
-    if (!isRequestEligibleForPartitionFailover) {
+    if (!(await this.isRequestEligibleForPartitionFailover(requestContext, true))) {
       return false;
     }
+    if (
+      this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext) ||
+      (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext) &&
+        (await this.incrementRequestFailureCounterAndCheckIfPartitionCanFailover(requestContext)))
+    ) {
+      return this.tryMarkEndpointUnavailableForPKRange(requestContext);
+    }
+    return false;
+  }
 
+  private async tryMarkEndpointUnavailableForPKRange(
+    requestContext: RequestContext,
+  ): Promise<boolean> {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
     const failedEndPoint = requestContext.endpoint;
 
@@ -133,17 +141,13 @@ export class GlobalPartitionEndpointManager {
     return false;
   }
 
-  public async incrementRequestFailureCounterAndCheckIfPartitionCanFailover(
+  /**
+   * Increments the failure counter for the specified partition and checks if the partition can fail over.
+   * This method is used to determine if a partition should be failed over based on the number of request failures.
+   */
+  private async incrementRequestFailureCounterAndCheckIfPartitionCanFailover(
     requestContext: RequestContext,
   ): Promise<boolean> {
-    const isRequestEligibleForPartitionFailover = await this.isRequestEligibleForPartitionFailover(
-      requestContext,
-      true,
-    );
-    if (!isRequestEligibleForPartitionFailover) {
-      return false;
-    }
-
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
     const failedEndPoint = requestContext.endpoint;
     let partitionKeyRangeFailoverInfo: PartitionKeyRangeFailoverInfo;
@@ -166,8 +170,12 @@ export class GlobalPartitionEndpointManager {
         this.partitionKeyRangeToLocationForReadAndWrite.get(partitionKeyRangeId);
     }
 
+    if (!partitionKeyRangeFailoverInfo) {
+      return false;
+    }
+
     const currentTime = Date.now();
-    partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
+    await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
       currentTime,
     );
@@ -182,11 +190,8 @@ export class GlobalPartitionEndpointManager {
     requestContext: RequestContext,
     shouldValidateFailedLocation: boolean,
   ): Promise<boolean> {
-    if (!requestContext) {
-      return false;
-    }
-
     if (
+      !requestContext ||
       !requestContext.operationType ||
       !requestContext.resourceType ||
       !requestContext.partitionKeyRangeId
@@ -202,10 +207,8 @@ export class GlobalPartitionEndpointManager {
       return false;
     }
 
-    if (shouldValidateFailedLocation) {
-      if (!requestContext.endpoint) {
-        return false;
-      }
+    if (shouldValidateFailedLocation && !requestContext.endpoint) {
+      return false;
     }
     return true;
   }
@@ -239,23 +242,17 @@ export class GlobalPartitionEndpointManager {
    * A request is eligible if it is a write request, partition level failover is enabled,
    * and the global endpoint manager cannot use multiple write locations for the request.
    */
-  private async isRequestEligibleForPerPartitionAutomaticFailover(
+  private isRequestEligibleForPerPartitionAutomaticFailover(
     requestContext: RequestContext,
-  ): Promise<boolean> {
-    if (!this.enablePartitionLevelFailover) {
-      return false;
-    }
-    if (isReadRequest(requestContext.operationType)) {
-      return false;
-    }
-    const canUseMultipleWriteLocations = this.globalEndpointManager.canUseMultipleWriteLocations(
-      requestContext.resourceType,
-      requestContext.operationType,
+  ): boolean {
+    return (
+      this.enablePartitionLevelFailover &&
+      !isReadRequest(requestContext.operationType) &&
+      !this.globalEndpointManager.canUseMultipleWriteLocations(
+        requestContext.resourceType,
+        requestContext.operationType,
+      )
     );
-    if (canUseMultipleWriteLocations) {
-      return false;
-    }
-    return true;
   }
 
   /**
@@ -263,23 +260,19 @@ export class GlobalPartitionEndpointManager {
    * This method checks if partition-level circuit breaker is enabled, and if the request is a read-only request or
    * the global endpoint manager can use multiple write locations for the request.
    */
-  private async IsRequestEligibleForPartitionLevelCircuitBreaker(
+  private IsRequestEligibleForPartitionLevelCircuitBreaker(
     requestContext: RequestContext,
-  ): Promise<boolean> {
+  ): boolean {
     if (!this.enablePartitionLevelCircuitBreaker) {
       return false;
     }
     if (isReadRequest(requestContext.operationType)) {
       return true;
     }
-    const canUseMultipleWriteLocations = this.globalEndpointManager.canUseMultipleWriteLocations(
+    return this.globalEndpointManager.canUseMultipleWriteLocations(
       requestContext.resourceType,
       requestContext.operationType,
     );
-    if (canUseMultipleWriteLocations) {
-      return true;
-    }
-    return false;
   }
 
   /**
