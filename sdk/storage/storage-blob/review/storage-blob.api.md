@@ -150,6 +150,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
+    sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 // @public
@@ -2146,6 +2147,9 @@ export type DeleteSnapshotsOptionType = "include" | "only";
 
 // @public
 export type EncryptionAlgorithmType = string;
+
+// @public
+export type FileShareTokenIntent = string;
 
 // @public
 export interface FilterBlobItem {
