@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert } from "vitest";
-import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
+import * as http from "node:http";
 
 describe("Azure Container Instance Integration test", function () {
   it("can authenticate using managed identity", async function (ctx) {
@@ -15,22 +15,37 @@ describe("Azure Container Instance Integration test", function () {
       ctx.skip("set IDENTITY_ACI_IP to run this test");
       return;
     }
+
     console.log(`Container IP: ${containerIp}`);
-    const client = createDefaultHttpClient();
-    const request = createPipelineRequest({
-      url: `http://${containerIp}`,
-      method: "GET",
+
+    return new Promise<void>((resolve, reject) => {
+      const req = http.get(`http://${containerIp}`, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+
+        let responseBody = "";
+        res.on("data", (chunk) => {
+          responseBody += chunk;
+        });
+
+        res.on("end", () => {
+          console.log("Receiving response body:", responseBody);
+          console.log("Response status code:", res.statusCode);
+          assert.strictEqual(
+            res.statusCode,
+            200,
+            `Expected status code 200, got ${res.statusCode}. Response body: ${responseBody}`,
+          );
+
+          resolve();
+        });
+      });
+
+      req.on("error", (error) => {
+        console.error("Request error:", error);
+        reject(error);
+      });
+
+      console.log("Sending request to container");
     });
-    request.allowInsecureConnection = true;
-
-    console.log("Sending request to container", JSON.stringify(request, null, 2));
-    const response = await client.sendRequest(request);
-
-    console.log("Receiving", JSON.stringify(response, null, 2));
-    assert.strictEqual(
-      response.status,
-      200,
-      `Expected status code 200, got ${response.status}. Response body: ${response.bodyAsText}`,
-    );
   });
 });
