@@ -88,7 +88,7 @@ export async function main(): Promise<void> {
 
     public invokeTool(toolCall: RequiredToolCall & FunctionToolDefinition): ToolOutput | undefined {
       console.log(`Function tool call - ${toolCall.function.name}`);
-      const args = [];
+      const args: any[] = [];
       if (toolCall.function.parameters) {
         try {
           const params = JSON.parse(toolCall.function.parameters);
@@ -103,14 +103,17 @@ export async function main(): Promise<void> {
         }
       }
       const result = this.functionTools
-        .find((tool) => tool.definition.function.name === toolCall.function.name)
-        ?.func(...args);
+        .map((tool) => (tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined))
+        .find((r) => r !== undefined);
       return result
         ? {
             toolCallId: toolCall.id,
             output: JSON.stringify(result),
           }
-        : undefined;
+        : {
+            toolCallId: toolCall.id,
+            output: JSON.stringify({ error: `No matching tool found for function: ${toolCall.function.name}` }),
+          };
     }
 
     public getFunctionDefinitions(): FunctionToolDefinition[] {

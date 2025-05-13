@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
 
   // Create agent with files
   const agent = await client.createAgent(modelDeploymentName, {
-    name: "SDK Test Agent - Retrieval",
+    name: "File Search Agent",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
     tools: [fileSearchTool.definition],
     toolResources: fileSearchTool.resources,

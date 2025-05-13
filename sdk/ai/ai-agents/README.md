@@ -1,14 +1,13 @@
 # Azure AI Agents client library for JavaScript
 
-Use the AI Agents client library (in preview) to:
+Use the AI Agents client library to:
 
 - **Enumerate connections** in your Azure AI Foundry project and get connection properties.
-  For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
+  For example, get the project endpoint URL and credentials associated with your Azure OpenAI connection.
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
 - **Enable OpenTelemetry tracing**.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
@@ -60,9 +59,11 @@ Use the AI Agents client library (in preview) to:
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
 - A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
-- The project endpoint. It can be found in your Azure AI Foundry project overview page, under "Project details". Below we will assume the environment variable `PROJECT_ENDPOINT` was defined to hold this value.
+
+### Authorization
+
 - Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
-  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
+  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal).
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
   - Note that if you have multiple Azure subscriptions, the subscription that contains your Azure AI Project resource must be your default subscription. Run `az account list --output table` to list all your subscription and see which one is the default. Run `az account set --subscription "Your Subscription ID or Name"` to change your default subscription.
@@ -77,7 +78,7 @@ npm install @azure/ai-agents @azure/identity
 
 ### Create and authenticate the client
 
-The class factory method `fromConnectionString` is used to construct the client. To construct a client:
+The `AgentsClient` is used to construct the client. To construct a client:
 
 ```ts snippet:setup
 import { AgentsClient } from "@azure/ai-agents";
@@ -90,7 +91,7 @@ const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
 ## Examples
 
-### Agents (Preview)
+### Agents
 
 Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples) for additional Agent samples.
 
@@ -114,19 +115,30 @@ You can use `ToolSet` to do this:
 ```ts snippet:toolSet
 import { ToolSet } from "@azure/ai-agents";
 
+// Upload file for code interpreter tool
+const filePath1 = "./data/nifty500QuarterlyResults.csv";
+const fileStream1 = fs.createReadStream(filePath1);
+const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
+  fileName: "myLocalFile",
+});
+console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
+// Upload file for file search tool
+const filePath2 = "./data/sampleFileForUpload.txt";
+const fileStream2 = fs.createReadStream(filePath2);
+const fileSearchFile = await client.files.upload(fileStream2, "assistants", {
+  fileName: "sampleFileForUpload.txt",
+});
+console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
+// Create vector store for file search tool
+const vectorStore = await client.vectorStores
+  .createAndPoll({
+    fileIds: [fileSearchFile.id],
+  })
+  .pollUntilDone();
 // Create tool set
 const toolSet = new ToolSet();
 await toolSet.addFileSearchTool([vectorStore.id]);
 await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
-
-// Create agent with tool set
-const agent = await client.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: toolSet.toolDefinitions,
-  toolResources: toolSet.toolResources,
-});
-console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
 #### Create Agent with File Search
@@ -135,6 +147,7 @@ To perform file search by an Agent, we first need to upload a file, create a vec
 
 ```ts snippet:fileSearch
 import { ToolUtility } from "@azure/ai-agents";
+import * as fs from "node:fs";
 
 const filePath = "./data/sampleFileForUpload.txt";
 const localFileStream = fs.createReadStream(filePath);
@@ -152,7 +165,7 @@ console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
 
 const agent = await client.createAgent("gpt-4o", {
-  name: "SDK Test Agent - Retrieval",
+  name: "File Search Agent",
   instructions: "You are helpful agent that can help fetch data from files you know about.",
   tools: [fileSearchTool.definition],
   toolResources: fileSearchTool.resources,
@@ -189,7 +202,7 @@ console.log(`Created agent, agent ID: ${agent.id}`);
 
 #### Create Agent with Bing Grounding
 
-To enable your Agent to perform search through Bing search API, you use `ToolUtility.createConnectionTool()` along with a connection.
+To enable your Agent to perform search through Bing search API, you use `ToolUtility.createBingGroundingTool()` along with a connection. See [here](https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/bing-grounding?tabs=python&pivots=overview) to learn more about Grounding with Bing Search.
 
 Here is an example:
 
@@ -219,15 +232,15 @@ Here is an example to integrate Azure AI Search:
 ```ts snippet:AISearch
 import { ToolUtility } from "@azure/ai-agents";
 
-const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
+const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
 
 // Initialize Azure AI Search tool
-const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-search-sample", {
+const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
   queryType: "simple",
   topK: 3,
-  filter: "",
-  indexConnectionId: "",
-  indexName: "",
+  filter: "", // Add string here to filter results
+  indexConnectionId: connectionName,
+  indexName: "search-index",
 });
 
 // Create agent with the Azure AI search tool
@@ -314,7 +327,7 @@ class FunctionToolExecutor {
 
   public invokeTool(toolCall: RequiredToolCall & FunctionToolDefinition): ToolOutput | undefined {
     console.log(`Function tool call - ${toolCall.function.name}`);
-    const args = [];
+    const args: any[] = [];
     if (toolCall.function.parameters) {
       try {
         const params = JSON.parse(toolCall.function.parameters);
@@ -329,14 +342,21 @@ class FunctionToolExecutor {
       }
     }
     const result = this.functionTools
-      .find((tool) => tool.definition.function.name === toolCall.function.name)
-      ?.func(...args);
+      .map((tool) =>
+        tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined,
+      )
+      .find((r) => r !== undefined);
     return result
       ? {
           toolCallId: toolCall.id,
           output: JSON.stringify(result),
         }
-      : undefined;
+      : {
+          toolCallId: toolCall.id,
+          output: JSON.stringify({
+            error: `No matching tool found for function: ${toolCall.function.name}`,
+          }),
+        };
   }
 
   public getFunctionDefinitions(): FunctionToolDefinition[] {
@@ -363,6 +383,7 @@ Here is an example creating an OpenAPI tool (using anonymous authentication):
 
 ```ts snippet:createAgentWithOpenApi
 import { ToolUtility } from "@azure/ai-agents";
+import * as fs from "node:fs";
 
 // Read in OpenApi spec
 const filePath = "./data/weatherOpenApi.json";

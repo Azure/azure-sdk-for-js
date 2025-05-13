@@ -23,7 +23,7 @@ import {
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { delay } from "@azure/core-util";
 import { RestError } from "@azure/core-rest-pipeline";
 
@@ -48,19 +48,34 @@ describe("snippets", function () {
   });
 
   it("toolSet", async function () {
-    // Create tool set
-    const toolSet = new ToolSet();
-    await toolSet.addFileSearchTool([vectorStore.id]);
-    await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
-    // @ts-preserve-whitespace
-    // Create agent with tool set
-    const agent = await client.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: toolSet.toolDefinitions,
-      toolResources: toolSet.toolResources,
-    });
-    console.log(`Created agent, agent ID: ${agent.id}`);
+      // Upload file for code interpreter tool
+      const filePath1 = "./data/nifty500QuarterlyResults.csv";
+      const fileStream1 = fs.createReadStream(filePath1);
+      const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
+        fileName: "myLocalFile",
+      });
+
+      console.log(`Uploaded local file, file ID : ${codeInterpreterFile.id}`);
+
+      // Upload file for file search tool
+      const filePath2 = "./data/sampleFileForUpload.txt";
+      const fileStream2 = fs.createReadStream(filePath2);
+      const fileSearchFile = await client.files.upload(fileStream2, "assistants", {
+        fileName: "sampleFileForUpload.txt",
+      });
+      console.log(`Uploaded file, file ID: ${fileSearchFile.id}`);
+
+      // Create vector store for file search tool
+      const vectorStore = await client.vectorStores
+        .createAndPoll({
+          fileIds: [fileSearchFile.id],
+        })
+        .pollUntilDone();
+
+      // Create tool set
+      const toolSet = new ToolSet();
+      await toolSet.addFileSearchTool([vectorStore.id]);
+      await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
   });
 
   it("fileSearch", async function () {
@@ -80,7 +95,7 @@ describe("snippets", function () {
     const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
     // @ts-preserve-whitespace
     const agent = await client.createAgent("gpt-4o", {
-      name: "SDK Test Agent - Retrieval",
+      name: "File Search Agent",
       instructions: "You are helpful agent that can help fetch data from files you know about.",
       tools: [fileSearchTool.definition],
       toolResources: fileSearchTool.resources,
@@ -125,20 +140,17 @@ describe("snippets", function () {
   });
 
   it("AISearch", async function () {
-    const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
+    const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
     // @ts-preserve-whitespace
     // Initialize Azure AI Search tool
-    const azureAISearchTool = ToolUtility.createAzureAISearchTool(
-      connectionId,
-      "ai-search-sample",
-      {
+    const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
         queryType: "simple",
         topK: 3,
-        filter: "",
-        indexConnectionId: "",
-        indexName: "",
-      },
-    );
+        filter: "", // Add string here to filter results
+        indexConnectionId: connectionName,
+        indexName: "search-index"
+      });
+
     // @ts-preserve-whitespace
     // Create agent with the Azure AI search tool
     const agent = await client.createAgent("gpt-4o", {
@@ -206,11 +218,9 @@ describe("snippets", function () {
         return { weather: unit === "f" ? "72f" : "22c" };
       }
       // @ts-preserve-whitespace
-      public invokeTool(
-        toolCall: RequiredToolCall & FunctionToolDefinition,
-      ): ToolOutput | undefined {
+      public invokeTool(toolCall: RequiredToolCall & FunctionToolDefinition): ToolOutput | undefined {
         console.log(`Function tool call - ${toolCall.function.name}`);
-        const args = [];
+        const args: any[] = [];
         if (toolCall.function.parameters) {
           try {
             const params = JSON.parse(toolCall.function.parameters);
@@ -225,14 +235,17 @@ describe("snippets", function () {
           }
         }
         const result = this.functionTools
-          .find((tool) => tool.definition.function.name === toolCall.function.name)
-          ?.func(...args);
+          .map((tool) => (tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined))
+          .find((r) => r !== undefined);
         return result
           ? {
               toolCallId: toolCall.id,
               output: JSON.stringify(result),
             }
-          : undefined;
+          : {
+              toolCallId: toolCall.id,
+              output: JSON.stringify({ error: `No matching tool found for function: ${toolCall.function.name}` }),
+            };
       }
       // @ts-preserve-whitespace
       public getFunctionDefinitions(): FunctionToolDefinition[] {
