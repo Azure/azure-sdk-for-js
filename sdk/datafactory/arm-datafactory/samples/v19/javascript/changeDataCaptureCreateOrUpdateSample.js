@@ -28,6 +28,9 @@ async function changeDataCaptureCreate() {
     description:
       "Sample demo change data capture to transfer data from delimited (csv) to Azure SQL Database with automapped and non-automapped mappings.",
     allowVNetOverride: false,
+    sourceConnectionsInfo: [],
+    targetConnectionsInfo: [],
+    policy: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
@@ -57,6 +60,9 @@ async function changeDataCaptureUpdate() {
       "Sample demo change data capture to transfer data from delimited (csv) to Azure SQL Database. Updating table mappings.",
     allowVNetOverride: false,
     status: "Stopped",
+    sourceConnectionsInfo: [],
+    targetConnectionsInfo: [],
+    policy: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);

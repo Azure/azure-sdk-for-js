@@ -13,69 +13,91 @@ export const CommunicationIdentityCreateRequest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunicationIdentityCreateRequest",
     modelProperties: {
+      customId: {
+        constraints: {
+          MinLength: 1,
+        },
+        serializedName: "customId",
+        type: {
+          name: "String",
+        },
+      },
       createTokenWithScopes: {
         serializedName: "createTokenWithScopes",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       expiresInMinutes: {
         defaultValue: 1440,
         constraints: {
           InclusiveMaximum: 1440,
-          InclusiveMinimum: 60
+          InclusiveMinimum: 60,
         },
         serializedName: "expiresInMinutes",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
-export const CommunicationIdentityAccessTokenResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationIdentityAccessTokenResult",
-    modelProperties: {
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentity"
-        }
+export const CommunicationIdentityAccessTokenResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "CommunicationIdentityAccessTokenResult",
+      modelProperties: {
+        identity: {
+          serializedName: "identity",
+          type: {
+            name: "Composite",
+            className: "CommunicationIdentity",
+          },
+        },
+        accessToken: {
+          serializedName: "accessToken",
+          type: {
+            name: "Composite",
+            className: "CommunicationIdentityAccessToken",
+          },
+        },
       },
-      accessToken: {
-        serializedName: "accessToken",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentityAccessToken"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const CommunicationIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIdentity",
     modelProperties: {
+      customId: {
+        serializedName: "customId",
+        type: {
+          name: "String",
+        },
+      },
+      lastTokenIssuedAt: {
+        serializedName: "lastTokenIssuedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
       id: {
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CommunicationIdentityAccessToken: coreClient.CompositeMapper = {
@@ -87,18 +109,18 @@ export const CommunicationIdentityAccessToken: coreClient.CompositeMapper = {
         serializedName: "token",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       expiresOn: {
         serializedName: "expiresOn",
         required: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const CommunicationErrorResponse: coreClient.CompositeMapper = {
@@ -110,11 +132,11 @@ export const CommunicationErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CommunicationError"
-        }
-      }
-    }
-  }
+          className: "CommunicationError",
+        },
+      },
+    },
+  },
 };
 
 export const CommunicationError: coreClient.CompositeMapper = {
@@ -126,22 +148,22 @@ export const CommunicationError: coreClient.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -151,20 +173,20 @@ export const CommunicationError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CommunicationError"
-            }
-          }
-        }
+              className: "CommunicationError",
+            },
+          },
+        },
       },
       innerError: {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "CommunicationError"
-        }
-      }
-    }
-  }
+          className: "CommunicationError",
+        },
+      },
+    },
+  },
 };
 
 export const TeamsUserExchangeTokenRequest: coreClient.CompositeMapper = {
@@ -176,55 +198,231 @@ export const TeamsUserExchangeTokenRequest: coreClient.CompositeMapper = {
         serializedName: "token",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appId: {
         serializedName: "appId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userId: {
         serializedName: "userId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper = {
+export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "CommunicationIdentityAccessTokenRequest",
+      modelProperties: {
+        scopes: {
+          serializedName: "scopes",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        expiresInMinutes: {
+          defaultValue: 1440,
+          constraints: {
+            InclusiveMaximum: 1440,
+            InclusiveMinimum: 60,
+          },
+          serializedName: "expiresInMinutes",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const TeamsExtensionAssignmentResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationIdentityAccessTokenRequest",
+    className: "TeamsExtensionAssignmentResponse",
     modelProperties: {
-      scopes: {
-        serializedName: "scopes",
+      objectId: {
+        serializedName: "objectId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      principalType: {
+        serializedName: "principalType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientIds: {
+        serializedName: "clientIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const TeamsExtensionAssignmentCreateOrUpdateRequest: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "TeamsExtensionAssignmentCreateOrUpdateRequest",
+      modelProperties: {
+        principalType: {
+          serializedName: "principalType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        clientIds: {
+          serializedName: "clientIds",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const EntraAssignmentCreateOrUpdateRequest: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "EntraAssignmentCreateOrUpdateRequest",
+      modelProperties: {
+        tenantId: {
+          serializedName: "tenantId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        principalType: {
+          serializedName: "principalType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        clientIds: {
+          serializedName: "clientIds",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const EntraAssignmentsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntraAssignmentsResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
         required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      expiresInMinutes: {
-        defaultValue: 1440,
-        constraints: {
-          InclusiveMaximum: 1440,
-          InclusiveMinimum: 60
+              name: "Composite",
+              className: "EntraAssignment",
+            },
+          },
         },
-        serializedName: "expiresInMinutes",
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EntraAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntraAssignment",
+    modelProperties: {
+      objectId: {
+        serializedName: "objectId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      principalType: {
+        serializedName: "principalType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientIds: {
+        serializedName: "clientIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };

@@ -1077,8 +1077,8 @@ export interface Sku {
 
 // @public
 export interface SkuDetails {
-    readonly customerFacingSizeInGB?: number;
     readonly name?: string;
+    readonly sizeInGB?: number;
 }
 
 // @public

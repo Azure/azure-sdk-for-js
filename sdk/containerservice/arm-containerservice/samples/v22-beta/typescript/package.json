@@ -31,7 +31,7 @@
   "dependencies": {
     "@azure/arm-containerservice": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.0"
+    "@azure/identity": "^4.9.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
