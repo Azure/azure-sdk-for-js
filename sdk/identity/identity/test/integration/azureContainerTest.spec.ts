@@ -22,9 +22,11 @@ describe("Azure Container Instance Integration test", function () {
       method: "GET",
     });
     request.allowInsecureConnection = true;
+
+    console.log("Sending request to container", JSON.stringify(request, null, 2));
     const response = await client.sendRequest(request);
 
-    console.log(JSON.stringify(response, null, 2));
+    console.log("Receiving", JSON.stringify(response, null, 2));
     assert.strictEqual(
       response.status,
       200,
