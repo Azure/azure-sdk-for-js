@@ -2,13 +2,10 @@
 
 Use the AI Agents client library to:
 
-- **Enumerate connections** in your Azure AI Foundry project and get connection properties.
-  For example, get the project endpoint URL and credentials associated with your Azure OpenAI connection.
-- **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
-- **Enable OpenTelemetry tracing**.
+- **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples)
+| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples/)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
 | [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
 
@@ -16,16 +13,12 @@ Use the AI Agents client library to:
 
 - [Getting started](#getting-started)
   - [Prerequisite](#prerequisite)
+  - [Authorization](#authorization)
   - [Install the package](#install-the-package)
 - [Key concepts](#key-concepts)
   - [Create and authenticate the client](#create-and-authenticate-the-client)
 - [Examples](#examples)
-  - [Enumerate connections](#enumerate-connections)
-    - [Get properties of all connections](#get-properties-of-all-connections)
-    - [Get properties of all connections of a particular type](#get-properties-of-all-connections-of-a-particular-type)
-    - [Get properties of a default connection](#get-properties-of-a-default-connection)
-    - [Get properties of a connection by its connection name](#get-properties-of-a-connection-by-its-connection-name)
-  - [Agents (Preview)](#agents-private-preview)
+  - [Agents](#agents)
     - [Create an Agent](#create-agent) with:
       - [File Search](#create-agent-with-file-search)
       - [Code interpreter](#create-agent-with-code-interpreter)
@@ -38,14 +31,11 @@ Use the AI Agents client library to:
     - [Create message](#create-message) with:
       - [File search attachment](#create-message-with-file-search-attachment)
       - [Code interpreter attachment](#create-message-with-code-interpreter-attachment)
+      - [Image input](#create-message-with-image-inputs)
     - [Execute Run, Create Thread and Run, or Stream](#create-run-run_and_process-or-stream)
     - [Retrieve message](#retrieve-message)
     - [Retrieve file](#retrieve-file)
     - [Tear down by deleting resource](#teardown)
-    - [Tracing](#tracing)
-  - [Tracing](#tracing)
-    - [Installation](#installation)
-    - [Tracing example](#tracing-example)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
@@ -62,7 +52,7 @@ Use the AI Agents client library to:
 
 ### Authorization
 
-- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
+- [Entra ID][entra_id] is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
   - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal).
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
@@ -78,7 +68,9 @@ npm install @azure/ai-agents @azure/identity
 
 ### Create and authenticate the client
 
-The `AgentsClient` is used to construct the client. To construct a client:
+The `AgentsClient` is used to construct the client. Currently, we reccomend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
+
+To construct a client:
 
 ```ts snippet:setup
 import { AgentsClient } from "@azure/ai-agents";
@@ -93,9 +85,7 @@ const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
 ### Agents
 
-Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples) for additional Agent samples.
-
-Agents are actively being developed. A sign-up form for private preview is coming soon.
+Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples/) for additional Agent samples.
 
 #### Create Agent
 
@@ -444,7 +434,7 @@ console.log(`Created thread, thread ID: ${thread.id}`);
 
 #### Create Thread with Tool Resource
 
-In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
+In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `threads.create`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
 
 ```ts snippet:threadWithTool
 import { ToolUtility } from "@azure/ai-agents";
@@ -477,7 +467,7 @@ const thread = await client.threads.create({ toolResources: fileSearchTool.resou
 
 #### List Threads
 
-To list all threads attached to a given agent, use the list_threads API:
+To list all threads attached to a given agent, use `threads.list`:
 
 ```ts snippet:listThreads
 const threads = client.threads.list();
@@ -564,9 +554,11 @@ console.log(`Created message, message ID: ${message.id}`);
 
 You can send messages to Azure agents with image inputs in following ways:
 
+- **Using an image stored as a uploaded file**
+- **Using a public image accessible via URL**
 - **Using a base64 encoded image string**
 
-The following examples demonstrate base64 method:
+The following example demonstrates base64 method:
 
 ##### Create message with base64-encoded image input
 
@@ -612,7 +604,7 @@ console.log(`Created message, message ID: ${message.id}`);
 
 #### Create Run, Run_and_Process, or Stream
 
-Here is an example of `createRun` and poll until the run is completed:
+Here is an example of `runs.create` and poll until the run is completed:
 
 ```ts snippet:createRun
 import { delay } from "@azure/core-util";
@@ -727,7 +719,7 @@ for await (const dataPoint of messages) {
 
 ### Retrieve File
 
-Files uploaded by Agents cannot be retrieved back. If your use case needs to access the file content uploaded by the Agents, you are advised to keep an additional copy accessible by your application. However, files generated by Agents are retrievable by `getFileContent`.
+Files uploaded by Agents cannot be retrieved back. If your use case needs to access the file content uploaded by the Agents, you are advised to keep an additional copy accessible by your application. However, files generated by Agents are retrievable by `files.getContent`.
 
 Here is an example retrieving file ids from messages:
 
@@ -794,7 +786,7 @@ Client methods that make service calls raise an [RestError](https://learn.micros
 import { RestError } from "@azure/core-rest-pipeline";
 
 try {
-  const result = await client.connections.listConnections();
+  const thread = await client.threads.create();
 } catch (e) {
   if (e instanceof RestError) {
     console.log(`Status code: ${e.code}`);
@@ -818,7 +810,7 @@ To report issues with the client library, or request additional features, please
 
 ## Next steps
 
-Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/azure-ai-agents/sdk/ai/ai-agents/samples) folder, containing fully runnable code.
+Have a look at the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples) folder, containing fully runnable code.
 
 ## Contributing
 
@@ -842,5 +834,4 @@ additional questions or comments.
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
-[default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
