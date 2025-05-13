@@ -455,31 +455,8 @@ export function apiManagementCircuitBreakerPropertiesDeserializer(
   item: any,
 ): ApiManagementCircuitBreakerProperties {
   return {
-    rules: _apiManagementCircuitBreakerPropertiesRuleRecordDeserializer(
-      item["rules"],
-    ),
+    rules: item["rules"],
   };
-}
-
-export function _apiManagementCircuitBreakerPropertiesRuleRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, _ApiManagementCircuitBreakerPropertiesRule> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : _apiManagementCircuitBreakerPropertiesRuleDeserializer(item[key]);
-  });
-  return result;
-}
-
-/** model interface _ApiManagementCircuitBreakerPropertiesRule */
-export interface _ApiManagementCircuitBreakerPropertiesRule {}
-
-export function _apiManagementCircuitBreakerPropertiesRuleDeserializer(
-  item: any,
-): _ApiManagementCircuitBreakerPropertiesRule {
-  return item;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.CircuitBreaker.Closed event. */
@@ -2729,7 +2706,7 @@ export interface AcsRouterCommunicationError {
   /** Router Communication Inner Error */
   innererror: AcsRouterCommunicationError;
   /** List of Router Communication Errors */
-  readonly errors: AcsRouterCommunicationError[];
+  readonly details: AcsRouterCommunicationError[];
 }
 
 export function acsRouterCommunicationErrorDeserializer(
@@ -2740,7 +2717,7 @@ export function acsRouterCommunicationErrorDeserializer(
     message: item["message"],
     target: item["target"],
     innererror: acsRouterCommunicationErrorDeserializer(item["innererror"]),
-    errors: acsRouterCommunicationErrorArrayDeserializer(item["errors"]),
+    details: acsRouterCommunicationErrorArrayDeserializer(item["details"]),
   };
 }
 

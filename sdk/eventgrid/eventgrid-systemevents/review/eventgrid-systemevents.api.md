@@ -425,7 +425,7 @@ export interface AcsRouterChannelConfiguration {
 // @public
 export interface AcsRouterCommunicationError {
     code?: string;
-    readonly errors: AcsRouterCommunicationError[];
+    readonly details: AcsRouterCommunicationError[];
     innererror: AcsRouterCommunicationError;
     message?: string;
     target?: string;
