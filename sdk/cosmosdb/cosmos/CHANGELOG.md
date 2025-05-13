@@ -40,7 +40,7 @@ This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanO
 #### [#33869](https://github.com/Azure/azure-sdk-for-js/pull/33869) Fix ChangeFeed Iterator merge
 
 ### Other Changes
-#### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use UInt8Array in
+#### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use Uint8Array instead of Buffer.
 #### [#33728](https://github.com/Azure/azure-sdk-for-js/pull/33728) Update Entra authentication samples
 
 ## 4.3.0 (2025-03-18)
