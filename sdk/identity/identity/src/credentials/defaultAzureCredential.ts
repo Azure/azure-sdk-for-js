@@ -253,7 +253,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           createDefaultWorkloadIdentityCredential,
           createDefaultManagedIdentityCredential,
         ];
-      } else if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "development") {
+      } else if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "dev") {
         // If AZURE_TOKEN_CREDENTIALS is set to "development", use the development credential chain.
         credentialFunctions = [
           createEnvironmentCredential,
