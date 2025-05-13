@@ -148,6 +148,7 @@ export class LimiterQueue {
     this.terminated = true;
     this.terminatedValue = customValue;
     const operationsList: ItemOperation[] = [];
+    
     while (!this.tasks.isEmpty()) {
       const queueItem = this.tasks.shift();
       if (!queueItem) break;
