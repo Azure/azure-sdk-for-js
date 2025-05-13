@@ -34,7 +34,7 @@ export function createDefaultManagedIdentityCredential(
   options:
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions = {},
+    | DefaultAzureCredentialClientIdOptions = {}
 ): TokenCredential {
   options.retryOptions ??= {
     maxRetries: 5,
@@ -66,7 +66,7 @@ export function createDefaultManagedIdentityCredential(
 
     return new ManagedIdentityCredential(
       workloadIdentityClientId,
-      workloadIdentityCredentialOptions,
+      workloadIdentityCredentialOptions
     );
   }
 
@@ -90,7 +90,7 @@ export function createDefaultManagedIdentityCredential(
  * @internal
  */
 function createDefaultWorkloadIdentityCredential(
-  options?: DefaultAzureCredentialOptions | DefaultAzureCredentialClientIdOptions,
+  options?: DefaultAzureCredentialOptions | DefaultAzureCredentialClientIdOptions
 ): TokenCredential {
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
@@ -128,7 +128,7 @@ function createDefaultWorkloadIdentityCredential(
  * @internal
  */
 function createDefaultAzureDeveloperCliCredential(
-  options: DefaultAzureCredentialOptions = {},
+  options: DefaultAzureCredentialOptions = {}
 ): TokenCredential {
   const processTimeoutInMs = options.processTimeoutInMs;
   return new AzureDeveloperCliCredential({ processTimeoutInMs, ...options });
@@ -141,7 +141,7 @@ function createDefaultAzureDeveloperCliCredential(
  * @internal
  */
 function createDefaultAzureCliCredential(
-  options: DefaultAzureCredentialOptions = {},
+  options: DefaultAzureCredentialOptions = {}
 ): TokenCredential {
   const processTimeoutInMs = options.processTimeoutInMs;
   return new AzureCliCredential({ processTimeoutInMs, ...options });
@@ -154,7 +154,7 @@ function createDefaultAzureCliCredential(
  * @internal
  */
 function createDefaultAzurePowershellCredential(
-  options: DefaultAzureCredentialOptions = {},
+  options: DefaultAzureCredentialOptions = {}
 ): TokenCredential {
   const processTimeoutInMs = options.processTimeoutInMs;
   return new AzurePowerShellCredential({ processTimeoutInMs, ...options });
@@ -167,7 +167,7 @@ function createDefaultAzurePowershellCredential(
  * @internal
  */
 export function createEnvironmentCredential(
-  options: DefaultAzureCredentialOptions = {},
+  options: DefaultAzureCredentialOptions = {}
 ): TokenCredential {
   return new EnvironmentCredential(options);
 }
@@ -187,7 +187,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
 
   getToken(): Promise<null> {
     logger.getToken.info(
-      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`,
+      `Skipping ${this.credentialName}, reason: ${this.credentialUnavailableErrorMessage}`
     );
     return Promise.resolve(null);
   }
@@ -233,7 +233,8 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(options?: DefaultAzureCredentialOptions);
 
   constructor(options?: DefaultAzureCredentialOptions) {
-    const credentialFunctions = [
+    // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
+    let credentialFunctions = [
       createEnvironmentCredential,
       createDefaultWorkloadIdentityCredential,
       createDefaultManagedIdentityCredential,
@@ -242,8 +243,33 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       createDefaultAzureDeveloperCliCredential,
     ];
 
-    // DefaultCredential constructors should not throw, instead throwing on getToken() which is handled by ChainedTokenCredential.
+    // If AZURE_TOKEN_CREDENTIALS is set, use it to determine which credentials to use.
+    // The value of AZURE_TOKEN_CREDENTIALS should be either "development" or "production".
+    if (process.env.AZURE_TOKEN_CREDENTIALS) {
+      if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "production") {
+        // If AZURE_TOKEN_CREDENTIALS is set to "production", use the production credential chain.
+        credentialFunctions = [
+          createEnvironmentCredential,
+          createDefaultWorkloadIdentityCredential,
+          createDefaultManagedIdentityCredential,
+        ];
+      } else if (process.env.AZURE_TOKEN_CREDENTIALS.toLowerCase() === "development") {
+        // If AZURE_TOKEN_CREDENTIALS is set to "development", use the development credential chain.
+        credentialFunctions = [
+          createEnvironmentCredential,
+          createDefaultAzureCliCredential,
+          createDefaultAzurePowershellCredential,
+          createDefaultAzureDeveloperCliCredential,
+        ];
+      } else {
+        // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
+        const errorMessage = `Unsupported value set for the environment AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Only supported values are "development" and "production". Cannot create DefaultAzureCredential.`;
+        logger.warning(errorMessage);
+        throw new Error(errorMessage);
+      }
+    }
 
+    // DefaultCredential constructors should not throw, instead throwing on getToken() which is handled by ChainedTokenCredential.
     // When adding new credentials to the default chain, consider:
     // 1. Making the constructor parameters required and explicit
     // 2. Validating any required parameters in the factory function
@@ -253,7 +279,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         return createCredentialFn(options);
       } catch (err: any) {
         logger.warning(
-          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`,
+          `Skipped ${createCredentialFn.name} because of an error creating the credential: ${err}`
         );
         return new UnavailableDefaultCredential(createCredentialFn.name, err.message);
       }
