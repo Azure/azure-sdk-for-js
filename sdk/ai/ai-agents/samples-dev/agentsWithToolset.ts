@@ -48,8 +48,8 @@ export async function main(): Promise<void> {
 
   // Create tool set
   const toolSet = new ToolSet();
-  await toolSet.addFileSearchTool([vectorStore.id]);
-  await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+  toolSet.addFileSearchTool([vectorStore.id]);
+  toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
   // Create agent with tool set
   const agent = await client.createAgent(modelDeploymentName, {

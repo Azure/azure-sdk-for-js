@@ -74,8 +74,8 @@ describe("snippets", function () {
 
       // Create tool set
       const toolSet = new ToolSet();
-      await toolSet.addFileSearchTool([vectorStore.id]);
-      await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+      toolSet.addFileSearchTool([vectorStore.id]);
+      toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
   });
 
   it("fileSearch", async function () {

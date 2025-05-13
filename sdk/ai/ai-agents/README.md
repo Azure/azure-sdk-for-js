@@ -137,8 +137,8 @@ const vectorStore = await client.vectorStores
   .pollUntilDone();
 // Create tool set
 const toolSet = new ToolSet();
-await toolSet.addFileSearchTool([vectorStore.id]);
-await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+toolSet.addFileSearchTool([vectorStore.id]);
+toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 ```
 
 #### Create Agent with File Search
@@ -147,7 +147,6 @@ To perform file search by an Agent, we first need to upload a file, create a vec
 
 ```ts snippet:fileSearch
 import { ToolUtility } from "@azure/ai-agents";
-import * as fs from "node:fs";
 
 const filePath = "./data/sampleFileForUpload.txt";
 const localFileStream = fs.createReadStream(filePath);
@@ -383,7 +382,6 @@ Here is an example creating an OpenAPI tool (using anonymous authentication):
 
 ```ts snippet:createAgentWithOpenApi
 import { ToolUtility } from "@azure/ai-agents";
-import * as fs from "node:fs";
 
 // Read in OpenApi spec
 const filePath = "./data/weatherOpenApi.json";
