@@ -79,7 +79,7 @@ export class AIProjectClient {
     this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
     this.deployments = _getDeploymentsOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._cognitiveScopeClient);
-    this.datasets = _getDatasetsOperations(this._cognitiveScopeClient);
+    this.datasets = _getDatasetsOperations(this._azureScopeClient);
     this.evaluations = _getEvaluationsOperations(this._azureScopeClient);
     this.connections = _getConnectionsOperations(this._cognitiveScopeClient);
     this.inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
