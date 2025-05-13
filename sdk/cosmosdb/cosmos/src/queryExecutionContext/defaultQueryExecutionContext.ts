@@ -9,7 +9,7 @@ import { getInitialHeader } from "./headerUtils.js";
 import type { ExecutionContext } from "./index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
-import { addDignosticChild } from "../utils/diagnostics.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
@@ -128,7 +128,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    return addDignosticChild(
+    return addDiagnosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
           return {

@@ -43,6 +43,7 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform.js";
+import type { RetryOptions } from "./retry/retryOptions.js";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -95,6 +96,7 @@ export class ClientContext {
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
+
   /** @hidden */
   public async read<T>({
     path,
@@ -279,9 +281,7 @@ export class ClientContext {
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
-    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
-      options.disableNonStreamingOrderByQuery,
-    );
+    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(options);
 
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
@@ -963,6 +963,7 @@ export class ClientContext {
         requestContext.partitionKey !== undefined
           ? convertToInternalPartitionKey(requestContext.partitionKey)
           : undefined, // TODO: Move this check from here to PartitionKey
+      operationType: requestContext.operationType,
     });
   }
 
@@ -1003,5 +1004,12 @@ export class ClientContext {
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
       updatedUserAgent;
+  }
+
+  /**
+   * @internal
+   */
+  public getRetryOptions(): RetryOptions {
+    return this.connectionPolicy.retryOptions;
   }
 }
