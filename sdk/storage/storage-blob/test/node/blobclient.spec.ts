@@ -1131,7 +1131,7 @@ describe("BlobClient Copy from file Node.js only", () => {
     await recorder.stop();
   });
 
-  it.only("appendBlockFromURL - source file bearer token", async () => {
+  it("appendBlockFromURL - source file bearer token", async () => {
     const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
 
     const content = "Hello World!";
@@ -1154,7 +1154,7 @@ describe("BlobClient Copy from file Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it.only("syncUploadFromURL - source file bearer token", async () => {
+  it("syncUploadFromURL - source file bearer token", async () => {
     const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
 
     const content = "Hello World!";
@@ -1180,7 +1180,7 @@ describe("BlobClient Copy from file Node.js only", () => {
     assert.equal(downloadRes.contentLength!, content.length);
   });
 
-  it.only("stageBlockFromURL - source file bearer token", async () => {
+  it("stageBlockFromURL - source file bearer token", async () => {
     const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
 
     const content = "Hello World!";
@@ -1227,7 +1227,7 @@ describe("BlobClient Copy from file Node.js only", () => {
     assert.equal(listResponse.committedBlocks![1].size, content.length);
   });
 
-  it.only("uploadPagesFromURL - source file bearer token", async () => {
+  it("uploadPagesFromURL - source file bearer token", async () => {
     const pageBlobClient = containerClient.getPageBlobClient(blobName);
     await pageBlobClient.create(1024);
 
@@ -1266,7 +1266,7 @@ describe("BlobClient Copy from file Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it.only("syncCopyFromURL - source file bearer token", async () => {
+  it("syncCopyFromURL - source file bearer token", async () => {
     const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
 
     const content = "Hello World!";
