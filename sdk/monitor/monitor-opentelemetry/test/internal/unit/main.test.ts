@@ -290,7 +290,7 @@ describe("Main functions", () => {
     assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
   });
 
-  it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
+  it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", async () => {
     const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "os";
@@ -306,15 +306,14 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
-    console.log(resource);
+    const resource = (span as any)["resource"]["attributes"];
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
     });
   });
 
-  it("should skip unknown resource detectors", () => {
+  it("should skip unknown resource detectors", async () => {
     const expectedResourceAttributeNamespaces = new Set(["host", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
@@ -330,7 +329,7 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
+    const resource = (span as any)["resource"]["attributes"];
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -350,9 +349,9 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
+    const resource = (span as any)["resource"]["_rawAttributes"];
     console.log(resource);
-    Object.keys(resource).forEach((attr) => {
+    Object.keys(resource || {}).forEach((attr) => {
       assert.ok(!attr.includes("process"));
     });
   });
