@@ -62,7 +62,7 @@ export async function execute({
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
             requestContext.operationType,
-            requestContext,
+            requestContext.globalPartitionEndpointManager,
           ),
           resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
             requestContext.connectionPolicy.retryOptions ?? {},
@@ -82,7 +82,7 @@ export async function execute({
             requestContext.operationType,
             requestContext.connectionPolicy.enableEndpointDiscovery,
             requestContext.connectionPolicy.enablePartitionLevelFailover,
-            requestContext,
+            requestContext.globalPartitionEndpointManager,
           ),
         };
       }
@@ -162,6 +162,7 @@ export async function execute({
           localDiagnosticNode,
           retryContext,
           requestContext.endpoint,
+          requestContext,
         );
         if (!results) {
           headers[Constants.ThrottleRetryCount] =

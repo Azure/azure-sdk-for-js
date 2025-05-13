@@ -7,6 +7,7 @@ import type { GlobalEndpointManager } from "../globalEndpointManager.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { RetryContext } from "./RetryContext.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
+import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class implements the retry policy for endpoint discovery.
@@ -29,7 +30,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
   constructor(
     private globalEndpointManager: GlobalEndpointManager,
     private operationType: OperationType,
-    private requestContext: RequestContext,
+    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
   ) {
     this.maxTries = EndpointDiscoveryRetryPolicy.maxTries;
     this.currentRetryAttemptCount = 0;
@@ -45,6 +46,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string,
+    requestContext?: RequestContext,
   ): Promise<boolean | [boolean, string]> {
     if (!err) {
       return false;
@@ -54,11 +56,11 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    const resp =
-      await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
-        this.requestContext,
-      );
-    if (resp) {
+    if (
+      await this.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        requestContext,
+      )
+    ) {
       return true;
     }
 

@@ -11,6 +11,7 @@ import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
 import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { GlobalPartitionEndpointManager } from "../globalPartitionEndpointManager.js";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
@@ -35,7 +36,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private operationType: OperationType,
     private enableEndPointDiscovery: boolean,
     private enablePartitionLevelFailover: boolean,
-    private requestContext: RequestContext,
+    private globalPartitionEndpointManager: GlobalPartitionEndpointManager,
   ) {}
 
   /**
@@ -57,6 +58,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
     locationEndpoint?: string,
+    requestContext?: RequestContext,
   ): Promise<boolean> {
     if (!err) {
       return false;
@@ -71,8 +73,8 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
 
     // Mark the partition as unavailable.
     // Let the Retry logic decide if the request should be retried
-    await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
-      this.requestContext,
+    await this.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+      requestContext,
     );
 
     if (!this.enableEndPointDiscovery) {
