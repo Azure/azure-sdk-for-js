@@ -183,7 +183,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       }
 
       // stores the last feedRange for which statusCode is not 304 i.e. there were new changes in that feed range.
-      let firstNotModifiedFeedRange: [string, string] = undefined;
+      let firstNotModifiedFeedRange: ChangeFeedRange = undefined;
       let result: ChangeFeedIteratorResponse<Array<T & Resource>>;
       do {
         const [processedFeedRange, response] = await this.fetchNext(diagnosticNode);
@@ -230,7 +230,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
    */
   private async fetchNext(
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<[[string, string], ChangeFeedIteratorResponse<Array<T & Resource>>]> {
+  ): Promise<[ChangeFeedRange | undefined, ChangeFeedIteratorResponse<Array<T & Resource>>]> {
     const feedRange = this.queue.peek();
     if (feedRange) {
       // fetch results for feed range at the beginning of the queue.
@@ -252,22 +252,23 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         const continuationValueForFeedRange = result.headers[Constants.HttpHeaders.ETag];
         const newFeedRange = this.queue.peek();
         newFeedRange.continuationToken = continuationValueForFeedRange;
-
-        return [[newFeedRange.minInclusive, newFeedRange.maxExclusive], result];
+        return [newFeedRange, result];
       }
     } else {
-      return [[undefined, undefined], undefined];
+      return [undefined, undefined];
     }
   }
 
-  private checkedAllFeedRanges(firstNotModifiedFeedRange: [string, string]): boolean {
+  private checkedAllFeedRanges(firstNotModifiedFeedRange: ChangeFeedRange | undefined): boolean {
     if (firstNotModifiedFeedRange === undefined) {
       return false;
     }
     const feedRangeQueueFirstElement = this.queue.peek();
     return (
-      firstNotModifiedFeedRange[0] === feedRangeQueueFirstElement?.minInclusive &&
-      firstNotModifiedFeedRange[1] === feedRangeQueueFirstElement?.maxExclusive
+      firstNotModifiedFeedRange.minInclusive === feedRangeQueueFirstElement?.minInclusive &&
+      firstNotModifiedFeedRange.maxExclusive === feedRangeQueueFirstElement?.maxExclusive &&
+      firstNotModifiedFeedRange.epkMinHeader === feedRangeQueueFirstElement?.epkMinHeader &&
+      firstNotModifiedFeedRange.epkMaxHeader === feedRangeQueueFirstElement?.epkMaxHeader
     );
   }
 
