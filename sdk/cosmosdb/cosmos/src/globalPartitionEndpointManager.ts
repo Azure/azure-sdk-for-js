@@ -117,7 +117,6 @@ export class GlobalPartitionEndpointManager {
         return [true, partitionFailOver.currentEndPoint];
       }
     } else if (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
-      // todo: change dict
       if (this.partitionKeyRangeToLocationForReadAndWrite.has(partitionKeyRangeId)) {
         const partitionFailOver =
           this.partitionKeyRangeToLocationForReadAndWrite.get(partitionKeyRangeId);
@@ -304,7 +303,7 @@ export class GlobalPartitionEndpointManager {
     const partitionFailOver = partitionKeyRangeToLocation.get(partitionKeyRangeId);
 
     // Will return true if it was able to update to a new region
-    if (partitionFailOver.TryMoveNextLocation(nextEndPoints, failedEndPoint)) {
+    if (await partitionFailOver.TryMoveNextLocation(nextEndPoints, failedEndPoint)) {
       return true;
     }
     // All the locations have been tried. Remove the override information
@@ -328,7 +327,6 @@ export class GlobalPartitionEndpointManager {
           await this.initiateCircuitBreakerFailbackLoop();
           resolve();
         } catch (error) {
-          // todo : handle error
           this.isBackgroundConnectionInitActive = false;
           reject(error);
         } finally {
@@ -427,6 +425,7 @@ class PartitionKeyRangeFailoverInfo {
   private lastRequestFailureTime = new Date();
   private timestampSemaphore: Semaphore;
   private timeoutCounterResetWindow: number = 1000 * 60 * 1; // 1 minute
+  private tryMoveNextLocationSemaphore: Semaphore;
 
   /**
    * @internal
@@ -436,6 +435,7 @@ class PartitionKeyRangeFailoverInfo {
     this.firstFailedEndPoint = currentEndpoint;
     this.failureCountSemaphore = semaphore(1);
     this.timestampSemaphore = semaphore(1);
+    this.tryMoveNextLocationSemaphore = semaphore(1);
   }
 
   public async CanCircuitBreakerTriggerPartitionFailOver(
@@ -470,7 +470,6 @@ class PartitionKeyRangeFailoverInfo {
           }
           resolve();
         } catch (error) {
-          // todo : handle error
           reject(error);
         } finally {
           // Release the semaphore lock
@@ -518,25 +517,36 @@ class PartitionKeyRangeFailoverInfo {
     });
   }
 
-  public TryMoveNextLocation(endPoints: readonly string[], failedEndPoint: string): boolean {
+  public async TryMoveNextLocation(
+    endPoints: readonly string[],
+    failedEndPoint: string,
+  ): Promise<boolean> {
     if (failedEndPoint !== this.currentEndPoint) {
       return true;
     }
-    // todo : add lock
-    for (const endpoint of endPoints) {
-      if (this.currentEndPoint === endpoint) {
-        continue;
-      }
+    return new Promise((resolve, reject) => {
+      this.tryMoveNextLocationSemaphore.take(() => {
+        try {
+          for (const endpoint of endPoints) {
+            if (this.currentEndPoint === endpoint) {
+              continue;
+            }
 
-      if (this.failedEndPoints.includes(endpoint)) {
-        continue;
-      }
+            if (this.failedEndPoints.includes(endpoint)) {
+              continue;
+            }
 
-      this.failedEndPoints.push(failedEndPoint);
-      this.currentEndPoint = endpoint;
-      return true;
-    }
-
-    return false;
+            this.failedEndPoints.push(failedEndPoint);
+            this.currentEndPoint = endpoint;
+            resolve(true);
+          }
+          resolve(false);
+        } catch (err) {
+          reject(err);
+        } finally {
+          this.tryMoveNextLocationSemaphore.leave();
+        }
+      });
+    });
   }
 }

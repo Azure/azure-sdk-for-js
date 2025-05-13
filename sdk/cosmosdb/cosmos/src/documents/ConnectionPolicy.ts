@@ -31,7 +31,7 @@ export interface ConnectionPolicy {
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
   /** Flag to enable/disable the Per Partition Level Failover. Defaults to false */
-  // TODO: two flags realy required?
+  // TODOujjwal: two flags realy required?
   enablePartitionLevelFailover?: boolean;
   /** Flag to enable/disable the Per Partition Level Circuit Breaker. Defaults to false */
   enablePartitionLevelCircuitBreaker?: boolean;
