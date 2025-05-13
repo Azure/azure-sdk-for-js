@@ -81,6 +81,20 @@ async function run(): Promise<void> {
   response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
   console.log("Response: ", response.resources);
 
+  // Run hybrid search queries using Weighted RRF ranking
+  query =
+    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, ['movies']),FullTextScore(c.text1, ['music']), [0.1, 0.2])";
+  response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
+  console.log("Response: ", response.resources);
+
+  // Run hybrid search queries using RRF ranking without query plan optimization
+  query =
+    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, ['movies']),FullTextScore(c.text1, ['music']))";
+  response = await container.items
+    .query(query, { forceQueryPlan: true, disableHybridSearchQueryPlanOptimization: true })
+    .fetchAll();
+  console.log("Response: ", response.resources);
+
   await finish();
 }
 
