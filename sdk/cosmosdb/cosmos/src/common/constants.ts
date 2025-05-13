@@ -61,6 +61,7 @@ export const Constants = {
     Location: "Location",
     Referer: "referer",
     A_IM: "A-IM",
+    PREFER_RETURN_MINIMAL: "return=minimal",
 
     // Query
     Query: "x-ms-documentdb-query",
@@ -226,6 +227,8 @@ export const Constants = {
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
+  MaxBulkOperationsCount: 100,
+  BulkMaxDegreeOfConcurrency: 20,
 
   // Encryption
   Encryption: {
@@ -525,6 +528,8 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
+  WeightedRankFusion = "WeightedRankFusion",
+  HybridSearchSkipOrderByRewrite = "HybridSearchSkipOrderByRewrite",
 }
 
 export enum SDKSupportedCapabilities {
