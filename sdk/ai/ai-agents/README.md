@@ -564,69 +564,9 @@ console.log(`Created message, message ID: ${message.id}`);
 
 You can send messages to Azure agents with image inputs in following ways:
 
-- **Using an image stored as a uploaded file**
-- **Using a public image accessible via URL**
 - **Using a base64 encoded image string**
 
-The following examples demonstrate each method:
-
-##### Create message using uploaded image file
-
-```ts snippet:imageInputWithFile
-const imagePath = "./data/image_file.png";
-// Upload the local image file
-const fileStream = fs.createReadStream(imagePath);
-const imageFile = await client.files.upload(fileStream, "assistants", {
-  fileName: "image_file.png",
-});
-console.log(`Uploaded file, file ID: ${imageFile.id}`);
-
-// Create a message with both text and image content
-console.log("Creating message with image content...");
-const inputMessage = "Hello, what is in the image?";
-const content = [
-  {
-    type: "text",
-    text: inputMessage,
-  },
-  {
-    type: "image_file",
-    image_file: {
-      file_id: imageFile.id,
-      detail: "high",
-    },
-  },
-];
-const message = await client.messages.create(thread.id, "user", content);
-console.log(`Created message, message ID: ${message.id}`);
-```
-
-##### Create message with an image URL input
-
-```ts snippet:imageInputWithUrl
-const imageUrl =
-  "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
-
-// Create a message with both text and image content
-console.log("Creating message with image content...");
-const inputMessage = "Hello, what is in the image?";
-const content = [
-  {
-    type: "text",
-    text: inputMessage,
-  },
-  {
-    type: "image_url",
-    image_url: {
-      url: imageUrl,
-      detail: "high",
-    },
-  },
-];
-
-const message = await client.messages.create(thread.id, "user", content);
-console.log(`Created message, message ID: ${message.id}`);
-```
+The following examples demonstrate base64 method:
 
 ##### Create message with base64-encoded image input
 
