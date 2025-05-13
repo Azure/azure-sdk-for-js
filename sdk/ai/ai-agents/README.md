@@ -844,5 +844,3 @@ additional questions or comments.
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
-[evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
-[evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
