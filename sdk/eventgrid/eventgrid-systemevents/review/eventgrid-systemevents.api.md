@@ -5,74 +5,75 @@
 ```ts
 
 // @public
-export type AcsCallEndedByKind = string;
-
-// @public
-export interface AcsCallEndedByProperties {
+export interface AcsCallEndedBy {
     communicationIdentifier: CommunicationIdentifierModel;
     name: string;
     type: AcsCallEndedByKind;
 }
 
 // @public
-export interface AcsCallEndedEventData extends AcsCallingEventProperties {
+export type AcsCallEndedByKind = string;
+
+// @public
+export interface AcsCallEndedEventData extends AcsCallingEvent {
     callDurationInSeconds?: number;
-    endedBy?: AcsCallEndedByProperties;
-    reason?: AcsCallEndReasonProperties;
+    endedBy?: AcsCallEndedBy;
+    reason?: AcsCallEndReason;
 }
 
 // @public
-export interface AcsCallEndReasonProperties {
+export interface AcsCallEndReason {
     code?: number;
     phrase?: string;
     subCode?: number;
 }
 
 // @public
-export interface AcsCallGroupProperties {
+export interface AcsCallGroup {
     id?: string;
 }
 
 // @public
-export interface AcsCallingEventProperties {
+export interface AcsCallingEvent {
     correlationId: string;
-    group?: AcsCallGroupProperties;
+    group?: AcsCallGroup;
     isRoomsCall?: boolean;
     isTwoParty?: boolean;
-    room?: AcsCallRoomProperties;
+    room?: AcsCallRoom;
     serverCallId: string;
-    startedBy: AcsCallParticipantProperties;
+    startedBy: AcsCallParticipant;
 }
 
 // @public
-export interface AcsCallParticipantAddedEventData extends AcsCallParticipantEventProperties {
+export interface AcsCallParticipant {
+    communicationIdentifier?: CommunicationIdentifierModel;
+    // Warning: (ae-forgotten-export) The symbol "AcsCallParticipantRoleKind" needs to be exported by the entry point index.d.ts
+    role?: AcsCallParticipantRoleKind;
 }
 
 // @public
-export interface AcsCallParticipantEventProperties extends AcsCallingEventProperties {
+export interface AcsCallParticipantAddedEventData extends AcsCallParticipantEvent {
+}
+
+// @public
+export interface AcsCallParticipantEvent extends AcsCallingEvent {
     displayName?: string;
     participantId?: string;
-    user?: AcsCallParticipantProperties;
+    user?: AcsCallParticipant;
     userAgent?: string;
 }
 
 // @public
-export interface AcsCallParticipantProperties {
-    communicationIdentifier?: CommunicationIdentifierModel;
-    role?: string;
+export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEvent {
 }
 
 // @public
-export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEventProperties {
-}
-
-// @public
-export interface AcsCallRoomProperties {
+export interface AcsCallRoom {
     id?: string;
 }
 
 // @public
-export interface AcsCallStartedEventData extends AcsCallingEventProperties {
+export interface AcsCallStartedEventData extends AcsCallingEvent {
 }
 
 // @public
@@ -184,7 +185,7 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends Ac
 export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
     metadata?: Record<string, string>;
-    participants: AcsChatThreadParticipant[];
+    readonly participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
 }
 
@@ -192,7 +193,7 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
 export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
     metadata?: Record<string, string>;
-    participants: AcsChatThreadParticipant[];
+    readonly participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
 }
 
@@ -411,7 +412,7 @@ export interface AcsRecordingFileStatusUpdatedEventData {
 
 // @public
 export interface AcsRecordingStorageInfo {
-    recordingChunks: AcsRecordingChunkInfo[];
+    readonly recordingChunks: AcsRecordingChunkInfo[];
 }
 
 // @public
@@ -424,7 +425,7 @@ export interface AcsRouterChannelConfiguration {
 // @public
 export interface AcsRouterCommunicationError {
     code?: string;
-    details: AcsRouterCommunicationError[];
+    readonly errors: AcsRouterCommunicationError[];
     innererror: AcsRouterCommunicationError;
     message?: string;
     target?: string;
@@ -446,12 +447,12 @@ export interface AcsRouterJobCancelledEventData extends AcsRouterJobEventData {
 // @public
 export interface AcsRouterJobClassificationFailedEventData extends AcsRouterJobEventData {
     classificationPolicyId?: string;
-    errors: AcsRouterCommunicationError[];
+    readonly errors: AcsRouterCommunicationError[];
 }
 
 // @public
 export interface AcsRouterJobClassifiedEventData extends AcsRouterJobEventData {
-    attachedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly attachedWorkerSelectors: AcsRouterWorkerSelector[];
     classificationPolicyId?: string;
     priority?: number;
     queueDetails: AcsRouterQueueDetails;
@@ -489,9 +490,9 @@ export interface AcsRouterJobExceptionTriggeredEventData extends AcsRouterJobEve
 
 // @public
 export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
-    attachedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly attachedWorkerSelectors: AcsRouterWorkerSelector[];
     priority: number;
-    requestedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly requestedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
 // @public
@@ -499,15 +500,15 @@ export interface AcsRouterJobReceivedEventData extends AcsRouterJobEventData {
     classificationPolicyId?: string;
     jobStatus: AcsRouterJobStatus;
     priority?: number;
-    requestedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly requestedWorkerSelectors: AcsRouterWorkerSelector[];
     scheduledOn: Date;
     unavailableForMatching: boolean;
 }
 
 // @public
 export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
-    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
-    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
     failureReason?: string;
     priority: number;
     scheduledOn: Date;
@@ -524,8 +525,8 @@ export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
 
 // @public
 export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobEventData {
-    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
-    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
     priority: number;
     scheduledOn: Date;
     unavailableForMatching: boolean;
@@ -533,8 +534,8 @@ export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobE
 
 // @public
 export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJobEventData {
-    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
-    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+    readonly expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
 // @public
@@ -609,9 +610,9 @@ export interface AcsRouterWorkerOfferRevokedEventData extends AcsRouterWorkerEve
 
 // @public
 export interface AcsRouterWorkerRegisteredEventData {
-    channelConfigurations: AcsRouterChannelConfiguration[];
+    readonly channelConfigurations: AcsRouterChannelConfiguration[];
     labels: Record<string, string>;
-    queueAssignments: AcsRouterQueueDetails[];
+    readonly queueAssignments: AcsRouterQueueDetails[];
     tags: Record<string, string>;
     totalCapacity?: number;
     workerId?: string;
@@ -632,12 +633,12 @@ export type AcsRouterWorkerSelectorState = string;
 
 // @public
 export interface AcsRouterWorkerUpdatedEventData {
-    channelConfigurations: AcsRouterChannelConfiguration[];
+    readonly channelConfigurations: AcsRouterChannelConfiguration[];
     labels: Record<string, string>;
-    queueAssignments: AcsRouterQueueDetails[];
+    readonly queueAssignments: AcsRouterQueueDetails[];
     tags: Record<string, string>;
     totalCapacity?: number;
-    updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
+    readonly updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
     workerId?: string;
 }
 
@@ -650,7 +651,7 @@ export interface AcsSmsDeliveryAttempt {
 
 // @public
 export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
-    deliveryAttempts: AcsSmsDeliveryAttempt[];
+    readonly deliveryAttempts: AcsSmsDeliveryAttempt[];
     deliveryStatus: string;
     deliveryStatusDetails: string;
     receivedTimestamp: Date;
@@ -891,10 +892,10 @@ export interface AvsClusterDeletedEventData extends AvsClusterEventData {
 
 // @public
 export interface AvsClusterEventData {
-    addedHostNames?: string[];
-    inMaintenanceHostNames?: string[];
+    readonly addedHostNames?: string[];
+    readonly inMaintenanceHostNames?: string[];
     operationId: string;
-    removedHostNames?: string[];
+    readonly removedHostNames?: string[];
 }
 
 // @public
@@ -936,7 +937,7 @@ export interface AvsScriptExecutionCancelledEventData extends AvsScriptExecution
 export interface AvsScriptExecutionEventData {
     cmdletId: string;
     operationId: string;
-    output?: string[];
+    readonly output?: string[];
 }
 
 // @public
@@ -1897,9 +1898,9 @@ export interface MapsGeofenceEnteredEventData extends MapsGeofenceEvent {
 
 // @public
 export interface MapsGeofenceEvent {
-    expiredGeofenceGeometryId: string[];
-    geometries: MapsGeofenceGeometry[];
-    invalidPeriodGeofenceGeometryId: string[];
+    readonly expiredGeofenceGeometryId: string[];
+    readonly geometries: MapsGeofenceGeometry[];
+    readonly invalidPeriodGeofenceGeometryId: string[];
     isEventPublished: boolean;
 }
 

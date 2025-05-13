@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -64,17 +63,17 @@ export {
   MicrosoftTeamsAppIdentifierModel,
   AcsIncomingCallCustomContext,
   AcsUserDisconnectedEventData,
-  AcsCallingEventProperties,
-  AcsCallParticipantProperties,
-  AcsCallGroupProperties,
-  AcsCallRoomProperties,
+  AcsCallingEvent,
+  AcsCallParticipant,
+  AcsCallGroup,
+  AcsCallRoom,
   AcsCallStartedEventData,
   AcsCallEndedEventData,
-  AcsCallEndedByProperties,
+  AcsCallEndedBy,
   KnownAcsCallEndedByKind,
   AcsCallEndedByKind,
-  AcsCallEndReasonProperties,
-  AcsCallParticipantEventProperties,
+  AcsCallEndReason,
+  AcsCallParticipantEvent,
   AcsCallParticipantAddedEventData,
   AcsCallParticipantRemovedEventData,
   AcsChatEventBase,
@@ -341,4 +340,3 @@ export {
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   KnownServiceApiVersions,
 } from "./models/index.js";
-export { SystemEventsClientOptionalParams } from "./api/index.js";

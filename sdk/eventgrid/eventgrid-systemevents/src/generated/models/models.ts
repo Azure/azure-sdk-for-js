@@ -426,6 +426,168 @@ export function apiManagementGatewayApiRemovedEventDataDeserializer(
   };
 }
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.CircuitBreaker.Opened event. */
+export interface ApiManagementCircuitBreakerOpenedEventData {
+  /** Name of the backend for which the circuit has opened. */
+  backendName: string;
+  /** Information related to the circuit breaker configured on the backend. */
+  circuitBreaker: ApiManagementCircuitBreakerProperties;
+}
+
+export function apiManagementCircuitBreakerOpenedEventDataDeserializer(
+  item: any,
+): ApiManagementCircuitBreakerOpenedEventData {
+  return {
+    backendName: item["backendName"],
+    circuitBreaker: apiManagementCircuitBreakerPropertiesDeserializer(
+      item["circuitBreaker"],
+    ),
+  };
+}
+
+/** Information related to the circuit breaker configured on the backend. */
+export interface ApiManagementCircuitBreakerProperties {
+  /** Overview of all configured rules and respective details. */
+  rules: Record<string, Record<string, any>>;
+}
+
+export function apiManagementCircuitBreakerPropertiesDeserializer(
+  item: any,
+): ApiManagementCircuitBreakerProperties {
+  return {
+    rules: _apiManagementCircuitBreakerPropertiesRuleRecordDeserializer(
+      item["rules"],
+    ),
+  };
+}
+
+export function _apiManagementCircuitBreakerPropertiesRuleRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, _ApiManagementCircuitBreakerPropertiesRule> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key]
+      ? item[key]
+      : _apiManagementCircuitBreakerPropertiesRuleDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** model interface _ApiManagementCircuitBreakerPropertiesRule */
+export interface _ApiManagementCircuitBreakerPropertiesRule {}
+
+export function _apiManagementCircuitBreakerPropertiesRuleDeserializer(
+  item: any,
+): _ApiManagementCircuitBreakerPropertiesRule {
+  return item;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.CircuitBreaker.Closed event. */
+export interface ApiManagementCircuitBreakerClosedEventData {
+  /** Name of the backend for which the circuit has closed. */
+  backendName: string;
+  /** Information related to the circuit breaker configured on the backend. */
+  circuitBreaker: ApiManagementCircuitBreakerProperties;
+}
+
+export function apiManagementCircuitBreakerClosedEventDataDeserializer(
+  item: any,
+): ApiManagementCircuitBreakerClosedEventData {
+  return {
+    backendName: item["backendName"],
+    circuitBreaker: apiManagementCircuitBreakerPropertiesDeserializer(
+      item["circuitBreaker"],
+    ),
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenNearExpiry event. */
+export interface ApiManagementGatewayTokenNearExpiryEventData {
+  /** Information related to a given self-hosted gateway deployment. */
+  gatewayInfo: ApiManagementGatewayProperties;
+  /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
+  tokenInfo: ApiManagementNearExpiryGatewayTokenProperties;
+}
+
+export function apiManagementGatewayTokenNearExpiryEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayTokenNearExpiryEventData {
+  return {
+    gatewayInfo: apiManagementGatewayPropertiesDeserializer(
+      item["gatewayInfo"],
+    ),
+    tokenInfo: apiManagementNearExpiryGatewayTokenPropertiesDeserializer(
+      item["tokenInfo"],
+    ),
+  };
+}
+
+/** Information related to a given self-hosted gateway deployment. */
+export interface ApiManagementGatewayProperties {
+  /** Id of Gateway that is used to deploy the gateway to get the configuration for. This is the ARM resource ID referenced in the Azure API Management instance. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateway/<GatewayName>` */
+  gatewayId: string;
+  /** Unique instance ID of the deployed gateway */
+  instanceId: string;
+}
+
+export function apiManagementGatewayPropertiesDeserializer(
+  item: any,
+): ApiManagementGatewayProperties {
+  return {
+    gatewayId: item["gatewayId"],
+    instanceId: item["instanceId"],
+  };
+}
+
+/** Information related to a gateway token that is near expiry for a self-hosted gateway deployment. */
+export interface ApiManagementNearExpiryGatewayTokenProperties {
+  /** Timestamp when the gateway token will expire. */
+  expiredAtUtc: Date;
+}
+
+export function apiManagementNearExpiryGatewayTokenPropertiesDeserializer(
+  item: any,
+): ApiManagementNearExpiryGatewayTokenProperties {
+  return {
+    expiredAtUtc: new Date(item["expiredAtUtc"]),
+  };
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenExpired event. */
+export interface ApiManagementGatewayTokenExpiredEventData {
+  /** Information related to a given self-hosted gateway deployment. */
+  gatewayInfo: ApiManagementGatewayProperties;
+  /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
+  tokenInfo: ApiManagementExpiredGatewayTokenProperties;
+}
+
+export function apiManagementGatewayTokenExpiredEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayTokenExpiredEventData {
+  return {
+    gatewayInfo: apiManagementGatewayPropertiesDeserializer(
+      item["gatewayInfo"],
+    ),
+    tokenInfo: apiManagementExpiredGatewayTokenPropertiesDeserializer(
+      item["tokenInfo"],
+    ),
+  };
+}
+
+/** Information related to a gateway token that has expired for a self-hosted gateway deployment. */
+export interface ApiManagementExpiredGatewayTokenProperties {
+  /** Timestamp when the gateway token has expired. */
+  expiredAtUtc: Date;
+}
+
+export function apiManagementExpiredGatewayTokenPropertiesDeserializer(
+  item: any,
+): ApiManagementExpiredGatewayTokenProperties {
+  return {
+    expiredAtUtc: new Date(item["expiredAtUtc"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueModified event. */
 export interface AppConfigurationKeyValueModifiedEventData {
   /** The key used to identify the key-value that was modified. */
@@ -579,11 +741,11 @@ export interface AvsClusterEventData {
   /** Id of the operation that caused this event. */
   operationId: string;
   /** Hosts added to the cluster in this event, if any. */
-  addedHostNames?: string[];
+  readonly addedHostNames?: string[];
   /** Hosts removed from the cluster in this event, if any. */
-  removedHostNames?: string[];
+  readonly removedHostNames?: string[];
   /** Hosts in Maintenance mode in the cluster, if any. */
-  inMaintenanceHostNames?: string[];
+  readonly inMaintenanceHostNames?: string[];
 }
 
 export function avsClusterEventDataDeserializer(
@@ -750,7 +912,7 @@ export interface AvsScriptExecutionEventData {
   /** Cmdlet referenced in the execution that caused this event. */
   cmdletId: string;
   /** Stdout outputs from the execution, if any. */
-  output?: string[];
+  readonly output?: string[];
 }
 
 export function avsScriptExecutionEventDataDeserializer(
@@ -1073,15 +1235,15 @@ export function acsUserDisconnectedEventDataDeserializer(
 }
 
 /** Schema of common properties of all calling events */
-export interface AcsCallingEventProperties {
+export interface AcsCallingEvent {
   /** The call participant who initiated the call. */
-  startedBy: AcsCallParticipantProperties;
+  startedBy: AcsCallParticipant;
   /** The call id of the server */
   serverCallId: string;
   /** The group metadata */
-  group?: AcsCallGroupProperties;
+  group?: AcsCallGroup;
   /** The room metadata */
-  room?: AcsCallRoomProperties;
+  room?: AcsCallRoom;
   /** Is two-party in calling event. */
   isTwoParty?: boolean;
   /** The correlationId of calling event */
@@ -1090,18 +1252,14 @@ export interface AcsCallingEventProperties {
   isRoomsCall?: boolean;
 }
 
-export function acsCallingEventPropertiesDeserializer(
-  item: any,
-): AcsCallingEventProperties {
+export function acsCallingEventDeserializer(item: any): AcsCallingEvent {
   return {
-    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    startedBy: acsCallParticipantDeserializer(item["startedBy"]),
     serverCallId: item["serverCallId"],
     group: !item["group"]
       ? item["group"]
-      : acsCallGroupPropertiesDeserializer(item["group"]),
-    room: !item["room"]
-      ? item["room"]
-      : acsCallRoomPropertiesDeserializer(item["room"]),
+      : acsCallGroupDeserializer(item["group"]),
+    room: !item["room"] ? item["room"] : acsCallRoomDeserializer(item["room"]),
     isTwoParty: item["isTwoParty"],
     correlationId: item["correlationId"],
     isRoomsCall: item["isRoomsCall"],
@@ -1109,16 +1267,14 @@ export function acsCallingEventPropertiesDeserializer(
 }
 
 /** Schema of common properties of all participant event user */
-export interface AcsCallParticipantProperties {
+export interface AcsCallParticipant {
   /** The communication identifier of the participant user */
   communicationIdentifier?: CommunicationIdentifierModel;
   /** The role of the participant */
-  role?: string;
+  role?: AcsCallParticipantRoleKind;
 }
 
-export function acsCallParticipantPropertiesDeserializer(
-  item: any,
-): AcsCallParticipantProperties {
+export function acsCallParticipantDeserializer(item: any): AcsCallParticipant {
   return {
     communicationIdentifier: !item["communicationIdentifier"]
       ? item["communicationIdentifier"]
@@ -1129,49 +1285,70 @@ export function acsCallParticipantPropertiesDeserializer(
   };
 }
 
+/** Call participant role kind. */
+export enum KnownAcsCallParticipantRoleKind {
+  /** Attendee */
+  Attendee = "Attendee",
+  /** Presenter */
+  Presenter = "Presenter",
+  /** Organizer */
+  Organizer = "Organizer",
+  /** Consumer */
+  Consumer = "Consumer",
+  /** Collaborator */
+  Collaborator = "Collaborator",
+}
+
+/**
+ * Call participant role kind. \
+ * {@link KnownAcsCallParticipantRoleKind} can be used interchangeably with AcsCallParticipantRoleKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Attendee**: Attendee \
+ * **Presenter**: Presenter \
+ * **Organizer**: Organizer \
+ * **Consumer**: Consumer \
+ * **Collaborator**: Collaborator
+ */
+export type AcsCallParticipantRoleKind = string;
+
 /** Schema of calling event group properties */
-export interface AcsCallGroupProperties {
+export interface AcsCallGroup {
   /** Group Id. */
   id?: string;
 }
 
-export function acsCallGroupPropertiesDeserializer(
-  item: any,
-): AcsCallGroupProperties {
+export function acsCallGroupDeserializer(item: any): AcsCallGroup {
   return {
     id: item["id"],
   };
 }
 
 /** Schema of calling event room properties */
-export interface AcsCallRoomProperties {
+export interface AcsCallRoom {
   /** Room Id. */
   id?: string;
 }
 
-export function acsCallRoomPropertiesDeserializer(
-  item: any,
-): AcsCallRoomProperties {
+export function acsCallRoomDeserializer(item: any): AcsCallRoom {
   return {
     id: item["id"],
   };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallStarted event. */
-export interface AcsCallStartedEventData extends AcsCallingEventProperties {}
+export interface AcsCallStartedEventData extends AcsCallingEvent {}
 
 export function acsCallStartedEventDataDeserializer(
   item: any,
 ): AcsCallStartedEventData {
   return {
-    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    startedBy: acsCallParticipantDeserializer(item["startedBy"]),
     serverCallId: item["serverCallId"],
     group: !item["group"]
       ? item["group"]
-      : acsCallGroupPropertiesDeserializer(item["group"]),
-    room: !item["room"]
-      ? item["room"]
-      : acsCallRoomPropertiesDeserializer(item["room"]),
+      : acsCallGroupDeserializer(item["group"]),
+    room: !item["room"] ? item["room"] : acsCallRoomDeserializer(item["room"]),
     isTwoParty: item["isTwoParty"],
     correlationId: item["correlationId"],
     isRoomsCall: item["isRoomsCall"],
@@ -1179,11 +1356,11 @@ export function acsCallStartedEventDataDeserializer(
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallEnded event. */
-export interface AcsCallEndedEventData extends AcsCallingEventProperties {
+export interface AcsCallEndedEventData extends AcsCallingEvent {
   /** The communication identifier of the user who was disconnected */
-  endedBy?: AcsCallEndedByProperties;
+  endedBy?: AcsCallEndedBy;
   /** The reason for ending the call. */
-  reason?: AcsCallEndReasonProperties;
+  reason?: AcsCallEndReason;
   /** Duration of the call in seconds. */
   callDurationInSeconds?: number;
 }
@@ -1192,29 +1369,27 @@ export function acsCallEndedEventDataDeserializer(
   item: any,
 ): AcsCallEndedEventData {
   return {
-    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    startedBy: acsCallParticipantDeserializer(item["startedBy"]),
     serverCallId: item["serverCallId"],
     group: !item["group"]
       ? item["group"]
-      : acsCallGroupPropertiesDeserializer(item["group"]),
-    room: !item["room"]
-      ? item["room"]
-      : acsCallRoomPropertiesDeserializer(item["room"]),
+      : acsCallGroupDeserializer(item["group"]),
+    room: !item["room"] ? item["room"] : acsCallRoomDeserializer(item["room"]),
     isTwoParty: item["isTwoParty"],
     correlationId: item["correlationId"],
     isRoomsCall: item["isRoomsCall"],
     endedBy: !item["endedBy"]
       ? item["endedBy"]
-      : acsCallEndedByPropertiesDeserializer(item["endedBy"]),
+      : acsCallEndedByDeserializer(item["endedBy"]),
     reason: !item["reason"]
       ? item["reason"]
-      : acsCallEndReasonPropertiesDeserializer(item["reason"]),
+      : acsCallEndReasonDeserializer(item["reason"]),
     callDurationInSeconds: item["callDurationInSeconds"],
   };
 }
 
-/** Schema of calling event endedby properties */
-export interface AcsCallEndedByProperties {
+/** Schema of calling event ended by properties */
+export interface AcsCallEndedBy {
   /** The communication identifier of the call ended by */
   communicationIdentifier: CommunicationIdentifierModel;
   /** The type of call ended by. */
@@ -1223,9 +1398,7 @@ export interface AcsCallEndedByProperties {
   name: string;
 }
 
-export function acsCallEndedByPropertiesDeserializer(
-  item: any,
-): AcsCallEndedByProperties {
+export function acsCallEndedByDeserializer(item: any): AcsCallEndedBy {
   return {
     communicationIdentifier: communicationIdentifierModelDeserializer(
       item["communicationIdentifier"],
@@ -1254,7 +1427,7 @@ export enum KnownAcsCallEndedByKind {
 export type AcsCallEndedByKind = string;
 
 /** Schema of calling event reason properties */
-export interface AcsCallEndReasonProperties {
+export interface AcsCallEndReason {
   /** Reason code for ending the call. */
   code?: number;
   /** Reason subcode for ending the call. */
@@ -1263,9 +1436,7 @@ export interface AcsCallEndReasonProperties {
   phrase?: string;
 }
 
-export function acsCallEndReasonPropertiesDeserializer(
-  item: any,
-): AcsCallEndReasonProperties {
+export function acsCallEndReasonDeserializer(item: any): AcsCallEndReason {
   return {
     code: item["code"],
     subCode: item["subCode"],
@@ -1274,10 +1445,9 @@ export function acsCallEndReasonPropertiesDeserializer(
 }
 
 /** Schema of common properties of all participant events */
-export interface AcsCallParticipantEventProperties
-  extends AcsCallingEventProperties {
+export interface AcsCallParticipantEvent extends AcsCallingEvent {
   /** The user of the call participant */
-  user?: AcsCallParticipantProperties;
+  user?: AcsCallParticipant;
   /** The display name of the participant. */
   displayName?: string;
   /** The id of the participant. */
@@ -1286,24 +1456,22 @@ export interface AcsCallParticipantEventProperties
   userAgent?: string;
 }
 
-export function acsCallParticipantEventPropertiesDeserializer(
+export function acsCallParticipantEventDeserializer(
   item: any,
-): AcsCallParticipantEventProperties {
+): AcsCallParticipantEvent {
   return {
-    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    startedBy: acsCallParticipantDeserializer(item["startedBy"]),
     serverCallId: item["serverCallId"],
     group: !item["group"]
       ? item["group"]
-      : acsCallGroupPropertiesDeserializer(item["group"]),
-    room: !item["room"]
-      ? item["room"]
-      : acsCallRoomPropertiesDeserializer(item["room"]),
+      : acsCallGroupDeserializer(item["group"]),
+    room: !item["room"] ? item["room"] : acsCallRoomDeserializer(item["room"]),
     isTwoParty: item["isTwoParty"],
     correlationId: item["correlationId"],
     isRoomsCall: item["isRoomsCall"],
     user: !item["user"]
       ? item["user"]
-      : acsCallParticipantPropertiesDeserializer(item["user"]),
+      : acsCallParticipantDeserializer(item["user"]),
     displayName: item["displayName"],
     participantId: item["participantId"],
     userAgent: item["userAgent"],
@@ -1312,7 +1480,7 @@ export function acsCallParticipantEventPropertiesDeserializer(
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallParticipantAdded event. */
 export interface AcsCallParticipantAddedEventData
-  extends AcsCallParticipantEventProperties {}
+  extends AcsCallParticipantEvent {}
 
 export function acsCallParticipantAddedEventDataDeserializer(
   item: any,
@@ -1320,18 +1488,16 @@ export function acsCallParticipantAddedEventDataDeserializer(
   return {
     user: !item["user"]
       ? item["user"]
-      : acsCallParticipantPropertiesDeserializer(item["user"]),
+      : acsCallParticipantDeserializer(item["user"]),
     displayName: item["displayName"],
     participantId: item["participantId"],
     userAgent: item["userAgent"],
-    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    startedBy: acsCallParticipantDeserializer(item["startedBy"]),
     serverCallId: item["serverCallId"],
     group: !item["group"]
       ? item["group"]
-      : acsCallGroupPropertiesDeserializer(item["group"]),
-    room: !item["room"]
-      ? item["room"]
-      : acsCallRoomPropertiesDeserializer(item["room"]),
+      : acsCallGroupDeserializer(item["group"]),
+    room: !item["room"] ? item["room"] : acsCallRoomDeserializer(item["room"]),
     isTwoParty: item["isTwoParty"],
     correlationId: item["correlationId"],
     isRoomsCall: item["isRoomsCall"],
@@ -1340,7 +1506,7 @@ export function acsCallParticipantAddedEventDataDeserializer(
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.CallParticipantRemoved event. */
 export interface AcsCallParticipantRemovedEventData
-  extends AcsCallParticipantEventProperties {}
+  extends AcsCallParticipantEvent {}
 
 export function acsCallParticipantRemovedEventDataDeserializer(
   item: any,
@@ -1348,18 +1514,16 @@ export function acsCallParticipantRemovedEventDataDeserializer(
   return {
     user: !item["user"]
       ? item["user"]
-      : acsCallParticipantPropertiesDeserializer(item["user"]),
+      : acsCallParticipantDeserializer(item["user"]),
     displayName: item["displayName"],
     participantId: item["participantId"],
     userAgent: item["userAgent"],
-    startedBy: acsCallParticipantPropertiesDeserializer(item["startedBy"]),
+    startedBy: acsCallParticipantDeserializer(item["startedBy"]),
     serverCallId: item["serverCallId"],
     group: !item["group"]
       ? item["group"]
-      : acsCallGroupPropertiesDeserializer(item["group"]),
-    room: !item["room"]
-      ? item["room"]
-      : acsCallRoomPropertiesDeserializer(item["room"]),
+      : acsCallGroupDeserializer(item["group"]),
+    room: !item["room"] ? item["room"] : acsCallRoomDeserializer(item["room"]),
     isTwoParty: item["isTwoParty"],
     correlationId: item["correlationId"],
     isRoomsCall: item["isRoomsCall"],
@@ -1737,7 +1901,7 @@ export interface AcsChatThreadCreatedWithUserEventData
   /** The thread metadata */
   metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
-  participants: AcsChatThreadParticipant[];
+  readonly participants: AcsChatThreadParticipant[];
 }
 
 export function acsChatThreadCreatedWithUserEventDataDeserializer(
@@ -1823,7 +1987,7 @@ export interface AcsChatThreadCreatedEventData
   /** The thread metadata */
   metadata?: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
-  participants: AcsChatThreadParticipant[];
+  readonly participants: AcsChatThreadParticipant[];
 }
 
 export function acsChatThreadCreatedEventDataDeserializer(
@@ -2108,7 +2272,7 @@ export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
   /** Details about Delivery Status */
   deliveryStatusDetails: string;
   /** List of details of delivery attempts made */
-  deliveryAttempts: AcsSmsDeliveryAttempt[];
+  readonly deliveryAttempts: AcsSmsDeliveryAttempt[];
   /** The time at which the SMS delivery report was received */
   receivedTimestamp: Date;
   /** Customer Content */
@@ -2220,7 +2384,7 @@ export function acsRecordingFileStatusUpdatedEventDataDeserializer(
 /** Schema for all properties of Recording Storage Information. */
 export interface AcsRecordingStorageInfo {
   /** List of details of recording chunks information */
-  recordingChunks: AcsRecordingChunkInfo[];
+  readonly recordingChunks: AcsRecordingChunkInfo[];
 }
 
 export function acsRecordingStorageInfoDeserializer(
@@ -2528,7 +2692,7 @@ export interface AcsRouterJobClassificationFailedEventData
   /** Router Job Classification Policy Id */
   classificationPolicyId?: string;
   /** Router Job Classification Failed Errors */
-  errors: AcsRouterCommunicationError[];
+  readonly errors: AcsRouterCommunicationError[];
 }
 
 export function acsRouterJobClassificationFailedEventDataDeserializer(
@@ -2565,7 +2729,7 @@ export interface AcsRouterCommunicationError {
   /** Router Communication Inner Error */
   innererror: AcsRouterCommunicationError;
   /** List of Router Communication Errors */
-  details: AcsRouterCommunicationError[];
+  readonly errors: AcsRouterCommunicationError[];
 }
 
 export function acsRouterCommunicationErrorDeserializer(
@@ -2576,7 +2740,7 @@ export function acsRouterCommunicationErrorDeserializer(
     message: item["message"],
     target: item["target"],
     innererror: acsRouterCommunicationErrorDeserializer(item["innererror"]),
-    details: acsRouterCommunicationErrorArrayDeserializer(item["details"]),
+    errors: acsRouterCommunicationErrorArrayDeserializer(item["errors"]),
   };
 }
 
@@ -2589,7 +2753,7 @@ export interface AcsRouterJobClassifiedEventData extends AcsRouterJobEventData {
   /** Router Job Priority */
   priority?: number;
   /** Router Job Attached Worker Selector */
-  attachedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly attachedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
 export function acsRouterJobClassifiedEventDataDeserializer(
@@ -2810,9 +2974,9 @@ export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
   /** Router Job Priority */
   priority: number;
   /** Router Job Queued Attached Worker Selector */
-  attachedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly attachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Queued Requested Worker Selector */
-  requestedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly requestedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
 export function acsRouterJobQueuedEventDataDeserializer(
@@ -2844,7 +3008,7 @@ export interface AcsRouterJobReceivedEventData extends AcsRouterJobEventData {
   /** Router Job Priority */
   priority?: number;
   /** Router Job Received Requested Worker Selectors */
-  requestedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly requestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Received Scheduled Time in UTC */
   scheduledOn: Date;
   /** Unavailable For Matching for Router Job Received */
@@ -2926,9 +3090,9 @@ export interface AcsRouterJobSchedulingFailedEventData
   /** Router Job Priority */
   priority: number;
   /** Router Job Scheduling Failed Attached Worker Selector Expired */
-  expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Scheduling Failed Requested Worker Selector Expired */
-  expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Scheduling Failed Scheduled Time in UTC */
   scheduledOn: Date;
   /** Router Job Scheduling Failed Reason */
@@ -2986,9 +3150,9 @@ export interface AcsRouterJobWaitingForActivationEventData
   /** Router Job Waiting For Activation Priority */
   priority: number;
   /** Router Job Waiting For Activation Worker Selector Expired */
-  expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Waiting For Activation Requested Worker Selector Expired */
-  expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Waiting For Activation Scheduled Time in UTC */
   scheduledOn: Date;
   /** Router Job Waiting For Activation Unavailable For Matching */
@@ -3021,9 +3185,9 @@ export function acsRouterJobWaitingForActivationEventDataDeserializer(
 export interface AcsRouterJobWorkerSelectorsExpiredEventData
   extends AcsRouterJobEventData {
   /** Router Job Worker Selectors Expired Requested Worker Selectors */
-  expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Worker Selectors Expired Attached Worker Selectors */
-  expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+  readonly expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
 export function acsRouterJobWorkerSelectorsExpiredEventDataDeserializer(
@@ -3245,9 +3409,9 @@ export interface AcsRouterWorkerRegisteredEventData {
   /** Router Worker Registered Worker Id */
   workerId?: string;
   /** Router Worker Registered Queue Info */
-  queueAssignments: AcsRouterQueueDetails[];
+  readonly queueAssignments: AcsRouterQueueDetails[];
   /** Router Worker Registered Channel Configuration */
-  channelConfigurations: AcsRouterChannelConfiguration[];
+  readonly channelConfigurations: AcsRouterChannelConfiguration[];
   /** Router Worker Register Total Capacity */
   totalCapacity?: number;
   /** Router Worker Registered Labels */
@@ -3314,9 +3478,9 @@ export interface AcsRouterWorkerUpdatedEventData {
   /** Router Worker Updated Worker Id */
   workerId?: string;
   /** Router Worker Updated Queue Info */
-  queueAssignments: AcsRouterQueueDetails[];
+  readonly queueAssignments: AcsRouterQueueDetails[];
   /** Router Worker Updated Channel Configuration */
-  channelConfigurations: AcsRouterChannelConfiguration[];
+  readonly channelConfigurations: AcsRouterChannelConfiguration[];
   /** Router Worker Updated Total Capacity */
   totalCapacity?: number;
   /** Router Worker Updated Labels */
@@ -3324,7 +3488,7 @@ export interface AcsRouterWorkerUpdatedEventData {
   /** Router Worker Updated Tags */
   tags: Record<string, string>;
   /** Router Worker Properties Updated */
-  updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
+  readonly updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
 export function acsRouterWorkerUpdatedEventDataDeserializer(
@@ -4287,11 +4451,11 @@ export function eventHubCaptureFileCreatedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Geofence event (GeofenceEntered, GeofenceExited, GeofenceResult). */
 export interface MapsGeofenceEvent {
   /** Lists of the geometry ID of the geofence which is expired relative to the user time in the request. */
-  expiredGeofenceGeometryId: string[];
+  readonly expiredGeofenceGeometryId: string[];
   /** Lists the fence geometries that either fully contain the coordinate position or have an overlap with the searchBuffer around the fence. */
-  geometries: MapsGeofenceGeometry[];
+  readonly geometries: MapsGeofenceGeometry[];
   /** Lists of the geometry ID of the geofence which is in invalid period relative to the user time in the request. */
-  invalidPeriodGeofenceGeometryId: string[];
+  readonly invalidPeriodGeofenceGeometryId: string[];
   /** True if at least one event is published to the Azure Maps event subscriber, false if no event is published to the Azure Maps event subscriber. */
   isEventPublished: boolean;
 }
@@ -8216,7 +8380,7 @@ export function resourceNotificationsResourceManagementDeletedEventDataDeseriali
   };
 }
 
-/** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event. */
+/** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event.Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event. */
 export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData
   extends ResourceNotificationsResourceUpdatedEventData {}
 
