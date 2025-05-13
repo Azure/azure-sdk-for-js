@@ -1237,8 +1237,6 @@ describe("BlobClient Copy from file Node.js only", () => {
     const content = "a".repeat(512) + "b".repeat(512);
 
     const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
-
-    //const content = "Hello World!";
     await fileClient.uploadData(Buffer.from(content));
 
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
