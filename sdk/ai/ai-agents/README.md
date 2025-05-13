@@ -63,7 +63,7 @@ Use the AI Agents client library to:
 ### Authorization
 
 - Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
-  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal).
+  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal).
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
   - Note that if you have multiple Azure subscriptions, the subscription that contains your Azure AI Project resource must be your default subscription. Run `az account list --output table` to list all your subscription and see which one is the default. Run `az account set --subscription "Your Subscription ID or Name"` to change your default subscription.
@@ -201,7 +201,7 @@ console.log(`Created agent, agent ID: ${agent.id}`);
 
 #### Create Agent with Bing Grounding
 
-To enable your Agent to perform search through Bing search API, you use `ToolUtility.createBingGroundingTool()` along with a connection. See [here](https://learn.microsoft.com/en-us/azure/ai-services/agents/how-to/tools/bing-grounding?tabs=python&pivots=overview) to learn more about Grounding with Bing Search.
+To enable your Agent to perform search through Bing search API, you use `ToolUtility.createBingGroundingTool()` along with a connection. See [here](https://learn.microsoft.com/azure/ai-services/agents/how-to/tools/bing-grounding?tabs=python&pivots=overview) to learn more about Grounding with Bing Search.
 
 Here is an example:
 
