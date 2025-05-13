@@ -37,7 +37,7 @@ export function _getInferenceURL(url: string): string {
       throw new Error("Invalid endpoint URL format. Must be an https URL with a host.");
     }
 
-    return `https://${parsedUrl.hostname}/api/models`;
+    return `https://${parsedUrl.hostname}/models`;
   } catch (error) {
     if (error instanceof TypeError) {
       throw new Error("Invalid URL format. Please provide a valid URL.");
