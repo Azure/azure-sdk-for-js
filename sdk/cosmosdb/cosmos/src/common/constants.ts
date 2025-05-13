@@ -61,7 +61,7 @@ export const Constants = {
     Location: "Location",
     Referer: "referer",
     A_IM: "A-IM",
-    PREFER_RETURN_MINIMAL: "return=minimal",
+    PreferReturnMinimal: "return=minimal",
 
     // Query
     Query: "x-ms-documentdb-query",
