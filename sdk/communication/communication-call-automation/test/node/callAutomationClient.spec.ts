@@ -13,7 +13,7 @@ import type {
   CommunicationIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import type { CallInvite, CallConnection, AnswerCallOptions } from "../../src/index.js";
+import type { CallInvite, CallConnection } from "../../src/index.js";
 import { randomUUID } from "@azure/core-util";
 import { KnownCommunicationCloudEnvironmentModel } from "../../src/generated/src/index.js";
 import type { MockedObject } from "vitest";

@@ -617,6 +617,7 @@ describe("CallConnection Live Tests", function () {
       const communicationUser = participant.identifier as CommunicationUserIdentifier;
       if (communicationUser.communicationUserId === testUser2.communicationUserId) {
         isMuted = participant.isMuted!;
+        break;
       }
     }
     assert.isTrue(isMuted);
