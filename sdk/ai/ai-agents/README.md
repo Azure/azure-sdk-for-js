@@ -68,7 +68,7 @@ npm install @azure/ai-agents @azure/identity
 
 ### Create and authenticate the client
 
-The `AgentsClient` is used to construct the client. Currently, we reccomend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
+The `AgentsClient` is used to construct the client. Currently, we recommend that you use the AgentsClient through the [Azure AI Projects Client Library](https://www.npmjs.com/package/@azure/ai-projects) using `client.agents`.
 
 To construct a client:
 
