@@ -127,7 +127,7 @@ async function organizationsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedBy
       },
     },
     tags: {},
-    location: ""
+    location: "",
   });
   console.log(result);
 }
