@@ -234,7 +234,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
   constructor(options?: DefaultAzureCredentialOptions) {
     // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
-    const azureTokenCredentials = (process.env.AZURE_TOKEN_CREDENTIALS)? (process.env.AZURE_TOKEN_CREDENTIALS.trim()).toLowerCase() : undefined;
+    const azureTokenCredentials = (process.env.AZURE_TOKEN_CREDENTIALS) ? (process.env.AZURE_TOKEN_CREDENTIALS.trim()).toLowerCase() : undefined;
     const devCredentialFunctions = [
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
