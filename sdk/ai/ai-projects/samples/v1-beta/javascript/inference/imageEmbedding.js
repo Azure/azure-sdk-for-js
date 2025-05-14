@@ -12,8 +12,7 @@ const { fileURLToPath } = require("url");
 const { AIProjectClient } = require("@azure/ai-projects");
 const { isUnexpected } = require("@azure-rest/ai-inference");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-require("dotenv").config();
+require("dotenv/config");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

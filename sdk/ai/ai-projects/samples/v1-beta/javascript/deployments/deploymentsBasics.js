@@ -10,7 +10,7 @@
 
 const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
@@ -24,12 +24,20 @@ async function main() {
   const properties = [];
 
   for await (const deployment of project.deployments.list()) {
-    deployments.push(deployment);
-    properties.push({
-      name: deployment.name,
-      modelPublisher: deployment.modelPublisher,
-      modelName: deployment.modelName,
-    });
+    // Check if this is a ModelDeployment (has the required properties)
+    if (
+      deployment.type === "ModelDeployment" &&
+      "modelName" in deployment &&
+      "modelPublisher" in deployment &&
+      "modelVersion" in deployment
+    ) {
+      deployments.push(deployment);
+      properties.push({
+        name: deployment.name,
+        modelPublisher: deployment.modelPublisher,
+        modelName: deployment.modelName,
+      });
+    }
   }
   console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
 
@@ -39,7 +47,15 @@ async function main() {
   for await (const deployment of project.deployments.list({
     modelPublisher,
   })) {
-    filteredDeployments.push(deployment);
+    // Check if this is a ModelDeployment
+    if (
+      deployment.type === "ModelDeployment" &&
+      "modelName" in deployment &&
+      "modelPublisher" in deployment &&
+      "modelVersion" in deployment
+    ) {
+      filteredDeployments.push(deployment);
+    }
   }
   console.log(
     `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
