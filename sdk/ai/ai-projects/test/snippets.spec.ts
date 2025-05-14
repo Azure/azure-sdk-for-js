@@ -35,7 +35,7 @@ describe("snippets", function () {
       instructions: "You are a helpful agent",
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-
+    // @ts-preserve-whitespace
     // Do something with your Agent!
     // See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
 
@@ -52,7 +52,6 @@ describe("snippets", function () {
       model: deploymentName,
       messages: [{ role: "user", content: "How many feet are in a mile?" }],
     });
-
     console.log("response = ", JSON.stringify(response, null, 2));
   });
 
@@ -72,29 +71,45 @@ describe("snippets", function () {
     console.log("List all deployments:");
     const deployments: ModelDeployment[] = [];
     const properties: Array<Record<string, string>> = [];
-
-    for await (const deployment of project.deployments.list() as AsyncIterable<ModelDeployment>) {
-      deployments.push(deployment);
-      properties.push({
-        name: deployment.name,
-        modelPublisher: deployment.modelPublisher,
-        modelName: deployment.modelName,
-      });
+    // @ts-preserve-whitespace
+    for await (const deployment of project.deployments.list()) {
+      // Check if this is a ModelDeployment (has the required properties)
+      if (
+        deployment.type === "ModelDeployment" &&
+        "modelName" in deployment &&
+        "modelPublisher" in deployment &&
+        "modelVersion" in deployment
+      ) {
+        deployments.push(deployment);
+        properties.push({
+          name: deployment.name,
+          modelPublisher: deployment.modelPublisher,
+          modelName: deployment.modelName,
+        });
+      }
     }
     console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
-
+    // @ts-preserve-whitespace
     // List all deployments by a specific model publisher (assuming we have one from the list)
     console.log(`List all deployments by the model publisher '${modelPublisher}':`);
     const filteredDeployments: ModelDeployment[] = [];
     for await (const deployment of project.deployments.list({
       modelPublisher,
-    }) as AsyncIterable<ModelDeployment>) {
-      filteredDeployments.push(deployment);
+    })) {
+      // Check if this is a ModelDeployment
+      if (
+        deployment.type === "ModelDeployment" &&
+        "modelName" in deployment &&
+        "modelPublisher" in deployment &&
+        "modelVersion" in deployment
+      ) {
+        filteredDeployments.push(deployment);
+      }
     }
     console.log(
       `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
     );
-
+    // @ts-preserve-whitespace
     // Get a single deployment by name
     if (deployments.length > 0) {
       const deploymentName = deployments[0].name;
@@ -113,17 +128,17 @@ describe("snippets", function () {
       connectionNames.push(connection.name);
     }
     console.log(`Retrieved connections: ${connectionNames}`);
-
+    // @ts-preserve-whitespace
     // Get the details of a connection, without credentials
     const connectionName = connections[0].name;
     const connection = await project.connections.get(connectionName);
     console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
-
+    // @ts-preserve-whitespace
     const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
     console.log(
       `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
     );
-
+    // @ts-preserve-whitespace
     // List all connections of a specific type
     const azureAIConnections: Connection[] = [];
     for await (const azureOpenAIConnection of project.connections.list({
@@ -133,7 +148,7 @@ describe("snippets", function () {
       azureAIConnections.push(azureOpenAIConnection);
     }
     console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
-
+    // @ts-preserve-whitespace
     // Get the details of a default connection
     const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
     console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
@@ -143,7 +158,7 @@ describe("snippets", function () {
     const VERSION1 = "1.0";
     const VERSION2 = "2.0";
     const VERSION3 = "3.0";
-
+    // @ts-preserve-whitespace
     // sample files to use in the demonstration
     const sampleFolder = "sample_folder";
 
@@ -152,13 +167,14 @@ describe("snippets", function () {
 
     console.log("Upload a single file and create a new Dataset to reference the file.");
     console.log("Here we explicitly specify the dataset version.");
+    // @ts-preserve-whitespace
     const dataset1 = await project.datasets.uploadFile(
       datasetName,
       VERSION1,
       path.join(__dirname, sampleFolder, "sample_file1.txt"),
     );
     console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
-
+    // @ts-preserve-whitespace
     const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
     console.log("Credential for the dataset:", credential);
 
@@ -166,6 +182,7 @@ describe("snippets", function () {
       "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
     );
     console.log("Here again we explicitly specify a new dataset version");
+
     const dataset2 = await project.datasets.uploadFolder(
       datasetName,
       VERSION2,
@@ -183,6 +200,7 @@ describe("snippets", function () {
     );
     console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
 
+    // @ts-preserve-whitespace
     console.log("Get an existing Dataset version `1`:");
     const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
     console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
@@ -224,7 +242,7 @@ describe("snippets", function () {
       indexName,
       connectionName: "sample-connection",
     };
-
+    // @ts-preserve-whitespace
     // Create a new Index
     const newIndex = await project.indexes.createOrUpdate(
       indexName,
@@ -295,7 +313,7 @@ describe("snippets", function () {
     // get the evaluation by ID
     const eval2 = await project.evaluations.get(evalResp.name);
     console.log("Get the evaluation by ID:", eval2);
-
+    // @ts-preserve-whitespace
     const evaluations: Evaluation[] = [];
     const evaluationNames: string[] = [];
     for await (const evaluation of project.evaluations.list()) {
@@ -303,7 +321,7 @@ describe("snippets", function () {
       evaluationNames.push(evaluation.displayName ?? "");
     }
     console.log("List of evaluation display names:", evaluationNames);
-
+    // @ts-preserve-whitespace
     // This is temporary, as interface recommend the name of the evaluation
     const name = evaluations[0].name;
     const evaluation = await project.evaluations.get(name);
