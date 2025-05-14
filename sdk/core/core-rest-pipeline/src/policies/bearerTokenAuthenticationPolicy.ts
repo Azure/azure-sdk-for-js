@@ -9,6 +9,7 @@ import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 import type { RestError } from "../restError.js";
 import { isRestError } from "../restError.js";
+import { Sanitizer } from "@typespec/ts-http-runtime/internal/util";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -220,6 +221,8 @@ export function bearerTokenAuthenticationPolicy(
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
+        const sanitizer = new Sanitizer();
+        logger.info(`Bearer token authentication is not permitted for non-TLS protected (non-https) URLs. Request: ${sanitizer.sanitize(request)}`);
         throw new Error(
           "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
         );

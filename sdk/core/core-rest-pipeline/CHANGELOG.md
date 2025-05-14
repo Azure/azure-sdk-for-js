@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Log non-Https request before throwing error when Https url is expected in `bearerTokenAuthenticationPolicy`
+
 ## 1.20.0 (2025-05-01)
 
 ### Features Added
