@@ -77,10 +77,8 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
-  public async getAvailableReadEndpoints(): Promise<ReadonlyArray<string>> {
-    return this.readableLocations
-      .filter((loc) => !loc.unavailable)
-      .map((loc) => loc.databaseAccountEndpoint);
+  public async getAvailableReadLocations(): Promise<ReadonlyArray<Location>> {
+    return this.readableLocations.filter((loc) => !loc.unavailable);
   }
 
   public async markCurrentLocationUnavailableForRead(
@@ -369,6 +367,7 @@ export class GlobalEndpointManager {
   }
 }
 
+// todoujjwal : remove this
 function normalizeEndpoint(endpoint: string): string {
   return endpoint.split(" ").join("").toLowerCase();
 }

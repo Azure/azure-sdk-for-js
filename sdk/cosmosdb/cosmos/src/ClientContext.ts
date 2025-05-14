@@ -1059,6 +1059,9 @@ export class ClientContext {
    * @internal
    */
   public getIsPartitionLevelFailOverEnabled(): boolean {
-    return this.connectionPolicy.enablePartitionLevelFailover;
+    return (
+      this.connectionPolicy.enablePartitionLevelFailover ||
+      this.connectionPolicy.enablePartitionLevelCircuitBreaker
+    );
   }
 }

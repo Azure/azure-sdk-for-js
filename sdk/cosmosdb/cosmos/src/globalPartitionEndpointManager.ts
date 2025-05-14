@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { constants } from "buffer";
 import { HealthStatus, OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import {
   Constants,
@@ -9,7 +8,8 @@ import {
   type GlobalEndpointManager,
   type RequestContext,
 } from "./index.js";
-import semaphore, { Semaphore } from "semaphore";
+import semaphore from "semaphore";
+import { normalizeEndpoint } from "./utils/checkURL.js";
 
 /**
  * @hidden
@@ -27,7 +27,7 @@ export class GlobalPartitionEndpointManager {
   public preferredLocationsCount: number;
   // A boolean flag indicating if the background connection initialization recursive task is active.
   private isBackgroundConnectionInitActive: boolean = false;
-  private backgroundConnectionSemaphore: Semaphore;
+  private backgroundConnectionSemaphore: semaphore.Semaphore;
 
   /**
    * @internal
@@ -44,7 +44,8 @@ export class GlobalPartitionEndpointManager {
 
     this.enablePartitionLevelFailover = options.connectionPolicy.enablePartitionLevelFailover;
     this.enablePartitionLevelCircuitBreaker =
-      options.connectionPolicy.enablePartitionLevelCircuitBreaker;
+      options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      options.connectionPolicy.enablePartitionLevelFailover;
 
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
@@ -78,9 +79,14 @@ export class GlobalPartitionEndpointManager {
     const partitionKeyRangeId = requestContext.partitionKeyRangeId;
     const failedEndPoint = requestContext.endpoint;
 
+    const readLocations = await this.globalEndpointManager.getAvailableReadLocations();
+    const readEndPoints: string[] = [];
+
     if (this.isRequestEligibleForPerPartitionAutomaticFailover(requestContext)) {
       // For any single master write accounts, the next locations to fail over will be the read regions configured at the account level.
-      const readEndPoints = await this.globalEndpointManager.getAvailableReadEndpoints();
+      for (const location of readLocations) {
+        readEndPoints.push(location.databaseAccountEndpoint);
+      }
       return this.TryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
         partitionKeyRangeId,
         failedEndPoint,
@@ -90,8 +96,22 @@ export class GlobalPartitionEndpointManager {
     } else if (this.IsRequestEligibleForPartitionLevelCircuitBreaker(requestContext)) {
       // For multi master write accounts, since all the regions are treated as write regions, the next locations to fail over
       // will be the preferred read regions that are configured in the application preferred regions in the CosmosClientOptions.
-      // todo : check this
-      const readEndPoints = await this.globalEndpointManager.getReadEndpoints();
+      if (this.preferredLocations && this.preferredLocations.length > 0) {
+        for (const preferredLocation of this.preferredLocations) {
+          const location = readLocations.find(
+            (loc) =>
+              loc.unavailable !== true &&
+              normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
+          );
+          if (location) {
+            readEndPoints.push(location.databaseAccountEndpoint);
+          }
+        }
+      } else {
+        for (const location of readLocations) {
+          readEndPoints.push(location.databaseAccountEndpoint);
+        }
+      }
       return this.TryAddOrUpdatePartitionFailoverInfoAndMoveToNextLocation(
         partitionKeyRangeId,
         failedEndPoint,
@@ -299,7 +319,7 @@ export class GlobalPartitionEndpointManager {
     partitionKeyRangeToLocation.delete(partitionKeyRangeId);
     return false;
   }
-
+  // todoujjwal : take help from nackgorund refresh task
   /**  Initialize and start the background connection periodic refresh task. */
   private async initializeAndStartCircuitBreakerFailbackBackgroundRefresh() {
     if (this.isBackgroundConnectionInitActive) {
@@ -409,12 +429,12 @@ class PartitionKeyRangeFailoverInfo {
   private consecutiveWriteRequestFailureCount: number = 0;
   private readRequestFailureCounterThreshold: number = 10;
   private writeRequestFailureCounterThreshold: number = 5;
-  private failureCountSemaphore: Semaphore;
+  private failureCountSemaphore: semaphore.Semaphore;
   private firstRequestFailureTime = new Date();
   private lastRequestFailureTime = new Date();
-  private timestampSemaphore: Semaphore;
+  private timestampSemaphore: semaphore.Semaphore;
   private timeoutCounterResetWindow: number = 1000 * 60 * 1; // 1 minute
-  private tryMoveNextLocationSemaphore: Semaphore;
+  private tryMoveNextLocationSemaphore: semaphore.Semaphore;
 
   /**
    * @internal

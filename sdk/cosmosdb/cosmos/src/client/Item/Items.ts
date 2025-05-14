@@ -41,7 +41,11 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import type {
+  PartitionKey,
+  PartitionKeyDefinition,
+  PrimitivePartitionKeyValue,
+} from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -151,6 +155,25 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
+      // todoujjwal : check this
+      const partitionKeyDefinition = await readPartitionKeyDefinition(
+        diagnosticNode,
+        this.container,
+      );
+      let partitionKeyRangeId: string;
+      const isPartitionLevelFailOverEnabled =
+        this.clientContext.getIsPartitionLevelFailOverEnabled();
+      const pk = convertToInternalPartitionKey(options.partitionKey);
+      if (isPartitionLevelFailOverEnabled && pk && pk.length > 0 && partitionKeyDefinition) {
+        partitionKeyRangeId =
+          await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+            this.container.url,
+            pk,
+            partitionKeyDefinition,
+            diagnosticNode,
+          );
+      }
+
       const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
@@ -161,6 +184,7 @@ export class Items {
         partitionKey: options.partitionKey,
         diagnosticNode,
         correlatedActivityId: correlatedActivityId,
+        partitionKeyRangeId,
       });
       return response;
     };
