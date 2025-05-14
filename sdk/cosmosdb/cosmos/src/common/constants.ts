@@ -61,7 +61,7 @@ export const Constants = {
     Location: "Location",
     Referer: "referer",
     A_IM: "A-IM",
-    PREFER_RETURN_MINIMAL: "return=minimal",
+    PreferReturnMinimal: "return=minimal",
 
     // Query
     Query: "x-ms-documentdb-query",
@@ -218,7 +218,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.3.0",
+  SDKVersion: "4.4.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
