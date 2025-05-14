@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.7 (2025-05-14)
 
 ### Features Added
 
@@ -17,12 +17,6 @@
   - `Microsoft.Communication.ChatAzureBotCommandReceivedInThread`
   - `Microsoft.Communication.ChatTypingIndicatorReceivedInThread`
   - `Microsoft.Edge.SolutionVersionPublished`
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.6 (2025-02-20)
 

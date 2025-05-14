@@ -1,6 +1,6 @@
 # Release History
 
-## 5.12.0 (2025-05-13)
+## 5.12.0 (2025-05-14)
 
 ### Features Added
 
@@ -17,8 +17,6 @@
   - `Microsoft.Communication.ChatAzureBotCommandReceivedInThread`
   - `Microsoft.Communication.ChatTypingIndicatorReceivedInThread`
   - `Microsoft.Edge.SolutionVersionPublished`
-
-### Breaking Changes
 
 ### Bugs Fixed
 
@@ -40,8 +38,6 @@
   - Made `receivedTimestamp` and `tag` optional
 - For `AcsSmsReceivedEventData`
   - Made `message` required
-
-### Other Changes
 
 ## 5.11.0 (2025-02-21)
 
