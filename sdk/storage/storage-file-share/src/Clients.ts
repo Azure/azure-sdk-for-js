@@ -97,6 +97,10 @@ import type {
   FileCreateHardLinkResponse,
   FileSetHTTPHeadersHeaders,
   FileCreateHardLinkHeaders,
+  FileCreateSymbolicLinkHeaders,
+  FileCreateSymbolicLinkResponse,
+  FileGetSymbolicLinkResponse,
+  FileGetSymbolicLinkHeaders,
 } from "./generatedModels.js";
 import type {
   FileRenameHeaders,
@@ -154,6 +158,7 @@ import type {
   ShareClientOptions,
   ShareClientConfig,
   FilePosixProperties,
+  TimeNowType,
 } from "./models.js";
 import {
   fileAttributesToString,
@@ -3478,6 +3483,67 @@ export interface FileCreateHardLinkOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure File - Create Symbolic Link operations.
+ *
+ * See:
+ * - {@link ShareFileClient.createSymbolicLink}
+ */
+export interface FileCreateSymbolicLinkOptions extends CommonOptions {
+  /**
+   * Metadata of the Azure file.
+   */
+  metadata?: Metadata;
+
+  /**
+   * The Coordinated Universal Time (UTC) creation time property for the directory.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  creationTime?: Date | TimeNowType;
+
+  /**
+   * The Coordinated Universal Time (UTC) last write property for the directory.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  lastWriteTime?: Date | TimeNowType;
+
+  /** Optional, NFS only.
+   * The owner of the file or directory.
+   * */
+  owner?: string;
+
+  /** Optional, NFS only.
+   * The owning group of the file or directory.
+   * */
+  group?: string;
+
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure File - Get Symbolic Link operations.
+ *
+ * See:
+ * - {@link ShareFileClient.getSymbolicLink}
+ */
+export interface FileGetSymbolicLinkOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Additional response header values for close handles request.
  */
 export interface FileCloseHandlesHeaders {
@@ -5491,6 +5557,60 @@ export class ShareFileClient extends StorageClient {
             linkCount: rawResponse.linkCount,
           },
         } as any);
+      },
+    );
+  }
+
+  /**
+   * NFS only.  Creates a symbolic link.
+   * @param linkText - The path to the original file, the symbolic link is pointing to.
+   *                  The path is of type string which is not resolved and is stored as is. The path can be absolute path
+   *                 or the relative path depending on the content stored in the symbolic link file.
+   * @param options - Options to create hard link operation.
+   */
+  public async createSymbolicLink(
+    linkText: string,
+    options: FileCreateSymbolicLinkOptions = {},
+  ): Promise<FileCreateSymbolicLinkResponse> {
+    return tracingClient.withSpan(
+      "ShareFileClient-createSymbolicLink",
+      options,
+      async (updatedOptions) => {
+        const rawResponse = await this.context.createSymbolicLink(linkText, {
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        });
+        return assertResponse<FileCreateSymbolicLinkHeaders, FileCreateSymbolicLinkHeaders>({
+          ...rawResponse,
+          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          posixProperties: {
+            fileMode: parseOctalFileMode(rawResponse.fileMode),
+            owner: rawResponse.owner,
+            group: rawResponse.group,
+            fileType: rawResponse.nfsFileType,
+          },
+        } as any);
+      },
+    );
+  }
+
+  /**
+   * NFS only.  Gets content of a symbolic link.
+   * @param options - Options to get symbolic link operation.
+   */
+  public async getSymbolicLink(
+    options: FileGetSymbolicLinkOptions = {},
+  ): Promise<FileGetSymbolicLinkResponse> {
+    return tracingClient.withSpan(
+      "ShareFileClient-getSymbolicLink",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>(
+          await this.context.getSymbolicLink({
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
+        );
       },
     );
   }

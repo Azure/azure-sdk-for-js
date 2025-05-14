@@ -111,6 +111,7 @@
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
+    "@azure/storage-file-share": "^12.27.0",
     "@azure-tools/test-perf": "^1.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
