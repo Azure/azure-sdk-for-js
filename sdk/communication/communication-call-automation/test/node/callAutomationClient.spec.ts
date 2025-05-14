@@ -13,12 +13,7 @@ import type {
   CommunicationIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import type {
-  CallInvite,
-  CallConnection,
-  AnswerCallOptions,
-  TeamsPhoneCallDetails,
-} from "../../src/index.js";
+import type { CallInvite, CallConnection, AnswerCallOptions } from "../../src/index.js";
 import type {
   AnswerCallEventResult,
   CreateCallEventResult,
@@ -233,33 +228,31 @@ describe("Call Automation Client Unit Tests", () => {
     };
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
 
-    // Create TeamsPhoneCallDetails
-    const teamsCallDetails: TeamsPhoneCallDetails = {
-      teamsPhoneCallerDetails: {
-        caller: { teamsAppId: "teamsAppId123" },
-        name: "John Doe",
-        phoneNumber: "+14255551234",
-        additionalCallerInformation: {
-          Department: "Sales",
-          Priority: "High",
-        },
-      },
-      teamsPhoneSourceDetails: {
-        source: { teamsAppId: "teamsAppId123" },
-        language: "en-US",
-        status: "Active",
-      },
-      sessionId: "session-123-abc",
-      intent: "Sales Inquiry",
-      callTopic: "New Product Information",
-      callContext: "Customer inquiry about latest offerings",
-    };
-
     const answerCallOptions: AnswerCallOptions = {
       operationContext: "operationContextAnswerCall",
       customCallingContext: [
         { kind: "voip", key: "foo", value: "bar" },
-        { kind: "teamsPhoneCallDetails", teamsPhoneCallDetails: teamsCallDetails },
+        {
+          kind: "teamsPhoneCallDetails",
+          teamsPhoneCallerDetails: {
+            caller: { teamsAppId: "teamsAppId123" },
+            name: "John Doe",
+            phoneNumber: "+14255551234",
+            additionalCallerInformation: {
+              Department: "Sales",
+              Priority: "High",
+            },
+          },
+          teamsPhoneSourceDetails: {
+            source: { teamsAppId: "teamsAppId123" },
+            language: "en-US",
+            status: "Active",
+          },
+          sessionId: "session-123-abc",
+          intent: "Sales Inquiry",
+          callTopic: "New Product Information",
+          callContext: "Customer inquiry about latest offerings",
+        },
       ],
     };
 

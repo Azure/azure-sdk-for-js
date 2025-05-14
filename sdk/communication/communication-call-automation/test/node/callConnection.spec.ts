@@ -118,29 +118,27 @@ describe("CallConnection Unit Tests", () => {
         },
         {
           kind: "teamsPhoneCallDetails",
-          teamsPhoneCallDetails: {
-            teamsPhoneCallerDetails: {
-              caller: { teamsAppId: "teamsAppId123" },
-              name: "John Doe",
-              phoneNumber: "+14255551234",
-              additionalCallerInformation: {
-                Department: "Sales",
-                Priority: "High",
-              },
+          teamsPhoneCallerDetails: {
+            caller: { teamsAppId: "teamsAppId123" },
+            name: "John Doe",
+            phoneNumber: "+14255551234",
+            additionalCallerInformation: {
+              Department: "Sales",
+              Priority: "High",
             },
-            teamsPhoneSourceDetails: {
-              source: { teamsAppId: "teamsAppId123" },
-              language: "en-US",
-              status: "Active",
-            },
-            sessionId: "session-123-abc",
-            intent: "Sales Inquiry",
-            callTopic: "New Product Information",
-            callContext: "Customer is interested in our latest product line",
-            transcriptUrl: "https://transcripts.example.com/call/123",
-            callSentiment: "Positive",
-            suggestedActions: "Offer product demo, Schedule follow-up",
           },
+          teamsPhoneSourceDetails: {
+            source: { teamsAppId: "teamsAppId123" },
+            language: "en-US",
+            status: "Active",
+          },
+          sessionId: "session-123-abc",
+          intent: "Sales Inquiry",
+          callTopic: "New Product Information",
+          callContext: "Customer is interested in our latest product line",
+          transcriptUrl: "https://transcripts.example.com/call/123",
+          callSentiment: "Positive",
+          suggestedActions: "Offer product demo, Schedule follow-up",
         },
       ],
     };
