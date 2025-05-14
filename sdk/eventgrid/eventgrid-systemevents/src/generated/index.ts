@@ -84,6 +84,7 @@ export {
   AcsCallParticipantEvent,
   AcsCallParticipantAddedEventData,
   AcsCallParticipantRemovedEventData,
+  AcsCallParticipantRoleKind,
   AcsChatEventBase,
   AcsChatEventInThreadBase,
   AcsChatMessageEventBase,

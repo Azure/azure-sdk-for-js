@@ -47,7 +47,6 @@ export interface AcsCallingEvent {
 // @public
 export interface AcsCallParticipant {
     communicationIdentifier?: CommunicationIdentifierModel;
-    // Warning: (ae-forgotten-export) The symbol "AcsCallParticipantRoleKind" needs to be exported by the entry point index.d.ts
     role?: AcsCallParticipantRoleKind;
 }
 
@@ -66,6 +65,9 @@ export interface AcsCallParticipantEvent extends AcsCallingEvent {
 // @public
 export interface AcsCallParticipantRemovedEventData extends AcsCallParticipantEvent {
 }
+
+// @public
+export type AcsCallParticipantRoleKind = string;
 
 // @public
 export interface AcsCallRoom {
