@@ -640,7 +640,7 @@ describe("snippets", function () {
 
   it("exceptions", async function () {
     try {
-      const result = await client.connections.listConnections();
+      const thread = await client.threads.create();
     } catch (e) {
       if (e instanceof RestError) {
         console.log(`Status code: ${e.code}`);
