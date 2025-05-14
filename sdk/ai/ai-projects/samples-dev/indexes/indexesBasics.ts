@@ -14,33 +14,30 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-
+const azureAIIndexName = process.env["AZURE_AI_SEARCH_INDEX_NAME"] || "<index name>";
+const azureAIIndexVersion = process.env["AZURE_AI_SEARCH_INDEX_VERSION"] || "<index version>";
+const azureAIConnectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection name>";
 export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
-  const indexName = "sample-index";
-  const version = "1";
+  const name = "my-azure-search-index";
   const azureAIConnectionConfig: AzureAISearchIndex = {
-    name: indexName,
+    name,
     type: "AzureSearch",
-    version,
-    indexName,
-    connectionName: "sample-connection",
+    version: azureAIIndexVersion,
+    indexName: azureAIIndexName,
+    connectionName: azureAIConnectionName,
   };
 
   // Create a new Index
-  const newIndex = await project.indexes.createOrUpdate(
-    indexName,
-    version,
-    azureAIConnectionConfig,
-  );
+  const newIndex = await project.indexes.createOrUpdate(name, "1.0", azureAIConnectionConfig);
   console.log("Created a new Index:", newIndex);
-  console.log(`Get an existing Index version '${version}':`);
-  const index = await project.indexes.get(indexName, version);
+  console.log(`Get an existing Index version '${newIndex.version}':`);
+  const index = await project.indexes.get(name, newIndex.version);
   console.log(index);
 
-  console.log(`Listing all versions of the Index named '${indexName}':`);
-  const indexVersions = project.indexes.listVersions(indexName);
+  console.log(`Listing all versions of the Index named '${name}':`);
+  const indexVersions = project.indexes.listVersions(name);
   for await (const indexVersion of indexVersions) {
     console.log(indexVersion);
   }
@@ -52,7 +49,7 @@ export async function main(): Promise<void> {
   }
 
   console.log("Delete the Index versions created above:");
-  await project.indexes.delete(indexName, version);
+  await project.indexes.delete(name, newIndex.version);
 
   console.log("Index operations completed successfully");
 }
