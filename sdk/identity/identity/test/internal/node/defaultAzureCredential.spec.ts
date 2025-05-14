@@ -15,13 +15,13 @@ describe("DefaultAzureCredential", () => {
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "randomValue";
     expect(() => new DefaultAzureCredential()).toThrowError(
-      "Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev'."
+      "Invalid value for AZURE_TOKEN_CREDENTIALS = randomValue. Valid values are 'prod' or 'dev'.",
     );
   });
-    it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
-        process.env.AZURE_TOKEN_CREDENTIALS = "prod";
-        expect(() => new DefaultAzureCredential()).not.toThrowError();
-        process.env.AZURE_TOKEN_CREDENTIALS = "dev";
-        expect(() => new DefaultAzureCredential()).not.toThrowError();
-    });
-}); 
+  it("should not throw an error if AZURE_TOKEN_CREDENTIALS is set to a supported value", () => {
+    process.env.AZURE_TOKEN_CREDENTIALS = "prod";
+    expect(() => new DefaultAzureCredential()).not.toThrowError();
+    process.env.AZURE_TOKEN_CREDENTIALS = "dev";
+    expect(() => new DefaultAzureCredential()).not.toThrowError();
+  });
+});
