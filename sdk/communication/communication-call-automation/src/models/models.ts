@@ -29,6 +29,7 @@ export {
   KnownTranscriptionResultState,
   KnownRecognitionType,
   KnownRecordingState,
+  KnownRecordingKind,
   KnownTone,
   KnownMediaStreamingStatus,
   KnownMediaStreamingStatusDetails,
@@ -47,6 +48,7 @@ export {
   DtmfResult,
   SpeechResult,
   RecordingState,
+  RecordingKind,
   Tone,
   MediaStreamingUpdate,
   MediaStreamingStatus,
@@ -217,10 +219,10 @@ export enum RecognizeInputType {
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
   readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier;
+  | PhoneNumberIdentifier
+  | CommunicationUserIdentifier
+  | MicrosoftTeamsUserIdentifier
+  | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -239,9 +241,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
-
-/** The format type of a call recording. */
-export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
 
 /** The storage type of a call recording. */
 export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";

@@ -11,14 +11,14 @@ import type {
   DtmfResult,
   RecognitionType,
   SpeechResult,
+  MediaStreamingUpdate,
+  TranscriptionUpdate,
+  RecordingKind,
 } from "../generated/src/models/index.js";
 
 import type {
   CallParticipant,
-  RecordingKind,
   RecordingState,
-  MediaStreamingUpdate,
-  TranscriptionUpdate,
 } from "./models.js";
 
 /** Callback events for Call Automation */

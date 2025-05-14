@@ -803,6 +803,13 @@ export enum KnownRecognitionType {
 }
 
 // @public
+export enum KnownRecordingKind {
+    AzureCommunicationServices = "AzureCommunicationServices",
+    Teams = "Teams",
+    TeamsCompliance = "TeamsCompliance"
+}
+
+// @public
 export enum KnownRecordingState {
     Active = "active",
     Inactive = "inactive"
@@ -1180,7 +1187,7 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
-export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+export type RecordingKind = string;
 
 // @public
 type RecordingState_2 = string;
