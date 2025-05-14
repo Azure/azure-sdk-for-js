@@ -1,6 +1,15 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
+
+## 4.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.4.0 (2025-05-13)
 
 ### Features Added
