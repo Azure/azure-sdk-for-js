@@ -17,6 +17,11 @@ function createMockGlobalEndpointManager(): GlobalEndpointManager {
   return {
     getReadEndpoints: async () => mockReadEndpoints,
     getAvailableReadEndpoints: async () => mockReadEndpoints,
+    getAvailableReadLocations: async () => [
+      { name: "region1" },
+      { name: "region2" },
+      { name: "region3" },
+    ],
     canUseMultipleWriteLocations: () => false,
   } as unknown as GlobalEndpointManager;
 }
@@ -162,6 +167,21 @@ describe("GlobalPartitionEndpointManager", () => {
       const override =
         await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(requestContext);
       assert.equal(override, false);
+    });
+
+    it("handles multiple partitionKeyRangeIds independently", async () => {
+      const ctx1 = createRequestContext({ partitionKeyRangeId: "range1" });
+      const ctx2 = createRequestContext({ partitionKeyRangeId: "range2" });
+
+      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(ctx1);
+      await globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(ctx2);
+
+      const override1 =
+        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx1);
+      const override2 =
+        await globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(ctx2);
+      assert.equal(override1, true);
+      assert.equal(override2, true);
     });
   });
 

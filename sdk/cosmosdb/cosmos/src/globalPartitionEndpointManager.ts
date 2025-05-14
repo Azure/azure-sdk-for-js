@@ -321,7 +321,7 @@ export class GlobalPartitionEndpointManager {
   }
   // todoujjwal : take help from nackgorund refresh task
   /**  Initialize and start the background connection periodic refresh task. */
-  private async initializeAndStartCircuitBreakerFailbackBackgroundRefresh() {
+  public async initializeAndStartCircuitBreakerFailbackBackgroundRefresh(): Promise<void> {
     if (this.isBackgroundConnectionInitActive) {
       return;
     }
