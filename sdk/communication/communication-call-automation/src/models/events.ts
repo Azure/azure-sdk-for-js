@@ -16,10 +16,7 @@ import type {
   RecordingKind,
 } from "../generated/src/models/index.js";
 
-import type {
-  CallParticipant,
-  RecordingState,
-} from "./models.js";
+import type { CallParticipant, RecordingState } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
