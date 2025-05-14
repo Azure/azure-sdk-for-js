@@ -8,11 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import type * as coreAuth from "@azure/core-auth";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
+import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  OfferingsImpl,
   AdminKeysImpl,
   QueryKeysImpl,
   ServicesImpl,
@@ -22,9 +25,8 @@ import {
   UsagesImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
 } from "./operations/index.js";
-import type {
+import {
   Operations,
-  Offerings,
   AdminKeys,
   QueryKeys,
   Services,
@@ -36,7 +38,7 @@ import type {
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
-import type {
+import {
   SearchManagementClientOptionalParams,
   UsageBySubscriptionSkuOptionalParams,
   UsageBySubscriptionSkuResponse,
@@ -45,7 +47,7 @@ import type {
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the SearchManagementClient class.
@@ -58,26 +60,12 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: SearchManagementClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: SearchManagementClientOptionalParams,
-  );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: SearchManagementClientOptionalParams | string,
-    options?: SearchManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-
-    let subscriptionId: string | undefined;
-
-    if (typeof subscriptionIdOrOptions === "string") {
-      subscriptionId = subscriptionIdOrOptions;
-    } else if (typeof subscriptionIdOrOptions === "object") {
-      options = subscriptionIdOrOptions;
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
@@ -89,7 +77,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/3.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -101,7 +89,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -111,7 +100,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -127,9 +117,11 @@ export class SearchManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -139,9 +131,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-02-01-preview";
+    this.apiVersion = options.apiVersion || "2025-05-01";
     this.operations = new OperationsImpl(this);
-    this.offerings = new OfferingsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
     this.services = new ServicesImpl(this);
@@ -149,9 +140,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.sharedPrivateLinkResources = new SharedPrivateLinkResourcesImpl(this);
     this.usages = new UsagesImpl(this);
-    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
-      this,
-    );
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -162,7 +152,10 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -198,7 +191,6 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  offerings: Offerings;
   adminKeys: AdminKeys;
   queryKeys: QueryKeys;
   services: Services;

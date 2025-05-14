@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type * as coreClient from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 
 /** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
 export interface OperationListResult {
@@ -22,166 +22,54 @@ export interface OperationListResult {
   readonly nextLink?: string;
 }
 
-/** Describes a REST API operation. */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /**
-   * The name of the operation. This name is of the form {provider}/{resource}/{operation}.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The object that describes the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly display?: OperationDisplay;
-  /**
-   * Describes if the specified operation is a data plane API operation. Operations where this value is not true are supported directly by the resource provider.
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
   /**
-   * Describes which originating entities are allowed to invoke this operation.
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly origin?: string;
+  readonly origin?: Origin;
   /**
-   * Describes additional properties for this operation.
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly properties?: OperationProperties;
+  readonly actionType?: ActionType;
 }
 
-/** The object that describes the operation. */
+/** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /**
-   * The friendly name of the resource provider.
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * The operation type: read, write, delete, listKeys/action, etc.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The resource type on which the operation is performed.
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * The friendly name of the operation.
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
-}
-
-/** Describes additional properties for this operation. */
-export interface OperationProperties {
-  /**
-   * Specifications of the service for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceSpecification?: OperationServiceSpecification;
-}
-
-/** Specifications of the service for this operation. */
-export interface OperationServiceSpecification {
-  /**
-   * Specifications of metrics for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metricSpecifications?: OperationMetricsSpecification[];
-  /**
-   * Specifications of logs for this operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logSpecifications?: OperationLogsSpecification[];
-}
-
-/** Specifications of one type of metric for this operation. */
-export interface OperationMetricsSpecification {
-  /**
-   * The name of the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The display description of the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayDescription?: string;
-  /**
-   * The unit for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unit?: string;
-  /**
-   * The type of aggregation for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aggregationType?: string;
-  /**
-   * Dimensions for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dimensions?: OperationMetricDimension[];
-  /**
-   * Availabilities for the metric specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availabilities?: OperationAvailability[];
-}
-
-/** Describes a particular dimension for the metric specification. */
-export interface OperationMetricDimension {
-  /**
-   * The name of the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-}
-
-/** Describes a particular availability for the metric specification. */
-export interface OperationAvailability {
-  /**
-   * The time grain for the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeGrain?: string;
-  /**
-   * The blob duration for the dimension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly blobDuration?: string;
-}
-
-/** Specifications of one type of log for this operation. */
-export interface OperationLogsSpecification {
-  /**
-   * The name of the log specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The display name of the log specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The blob duration for the log specification.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly blobDuration?: string;
 }
 
 /** Contains information about an API error. */
@@ -202,62 +90,6 @@ export interface CloudErrorBody {
   target?: string;
   /** Contains nested errors that are related to this error. */
   details?: CloudErrorBody[];
-}
-
-/** The response containing a list of features and SKUs offered in various regions. */
-export interface OfferingsListResult {
-  /** The list of regions with their respective features and SKUs offered. */
-  value?: OfferingsByRegion[];
-  /**
-   * The URL to get the next set of offerings, if any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-export interface OfferingsByRegion {
-  /** The name of the region. */
-  regionName?: string;
-  /** The list of features offered in this region. */
-  features?: FeatureOffering[];
-  /** The list of SKUs offered in this region. */
-  skus?: SkuOffering[];
-}
-
-export interface FeatureOffering {
-  /** The name of the feature offered in this region. */
-  name?: FeatureName;
-}
-
-export interface SkuOffering {
-  /** Defines the SKU of a search service, which determines billing rate and capacity limits. */
-  sku?: Sku;
-  /** The limits associated with this SKU offered in this region. */
-  limits?: SkuOfferingLimits;
-}
-
-/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
-export interface Sku {
-  /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' */
-  name?: SkuName;
-}
-
-/** The limits associated with this SKU offered in this region. */
-export interface SkuOfferingLimits {
-  /** The maximum number of indexes available for this SKU. */
-  indexes?: number;
-  /** The maximum number of indexers available for this SKU. */
-  indexers?: number;
-  /** The maximum storage size in Gigabytes available for this SKU per partition. */
-  partitionStorageInGigabytes?: number;
-  /** The maximum vector storage size in Gigabytes available for this SKU per partition. */
-  partitionVectorStorageInGigabytes?: number;
-  /** The maximum number of search units available for this SKU. */
-  searchUnits?: number;
-  /** The maximum number of replicas available for this SKU. */
-  replicas?: number;
-  /** The maximum number of partitions available for this SKU. */
-  partitions?: number;
 }
 
 /** Response containing the primary and secondary admin API keys for a given Azure AI Search service. */
@@ -372,7 +204,7 @@ export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnection
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -386,6 +218,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Describes the properties of an existing shared private link resource managed by the Azure AI Search service. */
@@ -404,6 +257,12 @@ export interface SharedPrivateLinkResourceProperties {
   provisioningState?: SharedPrivateLinkResourceProvisioningState;
 }
 
+/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
+export interface Sku {
+  /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' */
+  name?: SkuName;
+}
+
 /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
 export interface Identity {
   /**
@@ -419,39 +278,21 @@ export interface Identity {
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service. */
   type: IdentityType;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedManagedIdentity;
-  };
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-/** The details of the user assigned managed identity assigned to the search service. */
-export interface UserAssignedManagedIdentity {
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
   /**
-   * The principal ID of user assigned identity.
+   * The principal ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The client ID of user assigned identity.
+   * The client ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Response containing a list of Azure AI Search services. */
@@ -625,77 +466,139 @@ export interface QuotaUsageResultName {
   localizedValue?: string;
 }
 
-/** A list of network security perimeter configurations for a server. */
+/** Result of a list NSP (network security perimeter) configurations request. */
 export interface NetworkSecurityPerimeterConfigurationListResult {
+  /** Array of network security perimeter results. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** The link used to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Network security configuration properties. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
   /**
-   * Array of results.
+   * Provisioning state of a network security perimeter configuration that is being created or updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: NetworkSecurityPerimeterConfiguration[];
+  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /**
-   * Link to retrieve next page of results.
+   * List of provisioning issues, if any
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about a network security perimeter (NSP) */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about resource association */
+  resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
+  profile?: NetworkSecurityProfile;
 }
 
-/** The perimeter for a network security perimeter configuration. */
-export interface NSPConfigPerimeter {
-  id?: string;
-  perimeterGuid?: string;
-  location?: string;
+/** Describes a provisioning issue for a network security perimeter configuration */
+export interface ProvisioningIssue {
+  /**
+   * Name of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ProvisioningIssueProperties;
 }
 
-/** The resource association for the network security perimeter. */
-export interface NSPConfigAssociation {
+/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
+export interface ProvisioningIssueProperties {
+  /**
+   * Type of issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueType?: IssueType;
+  /**
+   * Severity of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+  /**
+   * Description of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedResourceIds?: string[];
+  /**
+   * Access rules that can be added to the network security profile (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedAccessRules?: AccessRule[];
+}
+
+/** Access rule in a network security perimeter configuration profile */
+export interface AccessRule {
+  /** Name of the access rule */
   name?: string;
-  accessMode?: string;
+  /** Properties of Access Rule */
+  properties?: AccessRuleProperties;
 }
 
-/** The profile for a network security perimeter configuration. */
-export interface NSPConfigProfile {
-  name?: string;
-  accessRulesVersion?: string;
-  accessRules?: NSPConfigAccessRule[];
-}
-
-/** An access rule for a network security perimeter configuration. */
-export interface NSPConfigAccessRule {
-  name?: string;
-  /** The properties for the access rules in a network security perimeter configuration. */
-  properties?: NSPConfigAccessRuleProperties;
-}
-
-/** The properties for the access rules in a network security perimeter configuration. */
-export interface NSPConfigAccessRuleProperties {
-  direction?: string;
+/** Properties of Access Rule */
+export interface AccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: AccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
   addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+  /** Network security perimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain names (FQDN) for outbound rules */
   fullyQualifiedDomainNames?: string[];
-  subscriptions?: string[];
-  networkSecurityPerimeters?: NSPConfigNetworkSecurityPerimeterRule[];
+  /** Email addresses for outbound rules */
+  emailAddresses?: string[];
+  /** Phone numbers for outbound rules */
+  phoneNumbers?: string[];
 }
 
-/** The network security perimeter properties present in a configuration rule. */
-export interface NSPConfigNetworkSecurityPerimeterRule {
+/** Subscription identifiers */
+export interface AccessRulePropertiesSubscriptionsItem {
+  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
   id?: string;
+}
+
+/** Information about a network security perimeter (NSP) */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified Azure resource ID of the NSP resource */
+  id?: string;
+  /** Universal unique ID (UUID) of the network security perimeter */
   perimeterGuid?: string;
+  /** Location of the network security perimeter */
   location?: string;
 }
 
-/** An object to describe any issues with provisioning network security perimeters to a search service. */
-export interface NSPProvisioningIssue {
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
   name?: string;
-  /** The properties to describe any issues with provisioning network security perimeters to a search service. */
-  properties?: NSPProvisioningIssueProperties;
+  /** Access mode of the resource association */
+  accessMode?: ResourceAssociationAccessMode;
 }
 
-/** The properties to describe any issues with provisioning network security perimeters to a search service. */
-export interface NSPProvisioningIssueProperties {
-  issueType?: string;
-  severity?: string;
-  description?: string;
-  suggestedResourceIds?: string[];
-  suggestedAccessRules?: string[];
+/** Network security perimeter configuration profile */
+export interface NetworkSecurityProfile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: AccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of log categories that are enabled */
+  enabledLogCategories?: string[];
 }
 
 /** The details of a long running asynchronous shared private link resource operation. */
@@ -734,11 +637,6 @@ export interface SearchServiceUpdate extends Resource {
   tags?: { [propertyName: string]: string };
   /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
   identity?: Identity;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
   replicaCount?: number;
   /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
@@ -747,7 +645,7 @@ export interface SearchServiceUpdate extends Resource {
   endpoint?: string;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
-  /** Configure this property to support the search service using either the default compute or Azure Confidential Compute. */
+  /** Configure this property to support the search service using either the Default Compute or Azure Confidential Compute. */
   computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -769,7 +667,7 @@ export interface SearchServiceUpdate extends Resource {
   /** Network specific rules that determine how the Azure AI Search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
   /** A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. */
-  disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+  dataExfiltrationProtections?: SearchDataExfiltrationProtection[];
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
   encryptionWithCmk?: EncryptionWithCmk;
   /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
@@ -793,16 +691,13 @@ export interface SearchServiceUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
-  /**
-   * Indicates whether or not the search service has an upgrade available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly upgradeAvailable?: boolean;
+  /** Indicates if the search service has an upgrade available. */
+  upgradeAvailable?: UpgradeAvailable;
   /**
    * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serviceUpgradeDate?: Date;
+  readonly serviceUpgradedAt?: Date;
 }
 
 /** Describes a supported private link resource for the Azure AI Search service. */
@@ -823,11 +718,6 @@ export interface SearchService extends TrackedResource {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
-  /**
-   * Azure Resource Manager metadata of the search service containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
   replicaCount?: number;
   /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
@@ -836,7 +726,7 @@ export interface SearchService extends TrackedResource {
   endpoint?: string;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
-  /** Configure this property to support the search service using either the default compute or Azure Confidential Compute. */
+  /** Configure this property to support the search service using either the Default Compute or Azure Confidential Compute. */
   computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -858,7 +748,7 @@ export interface SearchService extends TrackedResource {
   /** Network specific rules that determine how the Azure AI Search service may be reached. */
   networkRuleSet?: NetworkRuleSet;
   /** A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. */
-  disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+  dataExfiltrationProtections?: SearchDataExfiltrationProtection[];
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
   encryptionWithCmk?: EncryptionWithCmk;
   /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
@@ -882,29 +772,19 @@ export interface SearchService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
-  /**
-   * Indicates whether or not the search service has an upgrade available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly upgradeAvailable?: boolean;
+  /** Indicates if the search service has an upgrade available. */
+  upgradeAvailable?: UpgradeAvailable;
   /**
    * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serviceUpgradeDate?: Date;
+  readonly serviceUpgradedAt?: Date;
 }
 
-/** Network security perimeter configuration for a server. */
+/** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly provisioningState?: string;
-  /** The perimeter for a network security perimeter configuration. */
-  networkSecurityPerimeter?: NSPConfigPerimeter;
-  /** The resource association for the network security perimeter. */
-  resourceAssociation?: NSPConfigAssociation;
-  /** The profile for a network security perimeter configuration. */
-  profile?: NSPConfigProfile;
-  provisioningIssues?: NSPProvisioningIssue[];
+  /** Network security configuration properties. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
 /** Defines headers for Services_upgrade operation. */
@@ -923,81 +803,45 @@ export interface SearchManagementRequestOptions {
   clientRequestId?: string;
 }
 
-/** Known values of {@link FeatureName} that the service accepts. */
-export enum KnownFeatureName {
-  /** Supports Grok feature. */
-  Grok = "Grok",
-  /** Supports Image Vectorization feature. */
-  ImageVectorization = "ImageVectorization",
-  /** Supports Document Intelligence feature. */
-  DocumentIntelligence = "DocumentIntelligence",
-  /** Supports Query Rewrite feature. */
-  QueryRewrite = "QueryRewrite",
-  /** Supports S3 feature. */
-  S3 = "S3",
-  /** Supports Storage Optimized feature. */
-  StorageOptimized = "StorageOptimized",
-  /** Supports Semantic Search feature. */
-  SemanticSearch = "SemanticSearch",
-  /** Supports Mega Store feature. */
-  MegaStore = "MegaStore",
-  /** Supports Availability Zones feature. */
-  AvailabilityZones = "AvailabilityZones",
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
 }
 
 /**
- * Defines values for FeatureName. \
- * {@link KnownFeatureName} can be used interchangeably with FeatureName,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Grok**: Supports Grok feature. \
- * **ImageVectorization**: Supports Image Vectorization feature. \
- * **DocumentIntelligence**: Supports Document Intelligence feature. \
- * **QueryRewrite**: Supports Query Rewrite feature. \
- * **S3**: Supports S3 feature. \
- * **StorageOptimized**: Supports Storage Optimized feature. \
- * **SemanticSearch**: Supports Semantic Search feature. \
- * **MegaStore**: Supports Mega Store feature. \
- * **AvailabilityZones**: Supports Availability Zones feature.
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type FeatureName = string;
+export type Origin = string;
 
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
-  Free = "free",
-  /** Billable tier for a dedicated service having up to 3 replicas. */
-  Basic = "basic",
-  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
-  Standard = "standard",
-  /** Similar to 'standard', but with more capacity per search unit. */
-  Standard2 = "standard2",
-  /**  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
-  Standard3 = "standard3",
-  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
-  StorageOptimizedL1 = "storage_optimized_l1",
-  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
-  StorageOptimizedL2 = "storage_optimized_l2",
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
 }
 
 /**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
- * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
- * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
- * **standard2**: Similar to 'standard', but with more capacity per search unit. \
- * **standard3**:  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
- * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
- * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions.
+ * **Internal**
  */
-export type SkuName = string;
+export type ActionType = string;
 
 /** Known values of {@link ComputeType} that the service accepts. */
 export enum KnownComputeType {
-  /** Create the service with the default compute. */
+  /** Create the service with the Default Compute. */
   Default = "default",
   /** Create the service with Azure Confidential Compute. */
   Confidential = "confidential",
@@ -1008,7 +852,7 @@ export enum KnownComputeType {
  * {@link KnownComputeType} can be used interchangeably with ComputeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **default**: Create the service with the default compute. \
+ * **default**: Create the service with the Default Compute. \
  * **confidential**: Create the service with Azure Confidential Compute.
  */
 export type ComputeType = string;
@@ -1019,6 +863,8 @@ export enum KnownPublicNetworkAccess {
   Enabled = "enabled",
   /** The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections. */
   Disabled = "disabled",
+  /** The network security perimeter configuration rules allow or disallow public network access to the resource. Requires an associated network security perimeter. */
+  SecuredByPerimeter = "securedByPerimeter",
 }
 
 /**
@@ -1027,7 +873,8 @@ export enum KnownPublicNetworkAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **enabled**: The search service is accessible from traffic originating from the public internet. \
- * **disabled**: The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections.
+ * **disabled**: The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections. \
+ * **securedByPerimeter**: The network security perimeter configuration rules allow or disallow public network access to the resource. Requires an associated network security perimeter.
  */
 export type PublicNetworkAccess = string;
 
@@ -1035,8 +882,6 @@ export type PublicNetworkAccess = string;
 export enum KnownSearchBypass {
   /** Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. */
   None = "None",
-  /** Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. */
-  AzurePortal = "AzurePortal",
   /** Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section. */
   AzureServices = "AzureServices",
 }
@@ -1047,25 +892,24 @@ export enum KnownSearchBypass {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. \
- * **AzurePortal**: Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. \
  * **AzureServices**: Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section.
  */
 export type SearchBypass = string;
 
-/** Known values of {@link SearchDisabledDataExfiltrationOption} that the service accepts. */
-export enum KnownSearchDisabledDataExfiltrationOption {
+/** Known values of {@link SearchDataExfiltrationProtection} that the service accepts. */
+export enum KnownSearchDataExfiltrationProtection {
   /** Indicates that all data exfiltration scenarios are disabled. */
-  All = "All",
+  BlockAll = "BlockAll",
 }
 
 /**
- * Defines values for SearchDisabledDataExfiltrationOption. \
- * {@link KnownSearchDisabledDataExfiltrationOption} can be used interchangeably with SearchDisabledDataExfiltrationOption,
+ * Defines values for SearchDataExfiltrationProtection. \
+ * {@link KnownSearchDataExfiltrationProtection} can be used interchangeably with SearchDataExfiltrationProtection,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **All**: Indicates that all data exfiltration scenarios are disabled.
+ * **BlockAll**: Indicates that all data exfiltration scenarios are disabled.
  */
-export type SearchDisabledDataExfiltrationOption = string;
+export type SearchDataExfiltrationProtection = string;
 
 /** Known values of {@link SearchSemanticSearch} that the service accepts. */
 export enum KnownSearchSemanticSearch {
@@ -1118,6 +962,30 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
  */
 export type PrivateLinkServiceConnectionProvisioningState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link SharedPrivateLinkResourceStatus} that the service accepts. */
 export enum KnownSharedPrivateLinkResourceStatus {
   /** The shared private link resource has been created and is pending approval. */
@@ -1169,6 +1037,57 @@ export enum KnownSharedPrivateLinkResourceProvisioningState {
  */
 export type SharedPrivateLinkResourceProvisioningState = string;
 
+/** Known values of {@link UpgradeAvailable} that the service accepts. */
+export enum KnownUpgradeAvailable {
+  /** An upgrade is currently not available for the service. */
+  NotAvailable = "notAvailable",
+  /** There is an upgrade available for the service. */
+  Available = "available",
+}
+
+/**
+ * Defines values for UpgradeAvailable. \
+ * {@link KnownUpgradeAvailable} can be used interchangeably with UpgradeAvailable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **notAvailable**: An upgrade is currently not available for the service. \
+ * **available**: There is an upgrade available for the service.
+ */
+export type UpgradeAvailable = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
+  Free = "free",
+  /** Billable tier for a dedicated service having up to 3 replicas. */
+  Basic = "basic",
+  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
+  Standard = "standard",
+  /** Similar to 'standard', but with more capacity per search unit. */
+  Standard2 = "standard2",
+  /**  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
+  Standard3 = "standard3",
+  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
+  StorageOptimizedL1 = "storage_optimized_l1",
+  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
+  StorageOptimizedL2 = "storage_optimized_l2",
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
+ * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
+ * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
+ * **standard2**: Similar to 'standard', but with more capacity per search unit. \
+ * **standard3**:  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
+ * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
+ * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions.
+ */
+export type SkuName = string;
+
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
   /** Indicates that any identity associated with the search service needs to be removed. */
@@ -1193,30 +1112,6 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
   /** The search service name doesn't match naming requirements. */
@@ -1234,6 +1129,120 @@ export enum KnownUnavailableNameReason {
  * **AlreadyExists**: The search service name is already assigned to a different search service.
  */
 export type UnavailableNameReason = string;
+
+/** Known values of {@link NetworkSecurityPerimeterConfigurationProvisioningState} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationProvisioningState. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Accepted** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+/** Known values of {@link IssueType} that the service accepts. */
+export enum KnownIssueType {
+  /** Unknown issue type */
+  Unknown = "Unknown",
+  /** An error occurred while applying the network security perimeter (NSP) configuration. */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+}
+
+/**
+ * Defines values for IssueType. \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown issue type \
+ * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
+ * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
+ * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
+ */
+export type IssueType = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type Severity = string;
+
+/** Known values of {@link AccessRuleDirection} that the service accepts. */
+export enum KnownAccessRuleDirection {
+  /** Applies to inbound network traffic to the secured resources. */
+  Inbound = "Inbound",
+  /** Applies to outbound network traffic from the secured resources */
+  Outbound = "Outbound",
+}
+
+/**
+ * Defines values for AccessRuleDirection. \
+ * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound**: Applies to inbound network traffic to the secured resources. \
+ * **Outbound**: Applies to outbound network traffic from the secured resources
+ */
+export type AccessRuleDirection = string;
+
+/** Known values of {@link ResourceAssociationAccessMode} that the service accepts. */
+export enum KnownResourceAssociationAccessMode {
+  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
+  Enforced = "Enforced",
+  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
+  Learning = "Learning",
+  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
+  Audit = "Audit",
+}
+
+/**
+ * Defines values for ResourceAssociationAccessMode. \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
+ * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
+ * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
+ */
+export type ResourceAssociationAccessMode = string;
 
 /** Known values of {@link SharedPrivateLinkResourceAsyncOperationResult} that the service accepts. */
 export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
@@ -1269,7 +1278,7 @@ export type SearchServiceStatus =
   | "error"
   | "stopped";
 /** Defines values for ProvisioningState. */
-export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
+export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 /** Defines values for SearchEncryptionWithCmk. */
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 /** Defines values for SearchEncryptionComplianceStatus. */
@@ -1284,19 +1293,15 @@ export type PrivateLinkServiceConnectionStatus =
   | "Disconnected";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OfferingsListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OfferingsListResponse = OfferingsListResult;
-
-/** Optional parameters. */
-export interface AdminKeysGetOptionalParams extends coreClient.OperationOptions {
+export interface AdminKeysGetOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1305,7 +1310,8 @@ export interface AdminKeysGetOptionalParams extends coreClient.OperationOptions 
 export type AdminKeysGetResponse = AdminKeyResult;
 
 /** Optional parameters. */
-export interface AdminKeysRegenerateOptionalParams extends coreClient.OperationOptions {
+export interface AdminKeysRegenerateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1314,7 +1320,8 @@ export interface AdminKeysRegenerateOptionalParams extends coreClient.OperationO
 export type AdminKeysRegenerateResponse = AdminKeyResult;
 
 /** Optional parameters. */
-export interface QueryKeysCreateOptionalParams extends coreClient.OperationOptions {
+export interface QueryKeysCreateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1323,7 +1330,8 @@ export interface QueryKeysCreateOptionalParams extends coreClient.OperationOptio
 export type QueryKeysCreateResponse = QueryKey;
 
 /** Optional parameters. */
-export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.OperationOptions {
+export interface QueryKeysListBySearchServiceOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1332,7 +1340,8 @@ export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.O
 export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 /** Optional parameters. */
-export interface QueryKeysDeleteOptionalParams extends coreClient.OperationOptions {
+export interface QueryKeysDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1348,7 +1357,8 @@ export interface QueryKeysListBySearchServiceNextOptionalParams
 export type QueryKeysListBySearchServiceNextResponse = ListQueryKeysResult;
 
 /** Optional parameters. */
-export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServicesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1361,7 +1371,8 @@ export interface ServicesCreateOrUpdateOptionalParams extends coreClient.Operati
 export type ServicesCreateOrUpdateResponse = SearchService;
 
 /** Optional parameters. */
-export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServicesUpdateOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1379,13 +1390,15 @@ export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
 export type ServicesGetResponse = SearchService;
 
 /** Optional parameters. */
-export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
 
 /** Optional parameters. */
-export interface ServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1394,7 +1407,8 @@ export interface ServicesListByResourceGroupOptionalParams extends coreClient.Op
 export type ServicesListByResourceGroupResponse = SearchServiceListResult;
 
 /** Optional parameters. */
-export interface ServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1403,7 +1417,8 @@ export interface ServicesListBySubscriptionOptionalParams extends coreClient.Ope
 export type ServicesListBySubscriptionResponse = SearchServiceListResult;
 
 /** Optional parameters. */
-export interface ServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface ServicesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1412,7 +1427,8 @@ export interface ServicesCheckNameAvailabilityOptionalParams extends coreClient.
 export type ServicesCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
-export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptions {
+export interface ServicesUpgradeOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1423,7 +1439,8 @@ export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptio
 export type ServicesUpgradeResponse = SearchService;
 
 /** Optional parameters. */
-export interface ServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1432,7 +1449,8 @@ export interface ServicesListByResourceGroupNextOptionalParams extends coreClien
 export type ServicesListByResourceGroupNextResponse = SearchServiceListResult;
 
 /** Optional parameters. */
-export interface ServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1448,7 +1466,8 @@ export interface PrivateLinkResourcesListSupportedOptionalParams
 }
 
 /** Contains response data for the listSupported operation. */
-export type PrivateLinkResourcesListSupportedResponse = PrivateLinkResourcesResult;
+export type PrivateLinkResourcesListSupportedResponse =
+  PrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsUpdateOptionalParams
@@ -1458,10 +1477,12 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1477,7 +1498,8 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServiceOptionalParams
@@ -1487,7 +1509,8 @@ export interface PrivateEndpointConnectionsListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServiceResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServiceNextOptionalParams
@@ -1512,10 +1535,12 @@ export interface SharedPrivateLinkResourcesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+export type SharedPrivateLinkResourcesCreateOrUpdateResponse =
+  SharedPrivateLinkResource;
 
 /** Optional parameters. */
-export interface SharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface SharedPrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1542,7 +1567,8 @@ export interface SharedPrivateLinkResourcesListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type SharedPrivateLinkResourcesListByServiceResponse = SharedPrivateLinkResourceListResult;
+export type SharedPrivateLinkResourcesListByServiceResponse =
+  SharedPrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface SharedPrivateLinkResourcesListByServiceNextOptionalParams
@@ -1556,7 +1582,8 @@ export type SharedPrivateLinkResourcesListByServiceNextResponse =
   SharedPrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface UsagesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1565,7 +1592,8 @@ export interface UsagesListBySubscriptionOptionalParams extends coreClient.Opera
 export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
-export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface UsagesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1574,7 +1602,8 @@ export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.O
 export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
-export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
+export interface UsageBySubscriptionSkuOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   searchManagementRequestOptions?: SearchManagementRequestOptions;
 }
@@ -1620,7 +1649,8 @@ export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse =
   NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
-export interface SearchManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface SearchManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
