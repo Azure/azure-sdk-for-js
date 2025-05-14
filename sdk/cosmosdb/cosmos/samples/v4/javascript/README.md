@@ -29,9 +29,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [HierarchicalPartitioning.js][hierarchicalpartitioning]                                                                     | Shows various operations on containers with Hierarchical Partitioning.                                                |
 | [IndexManagement.js][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
 | [ItemManagement.js][itemmanagement]                                                                                         | Demonstrates item creation, read, delete and reading all items belonging to a container.                              |
-| [Query/FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [QueryThroughput.js][querythroughput]                                                                                       | Demonstrates query throughput scenarios.                                                                              |
-| [Query\FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
+| [Query/FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [SasTokenAuth.js][sastokenauth]                                                                                             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_                        |
 | [ServerSideScripts.js][serversidescripts]                                                                                   | Demonstrates using stored procedures for server side run functions                                                    |
 
@@ -91,7 +90,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/HierarchicalPartitioning.js
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/IndexManagement.js
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ItemManagement.js
-[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Query/FullTextSearch.js
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
 [query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Query/FullTextSearch.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
