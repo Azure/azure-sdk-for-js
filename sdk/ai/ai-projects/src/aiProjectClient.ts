@@ -76,12 +76,12 @@ export class AIProjectClient {
     });
 
     this.pipeline = this._cognitiveScopeClient.pipeline;
-    this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
-    this.deployments = _getDeploymentsOperations(this._cognitiveScopeClient);
+    this.redTeams = _getRedTeamsOperations(this._azureScopeClient);
+    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.indexes = _getIndexesOperations(this._cognitiveScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient);
     this.evaluations = _getEvaluationsOperations(this._azureScopeClient);
-    this.connections = _getConnectionsOperations(this._cognitiveScopeClient);
+    this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
     this.telemetry = _getTelemetryOperations(this.connections);
     this.enableTelemetry = enableTelemetry;
