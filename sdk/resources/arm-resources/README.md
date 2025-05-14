@@ -6,7 +6,7 @@ Provides operations for working with resources and resource groups.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resources) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resources) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resources?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,16 +63,14 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ResourceManagementClient } from "@azure/arm-resources";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new ResourceManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
