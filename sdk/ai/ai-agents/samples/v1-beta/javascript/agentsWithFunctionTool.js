@@ -17,7 +17,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -95,14 +95,21 @@ async function main() {
         }
       }
       const result = this.functionTools
-        .find((tool) => tool.definition.function.name === toolCall.function.name)
-        ?.func(...args);
+        .map((tool) =>
+          tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined,
+        )
+        .find((r) => r !== undefined);
       return result
         ? {
             toolCallId: toolCall.id,
             output: JSON.stringify(result),
           }
-        : undefined;
+        : {
+            toolCallId: toolCall.id,
+            output: JSON.stringify({
+              error: `No matching tool found for function: ${toolCall.function.name}`,
+            }),
+          };
     }
 
     getFunctionDefinitions() {

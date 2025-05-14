@@ -19,21 +19,21 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
-  const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
+  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-search-sample", {
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
     queryType: "simple",
     topK: 3,
     filter: "",
-    indexConnectionId: "",
-    indexName: "",
+    indexConnectionId: connectionName,
+    indexName: "search-index",
   });
 
   // Create agent with the Azure AI search tool
