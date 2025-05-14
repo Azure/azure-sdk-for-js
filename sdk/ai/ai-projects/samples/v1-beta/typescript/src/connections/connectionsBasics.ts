@@ -8,7 +8,7 @@
  * get the properties of a default connection, and get the properties of a connection by its name.
  */
 
-import type { ApiKeyCredentials, Connection } from "@azure/ai-projects";
+import type { Connection } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
