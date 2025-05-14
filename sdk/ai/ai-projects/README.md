@@ -94,6 +94,7 @@ const agent = await project.agents.createAgent("gpt-4o", {
   instructions: "You are a helpful agent",
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
+
 // Do something with your Agent!
 // See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
 await project.agents.deleteAgent(agent.id);
@@ -160,26 +161,45 @@ const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
 console.log("List all deployments:");
 const deployments: ModelDeployment[] = [];
 const properties: Array<Record<string, string>> = [];
-for await (const deployment of project.deployments.list() as AsyncIterable<ModelDeployment>) {
-  deployments.push(deployment);
-  properties.push({
-    name: deployment.name,
-    modelPublisher: deployment.modelPublisher,
-    modelName: deployment.modelName,
-  });
+
+for await (const deployment of project.deployments.list()) {
+  // Check if this is a ModelDeployment (has the required properties)
+  if (
+    deployment.type === "ModelDeployment" &&
+    "modelName" in deployment &&
+    "modelPublisher" in deployment &&
+    "modelVersion" in deployment
+  ) {
+    deployments.push(deployment);
+    properties.push({
+      name: deployment.name,
+      modelPublisher: deployment.modelPublisher,
+      modelName: deployment.modelName,
+    });
+  }
 }
 console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
+
 // List all deployments by a specific model publisher (assuming we have one from the list)
 console.log(`List all deployments by the model publisher '${modelPublisher}':`);
 const filteredDeployments: ModelDeployment[] = [];
 for await (const deployment of project.deployments.list({
   modelPublisher,
-}) as AsyncIterable<ModelDeployment>) {
-  filteredDeployments.push(deployment);
+})) {
+  // Check if this is a ModelDeployment
+  if (
+    deployment.type === "ModelDeployment" &&
+    "modelName" in deployment &&
+    "modelPublisher" in deployment &&
+    "modelVersion" in deployment
+  ) {
+    filteredDeployments.push(deployment);
+  }
 }
 console.log(
   `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
 );
+
 // Get a single deployment by name
 if (deployments.length > 0) {
   const deploymentName = deployments[0].name;
@@ -204,14 +224,17 @@ for await (const connection of project.connections.list()) {
   connectionNames.push(connection.name);
 }
 console.log(`Retrieved connections: ${connectionNames}`);
+
 // Get the details of a connection, without credentials
 const connectionName = connections[0].name;
 const connection = await project.connections.get(connectionName);
 console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
+
 const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
 console.log(
   `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
 );
+
 // List all connections of a specific type
 const azureAIConnections: Connection[] = [];
 for await (const azureOpenAIConnection of project.connections.list({
@@ -221,6 +244,7 @@ for await (const azureOpenAIConnection of project.connections.list({
   azureAIConnections.push(azureOpenAIConnection);
 }
 console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
+
 // Get the details of a default connection
 const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
 console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
@@ -237,18 +261,21 @@ import { DatasetVersionUnion } from "@azure/ai-projects";
 const VERSION1 = "1.0";
 const VERSION2 = "2.0";
 const VERSION3 = "3.0";
+
 // sample files to use in the demonstration
 const sampleFolder = "sample_folder";
 // Create a unique dataset name for this sample run
 const datasetName = `sample-dataset-basic`;
 console.log("Upload a single file and create a new Dataset to reference the file.");
 console.log("Here we explicitly specify the dataset version.");
+
 const dataset1 = await project.datasets.uploadFile(
   datasetName,
   VERSION1,
   path.join(__dirname, sampleFolder, "sample_file1.txt"),
 );
 console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
+
 const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
 console.log("Credential for the dataset:", credential);
 console.log(
@@ -270,6 +297,7 @@ const dataset3 = await project.datasets.uploadFile(
   path.join(__dirname, sampleFolder, "sample_file2.txt"),
 );
 console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
+
 console.log("Get an existing Dataset version `1`:");
 const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
 console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
@@ -314,6 +342,7 @@ const azureAIConnectionConfig: AzureAISearchIndex = {
   indexName,
   connectionName: "sample-connection",
 };
+
 // Create a new Index
 const newIndex = await project.indexes.createOrUpdate(indexName, version, azureAIConnectionConfig);
 console.log("Created a new Index:", newIndex);
@@ -420,6 +449,7 @@ console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
 // get the evaluation by ID
 const eval2 = await project.evaluations.get(evalResp.name);
 console.log("Get the evaluation by ID:", eval2);
+
 const evaluations: Evaluation[] = [];
 const evaluationNames: string[] = [];
 for await (const evaluation of project.evaluations.list()) {
@@ -427,6 +457,7 @@ for await (const evaluation of project.evaluations.list()) {
   evaluationNames.push(evaluation.displayName ?? "");
 }
 console.log("List of evaluation display names:", evaluationNames);
+
 // This is temporary, as interface recommend the name of the evaluation
 const name = evaluations[0].name;
 const evaluation = await project.evaluations.get(name);
