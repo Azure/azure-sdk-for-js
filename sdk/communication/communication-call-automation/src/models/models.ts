@@ -256,6 +256,7 @@ export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Teams phone call details */
 export interface TeamsPhoneCallDetails {
+  kind: "teamsPhoneCallDetails";
   /** Container for details relating to the original caller of the call */
   teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
   /** Container for details relating to the entity responsible for the creation of these call details */
@@ -306,18 +307,12 @@ export interface TeamsPhoneSourceDetails {
   intendedTargets?: { [propertyName: string]: CommunicationIdentifier };
 }
 
-/** Teams phone call details header */
-export interface TeamsPhoneCallDetailsHeader {
-  kind: "teamsPhoneCallDetails";
-  teamsPhoneCallDetails: TeamsPhoneCallDetails;
-}
-
 /** Custom Calling Context */
 export type CustomCallingContext = (
   | VoipHeader
   | SipUserToUserHeader
   | SipCustomHeader
-  | TeamsPhoneCallDetailsHeader
+  | TeamsPhoneCallDetails
 )[];
 
 /** AI options for the call. */

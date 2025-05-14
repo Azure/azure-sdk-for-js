@@ -543,7 +543,7 @@ export interface CreateCallResult {
 }
 
 // @public
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetailsHeader)[];
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails)[];
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -1245,19 +1245,13 @@ export interface TeamsPhoneCallDetails {
     callSentiment?: string;
     callTopic?: string;
     intent?: string;
+    // (undocumented)
+    kind: "teamsPhoneCallDetails";
     sessionId?: string;
     suggestedActions?: string;
     teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
     teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
     transcriptUrl?: string;
-}
-
-// @public
-export interface TeamsPhoneCallDetailsHeader {
-    // (undocumented)
-    kind: "teamsPhoneCallDetails";
-    // (undocumented)
-    teamsPhoneCallDetails: TeamsPhoneCallDetails;
 }
 
 // @public
