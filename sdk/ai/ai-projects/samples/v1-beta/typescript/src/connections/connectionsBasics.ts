@@ -11,8 +11,7 @@
 import type { Connection } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 
@@ -31,12 +30,18 @@ export async function main(): Promise<void> {
   // Get the details of a connection, without credentials
   const connectionName = connections[0].name;
   const connection = await project.connections.get(connectionName);
-  console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
+  console.log(
+    "connection.type: ",
+    connection.type,
+    "connection.name: ",
+    connection.name,
+    "connection.target: ",
+    connection.target,
+  );
 
   const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
-  console.log(
-    `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
-  );
+  const credentials = connectionWithCredentials.credentials;
+  console.log("credentials.type: ", credentials.type, "credentials", credentials);
 
   // List all connections of a specific type
   const azureAIConnections: Connection[] = [];

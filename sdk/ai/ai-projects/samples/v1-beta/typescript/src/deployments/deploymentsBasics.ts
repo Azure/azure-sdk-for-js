@@ -11,8 +11,7 @@
 import type { ModelDeployment } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
@@ -25,13 +24,21 @@ export async function main(): Promise<void> {
   const deployments: ModelDeployment[] = [];
   const properties: Array<Record<string, string>> = [];
 
-  for await (const deployment of project.deployments.list() as AsyncIterable<ModelDeployment>) {
-    deployments.push(deployment);
-    properties.push({
-      name: deployment.name,
-      modelPublisher: deployment.modelPublisher,
-      modelName: deployment.modelName,
-    });
+  for await (const deployment of project.deployments.list()) {
+    // Check if this is a ModelDeployment (has the required properties)
+    if (
+      deployment.type === "ModelDeployment" &&
+      "modelName" in deployment &&
+      "modelPublisher" in deployment &&
+      "modelVersion" in deployment
+    ) {
+      deployments.push(deployment);
+      properties.push({
+        name: deployment.name,
+        modelPublisher: deployment.modelPublisher,
+        modelName: deployment.modelName,
+      });
+    }
   }
   console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
 
@@ -40,8 +47,16 @@ export async function main(): Promise<void> {
   const filteredDeployments: ModelDeployment[] = [];
   for await (const deployment of project.deployments.list({
     modelPublisher,
-  }) as AsyncIterable<ModelDeployment>) {
-    filteredDeployments.push(deployment);
+  })) {
+    // Check if this is a ModelDeployment
+    if (
+      deployment.type === "ModelDeployment" &&
+      "modelName" in deployment &&
+      "modelPublisher" in deployment &&
+      "modelVersion" in deployment
+    ) {
+      filteredDeployments.push(deployment);
+    }
   }
   console.log(
     `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,

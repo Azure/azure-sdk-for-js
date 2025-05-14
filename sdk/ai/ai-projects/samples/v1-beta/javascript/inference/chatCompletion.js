@@ -10,8 +10,8 @@
 const { AIProjectClient } = require("@azure/ai-projects");
 const { isUnexpected } = require("@azure-rest/ai-inference");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-require("dotenv").config();
+const { createRestError } = require("@azure-rest/core-client");
+require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName = process.env["DEPLOYMENT_NAME"] || "<deployment name>";
@@ -33,7 +33,10 @@ async function main() {
 
   console.log("response = ", JSON.stringify(response, null, 2));
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(
+      `chatCompletions failed with unexpected statusCode ${response.status}`,
+      response,
+    );
   }
   console.log(response.body.choices[0].message.content);
 }
