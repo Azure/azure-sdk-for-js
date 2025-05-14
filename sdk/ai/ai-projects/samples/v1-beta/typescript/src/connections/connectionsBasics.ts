@@ -8,7 +8,7 @@
  * get the properties of a default connection, and get the properties of a connection by its name.
  */
 
-import type { Connection } from "@azure/ai-projects";
+import type { ApiKeyCredentials, Connection } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
   const credentials = connectionWithCredentials.credentials;
   console.log("credentials.type: ", credentials.type);
   if (credentials.type === "ApiKey") {
-    console.log(`Retrieved Azure OpenAI connection with ApiKey: ${credentials.apiKey}`);
+    console.log(`Retrieved Azure OpenAI connection with ApiKey: ${(credentials as ApiKeyCredentials).apiKey}`);
   }
 
   // List all connections of a specific type
