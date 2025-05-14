@@ -40,7 +40,7 @@ export async function main(): Promise<void> {
   const filteredDeployments: ModelDeployment[] = [];
   for await (const deployment of project.deployments.list({
     modelPublisher,
-  }) as AsyncIterable<ModelDeployment>) {
+  })) {
     filteredDeployments.push(deployment);
   }
   console.log(
