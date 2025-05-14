@@ -251,7 +251,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     if (azureTokenCredentials) {
       switch (azureTokenCredentials) {
         case "dev":
-          // If AZURE_TOKEN_CREDENTIALS is set to "dev", use the developer-tool based credential chain.
+          // If AZURE_TOKEN_CREDENTIALS is set to "dev", use the developer tool-based credential chain.
           credentialFunctions = devCredentialFunctions;
           break;
         case "prod":
