@@ -1,0 +1,113 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { describe, it, beforeEach, vi, assert, afterEach } from "vitest";
+import { PartitionKeyRangeFailoverInfo } from "../../../src/globalPartitionEndpointManager.js";
+
+describe("PartitionKeyRangeFailoverInfo", () => {
+  const initialEndpoint = "https://region1.documents.azure.com";
+  let failoverInfo: PartitionKeyRangeFailoverInfo;
+
+  beforeEach(() => {
+    failoverInfo = new PartitionKeyRangeFailoverInfo(initialEndpoint);
+  });
+
+  it("initializes correctly", async () => {
+    const snapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
+
+    assert.equal(failoverInfo.currentEndPoint, initialEndpoint);
+    assert.equal(failoverInfo.firstFailedEndPoint, initialEndpoint);
+    assert.deepEqual(snapshot, {
+      consecutiveReadRequestFailureCount: 0,
+      consecutiveWriteRequestFailureCount: 0,
+    });
+    assert.instanceOf(timestamps.firstRequestFailureTime, Date);
+    assert.instanceOf(timestamps.lastRequestFailureTime, Date);
+  });
+
+  it("increments read failure counts and checks circuit breaker triggering", async () => {
+    for (let i = 0; i < 11; i++) {
+      await failoverInfo.incrementRequestFailureCounts(true, Date.now());
+    }
+
+    const canTrigger = await failoverInfo.CanCircuitBreakerTriggerPartitionFailOver(true);
+    assert.isTrue(canTrigger);
+  });
+
+  it("increments write failure counts and checks circuit breaker triggering", async () => {
+    for (let i = 0; i < 6; i++) {
+      await failoverInfo.incrementRequestFailureCounts(false, Date.now());
+    }
+
+    const canTrigger = await failoverInfo.CanCircuitBreakerTriggerPartitionFailOver(false);
+    assert.isTrue(canTrigger);
+  });
+
+  it("resets counters if timeout exceeded", async () => {
+    const initialTime = Date.now();
+    await failoverInfo.incrementRequestFailureCounts(true, initialTime);
+
+    const initialSnapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    assert.equal(initialSnapshot.consecutiveReadRequestFailureCount, 1);
+
+    // Should reset counters
+    await failoverInfo.incrementRequestFailureCounts(true, initialTime + 1000 * 60 * 1 + 1);
+
+    const snapshot = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    assert.equal(snapshot.consecutiveReadRequestFailureCount, 1);
+  });
+
+  it("TryMoveNextLocation should move to next valid endpoint", async () => {
+    const nextEndpoints = [
+      initialEndpoint,
+      "https://region2.documents.azure.com",
+      "https://region3.documents.azure.com",
+    ];
+
+    const result = await failoverInfo.TryMoveNextLocation(nextEndpoints, initialEndpoint);
+    assert.isTrue(result);
+    assert.equal(failoverInfo.currentEndPoint, "https://region2.documents.azure.com");
+  });
+
+  it("TryMoveNextLocation should skip already failed endpoints", async () => {
+    const nextEndpoints = [initialEndpoint, "https://region2.documents.azure.com"];
+
+    await failoverInfo.TryMoveNextLocation(nextEndpoints, initialEndpoint);
+    const result = await failoverInfo.TryMoveNextLocation(
+      nextEndpoints,
+      "https://region2.documents.azure.com",
+    );
+    assert.isFalse(result);
+  });
+
+  it("TryMoveNextLocation returns true if failedEndPoint is not current", async () => {
+    const result = await failoverInfo.TryMoveNextLocation(
+      ["https://region2.documents.azure.com"],
+      "https://region2.documents.azure.com",
+    );
+    assert.isTrue(result);
+  });
+
+  it("snapshotConsecutiveRequestFailureCount returns accurate counts", async () => {
+    await failoverInfo.incrementRequestFailureCounts(true, Date.now());
+    await failoverInfo.incrementRequestFailureCounts(false, Date.now());
+
+    const counts = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    assert.equal(counts.consecutiveReadRequestFailureCount, 1);
+    assert.equal(counts.consecutiveWriteRequestFailureCount, 1);
+
+    await failoverInfo.incrementRequestFailureCounts(true, Date.now());
+    await failoverInfo.incrementRequestFailureCounts(false, Date.now());
+
+    const counts2 = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    assert.equal(counts2.consecutiveReadRequestFailureCount, 2);
+    assert.equal(counts2.consecutiveWriteRequestFailureCount, 2);
+  });
+
+  it("snapshotPartitionFailoverTimestamps returns accurate timestamps", async () => {
+    const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
+    assert.instanceOf(timestamps.firstRequestFailureTime, Date);
+    assert.instanceOf(timestamps.lastRequestFailureTime, Date);
+  });
+});

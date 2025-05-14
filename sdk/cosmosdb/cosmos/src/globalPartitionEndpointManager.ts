@@ -421,7 +421,7 @@ export class GlobalPartitionEndpointManager {
 /**
  * @hidden
  */
-class PartitionKeyRangeFailoverInfo {
+export class PartitionKeyRangeFailoverInfo {
   private failedEndPoints: string[] = [];
   public currentEndPoint: string;
   public firstFailedEndPoint: string;
@@ -547,9 +547,9 @@ class PartitionKeyRangeFailoverInfo {
 
             this.failedEndPoints.push(failedEndPoint);
             this.currentEndPoint = endpoint;
-            resolve(true);
+            return resolve(true);
           }
-          resolve(false);
+          return resolve(false);
         } catch (err) {
           reject(err);
         } finally {
