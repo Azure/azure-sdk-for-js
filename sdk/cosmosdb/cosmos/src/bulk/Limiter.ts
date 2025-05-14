@@ -160,6 +160,9 @@ export class LimiterQueue {
       queueItem.resolve(customValue);
     }
     if (customValue === StatusCodes.Gone) {
+      // Multiple requests could result in 410 error for one partition based on degree of concurrency.
+      // The refreshPKRangeCachePromise is added to ensure that only one refreshPartitionKeyRangeCache() call is made
+      // to backend for one partition.
       if (this.refreshPKRangeCachePromise) {
         await this.refreshPKRangeCachePromise;
       } else {
