@@ -10,7 +10,7 @@
 
 const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 
@@ -32,9 +32,11 @@ async function main() {
   console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
 
   const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
-  console.log(
-    `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
-  );
+  const credentials = connectionWithCredentials.credentials;
+  console.log("credentials.type: ", credentials.type);
+  if (credentials.type === "ApiKey") {
+    console.log(`Retrieved Azure OpenAI connection with ApiKey: ${credentials.apiKey}`);
+  }
 
   // List all connections of a specific type
   const azureAIConnections = [];
