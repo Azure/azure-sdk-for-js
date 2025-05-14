@@ -14,6 +14,8 @@ export default mergeConfig(
         enabled: false,
       },
       fileParallelism: false,
+      include: ["test/public/**/*.spec.ts"],
+      exclude: ["test/internal/unit/**/*.spec.ts"],
     },
   }),
 );

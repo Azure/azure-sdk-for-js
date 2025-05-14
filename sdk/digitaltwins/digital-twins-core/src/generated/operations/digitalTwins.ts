@@ -42,7 +42,7 @@ import {
   DigitalTwinsUpdateComponentOptionalParams,
   DigitalTwinsUpdateComponentResponse,
   DigitalTwinsListRelationshipsNextResponse,
-  DigitalTwinsListIncomingRelationshipsNextResponse
+  DigitalTwinsListIncomingRelationshipsNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -71,7 +71,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   public listRelationships(
     id: string,
-    options?: DigitalTwinsListRelationshipsOptionalParams
+    options?: DigitalTwinsListRelationshipsOptionalParams,
   ): PagedAsyncIterableIterator<Record<string, unknown>> {
     const iter = this.listRelationshipsPagingAll(id, options);
     return {
@@ -86,14 +86,14 @@ export class DigitalTwinsImpl implements DigitalTwins {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listRelationshipsPagingPage(id, options, settings);
-      }
+      },
     };
   }
 
   private async *listRelationshipsPagingPage(
     id: string,
     options?: DigitalTwinsListRelationshipsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Record<string, unknown>[]> {
     let result: DigitalTwinsListRelationshipsResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +108,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
       result = await this._listRelationshipsNext(
         id,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,7 +119,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
 
   private async *listRelationshipsPagingAll(
     id: string,
-    options?: DigitalTwinsListRelationshipsOptionalParams
+    options?: DigitalTwinsListRelationshipsOptionalParams,
   ): AsyncIterableIterator<Record<string, unknown>> {
     for await (const page of this.listRelationshipsPagingPage(id, options)) {
       yield* page;
@@ -139,7 +139,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   public listIncomingRelationships(
     id: string,
-    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams,
   ): PagedAsyncIterableIterator<IncomingRelationship> {
     const iter = this.listIncomingRelationshipsPagingAll(id, options);
     return {
@@ -154,14 +154,14 @@ export class DigitalTwinsImpl implements DigitalTwins {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listIncomingRelationshipsPagingPage(id, options, settings);
-      }
+      },
     };
   }
 
   private async *listIncomingRelationshipsPagingPage(
     id: string,
     options?: DigitalTwinsListIncomingRelationshipsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IncomingRelationship[]> {
     let result: DigitalTwinsListIncomingRelationshipsResponse;
     let continuationToken = settings?.continuationToken;
@@ -176,7 +176,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
       result = await this._listIncomingRelationshipsNext(
         id,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -187,11 +187,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
 
   private async *listIncomingRelationshipsPagingAll(
     id: string,
-    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams,
   ): AsyncIterableIterator<IncomingRelationship> {
     for await (const page of this.listIncomingRelationshipsPagingPage(
       id,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -210,11 +210,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   getById(
     id: string,
-    options?: DigitalTwinsGetByIdOptionalParams
+    options?: DigitalTwinsGetByIdOptionalParams,
   ): Promise<DigitalTwinsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { id, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -236,11 +236,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   add(
     id: string,
     twin: Record<string, unknown>,
-    options?: DigitalTwinsAddOptionalParams
+    options?: DigitalTwinsAddOptionalParams,
   ): Promise<DigitalTwinsAddResponse> {
     return this.client.sendOperationRequest(
       { id, twin, options },
-      addOperationSpec
+      addOperationSpec,
     );
   }
 
@@ -260,11 +260,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   delete(
     id: string,
-    options?: DigitalTwinsDeleteOptionalParams
+    options?: DigitalTwinsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { id, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -288,11 +288,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   update(
     id: string,
     patchDocument: Record<string, unknown>[],
-    options?: DigitalTwinsUpdateOptionalParams
+    options?: DigitalTwinsUpdateOptionalParams,
   ): Promise<DigitalTwinsUpdateResponse> {
     return this.client.sendOperationRequest(
       { id, patchDocument, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -313,11 +313,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   getRelationshipById(
     id: string,
     relationshipId: string,
-    options?: DigitalTwinsGetRelationshipByIdOptionalParams
+    options?: DigitalTwinsGetRelationshipByIdOptionalParams,
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
     return this.client.sendOperationRequest(
       { id, relationshipId, options },
-      getRelationshipByIdOperationSpec
+      getRelationshipByIdOperationSpec,
     );
   }
 
@@ -345,11 +345,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
     id: string,
     relationshipId: string,
     relationship: Record<string, unknown>,
-    options?: DigitalTwinsAddRelationshipOptionalParams
+    options?: DigitalTwinsAddRelationshipOptionalParams,
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     return this.client.sendOperationRequest(
       { id, relationshipId, relationship, options },
-      addRelationshipOperationSpec
+      addRelationshipOperationSpec,
     );
   }
 
@@ -372,11 +372,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   deleteRelationship(
     id: string,
     relationshipId: string,
-    options?: DigitalTwinsDeleteRelationshipOptionalParams
+    options?: DigitalTwinsDeleteRelationshipOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { id, relationshipId, options },
-      deleteRelationshipOperationSpec
+      deleteRelationshipOperationSpec,
     );
   }
 
@@ -406,11 +406,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
     id: string,
     relationshipId: string,
     patchDocument: Record<string, unknown>[],
-    options?: DigitalTwinsUpdateRelationshipOptionalParams
+    options?: DigitalTwinsUpdateRelationshipOptionalParams,
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
     return this.client.sendOperationRequest(
       { id, relationshipId, patchDocument, options },
-      updateRelationshipOperationSpec
+      updateRelationshipOperationSpec,
     );
   }
 
@@ -427,11 +427,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   private _listRelationships(
     id: string,
-    options?: DigitalTwinsListRelationshipsOptionalParams
+    options?: DigitalTwinsListRelationshipsOptionalParams,
   ): Promise<DigitalTwinsListRelationshipsResponse> {
     return this.client.sendOperationRequest(
       { id, options },
-      listRelationshipsOperationSpec
+      listRelationshipsOperationSpec,
     );
   }
 
@@ -448,11 +448,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   private _listIncomingRelationships(
     id: string,
-    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams,
   ): Promise<DigitalTwinsListIncomingRelationshipsResponse> {
     return this.client.sendOperationRequest(
       { id, options },
-      listIncomingRelationshipsOperationSpec
+      listIncomingRelationshipsOperationSpec,
     );
   }
 
@@ -475,11 +475,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
     id: string,
     messageId: string,
     telemetry: Record<string, unknown>,
-    options?: DigitalTwinsSendTelemetryOptionalParams
+    options?: DigitalTwinsSendTelemetryOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { id, messageId, telemetry, options },
-      sendTelemetryOperationSpec
+      sendTelemetryOperationSpec,
     );
   }
 
@@ -505,11 +505,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
     componentPath: string,
     messageId: string,
     telemetry: Record<string, unknown>,
-    options?: DigitalTwinsSendComponentTelemetryOptionalParams
+    options?: DigitalTwinsSendComponentTelemetryOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { id, componentPath, messageId, telemetry, options },
-      sendComponentTelemetryOperationSpec
+      sendComponentTelemetryOperationSpec,
     );
   }
 
@@ -529,11 +529,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   getComponent(
     id: string,
     componentPath: string,
-    options?: DigitalTwinsGetComponentOptionalParams
+    options?: DigitalTwinsGetComponentOptionalParams,
   ): Promise<DigitalTwinsGetComponentResponse> {
     return this.client.sendOperationRequest(
       { id, componentPath, options },
-      getComponentOperationSpec
+      getComponentOperationSpec,
     );
   }
 
@@ -559,11 +559,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
     id: string,
     componentPath: string,
     patchDocument: Record<string, unknown>[],
-    options?: DigitalTwinsUpdateComponentOptionalParams
+    options?: DigitalTwinsUpdateComponentOptionalParams,
   ): Promise<DigitalTwinsUpdateComponentResponse> {
     return this.client.sendOperationRequest(
       { id, componentPath, patchDocument, options },
-      updateComponentOperationSpec
+      updateComponentOperationSpec,
     );
   }
 
@@ -576,11 +576,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   private _listRelationshipsNext(
     id: string,
     nextLink: string,
-    options?: DigitalTwinsListRelationshipsNextOptionalParams
+    options?: DigitalTwinsListRelationshipsNextOptionalParams,
   ): Promise<DigitalTwinsListRelationshipsNextResponse> {
     return this.client.sendOperationRequest(
       { id, nextLink, options },
-      listRelationshipsNextOperationSpec
+      listRelationshipsNextOperationSpec,
     );
   }
 
@@ -594,11 +594,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   private _listIncomingRelationshipsNext(
     id: string,
     nextLink: string,
-    options?: DigitalTwinsListIncomingRelationshipsNextOptionalParams
+    options?: DigitalTwinsListIncomingRelationshipsNextOptionalParams,
   ): Promise<DigitalTwinsListIncomingRelationshipsNextResponse> {
     return this.client.sendOperationRequest(
       { id, nextLink, options },
-      listIncomingRelationshipsNextOperationSpec
+      listIncomingRelationshipsNextOperationSpec,
     );
   }
 }
@@ -611,18 +611,19 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
-      headersMapper: Mappers.DigitalTwinsGetByIdHeaders
+      headersMapper: Mappers.DigitalTwinsGetByIdHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsGetByIdExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const addOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
@@ -630,14 +631,14 @@ const addOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
-      headersMapper: Mappers.DigitalTwinsAddHeaders
+      headersMapper: Mappers.DigitalTwinsAddHeaders,
     },
-    202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsAddExceptionHeaders,
+    },
   },
   requestBody: Parameters.twin,
   queryParameters: [Parameters.apiVersion],
@@ -645,10 +646,10 @@ const addOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
@@ -656,25 +657,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsDeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
   httpMethod: "PATCH",
   responses: {
-    202: {},
     204: {
-      headersMapper: Mappers.DigitalTwinsUpdateHeaders
+      headersMapper: Mappers.DigitalTwinsUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsUpdateExceptionHeaders,
+    },
   },
   requestBody: Parameters.patchDocument,
   queryParameters: [Parameters.apiVersion],
@@ -682,10 +684,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.accept,
     Parameters.contentType1,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getRelationshipByIdOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
@@ -693,18 +695,19 @@ const getRelationshipByIdOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
-      headersMapper: Mappers.DigitalTwinsGetRelationshipByIdHeaders
+      headersMapper: Mappers.DigitalTwinsGetRelationshipByIdHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsGetRelationshipByIdExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const addRelationshipOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
@@ -712,13 +715,14 @@ const addRelationshipOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
-      headersMapper: Mappers.DigitalTwinsAddRelationshipHeaders
+      headersMapper: Mappers.DigitalTwinsAddRelationshipHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsAddRelationshipExceptionHeaders,
+    },
   },
   requestBody: Parameters.relationship,
   queryParameters: [Parameters.apiVersion],
@@ -726,10 +730,10 @@ const addRelationshipOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteRelationshipOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
@@ -737,24 +741,26 @@ const deleteRelationshipOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsDeleteRelationshipExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const updateRelationshipOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
   httpMethod: "PATCH",
   responses: {
     204: {
-      headersMapper: Mappers.DigitalTwinsUpdateRelationshipHeaders
+      headersMapper: Mappers.DigitalTwinsUpdateRelationshipHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsUpdateRelationshipExceptionHeaders,
+    },
   },
   requestBody: Parameters.patchDocument,
   queryParameters: [Parameters.apiVersion],
@@ -762,42 +768,45 @@ const updateRelationshipOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.accept,
     Parameters.contentType1,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRelationshipsOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RelationshipCollection
+      bodyMapper: Mappers.RelationshipCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsListRelationshipsExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listIncomingRelationshipsOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/incomingrelationships",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncomingRelationshipCollection
+      bodyMapper: Mappers.IncomingRelationshipCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper:
+        Mappers.DigitalTwinsListIncomingRelationshipsExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const sendTelemetryOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/telemetry",
@@ -805,8 +814,9 @@ const sendTelemetryOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsSendTelemetryExceptionHeaders,
+    },
   },
   requestBody: Parameters.telemetry,
   queryParameters: [Parameters.apiVersion],
@@ -815,10 +825,10 @@ const sendTelemetryOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.messageId,
-    Parameters.telemetrySourceTime
+    Parameters.telemetrySourceTime,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const sendComponentTelemetryOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}/telemetry",
@@ -826,8 +836,9 @@ const sendComponentTelemetryOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsSendComponentTelemetryExceptionHeaders,
+    },
   },
   requestBody: Parameters.telemetry,
   queryParameters: [Parameters.apiVersion],
@@ -836,10 +847,10 @@ const sendComponentTelemetryOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.messageId,
-    Parameters.telemetrySourceTime
+    Parameters.telemetrySourceTime,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getComponentOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}",
@@ -847,30 +858,31 @@ const getComponentOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
-      headersMapper: Mappers.DigitalTwinsGetComponentHeaders
+      headersMapper: Mappers.DigitalTwinsGetComponentHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsGetComponentExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateComponentOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}",
   httpMethod: "PATCH",
   responses: {
-    202: {},
     204: {
-      headersMapper: Mappers.DigitalTwinsUpdateComponentHeaders
+      headersMapper: Mappers.DigitalTwinsUpdateComponentHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsUpdateComponentExceptionHeaders,
+    },
   },
   requestBody: Parameters.patchDocument,
   queryParameters: [Parameters.apiVersion],
@@ -878,38 +890,41 @@ const updateComponentOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.accept,
     Parameters.contentType1,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRelationshipsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RelationshipCollection
+      bodyMapper: Mappers.RelationshipCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.DigitalTwinsListRelationshipsNextExceptionHeaders,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listIncomingRelationshipsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncomingRelationshipCollection
+      bodyMapper: Mappers.IncomingRelationshipCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper:
+        Mappers.DigitalTwinsListIncomingRelationshipsNextExceptionHeaders,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
