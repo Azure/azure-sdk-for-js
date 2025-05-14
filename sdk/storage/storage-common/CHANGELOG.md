@@ -2,6 +2,6 @@
 
 # Release History
 
-## 1.0.0 (Unreleased)
+## 12.0.0-beta.1 (2025-05-14)
 
 - Initial Release.
