@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `require` is being used in an ESM context. [#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346)
+
 ### Other Changes
 
 ## 4.4.0 (2025-05-13)
