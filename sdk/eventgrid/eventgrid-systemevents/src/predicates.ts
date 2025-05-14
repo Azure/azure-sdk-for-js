@@ -44,6 +44,10 @@ import type {
   ApiManagementApiReleaseDeletedEventData,
   ApiManagementApiReleaseUpdatedEventData,
   ApiManagementApiUpdatedEventData,
+  ApiManagementCircuitBreakerClosedEventData,
+  ApiManagementCircuitBreakerOpenedEventData,
+  ApiManagementGatewayTokenExpiredEventData,
+  ApiManagementGatewayTokenNearExpiryEventData,
   ApiManagementProductCreatedEventData,
   ApiManagementProductDeletedEventData,
   ApiManagementProductUpdatedEventData,
@@ -230,6 +234,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIUpdated" event. */
   "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.CircuitBreaker.Closed" event. */
+  "Microsoft.ApiManagement.CircuitBreaker.Closed": ApiManagementCircuitBreakerClosedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.CircuitBreaker.Opened" event. */
+  "Microsoft.ApiManagement.CircuitBreaker.Opened": ApiManagementCircuitBreakerOpenedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIDeleted" event. */
   "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseCreated" event. */
@@ -238,6 +246,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseDeleted" event. */
   "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayTokenExpired" event. */
+  "Microsoft.ApiManagement.GatewayTokenExpired": ApiManagementGatewayTokenExpiredEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayTokenNearExpiry" event. */
+  "Microsoft.ApiManagement.GatewayTokenNearExpiry": ApiManagementGatewayTokenNearExpiryEventData;
   /** An interface for the event data of a "Microsoft.Communication.CallEnded" event. */
   "Microsoft.Communication.CallEnded": AcsCallEndedEventData;
   /** An interface for the event data of a "Microsoft.Communication.CallParticipantAdded" event. */

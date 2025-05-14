@@ -731,6 +731,34 @@ export interface ApiManagementApiUpdatedEventData {
 }
 
 // @public
+export interface ApiManagementCircuitBreaker {
+    rules: Record<string, Record<string, any>>;
+}
+
+// @public
+export interface ApiManagementCircuitBreakerClosedEventData {
+    backendName: string;
+    circuitBreaker: ApiManagementCircuitBreaker;
+}
+
+// @public
+export interface ApiManagementCircuitBreakerOpenedEventData {
+    backendName: string;
+    circuitBreaker: ApiManagementCircuitBreaker;
+}
+
+// @public
+export interface ApiManagementExpiredGatewayToken {
+    expiredAtUtc: Date;
+}
+
+// @public
+export interface ApiManagementGateway {
+    gatewayId: string;
+    instanceId: string;
+}
+
+// @public
 export interface ApiManagementGatewayApiAddedEventData {
     resourceUri?: string;
 }
@@ -781,8 +809,25 @@ export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
 }
 
 // @public
+export interface ApiManagementGatewayTokenExpiredEventData {
+    gatewayInfo: ApiManagementGateway;
+    tokenInfo: ApiManagementExpiredGatewayToken;
+}
+
+// @public
+export interface ApiManagementGatewayTokenNearExpiryEventData {
+    gatewayInfo: ApiManagementGateway;
+    tokenInfo: ApiManagementNearExpiryGatewayToken;
+}
+
+// @public
 export interface ApiManagementGatewayUpdatedEventData {
     resourceUri?: string;
+}
+
+// @public
+export interface ApiManagementNearExpiryGatewayToken {
+    expiredAtUtc: Date;
 }
 
 // @public
@@ -2473,6 +2518,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
     "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
     "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+    "Microsoft.ApiManagement.CircuitBreaker.Closed": ApiManagementCircuitBreakerClosedEventData;
+    "Microsoft.ApiManagement.CircuitBreaker.Opened": ApiManagementCircuitBreakerOpenedEventData;
     "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
     "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
     "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
@@ -2483,6 +2530,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
     "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
     "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
+    "Microsoft.ApiManagement.GatewayTokenExpired": ApiManagementGatewayTokenExpiredEventData;
+    "Microsoft.ApiManagement.GatewayTokenNearExpiry": ApiManagementGatewayTokenNearExpiryEventData;
     "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
     "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
     "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;

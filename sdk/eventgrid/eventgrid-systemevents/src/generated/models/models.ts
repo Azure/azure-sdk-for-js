@@ -431,7 +431,7 @@ export interface ApiManagementCircuitBreakerOpenedEventData {
   /** Name of the backend for which the circuit has opened. */
   backendName: string;
   /** Information related to the circuit breaker configured on the backend. */
-  circuitBreaker: ApiManagementCircuitBreakerProperties;
+  circuitBreaker: ApiManagementCircuitBreaker;
 }
 
 export function apiManagementCircuitBreakerOpenedEventDataDeserializer(
@@ -439,21 +439,21 @@ export function apiManagementCircuitBreakerOpenedEventDataDeserializer(
 ): ApiManagementCircuitBreakerOpenedEventData {
   return {
     backendName: item["backendName"],
-    circuitBreaker: apiManagementCircuitBreakerPropertiesDeserializer(
+    circuitBreaker: apiManagementCircuitBreakerDeserializer(
       item["circuitBreaker"],
     ),
   };
 }
 
 /** Information related to the circuit breaker configured on the backend. */
-export interface ApiManagementCircuitBreakerProperties {
+export interface ApiManagementCircuitBreaker {
   /** Overview of all configured rules and respective details. */
   rules: Record<string, Record<string, any>>;
 }
 
-export function apiManagementCircuitBreakerPropertiesDeserializer(
+export function apiManagementCircuitBreakerDeserializer(
   item: any,
-): ApiManagementCircuitBreakerProperties {
+): ApiManagementCircuitBreaker {
   return {
     rules: item["rules"],
   };
@@ -464,7 +464,7 @@ export interface ApiManagementCircuitBreakerClosedEventData {
   /** Name of the backend for which the circuit has closed. */
   backendName: string;
   /** Information related to the circuit breaker configured on the backend. */
-  circuitBreaker: ApiManagementCircuitBreakerProperties;
+  circuitBreaker: ApiManagementCircuitBreaker;
 }
 
 export function apiManagementCircuitBreakerClosedEventDataDeserializer(
@@ -472,7 +472,7 @@ export function apiManagementCircuitBreakerClosedEventDataDeserializer(
 ): ApiManagementCircuitBreakerClosedEventData {
   return {
     backendName: item["backendName"],
-    circuitBreaker: apiManagementCircuitBreakerPropertiesDeserializer(
+    circuitBreaker: apiManagementCircuitBreakerDeserializer(
       item["circuitBreaker"],
     ),
   };
@@ -481,35 +481,33 @@ export function apiManagementCircuitBreakerClosedEventDataDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenNearExpiry event. */
 export interface ApiManagementGatewayTokenNearExpiryEventData {
   /** Information related to a given self-hosted gateway deployment. */
-  gatewayInfo: ApiManagementGatewayProperties;
+  gatewayInfo: ApiManagementGateway;
   /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
-  tokenInfo: ApiManagementNearExpiryGatewayTokenProperties;
+  tokenInfo: ApiManagementNearExpiryGatewayToken;
 }
 
 export function apiManagementGatewayTokenNearExpiryEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayTokenNearExpiryEventData {
   return {
-    gatewayInfo: apiManagementGatewayPropertiesDeserializer(
-      item["gatewayInfo"],
-    ),
-    tokenInfo: apiManagementNearExpiryGatewayTokenPropertiesDeserializer(
+    gatewayInfo: apiManagementGatewayDeserializer(item["gatewayInfo"]),
+    tokenInfo: apiManagementNearExpiryGatewayTokenDeserializer(
       item["tokenInfo"],
     ),
   };
 }
 
 /** Information related to a given self-hosted gateway deployment. */
-export interface ApiManagementGatewayProperties {
+export interface ApiManagementGateway {
   /** Id of Gateway that is used to deploy the gateway to get the configuration for. This is the ARM resource ID referenced in the Azure API Management instance. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateway/<GatewayName>` */
   gatewayId: string;
   /** Unique instance ID of the deployed gateway */
   instanceId: string;
 }
 
-export function apiManagementGatewayPropertiesDeserializer(
+export function apiManagementGatewayDeserializer(
   item: any,
-): ApiManagementGatewayProperties {
+): ApiManagementGateway {
   return {
     gatewayId: item["gatewayId"],
     instanceId: item["instanceId"],
@@ -517,14 +515,14 @@ export function apiManagementGatewayPropertiesDeserializer(
 }
 
 /** Information related to a gateway token that is near expiry for a self-hosted gateway deployment. */
-export interface ApiManagementNearExpiryGatewayTokenProperties {
+export interface ApiManagementNearExpiryGatewayToken {
   /** Timestamp when the gateway token will expire. */
   expiredAtUtc: Date;
 }
 
-export function apiManagementNearExpiryGatewayTokenPropertiesDeserializer(
+export function apiManagementNearExpiryGatewayTokenDeserializer(
   item: any,
-): ApiManagementNearExpiryGatewayTokenProperties {
+): ApiManagementNearExpiryGatewayToken {
   return {
     expiredAtUtc: new Date(item["expiredAtUtc"]),
   };
@@ -533,33 +531,29 @@ export function apiManagementNearExpiryGatewayTokenPropertiesDeserializer(
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayTokenExpired event. */
 export interface ApiManagementGatewayTokenExpiredEventData {
   /** Information related to a given self-hosted gateway deployment. */
-  gatewayInfo: ApiManagementGatewayProperties;
+  gatewayInfo: ApiManagementGateway;
   /** Information related to a an expired gateway token for a self-hosted gateway deployment. */
-  tokenInfo: ApiManagementExpiredGatewayTokenProperties;
+  tokenInfo: ApiManagementExpiredGatewayToken;
 }
 
 export function apiManagementGatewayTokenExpiredEventDataDeserializer(
   item: any,
 ): ApiManagementGatewayTokenExpiredEventData {
   return {
-    gatewayInfo: apiManagementGatewayPropertiesDeserializer(
-      item["gatewayInfo"],
-    ),
-    tokenInfo: apiManagementExpiredGatewayTokenPropertiesDeserializer(
-      item["tokenInfo"],
-    ),
+    gatewayInfo: apiManagementGatewayDeserializer(item["gatewayInfo"]),
+    tokenInfo: apiManagementExpiredGatewayTokenDeserializer(item["tokenInfo"]),
   };
 }
 
 /** Information related to a gateway token that has expired for a self-hosted gateway deployment. */
-export interface ApiManagementExpiredGatewayTokenProperties {
+export interface ApiManagementExpiredGatewayToken {
   /** Timestamp when the gateway token has expired. */
   expiredAtUtc: Date;
 }
 
-export function apiManagementExpiredGatewayTokenPropertiesDeserializer(
+export function apiManagementExpiredGatewayTokenDeserializer(
   item: any,
-): ApiManagementExpiredGatewayTokenProperties {
+): ApiManagementExpiredGatewayToken {
   return {
     expiredAtUtc: new Date(item["expiredAtUtc"]),
   };
