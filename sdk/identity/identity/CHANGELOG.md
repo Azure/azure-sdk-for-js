@@ -1,15 +1,10 @@
 # Release History
 
-## 4.9.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.9.2 (2025-05-14)
 
 ### Other Changes
 
+- Added support for the `AZURE_TOKEN_CREDENTIALS` environment variable to `DefaultAzureCredential`, which allows for choosing between 'deployed service' and 'developer tools' credentials. Valid values are 'dev' for developer tools and 'prod' for deployed service.
 - Added deprecation warnings for username password usage in `EnvironmentCredential` constructor to warn the users. `UsernamePassword` authentication doesn't support Multi-Factor Authentication (MFA), and MFA will enabled soon on all tenants.  For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure).
 
 ## 4.9.1 (2025-04-17)
