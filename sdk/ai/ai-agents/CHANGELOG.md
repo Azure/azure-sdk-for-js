@@ -4,4 +4,4 @@
 
 ### Features Added
 
-- This is the initial version of the Azure AI Agents client library, spliting off Agents functionality from the Azure AI Projects library.
+- This is the initial version of the Azure AI Agents client library, splitting off Agents functionality from the Azure AI Projects library.
