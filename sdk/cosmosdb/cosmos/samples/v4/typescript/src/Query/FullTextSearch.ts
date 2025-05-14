@@ -65,13 +65,13 @@ async function run(): Promise<void> {
   }
 
   //  Run full text search queries using full text score ranking
-  let query = "SELECT TOP 3 c.text1 FROM c ORDER BY RANK FullTextScore(c.text1, ['artist'])";
+  let query = "SELECT TOP 3 c.text1 FROM c ORDER BY RANK FullTextScore(c.text1, 'artist')";
   let response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
   console.log("Response: ", response.resources);
 
   //  Run full text search queries with full text contains
   query =
-    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, ['movies']),FullTextScore(c.text1, ['music']))";
+    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, 'movies'),FullTextScore(c.text1, ['music']))";
   response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
   console.log("Response: ", response.resources);
 

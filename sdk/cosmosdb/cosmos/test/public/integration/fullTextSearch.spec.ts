@@ -137,7 +137,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John')
-        ORDER BY RANK FullTextScore(c.title, ['John'])`,
+        ORDER BY RANK FullTextScore(c.title, 'John')`,
       {
         expected1: [2, 57, 85],
         expected2: [2, 85, 57],
@@ -147,7 +147,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
       `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John')
-        ORDER BY RANK FullTextScore(c.title, ['John'])`,
+        ORDER BY RANK FullTextScore(c.title, 'John')`,
       {
         expected1: [2, 57, 85],
         expected2: [2, 85, 57],
@@ -157,7 +157,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John')
-        ORDER BY RANK FullTextScore(c.title, ['John'])
+        ORDER BY RANK FullTextScore(c.title, 'John')
         OFFSET 1 LIMIT 5`,
       {
         expected1: [57, 85],
@@ -168,7 +168,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
-        ORDER BY RANK RRF(FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
+        ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66, 57, 85],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66, 85, 57],
@@ -178,7 +178,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
       `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
-        ORDER BY RANK RRF(FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
+        ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
@@ -188,7 +188,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
         WHERE FullTextContains(c.title, 'John') OR FullTextContains(c.text, 'John') OR FullTextContains(c.text, 'United States')
-        ORDER BY RANK RRF(FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))
+        ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 5 LIMIT 10`,
       {
         expected1: [24, 77, 76, 80, 25, 22, 2, 66, 57, 85],
@@ -198,7 +198,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
     [
       `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
-        ORDER BY RANK RRF(FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
+        ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25],
@@ -207,7 +207,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
     [
       `SELECT c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
-        ORDER BY RANK RRF(FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))
+        ORDER BY RANK RRF(FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))
         OFFSET 0 LIMIT 13`,
       {
         expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66],
@@ -217,7 +217,7 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
     [
       `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
-        ORDER BY RANK RRF(VectorDistance(c.vector,[${sampleVector}]), FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
+        ORDER BY RANK RRF(VectorDistance(c.vector,[${sampleVector}]), FullTextScore(c.title, 'John'), FullTextScore(c.text, 'United States'))`,
       {
         expected1: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
         expected2: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
@@ -229,10 +229,10 @@ describe("Validate full text search queries", { timeout: 20000 }, () => {
         ORDER BY RANK
             RRF(
                 VectorDistance(c.vector, [${sampleVector}]), 
-                FullTextScore(c.title, ['John']), 
+                FullTextScore(c.title, 'John'), 
                 VectorDistance(c.image, [${sampleVector}]), 
                 VectorDistance(c.backup_image, [${sampleVector}]), 
-                FullTextScore(c.text, ['United States'])
+                FullTextScore(c.text, 'United States')
             )`,
       {
         expected1: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
