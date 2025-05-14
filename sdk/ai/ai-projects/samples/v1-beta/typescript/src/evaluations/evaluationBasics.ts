@@ -11,9 +11,7 @@
 import { AIProjectClient, EvaluatorIds } from "@azure/ai-projects";
 import type { Evaluation, EvaluationWithOptionalName } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 

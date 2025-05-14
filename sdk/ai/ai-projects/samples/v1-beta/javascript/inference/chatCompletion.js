@@ -10,8 +10,7 @@
 const { AIProjectClient } = require("@azure/ai-projects");
 const { isUnexpected } = require("@azure-rest/ai-inference");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-require("dotenv").config();
+require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 const deploymentName = process.env["DEPLOYMENT_NAME"] || "<deployment name>";

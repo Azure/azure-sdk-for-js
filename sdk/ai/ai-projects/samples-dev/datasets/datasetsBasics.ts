@@ -14,9 +14,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as path from "path";
 import { fileURLToPath } from "url";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
