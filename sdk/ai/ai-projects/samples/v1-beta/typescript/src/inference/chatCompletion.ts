@@ -10,6 +10,7 @@
 import { AIProjectClient } from "@azure/ai-projects";
 import { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
+import { createRestError } from "@azure-rest/core-client";
 import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
@@ -32,7 +33,10 @@ export async function main(): Promise<void> {
 
   console.log("response = ", JSON.stringify(response, null, 2));
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(
+      `chatCompletions failed with unexpected statusCode ${response.status}`,
+      response,
+    );
   }
   console.log(response.body.choices[0].message.content);
 }

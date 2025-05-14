@@ -30,12 +30,14 @@ export async function main(): Promise<void> {
   // Get the details of a connection, without credentials
   const connectionName = connections[0].name;
   const connection = await project.connections.get(connectionName);
-  console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
+  console.log("connection.type: ", connection.type, "connection.name: ", connection.name, "connection.target: ", connection.target);
 
   const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
-  console.log(
-    `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
-  );
+  const credentials = connectionWithCredentials.credentials;
+  console.log("credentials.type: ", credentials.type);
+  if (credentials.type === "ApiKey") {
+    console.log(`Retrieved Azure OpenAI connection with ApiKey: ${credentials.apiKey}`);
+  }
 
   // List all connections of a specific type
   const azureAIConnections: Connection[] = [];
