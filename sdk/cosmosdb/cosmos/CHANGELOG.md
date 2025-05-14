@@ -4,7 +4,7 @@
 ## 4.4.0 (2025-05-13)
 
 ### Features Added
-#### New Bulk API
+#### New Bulk API (Preview)
 The new `executeBulkOperations` API in the SDK brings significant enhancements for bulk workloads. It removes the previous 100-operation limit, adds operation-level retries for improved resilience, and introduces dynamic congestion control to optimize performance based on real-time system feedback.
 
 Example of using `executeBulkOperations`:
