@@ -20,7 +20,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const deploymentName = process.env["IMAGE_EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
+const deploymentName =
+  process.env["IMAGE_EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
 export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential(), {
     apiVersion: "2024-05-01-preview",
