@@ -3,7 +3,7 @@
 import { DefaultAzureCredential } from "../../../src/index.js";
 import { describe, it, expect, vi, afterEach } from "vitest";
 
-describe.only("DefaultAzureCredential", () => {
+describe("DefaultAzureCredential", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -24,4 +24,4 @@ describe.only("DefaultAzureCredential", () => {
         process.env.AZURE_TOKEN_CREDENTIALS = "dev";
         expect(() => new DefaultAzureCredential()).not.toThrowError();
     });
-});
+}); 

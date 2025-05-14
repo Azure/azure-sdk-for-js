@@ -234,13 +234,13 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
   constructor(options?: DefaultAzureCredentialOptions) {
     // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
-    const azureTokenCredentials = (process.env.AZURE_TOKEN_CREDENTIALS)?.toLowerCase();
-    let devCredentialFunctions = [
+    const azureTokenCredentials = process.env.AZURE_TOKEN_CREDENTIALS?.toLowerCase();
+    const devCredentialFunctions = [
       createDefaultAzureCliCredential,
       createDefaultAzurePowershellCredential,
       createDefaultAzureDeveloperCliCredential,
     ];
-    let prodCredentialFunctions = [
+    const prodCredentialFunctions = [
       createEnvironmentCredential,
       createDefaultWorkloadIdentityCredential,
       createDefaultManagedIdentityCredential,
@@ -259,12 +259,14 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
           credentialFunctions = prodCredentialFunctions;
           break;
         default:
-          // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
-          // We will throw an error here to prevent the creation of the DefaultAzureCredential.
-          // We will throw an error here to prevent the creation of the DefaultAzureCredential.
-          const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev'.`;
-        logger.warning(errorMessage);
-        throw new Error(errorMessage);
+          {
+            // If AZURE_TOKEN_CREDENTIALS is set to an unsupported value, throw an error.
+            // We will throw an error here to prevent the creation of the DefaultAzureCredential.
+            // We will throw an error here to prevent the creation of the DefaultAzureCredential.
+            const errorMessage = `Invalid value for AZURE_TOKEN_CREDENTIALS = ${process.env.AZURE_TOKEN_CREDENTIALS}. Valid values are 'prod' or 'dev'.`;
+            logger.warning(errorMessage);
+            throw new Error(errorMessage);
+          }
       }
     }
     else {
