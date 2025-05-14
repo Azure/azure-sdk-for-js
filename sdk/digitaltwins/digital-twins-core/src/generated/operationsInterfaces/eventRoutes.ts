@@ -13,7 +13,7 @@ import {
   EventRoutesGetByIdOptionalParams,
   EventRoutesGetByIdResponse,
   EventRoutesAddOptionalParams,
-  EventRoutesDeleteOptionalParams
+  EventRoutesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface EventRoutes {
    * @param options The options parameters.
    */
   list(
-    options?: EventRoutesListOptionalParams
+    options?: EventRoutesListOptionalParams,
   ): PagedAsyncIterableIterator<EventRoute>;
   /**
    * Retrieves an event route.
@@ -39,7 +39,7 @@ export interface EventRoutes {
    */
   getById(
     id: string,
-    options?: EventRoutesGetByIdOptionalParams
+    options?: EventRoutesGetByIdOptionalParams,
   ): Promise<EventRoutesGetByIdResponse>;
   /**
    * Adds or replaces an event route.
@@ -51,9 +51,14 @@ export interface EventRoutes {
    *   * EventRouteIdInvalid - The event route id is invalid.
    *   * LimitExceeded - The maximum number of event routes allowed has been reached.
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
+   * @param eventRoute The event route data
    * @param options The options parameters.
    */
-  add(id: string, options?: EventRoutesAddOptionalParams): Promise<void>;
+  add(
+    id: string,
+    eventRoute: EventRoute,
+    options?: EventRoutesAddOptionalParams,
+  ): Promise<void>;
   /**
    * Deletes an event route.
    * Status codes:

@@ -1,6 +1,6 @@
-# Azure ServiceNetworking client library for JavaScript
+# Azure ServiceNetworkingManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ServiceNetworking client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ServiceNetworkingManagement client.
 
 Traffic Controller Provider management API.
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-servicenetworking` package
 
-Install the Azure ServiceNetworking client library for JavaScript with `npm`:
+Install the Azure ServiceNetworkingManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-servicenetworking
 ```
 
-### Create and authenticate a `ServiceNetworkingClient`
+### Create and authenticate a `ServiceNetworkingManagementClient`
 
-To create a client object to access the Azure ServiceNetworking API, you will need the `endpoint` of your Azure ServiceNetworking resource and a `credential`. The Azure ServiceNetworking client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure ServiceNetworking resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure ServiceNetworkingManagement API, you will need the `endpoint` of your Azure ServiceNetworkingManagement resource and a `credential`. The Azure ServiceNetworkingManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure ServiceNetworkingManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -52,25 +52,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { ServiceNetworkingClient } from "@azure/arm-servicenetworking";
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ServiceNetworkingClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ServiceNetworkingManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { ServiceNetworkingClient } from "@azure/arm-servicenetworking";
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>"
  });
-const client = new ServiceNetworkingClient(credential, subscriptionId);
+const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### ServiceNetworkingClient
+### ServiceNetworkingManagementClient
 
-`ServiceNetworkingClient` is the primary interface for developers using the Azure ServiceNetworking client library. Explore the methods on this client object to understand the different features of the Azure ServiceNetworking service that you can access.
+`ServiceNetworkingManagementClient` is the primary interface for developers using the Azure ServiceNetworkingManagement client library. Explore the methods on this client object to understand the different features of the Azure ServiceNetworkingManagement service that you can access.
 
 ## Troubleshooting
 

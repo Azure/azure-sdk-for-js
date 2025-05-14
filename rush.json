@@ -716,6 +716,9 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+	  "cyclicDependencyProjects": [
+		"@azure/storage-file-share"
+	  ],
       "versionPolicyName": "client"
     },
     {
@@ -2307,6 +2310,11 @@
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
+    },
+    {
+       "packageName": "@azure/ai-agents",
+       "projectFolder": "sdk/ai/ai-agents",
+       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-impactreporting",
