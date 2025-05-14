@@ -716,6 +716,9 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+	  "cyclicDependencyProjects": [
+		"@azure/storage-file-share"
+	  ],
       "versionPolicyName": "client"
     },
     {
