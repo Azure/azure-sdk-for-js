@@ -10,15 +10,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Branch
  * x-ms-original-file: 2025-03-01/Branches_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function branchesCreateOrUpdateMaximumSet(): Promise<void> {
+async function branchesCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
   const result = await client.branches.createOrUpdate(
     "rgneon",
-    "test-org",
-    "test-entity",
-    "test-entity",
+    "contoso-org",
+    "sample-resource",
+    "sample-resource",
     {
       properties: {
         entityName: "entity-name",
@@ -60,7 +60,7 @@ async function branchesCreateOrUpdateMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await branchesCreateOrUpdateMaximumSet();
+  await branchesCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

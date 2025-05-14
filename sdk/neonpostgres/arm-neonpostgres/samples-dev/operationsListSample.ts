@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-03-01/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSet(): Promise<void> {
+async function operationsListMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new PostgresClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function operationsListMaximumSet(): Promise<void> {
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-03-01/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSet(): Promise<void> {
+async function operationsListMaximumSetGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new PostgresClient(credential, subscriptionId);
@@ -41,8 +41,8 @@ async function operationsListMinimumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await operationsListMaximumSet();
-  await operationsListMinimumSet();
+  await operationsListMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await operationsListMaximumSetGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

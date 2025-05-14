@@ -6,11 +6,15 @@ import { Branch } from "../../models/models.js";
 import {
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "../../api/branches/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/branches/operations.js";
+import {
+  list,
+  $delete,
+  createOrUpdate,
+  get,
+} from "../../api/branches/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -36,15 +40,6 @@ export interface BranchesOperations {
     branchName: string,
     options?: BranchesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a Branch */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    properties: Branch,
-    options?: BranchesUpdateOptionalParams,
-  ) => PollerLike<OperationState<Branch>, Branch>;
   /** Create a Branch */
   createOrUpdate: (
     resourceGroupName: string,
@@ -71,29 +66,21 @@ function _getBranches(context: PostgresContext) {
       organizationName: string,
       projectName: string,
       options?: BranchesListOptionalParams,
-    ) => list(context, resourceGroupName, organizationName, projectName, options),
+    ) =>
+      list(context, resourceGroupName, organizationName, projectName, options),
     delete: (
       resourceGroupName: string,
       organizationName: string,
       projectName: string,
       branchName: string,
       options?: BranchesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, organizationName, projectName, branchName, options),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      properties: Branch,
-      options?: BranchesUpdateOptionalParams,
     ) =>
-      update(
+      $delete(
         context,
         resourceGroupName,
         organizationName,
         projectName,
         branchName,
-        properties,
         options,
       ),
     createOrUpdate: (
@@ -119,11 +106,21 @@ function _getBranches(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: BranchesGetOptionalParams,
-    ) => get(context, resourceGroupName, organizationName, projectName, branchName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        organizationName,
+        projectName,
+        branchName,
+        options,
+      ),
   };
 }
 
-export function _getBranchesOperations(context: PostgresContext): BranchesOperations {
+export function _getBranchesOperations(
+  context: PostgresContext,
+): BranchesOperations {
   return {
     ..._getBranches(context),
   };

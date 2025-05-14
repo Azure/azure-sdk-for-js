@@ -10,15 +10,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a Project
  * x-ms-original-file: 2025-03-01/Projects_Delete_MaximumSet_Gen.json
  */
-async function projectsDeleteMaximumSet(): Promise<void> {
+async function projectsDeleteMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  await client.projects.delete("rgneon", "test-org", "entity-name");
+  await client.projects.delete("rgneon", "contoso-org", "sample-resource");
 }
 
 async function main(): Promise<void> {
-  await projectsDeleteMaximumSet();
+  await projectsDeleteMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -9,25 +9,22 @@ import {
   projectDeserializer,
   _ProjectListResult,
   _projectListResultDeserializer,
-} from "../../models/models.js";
-import {
   ConnectionUriProperties,
   connectionUriPropertiesSerializer,
   connectionUriPropertiesDeserializer,
-} from "../../models/models/models.js";
+} from "../../models/models.js";
 import {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
-  ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./options.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -58,15 +55,17 @@ export function _getConnectionUriSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: connectionUriPropertiesSerializer(connectionUriParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: connectionUriPropertiesSerializer(connectionUriParameters),
+    });
 }
 
 export async function _getConnectionUriDeserialize(
@@ -120,16 +119,20 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<_ProjectListResult> {
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ProjectListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -176,16 +179,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -219,67 +226,6 @@ export async function $delete(
   return _$deleteDeserialize(result);
 }
 
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  properties: Project,
-  options: ProjectsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Neon.Postgres/organizations/{organizationName}/projects/{projectName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      organizationName: organizationName,
-      projectName: projectName,
-      "api%2Dversion": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: projectSerializer(properties),
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Project> {
-  const expectedStatuses = ["200", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return projectDeserializer(result.body);
-}
-
-/** Update a Project */
-export function update(
-  context: Client,
-  resourceGroupName: string,
-  organizationName: string,
-  projectName: string,
-  properties: Project,
-  options: ProjectsUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<Project>, Project> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, organizationName, projectName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Project>, Project>;
-}
-
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
@@ -301,18 +247,22 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: projectSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: projectSerializer(resource),
+    });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Project> {
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Project> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -332,20 +282,25 @@ export function createOrUpdate(
   resource: Project,
   options: ProjectsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Project>, Project> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Project>, Project>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          organizationName,
+          projectName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Project>, Project>;
 }
 
 export function _getSend(
@@ -368,16 +323,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Project> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Project> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -396,6 +355,12 @@ export async function get(
   projectName: string,
   options: ProjectsGetOptionalParams = { requestOptions: {} },
 ): Promise<Project> {
-  const result = await _getSend(context, resourceGroupName, organizationName, projectName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    organizationName,
+    projectName,
+    options,
+  );
   return _getDeserialize(result);
 }

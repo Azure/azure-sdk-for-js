@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary action to retrieve the PostgreSQL versions.
  * x-ms-original-file: 2025-03-01/Organizations_GetPostgresVersions_MaximumSet_Gen.json
  */
-async function organizationsGetPostgresVersionsMaximumSet(): Promise<void> {
+async function organizationsGetPostgresVersionsMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function organizationsGetPostgresVersionsMaximumSet(): Promise<void> {
  * @summary action to retrieve the PostgreSQL versions.
  * x-ms-original-file: 2025-03-01/Organizations_GetPostgresVersions_MinimumSet_Gen.json
  */
-async function organizationsGetPostgresVersionsMinimumSet(): Promise<void> {
+async function organizationsGetPostgresVersionsMaximumSetGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
@@ -35,8 +35,8 @@ async function organizationsGetPostgresVersionsMinimumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await organizationsGetPostgresVersionsMaximumSet();
-  await organizationsGetPostgresVersionsMinimumSet();
+  await organizationsGetPostgresVersionsMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await organizationsGetPostgresVersionsMaximumSetGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

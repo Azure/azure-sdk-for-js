@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PgVersion } from "../../models/models/models.js";
+import { PgVersion } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface OrganizationsGetPostgresVersionsOptionalParams extends OperationOptions {
+export interface OrganizationsGetPostgresVersionsOptionalParams
+  extends OperationOptions {
   /** Post Action to retrieve the PostgreSQL versions. */
   parameters?: PgVersion;
 }
 
 /** Optional parameters. */
-export interface OrganizationsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface OrganizationsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface OrganizationsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface OrganizationsListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface OrganizationsDeleteOptionalParams extends OperationOptions {
@@ -29,7 +32,8 @@ export interface OrganizationsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface OrganizationsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

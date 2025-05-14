@@ -10,23 +10,28 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary action to retrieve the connection URI for the Neon Database.
  * x-ms-original-file: 2025-03-01/Projects_GetConnectionUri_MaximumSet_Gen.json
  */
-async function projectsGetConnectionUriMaximumSet(): Promise<void> {
+async function projectsGetConnectionUriMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.projects.getConnectionUri("rgneon", "test-org", "entity-name", {
-    projectId: "riuifmoqtorrcffgksvfcobia",
-    branchId: "iimmlbqv",
-    databaseName: "xc",
-    roleName: "xhmcvsgtp",
-    endpointId: "jcpdvsyjcn",
-    isPooled: true,
-  });
+  const result = await client.projects.getConnectionUri(
+    "rgneon",
+    "contoso-org",
+    "sample-resource",
+    {
+      projectId: "riuifmoqtorrcffgksvfcobia",
+      branchId: "iimmlbqv",
+      databaseName: "xc",
+      roleName: "xhmcvsgtp",
+      endpointId: "jcpdvsyjcn",
+      isPooled: true,
+    },
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await projectsGetConnectionUriMaximumSet();
+  await projectsGetConnectionUriMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -9,12 +9,10 @@ import {
   organizationResourceDeserializer,
   _OrganizationResourceListResult,
   _organizationResourceListResultDeserializer,
-} from "../../models/models.js";
-import {
   pgVersionSerializer,
   PgVersionsResult,
   pgVersionsResultDeserializer,
-} from "../../models/models/models.js";
+} from "../../models/models.js";
 import {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
@@ -24,11 +22,11 @@ import {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./options.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -56,17 +54,19 @@ export function _getPostgresVersionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["parameters"]
-      ? options["parameters"]
-      : pgVersionSerializer(options["parameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["parameters"]
+        ? options["parameters"]
+        : pgVersionSerializer(options["parameters"]),
+    });
 }
 
 export async function _getPostgresVersionsDeserialize(
@@ -90,7 +90,11 @@ export async function getPostgresVersions(
     requestOptions: {},
   },
 ): Promise<PgVersionsResult> {
-  const result = await _getPostgresVersionsSend(context, resourceGroupName, options);
+  const result = await _getPostgresVersionsSend(
+    context,
+    resourceGroupName,
+    options,
+  );
   return _getPostgresVersionsDeserialize(result);
 }
 
@@ -110,13 +114,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -166,13 +172,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -223,16 +231,20 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -255,12 +267,18 @@ export function $delete(
   organizationName: string,
   options: OrganizationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, organizationName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, organizationName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -282,15 +300,17 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: organizationResourceSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: organizationResourceSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -318,7 +338,13 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, organizationName, properties, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        organizationName,
+        properties,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
@@ -342,15 +368,17 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: organizationResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: organizationResourceSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -374,13 +402,24 @@ export function createOrUpdate(
   resource: OrganizationResource,
   options: OrganizationsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OrganizationResource>, OrganizationResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, organizationName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          organizationName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
 export function _getSend(
@@ -401,13 +440,15 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDeserialize(
@@ -430,6 +471,11 @@ export async function get(
   organizationName: string,
   options: OrganizationsGetOptionalParams = { requestOptions: {} },
 ): Promise<OrganizationResource> {
-  const result = await _getSend(context, resourceGroupName, organizationName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    organizationName,
+    options,
+  );
   return _getDeserialize(result);
 }

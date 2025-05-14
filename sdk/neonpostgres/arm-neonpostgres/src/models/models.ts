@@ -1,27 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ProjectProperties,
-  projectPropertiesSerializer,
-  projectPropertiesDeserializer,
-  BranchProperties,
-  branchPropertiesSerializer,
-  branchPropertiesDeserializer,
-  NeonRoleProperties,
-  neonRolePropertiesSerializer,
-  neonRolePropertiesDeserializer,
-  NeonDatabaseProperties,
-  neonDatabasePropertiesSerializer,
-  neonDatabasePropertiesDeserializer,
-  EndpointProperties,
-  endpointPropertiesSerializer,
-  endpointPropertiesDeserializer,
-  ComputeProperties,
-  computePropertiesSerializer,
-  computePropertiesDeserializer,
-} from "./models/models.js";
-
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -30,7 +9,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -61,7 +42,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -132,7 +115,9 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -155,20 +140,26 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -182,17 +173,23 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -202,7 +199,9 @@ export interface OrganizationResource extends TrackedResource {
   properties?: OrganizationProperties;
 }
 
-export function organizationResourceSerializer(item: OrganizationResource): any {
+export function organizationResourceSerializer(
+  item: OrganizationResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -212,7 +211,9 @@ export function organizationResourceSerializer(item: OrganizationResource): any 
   };
 }
 
-export function organizationResourceDeserializer(item: any): OrganizationResource {
+export function organizationResourceDeserializer(
+  item: any,
+): OrganizationResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -244,29 +245,41 @@ export interface OrganizationProperties {
   projectProperties?: ProjectProperties;
 }
 
-export function organizationPropertiesSerializer(item: OrganizationProperties): any {
+export function organizationPropertiesSerializer(
+  item: OrganizationProperties,
+): any {
   return {
-    marketplaceDetails: marketplaceDetailsSerializer(item["marketplaceDetails"]),
+    marketplaceDetails: marketplaceDetailsSerializer(
+      item["marketplaceDetails"],
+    ),
     userDetails: userDetailsSerializer(item["userDetails"]),
     companyDetails: companyDetailsSerializer(item["companyDetails"]),
     partnerOrganizationProperties: !item["partnerOrganizationProperties"]
       ? item["partnerOrganizationProperties"]
-      : partnerOrganizationPropertiesSerializer(item["partnerOrganizationProperties"]),
+      : partnerOrganizationPropertiesSerializer(
+          item["partnerOrganizationProperties"],
+        ),
     projectProperties: !item["projectProperties"]
       ? item["projectProperties"]
       : projectPropertiesSerializer(item["projectProperties"]),
   };
 }
 
-export function organizationPropertiesDeserializer(item: any): OrganizationProperties {
+export function organizationPropertiesDeserializer(
+  item: any,
+): OrganizationProperties {
   return {
-    marketplaceDetails: marketplaceDetailsDeserializer(item["marketplaceDetails"]),
+    marketplaceDetails: marketplaceDetailsDeserializer(
+      item["marketplaceDetails"],
+    ),
     userDetails: userDetailsDeserializer(item["userDetails"]),
     companyDetails: companyDetailsDeserializer(item["companyDetails"]),
     provisioningState: item["provisioningState"],
     partnerOrganizationProperties: !item["partnerOrganizationProperties"]
       ? item["partnerOrganizationProperties"]
-      : partnerOrganizationPropertiesDeserializer(item["partnerOrganizationProperties"]),
+      : partnerOrganizationPropertiesDeserializer(
+          item["partnerOrganizationProperties"],
+        ),
     projectProperties: !item["projectProperties"]
       ? item["projectProperties"]
       : projectPropertiesDeserializer(item["projectProperties"]),
@@ -464,7 +477,9 @@ export interface PartnerOrganizationProperties {
   singleSignOnProperties?: SingleSignOnProperties;
 }
 
-export function partnerOrganizationPropertiesSerializer(item: PartnerOrganizationProperties): any {
+export function partnerOrganizationPropertiesSerializer(
+  item: PartnerOrganizationProperties,
+): any {
   return {
     organizationId: item["organizationId"],
     organizationName: item["organizationName"],
@@ -498,7 +513,9 @@ export interface SingleSignOnProperties {
   aadDomains?: string[];
 }
 
-export function singleSignOnPropertiesSerializer(item: SingleSignOnProperties): any {
+export function singleSignOnPropertiesSerializer(
+  item: SingleSignOnProperties,
+): any {
   return {
     singleSignOnState: item["singleSignOnState"],
     enterpriseAppId: item["enterpriseAppId"],
@@ -511,7 +528,9 @@ export function singleSignOnPropertiesSerializer(item: SingleSignOnProperties): 
   };
 }
 
-export function singleSignOnPropertiesDeserializer(item: any): SingleSignOnProperties {
+export function singleSignOnPropertiesDeserializer(
+  item: any,
+): SingleSignOnProperties {
   return {
     singleSignOnState: item["singleSignOnState"],
     enterpriseAppId: item["enterpriseAppId"],
@@ -544,6 +563,444 @@ export enum KnownSingleSignOnStates {
  * **Disable**: SSO is disabled for the organization
  */
 export type SingleSignOnStates = string;
+
+/** Properties specific to Project */
+export interface ProjectProperties {
+  /** Unique identifier for the entity */
+  readonly entityId?: string;
+  /** Name of the resource */
+  entityName?: string;
+  /** Timestamp indicating when the entity was created */
+  readonly createdAt?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Additional attributes for the entity */
+  attributes?: Attributes[];
+  /** Region where the project is created */
+  regionId?: string;
+  /** Data Storage bytes per hour for the project */
+  storage?: number;
+  /** Postgres version for the project */
+  pgVersion?: number;
+  /** The retention period for project history in seconds. */
+  historyRetention?: number;
+  /** Default endpoint settings for the project. */
+  defaultEndpointSettings?: DefaultEndpointSettings;
+  /** The Branch properties of the project. This is optional */
+  branch?: BranchProperties;
+  /** Roles associated with the project */
+  roles?: NeonRoleProperties[];
+  /** Neon Databases associated with the project */
+  databases?: NeonDatabaseProperties[];
+  /** Endpoints associated with the project */
+  endpoints?: EndpointProperties[];
+}
+
+export function projectPropertiesSerializer(item: ProjectProperties): any {
+  return {
+    entityName: item["entityName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArraySerializer(item["attributes"]),
+    regionId: item["regionId"],
+    storage: item["storage"],
+    pgVersion: item["pgVersion"],
+    historyRetention: item["historyRetention"],
+    defaultEndpointSettings: !item["defaultEndpointSettings"]
+      ? item["defaultEndpointSettings"]
+      : defaultEndpointSettingsSerializer(item["defaultEndpointSettings"]),
+    branch: !item["branch"]
+      ? item["branch"]
+      : branchPropertiesSerializer(item["branch"]),
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArraySerializer(item["roles"]),
+    databases: !item["databases"]
+      ? item["databases"]
+      : neonDatabasePropertiesArraySerializer(item["databases"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointPropertiesArraySerializer(item["endpoints"]),
+  };
+}
+
+export function projectPropertiesDeserializer(item: any): ProjectProperties {
+  return {
+    entityId: item["entityId"],
+    entityName: item["entityName"],
+    createdAt: item["createdAt"],
+    provisioningState: item["provisioningState"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArrayDeserializer(item["attributes"]),
+    regionId: item["regionId"],
+    storage: item["storage"],
+    pgVersion: item["pgVersion"],
+    historyRetention: item["historyRetention"],
+    defaultEndpointSettings: !item["defaultEndpointSettings"]
+      ? item["defaultEndpointSettings"]
+      : defaultEndpointSettingsDeserializer(item["defaultEndpointSettings"]),
+    branch: !item["branch"]
+      ? item["branch"]
+      : branchPropertiesDeserializer(item["branch"]),
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArrayDeserializer(item["roles"]),
+    databases: !item["databases"]
+      ? item["databases"]
+      : neonDatabasePropertiesArrayDeserializer(item["databases"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointPropertiesArrayDeserializer(item["endpoints"]),
+  };
+}
+
+export function attributesArraySerializer(result: Array<Attributes>): any[] {
+  return result.map((item) => {
+    return attributesSerializer(item);
+  });
+}
+
+export function attributesArrayDeserializer(result: Array<Attributes>): any[] {
+  return result.map((item) => {
+    return attributesDeserializer(item);
+  });
+}
+
+/** Additional attributes specific to Neon Resources */
+export interface Attributes {
+  /** Name of the attribute */
+  name: string;
+  /** Value of the attribute */
+  value: string;
+}
+
+export function attributesSerializer(item: Attributes): any {
+  return { name: item["name"], value: item["value"] };
+}
+
+export function attributesDeserializer(item: any): Attributes {
+  return {
+    name: item["name"],
+    value: item["value"],
+  };
+}
+
+/** Default Endpoint Settings for the project. */
+export interface DefaultEndpointSettings {
+  /** Minimum compute units for autoscaling. */
+  autoscalingLimitMinCu: number;
+  /** Maximum compute units for autoscaling. */
+  autoscalingLimitMaxCu: number;
+}
+
+export function defaultEndpointSettingsSerializer(
+  item: DefaultEndpointSettings,
+): any {
+  return {
+    autoscalingLimitMinCu: item["autoscalingLimitMinCu"],
+    autoscalingLimitMaxCu: item["autoscalingLimitMaxCu"],
+  };
+}
+
+export function defaultEndpointSettingsDeserializer(
+  item: any,
+): DefaultEndpointSettings {
+  return {
+    autoscalingLimitMinCu: item["autoscalingLimitMinCu"],
+    autoscalingLimitMaxCu: item["autoscalingLimitMaxCu"],
+  };
+}
+
+/** Properties specific to Branch */
+export interface BranchProperties {
+  /** Unique identifier for the entity */
+  readonly entityId?: string;
+  /** Name of the resource */
+  entityName?: string;
+  /** Timestamp indicating when the entity was created */
+  readonly createdAt?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Additional attributes for the entity */
+  attributes?: Attributes[];
+  /** The ID of the project this branch belongs to */
+  projectId?: string;
+  /** The ID of the parent branch */
+  parentId?: string;
+  /** Role name associated with the branch */
+  roleName?: string;
+  /** Database name associated with the branch */
+  databaseName?: string;
+  /** Roles associated with the branch */
+  roles?: NeonRoleProperties[];
+  /** Neon Databases associated with the branch */
+  databases?: NeonDatabaseProperties[];
+  /** Endpoints associated with the branch */
+  endpoints?: EndpointProperties[];
+}
+
+export function branchPropertiesSerializer(item: BranchProperties): any {
+  return {
+    entityName: item["entityName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArraySerializer(item["attributes"]),
+    projectId: item["projectId"],
+    parentId: item["parentId"],
+    roleName: item["roleName"],
+    databaseName: item["databaseName"],
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArraySerializer(item["roles"]),
+    databases: !item["databases"]
+      ? item["databases"]
+      : neonDatabasePropertiesArraySerializer(item["databases"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointPropertiesArraySerializer(item["endpoints"]),
+  };
+}
+
+export function branchPropertiesDeserializer(item: any): BranchProperties {
+  return {
+    entityId: item["entityId"],
+    entityName: item["entityName"],
+    createdAt: item["createdAt"],
+    provisioningState: item["provisioningState"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArrayDeserializer(item["attributes"]),
+    projectId: item["projectId"],
+    parentId: item["parentId"],
+    roleName: item["roleName"],
+    databaseName: item["databaseName"],
+    roles: !item["roles"]
+      ? item["roles"]
+      : neonRolePropertiesArrayDeserializer(item["roles"]),
+    databases: !item["databases"]
+      ? item["databases"]
+      : neonDatabasePropertiesArrayDeserializer(item["databases"]),
+    endpoints: !item["endpoints"]
+      ? item["endpoints"]
+      : endpointPropertiesArrayDeserializer(item["endpoints"]),
+  };
+}
+
+export function neonRolePropertiesArraySerializer(
+  result: Array<NeonRoleProperties>,
+): any[] {
+  return result.map((item) => {
+    return neonRolePropertiesSerializer(item);
+  });
+}
+
+export function neonRolePropertiesArrayDeserializer(
+  result: Array<NeonRoleProperties>,
+): any[] {
+  return result.map((item) => {
+    return neonRolePropertiesDeserializer(item);
+  });
+}
+
+/** Properties specific to Roles */
+export interface NeonRoleProperties {
+  /** Unique identifier for the entity */
+  readonly entityId?: string;
+  /** Name of the resource */
+  entityName?: string;
+  /** Timestamp indicating when the entity was created */
+  readonly createdAt?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Additional attributes for the entity */
+  attributes?: Attributes[];
+  /** The ID of the branch this role belongs to */
+  branchId?: string;
+  /** Permissions assigned to the role */
+  permissions?: string[];
+  /** Indicates whether the role has superuser privileges */
+  isSuperUser?: boolean;
+}
+
+export function neonRolePropertiesSerializer(item: NeonRoleProperties): any {
+  return {
+    entityName: item["entityName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArraySerializer(item["attributes"]),
+    branchId: item["branchId"],
+    permissions: !item["permissions"]
+      ? item["permissions"]
+      : item["permissions"].map((p: any) => {
+          return p;
+        }),
+    isSuperUser: item["isSuperUser"],
+  };
+}
+
+export function neonRolePropertiesDeserializer(item: any): NeonRoleProperties {
+  return {
+    entityId: item["entityId"],
+    entityName: item["entityName"],
+    createdAt: item["createdAt"],
+    provisioningState: item["provisioningState"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArrayDeserializer(item["attributes"]),
+    branchId: item["branchId"],
+    permissions: !item["permissions"]
+      ? item["permissions"]
+      : item["permissions"].map((p: any) => {
+          return p;
+        }),
+    isSuperUser: item["isSuperUser"],
+  };
+}
+
+export function neonDatabasePropertiesArraySerializer(
+  result: Array<NeonDatabaseProperties>,
+): any[] {
+  return result.map((item) => {
+    return neonDatabasePropertiesSerializer(item);
+  });
+}
+
+export function neonDatabasePropertiesArrayDeserializer(
+  result: Array<NeonDatabaseProperties>,
+): any[] {
+  return result.map((item) => {
+    return neonDatabasePropertiesDeserializer(item);
+  });
+}
+
+/** Properties specific to Databases */
+export interface NeonDatabaseProperties {
+  /** Unique identifier for the entity */
+  readonly entityId?: string;
+  /** Name of the resource */
+  entityName?: string;
+  /** Timestamp indicating when the entity was created */
+  readonly createdAt?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Additional attributes for the entity */
+  attributes?: Attributes[];
+  /** The ID of the branch this database belongs to */
+  branchId?: string;
+  /** The name of the role that owns the database */
+  ownerName?: string;
+}
+
+export function neonDatabasePropertiesSerializer(
+  item: NeonDatabaseProperties,
+): any {
+  return {
+    entityName: item["entityName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArraySerializer(item["attributes"]),
+    branchId: item["branchId"],
+    ownerName: item["ownerName"],
+  };
+}
+
+export function neonDatabasePropertiesDeserializer(
+  item: any,
+): NeonDatabaseProperties {
+  return {
+    entityId: item["entityId"],
+    entityName: item["entityName"],
+    createdAt: item["createdAt"],
+    provisioningState: item["provisioningState"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArrayDeserializer(item["attributes"]),
+    branchId: item["branchId"],
+    ownerName: item["ownerName"],
+  };
+}
+
+export function endpointPropertiesArraySerializer(
+  result: Array<EndpointProperties>,
+): any[] {
+  return result.map((item) => {
+    return endpointPropertiesSerializer(item);
+  });
+}
+
+export function endpointPropertiesArrayDeserializer(
+  result: Array<EndpointProperties>,
+): any[] {
+  return result.map((item) => {
+    return endpointPropertiesDeserializer(item);
+  });
+}
+
+/** Properties specific to Endpoints */
+export interface EndpointProperties {
+  /** Unique identifier for the entity */
+  readonly entityId?: string;
+  /** Name of the resource */
+  entityName?: string;
+  /** Timestamp indicating when the entity was created */
+  readonly createdAt?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Additional attributes for the entity */
+  attributes?: Attributes[];
+  /** The ID of the project this endpoint belongs to */
+  projectId?: string;
+  /** The ID of the branch this endpoint belongs to */
+  branchId?: string;
+  /** The type of the endpoint */
+  endpointType?: EndpointType;
+}
+
+export function endpointPropertiesSerializer(item: EndpointProperties): any {
+  return {
+    entityName: item["entityName"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArraySerializer(item["attributes"]),
+    projectId: item["projectId"],
+    branchId: item["branchId"],
+    endpointType: item["endpointType"],
+  };
+}
+
+export function endpointPropertiesDeserializer(item: any): EndpointProperties {
+  return {
+    entityId: item["entityId"],
+    entityName: item["entityName"],
+    createdAt: item["createdAt"],
+    provisioningState: item["provisioningState"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArrayDeserializer(item["attributes"]),
+    projectId: item["projectId"],
+    branchId: item["branchId"],
+    endpointType: item["endpointType"],
+  };
+}
+
+/** The compute endpoint type. Either read_write or read_only. */
+export enum KnownEndpointType {
+  /** ReadOnly compute endpoint type */
+  ReadOnly = "read_only",
+  /** ReadWrite compute endpoint type */
+  ReadWrite = "read_write",
+}
+
+/**
+ * The compute endpoint type. Either read_write or read_only. \
+ * {@link KnownEndpointType} can be used interchangeably with EndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **read_only**: ReadOnly compute endpoint type \
+ * **read_write**: ReadWrite compute endpoint type
+ */
+export type EndpointType = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -617,7 +1074,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -667,15 +1126,59 @@ export function _organizationResourceListResultDeserializer(
   };
 }
 
-export function organizationResourceArraySerializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArraySerializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceSerializer(item);
   });
 }
 
-export function organizationResourceArrayDeserializer(result: Array<OrganizationResource>): any[] {
+export function organizationResourceArrayDeserializer(
+  result: Array<OrganizationResource>,
+): any[] {
   return result.map((item) => {
     return organizationResourceDeserializer(item);
+  });
+}
+
+/** PostgreSQL Version model */
+export interface PgVersion {
+  /** The major PostgreSQL version number */
+  version?: number;
+}
+
+export function pgVersionSerializer(item: PgVersion): any {
+  return { version: item["version"] };
+}
+
+export function pgVersionDeserializer(item: any): PgVersion {
+  return {
+    version: item["version"],
+  };
+}
+
+/** Response model for PostgreSQL versions */
+export interface PgVersionsResult {
+  /** List of PostgreSQL versions */
+  versions: PgVersion[];
+}
+
+export function pgVersionsResultDeserializer(item: any): PgVersionsResult {
+  return {
+    versions: pgVersionArrayDeserializer(item["versions"]),
+  };
+}
+
+export function pgVersionArraySerializer(result: Array<PgVersion>): any[] {
+  return result.map((item) => {
+    return pgVersionSerializer(item);
+  });
+}
+
+export function pgVersionArrayDeserializer(result: Array<PgVersion>): any[] {
+  return result.map((item) => {
+    return pgVersionDeserializer(item);
   });
 }
 
@@ -752,6 +1255,51 @@ export function projectArrayDeserializer(result: Array<Project>): any[] {
   });
 }
 
+/** Connection uri parameters for the associated database */
+export interface ConnectionUriProperties {
+  /** Project Id associated with this connection */
+  projectId?: string;
+  /** Branch Id associated with this connection */
+  branchId?: string;
+  /** Database name associated with this connection */
+  databaseName?: string;
+  /** The role name used for authentication */
+  roleName?: string;
+  /** the endpoint Id with this connection */
+  endpointId?: string;
+  /** Indicates if the connection is pooled */
+  isPooled?: boolean;
+  /** connection uri returned for the database */
+  readonly connectionStringUri?: string;
+}
+
+export function connectionUriPropertiesSerializer(
+  item: ConnectionUriProperties,
+): any {
+  return {
+    projectId: item["projectId"],
+    branchId: item["branchId"],
+    databaseName: item["databaseName"],
+    roleName: item["roleName"],
+    endpointId: item["endpointId"],
+    isPooled: item["isPooled"],
+  };
+}
+
+export function connectionUriPropertiesDeserializer(
+  item: any,
+): ConnectionUriProperties {
+  return {
+    projectId: item["projectId"],
+    branchId: item["branchId"],
+    databaseName: item["databaseName"],
+    roleName: item["roleName"],
+    endpointId: item["endpointId"],
+    isPooled: item["isPooled"],
+    connectionStringUri: item["connectionStringUri"],
+  };
+}
+
 /** The Branch resource type. */
 export interface Branch extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -807,18 +1355,31 @@ export function branchArrayDeserializer(result: Array<Branch>): any[] {
   });
 }
 
+/** The response of a Compute list operation. */
+export interface _ComputeListResult {
+  /** The Compute items on this page */
+  value: Compute[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _computeListResultDeserializer(item: any): _ComputeListResult {
+  return {
+    value: computeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function computeArrayDeserializer(result: Array<Compute>): any[] {
+  return result.map((item) => {
+    return computeDeserializer(item);
+  });
+}
+
 /** The Compute resource type. */
 export interface Compute extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: ComputeProperties;
-}
-
-export function computeSerializer(item: Compute): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : computePropertiesSerializer(item["properties"]),
-  };
 }
 
 export function computeDeserializer(item: any): Compute {
@@ -835,30 +1396,66 @@ export function computeDeserializer(item: any): Compute {
   };
 }
 
-/** The response of a Compute list operation. */
-export interface _ComputeListResult {
-  /** The Compute items on this page */
-  value: Compute[];
+/** Properties specific to Compute */
+export interface ComputeProperties {
+  /** Unique identifier for the entity */
+  readonly entityId?: string;
+  /** Name of the resource */
+  entityName?: string;
+  /** Timestamp indicating when the entity was created */
+  readonly createdAt?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Additional attributes for the entity */
+  attributes?: Attributes[];
+  /** Region where the compute instance is located */
+  region?: string;
+  /** Number of allocated CPU cores */
+  cpuCores?: number;
+  /** Memory allocated in GB */
+  memory?: number;
+  /** Current status of the compute instance */
+  status?: string;
+}
+
+export function computePropertiesDeserializer(item: any): ComputeProperties {
+  return {
+    entityId: item["entityId"],
+    entityName: item["entityName"],
+    createdAt: item["createdAt"],
+    provisioningState: item["provisioningState"],
+    attributes: !item["attributes"]
+      ? item["attributes"]
+      : attributesArrayDeserializer(item["attributes"]),
+    region: item["region"],
+    cpuCores: item["cpuCores"],
+    memory: item["memory"],
+    status: item["status"],
+  };
+}
+
+/** The response of a NeonDatabase list operation. */
+export interface _NeonDatabaseListResult {
+  /** The NeonDatabase items on this page */
+  value: NeonDatabase[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _computeListResultDeserializer(item: any): _ComputeListResult {
+export function _neonDatabaseListResultDeserializer(
+  item: any,
+): _NeonDatabaseListResult {
   return {
-    value: computeArrayDeserializer(item["value"]),
+    value: neonDatabaseArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function computeArraySerializer(result: Array<Compute>): any[] {
+export function neonDatabaseArrayDeserializer(
+  result: Array<NeonDatabase>,
+): any[] {
   return result.map((item) => {
-    return computeSerializer(item);
-  });
-}
-
-export function computeArrayDeserializer(result: Array<Compute>): any[] {
-  return result.map((item) => {
-    return computeDeserializer(item);
+    return neonDatabaseDeserializer(item);
   });
 }
 
@@ -866,14 +1463,6 @@ export function computeArrayDeserializer(result: Array<Compute>): any[] {
 export interface NeonDatabase extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: NeonDatabaseProperties;
-}
-
-export function neonDatabaseSerializer(item: NeonDatabase): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : neonDatabasePropertiesSerializer(item["properties"]),
-  };
 }
 
 export function neonDatabaseDeserializer(item: any): NeonDatabase {
@@ -890,30 +1479,26 @@ export function neonDatabaseDeserializer(item: any): NeonDatabase {
   };
 }
 
-/** The response of a NeonDatabase list operation. */
-export interface _NeonDatabaseListResult {
-  /** The NeonDatabase items on this page */
-  value: NeonDatabase[];
+/** The response of a NeonRole list operation. */
+export interface _NeonRoleListResult {
+  /** The NeonRole items on this page */
+  value: NeonRole[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _neonDatabaseListResultDeserializer(item: any): _NeonDatabaseListResult {
+export function _neonRoleListResultDeserializer(
+  item: any,
+): _NeonRoleListResult {
   return {
-    value: neonDatabaseArrayDeserializer(item["value"]),
+    value: neonRoleArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function neonDatabaseArraySerializer(result: Array<NeonDatabase>): any[] {
+export function neonRoleArrayDeserializer(result: Array<NeonRole>): any[] {
   return result.map((item) => {
-    return neonDatabaseSerializer(item);
-  });
-}
-
-export function neonDatabaseArrayDeserializer(result: Array<NeonDatabase>): any[] {
-  return result.map((item) => {
-    return neonDatabaseDeserializer(item);
+    return neonRoleDeserializer(item);
   });
 }
 
@@ -921,14 +1506,6 @@ export function neonDatabaseArrayDeserializer(result: Array<NeonDatabase>): any[
 export interface NeonRole extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: NeonRoleProperties;
-}
-
-export function neonRoleSerializer(item: NeonRole): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : neonRolePropertiesSerializer(item["properties"]),
-  };
 }
 
 export function neonRoleDeserializer(item: any): NeonRole {
@@ -945,30 +1522,26 @@ export function neonRoleDeserializer(item: any): NeonRole {
   };
 }
 
-/** The response of a NeonRole list operation. */
-export interface _NeonRoleListResult {
-  /** The NeonRole items on this page */
-  value: NeonRole[];
+/** The response of a Endpoint list operation. */
+export interface _EndpointListResult {
+  /** The Endpoint items on this page */
+  value: Endpoint[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _neonRoleListResultDeserializer(item: any): _NeonRoleListResult {
+export function _endpointListResultDeserializer(
+  item: any,
+): _EndpointListResult {
   return {
-    value: neonRoleArrayDeserializer(item["value"]),
+    value: endpointArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function neonRoleArraySerializer(result: Array<NeonRole>): any[] {
+export function endpointArrayDeserializer(result: Array<Endpoint>): any[] {
   return result.map((item) => {
-    return neonRoleSerializer(item);
-  });
-}
-
-export function neonRoleArrayDeserializer(result: Array<NeonRole>): any[] {
-  return result.map((item) => {
-    return neonRoleDeserializer(item);
+    return endpointDeserializer(item);
   });
 }
 
@@ -976,14 +1549,6 @@ export function neonRoleArrayDeserializer(result: Array<NeonRole>): any[] {
 export interface Endpoint extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: EndpointProperties;
-}
-
-export function endpointSerializer(item: Endpoint): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : endpointPropertiesSerializer(item["properties"]),
-  };
 }
 
 export function endpointDeserializer(item: any): Endpoint {
@@ -998,33 +1563,6 @@ export function endpointDeserializer(item: any): Endpoint {
       ? item["properties"]
       : endpointPropertiesDeserializer(item["properties"]),
   };
-}
-
-/** The response of a Endpoint list operation. */
-export interface _EndpointListResult {
-  /** The Endpoint items on this page */
-  value: Endpoint[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _endpointListResultDeserializer(item: any): _EndpointListResult {
-  return {
-    value: endpointArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function endpointArraySerializer(result: Array<Endpoint>): any[] {
-  return result.map((item) => {
-    return endpointSerializer(item);
-  });
-}
-
-export function endpointArrayDeserializer(result: Array<Endpoint>): any[] {
-  return result.map((item) => {
-    return endpointDeserializer(item);
-  });
 }
 
 /** Supported API versions for the Neon.Postgres resource provider. */
