@@ -79,9 +79,8 @@ function _getOrganizations(context: PostgresContext) {
       resourceGroupName: string,
       options?: OrganizationsGetPostgresVersionsOptionalParams,
     ) => getPostgresVersions(context, resourceGroupName, options),
-    listBySubscription: (
-      options?: OrganizationsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: OrganizationsListByResourceGroupOptionalParams,
@@ -96,21 +95,13 @@ function _getOrganizations(context: PostgresContext) {
       organizationName: string,
       properties: OrganizationResource,
       options?: OrganizationsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, organizationName, properties, options),
+    ) => update(context, resourceGroupName, organizationName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
       resource: OrganizationResource,
       options?: OrganizationsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        organizationName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, organizationName, resource, options),
     get: (
       resourceGroupName: string,
       organizationName: string,
@@ -119,9 +110,7 @@ function _getOrganizations(context: PostgresContext) {
   };
 }
 
-export function _getOrganizationsOperations(
-  context: PostgresContext,
-): OrganizationsOperations {
+export function _getOrganizationsOperations(context: PostgresContext): OrganizationsOperations {
   return {
     ..._getOrganizations(context),
   };

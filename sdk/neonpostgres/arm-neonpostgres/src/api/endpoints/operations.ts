@@ -43,15 +43,13 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(
@@ -78,15 +76,7 @@ export function list(
 ): PagedAsyncIterableIterator<Endpoint> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listSend(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    () => _listSend(context, resourceGroupName, organizationName, projectName, branchName, options),
     _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -27,21 +27,11 @@ function _getNeonDatabases(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: NeonDatabasesListOptionalParams,
-    ) =>
-      list(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 
-export function _getNeonDatabasesOperations(
-  context: PostgresContext,
-): NeonDatabasesOperations {
+export function _getNeonDatabasesOperations(context: PostgresContext): NeonDatabasesOperations {
   return {
     ..._getNeonDatabases(context),
   };

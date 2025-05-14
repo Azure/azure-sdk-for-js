@@ -27,21 +27,11 @@ function _getNeonRoles(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: NeonRolesListOptionalParams,
-    ) =>
-      list(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 
-export function _getNeonRolesOperations(
-  context: PostgresContext,
-): NeonRolesOperations {
+export function _getNeonRolesOperations(context: PostgresContext): NeonRolesOperations {
   return {
     ..._getNeonRoles(context),
   };

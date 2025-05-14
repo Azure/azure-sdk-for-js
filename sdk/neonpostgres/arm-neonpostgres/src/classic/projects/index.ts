@@ -92,14 +92,7 @@ function _getProjects(context: PostgresContext) {
       organizationName: string,
       projectName: string,
       options?: ProjectsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, organizationName, projectName, options),
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
@@ -107,27 +100,17 @@ function _getProjects(context: PostgresContext) {
       resource: Project,
       options?: ProjectsCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        resource,
-        options,
-      ),
+      createOrUpdate(context, resourceGroupName, organizationName, projectName, resource, options),
     get: (
       resourceGroupName: string,
       organizationName: string,
       projectName: string,
       options?: ProjectsGetOptionalParams,
-    ) =>
-      get(context, resourceGroupName, organizationName, projectName, options),
+    ) => get(context, resourceGroupName, organizationName, projectName, options),
   };
 }
 
-export function _getProjectsOperations(
-  context: PostgresContext,
-): ProjectsOperations {
+export function _getProjectsOperations(context: PostgresContext): ProjectsOperations {
   return {
     ..._getProjects(context),
   };

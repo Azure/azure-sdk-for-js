@@ -27,21 +27,11 @@ function _getEndpoints(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: EndpointsListOptionalParams,
-    ) =>
-      list(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 
-export function _getEndpointsOperations(
-  context: PostgresContext,
-): EndpointsOperations {
+export function _getEndpointsOperations(context: PostgresContext): EndpointsOperations {
   return {
     ..._getEndpoints(context),
   };

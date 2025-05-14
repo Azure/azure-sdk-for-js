@@ -27,21 +27,11 @@ function _getComputes(context: PostgresContext) {
       projectName: string,
       branchName: string,
       options?: ComputesListOptionalParams,
-    ) =>
-      list(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        options,
-      ),
+    ) => list(context, resourceGroupName, organizationName, projectName, branchName, options),
   };
 }
 
-export function _getComputesOperations(
-  context: PostgresContext,
-): ComputesOperations {
+export function _getComputesOperations(context: PostgresContext): ComputesOperations {
   return {
     ..._getComputes(context),
   };

@@ -74,9 +74,7 @@ async function organizationsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedBy
           roles: [
             {
               entityName: "entity-name",
-              attributes: [
-                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
-              ],
+              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
               branchId: "wxbojkmdgaggkfiwqfakdkbyztm",
               permissions: ["myucqecpjriewzohxvadgkhiudnyx"],
               isSuperUser: true,
@@ -85,9 +83,7 @@ async function organizationsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedBy
           databases: [
             {
               entityName: "entity-name",
-              attributes: [
-                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
-              ],
+              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
               branchId: "orfdwdmzvfvlnrgussvcvoek",
               ownerName: "odmbeg",
             },
@@ -95,9 +91,7 @@ async function organizationsUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedBy
           endpoints: [
             {
               entityName: "entity-name",
-              attributes: [
-                { name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" },
-              ],
+              attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
               projectId: "rtvdeeflqzlrpfzhjqhcsfbldw",
               branchId: "rzsyrhpfbydxtfkpaa",
               endpointType: "read_only",

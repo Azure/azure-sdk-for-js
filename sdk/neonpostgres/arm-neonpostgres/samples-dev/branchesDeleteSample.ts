@@ -14,12 +14,7 @@ async function branchesDeleteMaximumSetGeneratedByMaximumSetRuleGeneratedByMaxim
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  await client.branches.delete(
-    "rgneon",
-    "contoso-org",
-    "sample-resource",
-    "sample-resource",
-  );
+  await client.branches.delete("rgneon", "contoso-org", "sample-resource", "sample-resource");
 }
 
 async function main(): Promise<void> {
