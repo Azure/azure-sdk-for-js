@@ -7,6 +7,7 @@
  * Get the image embeddings for a given image.
  */
 const path = require("path");
+const fs = require("fs");
 const { fileURLToPath } = require("url");
 const { AIProjectClient } = require("@azure/ai-projects");
 const { isUnexpected } = require("@azure-rest/ai-inference");
@@ -18,17 +19,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const deploymentName = process.env["DEPLOYMENT_NAME"] || "<embedding deployment name>";
+const deploymentName =
+  process.env["IMAGE_EMBEDDING_DEPLOYMENT_NAME"] || "<embedding deployment name>";
 async function main() {
-  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential(), {
+    apiVersion: "2024-05-01-preview",
+  });
   const client = project.inference.imageEmbeddings();
   const imagePath = path.resolve(__dirname, "sample1.png");
   const ext = path.extname(imagePath).slice(1); // e.g., 'png', 'jpg', 'jpeg'
   const mineType = `image/${ext === "jpg" ? "jpeg" : ext}`;
-  const imageBuffer = Buffer.from(imagePath, "base64");
+  const imageBuffer = fs.readFileSync(imagePath);
   // base64 url encoded image
-  const imageUrl = `data:${mineType};base64,${imageBuffer.toString("base64")}`;
-
+  const base64Data = imageBuffer.toString("base64");
+  const imageUrl = `data:${mineType};base64,${base64Data}`;
   const response = await client.post({
     body: {
       model: deploymentName,

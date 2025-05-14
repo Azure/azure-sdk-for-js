@@ -20,7 +20,7 @@ const embeddingDeploymentName =
 export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
   const client = project.inference.embeddings({
-    apiVersion: "2023-05-15",
+    apiVersion: "2024-05-01-preview",
   });
   const response = await client.post({
     body: {
