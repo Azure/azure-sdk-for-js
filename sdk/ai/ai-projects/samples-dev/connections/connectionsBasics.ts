@@ -31,7 +31,14 @@ export async function main(): Promise<void> {
   // Get the details of a connection, without credentials
   const connectionName = connections[0].name;
   const connection = await project.connections.get(connectionName);
-  console.log("connection.type: ", connection.type, "connection.name: ", connection.name, "connection.target: ", connection.target);
+  console.log(
+    "connection.type: ",
+    connection.type,
+    "connection.name: ",
+    connection.name,
+    "connection.target: ",
+    connection.target,
+  );
 
   const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
   const credentials = connectionWithCredentials.credentials;
