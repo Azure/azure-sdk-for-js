@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import {
-  ExperimentExecution,
-  ExperimentExecutionDetails,
-} from "../../models/models.js";
+import { ExperimentExecution, ExperimentExecutionDetails } from "../../models/models.js";
 import {
   ExperimentExecutionsGetExecutionDetailsOptionalParams,
   ExperimentExecutionsListAllExecutionsOptionalParams,
@@ -49,14 +46,7 @@ function _getExperimentExecutions(context: ChaosManagementContext) {
       experimentName: string,
       executionId: string,
       options?: ExperimentExecutionsGetExecutionDetailsOptionalParams,
-    ) =>
-      getExecutionDetails(
-        context,
-        resourceGroupName,
-        experimentName,
-        executionId,
-        options,
-      ),
+    ) => getExecutionDetails(context, resourceGroupName, experimentName, executionId, options),
     listAllExecutions: (
       resourceGroupName: string,
       experimentName: string,
@@ -67,14 +57,7 @@ function _getExperimentExecutions(context: ChaosManagementContext) {
       experimentName: string,
       executionId: string,
       options?: ExperimentExecutionsGetExecutionOptionalParams,
-    ) =>
-      getExecution(
-        context,
-        resourceGroupName,
-        experimentName,
-        executionId,
-        options,
-      ),
+    ) => getExecution(context, resourceGroupName, experimentName, executionId, options),
   };
 }
 

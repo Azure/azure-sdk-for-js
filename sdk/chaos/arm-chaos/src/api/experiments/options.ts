@@ -44,8 +44,7 @@ export interface ExperimentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ExperimentsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface ExperimentsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

@@ -15,10 +15,7 @@ async function listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Lo
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const client = new ChaosManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.capabilityTypes.list(
-    "westus2",
-    "Microsoft-VirtualMachine",
-  )) {
+  for await (const item of client.capabilityTypes.list("westus2", "Microsoft-VirtualMachine")) {
     resArray.push(item);
   }
 

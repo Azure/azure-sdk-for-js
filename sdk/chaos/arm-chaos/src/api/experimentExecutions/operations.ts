@@ -50,15 +50,13 @@ export function _getExecutionDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getExecutionDetailsDeserialize(
@@ -114,15 +112,13 @@ export function _listAllExecutionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listAllExecutionsDeserialize(
@@ -149,13 +145,7 @@ export function listAllExecutions(
 ): PagedAsyncIterableIterator<ExperimentExecution> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listAllExecutionsSend(
-        context,
-        resourceGroupName,
-        experimentName,
-        options,
-      ),
+    () => _listAllExecutionsSend(context, resourceGroupName, experimentName, options),
     _listAllExecutionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -184,15 +174,13 @@ export function _getExecutionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getExecutionDeserialize(

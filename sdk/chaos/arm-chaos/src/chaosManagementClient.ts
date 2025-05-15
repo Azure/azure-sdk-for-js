@@ -10,30 +10,18 @@ import {
   OperationStatusesOperations,
   _getOperationStatusesOperations,
 } from "./classic/operationStatuses/index.js";
-import {
-  TargetTypesOperations,
-  _getTargetTypesOperations,
-} from "./classic/targetTypes/index.js";
+import { TargetTypesOperations, _getTargetTypesOperations } from "./classic/targetTypes/index.js";
 import {
   ExperimentExecutionsOperations,
   _getExperimentExecutionsOperations,
 } from "./classic/experimentExecutions/index.js";
-import {
-  ExperimentsOperations,
-  _getExperimentsOperations,
-} from "./classic/experiments/index.js";
+import { ExperimentsOperations, _getExperimentsOperations } from "./classic/experiments/index.js";
 import {
   CapabilityTypesOperations,
   _getCapabilityTypesOperations,
 } from "./classic/capabilityTypes/index.js";
-import {
-  TargetsOperations,
-  _getTargetsOperations,
-} from "./classic/targets/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { TargetsOperations, _getTargetsOperations } from "./classic/targets/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   CapabilitiesOperations,
   _getCapabilitiesOperations,
@@ -65,9 +53,7 @@ export class ChaosManagementClient {
     this.pipeline = this._client.pipeline;
     this.operationStatuses = _getOperationStatusesOperations(this._client);
     this.targetTypes = _getTargetTypesOperations(this._client);
-    this.experimentExecutions = _getExperimentExecutionsOperations(
-      this._client,
-    );
+    this.experimentExecutions = _getExperimentExecutionsOperations(this._client);
     this.experiments = _getExperimentsOperations(this._client);
     this.capabilityTypes = _getCapabilityTypesOperations(this._client);
     this.targets = _getTargetsOperations(this._client);

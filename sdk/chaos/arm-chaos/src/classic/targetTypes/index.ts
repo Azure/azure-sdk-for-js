@@ -29,17 +29,12 @@ function _getTargetTypes(context: ChaosManagementContext) {
   return {
     list: (location: string, options?: TargetTypesListOptionalParams) =>
       list(context, location, options),
-    get: (
-      location: string,
-      targetTypeName: string,
-      options?: TargetTypesGetOptionalParams,
-    ) => get(context, location, targetTypeName, options),
+    get: (location: string, targetTypeName: string, options?: TargetTypesGetOptionalParams) =>
+      get(context, location, targetTypeName, options),
   };
 }
 
-export function _getTargetTypesOperations(
-  context: ChaosManagementContext,
-): TargetTypesOperations {
+export function _getTargetTypesOperations(context: ChaosManagementContext): TargetTypesOperations {
   return {
     ..._getTargetTypes(context),
   };

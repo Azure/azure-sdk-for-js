@@ -29,11 +29,8 @@ export interface CapabilityTypesOperations {
 
 function _getCapabilityTypes(context: ChaosManagementContext) {
   return {
-    list: (
-      location: string,
-      targetTypeName: string,
-      options?: CapabilityTypesListOptionalParams,
-    ) => list(context, location, targetTypeName, options),
+    list: (location: string, targetTypeName: string, options?: CapabilityTypesListOptionalParams) =>
+      list(context, location, targetTypeName, options),
     get: (
       location: string,
       targetTypeName: string,
