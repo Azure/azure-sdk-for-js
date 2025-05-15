@@ -649,12 +649,11 @@ describe("CallMedia Unit Tests", async function () {
     await callMedia.playToAll(playSource, options);
     const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
-
     assert.equal(data.playSources[0].kind, "file");
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.playOptions.interruptCallMediaOperation, options.interruptCallMediaOperation);
+    assert.equal(data.interruptCallMediaOperation, options.interruptCallMediaOperation);
   });
 
   it("makes successful PlayToAll barge in request with PlayOptions instead of PlayToAllOptions", async function () {
@@ -682,7 +681,7 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.playOptions.interruptCallMediaOperation, undefined);
+    assert.equal(data.interruptCallMediaOperation, undefined);
   });
 });
 

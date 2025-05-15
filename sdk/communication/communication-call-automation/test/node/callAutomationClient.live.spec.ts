@@ -142,7 +142,6 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
     if (incomingCallContext) {
       const answerCallOptions: AnswerCallOptions = {
         operationContext: "operationContextAnswerCall",
-        customCallingContext: [{ kind: "voip", key: "foo", value: "bar" }],
       };
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
