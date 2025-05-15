@@ -13,16 +13,12 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const databaseId = process.env["DATABASE_ID"] || "<database id>";
+const evaluationDeploymentName =
+  process.env["EVALUATION_DEPLOYMENT_NAME"] || "<evaluation deployment name>";
 
 async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-
-  // const dataset: DatasetVersion = await project.datasets.uploadFile(
-  //   "jss-eval-sample-dataset",
-  //   "1",
-  //   "./samples_folder/sample_data_evaluation.jsonl",
-  // );
-  // console.log(dataset.name);
 
   // create a new evaluation
   const newEvaluation = {
@@ -30,13 +26,14 @@ async function main() {
     description: "This is a test evaluation",
     data: {
       type: "dataset",
-      id: "data-id", // dataset.name
+      // return by project.datasets.uploadFile().name for example
+      id: databaseId,
     },
     evaluators: {
       relevance: {
         id: EvaluatorIds.RELEVANCE,
         initParams: {
-          deploymentName: "gpt-4o-mini",
+          deploymentName: evaluationDeploymentName,
         },
         dataMapping: {
           query: "${data.query}",
