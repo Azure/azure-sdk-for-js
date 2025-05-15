@@ -244,7 +244,7 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -2318,7 +2318,7 @@ describe("Call Media Client Live Tests", function () {
         },
       ];
 
-      const playOption: PlayOptions = { operationContext: "playAudio", interruptHoldAudio: true };
+      const playOption: PlayOptions = { operationContext: "playAudio"};
       await callConnection.getCallMedia().play(playSource, [testUser2], playOption);
       const holdAudioPausedEvent = await waitForEvent("HoldAudioPaused", callConnectionId, 8000);
       assert.isDefined(holdAudioPausedEvent);

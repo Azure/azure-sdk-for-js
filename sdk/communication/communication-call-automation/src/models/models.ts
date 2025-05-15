@@ -174,8 +174,6 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
@@ -248,11 +246,7 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 /** SIP Custom header. */
 export interface SipCustomHeader extends CustomCallingContextHeader {
   kind: "sipx";
-  sipHeaderPrefix?: SipHeaderPrefix;
 }
-
-/** The type of the Sip header prefix. */
-export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Custom Calling Context */
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];

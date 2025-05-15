@@ -4,7 +4,6 @@
 import type {
   PhoneNumberIdentifier,
   CommunicationIdentifier,
-  MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 import type {
@@ -118,14 +117,6 @@ export interface CreateCallOptions extends OperationOptions {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptions;
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
-  /**
-   * Overrides default client source by a MicrosoftTeamsAppIdentifier type source.
-   * Required for creating call with Teams resource account ID.
-   * This is per-operation setting and does not change the client's default source.
-   */
-  teamsAppSource?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -134,8 +125,6 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Used by customer to send custom context to targets. */
-  customCallingContext?: CustomCallingContext;
   /** Options for Media streaming. */
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Options for live transcription. */
@@ -226,8 +215,6 @@ export interface PlayOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
-  /** If set, hold audio will be interrupted, then this request will be played, and then the hold audio will be resumed. */
-  interruptHoldAudio?: boolean;
 }
 
 /**

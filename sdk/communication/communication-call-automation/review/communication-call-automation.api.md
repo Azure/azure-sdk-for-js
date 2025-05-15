@@ -54,7 +54,6 @@ export interface AddParticipantSucceeded {
 // @public
 export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    customCallingContext?: CustomCallingContext;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     transcriptionOptions?: TranscriptionOptions;
@@ -361,10 +360,6 @@ export interface CancelAddParticipantSucceeded {
     serverCallId: string;
 }
 
-// @public
-export interface CancelAllMediaOperationsResult {
-}
-
 // @public (undocumented)
 export enum Channel {
     // (undocumented)
@@ -458,12 +453,10 @@ export interface CreateCallFailed {
 // @public
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    customCallingContext?: CustomCallingContext;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    teamsAppSource?: MicrosoftTeamsAppIdentifier;
     transcriptionOptions?: TranscriptionOptions;
 }
 
@@ -719,14 +712,9 @@ export interface PlayFailed {
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    interruptHoldAudio?: boolean;
     loop?: boolean;
     operationCallbackUrl?: string;
     operationContext?: string;
-}
-
-// @public
-export interface PlayResult {
 }
 
 // @public
@@ -799,7 +787,6 @@ export interface RecognizeFailed {
 
 // @public
 export enum RecognizeInputType {
-    Choices = "choices",
     Dtmf = "dtmf"
 }
 
@@ -943,12 +930,7 @@ export interface SendDtmfTonesResult {
 export interface SipCustomHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "sipx";
-    // (undocumented)
-    sipHeaderPrefix?: SipHeaderPrefix;
 }
-
-// @public
-export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
@@ -976,10 +958,6 @@ export interface SsmlSource extends PlaySource {
 export interface StartMediaStreamingOptions extends OperationOptions {
     operationCallbackUrl?: string;
     operationContext?: string;
-}
-
-// @public
-export interface StartRecognizingResult {
 }
 
 // @public

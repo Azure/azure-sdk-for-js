@@ -78,23 +78,10 @@ export interface RecordingStateResult {
   recordingState: RecordingState;
 }
 
-/** The response payload for starting a call recording or getting call recording state. */
-export interface CancelAllMediaOperationsResult {
-
-}
-
-/** The response from play. */
-export interface PlayResult {
-}
-
 /** The response payload for sending DTMF tones. */
 export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
-}
-
-/** The response from recognizing. */
-export interface StartRecognizingResult {
 }
 
 /** The response payload for cancelling add participant request. */

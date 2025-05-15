@@ -145,11 +145,6 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    if (options.interruptHoldAudio !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || {
-        loop: false,
-      };
-    }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
