@@ -5,7 +5,7 @@ param enableVersioning bool = false
 param storageEndpointSuffix string = environment().suffixes.storage
 param baseTime string = utcNow('u')
 
-var storageApiVersion = '2023-01-01'
+var storageApiVersion = '2023-05-01'
 var location = resourceGroup().location
 var accountName = baseName
 var datalakeAccountName = 'dl${baseName}'
