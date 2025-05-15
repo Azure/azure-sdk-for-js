@@ -700,6 +700,8 @@ export interface StartRecordingFailed {
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Use this to correlate the request to the response event. */
+  operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** The call recording Id. */

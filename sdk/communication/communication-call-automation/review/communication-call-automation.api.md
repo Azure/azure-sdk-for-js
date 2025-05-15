@@ -1135,6 +1135,7 @@ export interface StartRecordingFailed {
     callConnectionId: string;
     correlationId: string;
     kind: "StartRecordingFailed";
+    operationContext?: string;
     recordingId?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
