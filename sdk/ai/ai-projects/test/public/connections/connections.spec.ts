@@ -60,24 +60,23 @@ describe("connections - basic", () => {
     }
   });
 
-  // it("should retrieve a connection with secrets", async function () {
-  //   // List connections
-  //   const connectionsListIterator = connections.list();
-  //   const connectionsList: Connection[] = [];
-  //   for await (const connection of connectionsListIterator) {
-  //     connectionsList.push(connection);
-  //   }
-  //   assert.isNotNull(connectionsList);
-  //   assert.isAtLeast(connectionsList.length, 1);
+  it("should retrieve a connection with secrets", async function () {
+    // List connections
+    const connectionsListIterator = connections.list();
+    const connectionsList: Connection[] = [];
+    for await (const connection of connectionsListIterator) {
+      connectionsList.push(connection);
+    }
+    assert.isNotNull(connectionsList);
+    assert.isAtLeast(connectionsList.length, 1);
 
-  //   // Retrieve one connection with secrets
-  //   for (const _connection of connectionsList) {
-  //     const connectionName = _connection.name;
-  //     const connection = await connections.getWithCredentials(connectionName);
-  //     assert.isNotNull(connection);
-  //     assert.equal(connection.name, connectionName);
-  //     assert.isNotNull(connection.credentials);
-  //     console.log(`Retrieved connection with secrets, connection name: ${connection.name}`);
-  //   }
-  // });
+    // Retrieve one connection with secrets
+    for (const _connection of connectionsList) {
+      const connectionName = _connection.name;
+      const connection = await connections.getWithCredentials(connectionName);
+      assert.isNotNull(connection);
+      assert.equal(connection.name, connectionName);
+      assert.isNotNull(connection.credentials);
+    }
+  });
 });
