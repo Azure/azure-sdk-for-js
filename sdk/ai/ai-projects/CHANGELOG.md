@@ -16,12 +16,12 @@ Please see updated samples.
 ### Features added
 
 - `.deployment` methods to enumerate the deployed AI models in your AI Foundry project.
-- `.datasets` method to upload documents and reference them. These documents will be used to augment the capability
+- `.datasets` methods to upload documents and reference them. These documents will be used to augment the capability
   of your selected LLM (RAG pattern).
 - `.indexes` methods to handle your AI search indexes and search queries, as part of RAG pattern.
 - `.evaluations` methods to assess the performance of generative AI applications in the cloud.
-- `.inference` methods
-- `.telemetry` methods
+- `.inference` methods to get an Azure AI Inference client for chat completions, text or image embeddings.
+- `.telemetry` methods to enable OpenTelemetry tracing using the `enableTelemetry` function.
 
 ## 1.0.0-beta.5 (2025-04-18)
 
