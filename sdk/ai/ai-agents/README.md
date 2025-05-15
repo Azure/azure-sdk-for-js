@@ -4,6 +4,10 @@ Use the AI Agents client library to:
 
 - **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases.
 
+* **Note:** While this package can be used independently, we recommend using the [Azure AI Projects client library](https://www.npmjs.com/package/@azure/ai-projects) for an enhanced experience.
+  The Projects library provides simplified access to advanced functionality, such as creating and managing agents, enumerating AI models, working with datasets and
+  managing search indexes, evaluating generative AI performance, and enabling OpenTelemetry tracing.
+
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples/)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-agents)
