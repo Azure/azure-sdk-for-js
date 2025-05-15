@@ -251,7 +251,7 @@ export interface AgentsOperations {
 
   /** Returns a list of vector stores. */
   listVectorStores: (
-    options?: DeleteVectorStoreOptionalParams,
+    options?: ListVectorStoresOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
   createVectorStore: (
@@ -260,7 +260,7 @@ export interface AgentsOperations {
   /** Returns the vector store object object matching the specific ID. */
   getVectorStore: (
     vectorStoreId: string,
-    options?: DeleteVectorStoreOptionalParams,
+    options?: GetVectorStoreOptionalParams,
   ) => Promise<VectorStoreOutput>;
   /** The ID of the vector store to modify. */
   modifyVectorStore: (

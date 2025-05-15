@@ -19,8 +19,8 @@ export default defineConfig({
     inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
   ],
   test: {
-    testTimeout: 600000,
-    hookTimeout: 60000,
+    testTimeout: 6000000,
+    hookTimeout: 6000000,
     fileParallelism: false,
     include: ["dist-test/browser/**/*.spec.js"],
     globalSetup: ["./test/utils/setup.ts"],

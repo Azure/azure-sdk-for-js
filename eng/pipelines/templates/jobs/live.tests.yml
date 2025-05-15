@@ -119,13 +119,6 @@ jobs:
           node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build libraries"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-      - script: |
-          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
-        displayName: "Build test assets"
-        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
-
       - script: |
           npm install
           node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
@@ -215,9 +208,9 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              node ../../../common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries - PackagePath"
+          displayName: "Test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -237,9 +230,9 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries - PackageTestPath"
+          displayName: "Integration test libraries - min/max testing"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -274,8 +267,8 @@ jobs:
 
       - ${{ else }}:
         - script: |
-            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries - PackagePath"
+            node ../../../common/scripts/install-run-rushx.js test:$(TestType)
+          displayName: "Integration test libraries"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
@@ -284,8 +277,8 @@ jobs:
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - script: |
-            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries - PackageTestPath"
+            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js test:$(TestType)
+          displayName: "Test libraries - min/max testing"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:

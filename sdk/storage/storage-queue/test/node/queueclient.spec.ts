@@ -109,6 +109,27 @@ describe("QueueClient Node.js only", () => {
     assert.deepEqual(result.signedIdentifiers, queueAcl);
   });
 
+  it("setAccessPolicy with OAuth", async () => {
+    const queueClientWithOAuthToken = new QueueClient(queueClient.url, createTestCredential());
+
+    configureStorageClient(recorder, queueClientWithOAuthToken);
+
+    const queueAcl = [
+      {
+        accessPolicy: {
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: "raup",
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
+        },
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
+      },
+    ];
+
+    await queueClientWithOAuthToken.setAccessPolicy(queueAcl);
+    const result = await queueClientWithOAuthToken.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, queueAcl);
+  });
+
   it("setAccessPolicy should work when permissions, expiry and start undefined", async () => {
     const queueAcl = [
       {
