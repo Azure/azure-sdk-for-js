@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const databaseId = process.env["DATABASE_ID"] || "<database id>";
+const datasetId = process.env["EVALUATION_DATASET_ID"] || "<evaluation dataset id>";
 const evaluationDeploymentName =
   process.env["EVALUATION_DEPLOYMENT_NAME"] || "<evaluation deployment name>";
 
@@ -27,7 +27,7 @@ async function main() {
     data: {
       type: "dataset",
       // return by project.datasets.uploadFile().name for example
-      id: databaseId,
+      id: datasetId,
     },
     evaluators: {
       relevance: {
