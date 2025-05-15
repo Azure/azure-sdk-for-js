@@ -1,6 +1,6 @@
 # Azure AI Projects client library for JavaScript
 
-The AI Projects client library (in preview) provides easy access to resources in your Azure AI Foundry project.
+The AI Projects client library provides easy access to resources in your Azure AI Foundry project.
 Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
