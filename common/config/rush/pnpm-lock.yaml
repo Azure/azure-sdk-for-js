@@ -16,6 +16,9 @@ importers:
       '@rush-temp/agrifood-farming':
         specifier: file:./projects/agrifood-farming.tgz
         version: file:projects/agrifood-farming.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/ai-agents':
+        specifier: file:./projects/ai-agents.tgz
+        version: file:projects/ai-agents.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-anomaly-detector':
         specifier: file:./projects/ai-anomaly-detector.tgz
         version: file:projects/ai-anomaly-detector.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -1060,6 +1063,9 @@ importers:
       '@rush-temp/maps-timezone':
         specifier: file:./projects/maps-timezone.tgz
         version: file:projects/maps-timezone.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/mcp-server':
+        specifier: file:./projects/mcp-server.tgz
+        version: file:projects/mcp-server.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(yaml@2.7.1)
       '@rush-temp/microsoft-playwright-testing':
         specifier: file:./projects/microsoft-playwright-testing.tgz
         version: file:projects/microsoft-playwright-testing.tgz(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -1267,6 +1273,9 @@ importers:
       '@rush-temp/web-pubsub-express':
         specifier: file:./projects/web-pubsub-express.tgz
         version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      pg-protocol:
+        specifier: 1.8.0
+        version: 1.8.0
 
 packages:
 
@@ -1382,6 +1391,10 @@ packages:
     resolution: {integrity: sha512-DxOSLua+NdpWoSqULhjDyAZTXFdP/LKkqtYuxxz1SCN289zk3OG8UOpnCQAz/tygyACBtWp/BoO72ptK7msY8g==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/core-xml@1.4.5':
+    resolution: {integrity: sha512-gT4H8mTaSXRz7eGTuQyq1aIJnJqeXzpOe9Ay7Z3FrCouer14CbV3VzjnJrNrQfbBpGBLO9oy8BmrY75A0p53cA==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/functions@3.5.1':
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
 
@@ -1467,6 +1480,10 @@ packages:
 
   '@azure/search-documents@12.1.0':
     resolution: {integrity: sha512-IzD+hfqGqFtXymHXm4RzrZW2MsSH2M7RLmZsKaKVi7SUxbeYTUeX+ALk8gVzkM8ykb7EzlDLWCNErKfAa57rYQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/storage-file-share@12.27.0':
+    resolution: {integrity: sha512-5YX982NPNPIo9QwH4TUg5qSJy82rcnExU9F5IJcRKImN2mCJzuX0ogheV37CEax1owG5bXFUrU8iWqyM/yGnfQ==}
     engines: {node: '>=18.0.0'}
 
   '@azure/template@1.0.13-beta.1':
@@ -1863,6 +1880,10 @@ packages:
   '@microsoft/tsdoc@0.15.1':
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
 
+  '@modelcontextprotocol/sdk@1.11.2':
+    resolution: {integrity: sha512-H9vwztj5OAqHg9GockCQC06k1natgcxWQSRpQcPJf6i5+MWBzfKkRtxGbjQf0X2ihii0ffLZCRGbYV2f2bjNCQ==}
+    engines: {node: '>=18'}
+
   '@mswjs/interceptors@0.37.6':
     resolution: {integrity: sha512-wK+5pLK5XFmgtH3aQ2YVvA3HohS3xqV/OxuVOdNx9Wpnz7VE/fnC+e1A7ln6LFYeck7gOJ/dsZV6OLplOtAJ2w==}
     engines: {node: '>=18'}
@@ -1894,6 +1915,10 @@ packages:
 
   '@opentelemetry/api-logs@0.53.0':
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
+    engines: {node: '>=14'}
+
+  '@opentelemetry/api-logs@0.57.0':
+    resolution: {integrity: sha512-l1aJ30CXeauVYaI+btiynHpw341LthkMTv3omi1VJDX14werY2Wmv9n1yudMsq9HuY0m8PvXEVX4d8zxEb+WRg==}
     engines: {node: '>=14'}
 
   '@opentelemetry/api-logs@0.57.2':
@@ -2050,6 +2075,12 @@ packages:
 
   '@opentelemetry/instrumentation@0.53.0':
     resolution: {integrity: sha512-DMwg0hy4wzf7K73JJtl95m/e0boSoWhH07rfvHvYzQtBD3Bmv0Wc1x733vyZBqmFm8OjJD0/pfiUg1W3JjFX0A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+
+  '@opentelemetry/instrumentation@0.57.0':
+    resolution: {integrity: sha512-qIKp+tSCLqofneUWRc5XHtr9jHIq0N0BJfaJamM9gjEFO8sthV4SDXDGNOSAx16PxkbrQJ5/AxMPAGCXl8W/Hg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -2361,6 +2392,10 @@ packages:
     resolution: {integrity: sha512-letS4nJatlX94Gh4VaxmrN42eTP+mMnmoKmI7Oz3q9r8qIe1JlFeLhFJLtIGVMyrXoZ45Wj5nDkS5LXg+kODzA==, tarball: file:projects/agrifood-farming.tgz}
     version: 0.0.0
 
+  '@rush-temp/ai-agents@file:projects/ai-agents.tgz':
+    resolution: {integrity: sha512-4sD9rwZ4kGB8LULubiIOLUkVb0gBvfWTkB3Aqzn8ZW4o6cHxUshe12oclqht9X17CacIlym/nMA0d03QF16nfw==, tarball: file:projects/ai-agents.tgz}
+    version: 0.0.0
+
   '@rush-temp/ai-anomaly-detector@file:projects/ai-anomaly-detector.tgz':
     resolution: {integrity: sha512-mHcbQunzFdf+97SDxTy+3IzOYQ2VsevByu4jqWKnRXnCi0bc+SFBeirA33KDbXbCbMkxeOMm13EyQ4Iz1MiFhw==, tarball: file:projects/ai-anomaly-detector.tgz}
     version: 0.0.0
@@ -2398,7 +2433,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-azNovJPte5Ol67WUGLzPzg5MQXtO6nv4DvDP117el+Foh8v4Q+0Ldv03A1vp6C1TnQkOUho7eCl7uK+nlC6VyQ==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-s+nFETIMxNsk34S2237Gq8pAu3+/m1gSbNrw1IFi45anQAM8JIP8WiOmVtBd9YKlYN9rrApFAUHNzsKbElHTgA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -3562,7 +3597,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-client-1@file:projects/core-client-1.tgz':
-    resolution: {integrity: sha512-0LgwDC8HIuOvz277NZVOKHsgUJlI8MiCVZCvjE+URJVfQNrdqRpc/gYil2912VzeGxSh2jXHkQcOqHxuL8QEKw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-tLT/PkItwRSO3HQvB1uJwYYC5ZI4ib6pqOspRNZP+GRC4xtI1TGkwWzEOHF4F6PoSI3F/ER2Jh7GcT7XGTJYJA==, tarball: file:projects/core-client-1.tgz}
     version: 0.0.0
 
   '@rush-temp/core-client@file:projects/core-client.tgz':
@@ -3570,7 +3605,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
-    resolution: {integrity: sha512-LUre5eR9EYE/Pf0LEIpwNol3W8WI1VBxghp8jOmZUwYF6lmKAfGownfx4HJQU6jU/pJPNMM5cu3+Wsn4tdM0DQ==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-qsVPd4NiohG1U9vo+dh2iK7DGkG9/yCoipgpcgqEjm/E2Rzfgptpa6mmlxyuxTz8IrgdwhI/Y46GhmkO7bfJiA==, tarball: file:projects/core-http-compat.tgz}
     version: 0.0.0
 
   '@rush-temp/core-lro@file:projects/core-lro.tgz':
@@ -3626,11 +3661,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
-    resolution: {integrity: sha512-37gGl6OH9SQ/ec4w2LD8VX6x8VnWDXkkFt1TSSQAHsa21nTXkNwo9B7ZoLpNKLDBrIcT41phxpBGDMMPZJgR6g==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-jlonliiehWSNE2j1NBQjLQ2/HNkppkmUO3iHJE9o3oirDwtQqBSBonROmwABQeOHcnOTTdN9U/SFqfgJHSuPFg==, tarball: file:projects/digital-twins-core.tgz}
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
-    resolution: {integrity: sha512-FIzVmr66PvdXCm35SiroXVDYARzIk2XXvx0GD9hPSnRbYiuQfdjxwxYzIp1syaigmvyw8YIOlkk6tAZcLz2cXw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-34BftngJ3PEGi9twVGPy3NRKtTuIZJry96qEWLDYtaCAle+MrMhnMzyIQBzLc26z8wvaw7fw5lLduo+gTUwB3g==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
@@ -3751,6 +3786,10 @@ packages:
 
   '@rush-temp/maps-timezone@file:projects/maps-timezone.tgz':
     resolution: {integrity: sha512-LLoNu/hOKIZ5/eLQ0io6I6kDPrnkiI1C3rDtG0DEQlP097B9CoeeaQ2E+qbGYUAPvvyo6QththExkcmgUENgEg==, tarball: file:projects/maps-timezone.tgz}
+    version: 0.0.0
+
+  '@rush-temp/mcp-server@file:projects/mcp-server.tgz':
+    resolution: {integrity: sha512-xVj0UA/iOcFZso/cQiQ1Ug5juexp+mJOhFwNBANfNb0bzXo9BRrgR2/0DxaTIIS0lest23qzU0nMQUiZPPetpA==, tarball: file:projects/mcp-server.tgz}
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
@@ -3934,7 +3973,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-bDFJ6g+hvdIP1++hJR1B4nEghk2y+6iciJZxWnMXzsadmAhDiBTGPqnmzMu7jTl6j/HbrHdQLU/RdbWYzs0UOg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-87O6MpTQkDuj9mMLckqykI++VQbv0qKSHDDoGDNR1VYSsPVVpCYD51Hi5D1S3O1JC47xc1RL0P1CuHfuLDfGfA==, tarball: file:projects/storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
@@ -4026,7 +4065,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/web-pubsub@file:projects/web-pubsub.tgz':
-    resolution: {integrity: sha512-WSIBUFndOWRUpRe0fvEaPsvilqaL6RmpuUb9bfvR4dybPfH2w+aY1Pq0QKZRqs/Dq3Y2q4I9YTaQ2wz4Sc1i1g==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-UtPeJlz6mtA1R8ebK1/MRXgU1yS8Zp7jkbsEhaWY2xgVdz3wAjVJRwDildyXOe2aJ2YTVbRxoIy2F11GSO0rfQ==, tarball: file:projects/web-pubsub.tgz}
     version: 0.0.0
 
   '@rushstack/node-core-library@5.13.0':
@@ -4152,9 +4191,6 @@ packages:
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
 
-  '@types/mdast@3.0.15':
-    resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
-
   '@types/mdurl@2.0.0':
     resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
 
@@ -4241,9 +4277,6 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-
-  '@types/unist@2.0.11':
-    resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
   '@types/unzipper@0.10.11':
     resolution: {integrity: sha512-D25im2zjyMCcgL9ag6N46+wbtJBnXIr7SI4zHf9eJD2Dw2tEB5e+p5MYkrxKIVRscs5QV0EhtU9rgXSPx90oJg==}
@@ -4627,15 +4660,6 @@ packages:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
     engines: {node: '>=10'}
 
-  character-entities-legacy@1.1.4:
-    resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}
-
-  character-entities@1.2.4:
-    resolution: {integrity: sha512-iBMyeEHxfVnIakwOuDXpVkc54HijNgCyQB2w0VfGQThle6NXn50zU6V/u+LDhxHcDUPojn6Kpga3PTAD8W1bQw==}
-
-  character-reference-invalid@1.1.4:
-    resolution: {integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==}
-
   chardet@0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
 
@@ -4762,6 +4786,10 @@ packages:
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+
+  cors@2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
 
   cp-file@10.0.0:
     resolution: {integrity: sha512-vy2Vi1r2epK5WqxOLnskeKeZkdZvTKfFZQCplE3XWsP+SUJyd5XAUFC9lFgTjjXJF2GMne/UML14iEmkAaDfFg==}
@@ -5009,12 +5037,6 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-markdown@5.1.0:
-    resolution: {integrity: sha512-SJeyKko1K6GwI0AN6xeCDToXDkfKZfXcexA6B+O2Wr2btUS9GrC+YgwSyVli5DJnctUHjFXcQ2cqTaAmVoLi2A==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: '>=8'
-
   eslint-plugin-n@17.17.0:
     resolution: {integrity: sha512-2VvPK7Mo73z1rDFb6pTvkH6kFibAmnTubFq5l83vePxu0WiY1s0LOtj2WHb6Sa40R3w4mnh8GFYbHBQyMlotKw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -5107,6 +5129,14 @@ packages:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
 
+  eventsource-parser@3.0.2:
+    resolution: {integrity: sha512-6RxOBZ/cYgd8usLwsEl+EC09Au/9BcmCKYF2/xbml6DNczf7nv0MQb+7BA2F+li6//I+28VNlQR37XfQtcAJuA==}
+    engines: {node: '>=18.0.0'}
+
+  eventsource@3.0.7:
+    resolution: {integrity: sha512-CRT1WTyuQoD771GW56XEZFQ/ZoSfWid1alKGDYMmkt2yl8UXrVR4pspqWNEcqKvVIzg6PAltWjxcSSPrboA4iA==}
+    engines: {node: '>=18.0.0'}
+
   expand-template@2.0.3:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
     engines: {node: '>=6'}
@@ -5114,6 +5144,12 @@ packages:
   expect-type@1.2.1:
     resolution: {integrity: sha512-/kP8CAwxzLVEeFrMm4kMmy4CCDlpipyA7MYLVrdJIkV0fYF0UaigQHRsxHiuY/GEea+bh4KSv3TIlgr+2UL6bw==}
     engines: {node: '>=12.0.0'}
+
+  express-rate-limit@7.5.0:
+    resolution: {integrity: sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      express: ^4.11 || 5 || ^5.0.0-beta.1
 
   express@4.21.2:
     resolution: {integrity: sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==}
@@ -5432,12 +5468,6 @@ packages:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
 
-  is-alphabetical@1.0.4:
-    resolution: {integrity: sha512-DwzsA04LQ10FHTZuL0/grVDk4rFoVH1pjAToYwBrHSxcrBIGQuXrQMtD5U1b0U2XVgKZCTLLP8u2Qxqhy3l2Vg==}
-
-  is-alphanumerical@1.0.4:
-    resolution: {integrity: sha512-UzoZUr+XfVz3t3v4KyGEniVL9BDRoQtY7tOyrRybkVNjDFWyo1yhXNGrrBTQxp3ib9BLAWs7k2YKBQsFRkZG9A==}
-
   is-arguments@1.2.0:
     resolution: {integrity: sha512-7bVbi0huj/wrIAOzb8U1aszg9kdi3KN/CyU19CTI7tAoZYEZoL9yCDXpbXN+uPsuWnP02cyug1gleqq+TU+YCA==}
     engines: {node: '>= 0.4'}
@@ -5460,9 +5490,6 @@ packages:
   is-core-module@2.16.1:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
     engines: {node: '>= 0.4'}
-
-  is-decimal@1.0.4:
-    resolution: {integrity: sha512-RGdriMmQQvZ2aqaQq3awNA6dCGtKpiDFcOzrTWrDAT2MiWrKQVPmxLGHl7Y2nNu6led0kEyoX0enY0qXYsv9zw==}
 
   is-docker@2.2.1:
     resolution: {integrity: sha512-F+i2BKsFrH66iaUFc0woD8sLy8getkwTwtOBjvs56Cx4CgJDeKQeqfz8wAYiSb8JOprWhHH5p77PbmYCvvUuXQ==}
@@ -5489,9 +5516,6 @@ packages:
   is-glob@4.0.3:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
     engines: {node: '>=0.10.0'}
-
-  is-hexadecimal@1.0.4:
-    resolution: {integrity: sha512-gyPJuv83bHMpocVYoqof5VDiZveEoGoFL8m3BXNb2VW8Xs+rz9kqO8LOQ5DH6EsuvilT1ApazU0pyl+ytbPtlw==}
 
   is-inside-container@1.0.0:
     resolution: {integrity: sha512-KIYLCCJghfHZxqjYBE7rEy0OBuTd5xCHS7tHVgvCLkx7StIoaxwNW3hCALgEUjFfeRk+MG/Qxmp/vtETEF3tRA==}
@@ -5804,12 +5828,6 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mdast-util-from-markdown@0.8.5:
-    resolution: {integrity: sha512-2hkTXtYYnr+NubD/g6KGBS/0mFmBcifAsI0yIWRiRo0PjVs6SSOSOdtzbp6kSGnShDN6G5aWZpKQ2lWRy27mWQ==}
-
-  mdast-util-to-string@2.0.0:
-    resolution: {integrity: sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==}
-
   mdurl@2.0.0:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
 
@@ -5847,9 +5865,6 @@ packages:
   methods@1.1.2:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
-
-  micromark@2.11.4:
-    resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}
 
   micromatch@4.0.8:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
@@ -6142,9 +6157,6 @@ packages:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
 
-  parse-entities@2.0.0:
-    resolution: {integrity: sha512-kkywGpCcRYhqQIchaWqZ875wzpS/bMKhz5HnN3p7wveJTkTtyAB/AlnS0f8DFSqYW1T82t6yEAkEcB+A1I3MbQ==}
-
   parse-json@5.2.0:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
@@ -6210,8 +6222,8 @@ packages:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
     engines: {node: '>=4.0.0'}
 
-  pg-protocol@1.9.5:
-    resolution: {integrity: sha512-DYTWtWpfd5FOro3UnAfwvhD8jh59r2ig8bPtc9H8Ds7MscE/9NYruUQWFAOuraRl29jwcT2kyMFQ3MxeaVjUhg==}
+  pg-protocol@1.8.0:
+    resolution: {integrity: sha512-jvuYlEkL03NRvOoyoRktBK7+qU5kOvlAwvmrH8sr3wbLrOdVWsRxQfz8mMy9sZFsqJ1hEWNfdWKI4SAmoL+j7g==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -6227,6 +6239,10 @@ packages:
   picomatch@4.0.2:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
+
+  pkce-challenge@5.0.0:
+    resolution: {integrity: sha512-ueGLflrrnvwB3xuo/uGob5pd5FN7l0MsLf0Z87o/UQmRtwjvfylfc9MurIxRAWywCYTgrvpXBcqjV4OfCYGCIQ==}
+    engines: {node: '>=16.20.0'}
 
   playwright-core@1.52.0:
     resolution: {integrity: sha512-l2osTgLXSMeuLZOML9qYODUQoPPnUsKsb5/P6LJ2e6uPKXUdPK5WYhN4z03G+YNbWmGDY4YENauNu4ZKczreHg==}
@@ -6954,9 +6970,6 @@ packages:
     resolution: {integrity: sha512-yLSH4py7oFH3oG/9K+XWrz1pSi3dfUrWEnInbxMfArOfc1+33BlGPQtLsOYwvdMy11AwUBetYuaRxSPqgkq+8g==}
     engines: {node: '>=4'}
 
-  unist-util-stringify-position@2.0.3:
-    resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
-
   universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
@@ -7213,6 +7226,11 @@ packages:
   yoctocolors-cjs@2.1.2:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
+
+  zod-to-json-schema@3.24.5:
+    resolution: {integrity: sha512-/AuWwMP+YqiPbsJx5D6TfgRTc4kTLjsh5SOcd4bLsfUg2RcEXrFMJl1DGgdHy2aCfsIA/cr/1JM0xcB2GZji8g==}
+    peerDependencies:
+      zod: ^3.24.1
 
   zod@3.24.3:
     resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
@@ -7483,6 +7501,11 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       tslib: 2.8.1
 
+  '@azure/core-xml@1.4.5':
+    dependencies:
+      fast-xml-parser: 5.2.1
+      tslib: 2.8.1
+
   '@azure/functions@3.5.1':
     dependencies:
       iconv-lite: 0.6.3
@@ -7684,6 +7707,23 @@ snapshots:
       '@azure/core-rest-pipeline': 1.19.1
       '@azure/core-tracing': 1.2.0
       '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-share@12.27.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-http-compat': 2.2.0
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/core-xml': 1.4.5
       '@azure/logger': 1.1.4
       events: 3.3.0
       tslib: 2.8.1
@@ -8070,6 +8110,21 @@ snapshots:
 
   '@microsoft/tsdoc@0.15.1': {}
 
+  '@modelcontextprotocol/sdk@1.11.2':
+    dependencies:
+      content-type: 1.0.5
+      cors: 2.8.5
+      cross-spawn: 7.0.6
+      eventsource: 3.0.7
+      express: 5.1.0
+      express-rate-limit: 7.5.0(express@5.1.0)
+      pkce-challenge: 5.0.0
+      raw-body: 3.0.0
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
+    transitivePeerDependencies:
+      - supports-color
+
   '@mswjs/interceptors@0.37.6':
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
@@ -8105,6 +8160,10 @@ snapshots:
       '@opentelemetry/api': 1.9.0
 
   '@opentelemetry/api-logs@0.53.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+
+  '@opentelemetry/api-logs@0.57.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
 
@@ -8326,6 +8385,18 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.53.0
+      '@types/shimmer': 1.2.0
+      import-in-the-middle: 1.13.1
+      require-in-the-middle: 7.5.2
+      semver: 7.7.1
+      shimmer: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@opentelemetry/instrumentation@0.57.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.57.0
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.13.1
       require-in-the-middle: 7.5.2
@@ -8654,6 +8725,45 @@ snapshots:
       dotenv: 16.5.0
       eslint: 9.25.1
       playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/ai-agents@file:projects/ai-agents.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/instrumentation': 0.57.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 18.19.87
+      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
+      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      dotenv: 16.5.0
+      eslint: 9.25.1
+      playwright: 1.52.0
+      prettier: 3.5.3
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -9030,7 +9140,6 @@ snapshots:
       dotenv: 16.5.0
       eslint: 9.25.1
       playwright: 1.52.0
-      prettier: 3.5.3
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -19776,6 +19885,7 @@ snapshots:
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
@@ -19827,7 +19937,6 @@ snapshots:
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       eslint: 9.25.1
       eslint-config-prettier: 10.1.2(eslint@9.25.1)
-      eslint-plugin-markdown: 5.1.0(eslint@9.25.1)
       eslint-plugin-n: 17.17.0(eslint@9.25.1)
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-promise: 7.2.1(eslint@9.25.1)
@@ -20987,6 +21096,37 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/mcp-server@file:projects/mcp-server.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(yaml@2.7.1)':
+    dependencies:
+      '@modelcontextprotocol/sdk': 1.11.2
+      '@types/node': 18.19.87
+      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      '@vitest/expect': 3.1.2
+      dotenv: 16.5.0
+      eslint: 9.25.1
+      tsx: 4.19.3
+      typescript: 5.8.3
+      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+      zod: 3.24.3
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - yaml
+
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@playwright/test': 1.52.0
@@ -22089,6 +22229,7 @@ snapshots:
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/storage-file-share': 12.27.0
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
@@ -23081,10 +23222,6 @@ snapshots:
       '@types/linkify-it': 5.0.0
       '@types/mdurl': 2.0.0
 
-  '@types/mdast@3.0.15':
-    dependencies:
-      '@types/unist': 2.0.11
-
   '@types/mdurl@2.0.0': {}
 
   '@types/mime@1.3.5': {}
@@ -23129,7 +23266,7 @@ snapshots:
   '@types/pg@8.6.1':
     dependencies:
       '@types/node': 22.7.9
-      pg-protocol: 1.9.5
+      pg-protocol: 1.8.0
       pg-types: 2.2.0
 
   '@types/priorityqueuejs@1.0.4': {}
@@ -23173,8 +23310,6 @@ snapshots:
   '@types/triple-beam@1.3.5': {}
 
   '@types/trusted-types@2.0.7': {}
-
-  '@types/unist@2.0.11': {}
 
   '@types/unzipper@0.10.11':
     dependencies:
@@ -23636,12 +23771,6 @@ snapshots:
 
   char-regex@1.0.2: {}
 
-  character-entities-legacy@1.1.4: {}
-
-  character-entities@1.2.4: {}
-
-  character-reference-invalid@1.1.4: {}
-
   chardet@0.7.0: {}
 
   check-error@2.1.1: {}
@@ -23768,6 +23897,11 @@ snapshots:
       yargs: 16.2.0
 
   core-util-is@1.0.3: {}
+
+  cors@2.8.5:
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
 
   cp-file@10.0.0:
     dependencies:
@@ -24002,13 +24136,6 @@ snapshots:
       eslint: 9.25.1
       eslint-compat-utils: 0.5.1(eslint@9.25.1)
 
-  eslint-plugin-markdown@5.1.0(eslint@9.25.1):
-    dependencies:
-      eslint: 9.25.1
-      mdast-util-from-markdown: 0.8.5
-    transitivePeerDependencies:
-      - supports-color
-
   eslint-plugin-n@17.17.0(eslint@9.25.1):
     dependencies:
       '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1)
@@ -24122,9 +24249,19 @@ snapshots:
 
   events@3.3.0: {}
 
+  eventsource-parser@3.0.2: {}
+
+  eventsource@3.0.7:
+    dependencies:
+      eventsource-parser: 3.0.2
+
   expand-template@2.0.3: {}
 
   expect-type@1.2.1: {}
+
+  express-rate-limit@7.5.0(express@5.1.0):
+    dependencies:
+      express: 5.1.0
 
   express@4.21.2:
     dependencies:
@@ -24531,13 +24668,6 @@ snapshots:
 
   ipaddr.js@1.9.1: {}
 
-  is-alphabetical@1.0.4: {}
-
-  is-alphanumerical@1.0.4:
-    dependencies:
-      is-alphabetical: 1.0.4
-      is-decimal: 1.0.4
-
   is-arguments@1.2.0:
     dependencies:
       call-bound: 1.0.4
@@ -24557,8 +24687,6 @@ snapshots:
     dependencies:
       hasown: 2.0.2
 
-  is-decimal@1.0.4: {}
-
   is-docker@2.2.1: {}
 
   is-docker@3.0.0: {}
@@ -24577,8 +24705,6 @@ snapshots:
   is-glob@4.0.3:
     dependencies:
       is-extglob: 2.1.1
-
-  is-hexadecimal@1.0.4: {}
 
   is-inside-container@1.0.0:
     dependencies:
@@ -24903,18 +25029,6 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mdast-util-from-markdown@0.8.5:
-    dependencies:
-      '@types/mdast': 3.0.15
-      mdast-util-to-string: 2.0.0
-      micromark: 2.11.4
-      parse-entities: 2.0.0
-      unist-util-stringify-position: 2.0.3
-    transitivePeerDependencies:
-      - supports-color
-
-  mdast-util-to-string@2.0.0: {}
-
   mdurl@2.0.0: {}
 
   media-typer@0.3.0: {}
@@ -24952,13 +25066,6 @@ snapshots:
   merge2@1.4.1: {}
 
   methods@1.1.2: {}
-
-  micromark@2.11.4:
-    dependencies:
-      debug: 4.4.0
-      parse-entities: 2.0.0
-    transitivePeerDependencies:
-      - supports-color
 
   micromatch@4.0.8:
     dependencies:
@@ -25227,15 +25334,6 @@ snapshots:
     dependencies:
       callsites: 3.1.0
 
-  parse-entities@2.0.0:
-    dependencies:
-      character-entities: 1.2.4
-      character-entities-legacy: 1.1.4
-      character-reference-invalid: 1.1.4
-      is-alphanumerical: 1.0.4
-      is-decimal: 1.0.4
-      is-hexadecimal: 1.0.4
-
   parse-json@5.2.0:
     dependencies:
       '@babel/code-frame': 7.26.2
@@ -25282,7 +25380,7 @@ snapshots:
 
   pg-int8@1.0.1: {}
 
-  pg-protocol@1.9.5: {}
+  pg-protocol@1.8.0: {}
 
   pg-types@2.2.0:
     dependencies:
@@ -25297,6 +25395,8 @@ snapshots:
   picomatch@2.3.1: {}
 
   picomatch@4.0.2: {}
+
+  pkce-challenge@5.0.0: {}
 
   playwright-core@1.52.0: {}
 
@@ -26079,10 +26179,6 @@ snapshots:
 
   unicode-emoji-modifier-base@1.0.0: {}
 
-  unist-util-stringify-position@2.0.3:
-    dependencies:
-      '@types/unist': 2.0.11
-
   universalify@0.1.2: {}
 
   universalify@2.0.1: {}
@@ -26469,5 +26565,9 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors-cjs@2.1.2: {}
+
+  zod-to-json-schema@3.24.5(zod@3.24.3):
+    dependencies:
+      zod: 3.24.3
 
   zod@3.24.3: {}
