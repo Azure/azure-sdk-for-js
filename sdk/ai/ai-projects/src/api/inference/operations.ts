@@ -15,7 +15,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { getBearerTokenProvider } from "@azure/identity";
 import type { AIProjectContext as Client } from "../index.js";
 import { AzureOpenAI } from "openai";
-import { ApiKeyCredentials, Connection } from "../../models/models.js";
+import { ApiKeyCredentials } from "../../models/models.js";
 import { ConnectionsOperations } from "../../classic/index.js";
 import type { AzureOpenAIClientOptions } from "./options.js";
 
@@ -123,6 +123,31 @@ export function _getImageEmbeddingClient(
 }
 
 /**
+ * Converts an input URL in the format:
+ * https://<host-name>/<some-path>
+ * to:
+ * https://<host-name>
+ *
+ * @param url - The input endpoint URL used to construct AIProjectClient.
+ * @returns The endpoint URL required to construct an AzureOpenAI client.
+ * @throws Error if the input URL format is invalid.
+ */
+function _getAoaiInferenceUrl(url: string): string {
+  try {
+    const parsedUrl = new URL(url);
+    if (parsedUrl.protocol !== "https:" || !parsedUrl.hostname) {
+      throw new Error("Invalid endpoint URL format. Must be an https URL with a host.");
+    }
+    return `https://${parsedUrl.hostname}`;
+  } catch (e) {
+    // Catches errors from URL constructor (e.g., invalid URL)
+    throw new Error(
+      `Invalid endpoint URL format: ${url}. ${e instanceof Error ? e.message : String(e)}`,
+    );
+  }
+}
+
+/**
  * Get an authenticated AzureOpenAI client (from the `openai` package) for the default
  * Azure OpenAI connection (if `connectionName` is not specified), or from the Azure OpenAI
  * resource given by its connection name.
@@ -141,65 +166,41 @@ export async function _getAzureOpenAIClient(
   options?: AzureOpenAIClientOptions,
 ): Promise<AzureOpenAI> {
   // Validate connection name if provided
-  if (options?.connectionName !== undefined && options.connectionName === "") {
+  if (options?.connectionName === "") {
     throw new Error("Connection name cannot be empty");
   }
 
-  let connection: Connection;
-  let connectionName = options?.connectionName;
+  const connectionName = options?.connectionName;
 
   if (connectionName) {
     // Get the specific connection
-    connection = await connections.get(connectionName, false, options?.connectionOptions);
+    const connection = await connections.getWithCredentials(
+      connectionName,
+      options?.connectionOptions,
+    );
 
     if (connection.type !== "AzureOpenAI") {
       throw new Error(`Connection '${connectionName}' is not of type Azure OpenAI.`);
     }
-  } else {
-    // If connection name was not specified, get the default Azure OpenAI connection
-    const _connections: Connection[] = [];
-    for await (const conn of connections.list({
-      connectionType: "AzureOpenAI",
-      defaultConnection: true,
-    })) {
-      _connections.push(conn);
-    }
 
-    if (_connections.length === 0) {
-      throw new Error("No default Azure OpenAI connection found.");
-    }
-
-    connection = _connections[0];
-    connectionName = connection.name;
-  }
-
-  // If the connection uses API key authentication, get connection with API key populated
-  if (connection.credentials.type === "ApiKey") {
-    connection = await connections.getWithCredentials(
-      connectionName,
-      options?.connectionSecretOptions,
-    );
-  }
-
-  // Format the endpoint URL
-  const targetUrl = new URL(connection.target);
-  const azureEndpoint = targetUrl.href.endsWith("/") ? targetUrl.href.slice(0, -1) : targetUrl.href;
-
-  if (connection.credentials.type === "ApiKey") {
-    // Create client with API key authentication
-    return new AzureOpenAI({
-      apiKey: (connection.credentials as ApiKeyCredentials).apiKey,
-      endpoint: azureEndpoint,
-      apiVersion: options?.apiVersion,
-    });
-  } else if (connection.credentials.type === "AAD") {
-    // Create client with Entra ID authentication
-    try {
-      // Get token provider from the context credential
+    // Format the endpoint URL
+    const targetUrl = new URL(connection.target);
+    const azureEndpoint = targetUrl.href.endsWith("/")
+      ? targetUrl.href.slice(0, -1)
+      : targetUrl.href;
+    if (connection.credentials.type === "ApiKey") {
+      const apiKeyCredential = connection.credentials as ApiKeyCredentials;
+      return new AzureOpenAI({
+        apiKey: apiKeyCredential.apiKey,
+        endpoint: azureEndpoint,
+        apiVersion: options?.apiVersion,
+      });
+    } else if (connection.credentials.type === "AAD") {
+      const tokenCredential = context.getCredential() as TokenCredential;
       return new AzureOpenAI({
         azureADTokenProvider: async () => {
           const getAccessToken = getBearerTokenProvider(
-            context.getCredential() as TokenCredential,
+            tokenCredential,
             "https://cognitiveservices.azure.com/.default",
           );
           const token = await getAccessToken();
@@ -208,12 +209,25 @@ export async function _getAzureOpenAIClient(
         endpoint: azureEndpoint,
         apiVersion: options?.apiVersion,
       });
-    } catch (e) {
+    } else {
       throw new Error(
-        "Azure identity package not available or credential issue: " + JSON.stringify(e),
+        `Unsupported authentication type '${connection.credentials.type || "unknown"}' for connection '${connectionName}'.`,
       );
     }
   } else {
-    throw new Error(`Unsupported authentication type: ${connection.credentials.type}`);
+    const azureEndpoint = _getAoaiInferenceUrl(context.getEndpointUrl());
+    const tokenCredential = context.getCredential() as TokenCredential;
+    return new AzureOpenAI({
+      azureADTokenProvider: async () => {
+        const getAccessToken = getBearerTokenProvider(
+          tokenCredential,
+          "https://cognitiveservices.azure.com/.default",
+        );
+        const token = await getAccessToken();
+        return token;
+      },
+      endpoint: azureEndpoint,
+      apiVersion: options?.apiVersion,
+    });
   }
 }
