@@ -5202,9 +5202,6 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.4.7
-      eslint:
-        specifier: 'catalog:'
-        version: 9.22.0
       playwright:
         specifier: catalog:testing
         version: 1.51.1

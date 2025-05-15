@@ -161,6 +161,7 @@ async function fleetsCreateOrUpdate(): Promise<void> {
                 deleteOption: "Delete",
               },
             ],
+            diskControllerType: "uzb",
           },
           networkProfile: {
             healthProbe: {
@@ -429,6 +430,7 @@ async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
                 },
               },
             ],
+            networkApiVersion: "2022-07-01",
           },
         },
         computeApiVersion: "2023-09-01",
