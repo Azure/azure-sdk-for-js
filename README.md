@@ -45,6 +45,57 @@ Newer versions of these libraries follow the [Azure SDK Design Guidelines for Ty
 - Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
 - Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
+## Data Collection
+The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described below. You can learn more about data collection and use in the help documentation and Microsoft’s [privacy statement](https://go.microsoft.com/fwlink/?LinkID=824704). For more information on the data collected by the Azure SDK, please visit the [Telemetry Guidelines](https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy) page.
+
+### Telemetry Configuration
+Telemetry collection is on by default.
+
+To opt out, you can disable telemetry at client construction. Set a `userAgentOptions` as empty during client creation. This will disable telemetry for all methods in the client. Do this for every new client.
+
+The example below uses the `@azure/storage-blob` package. In your code, you can replace `@azure/storage-blob` with the package you are using.
+
+```javascript
+// Import required Azure Storage Blob packages
+import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * Creates a BlobServiceClient with managed identity authentication and empty user agent
+ * @param accountName Storage account name
+ * @returns BlobServiceClient instance
+ */
+function createBlobClientWithManagedIdentity(
+  accountName: string
+): BlobServiceClient {
+  // Create ManagedIdentityCredential for managed identity authentication
+  const credential = new ManagedIdentityCredential();
+
+  // Create blob service client with managed identity and empty user agent
+  const blobServiceClient = new BlobServiceClient(
+    `https://${accountName}.blob.core.windows.net`,
+    credential,
+    {
+      // Set an empty user agent string
+      userAgentOptions: {
+        userAgentPrefix: ""
+      }
+    }
+  );
+
+  return blobServiceClient;
+}
+
+// Usage example
+const accountName = "your-storage-account-name";
+const blobClient = createBlobClientWithManagedIdentity(accountName);
+
+// Now you can use the blob client to perform operations
+// For example:
+// const containerClient = blobClient.getContainerClient("your-container-name");
+```
+
+
 ### Community
 
 Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#community-resources).
