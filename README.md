@@ -56,43 +56,50 @@ To opt out, you can disable telemetry at client construction. Set a `userAgentOp
 The example below uses the `@azure/storage-blob` package. In your code, you can replace `@azure/storage-blob` with the package you are using.
 
 ```javascript
-// Import required Azure Storage Blob packages
-import { BlobServiceClient } from "@azure/storage-blob";
-import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
+import { ManagedIdentityCredential } from "@azure/identity";
+
+function removeUserAgentPolicy() {
+  return {
+    name: "removeUserAgentPolicy",
+    sendRequest(request, next) {
+      request.headers.delete("User-Agent");
+      return next(request);
+    },
+  };
+}
 
 /**
- * Creates a BlobServiceClient with managed identity authentication and empty user agent
- * @param accountName Storage account name
- * @returns BlobServiceClient instance
+ * Creates a SecretClient with managed identity authentication and empty user agent
+ * @param keyvaultUri - The URI of the Azure Key Vault
+ * @returns configured SecretClient instance
  */
-function createBlobClientWithManagedIdentity(
-  accountName: string
-): BlobServiceClient {
+function createSecretClientWithManagedIdentity(
+  keyvaultUri: string
+): SecretClient {
   // Create ManagedIdentityCredential for managed identity authentication
   const credential = new ManagedIdentityCredential();
 
-  // Create blob service client with managed identity and empty user agent
-  const blobServiceClient = new BlobServiceClient(
-    `https://${accountName}.blob.core.windows.net`,
-    credential,
-    {
-      // Set an empty user agent string
-      userAgentOptions: {
-        userAgentPrefix: ""
-      }
-    }
-  );
+  // Create secret client with managed identity and empty user agent
+  const secretClient = new SecretClient(keyvaultUri, credential as any, {
+    additionalPolicies: [
+      {
+        position: "perCall",
+        policy: removeUserAgentPolicy(),
+      },
+    ],
+  });
 
-  return blobServiceClient;
+  return secretClient;
 }
 
 // Usage example
-const accountName = "your-storage-account-name";
-const blobClient = createBlobClientWithManagedIdentity(accountName);
+const keyvaultUri = "https://your-keyvault-name.vault.azure.net";
+const secretClient = createSecretClientWithManagedIdentity(keyvaultUri);
 
-// Now you can use the blob client to perform operations
+// Now you can use the secret client to perform operations
 // For example:
-// const containerClient = blobClient.getContainerClient("your-container-name");
+// const secretValue = await secretClient.getSecret("your-secret-name");
 ```
 
 
