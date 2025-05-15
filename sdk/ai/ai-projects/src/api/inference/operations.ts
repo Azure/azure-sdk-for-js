@@ -136,11 +136,14 @@ function _getAoaiInferenceUrl(url: string): string {
   try {
     const parsedUrl = new URL(url);
     if (parsedUrl.protocol !== "https:" || !parsedUrl.hostname) {
-        throw new Error("Invalid endpoint URL format. Must be an https URL with a host.");
+      throw new Error("Invalid endpoint URL format. Must be an https URL with a host.");
     }
     return `https://${parsedUrl.hostname}`;
-  } catch (e) { // Catches errors from URL constructor (e.g., invalid URL)
-      throw new Error(`Invalid endpoint URL format: ${url}. ${e instanceof Error ? e.message : String(e)}`);
+  } catch (e) {
+    // Catches errors from URL constructor (e.g., invalid URL)
+    throw new Error(
+      `Invalid endpoint URL format: ${url}. ${e instanceof Error ? e.message : String(e)}`,
+    );
   }
 }
 
@@ -171,7 +174,10 @@ export async function _getAzureOpenAIClient(
 
   if (connectionName) {
     // Get the specific connection
-    const connection = await connections.getWithCredentials(connectionName, options?.connectionOptions);
+    const connection = await connections.getWithCredentials(
+      connectionName,
+      options?.connectionOptions,
+    );
 
     if (connection.type !== "AzureOpenAI") {
       throw new Error(`Connection '${connectionName}' is not of type Azure OpenAI.`);
@@ -179,7 +185,9 @@ export async function _getAzureOpenAIClient(
 
     // Format the endpoint URL
     const targetUrl = new URL(connection.target);
-    const azureEndpoint = targetUrl.href.endsWith("/") ? targetUrl.href.slice(0, -1) : targetUrl.href;
+    const azureEndpoint = targetUrl.href.endsWith("/")
+      ? targetUrl.href.slice(0, -1)
+      : targetUrl.href;
     if (connection.credentials.type === "ApiKey") {
       const apiKeyCredential = connection.credentials as ApiKeyCredentials;
       return new AzureOpenAI({
@@ -202,7 +210,9 @@ export async function _getAzureOpenAIClient(
         apiVersion: options?.apiVersion,
       });
     } else {
-      throw new Error(`Unsupported authentication type '${connection.credentials.type || 'unknown'}' for connection '${connectionName}'.`);
+      throw new Error(
+        `Unsupported authentication type '${connection.credentials.type || "unknown"}' for connection '${connectionName}'.`,
+      );
     }
   } else {
     const azureEndpoint = _getAoaiInferenceUrl(context.getEndpointUrl());
