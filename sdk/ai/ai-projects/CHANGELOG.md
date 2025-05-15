@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.6 ()
+
+### Other Changes
+
+- Updated to OpenTelemetry v2 packages.
+
 ## 1.0.0-beta.5 (2025-04-18)
 
 ### Features Added
