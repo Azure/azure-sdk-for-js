@@ -15,6 +15,9 @@ import {
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGetOptionalParams,
   RecommendationsGetResponse,
+  TrackedRecommendationPropertiesPayload,
+  RecommendationsPatchOptionalParams,
+  RecommendationsPatchResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,4 +63,18 @@ export interface Recommendations {
     recommendationId: string,
     options?: RecommendationsGetOptionalParams,
   ): Promise<RecommendationsGetResponse>;
+  /**
+   * Update the tracked properties of a Recommendation.
+   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
+   *                    the tracked recommendation applies.
+   * @param recommendationId The RecommendationId ID.
+   * @param trackedProperties The properties to update on the recommendation.
+   * @param options The options parameters.
+   */
+  patch(
+    resourceUri: string,
+    recommendationId: string,
+    trackedProperties: TrackedRecommendationPropertiesPayload,
+    options?: RecommendationsPatchOptionalParams,
+  ): Promise<RecommendationsPatchResponse>;
 }
