@@ -14,19 +14,15 @@ async function employeesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "11809CA1-E126-4017-945E-AA795CD5C5A9";
   const client = new ContosoClient(credential, subscriptionId);
-  const result = await client.employees.createOrUpdate(
-    "rgopenapi",
-    "9KF-f-8b",
-    {
-      properties: {
-        age: 30,
-        city: "gydhnntudughbmxlkyzrskcdkotrxn",
-        profile: "ms",
-      },
-      tags: { key2913: "urperxmkkhhkp" },
-      location: "itajgxyqozseoygnl",
+  const result = await client.employees.createOrUpdate("rgopenapi", "9KF-f-8b", {
+    properties: {
+      age: 30,
+      city: "gydhnntudughbmxlkyzrskcdkotrxn",
+      profile: "ms",
     },
-  );
+    tags: { key2913: "urperxmkkhhkp" },
+    location: "itajgxyqozseoygnl",
+  });
   console.log(result);
 }
 
