@@ -1035,7 +1035,7 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
 
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-/sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-*-perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
 # PRLabel: %Mgmt
 /sdk/quantum/arm-quantum/ @qiaozha @MaryGao
