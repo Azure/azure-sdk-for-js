@@ -18,7 +18,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv").config();
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -70,7 +70,7 @@ async function main() {
   console.log(`Messages:`);
   // Get the first message
   for await (const m of messagesIterator) {
-    const agentMessage = message.content[0];
+    const agentMessage = m.content[0];
     if (isOutputOfType(agentMessage, "text")) {
       const textContent = agentMessage;
       console.log(`Text Message Content - ${textContent.text.value}`);
