@@ -2341,6 +2341,11 @@
       "packageName": "@azure/arm-portalservicescopilot",
       "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/developer-trustedsigning",
+      "projectFolder": "sdk/developer/developer-trustedsigning-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
