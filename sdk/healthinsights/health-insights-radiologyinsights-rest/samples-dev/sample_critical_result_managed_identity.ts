@@ -11,7 +11,6 @@ import type {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentTypeEnum,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -52,8 +51,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
+    system: "http://www.ama-assn.org/go/cpt",
+    code: "76856",
     display: "US PELVIS COMPLETE",
   };
 
@@ -63,7 +62,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientInfo = {
     sex: "female",
-    birthDate: new Date("1959-11-11T19:00:00+00:00"),
+    birthDate: "1959-11-11T19:00:00+00:00",
   };
 
   const encounterData = {
@@ -119,14 +118,14 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+    clinicalType: "radiologyReport",
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "US PELVIS COMPLETE",
   };
 
@@ -149,6 +148,9 @@ function createRequestBody(): CreateJobParameters {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {
@@ -205,16 +207,11 @@ export async function main(): Promise<void> {
   const jobID = "jobId-" + dateString;
   const initialResponse = await client
     .path("/radiology-insights/jobs/{id}", jobID)
-    .put(radiologyInsightsParameter, {
-      headers: {
-        Authorization: `Bearer ${tokenResponse?.token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
+
   const poller = await getLongRunningPoller(client, initialResponse);
   const RadiologyInsightsResult = await poller.pollUntilDone();
   if (isUnexpected(RadiologyInsightsResult)) {
