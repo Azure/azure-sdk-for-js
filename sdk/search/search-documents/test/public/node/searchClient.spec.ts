@@ -4,6 +4,7 @@
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AutocompleteResult,
   SearchFieldArray,
@@ -23,7 +24,6 @@ import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("SearchClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
