@@ -124,6 +124,30 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     assert.deepEqual(result.publicAccess, access);
   });
 
+  it("setAccessPolicy with OAuth", async () => {
+    const fileSystemClientWithOAuthToken = new DataLakeFileSystemClient(
+      fileSystemClient.url,
+      createTestCredential(),
+    );
+    configureStorageClient(recorder, fileSystemClientWithOAuthToken);
+
+    const acl = [
+      {
+        accessPolicy: {
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: FileSystemSASPermissions.parse("rwd").toString(),
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
+    ];
+
+    await fileSystemClient.setAccessPolicy(undefined, acl);
+    const result = await fileSystemClient.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, acl);
+    assert.deepEqual(result.publicAccess, undefined);
+  });
+
   it("setAccessPolicy should work when expiry and start undefined", async () => {
     const access: PublicAccessType = "file";
     const acl = [

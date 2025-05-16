@@ -116,10 +116,12 @@ export class BulkResponse {
           const error: ErrorResponse = new ErrorResponse();
           error.code = itemResponse?.statusCode;
           error.substatus = itemResponse?.subStatusCode;
+          error.message = itemResponse?.message;
+          error.requestCharge = itemResponse?.requestCharge;
           error.body = itemResponse?.resourceBody;
           error.headers = responseMessage.headers;
           error.activityId = responseMessage.headers?.[Constants.HttpHeaders.ActivityId];
-          error.retryAfterInMs = itemResponse?.retryAfter;
+          error.retryAfterInMs = itemResponse?.retryAfterMilliseconds;
           error.diagnostics = responseMessage.diagnostics;
           results.push(error);
         }
@@ -167,6 +169,7 @@ export class BulkResponse {
       errorResponse.body = error.body;
       errorResponse.diagnostics = error.diagnostics;
       errorResponse.headers = this.headers;
+      errorResponse.requestCharge = error.requestCharge;
       return errorResponse;
     });
   }
