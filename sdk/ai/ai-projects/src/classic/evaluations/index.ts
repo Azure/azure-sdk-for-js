@@ -41,10 +41,8 @@ function _getEvaluations(context: AIProjectContext) {
       evaluation: AgentEvaluationRequest,
       options?: EvaluationsCreateAgentEvaluationOptionalParams,
     ) => createAgentEvaluation(context, evaluation, options),
-    create: (
-      evaluation: EvaluationWithOptionalName,
-      options?: EvaluationsCreateOptionalParams,
-    ) => create(context, evaluation, options),
+    create: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateOptionalParams) =>
+      create(context, evaluation, options),
     list: (options?: EvaluationsListOptionalParams) => list(context, options),
     get: (name: string, options?: EvaluationsGetOptionalParams) => get(context, name, options),
   };

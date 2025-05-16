@@ -145,10 +145,12 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
+  connectionName?: string,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
   // Start a pending upload to get the container URL with SAS token
   const pendingUploadResponse = await pendingUpload(context, name, version, {
     pendingUploadType: "BlobReference",
+    connectionName,
   } as PendingUploadRequest);
 
   const blobReference = pendingUploadResponse.blobReference;
@@ -203,6 +205,7 @@ export async function uploadFile(
   name: string,
   version: string,
   filePath: string,
+  connectionName?: string,
 ): Promise<DatasetVersionUnion> {
   // if file does not exist
 
@@ -220,6 +223,7 @@ export async function uploadFile(
     context,
     name,
     version,
+    connectionName,
   );
   // file name as blob name
   const blobName = nodePath.basename(filePath);
@@ -240,6 +244,7 @@ export async function uploadFolder(
   name: string,
   version: string,
   folderPath: string,
+  connectionName?: string,
 ): Promise<DatasetVersionUnion> {
   // Check if the folder exists
   const folderExists = fs.existsSync(folderPath);
@@ -256,6 +261,7 @@ export async function uploadFolder(
     context,
     name,
     version,
+    connectionName,
   );
 
   // Helper function to recursively get all files in a directory
