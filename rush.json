@@ -2375,6 +2375,11 @@
       "packageName": "@azure/arm-carbonoptimization",
       "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/analytics-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

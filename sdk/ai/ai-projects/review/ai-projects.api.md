@@ -4,2225 +4,584 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AgentsClient } from '@azure/ai-agents';
+import type { AzureOpenAI } from 'openai';
+import { ClientOptions } from '@azure-rest/core-client';
+import type { GetChatCompletions } from '@azure-rest/ai-inference';
+import type { GetEmbeddings } from '@azure-rest/ai-inference';
+import type { GetImageEmbeddings } from '@azure-rest/ai-inference';
+import type { ModelClientOptions } from '@azure-rest/ai-inference';
+import { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AgentDeletionStatusOutput {
-    deleted: boolean;
+export interface AgentEvaluation {
+    error?: string;
     id: string;
-    object: "assistant.deleted";
+    result?: AgentEvaluationResult[];
+    status: string;
 }
 
 // @public
-export interface AgentEventMessage {
-    data: AgentEventStreamDataOutput;
-    event: AgentStreamEventType | string;
+export interface AgentEvaluationRedactionConfiguration {
+    redactScoreProperties?: boolean;
 }
 
 // @public
-export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> {
+export interface AgentEvaluationRequest {
+    appInsightsConnectionString: string;
+    evaluators: Record<string, EvaluatorConfiguration>;
+    redactionConfiguration?: AgentEvaluationRedactionConfiguration;
+    runId: string;
+    samplingConfiguration?: AgentEvaluationSamplingConfiguration;
+    threadId?: string;
 }
 
 // @public
-export type AgentEventStreamDataOutput = AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
-
-// @public
-export interface AgentOutput {
-    createdAt: Date;
-    description: string | null;
-    id: string;
-    instructions: string | null;
-    metadata: Record<string, string> | null;
-    model: string;
-    name: string | null;
-    object: "assistant";
-    responseFormat?: AgentsApiResponseFormatOptionOutput | null;
-    temperature: number | null;
-    toolResources: ToolResourcesOutput | null;
-    tools: Array<ToolDefinitionOutput>;
-    topP: number | null;
+export interface AgentEvaluationResult {
+    additionalDetails?: Record<string, string>;
+    error?: string;
+    evaluator: string;
+    reason?: string;
+    runId: string;
+    score: number;
+    status: string;
+    threadId?: string;
+    version?: string;
 }
 
 // @public
-export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
-    stream: () => Promise<AgentEventMessageStream>;
-};
-
-// @public
-export interface AgentsApiResponseFormat {
-    type?: ResponseFormat;
+export interface AgentEvaluationSamplingConfiguration {
+    maxRequestRate: number;
+    name: string;
+    samplingPercent: number;
 }
 
 // @public
-export type AgentsApiResponseFormatMode = string;
-
-// @public
-export type AgentsApiResponseFormatModeOutput = string;
-
-// @public
-export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat | ResponseFormatJsonSchemaType;
-
-// @public
-export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput | ResponseFormatJsonSchemaTypeOutput;
-
-// @public
-export interface AgentsApiResponseFormatOutput {
-    type?: ResponseFormatOutput;
-}
-
-// @public
-export type AgentsApiToolChoiceOption = string | AgentsApiToolChoiceOptionMode | AgentsNamedToolChoice;
-
-// @public
-export type AgentsApiToolChoiceOptionMode = string;
-
-// @public
-export type AgentsApiToolChoiceOptionModeOutput = string;
-
-// @public
-export type AgentsApiToolChoiceOptionOutput = string | AgentsApiToolChoiceOptionModeOutput | AgentsNamedToolChoiceOutput;
-
-// @public
-export interface AgentsNamedToolChoice {
-    function?: FunctionName;
-    type: AgentsNamedToolChoiceType;
-}
-
-// @public
-export interface AgentsNamedToolChoiceOutput {
-    function?: FunctionNameOutput;
-    type: AgentsNamedToolChoiceTypeOutput;
-}
-
-// @public
-export type AgentsNamedToolChoiceType = string;
-
-// @public
-export type AgentsNamedToolChoiceTypeOutput = string;
-
-// @public
-export interface AgentsOperations {
-    cancelRun: (threadId: string, runId: string, options?: CancelRunOptionalParams) => Promise<ThreadRunOutput>;
-    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: CancelVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
-    createAgent: (model: string, options?: CreateAgentOptionalParams) => Promise<AgentOutput>;
-    createMessage: (threadId: string, messageOptions: ThreadMessageOptions, options?: CreateMessageOptionalParams) => Promise<ThreadMessageOutput>;
-    createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
-    createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
-    createVectorStore: (options?: CreateVectorStoreOptionalParams) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
-    createVectorStoreAndPoll: (options?: CreateVectorStoreOptionalParams) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
-    deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
-    deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
-    deleteThread: (threadId: string, options?: DeleteAgentThreadOptionalParams) => Promise<ThreadDeletionStatusOutput>;
-    deleteVectorStore: (vectorStoreId: string, options?: DeleteVectorStoreOptionalParams) => Promise<VectorStoreDeletionStatusOutput>;
-    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, options?: DeleteVectorStoreFileOptionalParams) => Promise<VectorStoreFileDeletionStatusOutput>;
-    getAgent: (assistantId: string, options?: GetAgentOptionalParams) => Promise<AgentOutput>;
-    getFile: (fileId: string, options?: GetFileOptionalParams) => Promise<OpenAIFileOutput>;
-    getFileContent: (fileId: string, options?: GetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
-    getRun: (threadId: string, runId: string, options?: GetRunOptionalParams) => Promise<ThreadRunOutput>;
-    getRunStep: (threadId: string, runId: string, stepId: string, options?: GetRunStepOptionalParams) => Promise<RunStepOutput>;
-    getThread: (threadId: string, options?: GetAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    getVectorStore: (vectorStoreId: string, options?: GetVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    getVectorStoreFile: (vectorStoreId: string, fileId: string, options?: GetVectorStoreFileOptionalParams) => Promise<VectorStoreFileOutput>;
-    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, options?: GetVectorStoreFileBatchOptionalParams) => Promise<VectorStoreFileBatchOutput>;
-    listAgents: (options?: ListAgentsOptionalParams) => Promise<OpenAIPageableListOfAgentOutput>;
-    listFiles: (options?: ListFilesOptionalParams) => Promise<FileListResponseOutput>;
-    listMessages: (threadId: string, options?: ListMessagesOptionalParams) => Promise<OpenAIPageableListOfThreadMessageOutput>;
-    listRuns: (threadId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    listRunSteps: (threadId: string, runId: string, options?: ListRunQueryOptionalParams) => Promise<OpenAIPageableListOfRunStepOutput>;
-    listThreads: (options?: ListAgentThreadOptionalParams) => Promise<OpenAIPageableListOfAgentThreadOutput>;
-    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListVectorStoreFileBatchFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStoreFiles: (vectorStoreId: string, options?: ListVectorStoreFilesOptionalParams) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    listVectorStores: (options?: ListVectorStoresOptionalParams) => Promise<OpenAIPageableListOfVectorStoreOutput>;
-    modifyVectorStore: (vectorStoreId: string, options?: UpdateVectorStoreOptionalParams) => Promise<VectorStoreOutput>;
-    submitToolOutputsToRun: (threadId: string, runId: string, toolOutputs: Array<ToolOutput>, options?: SubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
-    updateAgent: (assistantId: string, options: UpdateAgentOptionalParams) => Promise<AgentOutput>;
-    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
-    updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
-    updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
-    uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
-}
-
-// @public
-export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent_2 | DoneEvent;
-
-// @public
-export interface AgentThreadCreationOptions {
-    messages?: Array<ThreadMessageOptions>;
-    metadata?: Record<string, string> | null;
-    toolResources?: ToolResources | null;
-}
-
-// @public
-export interface AgentThreadOutput {
-    createdAt: Date;
-    id: string;
-    metadata: Record<string, string> | null;
-    object: "thread";
-    toolResources: ToolResourcesOutput | null;
-}
-
-// @public
-export class AIProjectsClient {
-    constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
-    readonly agents: AgentsOperations;
+export class AIProjectClient {
+    constructor(endpointParam: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
+    get agents(): AgentsClient;
     readonly connections: ConnectionsOperations;
-    static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
+    readonly datasets: DatasetsOperations;
+    readonly deployments: DeploymentsOperations;
+    readonly enableTelemetry: EnableTelemetryType;
+    readonly evaluations: EvaluationsOperations;
+    static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
+    getEndpointUrl(): string;
+    readonly indexes: IndexesOperations;
+    // Warning: (ae-forgotten-export) The symbol "InferenceOperations" needs to be exported by the entry point index.d.ts
+    readonly inference: InferenceOperations;
+    readonly pipeline: Pipeline;
+    readonly redTeams: RedTeamsOperations;
     readonly telemetry: TelemetryOperations;
 }
 
 // @public
-export interface AIProjectsClientOptions extends ProjectsClientOptions {
-}
-
-// @public
-export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
-
-// @public
-export type AzureAISearchQueryType = string;
-
-// @public
-export interface AzureAISearchResource {
-    indexes?: Array<IndexResource>;
-}
-
-// @public
-export interface AzureAISearchResourceOutput {
-    indexes?: Array<IndexResourceOutput>;
-}
-
-// @public
-export interface AzureAISearchToolDefinition extends ToolDefinitionParent {
-    type: "azure_ai_search";
-}
-
-// @public
-export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputParent {
-    type: "azure_ai_search";
-}
-
-// @public
-export interface AzureFunctionBinding {
-    storageQueue: AzureFunctionStorageQueue;
-    type: "storage_queue";
-}
-
-// @public
-export interface AzureFunctionBindingOutput {
-    storageQueue: AzureFunctionStorageQueueOutput;
-    type: "storage_queue";
-}
-
-// @public
-export interface AzureFunctionDefinition {
-    function: FunctionDefinition;
-    inputBinding: AzureFunctionBinding;
-    outputBinding: AzureFunctionBinding;
-}
-
-// @public
-export interface AzureFunctionDefinitionOutput {
-    function: FunctionDefinitionOutput;
-    inputBinding: AzureFunctionBindingOutput;
-    outputBinding: AzureFunctionBindingOutput;
-}
-
-// @public
-export interface AzureFunctionStorageQueue {
-    queueName: string;
-    queueServiceEndpoint: string;
-}
-
-// @public
-export interface AzureFunctionStorageQueueOutput {
-    queueName: string;
-    queueServiceEndpoint: string;
-}
-
-// @public
-export interface AzureFunctionToolDefinition extends ToolDefinitionParent {
-    azureFunction: AzureFunctionDefinition;
-    type: "azure_function";
-}
-
-// @public
-export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
-    azureFunction: AzureFunctionDefinitionOutput;
-    type: "azure_function";
-}
-
-// @public (undocumented)
-export interface AzureFunctionToolResource {
-    description: string;
-    // (undocumented)
-    inputQueue: AzureFunctionStorageQueue;
-    name: string;
-    // (undocumented)
-    outputQueue: AzureFunctionStorageQueue;
-    parameters: unknown;
-}
-
-// @public
-export interface BingCustomSearchToolDefinition extends ToolDefinitionParent {
-    bingCustomSearch?: SearchConfigurationList;
-    type: "bing_custom_search";
-}
-
-// @public
-export interface BingCustomSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
-    bingCustomSearch?: SearchConfigurationListOutput;
-    type: "bing_custom_search";
-}
-
-// @public
-export interface BingGroundingToolDefinition extends ToolDefinitionParent {
-    bingGrounding: ToolConnectionList;
-    type: "bing_grounding";
-}
-
-// @public
-export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputParent {
-    bingGrounding: ToolConnectionListOutput;
-    type: "bing_grounding";
-}
-
-// @public
-export interface CancelRunOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CancelVectorStoreFileBatchOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
-    type: "code_interpreter";
-}
-
-// @public
-export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutputParent {
-    type: "code_interpreter";
-}
-
-// @public
-export interface CodeInterpreterToolResource {
-    dataSources?: Array<VectorStoreDataSource>;
-    fileIds?: string[];
-}
-
-// @public
-export interface CodeInterpreterToolResourceOutput {
-    dataSources?: Array<VectorStoreDataSourceOutput>;
-    fileIds?: string[];
-}
-
-// @public
-export interface ConnectionsOperations {
-    getConnection: (connectionName: string, options?: GetConnectionOptionalParams) => Promise<GetConnectionResponseOutput>;
-    getConnectionWithSecrets: (connectionName: string, options?: GetConnectionWithSecretsOptionalParams) => Promise<GetConnectionResponseOutput>;
-    listConnections: (options?: ListConnectionsOptionalParams) => Promise<Array<GetConnectionResponseOutput>>;
-}
-
-// @public
-export enum connectionToolType {
-    AzureFunction = "azure_function",
-    BingCustomSearch = "bing_custom_search",
-    BingGrounding = "bing_grounding",
-    MicrosoftFabric = "fabric_dataagent",
-    SharepointGrounding = "sharepoint_grounding"
-}
-
-// @public
-export type ConnectionType = string;
-
-// @public
-export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
-
-// @public
-export interface CreateAgentOptionalParams extends Omit<CreateAgentOptions, "model">, OperationOptions {
-}
-
-// @public
-export interface CreateAgentOptions {
-    description?: string | null;
-    instructions?: string | null;
-    metadata?: Record<string, string> | null;
-    model: string;
-    name?: string | null;
-    responseFormat?: AgentsApiResponseFormatOption | null;
-    temperature?: number | null;
-    toolResources?: ToolResources | null;
-    tools?: Array<ToolDefinition>;
-    topP?: number | null;
-}
-
-// @public
-export interface CreateAgentThreadOptionalParams extends AgentThreadCreationOptions, OperationOptions {
-}
-
-// @public
-export type CreateAndRunThreadOptionalParams = Omit<CreateAndRunThreadOptions, "assistantId"> & OperationOptions;
-
-// @public
-export interface CreateAndRunThreadOptions {
-    assistantId: string;
-    instructions?: string | null;
-    maxCompletionTokens?: number | null;
-    maxPromptTokens?: number | null;
-    metadata?: Record<string, string> | null;
-    model?: string | null;
-    parallelToolCalls?: boolean;
-    responseFormat?: AgentsApiResponseFormatOption | null;
-    stream?: boolean;
-    temperature?: number | null;
-    thread?: AgentThreadCreationOptions;
-    toolChoice?: AgentsApiToolChoiceOption | null;
-    toolResources?: UpdateToolResourcesOptions | null;
-    tools?: Array<ToolDefinition> | null;
-    topP?: number | null;
-    truncationStrategy?: TruncationObject | null;
-}
-
-// @public
-export interface CreateAzureAISearchToolOptions {
-    filter?: string;
-    queryType?: AzureAISearchQueryType;
-    topK?: number;
-}
-
-// @public
-export type CreateMessageContent = string | Array<MessageContentBlockInput>;
-
-// @public
-export interface CreateMessageOptionalParams extends OperationOptions {
-}
-
-// @public
-export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, "assistantId"> & OperationOptions;
-
-// @public
-export interface CreateRunOptions {
-    additionalInstructions?: string | null;
-    additionalMessages?: Array<ThreadMessageOptions> | null;
-    assistantId: string;
-    instructions?: string | null;
-    maxCompletionTokens?: number | null;
-    maxPromptTokens?: number | null;
-    metadata?: Record<string, string> | null;
-    model?: string | null;
-    parallelToolCalls?: boolean;
-    responseFormat?: AgentsApiResponseFormatOption | null;
-    stream?: boolean;
-    temperature?: number | null;
-    toolChoice?: AgentsApiToolChoiceOption | null;
-    tools?: Array<ToolDefinition> | null;
-    topP?: number | null;
-    truncationStrategy?: TruncationObject | null;
-}
-
-// @public
-export interface CreateVectorStoreFileBatchOptionalParams extends CreateVectorStoreFileBatchOptions, OperationOptions, PollingOptionsParams {
-}
-
-// @public
-export interface CreateVectorStoreFileBatchOptions {
-    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
-    dataSources?: VectorStoreDataSource[];
-    fileIds?: string[];
-}
-
-// @public
-export interface CreateVectorStoreFileOptionalParams extends CreateVectorStoreFileOptions, OperationOptions, PollingOptionsParams {
-}
-
-// @public
-export interface CreateVectorStoreFileOptions {
-    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
-    dataSources?: Array<VectorStoreDataSource>;
-    fileId?: string;
-}
-
-// @public
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions, PollingOptionsParams {
-}
-
-// @public
-export interface CredentialsApiKeyAuthOutput {
-    key: string;
-}
-
-// @public
-export interface CredentialsSASAuthOutput {
-    SAS: string;
-}
-
-// @public
-export interface DeleteAgentOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteAgentThreadOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteFileOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteVectorStoreFileOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteVectorStoreOptionalParams extends OperationOptions {
-}
-
-// @public
-export enum DoneEvent {
-    Done = "done"
-}
-
-// @public
-enum ErrorEvent_2 {
-    Error = "error"
-}
-export { ErrorEvent_2 as ErrorEvent }
-
-// @public
-export interface FileDeletionStatusOutput {
-    deleted: boolean;
-    id: string;
-    object: "file";
-}
-
-// @public
-export interface FileListResponseOutput {
-    data: Array<OpenAIFileOutput>;
-    object: "list";
-}
-
-// @public
-export type FilePurpose = string;
-
-// @public
-export type FilePurposeOutput = string;
-
-// @public
-export interface FileSearchRankingOptions {
-    ranker: string;
-    scoreThreshold: number;
-}
-
-// @public
-export interface FileSearchRankingOptionsOutput {
-    ranker: string;
-    scoreThreshold: number;
-}
-
-// @public
-export interface FileSearchToolCallContentOutput {
-    text: string;
-    type: "text";
-}
-
-// @public
-export interface FileSearchToolDefinition extends ToolDefinitionParent {
-    fileSearch?: FileSearchToolDefinitionDetails;
-    type: "file_search";
-}
-
-// @public
-export interface FileSearchToolDefinitionDetails {
-    maxNumResults?: number;
-    rankingOptions?: FileSearchRankingOptions;
-}
-
-// @public
-export interface FileSearchToolDefinitionDetailsOutput {
-    maxNumResults?: number;
-    rankingOptions?: FileSearchRankingOptionsOutput;
-}
-
-// @public
-export interface FileSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
-    fileSearch?: FileSearchToolDefinitionDetailsOutput;
-    type: "file_search";
-}
-
-// @public
-export interface FileSearchToolResource {
-    vectorStoreIds?: string[];
-    vectorStores?: Array<VectorStoreConfigurations>;
-}
-
-// @public
-export interface FileSearchToolResourceOutput {
-    vectorStoreIds?: string[];
-    vectorStores?: Array<VectorStoreConfigurationsOutput>;
-}
-
-// @public
-export type FileStateOutput = string;
-
-// @public
-export interface FileStatusFilter {
-    filter?: VectorStoreFileStatusFilter;
-}
-
-// @public
-export interface FunctionDefinition {
-    description?: string;
-    name: string;
-    parameters: unknown;
-}
-
-// @public
-export interface FunctionDefinitionOutput {
-    description?: string;
-    name: string;
-    parameters: any;
-}
-
-// @public
-export interface FunctionName {
-    name: string;
-}
-
-// @public
-export interface FunctionNameOutput {
-    name: string;
-}
-
-// @public
-export interface FunctionToolDefinition extends ToolDefinitionParent {
-    function: FunctionDefinition;
-    type: "function";
-}
-
-// @public
-export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
-    function: FunctionDefinitionOutput;
-    type: "function";
-}
-
-// @public
-export interface GetAgentOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetAgentThreadOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetConnectionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetConnectionResponseOutput {
-    id: string;
-    name: string;
-    properties: InternalConnectionPropertiesOutput;
-}
-
-// @public
-export interface GetConnectionWithSecretsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetFileContentOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetFileOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetRunOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetRunStepOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetVectorStoreFileBatchOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetVectorStoreFileOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetVectorStoreOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetWorkspaceOptionalParams extends OperationOptions {
-}
-
-// @public
-export type ImageDetailLevel = string;
-
-// @public
-export type IncompleteDetailsReasonOutput = string;
-
-// @public
-export interface IncompleteRunDetailsOutput {
-    reason: IncompleteDetailsReasonOutput;
-}
-
-// @public
-export interface IndexResource {
-    filter?: string;
-    indexConnectionId: string;
-    indexName: string;
-    queryType?: AzureAISearchQueryType;
-    topK?: number;
-}
-
-// @public
-export interface IndexResourceOutput {
-    indexConnectionId: string;
-    indexName: string;
-}
-
-// @public
-export interface InternalConnectionPropertiesAADAuthOutput extends InternalConnectionPropertiesOutputParent {
-    authType: "AAD";
-}
-
-// @public
-export interface InternalConnectionPropertiesApiKeyAuthOutput extends InternalConnectionPropertiesOutputParent {
-    authType: "ApiKey";
-    credentials: CredentialsApiKeyAuthOutput;
-}
-
-// @public
-export type InternalConnectionPropertiesOutput = InternalConnectionPropertiesOutputParent | InternalConnectionPropertiesApiKeyAuthOutput | InternalConnectionPropertiesAADAuthOutput | InternalConnectionPropertiesSASAuthOutput;
-
-// @public
-export interface InternalConnectionPropertiesOutputParent {
-    // (undocumented)
-    authType: AuthenticationTypeOutput;
-    category: ConnectionTypeOutput;
-    target: string;
-}
-
-// @public
-export interface InternalConnectionPropertiesSASAuthOutput extends InternalConnectionPropertiesOutputParent {
-    authType: "SAS";
-    credentials: CredentialsSASAuthOutput;
-}
-
-// @public
-export function isOutputOfType<T extends {
-    type: string;
-}>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
-
-// @public
-export interface ListAgentsOptionalParams extends ListQueryParameters, OperationOptions {
-}
-
-// @public
-export interface ListAgentThreadOptionalParams extends ListThreadsQueryParamProperties, OperationOptions {
-}
-
-// @public
-export interface ListConnectionsOptionalParams extends ListConnectionsQueryParamProperties, OperationOptions {
-}
-
-// @public (undocumented)
-export interface ListConnectionsQueryParamProperties {
-    category?: ConnectionType;
-    includeAll?: boolean;
-    target?: string;
-}
-
-// @public
-export interface ListFilesOptionalParams extends ListFilesQueryParamProperties, OperationOptions {
-}
-
-// @public (undocumented)
-export interface ListFilesQueryParamProperties {
-    purpose?: FilePurpose;
-}
-
-// @public
-export interface ListMessagesOptionalParams extends ListMessagesQueryParamProperties, OperationOptions {
-}
-
-// @public (undocumented)
-export interface ListMessagesQueryParamProperties {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-    runId?: string;
-}
-
-// @public
-export interface ListQueryParameters {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: "asc" | "desc";
-}
-
-// @public
-export interface ListRunQueryOptionalParams extends ListQueryParameters, OperationOptions {
-}
-
-// @public
-export interface ListRunStepsOptionalParams extends ListQueryParameters, OperationOptions {
-}
-
-// @public
-export type ListSortOrder = string;
-
-// @public (undocumented)
-export interface ListThreadsQueryParamProperties {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public
-export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
-    filter?: VectorStoreFileStatusFilter;
-}
-
-// @public
-export interface ListVectorStoreFilesOptionalParams extends ListQueryParameters, OperationOptions {
-}
-
-// @public
-export interface ListVectorStoresOptionalParams extends ListQueryParameters, OperationOptions {
-}
-
-// @public
-export interface MessageAttachment {
-    dataSource?: VectorStoreDataSource;
-    fileId?: string;
-    tools: MessageAttachmentToolDefinition[];
-}
-
-// @public
-export interface MessageAttachmentOutput {
-    dataSource?: VectorStoreDataSourceOutput;
-    fileId?: string;
-    tools: MessageAttachmentToolDefinitionOutput[];
-}
-
-// @public
-export type MessageAttachmentToolDefinition = CodeInterpreterToolDefinition | FileSearchToolDefinition;
-
-// @public
-export type MessageAttachmentToolDefinitionOutput = CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput;
-
-// @public
-export type MessageBlockType = string;
-
-// @public
-export type MessageContentBlockInput = MessageContentBlockInputParent | MessageTextBlockInput | MessageImageFileBlockInput | MessageImageUrlBlockInput;
-
-// @public
-export interface MessageContentBlockInputParent {
-    // (undocumented)
-    type: MessageBlockType;
-}
-
-// @public
-export type MessageContentOutput = MessageContentOutputParent | MessageTextContentOutput | MessageImageFileContentOutput;
-
-// @public
-export interface MessageContentOutputParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface MessageDelta {
-    content: Array<MessageDeltaContent>;
-    role: MessageRole;
-}
-
-// @public
-export interface MessageDeltaChunk {
-    delta: MessageDelta;
-    id: string;
-    object: "thread.message.delta";
-}
-
-// @public
-export type MessageDeltaContent = MessageDeltaContentParent | MessageDeltaTextContent | MessageDeltaImageFileContent;
-
-// @public
-export interface MessageDeltaContentParent {
-    index: number;
-    type: string;
-}
-
-// @public
-export interface MessageDeltaImageFileContent extends MessageDeltaContentParent {
-    imageFile?: MessageDeltaImageFileContentObject;
-    type: "image_file";
-}
-
-// @public
-export interface MessageDeltaImageFileContentObject {
-    fileId?: string;
-}
-
-// @public
-export type MessageDeltaTextAnnotation = MessageDeltaTextAnnotationParent | MessageDeltaTextFileCitationAnnotation | MessageDeltaTextFilePathAnnotation;
-
-// @public
-export interface MessageDeltaTextAnnotationParent {
-    index: number;
-    type: string;
-}
-
-// @public
-export interface MessageDeltaTextContent extends MessageDeltaContentParent {
-    text?: MessageDeltaTextContentObject;
-    type: "text";
-}
-
-// @public
-export interface MessageDeltaTextContentObject {
-    annotations?: Array<MessageDeltaTextAnnotation>;
-    value?: string;
-}
-
-// @public
-export interface MessageDeltaTextFileCitationAnnotation extends MessageDeltaTextAnnotationParent {
-    endIndex?: number;
-    fileCitation?: MessageDeltaTextFileCitationAnnotationObject;
-    startIndex?: number;
-    text?: string;
-    type: "file_citation";
-}
-
-// @public
-export interface MessageDeltaTextFileCitationAnnotationObject {
-    fileId?: string;
-    quote?: string;
-}
-
-// @public
-export interface MessageDeltaTextFilePathAnnotation extends MessageDeltaTextAnnotationParent {
-    endIndex?: number;
-    filePath?: MessageDeltaTextFilePathAnnotationObject;
-    startIndex?: number;
-    text?: string;
-    type: "file_path";
-}
-
-// @public
-export interface MessageDeltaTextFilePathAnnotationObject {
-    fileId?: string;
-}
-
-// @public
-export interface MessageDeltaTextUrlCitationDetails {
-    title?: string;
-    url?: string;
-}
-
-// @public
-export interface MessageImageFileBlockInput extends MessageContentBlockInputParent {
-    imageFile: MessageImageFileParam;
-    type: "image_file";
-}
-
-// @public
-export interface MessageImageFileContentOutput extends MessageContentOutputParent {
-    imageFile: MessageImageFileDetailsOutput;
-    type: "image_file";
-}
-
-// @public
-export interface MessageImageFileDetailsOutput {
-    fileId: string;
-}
-
-// @public
-export interface MessageImageFileParam {
-    detail?: ImageDetailLevel;
-    fileId: string;
-}
-
-// @public
-export interface MessageImageUrlBlockInput extends MessageContentBlockInputParent {
-    imageUrl: MessageImageUrlParam;
-    type: "image_url";
-}
-
-// @public
-export interface MessageImageUrlParam {
-    detail?: ImageDetailLevel;
-    url: string;
-}
-
-// @public
-export interface MessageIncompleteDetailsOutput {
-    reason: MessageIncompleteDetailsReasonOutput;
-}
-
-// @public
-export type MessageIncompleteDetailsReasonOutput = string;
-
-// @public
-export type MessageRole = string;
-
-// @public
-export type MessageRoleOutput = string;
-
-// @public
-export type MessageStatusOutput = string;
-
-// @public
-export enum MessageStreamEvent {
-    ThreadMessageCompleted = "thread.message.completed",
-    ThreadMessageCreated = "thread.message.created",
-    ThreadMessageDelta = "thread.message.delta",
-    ThreadMessageIncomplete = "thread.message.incomplete",
-    ThreadMessageInProgress = "thread.message.in_progress"
-}
-
-// @public
-export type MessageTextAnnotationOutput = MessageTextAnnotationOutputParent | MessageTextFileCitationAnnotationOutput | MessageTextFilePathAnnotationOutput;
-
-// @public
-export interface MessageTextAnnotationOutputParent {
-    text: string;
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface MessageTextBlockInput extends MessageContentBlockInputParent {
-    text: string;
-    type: "text";
-}
-
-// @public
-export interface MessageTextContentOutput extends MessageContentOutputParent {
-    text: MessageTextDetailsOutput;
-    type: "text";
-}
-
-// @public
-export interface MessageTextDetailsOutput {
-    annotations: Array<MessageTextAnnotationOutput>;
-    value: string;
-}
-
-// @public
-export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnnotationOutputParent {
-    endIndex?: number;
-    fileCitation: MessageTextFileCitationDetailsOutput;
-    startIndex?: number;
-    type: "file_citation";
-}
-
-// @public
-export interface MessageTextFileCitationDetailsOutput {
-    fileId: string;
-    quote: string;
-}
-
-// @public
-export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotationOutputParent {
-    endIndex?: number;
-    filePath: MessageTextFilePathDetailsOutput;
-    startIndex?: number;
-    type: "file_path";
-}
-
-// @public
-export interface MessageTextFilePathDetailsOutput {
-    fileId: string;
-}
-
-// @public
-export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    fabricDataAgent: ToolConnectionList;
-    type: "fabric_dataagent";
-}
-
-// @public
-export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    fabricDataAgent: ToolConnectionListOutput;
-    type: "fabric_dataagent";
-}
-
-// @public
-export interface OpenAIFileOutput {
-    bytes: number;
-    createdAt: Date;
-    filename: string;
-    id: string;
-    object: "file";
-    purpose: FilePurposeOutput;
-    status?: FileStateOutput;
-    statusDetails?: string;
-}
-
-// @public
-export interface OpenAIPageableListOfAgentOutput {
-    data: Array<AgentOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfAgentThreadOutput {
-    data: Array<AgentThreadOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfRunStepOutput {
-    data: Array<RunStepOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfThreadMessageOutput {
-    data: Array<ThreadMessageOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfThreadRunOutput {
-    data: Array<ThreadRunOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfVectorStoreFileOutput {
-    data: Array<VectorStoreFileOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenAIPageableListOfVectorStoreOutput {
-    data: Array<VectorStoreOutput>;
-    firstId: string;
-    hasMore: boolean;
-    lastId: string;
-    object: "list";
-}
-
-// @public
-export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetailsParent {
-    type: "anonymous";
-}
-
-// @public
-export interface OpenApiAnonymousAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
-    type: "anonymous";
-}
-
-// @public
-export type OpenApiAuthDetails = OpenApiAuthDetailsParent | OpenApiAnonymousAuthDetails | OpenApiConnectionAuthDetails | OpenApiManagedAuthDetails;
-
-// @public
-export type OpenApiAuthDetailsOutput = OpenApiAuthDetailsOutputParent | OpenApiAnonymousAuthDetailsOutput | OpenApiConnectionAuthDetailsOutput | OpenApiManagedAuthDetailsOutput;
-
-// @public
-export interface OpenApiAuthDetailsOutputParent {
-    // (undocumented)
-    type: OpenApiAuthTypeOutput;
-}
-
-// @public
-export interface OpenApiAuthDetailsParent {
-    // (undocumented)
-    type: OpenApiAuthType;
-}
-
-// @public
-export type OpenApiAuthType = string;
-
-// @public
-export type OpenApiAuthTypeOutput = string;
-
-// @public
-export interface OpenApiConnectionAuthDetails extends OpenApiAuthDetailsParent {
-    securityScheme: OpenApiConnectionSecurityScheme;
-    type: "connection";
-}
-
-// @public
-export interface OpenApiConnectionAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
-    securityScheme: OpenApiConnectionSecuritySchemeOutput;
-    type: "connection";
-}
-
-// @public
-export interface OpenApiConnectionSecurityScheme {
-    connectionId: string;
-}
-
-// @public
-export interface OpenApiConnectionSecuritySchemeOutput {
-    connectionId: string;
-}
-
-// @public
-export interface OpenApiFunctionDefinition {
-    auth: OpenApiAuthDetails;
-    defaultParams?: string[];
-    description?: string;
-    functions?: Array<FunctionDefinition>;
-    name: string;
-    spec: unknown;
-}
-
-// @public
-export interface OpenApiFunctionDefinitionOutput {
-    auth: OpenApiAuthDetailsOutput;
-    description?: string;
-    name: string;
-    spec: any;
-}
-
-// @public
-export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
-    securityScheme: OpenApiManagedSecurityScheme;
-    type: "managed_identity";
-}
-
-// @public
-export interface OpenApiManagedAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
-    securityScheme: OpenApiManagedSecuritySchemeOutput;
-    type: "managed_identity";
-}
-
-// @public
-export interface OpenApiManagedSecurityScheme {
-    audience: string;
-}
-
-// @public
-export interface OpenApiManagedSecuritySchemeOutput {
-    audience: string;
-}
-
-// @public
-export interface OpenApiToolDefinition extends ToolDefinitionParent {
-    openapi: OpenApiFunctionDefinition;
-    type: "openapi";
-}
-
-// @public
-export interface OpenApiToolDefinitionOutput extends ToolDefinitionOutputParent {
-    openapi: OpenApiFunctionDefinitionOutput;
-    type: "openapi";
-}
-
-// @public
-export interface PollingOptions {
-    sleepIntervalInMs?: number;
-}
-
-// @public
-export interface PollingOptionsParams {
-    pollingOptions?: PollingOptions;
-}
-
-// @public
-export interface ProjectsClientOptions extends ClientOptions {
+export interface AIProjectClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
 
 // @public
-export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
-
-// @public
-export interface RequiredActionOutputParent {
-    // (undocumented)
-    type: string;
+export interface ApiKeyCredentials extends BaseCredentials {
+    readonly apiKey?: string;
+    readonly type: "ApiKey";
 }
 
 // @public
-export interface RequiredFunctionToolCallDetailsOutput {
-    arguments: string;
-    name: string;
+export interface AssetCredentialResponse {
+    blobReference: BlobReference;
 }
 
 // @public
-export interface RequiredFunctionToolCallOutput extends RequiredToolCallOutputParent {
-    function: RequiredFunctionToolCallDetailsOutput;
-    type: "function";
+export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansii_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline";
+
+// @public
+export interface AzureAISearchIndex extends Index {
+    connectionName: string;
+    indexName: string;
+    type: "AzureSearch";
 }
 
 // @public
-export type RequiredToolCallOutput = RequiredToolCallOutputParent | RequiredFunctionToolCallOutput;
-
-// @public
-export interface RequiredToolCallOutputParent {
-    id: string;
-    // (undocumented)
-    type: string;
+export interface AzureOpenAIModelConfiguration extends TargetConfig {
+    modelDeploymentName: string;
+    readonly type: "AzureOpenAIModel";
 }
 
 // @public
-export type ResponseFormat = string;
+export interface BaseCredentials {
+    readonly type: CredentialType;
+}
 
 // @public
-export interface ResponseFormatJsonSchema {
+export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASCredentials | NoAuthenticationCredentials | BaseCredentials;
+
+// @public
+export interface BlobReference {
+    blobUri: string;
+    credential: SasCredential;
+    storageAccountArmId: string;
+}
+
+// @public
+export interface Connection {
+    readonly credentials: BaseCredentialsUnion;
+    readonly isDefault: boolean;
+    readonly metadata: Record<string, string>;
+    readonly name: string;
+    readonly target: string;
+    readonly type: ConnectionType;
+}
+
+// @public
+export interface ConnectionsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface ConnectionsListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    connectionType?: ConnectionType;
+    defaultConnection?: boolean;
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ConnectionsOperations {
+    get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
+    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) => Promise<Connection>;
+    getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) => Promise<Connection>;
+    list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
+}
+
+// @public
+export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount" | "CognitiveSearch" | "CosmosDB" | "ApiKey" | "AppConfig" | "AppInsights" | "CustomKeys";
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export interface CosmosDBIndex extends Index {
+    connectionName: string;
+    containerName: string;
+    databaseName: string;
+    embeddingConfiguration: EmbeddingConfiguration;
+    type: "CosmosDBNoSqlVectorStore";
+}
+
+// @public
+export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None";
+
+// @public
+export interface CustomCredential extends BaseCredentials {
+    readonly keys: Record<string, string>;
+    readonly type: "CustomKeys";
+}
+
+// @public
+export interface DatasetsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsGetCredentialsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DatasetsListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface DatasetsListVersionsOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface DatasetsOperations {
+    createOrUpdate: (name: string, version: string, body: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
+    delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
+    get: (name: string, version: string, options?: DatasetsGetOptionalParams) => Promise<DatasetVersionUnion>;
+    getCredentials: (name: string, version: string, body: Record<string, any>, options?: DatasetsGetCredentialsOptionalParams) => Promise<AssetCredentialResponse>;
+    list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
+    listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
+    pendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
+    uploadFile: (name: string, version: string, filePath: string) => Promise<DatasetVersionUnion>;
+    uploadFolder: (name: string, version: string, folderPath: string) => Promise<DatasetVersionUnion>;
+}
+
+// @public
+export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
+}
+
+// @public
+export type DatasetType = "uri_file" | "uri_folder";
+
+// @public
+export interface DatasetVersion {
+    dataUri: string;
     description?: string;
-    name: string;
-    schema: unknown;
+    readonly id?: string;
+    readonly isReference?: boolean;
+    readonly name: string;
+    tags?: Record<string, string>;
+    type: DatasetType;
+    readonly version: string;
 }
 
 // @public
-export interface ResponseFormatJsonSchemaOutput {
+export type DatasetVersionUnion = FileDatasetVersion | FolderDatasetVersion | DatasetVersion;
+
+// @public
+export interface Deployment {
+    readonly name: string;
+    type: DeploymentType;
+}
+
+// @public
+export interface DeploymentsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface DeploymentsListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    deploymentType?: DeploymentType;
+    maxpagesize?: number;
+    modelName?: string;
+    modelPublisher?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface DeploymentsOperations {
+    get: (name: string, options?: DeploymentsGetOptionalParams) => Promise<DeploymentUnion>;
+    list: (options?: DeploymentsListOptionalParams) => PagedAsyncIterableIterator<DeploymentUnion>;
+}
+
+// @public
+export type DeploymentType = "ModelDeployment";
+
+// @public
+export type DeploymentUnion = ModelDeployment | Deployment;
+
+// @public
+export interface EmbeddingConfiguration {
+    embeddingField: string;
+    modelDeploymentName: string;
+}
+
+// @public
+export type EnableTelemetryType = (destination?: string) => void;
+
+// @public
+export interface EntraIDCredentials extends BaseCredentials {
+    readonly type: "AAD";
+}
+
+// @public
+export interface Evaluation {
+    data: InputDataUnion;
     description?: string;
-    name: string;
-    schema: any;
+    displayName?: string;
+    evaluators: Record<string, EvaluatorConfiguration>;
+    readonly name: string;
+    properties?: Record<string, string>;
+    readonly status?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface ResponseFormatJsonSchemaType {
-    jsonSchema: ResponseFormatJsonSchema;
-    type: "json_schema";
+export interface EvaluationsCreateAgentEvaluationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ResponseFormatJsonSchemaTypeOutput {
-    jsonSchema: ResponseFormatJsonSchemaOutput;
-    type: "json_schema";
+export interface EvaluationsCreateRunOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResponseFormatOutput = string;
-
-// @public
-export interface RunCompletionUsageOutput {
-    completionTokens: number;
-    promptTokens: number;
-    totalTokens: number;
+export interface EvaluationsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
 }
 
 // @public
-export interface RunErrorOutput {
-    code: string;
-    message: string;
+export interface EvaluationsListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
 }
 
 // @public
-export type RunStatusOutput = string;
-
-// @public
-export interface RunStepAzureAISearchToolCallOutput extends RunStepToolCallOutputParent {
-    azureAISearch: Record<string, string>;
-    type: "azure_ai_search";
+export interface EvaluationsOperations {
+    createAgentEvaluation: (evaluation: AgentEvaluationRequest, options?: EvaluationsCreateAgentEvaluationOptionalParams) => Promise<AgentEvaluation>;
+    createRun: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateRunOptionalParams) => Promise<Evaluation>;
+    get: (name: string, options?: EvaluationsGetOptionalParams) => Promise<Evaluation>;
+    list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
 }
 
 // @public
-export interface RunStepBingGroundingToolCallOutput extends RunStepToolCallOutputParent {
-    bingGrounding: Record<string, string>;
-    type: "bing_grounding";
-}
-
-// @public
-export interface RunStepCodeInterpreterImageOutputOutput extends RunStepCodeInterpreterToolCallOutputOutputParent {
-    image: RunStepCodeInterpreterImageReferenceOutput;
-    type: "image";
-}
-
-// @public
-export interface RunStepCodeInterpreterImageReferenceOutput {
-    fileId: string;
-}
-
-// @public
-export interface RunStepCodeInterpreterLogOutputOutput extends RunStepCodeInterpreterToolCallOutputOutputParent {
-    logs: string;
-    type: "logs";
-}
-
-// @public
-export interface RunStepCodeInterpreterToolCallDetailsOutput {
-    input: string;
-    outputs: Array<RunStepCodeInterpreterToolCallOutputOutput>;
-}
-
-// @public
-export interface RunStepCodeInterpreterToolCallOutput extends RunStepToolCallOutputParent {
-    codeInterpreter: RunStepCodeInterpreterToolCallDetailsOutput;
-    type: "code_interpreter";
-}
-
-// @public
-export type RunStepCodeInterpreterToolCallOutputOutput = RunStepCodeInterpreterToolCallOutputOutputParent | RunStepCodeInterpreterLogOutputOutput | RunStepCodeInterpreterImageOutputOutput;
-
-// @public
-export interface RunStepCodeInterpreterToolCallOutputOutputParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface RunStepCompletionUsageOutput {
-    completionTokens: number;
-    promptTokens: number;
-    totalTokens: number;
-}
-
-// @public
-export interface RunStepDelta {
-    stepDetails?: RunStepDeltaDetail;
-}
-
-// @public
-export interface RunStepDeltaChunk {
-    delta: RunStepDelta;
-    id: string;
-    object: "thread.run.step.delta";
-}
-
-// @public
-export interface RunStepDeltaCodeInterpreterDetailItemObject {
-    input?: string;
-    outputs?: Array<RunStepDeltaCodeInterpreterOutput>;
-}
-
-// @public
-export interface RunStepDeltaCodeInterpreterImageOutput extends RunStepDeltaCodeInterpreterOutputParent {
-    image?: RunStepDeltaCodeInterpreterImageOutputObject;
-    type: "image";
-}
-
-// @public
-export interface RunStepDeltaCodeInterpreterImageOutputObject {
-    fileId?: string;
-}
-
-// @public
-export interface RunStepDeltaCodeInterpreterLogOutput extends RunStepDeltaCodeInterpreterOutputParent {
-    logs?: string;
-    type: "logs";
-}
-
-// @public
-export type RunStepDeltaCodeInterpreterOutput = RunStepDeltaCodeInterpreterOutputParent | RunStepDeltaCodeInterpreterLogOutput | RunStepDeltaCodeInterpreterImageOutput;
-
-// @public
-export interface RunStepDeltaCodeInterpreterOutputParent {
-    index: number;
-    type: string;
-}
-
-// @public
-export interface RunStepDeltaCodeInterpreterToolCall extends RunStepDeltaToolCallParent {
-    codeInterpreter?: RunStepDeltaCodeInterpreterDetailItemObject;
-    type: "code_interpreter";
-}
-
-// @public
-export interface RunStepDeltaDetail {
-    type: string;
-}
-
-// @public
-export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCallParent {
-    fileSearch?: RunStepFileSearchToolCallResultsOutput;
-    type: "file_search";
-}
-
-// @public
-export interface RunStepDeltaFunction {
-    arguments?: string;
+export type EvaluationWithOptionalName = Omit<Evaluation, "name"> & {
     name?: string;
-    output?: string | null;
-}
+};
 
 // @public
-export interface RunStepDeltaFunctionToolCall extends RunStepDeltaToolCallParent {
-    function?: RunStepDeltaFunction;
-    type: "function";
-}
-
-// @public
-export interface RunStepDeltaMessageCreation extends RunStepDeltaDetail {
-    messageCreation?: RunStepDeltaMessageCreationObject;
-    type: "message_creation";
-}
-
-// @public
-export interface RunStepDeltaMessageCreationObject {
-    messageId?: string;
-}
-
-// @public
-export type RunStepDeltaToolCall = RunStepDeltaToolCallParent | RunStepDeltaFunctionToolCall | RunStepDeltaFileSearchToolCall | RunStepDeltaCodeInterpreterToolCall;
-
-// @public
-export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
-    toolCalls?: Array<RunStepDeltaToolCall>;
-    type: "tool_calls";
-}
-
-// @public
-export interface RunStepDeltaToolCallParent {
+export interface EvaluatorConfiguration {
+    dataMapping?: Record<string, string>;
     id: string;
-    index: number;
+    initParams?: Record<string, any>;
+}
+
+// @public
+export type EvaluatorId = (typeof EvaluatorIds)[keyof typeof EvaluatorIds];
+
+// @public
+export const EvaluatorIds: {
+    readonly RELEVANCE: "azureai://built-in/evaluators/relevance";
+    readonly HATE_UNFAIRNESS: "azureai://built-in/evaluators/hate_unfairness";
+    readonly VIOLENCE: "azureai://built-in/evaluators/violence";
+    readonly GROUNDEDNESS: "azureai://built-in/evaluators/groundedness";
+    readonly GROUNDEDNESS_PRO: "azureai://built-in/evaluators/groundedness_pro";
+    readonly BLUE_SCORE: "azureai://built-in/evaluators/blue_score";
+    readonly CODE_VULNERABILITY: "azureai://built-in/evaluators/code_vulnerability";
+    readonly COHERENCE: "azureai://built-in/evaluators/coherence";
+    readonly CONTENT_SAFETY: "azureai://built-in/evaluators/content_safety";
+    readonly F1_SCORE: "azureai://built-in/evaluators/f1_score";
+    readonly FLUENCY: "azureai://built-in/evaluators/fluency";
+    readonly GLEU_SCORE: "azureai://built-in/evaluators/gleu_score";
+    readonly INDIRECT_ATTACK: "azureai://built-in/evaluators/indirect_attack";
+    readonly METEOR_SCORE: "azureai://built-in/evaluators/meteor_score";
+    readonly PROTECTED_MATERIAL: "azureai://built-in/evaluators/protected_material";
+    readonly RETRIEVAL: "azureai://built-in/evaluators/retrieval";
+    readonly ROUGE_SCORE: "azureai://built-in/evaluators/rouge_score";
+    readonly SELF_HARM: "azureai://built-in/evaluators/self_harm";
+    readonly SEXUAL: "azureai://built-in/evaluators/sexual";
+    readonly SIMILARITY_SCORE: "azureai://built-in/evaluators/similarity_score";
+    readonly UNGROUNDED_ATTRIBUTES: "azureai://built-in/evaluators/ungrounded_attributes";
+    readonly RESPONSE_COMPLETENESS: "azureai://built-in/evaluators/response_completeness";
+};
+
+// @public
+export interface FileDatasetVersion extends DatasetVersion {
+    type: "uri_file";
+}
+
+// @public
+export interface FolderDatasetVersion extends DatasetVersion {
+    type: "uri_folder";
+}
+
+// @public
+export interface Index {
+    description?: string;
+    readonly id?: string;
+    readonly name: string;
+    tags?: Record<string, string>;
+    type: IndexType;
+    readonly version: string;
+}
+
+// @public
+export interface IndexesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IndexesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IndexesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IndexesListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface IndexesListVersionsOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface IndexesOperations {
+    createOrUpdate: (name: string, version: string, body: IndexUnion, options?: IndexesCreateOrUpdateOptionalParams) => Promise<IndexUnion>;
+    delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) => Promise<void>;
+    get: (name: string, version: string, options?: IndexesGetOptionalParams) => Promise<IndexUnion>;
+    list: (options?: IndexesListOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;
+    listVersions: (name: string, options?: IndexesListVersionsOptionalParams) => PagedAsyncIterableIterator<IndexUnion>;
+}
+
+// @public
+export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzureSearch";
+
+// @public
+export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
+
+// @public
+export interface InputData {
     type: string;
 }
 
 // @public
-export type RunStepDetailsOutput = RunStepDetailsOutputParent | RunStepMessageCreationDetailsOutput | RunStepToolCallDetailsOutput;
-
-// @public
-export interface RunStepDetailsOutputParent {
-    // (undocumented)
-    type: RunStepTypeOutput;
-}
-
-// @public
-export type RunStepErrorCodeOutput = string;
-
-// @public
-export interface RunStepErrorOutput {
-    code: RunStepErrorCodeOutput;
-    message: string;
-}
-
-// @public
-export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
-    fileSearch: RunStepFileSearchToolCallResultsOutput;
+export interface InputDataset extends InputData {
     id: string;
-    type: "file_search";
+    type: "dataset";
 }
 
 // @public
-export interface RunStepFileSearchToolCallResultOutput {
-    content?: Array<FileSearchToolCallContentOutput>;
-    fileId: string;
-    fileName: string;
-    score: number;
+export type InputDataUnion = InputDataset | InputData;
+
+// @public
+export enum KnownVersions {
+    V20250501 = "2025-05-01",
+    V20250515Preview = "2025-05-15-preview"
 }
 
 // @public
-export interface RunStepFileSearchToolCallResultsOutput {
-    rankingOptions?: FileSearchRankingOptionsOutput;
-    results: Array<RunStepFileSearchToolCallResultOutput>;
+export interface ManagedAzureAISearchIndex extends Index {
+    type: "ManagedAzureSearch";
+    vectorStoreId: string;
 }
 
 // @public
-export interface RunStepFunctionToolCallDetailsOutput {
-    arguments: string;
+export interface ModelDeployment extends Deployment {
+    readonly capabilities: Record<string, string>;
+    readonly connectionName?: string;
+    readonly modelName: string;
+    readonly modelPublisher: string;
+    readonly modelVersion: string;
+    readonly sku: Sku;
+    type: "ModelDeployment";
+}
+
+// @public
+export interface NoAuthenticationCredentials extends BaseCredentials {
+    readonly type: "None";
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface PendingUploadRequest {
+    connectionName?: string;
+    pendingUploadId?: string;
+    pendingUploadType: "BlobReference";
+}
+
+// @public
+export interface PendingUploadResponse {
+    blobReference: BlobReference;
+    pendingUploadId: string;
+    pendingUploadType: "BlobReference";
+    version?: string;
+}
+
+// @public
+export type PendingUploadType = "None" | "BlobReference";
+
+// @public
+export interface RedTeam {
+    applicationScenario?: string;
+    attackStrategies: AttackStrategy[];
+    readonly id: string;
+    numTurns: number;
+    properties?: Record<string, string>;
+    riskCategories: RiskCategory[];
+    scanName?: string;
+    simulationOnly: boolean;
+    readonly status?: string;
+    tags?: Record<string, string>;
+    targetConfig: TargetConfigUnion;
+}
+
+// @public
+export interface RedTeamsCreateRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RedTeamsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface RedTeamsListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    maxpagesize?: number;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface RedTeamsOperations {
+    createRun: (redTeam: RedTeam, options?: RedTeamsCreateRunOptionalParams) => Promise<RedTeam>;
+    get: (name: string, options?: RedTeamsGetOptionalParams) => Promise<RedTeam>;
+    list: (options?: RedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
+}
+
+// @public
+export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm";
+
+// @public
+export interface SasCredential {
+    readonly sasUri: string;
+    readonly type: "SAS";
+}
+
+// @public
+export interface SASCredentials extends BaseCredentials {
+    readonly sasToken?: string;
+    readonly type: "SAS";
+}
+
+// @public
+export interface Sku {
+    capacity: number;
+    family: string;
     name: string;
-    output: string | null;
+    size: string;
+    tier: string;
 }
 
 // @public
-export interface RunStepFunctionToolCallOutput extends RunStepToolCallOutputParent {
-    function: RunStepFunctionToolCallDetailsOutput;
-    type: "function";
-}
-
-// @public
-export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
-    messageCreation: RunStepMessageCreationReferenceOutput;
-    type: "message_creation";
-}
-
-// @public
-export interface RunStepMessageCreationReferenceOutput {
-    messageId: string;
-}
-
-// @public
-export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    fabricDataAgent: Record<string, string>;
-    type: "fabric_dataagent";
-}
-
-// @public
-export interface RunStepOutput {
-    assistantId: string;
-    cancelledAt: Date | null;
-    completedAt: Date | null;
-    createdAt: Date;
-    expiredAt: Date | null;
-    failedAt: Date | null;
-    id: string;
-    lastError: RunStepErrorOutput | null;
-    metadata: Record<string, string> | null;
-    object: "thread.run.step";
-    runId: string;
-    status: RunStepStatusOutput;
-    stepDetails: RunStepDetailsOutput;
-    threadId: string;
-    type: RunStepTypeOutput;
-    usage?: RunStepCompletionUsageOutput | null;
-}
-
-// @public
-export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputParent {
-    sharepointGrounding: Record<string, string>;
-    type: "sharepoint_grounding";
-}
-
-// @public
-export type RunStepStatusOutput = string;
-
-// @public
-export enum RunStepStreamEvent {
-    ThreadRunStepCancelled = "thread.run.step.cancelled",
-    ThreadRunStepCompleted = "thread.run.step.completed",
-    ThreadRunStepCreated = "thread.run.step.created",
-    ThreadRunStepDelta = "thread.run.step.delta",
-    ThreadRunStepExpired = "thread.run.step.expired",
-    ThreadRunStepFailed = "thread.run.step.failed",
-    ThreadRunStepInProgress = "thread.run.step.in_progress"
-}
-
-// @public
-export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
-    toolCalls: Array<RunStepToolCallOutput>;
-    type: "tool_calls";
-}
-
-// @public
-export type RunStepToolCallOutput = RunStepToolCallOutputParent | RunStepCodeInterpreterToolCallOutput | RunStepFileSearchToolCallOutput | RunStepBingGroundingToolCallOutput | RunStepAzureAISearchToolCallOutput | RunStepSharepointToolCallOutput | RunStepMicrosoftFabricToolCallOutput | RunStepFunctionToolCallOutput;
-
-// @public
-export interface RunStepToolCallOutputParent {
-    id: string;
-    // (undocumented)
+export interface TargetConfig {
     type: string;
 }
 
 // @public
-export type RunStepTypeOutput = string;
-
-// @public
-export enum RunStreamEvent {
-    ThreadRunCancelled = "thread.run.cancelled",
-    ThreadRunCancelling = "thread.run.cancelling",
-    ThreadRunCompleted = "thread.run.completed",
-    ThreadRunCreated = "thread.run.created",
-    ThreadRunExpired = "thread.run.expired",
-    ThreadRunFailed = "thread.run.failed",
-    ThreadRunInProgress = "thread.run.in_progress",
-    ThreadRunQueued = "thread.run.queued",
-    ThreadRunRequiresAction = "thread.run.requires_action"
-}
-
-// @public
-export interface SearchConfiguration {
-    connectionId: string;
-    instanceName: string;
-}
-
-// @public
-export interface SearchConfiguration {
-    connectionId: string;
-    instanceName: string;
-}
-
-// @public
-export interface SearchConfigurationList {
-    searchConfigurations: Array<SearchConfiguration>;
-}
-
-// @public
-export interface SearchConfigurationList {
-    searchConfigurations: Array<SearchConfiguration>;
-}
-
-// @public
-export interface SearchConfigurationListOutput {
-    searchConfigurations?: Array<SearchConfigurationOutput>;
-}
-
-// @public
-export interface SearchConfigurationOutput {
-    connectionId: string;
-    instanceName: string;
-}
-
-// @public
-export interface SharepointToolDefinition extends ToolDefinitionParent {
-    sharepointGrounding: ToolConnectionList;
-    type: "sharepoint_grounding";
-}
-
-// @public
-export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputParent {
-    sharepointGrounding: ToolConnectionListOutput;
-    type: "sharepoint_grounding";
-}
-
-// @public
-export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
-    submitToolOutputs: SubmitToolOutputsDetailsOutput;
-    type: "submit_tool_outputs";
-}
-
-// @public
-export interface SubmitToolOutputsDetailsOutput {
-    toolCalls: Array<RequiredToolCallOutput>;
-}
-
-// @public
-export interface SubmitToolOutputsToRunOptionalParams extends OperationOptions {
-    stream?: boolean;
-}
+export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
 
 // @public
 export interface TelemetryOperations {
-    getConnectionString(): Promise<string>;
-    getSettings(): TelemetryOptions;
-    updateSettings(options: TelemetryOptions): void;
-}
-
-// @public
-export interface TelemetryOptions {
-    enableContentRecording: boolean;
-}
-
-// @public
-export interface ThreadDeletionStatusOutput {
-    deleted: boolean;
-    id: string;
-    object: "thread.deleted";
-}
-
-// @public
-export interface ThreadMessageOptions {
-    attachments?: Array<MessageAttachment> | null;
-    content: CreateMessageContent;
-    metadata?: Record<string, string> | null;
-    role: MessageRole;
-}
-
-// @public
-export interface ThreadMessageOutput {
-    assistantId: string | null;
-    attachments: Array<MessageAttachmentOutput> | null;
-    completedAt: Date | null;
-    content: Array<MessageContentOutput>;
-    createdAt: Date;
-    id: string;
-    incompleteAt: Date | null;
-    incompleteDetails: MessageIncompleteDetailsOutput | null;
-    metadata: Record<string, string> | null;
-    object: "thread.message";
-    role: MessageRoleOutput;
-    runId: string | null;
-    status: MessageStatusOutput;
-    threadId: string;
-}
-
-// @public
-export interface ThreadRunOutput {
-    assistantId: string;
-    cancelledAt: Date | null;
-    completedAt: Date | null;
-    createdAt: Date;
-    expiresAt: Date | null;
-    failedAt: Date | null;
-    id: string;
-    incompleteDetails: IncompleteRunDetailsOutput | null;
-    instructions: string;
-    lastError: RunErrorOutput | null;
-    maxCompletionTokens: number | null;
-    maxPromptTokens: number | null;
-    metadata: Record<string, string> | null;
-    model: string;
-    object: "thread.run";
-    parallelToolCalls: boolean;
-    requiredAction?: RequiredActionOutput | null;
-    responseFormat: AgentsApiResponseFormatOptionOutput | null;
-    startedAt: Date | null;
-    status: RunStatusOutput;
-    temperature?: number | null;
-    threadId: string;
-    toolChoice: AgentsApiToolChoiceOptionOutput | null;
-    toolResources?: UpdateToolResourcesOptionsOutput | null;
-    tools: Array<ToolDefinitionOutput>;
-    topP?: number | null;
-    truncationStrategy: TruncationObjectOutput | null;
-    usage: RunCompletionUsageOutput | null;
-}
-
-// @public
-export enum ThreadStreamEvent {
-    ThreadCreated = "thread.created"
-}
-
-// @public
-export interface ToolConnection {
-    connectionId: string;
-}
-
-// @public
-export interface ToolConnectionList {
-    connections?: Array<ToolConnection>;
-}
-
-// @public
-export interface ToolConnectionListOutput {
-    connections?: Array<ToolConnectionOutput>;
-}
-
-// @public
-export interface ToolConnectionOutput {
-    connectionId: string;
-}
-
-// @public
-export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | AzureFunctionToolDefinition;
-
-// @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | BingCustomSearchToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
-
-// @public
-export interface ToolDefinitionOutputParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface ToolDefinitionParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface ToolOutput {
-    output?: string;
-    toolCallId?: string;
-}
-
-// @public
-export interface ToolResources {
-    azureAISearch?: AzureAISearchResource;
-    azureFunction?: AzureFunctionToolResource;
-    codeInterpreter?: CodeInterpreterToolResource;
-    fileSearch?: FileSearchToolResource;
-}
-
-// @public
-export interface ToolResourcesOutput {
-    azureAISearch?: AzureAISearchResourceOutput;
-    codeInterpreter?: CodeInterpreterToolResourceOutput;
-    fileSearch?: FileSearchToolResourceOutput;
-}
-
-// @public
-export class ToolSet {
-    addAzureAISearchTool(indexConnectionId: string, indexName: string): {
-        definition: AzureAISearchToolDefinition;
-        resources: ToolResources;
-    };
-    addAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
-        definition: AzureFunctionToolDefinition;
-        resources: ToolResources;
-    };
-    addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
-        definition: CodeInterpreterToolDefinition;
-        resources: ToolResources;
-    };
-    addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
-        definition: ToolDefinition;
-    };
-    addFabricTool(connectionId: string): {
-        definition: ToolDefinition;
-    };
-    addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
-        definition: FileSearchToolDefinition;
-        resources: ToolResources;
-    };
-    addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
-        definition: OpenApiToolDefinition;
-    };
-    toolDefinitions: ToolDefinition[];
-    toolResources: ToolResources;
-}
-
-// @public
-export class ToolUtility {
-    static createAzureAISearchTool(indexConnectionId: string, indexName: string, options?: CreateAzureAISearchToolOptions): {
-        definition: AzureAISearchToolDefinition;
-        resources: ToolResources;
-    };
-    static createAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
-        definition: AzureFunctionToolDefinition;
-        resources: ToolResources;
-    };
-    static createBingCustomSearchTool(searchConfigurations: SearchConfigurationOutput[]): {
-        definition: ToolDefinition;
-    };
-    static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
-        definition: CodeInterpreterToolDefinition;
-        resources: ToolResources;
-    };
-    static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
-        definition: ToolDefinition;
-    };
-    static createFabricTool(connectionId: string): {
-        definition: ToolDefinition;
-    };
-    static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
-        definition: FileSearchToolDefinition;
-        resources: ToolResources;
-    };
-    static createFunctionTool(functionDefinition: FunctionDefinition): {
-        definition: FunctionToolDefinition;
-    };
-    static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
-        definition: OpenApiToolDefinition;
-    };
-}
-
-// @public
-export interface TruncationObject {
-    lastMessages?: number | null;
-    type: TruncationStrategy;
-}
-
-// @public
-export interface TruncationObjectOutput {
-    lastMessages?: number | null;
-    type: TruncationStrategyOutput;
-}
-
-// @public
-export type TruncationStrategy = string;
-
-// @public
-export type TruncationStrategyOutput = string;
-
-// @public
-export interface UpdateAgentOptionalParams extends UpdateAgentOptions, OperationOptions {
-}
-
-// @public
-export interface UpdateAgentOptions {
-    description?: string | null;
-    instructions?: string | null;
-    metadata?: Record<string, string> | null;
-    model?: string;
-    name?: string | null;
-    responseFormat?: AgentsApiResponseFormatOption | null;
-    temperature?: number | null;
-    toolResources?: ToolResources;
-    tools?: Array<ToolDefinition>;
-    topP?: number | null;
-}
-
-// @public
-export interface UpdateAgentThreadOptionalParams extends UpdateAgentThreadOptions, OperationOptions {
-}
-
-// @public
-export interface UpdateAgentThreadOptions {
-    metadata?: Record<string, string> | null;
-    toolResources?: ToolResources | null;
-}
-
-// @public
-export interface UpdateCodeInterpreterToolResourceOptions {
-    fileIds?: string[];
-}
-
-// @public
-export interface UpdateCodeInterpreterToolResourceOptionsOutput {
-    fileIds?: string[];
-}
-
-// @public
-export interface UpdateFileSearchToolResourceOptions {
-    vectorStoreIds?: string[];
-}
-
-// @public
-export interface UpdateFileSearchToolResourceOptionsOutput {
-    vectorStoreIds?: string[];
-}
-
-// @public
-export interface UpdateMessageOptionalParams extends OperationOptions {
-    metadata?: Record<string, string> | null;
-}
-
-// @public
-export interface UpdateRunOptionalParams extends OperationOptions {
-    metadata?: Record<string, string> | null;
-}
-
-// @public
-export interface UpdateToolResourcesOptions {
-    azureAISearch?: AzureAISearchResource;
-    azureFunction?: AzureFunctionToolResource;
-    codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
-    fileSearch?: UpdateFileSearchToolResourceOptions;
-}
-
-// @public
-export interface UpdateToolResourcesOptionsOutput {
-    azureAISearch?: AzureAISearchResourceOutput;
-    codeInterpreter?: UpdateCodeInterpreterToolResourceOptionsOutput;
-    fileSearch?: UpdateFileSearchToolResourceOptionsOutput;
-}
-
-// @public
-export interface UpdateVectorStoreOptionalParams extends VectorStoreUpdateOptions, OperationOptions {
-}
-
-// @public
-export interface UploadFileOptionalParams extends OperationOptions, PollingOptionsParams {
-    fileName?: string;
-}
-
-// @public
-export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {
-    type: "auto";
-}
-
-// @public
-export interface VectorStoreAutoChunkingStrategyResponseOutput extends VectorStoreChunkingStrategyResponseOutputParent {
-    type: "other";
-}
-
-// @public
-export type VectorStoreChunkingStrategyRequest = VectorStoreChunkingStrategyRequestParent | VectorStoreAutoChunkingStrategyRequest | VectorStoreStaticChunkingStrategyRequest;
-
-// @public
-export interface VectorStoreChunkingStrategyRequestParent {
-    // (undocumented)
-    type: VectorStoreChunkingStrategyRequestType;
-}
-
-// @public
-export type VectorStoreChunkingStrategyRequestType = string;
-
-// @public
-export type VectorStoreChunkingStrategyResponseOutput = VectorStoreChunkingStrategyResponseOutputParent | VectorStoreAutoChunkingStrategyResponseOutput | VectorStoreStaticChunkingStrategyResponseOutput;
-
-// @public
-export interface VectorStoreChunkingStrategyResponseOutputParent {
-    // (undocumented)
-    type: VectorStoreChunkingStrategyResponseTypeOutput;
-}
-
-// @public
-export type VectorStoreChunkingStrategyResponseTypeOutput = string;
-
-// @public
-export interface VectorStoreConfiguration {
-    dataSources: Array<VectorStoreDataSource>;
-}
-
-// @public
-export interface VectorStoreConfigurationOutput {
-    dataSources: Array<VectorStoreDataSourceOutput>;
-}
-
-// @public
-export interface VectorStoreConfigurations {
-    configuration: VectorStoreConfiguration;
-    name: string;
-}
-
-// @public
-export interface VectorStoreConfigurationsOutput {
-    configuration: VectorStoreConfigurationOutput;
-    name: string;
-}
-
-// @public
-export interface VectorStoreDataSource {
-    type: VectorStoreDataSourceAssetType;
-    uri: string;
-}
-
-// @public
-export type VectorStoreDataSourceAssetType = string;
-
-// @public
-export type VectorStoreDataSourceAssetTypeOutput = string;
-
-// @public
-export interface VectorStoreDataSourceOutput {
-    type: VectorStoreDataSourceAssetTypeOutput;
-    uri: string;
-}
-
-// @public
-export interface VectorStoreDeletionStatusOutput {
-    deleted: boolean;
-    id: string;
-    object: "vector_store.deleted";
-}
-
-// @public
-export interface VectorStoreExpirationPolicy {
-    anchor: VectorStoreExpirationPolicyAnchor;
-    days: number;
-}
-
-// @public
-export type VectorStoreExpirationPolicyAnchor = string;
-
-// @public
-export type VectorStoreExpirationPolicyAnchorOutput = string;
-
-// @public
-export interface VectorStoreExpirationPolicyOutput {
-    anchor: VectorStoreExpirationPolicyAnchorOutput;
-    days: number;
-}
-
-// @public
-export interface VectorStoreFileBatchOutput {
-    createdAt: Date;
-    fileCounts: VectorStoreFileCountOutput;
-    id: string;
-    object: "vector_store.files_batch";
-    status: VectorStoreFileBatchStatusOutput;
-    vectorStoreId: string;
-}
-
-// @public
-export type VectorStoreFileBatchStatusOutput = string;
-
-// @public
-export interface VectorStoreFileCountOutput {
-    cancelled: number;
-    completed: number;
-    failed: number;
-    inProgress: number;
-    total: number;
-}
-
-// @public
-export interface VectorStoreFileDeletionStatusOutput {
-    deleted: boolean;
-    id: string;
-    object: "vector_store.file.deleted";
-}
-
-// @public
-export type VectorStoreFileErrorCodeOutput = string;
-
-// @public
-export interface VectorStoreFileErrorOutput {
-    code: VectorStoreFileErrorCodeOutput;
-    message: string;
-}
-
-// @public
-export interface VectorStoreFileOutput {
-    chunkingStrategy: VectorStoreChunkingStrategyResponseOutput;
-    createdAt: Date;
-    id: string;
-    lastError: VectorStoreFileErrorOutput | null;
-    object: "vector_store.file";
-    status: VectorStoreFileStatusOutput;
-    usageBytes: number;
-    vectorStoreId: string;
-}
-
-// @public
-export type VectorStoreFileStatusFilter = string;
-
-// @public
-export type VectorStoreFileStatusOutput = string;
-
-// @public
-export interface VectorStoreOptions {
-    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
-    configuration?: VectorStoreConfiguration;
-    expiresAfter?: VectorStoreExpirationPolicy;
-    fileIds?: string[];
-    metadata?: Record<string, string> | null;
-    name?: string;
-}
-
-// @public
-export interface VectorStoreOutput {
-    createdAt: Date;
-    expiresAfter?: VectorStoreExpirationPolicyOutput;
-    expiresAt?: Date | null;
-    fileCounts: VectorStoreFileCountOutput;
-    id: string;
-    lastActiveAt: Date | null;
-    metadata: Record<string, string> | null;
-    name: string;
-    object: "vector_store";
-    status: VectorStoreStatusOutput;
-    usageBytes: number;
-}
-
-// @public
-export interface VectorStoreStaticChunkingStrategyOptions {
-    chunkOverlapTokens: number;
-    maxChunkSizeTokens: number;
-}
-
-// @public
-export interface VectorStoreStaticChunkingStrategyOptionsOutput {
-    chunkOverlapTokens: number;
-    maxChunkSizeTokens: number;
-}
-
-// @public
-export interface VectorStoreStaticChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {
-    static: VectorStoreStaticChunkingStrategyOptions;
-    type: "static";
-}
-
-// @public
-export interface VectorStoreStaticChunkingStrategyResponseOutput extends VectorStoreChunkingStrategyResponseOutputParent {
-    static: VectorStoreStaticChunkingStrategyOptionsOutput;
-    type: "static";
-}
-
-// @public
-export type VectorStoreStatusOutput = string;
-
-// @public
-export interface VectorStoreUpdateOptions {
-    expiresAfter?: VectorStoreExpirationPolicy | null;
-    metadata?: Record<string, string> | null;
-    name?: string | null;
+    getConnectionString: () => Promise<string>;
 }
 
 // (No @packageDocumentation comment for this package)
