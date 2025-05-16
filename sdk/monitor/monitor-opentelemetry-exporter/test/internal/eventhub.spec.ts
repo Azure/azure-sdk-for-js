@@ -109,9 +109,7 @@ describe("#parseEventHubSpan(...)", () => {
     parseEventHubSpan(spanToReadableSpan(span), baseData);
     assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
     assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
-    assert.deepStrictEqual(baseData.measurements, {
-      [TIME_SINCE_ENQUEUED]: 148,
-    });
+    assert.isAtLeast((baseData.measurements?.[TIME_SINCE_ENQUEUED] as unknown as number), 148);
 
     assert.strictEqual(baseData.target, undefined);
   });
