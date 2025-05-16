@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PlayRequest,
   PlaySourceInternal,
   FileSourceInternal,
@@ -28,7 +28,10 @@ import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src/in
 
 import { CallMediaImpl } from "./generated/src/operations/index.js";
 
-import type { CommunicationIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  createCommunicationAuthPolicy,
+} from "@azure/communication-common";
 import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
 import type { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models.js";
@@ -52,7 +55,6 @@ import type {
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -67,11 +69,9 @@ export class CallMedia {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
