@@ -5,8 +5,8 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
-import type { CommunicationIdentifier } from '@azure/communication-common';
-import type { CommunicationUserIdentifier } from '@azure/communication-common';
+import { CommunicationIdentifier } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { MicrosoftTeamsAppIdentifier } from '@azure/communication-common';

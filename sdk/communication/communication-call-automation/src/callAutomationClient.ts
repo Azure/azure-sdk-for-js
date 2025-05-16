@@ -4,13 +4,14 @@ import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { CommonClientOptions } from "@azure/core-client";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import type {
+import {
   CommunicationIdentifier,
+  createCommunicationAuthPolicy,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
 import { logger } from "./models/logger.js";
-import type {
+import {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
@@ -40,7 +41,6 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -112,15 +112,11 @@ export class CallAutomationClient {
 
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     this.endpoint = url;
-
+    const authPolicy = createCommunicationAuthPolicy(credential);
     this.credential = credential;
 
-    // create api client (using custom api endpoint if available)
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      this.internalPipelineOptions,
-      this.endpoint,
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
