@@ -1314,10 +1314,6 @@ packages:
     resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/ai-agents@1.0.0-alpha.20250507.2':
-    resolution: {integrity: sha512-UDpd4Qf/GcIYlINqYVf4tJOSZiy4l+MBJtnxA9Ya69ZcK6+Ua+Ar36hVDXElTgNtrj7Z8OTY8drkYqcLG6KK0g==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/app-configuration@1.8.0':
     resolution: {integrity: sha512-RO4IGZMa3hI1yVhvb5rPr+r+UDxe4VDxbntFZIc5fsUPGqZbKzmGR2wABEtlrC2SU5YX6tL+NS3xWb4vf1M9lQ==}
     engines: {node: '>=18.0.0'}
@@ -1376,10 +1372,6 @@ packages:
 
   '@azure/core-lro@2.7.2':
     resolution: {integrity: sha512-0YIpccoX8m/k00O7mDDMdJpbr6mf1yWo2dfmxt5A8XVZVVMz2SSKaEbMCeJRvgQ0IaSlqhjT47p4hVIRRy90xw==}
-    engines: {node: '>=18.0.0'}
-
-  '@azure/core-lro@3.2.0':
-    resolution: {integrity: sha512-SJEAe8fMDnjz2vw9dvEUi0DhAWe1sYkWQVTDc/HDcgNALaszGRopx3U+z1Pg/C9fsYiArp5pTBEcq29Ddph0WA==}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-paging@1.6.2':
@@ -2474,7 +2466,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-fQmp5+bBbTNGjhyJTmoHMUyu3tg3/C/ljfOKpANSUTWLvTHHwmgLdK6zVp5cZz4v8C74jGU1wN0CBXtei6fqkg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-ogBsQIfSGJHl17iviGVUg+gf9/U+cMuSjA9oOqmp247S4iEXyxG4eXVTKZQdDAROIfobEgX07YNaRM1vYc5OLg==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -4026,11 +4018,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
-    resolution: {integrity: sha512-9OFh0H+khGHqhEzJM+nr6XQiSXEj6MGTYWBAtB9YyKrMYG/Mgp8k4nXXCceL/4tLNHrRXBr9v4/y5nySsFXAVQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-6NrpfY6cXybr+aup2fHMseGjRJ4RlO1E2r512tgaoyrDwlRr29YFLP1jVV7ae/m6P0ud1ht21vEaGNesg/xDrQ==, tarball: file:projects/storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz':
-    resolution: {integrity: sha512-bpzVyq8y2NZZBhuYYyLeEnm65scQ4ae2qDrUP0DMVjbT0kShtqcxezBrqMfFMP83csWBYIY5PCYlFtCgEfsbzQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-bssg60zcWNGlKiAUyXcHcJwFznnGswp7fD8xnGnVv6llomjIVb7FJ66v/JNdMyVuzOJTSwi0+FwECJIKHt/V6Q==, tarball: file:projects/storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
@@ -4038,7 +4030,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-vxwRJqaCqbX7+b49CvMCUW0pjI+XUQ/VfQWFLnGnGw9a2R5p0bFysrjb2rDnD3xOV/j1IBk1FjjhPcnwpGy06A==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Sc1eBI9yB+UHwqpIEGhb5KTKGtyDHoOHYP/3Z8Qbd3ugbgLj5q9YwskwknwCkLzr6JHtctUC6SHu19cFTp6HpA==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -7361,22 +7353,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@azure/ai-agents@1.0.0-alpha.20250507.2':
-    dependencies:
-      '@azure-rest/core-client': 2.4.0
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.9.0
-      '@azure/core-lro': 3.2.0
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.20.0
-      '@azure/core-sse': 2.2.0
-      '@azure/core-tracing': 1.2.0
-      '@azure/core-util': 1.12.0
-      '@azure/logger': 1.2.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/app-configuration@1.8.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -7549,15 +7525,6 @@ snapshots:
       - supports-color
 
   '@azure/core-lro@2.7.2':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-util': 1.12.0
-      '@azure/logger': 1.2.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/core-lro@3.2.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-util': 1.12.0
@@ -9314,7 +9281,7 @@ snapshots:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(ws@8.18.2)(yaml@2.7.1)(zod@3.24.4)':
     dependencies:
-      '@azure/ai-agents': 1.0.0-alpha.20250507.2
+      '@azure/storage-blob': 12.27.0
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.200.0
       '@opentelemetry/exporter-logs-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
@@ -9544,15 +9511,15 @@ snapshots:
 
   '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@types/node': 18.19.87
-      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.2)
-      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      '@types/node': 18.19.100
+      '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
+      '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
       dotenv: 16.5.0
       eslint: 9.26.0
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
-      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.4)(yaml@2.7.1)
+      vitest: 3.1.3(@types/debug@4.1.12)(@types/node@18.19.100)(@vitest/browser@3.1.3)(tsx@4.19.4)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
@@ -21328,37 +21295,6 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/mcp-server@file:projects/mcp-server.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(yaml@2.7.1)':
-    dependencies:
-      '@modelcontextprotocol/sdk': 1.11.0
-      '@types/node': 18.19.87
-      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
-      '@vitest/expect': 3.1.2
-      dotenv: 16.5.0
-      eslint: 9.26.0
-      tsx: 4.19.3
-      typescript: 5.8.3
-      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
-      zod: 3.24.4
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - yaml
-
   '@rush-temp/mcp-server@file:projects/mcp-server.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.3)(yaml@2.7.1)':
     dependencies:
       '@modelcontextprotocol/sdk': 1.11.2
@@ -22570,7 +22506,6 @@ snapshots:
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.100
       '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
       '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
@@ -22607,7 +22542,6 @@ snapshots:
 
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.100
       '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
       '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
@@ -22680,7 +22614,6 @@ snapshots:
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
-      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.100
       '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
       '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
@@ -23418,11 +23351,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -23453,7 +23386,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23485,7 +23418,7 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
@@ -23501,7 +23434,7 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
@@ -23512,7 +23445,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.9':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -23535,7 +23468,7 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
@@ -23564,7 +23497,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       pg-protocol: 1.8.0
       pg-types: 2.2.0
 
@@ -23572,7 +23505,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.17.46
+      '@types/node': 22.7.9
       kleur: 3.0.3
 
   '@types/qs@6.9.18': {}
@@ -23592,19 +23525,19 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/triple-beam@1.3.5': {}
 
@@ -23612,15 +23545,15 @@ snapshots:
 
   '@types/unzipper@0.10.11':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -25805,7 +25738,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       long: 5.3.2
 
   proxy-addr@2.0.7:
