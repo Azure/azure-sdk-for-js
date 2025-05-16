@@ -23,7 +23,8 @@
         "sdk/identity/identity/test/azure-identity-chain-test.crt",
         "sdk/identity/identity/test/azure-identity-test.crt",
         "sdk/identity/identity/assets/fake-cert.pem",
-        "sdk/keyvault/keyvault-certificates/ca.key"
+        "sdk/keyvault/keyvault-certificates/ca.key",
+        "sdk/keyvault/keyvault-certificates/samples-dev/importCertificate.ts"
       ],
       "_justification": "File contains private key used by test code."
     },
@@ -40,10 +41,6 @@
         "sdk/test-utils/test-utils-vitest/src/fakeTestSecrets.ts"
       ],
       "_justification": "File contains fake credentials used by test code."
-    },
-    {
-      "file": ["sdk/keyvault/keyvault-certificates/samples-dev/importCertificate.ts"],
-      "_justification": "File contains self-signed certificates used by sample code, unused in production."
     }
   ]
 }
