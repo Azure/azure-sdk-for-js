@@ -115,14 +115,6 @@ export class AIProjectClient {
   }
 
   /**
-   * gets the credential of the client
-   * @returns the credential of the client
-   */
-  public getCredential(): TokenCredential {
-    return this._credential;
-  }
-
-  /**
    * Creates a new instance of AzureAIProjectClient
    * @param endpoint - The endpoint to use
    * @param credential - The credential to use

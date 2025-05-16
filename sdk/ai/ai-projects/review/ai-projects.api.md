@@ -68,7 +68,6 @@ export class AIProjectClient {
     readonly enableTelemetry: EnableTelemetryType;
     readonly evaluations: EvaluationsOperations;
     static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
-    getCredential(): TokenCredential;
     getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
     // Warning: (ae-forgotten-export) The symbol "InferenceOperations" needs to be exported by the entry point index.d.ts
