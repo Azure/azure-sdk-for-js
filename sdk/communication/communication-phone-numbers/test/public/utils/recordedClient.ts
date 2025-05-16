@@ -23,9 +23,6 @@ export interface RecordedClient<T> {
 const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
-  AZURE_CLIENT_ID: "SomeClientId",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
   AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
@@ -61,8 +58,10 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: sanitizerOptions,
   removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
-    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3447", // .key in the body is not a secret for key-value App Config pair
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section    
+    "AZSDK2011", // "x-ms-encryption-key-sha256" provided is a fake value from ./fakeTestSecrets.ts
+    "AZSDK2003", // Location header in the response is not a secret, and is also sanitized by other URI sanitizers
   ],
 };
 
