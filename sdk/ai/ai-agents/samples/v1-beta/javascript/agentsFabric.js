@@ -8,7 +8,6 @@
  */
 
 const { AgentsClient, ToolUtility, isOutputOfType } = require("@azure/ai-agents");
-const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
@@ -44,17 +43,18 @@ async function main() {
   );
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create and process agent run in thread with tools
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
+  function onResponse(response) {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
   }
-  if (run.status === "failed") {
-    console.log(`Run failed: ${run.lastError}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: onResponse,
+  });
   console.log(`Run finished with status: ${run.status}`);
-  console.log(`Failure: ${run.lastError?.message}`);
 
   // Delete the agent when done
   await client.deleteAgent(agent.id);
