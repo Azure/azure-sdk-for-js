@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PhoneNumberIdentifier,
-  CommunicationIdentifier,
-} from "@azure/communication-common";
+import type { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 import type {
   MediaStreamingOptions,

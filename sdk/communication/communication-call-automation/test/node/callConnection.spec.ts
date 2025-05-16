@@ -416,7 +416,7 @@ describe("CallConnection Unit Tests", () => {
   it("CancelAddParticipant", async () => {
     const invitationId = "invitationId";
     const cancelAddParticipantOperationResultMock: CancelAddParticipantOperationResult = {
-      invitationId
+      invitationId,
     };
     callConnection.cancelAddParticipantOperation.mockReturnValue(
       new Promise((resolve) => {

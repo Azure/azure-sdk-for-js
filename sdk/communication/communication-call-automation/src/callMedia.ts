@@ -29,7 +29,10 @@ import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src/in
 import { CallMediaImpl } from "./generated/src/operations/index.js";
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
-import { createCommunicationAuthPolicy, serializeCommunicationIdentifier } from "@azure/communication-common";
+import {
+  createCommunicationAuthPolicy,
+  serializeCommunicationIdentifier,
+} from "@azure/communication-common";
 
 import type { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models.js";
 import type {
@@ -50,9 +53,7 @@ import type {
   UpdateTranscriptionOptions,
 } from "./models/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type {
-  SendDtmfTonesResult,
-} from "./models/responses.js";
+import type { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
 /**
  * CallMedia class represents call media related APIs.
@@ -455,7 +456,7 @@ export class CallMedia {
     );
 
     const sendDtmfTonesResult: SendDtmfTonesResult = {
-      ...result
+      ...result,
     };
     return sendDtmfTonesResult;
   }

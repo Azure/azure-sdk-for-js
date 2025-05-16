@@ -8,7 +8,11 @@ import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { parseClientArguments, isKeyCredential, createCommunicationAuthPolicy } from "@azure/communication-common";
+import {
+  parseClientArguments,
+  isKeyCredential,
+  createCommunicationAuthPolicy,
+} from "@azure/communication-common";
 import { logger } from "./models/logger.js";
 import {
   AnswerCallRequest,
@@ -138,7 +142,11 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(this.callAutomationApiClient.endpoint, this.credential, this.internalPipelineOptions);
+    return new CallRecording(
+      this.callAutomationApiClient.endpoint,
+      this.credential,
+      this.internalPipelineOptions,
+    );
   }
 
   /**
@@ -189,7 +197,7 @@ export class CallAutomationClient {
       );
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
-        callConnection: callConnection
+        callConnection: callConnection,
       };
       return createCallResult;
     }
@@ -313,7 +321,7 @@ export class CallAutomationClient {
       );
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,
-        callConnection: callConnection
+        callConnection: callConnection,
       };
       return answerCallResult;
     }
@@ -435,7 +443,7 @@ export class CallAutomationClient {
       );
       const connectResult: ConnectCallResult = {
         callConnectionProperties: callConnectionProperties,
-        callConnection: callConnection
+        callConnection: callConnection,
       };
       return connectResult;
     }

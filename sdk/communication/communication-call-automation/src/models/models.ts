@@ -14,7 +14,7 @@ import type {
   TranscriptionSubscription,
   MediaStreamingAudioChannelType,
   MediaStreamingContentType,
-  AudioFormat
+  AudioFormat,
 } from "../generated/src/index.js";
 
 export {
@@ -34,7 +34,7 @@ export {
   MediaStreamingContentType,
   AudioFormat,
   TranscriptionUpdate,
-  MediaStreamingUpdate
+  MediaStreamingUpdate,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -277,7 +277,7 @@ export interface MediaStreamingOptions {
 }
 
 /** Options for media streaming. */
-export interface TranscriptionOptions{
+export interface TranscriptionOptions {
   /** Specifies the Locale used for transcription, e.g., en-CA or en-AU. */
   locale: string;
   /** Polymorphic discriminator, which specifies the different types this object can be */
