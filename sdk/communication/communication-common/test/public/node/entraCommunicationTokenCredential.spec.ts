@@ -19,7 +19,7 @@ const comunicationClientsEndpoint =
   "/access/entra/:exchangeAccessToken?api-version=2025-03-02-preview";
 const communicationClientsScope = "https://communication.azure.com/clients/VoIP";
 const teamsExtensionEndpoint =
-  "/access/teamsExtension/:exchangeAccessToken?api-version=2025-03-02-preview";
+  "/access/teamsExtension/:exchangeAccessToken?api-version=2025-06-30";
 const teamsExtensionScope = "https://auth.msft.communication.azure.com/TeamsExtension.ManageCalls";
 
 const tokenCredential: TokenCredential = {
