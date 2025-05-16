@@ -68,7 +68,6 @@ describe("snippets", () => {
     };
     // @ts-preserve-whitespace
     const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
-
   });
 
   it("ReadmeSampleCredentialEntraUserTeamsPhoneExtensibility", async () => {
