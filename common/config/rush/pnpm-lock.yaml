@@ -48,7 +48,7 @@ importers:
         version: file:projects/ai-metrics-advisor.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-projects':
         specifier: file:./projects/ai-projects.tgz
-        version: file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+        version: file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(ws@8.18.1)(yaml@2.7.1)(zod@3.24.3)
       '@rush-temp/ai-text-analytics':
         specifier: file:./projects/ai-text-analytics.tgz
         version: file:projects/ai-text-analytics.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
@@ -64,6 +64,9 @@ importers:
       '@rush-temp/ai-vision-image-analysis':
         specifier: file:./projects/ai-vision-image-analysis.tgz
         version: file:projects/ai-vision-image-analysis.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/analytics-onlineexperimentation':
+        specifier: file:./projects/analytics-onlineexperimentation.tgz
+        version: file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/api-management-custom-widgets-scaffolder':
         specifier: file:./projects/api-management-custom-widgets-scaffolder.tgz
         version: file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
@@ -1482,6 +1485,14 @@ packages:
     resolution: {integrity: sha512-IzD+hfqGqFtXymHXm4RzrZW2MsSH2M7RLmZsKaKVi7SUxbeYTUeX+ALk8gVzkM8ykb7EzlDLWCNErKfAa57rYQ==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/storage-blob@12.27.0':
+    resolution: {integrity: sha512-IQjj9RIzAKatmNca3D6bT0qJ+Pkox1WZGOg2esJF2YLHb45pQKOwGPIAV+w3rfgkj7zV3RMxpn/c6iftzSOZJQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/storage-file-datalake@12.26.0':
+    resolution: {integrity: sha512-32HoBz6fPjoMS/MUamtK0f59W/hHIpMkpKHe1xJlWODP/Uh9X+hJUGrG0D87hyHtBLAKqycyPgTNM+gIVDvVdw==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/storage-file-share@12.27.0':
     resolution: {integrity: sha512-5YX982NPNPIo9QwH4TUg5qSJy82rcnExU9F5IJcRKImN2mCJzuX0ogheV37CEax1owG5bXFUrU8iWqyM/yGnfQ==}
     engines: {node: '>=18.0.0'}
@@ -1917,6 +1928,10 @@ packages:
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
     engines: {node: '>=14'}
 
+  '@opentelemetry/api-logs@0.56.0':
+    resolution: {integrity: sha512-Wr39+94UNNG3Ei9nv3pHd4AJ63gq5nSemMRpCd8fPwDL9rN3vK26lzxfH27mw16XzOSO+TpyQwBAMaLxaPWG0g==}
+    engines: {node: '>=14'}
+
   '@opentelemetry/api-logs@0.57.0':
     resolution: {integrity: sha512-l1aJ30CXeauVYaI+btiynHpw341LthkMTv3omi1VJDX14werY2Wmv9n1yudMsq9HuY0m8PvXEVX4d8zxEb+WRg==}
     engines: {node: '>=14'}
@@ -2075,6 +2090,12 @@ packages:
 
   '@opentelemetry/instrumentation@0.53.0':
     resolution: {integrity: sha512-DMwg0hy4wzf7K73JJtl95m/e0boSoWhH07rfvHvYzQtBD3Bmv0Wc1x733vyZBqmFm8OjJD0/pfiUg1W3JjFX0A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+
+  '@opentelemetry/instrumentation@0.56.0':
+    resolution: {integrity: sha512-2KkGBKE+FPXU1F0zKww+stnlUxUTlBvLCiWdP63Z9sqXYeNI/ziNzsxAp4LAdUcTQmXjw1IWgvm5CAb/BHy99w==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -2425,7 +2446,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz':
-    resolution: {integrity: sha512-k0e9/7k3Umd4G9Pe18v2EDTXLxxvenftruqfZ4SE+wUaX0L3CLmBuLilBMRBs7Vsxwxt5W3iVTKkF/VWfJLdKQ==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-hVNtOta5Ps/N1S9UpD5go4uY7Gq0vz58YwO6TmptRQBX6a8ckgFjuBeMnqVQKlfkBNsBimfVfveJxQxvdagNaQ==, tarball: file:projects/ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-metrics-advisor@file:projects/ai-metrics-advisor.tgz':
@@ -2433,7 +2454,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-s+nFETIMxNsk34S2237Gq8pAu3+/m1gSbNrw1IFi45anQAM8JIP8WiOmVtBd9YKlYN9rrApFAUHNzsKbElHTgA==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-jaS1S3LjxVjje+YkP/pfDqWCHoj9PmBDNPOLttI43LWE6rAH27UyQMYnSgyMHCHFLl9nVhMRrHy30b8gNari1g==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2441,7 +2462,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-DXBpmF26jnfQOqJrmsW/Xpsw6OpWsF+oSC+MXQB3VtFbSUvCip9YVP/ie8R+j1Z+bgrNyse7cC9gNVYhYILpUQ==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-WTD6bAD9BatpvoyazLA8DT0Z1HK7lImEm2gWX24WbDDVz/hptyySlnFVL7dbDcs9ZTEl2kEC/s2sFde3kaSdrQ==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
@@ -2456,12 +2477,16 @@ packages:
     resolution: {integrity: sha512-VYiN77BzAHEkljp4r1Y9y6j3gxGNxC4tx4+ti1/VYrROS4KT6TYI1/e4NhbsalKLA0toCMHTrEI/WI3ygTAxjQ==, tarball: file:projects/ai-vision-image-analysis.tgz}
     version: 0.0.0
 
+  '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz':
+    resolution: {integrity: sha512-sOnktulkfSUSQBMqVnhyLi2fZpZdUf7O3rUBCjJgtCqxmZnWJ1+0tTArKp2xOSjQ6kqOYDHWd66GOjmPgwOarA==, tarball: file:projects/analytics-onlineexperimentation.tgz}
+    version: 0.0.0
+
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz':
     resolution: {integrity: sha512-htxnOcXNjd1uPPM6dkAVbmYXqunW79zdJuCVjl/IdIL5prxOhex6hZ+LMGPHu5EUihRskmt5jjzGl3jKw4SYJg==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-tools@file:projects/api-management-custom-widgets-tools.tgz':
-    resolution: {integrity: sha512-abLFikV7BMNyAa5GVKLSuPJ3bVmlvvT53zwRX0Fx4E+y9oucXOxd7/SaNKB6qYyzsdkxQxYJ/0RdDl85CFJnWA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-NpK+3idHuKZ1noKA7s1dIP2wCvgalF/Fq52Aln0ZrztOsk2lagv7sgeOSAgnQ/6LUyNwWhgQOh3Dp5yFaDeJNQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
@@ -3373,7 +3398,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz':
-    resolution: {integrity: sha512-1RinigiNjCl/JhAG8sXzrsUNkHRk7LrG3wW/++lE9eeThWvwlijeDafZIKUdd8EDj9Gf+UCN6t04j8+A3XQ3RA==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-7zUTZz25iG1nKby4dYunLC0h5QS1ZTEsSywxmQ7q8zuAlRYTTocThTfb5+6qPsesxrUkFH7LJ0pq5gRcbvw26w==, tarball: file:projects/arm-servicenetworking.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
@@ -3685,7 +3710,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-D24Dwpio7z3ZoOolyJQax61Q/iV+5KcLaqqUSwnTlJMVraqro+Iqtydvv3LsynvxyWkMszUH6qHfVgV80lJgbA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-+jxmuxqECMWpS50g9i5aVPJWSRmhr1yu/XZ0RRCYb+klHQuexelg0pQJpae9XFjiZgZL4NJ/QxSAmQ+fuC+hWg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
@@ -3793,7 +3818,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
-    resolution: {integrity: sha512-sVU4AhYy8i4VhihEGOHMZLmUggC15w2JvBfGUC+i+q7nxmE3sIbO+EzicltK811tg0QQML6lAzKonojrK4FO6g==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-IuCP22XT3PE312ClMZPpIg8PNkpmGC8clWSlQ4p+k7M5ANuxyiQv7pVN5aZvKHrhduvmoo8IGEwhhsxP27PNsg==, tarball: file:projects/microsoft-playwright-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
@@ -3909,15 +3934,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
-    resolution: {integrity: sha512-tkjAnhDeWqRwZhLEX6W956aBPC5igewk907H9zJCX1knice7J+ifBIvDd0HHPaVALCU5OyIsjo16wturzTtrnQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-T6ssbzc3NMzCn7FWiC17aGLC9Zd+FrJyLIq82wyr/qszhnbn3V7GU1+y/bCH3uqi+/HuSWMRaWOFaiYVM+E7hg==, tarball: file:projects/perf-storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
-    resolution: {integrity: sha512-O1FncZRc9xPF3AeScKbiWtaoM5tzsj+sS0CtqpI/YLSlsQhrXVC7PWbulXl3VwJ2BjNQw+R7CmwxT1TreqxzbA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-bES4So+FpiKcdz5I0dTtqnfmJD1vG86zSBd4/Gh9MxIvXGA2X5Hq4hUuwfQR9NLAckL+juI5+AnXaViohWt0nA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
-    resolution: {integrity: sha512-uAGM+cp2KcN0zn7zHy4QvhE+CL+KdFR+fbNLZ0lv08/upp7BUhI/FegqqpoUpG+1+c2n3+EZPQZOjrYfVPKrGw==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-QydP9M4t4cDi0+UDYm1OzPkIEBz7GA1Ea9WMP/fUQ+KtOPGXTgtz0eF8JW/n6pN57hHr6P8YrGbKb95I6YRQww==, tarball: file:projects/perf-storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
@@ -3945,7 +3970,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz':
-    resolution: {integrity: sha512-7c1kazQ9xgLnsqXA8EpdBLVOt3gbf7+Blf+B05P3ovGVvK7R3lBAxm46Q8RJPOj93i1nCTXAZLbDWyJyVcWGFQ==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-YdnPvjWpdDO/6qYZkoDzmkTuSiCn6isdVLr/lx8DPRLXXUygg2jIzHlvOPwvGA3PgsOUyt1Rszb7svdjAZBpHg==, tarball: file:projects/quantum-jobs.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
@@ -3969,11 +3994,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
-    resolution: {integrity: sha512-wf3zfe/mxTZGGbAdkgwaixArI1tCEAyTVcMeix0XbMiLmufA2xMpOfmE14tanwmhc6sQBjYoffrQmk0HD4wKxA==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-Zx+YT3bqlY5vHUqtAJk915W+AVKtrOycM0CVcO/e8pe9/vsVwzNLSejLzxHHSHsLjETlg679k6ef/D41fv4A5g==, tarball: file:projects/storage-blob-changefeed.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-87O6MpTQkDuj9mMLckqykI++VQbv0qKSHDDoGDNR1VYSsPVVpCYD51Hi5D1S3O1JC47xc1RL0P1CuHfuLDfGfA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-OPYqk6vxKTf0oD+43SNIfWc+MPu5umKC87w9kLpvfxSxQBfUYIWrSj8SdToTqgcu7CAUvwP/usLkjWGLGblviw==, tarball: file:projects/storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
@@ -3981,11 +4006,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
-    resolution: {integrity: sha512-wy1YbB98hC2P9g4DQw6iYqY2ZakQLaw5r1IiGqRep3RDX1UN8FhsQyp63B5dKVnTErAlQUxRu6nAIcB7Xf8EEg==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-6NrpfY6cXybr+aup2fHMseGjRJ4RlO1E2r512tgaoyrDwlRr29YFLP1jVV7ae/m6P0ud1ht21vEaGNesg/xDrQ==, tarball: file:projects/storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz':
-    resolution: {integrity: sha512-tkZ6L5ljrZZZgK2Q3Hx+3T9Ro/NwE52ArY3LYh5P9WX2hKOO7bxJn5dAo2xzFlKofiUL8RyKuTSvfitMWNoDig==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-bssg60zcWNGlKiAUyXcHcJwFznnGswp7fD8xnGnVv6llomjIVb7FJ66v/JNdMyVuzOJTSwi0+FwECJIKHt/V6Q==, tarball: file:projects/storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
@@ -3993,7 +4018,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-+KXlZYkjvKeIa9xWiCr/ZtA1fYXCXOfhkZyzXFHx8SNZsHxPpGuzV90U7X13WZTP9yl9GYho/flU39sUbPtIxA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Sc1eBI9yB+UHwqpIEGhb5KTKGtyDHoOHYP/3Z8Qbd3ugbgLj5q9YwskwknwCkLzr6JHtctUC6SHu19cFTp6HpA==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -4103,6 +4128,18 @@ packages:
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
+
+  '@traceloop/ai-semantic-conventions@0.13.0':
+    resolution: {integrity: sha512-6aAbaZkeezijSBnsKpVnc+MBXwG+ByDK70gZCexSykkwkwhWSFdVeoXkWUBeLt+STFQWjK5EQE087qkaVC3o+w==}
+    engines: {node: '>=14'}
+
+  '@traceloop/instrumentation-langchain@0.13.0':
+    resolution: {integrity: sha512-RqAPpWUCtmXSjp0EEniEbSi2RYWBwqvwZQVzeaCoKTdlKggqIbkvPJwdslNFPrviIU/X2Gol/r7u8lAE2SLLrg==}
+    engines: {node: '>=14'}
+
+  '@traceloop/instrumentation-openai@0.13.0':
+    resolution: {integrity: sha512-ql9ML/zV4uHc5RnrpuismJluYiVDo9TXxIMqz1PSe2uFuzt6d7RDil9tbjXbwNlCfeyIEBGY/UJZCuUYneXUdw==}
+    engines: {node: '>=14'}
 
   '@ts-morph/common@0.26.1':
     resolution: {integrity: sha512-Sn28TGl/4cFpcM+jwsH1wLncYq3FtN/BIpem+HOygfBWPT5pAeS5dB4VFVzV8FbnOKHpDLZmvAl4AjPEev5idA==}
@@ -5601,6 +5638,9 @@ packages:
 
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
+
+  js-tiktoken@1.0.20:
+    resolution: {integrity: sha512-Xlaqhhs8VfCd6Sh7a1cFkZHQbYTLCwVJJWiHVxBYzLPxW0XsoxBy1hitmjkdIjD3Aon5BXLHFwU5O8WUx6HH+A==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -7713,6 +7753,42 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/storage-blob@12.27.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-http-compat': 2.2.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/core-xml': 1.4.5
+      '@azure/logger': 1.1.4
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-datalake@12.26.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.3
+      '@azure/core-http-compat': 2.2.0
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/core-xml': 1.4.5
+      '@azure/logger': 1.1.4
+      '@azure/storage-blob': 12.27.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/storage-file-share@12.27.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -8163,6 +8239,10 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
+  '@opentelemetry/api-logs@0.56.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+
   '@opentelemetry/api-logs@0.57.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -8385,6 +8465,18 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.53.0
+      '@types/shimmer': 1.2.0
+      import-in-the-middle: 1.13.1
+      require-in-the-middle: 7.5.2
+      semver: 7.7.1
+      shimmer: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.56.0
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.13.1
       require-in-the-middle: 7.5.2
@@ -9056,6 +9148,7 @@ snapshots:
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz(@types/debug@4.1.12)(chai@5.2.0)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.87
       '@types/unzipper': 0.10.11
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
@@ -9129,16 +9222,24 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+  '@rush-temp/ai-projects@file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(ws@8.18.1)(yaml@2.7.1)(zod@3.24.3)':
     dependencies:
+      '@azure/storage-blob': 12.27.0
       '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.200.0
+      '@opentelemetry/exporter-logs-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.0.0(@opentelemetry/api@1.9.0)
+      '@traceloop/instrumentation-langchain': 0.13.0(@opentelemetry/api@1.9.0)
+      '@traceloop/instrumentation-openai': 0.13.0(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
       dotenv: 16.5.0
       eslint: 9.25.1
+      openai: 4.96.0(ws@8.18.1)(zod@3.24.3)
       playwright: 1.52.0
       tslib: 2.8.1
       typescript: 5.8.3
@@ -9148,6 +9249,7 @@ snapshots:
       - '@types/debug'
       - '@vitest/ui'
       - bufferutil
+      - encoding
       - happy-dom
       - jiti
       - jsdom
@@ -9165,7 +9267,9 @@ snapshots:
       - utf-8-validate
       - vite
       - webdriverio
+      - ws
       - yaml
+      - zod
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
@@ -9205,6 +9309,7 @@ snapshots:
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
@@ -9347,6 +9452,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/analytics-onlineexperimentation@file:projects/analytics-onlineexperimentation.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.87
+      '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
+      '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
+      dotenv: 16.5.0
+      eslint: 9.25.1
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz(@types/debug@4.1.12)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)':
     dependencies:
       '@rollup/plugin-node-resolve': 15.3.1(rollup@4.40.1)
@@ -9392,6 +9532,7 @@ snapshots:
   '@rush-temp/api-management-custom-widgets-tools@file:projects/api-management-custom-widgets-tools.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure-rest/core-client': 1.4.0
+      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
@@ -17308,7 +17449,7 @@ snapshots:
       eslint: 9.25.1
       playwright: 1.52.0
       tslib: 2.8.1
-      typescript: 5.6.3
+      typescript: 5.8.3
       vitest: 3.1.2(@types/debug@4.1.12)(@types/node@18.19.87)(@vitest/browser@3.1.2)(tsx@4.19.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20133,6 +20274,7 @@ snapshots:
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz(rollup@4.40.1)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/storage-blob': 12.27.0
       '@rollup/plugin-inject': 5.0.5(rollup@4.40.1)
       '@types/chai-as-promised': 8.0.2
       '@types/debug': 4.1.12
@@ -21129,6 +21271,7 @@ snapshots:
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/storage-blob': 12.27.0
       '@playwright/test': 1.52.0
       '@types/debug': 4.1.12
       '@types/node': 20.17.32
@@ -21720,6 +21863,7 @@ snapshots:
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
     dependencies:
+      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.87
       dotenv: 16.5.0
       eslint: 9.25.1
@@ -21731,6 +21875,7 @@ snapshots:
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
     dependencies:
+      '@azure/storage-file-datalake': 12.26.0
       '@types/node': 18.19.87
       dotenv: 16.5.0
       eslint: 9.25.1
@@ -21742,6 +21887,7 @@ snapshots:
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
     dependencies:
+      '@azure/storage-file-share': 12.27.0
       '@types/node': 18.19.87
       dotenv: 16.5.0
       eslint: 9.25.1
@@ -21944,6 +22090,7 @@ snapshots:
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
+      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
@@ -22193,6 +22340,7 @@ snapshots:
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz(@types/debug@4.1.12)(tsx@4.19.3)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/storage-blob': 12.27.0
       '@types/node': 18.19.87
       '@vitest/browser': 3.1.2(playwright@1.52.0)(vite@6.3.3(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.1))(vitest@3.1.2)
       '@vitest/coverage-istanbul': 3.1.2(vitest@3.1.2)
@@ -23102,6 +23250,33 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.0
 
+  '@traceloop/ai-semantic-conventions@0.13.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+
+  '@traceloop/instrumentation-langchain@0.13.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.32.0
+      '@traceloop/ai-semantic-conventions': 0.13.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
+      - supports-color
+
+  '@traceloop/instrumentation-openai@0.13.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.32.0
+      '@traceloop/ai-semantic-conventions': 0.13.0
+      js-tiktoken: 1.0.20
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@opentelemetry/api'
+      - supports-color
+
   '@ts-morph/common@0.26.1':
     dependencies:
       fast-glob: 3.3.3
@@ -23240,7 +23415,7 @@ snapshots:
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.87
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.87':
@@ -24789,6 +24964,10 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jju@1.4.0: {}
+
+  js-tiktoken@1.0.20:
+    dependencies:
+      base64-js: 1.5.1
 
   js-tokens@4.0.0: {}
 
