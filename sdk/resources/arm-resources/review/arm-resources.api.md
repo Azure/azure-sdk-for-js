@@ -127,6 +127,24 @@ export interface DeploymentExtendedFilter {
     provisioningState?: string;
 }
 
+// @public (undocumented)
+export interface DeploymentExtensionConfigItem {
+    keyVaultReference?: KeyVaultParameterReference;
+    readonly type?: ExtensionConfigPropertyType;
+    value?: any;
+}
+
+// @public (undocumented)
+export interface DeploymentExtensionDefinition {
+    readonly alias?: string;
+    readonly config?: {
+        [propertyName: string]: DeploymentExtensionConfigItem;
+    };
+    readonly configId?: string;
+    readonly name?: string;
+    readonly version?: string;
+}
+
 // @public
 export interface DeploymentListResult {
     readonly nextLink?: string;
@@ -297,6 +315,11 @@ export interface DeploymentParameter {
 export interface DeploymentProperties {
     debugSetting?: DebugSetting;
     expressionEvaluationOptions?: ExpressionEvaluationOptions;
+    extensionConfigs?: {
+        [propertyName: string]: {
+            [propertyName: string]: DeploymentExtensionConfigItem;
+        };
+    };
     mode: DeploymentMode;
     onErrorDeployment?: OnErrorDeployment;
     parameters?: {
@@ -316,6 +339,7 @@ export interface DeploymentPropertiesExtended {
     readonly diagnostics?: DeploymentDiagnosticsDefinition[];
     readonly duration?: string;
     readonly error?: ErrorResponse;
+    readonly extensions?: DeploymentExtensionDefinition[];
     readonly mode?: DeploymentMode;
     readonly onErrorDeployment?: OnErrorDeploymentExtended;
     readonly outputResources?: ResourceReference[];
@@ -869,6 +893,9 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
+export type ExtensionConfigPropertyType = string;
+
+// @public
 export interface GenericResource extends Resource {
     identity?: Identity;
     kind?: string;
@@ -962,6 +989,17 @@ export enum KnownExpressionEvaluationOptionsScopeType {
 // @public
 export enum KnownExtendedLocationType {
     EdgeZone = "EdgeZone"
+}
+
+// @public
+export enum KnownExtensionConfigPropertyType {
+    Array = "Array",
+    Bool = "Bool",
+    Int = "Int",
+    Object = "Object",
+    SecureObject = "SecureObject",
+    SecureString = "SecureString",
+    String = "String"
 }
 
 // @public
@@ -1463,7 +1501,11 @@ export interface ResourceProviderOperationDisplayProperties {
 
 // @public
 export interface ResourceReference {
+    readonly apiVersion?: string;
+    readonly extension?: DeploymentExtensionDefinition;
     readonly id?: string;
+    readonly identifiers?: Record<string, unknown>;
+    readonly resourceType?: string;
 }
 
 // @public
@@ -1820,9 +1862,13 @@ export interface TagValue {
 
 // @public
 export interface TargetResource {
+    apiVersion?: string;
+    extension?: DeploymentExtensionDefinition;
     id?: string;
+    identifiers?: Record<string, unknown>;
     resourceName?: string;
     resourceType?: string;
+    symbolicName?: string;
 }
 
 // @public

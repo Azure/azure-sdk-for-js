@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the entire set of tags on a resource or subscription.
  *
  * @summary Deletes the entire set of tags on a resource or subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/DeleteTagsResource.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/DeleteTagsResource.json
  */
 async function updateTagsOnAResource(): Promise<void> {
   const scope =
@@ -29,7 +29,7 @@ async function updateTagsOnAResource(): Promise<void> {
  * This sample demonstrates how to Deletes the entire set of tags on a resource or subscription.
  *
  * @summary Deletes the entire set of tags on a resource or subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/DeleteTagsSubscription.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/DeleteTagsSubscription.json
  */
 async function updateTagsOnASubscription(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";

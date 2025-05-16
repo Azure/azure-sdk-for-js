@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
  *
  * @summary Gets the entire set of tags on a resource or subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetTagsResource.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/GetTagsResource.json
  */
 async function getTagsOnAResource() {
   const scope =
@@ -29,7 +29,7 @@ async function getTagsOnAResource() {
  * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
  *
  * @summary Gets the entire set of tags on a resource or subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetTagsSubscription.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/GetTagsSubscription.json
  */
 async function getTagsOnASubscription() {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";

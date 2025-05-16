@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentResourceGroup.json
  */
 async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString(): Promise<void> {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString():
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentResourceGroupTemplateSpecsWithId.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentResourceGroupTemplateSpecsWithId.json
  */
 async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId(): Promise<void> {
   const subscriptionId =
@@ -80,7 +80,7 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
 async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
   const subscriptionId =
@@ -114,7 +114,7 @@ async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Pr
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
  */
 async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure(): Promise<void> {
   const subscriptionId =

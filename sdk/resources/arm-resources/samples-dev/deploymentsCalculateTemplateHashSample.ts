@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Calculate the hash of the given template.
  *
  * @summary Calculate the hash of the given template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/CalculateTemplateHash.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/CalculateTemplateHash.json
  */
 async function calculateTemplateHash(): Promise<void> {
   const template: Record<string, unknown> = {

@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
  *
  * @summary When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/ForceDeleteVMsAndVMSSInResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/ForceDeleteVMsAndVMSSInResourceGroup.json
  */
 async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAReso
  * This sample demonstrates how to When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
  *
  * @summary When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/ForceDeleteVMsInResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/ForceDeleteVMsInResourceGroup.json
  */
 async function forceDeleteAllTheVirtualMachinesInAResourceGroup() {
   const subscriptionId =

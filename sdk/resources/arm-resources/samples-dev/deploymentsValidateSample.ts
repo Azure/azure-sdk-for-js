@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  *
  * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentValidateOnResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentValidateOnResourceGroup.json
  */
 async function validatesATemplateAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
