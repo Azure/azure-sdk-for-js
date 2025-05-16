@@ -15,7 +15,6 @@ import {
   pendingUploadRequestSerializer,
   PendingUploadResponse,
   pendingUploadResponseDeserializer,
-  _getCredentialsRequestSerializer,
   AssetCredentialResponse,
   assetCredentialResponseDeserializer,
 } from "../../models/models.js";
@@ -45,7 +44,6 @@ export function _getCredentialsSend(
   context: Client,
   name: string,
   version: string,
-  body: Record<string, any>,
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -61,12 +59,10 @@ export function _getCredentialsSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: _getCredentialsRequestSerializer(body),
   });
 }
 
@@ -86,10 +82,9 @@ export async function getCredentials(
   context: Client,
   name: string,
   version: string,
-  body: Record<string, any>,
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<AssetCredentialResponse> {
-  const result = await _getCredentialsSend(context, name, version, body, options);
+  const result = await _getCredentialsSend(context, name, version, options);
   return _getCredentialsDeserialize(result);
 }
 
@@ -150,10 +145,12 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
+  connectionName?: string,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
   // Start a pending upload to get the container URL with SAS token
   const pendingUploadResponse = await pendingUpload(context, name, version, {
     pendingUploadType: "BlobReference",
+    connectionName,
   } as PendingUploadRequest);
 
   const blobReference = pendingUploadResponse.blobReference;
@@ -208,6 +205,7 @@ export async function uploadFile(
   name: string,
   version: string,
   filePath: string,
+  connectionName?: string,
 ): Promise<DatasetVersionUnion> {
   // if file does not exist
 
@@ -225,6 +223,7 @@ export async function uploadFile(
     context,
     name,
     version,
+    connectionName,
   );
   // file name as blob name
   const blobName = nodePath.basename(filePath);
@@ -245,6 +244,7 @@ export async function uploadFolder(
   name: string,
   version: string,
   folderPath: string,
+  connectionName?: string,
 ): Promise<DatasetVersionUnion> {
   // Check if the folder exists
   const folderExists = fs.existsSync(folderPath);
@@ -261,6 +261,7 @@ export async function uploadFolder(
     context,
     name,
     version,
+    connectionName,
   );
 
   // Helper function to recursively get all files in a directory
@@ -338,7 +339,7 @@ export function _createOrUpdateSend(
   );
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
+    contentType: "application/merge-patch+json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -472,10 +473,9 @@ export function _listSend(
   options: DatasetsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets{?api-version,continuationToken}",
+    "/datasets{?api-version}",
     {
       "api-version": context.apiVersion,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -521,11 +521,10 @@ export function _listVersionsSend(
   options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions{?api-version,continuationToken}",
+    "/datasets/{name}/versions{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

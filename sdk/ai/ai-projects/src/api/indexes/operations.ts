@@ -49,7 +49,7 @@ export function _createOrUpdateSend(
   );
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
+    contentType: "application/merge-patch+json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -183,10 +183,9 @@ export function _listSend(
   options: IndexesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes{?api-version,continuationToken}",
+    "/indexes{?api-version}",
     {
       "api-version": context.apiVersion,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,11 +229,10 @@ export function _listVersionsSend(
   options: IndexesListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexes/{name}/versions{?api-version,continuationToken}",
+    "/indexes/{name}/versions{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

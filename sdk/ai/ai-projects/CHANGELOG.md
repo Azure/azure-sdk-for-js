@@ -1,5 +1,25 @@
 # Release History
 
+## 1.0.0-beta.7 (unreleased)
+
+Major changes happen in this version is some function rename and remove some optional params
+
+### Breaking changes
+
+- Function `project.evaluations.createRun` rename to `project.evaluations.create`
+- Function `project.redTeams.createRun` rename to `project.redTeams.createRun`
+
+### Features Added
+
+- Add optional `connectionName` for `project.datasets.uploadFile` and `project.datasets.uploadFolder`
+- Add `fieldMapping` field for `AzureAISearchIndex`, `CosmosDBIndex`
+
+### Other Changes
+
+- remove optional params (top, skip, maxpagesize) for `project.connections.list`
+- remove optional params (top, skip, maxpagesize) for `project.deployments.list`
+- remove body param for `project.datasets.getCredentials`
+
 ## 1.0.0-beta.6 (2025-05-15)
 
 Major changes happened in this version as the client library switched to using the new AI Foundry data-plane REST APIs.
