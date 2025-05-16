@@ -7,7 +7,7 @@
 export type FileContents =
   | string
   | NodeJS.ReadableStream
-  | ReadableStream<Uint8Array>
+  | ReadableStream
   | Uint8Array
   | Blob;
 
