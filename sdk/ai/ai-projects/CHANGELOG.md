@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (unreleased)
+## 1.0.0-beta.7 (2025-05-16)
 
 Major changes happen in this version is some function rename and remove some optional params
 
