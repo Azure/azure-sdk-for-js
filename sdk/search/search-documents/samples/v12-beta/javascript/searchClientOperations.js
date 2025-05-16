@@ -7,8 +7,8 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
-const { createIndex, delay, WAIT_TIME } = require("./setup.js");
 require("dotenv/config");
+const { createIndex, delay, WAIT_TIME } = require("./setup.js");
 
 /**
  * This sample is to demonstrate the use of SearchClient.
