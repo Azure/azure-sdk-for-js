@@ -10,7 +10,7 @@ Write-Host "Running common.ps1 from path: $PSScriptRoot/common.ps1"
 Write-Host "Running CommandInvocation-Helpers.ps1 from path: $PSScriptRoot/Helpers/CommandInvocation-Helpers.ps1"
 . $PSScriptRoot/Helpers/CommandInvocation-Helpers.ps1
 
-$ErrorActionPreference = 'Stop'
+#$ErrorActionPreference = 'Stop'
 
 if (Test-Path "Function:$UpdateGeneratedSdksFn") {
     Write-Host "Calling function $UpdateGeneratedSdksFn"
