@@ -22,12 +22,13 @@ export const generateHttpClient = (status: number, parsedBody?: unknown): HttpCl
 };
 
 export const createMediaClient = (mockHttpClient: HttpClient): CallMedia => {
-  return new CallMedia(CALL_CONNECTION_ID,
+  return new CallMedia(
+    CALL_CONNECTION_ID,
     baseUri,
     { key: generateToken() },
     {
       httpClient: mockHttpClient,
-    }
+    },
   );
 };
 
