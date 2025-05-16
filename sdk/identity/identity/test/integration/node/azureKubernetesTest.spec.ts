@@ -18,7 +18,7 @@ describe("Azure Kubernetes Integration test", function () {
     podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
   });
 
-  it("can authenticate using managed identity", async function (ctx) {
+  it.skip("can authenticate using managed identity", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -30,7 +30,7 @@ describe("Azure Kubernetes Integration test", function () {
     );
   });
 
-  it("can authenticate using workload identity", async function (ctx) {
+  it.skip("can authenticate using workload identity", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }

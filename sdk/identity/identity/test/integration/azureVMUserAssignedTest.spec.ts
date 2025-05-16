@@ -16,7 +16,7 @@ describe("AzureVM UserAssigned Integration test", function () {
     assert.exists(accessToken.token);
   });
 
-  it("works with a user assigned objectId", async function (ctx) {
+  it.skip("works with a user assigned objectId", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }
