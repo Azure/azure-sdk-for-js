@@ -42,7 +42,6 @@ export function createAIProject(
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
