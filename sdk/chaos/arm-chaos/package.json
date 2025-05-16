@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-chaos",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A generated SDK for ChaosClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -12,14 +12,14 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts",
       "./api": "./src/api/index.ts",
-      "./api/operationStatuses": "src/api/operationStatuses/index.ts",
-      "./api/targetTypes": "src/api/targetTypes/index.ts",
-      "./api/experimentExecutions": "src/api/experimentExecutions/index.ts",
-      "./api/experiments": "src/api/experiments/index.ts",
-      "./api/capabilityTypes": "src/api/capabilityTypes/index.ts",
-      "./api/targets": "src/api/targets/index.ts",
-      "./api/operations": "src/api/operations/index.ts",
-      "./api/capabilities": "src/api/capabilities/index.ts",
+      "./api/operationStatuses": "./src/api/operationStatuses/index.ts",
+      "./api/targetTypes": "./src/api/targetTypes/index.ts",
+      "./api/experimentExecutions": "./src/api/experimentExecutions/index.ts",
+      "./api/experiments": "./src/api/experiments/index.ts",
+      "./api/capabilityTypes": "./src/api/capabilityTypes/index.ts",
+      "./api/targets": "./src/api/targets/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
+      "./api/capabilities": "./src/api/capabilities/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -83,6 +83,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.10.0",
+    "@azure/arm-cosmosdb": "16.0.0-beta.6",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
@@ -109,7 +110,7 @@
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -127,5 +128,209 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview"
   },
   "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/operationStatuses": {
+      "browser": {
+        "types": "./dist/browser/api/operationStatuses/index.d.ts",
+        "default": "./dist/browser/api/operationStatuses/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operationStatuses/index.d.ts",
+        "default": "./dist/react-native/api/operationStatuses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationStatuses/index.d.ts",
+        "default": "./dist/esm/api/operationStatuses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationStatuses/index.d.ts",
+        "default": "./dist/commonjs/api/operationStatuses/index.js"
+      }
+    },
+    "./api/targetTypes": {
+      "browser": {
+        "types": "./dist/browser/api/targetTypes/index.d.ts",
+        "default": "./dist/browser/api/targetTypes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/targetTypes/index.d.ts",
+        "default": "./dist/react-native/api/targetTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/targetTypes/index.d.ts",
+        "default": "./dist/esm/api/targetTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/targetTypes/index.d.ts",
+        "default": "./dist/commonjs/api/targetTypes/index.js"
+      }
+    },
+    "./api/experimentExecutions": {
+      "browser": {
+        "types": "./dist/browser/api/experimentExecutions/index.d.ts",
+        "default": "./dist/browser/api/experimentExecutions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/experimentExecutions/index.d.ts",
+        "default": "./dist/react-native/api/experimentExecutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/experimentExecutions/index.d.ts",
+        "default": "./dist/esm/api/experimentExecutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/experimentExecutions/index.d.ts",
+        "default": "./dist/commonjs/api/experimentExecutions/index.js"
+      }
+    },
+    "./api/experiments": {
+      "browser": {
+        "types": "./dist/browser/api/experiments/index.d.ts",
+        "default": "./dist/browser/api/experiments/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/experiments/index.d.ts",
+        "default": "./dist/react-native/api/experiments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/experiments/index.d.ts",
+        "default": "./dist/esm/api/experiments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/experiments/index.d.ts",
+        "default": "./dist/commonjs/api/experiments/index.js"
+      }
+    },
+    "./api/capabilityTypes": {
+      "browser": {
+        "types": "./dist/browser/api/capabilityTypes/index.d.ts",
+        "default": "./dist/browser/api/capabilityTypes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/capabilityTypes/index.d.ts",
+        "default": "./dist/react-native/api/capabilityTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capabilityTypes/index.d.ts",
+        "default": "./dist/esm/api/capabilityTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capabilityTypes/index.d.ts",
+        "default": "./dist/commonjs/api/capabilityTypes/index.js"
+      }
+    },
+    "./api/targets": {
+      "browser": {
+        "types": "./dist/browser/api/targets/index.d.ts",
+        "default": "./dist/browser/api/targets/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/targets/index.d.ts",
+        "default": "./dist/react-native/api/targets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/targets/index.d.ts",
+        "default": "./dist/esm/api/targets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/targets/index.d.ts",
+        "default": "./dist/commonjs/api/targets/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/capabilities": {
+      "browser": {
+        "types": "./dist/browser/api/capabilities/index.d.ts",
+        "default": "./dist/browser/api/capabilities/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/capabilities/index.d.ts",
+        "default": "./dist/react-native/api/capabilities/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/capabilities/index.d.ts",
+        "default": "./dist/esm/api/capabilities/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/capabilities/index.d.ts",
+        "default": "./dist/commonjs/api/capabilities/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }
