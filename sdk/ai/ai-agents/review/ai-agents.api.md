@@ -299,7 +299,7 @@ enum ErrorEvent_2 {
 export { ErrorEvent_2 as ErrorEvent }
 
 // @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream | Uint8Array | Blob;
+export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
 
 // @public
 export interface FileDeletionStatus {
@@ -382,8 +382,8 @@ export interface FilesOperations {
     get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
     getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     list: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
-    upload: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
-    uploadAndPoll: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
+    upload: (file: ReadableStream<Uint8Array> | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
+    uploadAndPoll: (file: ReadableStream<Uint8Array> | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
 }
 
 // @public
