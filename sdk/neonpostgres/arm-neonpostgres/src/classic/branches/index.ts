@@ -6,11 +6,10 @@ import { Branch } from "../../models/models.js";
 import {
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "../../api/branches/options.js";
-import { list, $delete, update, createOrUpdate, get } from "../../api/branches/operations.js";
+import { list, $delete, createOrUpdate, get } from "../../api/branches/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -36,15 +35,6 @@ export interface BranchesOperations {
     branchName: string,
     options?: BranchesDeleteOptionalParams,
   ) => Promise<void>;
-  /** Update a Branch */
-  update: (
-    resourceGroupName: string,
-    organizationName: string,
-    projectName: string,
-    branchName: string,
-    properties: Branch,
-    options?: BranchesUpdateOptionalParams,
-  ) => PollerLike<OperationState<Branch>, Branch>;
   /** Create a Branch */
   createOrUpdate: (
     resourceGroupName: string,
@@ -79,23 +69,6 @@ function _getBranches(context: PostgresContext) {
       branchName: string,
       options?: BranchesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, organizationName, projectName, branchName, options),
-    update: (
-      resourceGroupName: string,
-      organizationName: string,
-      projectName: string,
-      branchName: string,
-      properties: Branch,
-      options?: BranchesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        organizationName,
-        projectName,
-        branchName,
-        properties,
-        options,
-      ),
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
