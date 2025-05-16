@@ -40,6 +40,10 @@
         "sdk/test-utils/test-utils-vitest/src/fakeTestSecrets.ts"
       ],
       "_justification": "File contains fake credentials used by test code."
+    },
+    {
+      "file": ["sdk/keyvault/keyvault-certificates/samples-dev/importCertificate.ts"],
+      "_justification": "File contains self-signed certificates used by sample code, unused in production."
     }
   ]
 }
