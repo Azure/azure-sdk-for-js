@@ -29,8 +29,8 @@ If you encounter any bugs with the library, please file an issue in the [Issues]
 
 Some guidance for when you make a contribution:
 
-- Add/update unit tests and code as required by your change
-- Make sure you run all the unit tests on the affected platform(s)/languages. If the change is in common code, generally running on one platform would be acceptable.
+- Add/update tests and code as required by your change
+- Make sure you run all the tests on the affected platform(s)/languages. If the change is in common code, generally running on one platform would be acceptable.
 - Run end-to-end tests or simple sample code to make sure the lib works in an end-to-end scenario.
 
 ## Big contributions
@@ -187,19 +187,12 @@ All projects have at least the following scripts:
 - `clean`: Remove generated and temporary files
 - `execute:samples`: Execute samples using the source code
 - `format`: Reformat project files with Prettier
-- `integration-test:browser`: Execute browser integration tests
-- `integration-test:node`: Execute Node integration tests
-- `integration-test`: Execute all integration tests
 - `lint:fix`: Fix ESLint issues within the project
 - `lint`: Show ESLint issues within the project
 - `pack`: Run `npm pack` on the project
 - `test:browser`: Execute browser dev tests
 - `test:node`: Execute Node dev tests
 - `test`: Execute all dev tests
-- `unit-test:browser`: Execute browser unit tests
-- `unit-test:node`: Execute Node unit tests
-- `unit-test`: Execute all unit tests
-- `update-snippets`: Update the snippets in the project
 
 Projects may optionally have the following scripts:
 
@@ -275,7 +268,7 @@ The repository contains two different sets of libraries, each follows different 
 
 The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, ensure that the project will be picked up in the `pnpm-workspace.yaml`.  Once the library is added, run `pnpm install` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
-In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, `unit-test`, and `integration-test` scripts at the appropriate times during the build. Adding hooks that perform steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
+In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, and `test` scripts at the appropriate times during the build. Adding hooks that perform steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 
 Because pnpm is used, it's **_especially_** important to make sure that none of your package scripts are calling `npm install` when your library is built via the pnpm toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
 

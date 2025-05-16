@@ -59,6 +59,7 @@
   "dependencies": {
     "@azure/core-auth": "workspace:*",
     "@azure/core-client": "workspace:*",
+    "@azure/core-paging": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-tracing": "workspace:*",
     "@azure/logger": "workspace:*",

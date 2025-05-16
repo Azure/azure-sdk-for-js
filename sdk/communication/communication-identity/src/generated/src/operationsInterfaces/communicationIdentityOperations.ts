@@ -10,22 +10,25 @@ import {
   CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
   CommunicationIdentityDeleteOptionalParams,
+  CommunicationIdentityGetOptionalParams,
+  CommunicationIdentityGetResponse,
   CommunicationIdentityRevokeAccessTokensOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
   CommunicationIdentityTokenScope,
   CommunicationIdentityIssueAccessTokenOptionalParams,
-  CommunicationIdentityIssueAccessTokenResponse
+  CommunicationIdentityIssueAccessTokenResponse,
 } from "../models/index.js";
 
 /** Interface representing a CommunicationIdentityOperations. */
 export interface CommunicationIdentityOperations {
   /**
-   * Create a new identity, and optionally, an access token.
+   * Create a new identity with an optional customId mapping, and optionally, an access token. If called
+   * again with the same customId, the returned identity will be the same as the one returned previously.
    * @param options The options parameters.
    */
   create(
-    options?: CommunicationIdentityCreateOptionalParams
+    options?: CommunicationIdentityCreateOptionalParams,
   ): Promise<CommunicationIdentityCreateResponse>;
   /**
    * Delete the identity, revoke all tokens for the identity and delete all associated data.
@@ -34,8 +37,17 @@ export interface CommunicationIdentityOperations {
    */
   delete(
     id: string,
-    options?: CommunicationIdentityDeleteOptionalParams
+    options?: CommunicationIdentityDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Get an identity by its id.
+   * @param id Identifier of the identity.
+   * @param options The options parameters.
+   */
+  get(
+    id: string,
+    options?: CommunicationIdentityGetOptionalParams,
+  ): Promise<CommunicationIdentityGetResponse>;
   /**
    * Revoke all access tokens for the specific identity.
    * @param id Identifier of the identity.
@@ -43,24 +55,24 @@ export interface CommunicationIdentityOperations {
    */
   revokeAccessTokens(
     id: string,
-    options?: CommunicationIdentityRevokeAccessTokensOptionalParams
+    options?: CommunicationIdentityRevokeAccessTokensOptionalParams,
   ): Promise<void>;
   /**
-   * Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication
-   * Identity access token with a matching expiration time.
-   * @param token Azure AD access token of a Teams User to acquire a new Communication Identity access
+   * Exchange an Entra ID access token of a Teams user for a new Communication Identity access token with
+   * a matching expiration time.
+   * @param token Entra ID access token of a Teams User to acquire a new Communication Identity access
    *              token.
-   * @param appId Client ID of an Azure AD application to be verified against the appid claim in the
-   *              Azure AD access token.
-   * @param userId Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the
-   *               Azure AD access token.
+   * @param appId Client ID of an Entra ID application to be verified against the appid claim in the
+   *              Entra ID access token.
+   * @param userId Object ID of an Entra ID user (Teams User) to be verified against the oid claim in the
+   *               Entra ID access token.
    * @param options The options parameters.
    */
   exchangeTeamsUserAccessToken(
     token: string,
     appId: string,
     userId: string,
-    options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
+    options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
   /**
    * Issue a new token for an identity.
@@ -71,6 +83,6 @@ export interface CommunicationIdentityOperations {
   issueAccessToken(
     id: string,
     scopes: CommunicationIdentityTokenScope[],
-    options?: CommunicationIdentityIssueAccessTokenOptionalParams
+    options?: CommunicationIdentityIssueAccessTokenOptionalParams,
   ): Promise<CommunicationIdentityIssueAccessTokenResponse>;
 }

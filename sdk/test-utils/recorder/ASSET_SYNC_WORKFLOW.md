@@ -64,7 +64,7 @@ At this point, you should have an `assets.json` file under your SDK.
 
 Run your tests using the usual [package.json scripts].
 
-`pnpm integration-test:node`, for example.
+`rushx test:node`, for example.
 
 With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 

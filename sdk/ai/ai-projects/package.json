@@ -1,7 +1,7 @@
 {
   "name": "@azure/ai-projects",
-  "version": "1.0.0-beta.5",
-  "description": "A generated SDK for ProjectsClient.",
+  "version": "1.0.0-beta.6",
+  "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -58,7 +58,9 @@
     ]
   },
   "dependencies": {
+    "@azure-rest/ai-inference": "^1.0.0-beta.6",
     "@azure-rest/core-client": "workspace:*",
+    "@azure/ai-agents": "1.0.0-beta.1",
     "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-lro": "workspace:*",
@@ -68,6 +70,18 @@
     "@azure/core-tracing": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/logger": "workspace:*",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
+    "@azure/storage-blob": "^12.26.0",
+    "@opentelemetry/api": "catalog:otel",
+    "@opentelemetry/api-logs": "^0.200.0",
+    "@opentelemetry/exporter-logs-otlp-grpc": "^0.200.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.200.0",
+    "@opentelemetry/instrumentation": "catalog:otel",
+    "@opentelemetry/sdk-logs": "^0.200.0",
+    "@opentelemetry/sdk-trace-node": "catalog:otel",
+    "@traceloop/instrumentation-langchain": "^0.13.0",
+    "@traceloop/instrumentation-openai": "^0.13.0",
+    "openai": "^4.84.1",
     "tslib": "catalog:"
   },
   "devDependencies": {
@@ -78,10 +92,6 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@azure/monitor-opentelemetry-exporter": "workspace:*",
-    "@azure/opentelemetry-instrumentation-azure-sdk": "workspace:*",
-    "@opentelemetry/api": "catalog:otel",
-    "@opentelemetry/instrumentation": "catalog:otel",
-    "@opentelemetry/sdk-trace-node": "catalog:otel",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
