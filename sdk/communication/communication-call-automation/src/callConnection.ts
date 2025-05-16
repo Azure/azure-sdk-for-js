@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommunicationIdentifier, createCommunicationAuthPolicy } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  createCommunicationAuthPolicy,
+} from "@azure/communication-common";
 import { CallMedia } from "./callMedia.js";
 import {
   AddParticipantRequest,
@@ -230,7 +233,7 @@ export class CallConnection {
         identifier: result.participant?.identifier
           ? communicationIdentifierConverter(result.participant?.identifier)
           : undefined,
-      }
+      },
     };
     return addParticipantsResult;
   }
@@ -263,7 +266,7 @@ export class CallConnection {
       optionsInternal,
     );
     const transferCallResult: TransferCallResult = {
-      ...result
+      ...result,
     };
     return transferCallResult;
   }
@@ -293,7 +296,7 @@ export class CallConnection {
       optionsInternal,
     );
     const removeParticipantsResult: RemoveParticipantResult = {
-      ...result
+      ...result,
     };
     return removeParticipantsResult;
   }
@@ -359,7 +362,7 @@ export class CallConnection {
     );
 
     const cancelAddParticipantResult: CancelAddParticipantOperationResult = {
-      ...result
+      ...result,
     };
 
     return cancelAddParticipantResult;

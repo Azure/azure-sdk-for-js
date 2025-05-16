@@ -77,7 +77,7 @@ describe("Call Automation Client Unit Tests", () => {
     // mocks
     const createCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
-      callConnection: {} as CallConnection
+      callConnection: {} as CallConnection,
     };
     vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
 
@@ -94,7 +94,7 @@ describe("Call Automation Client Unit Tests", () => {
     // mocks
     const createGroupCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
-      callConnection: {} as CallConnection
+      callConnection: {} as CallConnection,
     };
 
     vi.spyOn(client, "createGroupCall").mockResolvedValue(createGroupCallResultMock);
@@ -122,7 +122,7 @@ describe("Call Automation Client Unit Tests", () => {
           cloud: appCloud,
         } as MicrosoftTeamsAppIdentifier,
       } as CallConnectionProperties,
-      callConnection: {} as CallConnection
+      callConnection: {} as CallConnection,
     };
 
     vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
@@ -155,7 +155,7 @@ describe("Call Automation Client Unit Tests", () => {
     // mocks
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
-      callConnection: {} as CallConnection
+      callConnection: {} as CallConnection,
     };
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
 
@@ -173,7 +173,7 @@ describe("Call Automation Client Unit Tests", () => {
     // mocks
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
-      callConnection: {} as CallConnection
+      callConnection: {} as CallConnection,
     };
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
     const answerCallOptions: AnswerCallOptions = {

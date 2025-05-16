@@ -475,6 +475,13 @@ export interface DownloadRecordingOptions extends OperationOptions {
     offset?: number;
 }
 
+// @public
+export interface DtmfData {
+    data: string;
+    participant?: CommunicationIdentifier | undefined;
+    timestamp?: Date;
+}
+
 // @public (undocumented)
 export interface DtmfResult {
     readonly tones?: Tone[];
@@ -1014,13 +1021,15 @@ export enum StreamingDataKind {
     // (undocumented)
     AudioMetadata = "AudioMetadata",
     // (undocumented)
+    DtmfData = "DtmfData",
+    // (undocumented)
     TranscriptionData = "TranscriptionData",
     // (undocumented)
     TranscriptionMetadata = "TranscriptionMetadata"
 }
 
 // @public (undocumented)
-export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata | DtmfData;
 
 // @public
 export enum TextFormat {
@@ -1075,6 +1084,7 @@ export interface TranscriptionMetadata {
     callConnectionId: string;
     correlationId: string;
     locale: string;
+    speechRecognitionModelEndpointId: string;
     subscriptionId: string;
 }
 
