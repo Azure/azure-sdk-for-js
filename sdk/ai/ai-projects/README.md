@@ -467,12 +467,12 @@ NOTE: For running evaluators locally refer to [Evaluate with the Azure AI Evalua
 Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
 ```ts snippet:exceptions
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 try {
   const result = await project.connections.list();
 } catch (e) {
-  if (e instanceof RestError) {
+  if (isRestError(e)) {
     console.log(`Status code: ${e.code}`);
     console.log(e.message);
   } else {

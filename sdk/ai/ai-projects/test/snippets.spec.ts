@@ -11,6 +11,7 @@ import type {
   EvaluationWithOptionalName,
   ModelDeployment,
 } from "@azure/ai-projects";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
@@ -332,7 +333,7 @@ describe("snippets", function () {
     try {
       const result = await project.connections.list();
     } catch (e) {
-      if (e instanceof RestError) {
+      if (isRestError(e)) {
         console.log(`Status code: ${e.code}`);
         console.log(e.message);
       } else {
