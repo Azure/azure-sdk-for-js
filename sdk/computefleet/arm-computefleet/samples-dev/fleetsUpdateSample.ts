@@ -163,6 +163,7 @@ async function fleetsUpdate(): Promise<void> {
                 deleteOption: "Delete",
               },
             ],
+            diskControllerType: "uzb",
           },
           networkProfile: {
             healthProbe: {

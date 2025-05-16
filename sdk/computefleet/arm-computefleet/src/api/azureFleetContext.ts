@@ -2,25 +2,33 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-export interface AzureFleetContext extends Client {}
+export interface AzureFleetContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface AzureFleetClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 export function createAzureFleet(
   credential: TokenCredential,
+  subscriptionId: string,
   options: AzureFleetClientOptionalParams = {},
 ): AzureFleetContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-computefleet/1.0.1`;
+  const userAgentInfo = `azsdk-js-arm-computefleet/2.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -50,5 +58,5 @@ export function createAzureFleet(
       return next(req);
     },
   });
-  return clientContext;
+  return { ...clientContext, apiVersion, subscriptionId } as AzureFleetContext;
 }
