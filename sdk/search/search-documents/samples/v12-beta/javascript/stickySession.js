@@ -8,8 +8,8 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { odata, SearchIndexClient } = require("@azure/search-documents");
-const { createIndex, delay, WAIT_TIME } = require("./setup.js");
 require("dotenv/config");
+const { createIndex, delay, WAIT_TIME } = require("./setup.js");
 
 /**
  * If you're querying a replicated index, Azure AI Search may target any replica with your queries.
