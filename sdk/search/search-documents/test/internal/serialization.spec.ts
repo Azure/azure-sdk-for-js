@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { assert, describe, it } from "vitest";
 import GeographyPoint from "../../src/geographyPoint.js";
 import { deserialize, serialize } from "../../src/serialization.js";
-import { describe, it, assert } from "vitest";
 
 describe("serialization.serialize", () => {
   it("nested", () => {
