@@ -31,14 +31,11 @@ export function _listSend(
   options: ConnectionsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/connections{?api-version,connectionType,defaultConnection,top,skip,maxpagesize}",
+    "/connections{?api-version,connectionType,defaultConnection}",
     {
       "api-version": context.apiVersion,
       connectionType: options?.connectionType,
       defaultConnection: options?.defaultConnection,
-      top: options?.top,
-      skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

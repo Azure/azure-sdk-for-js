@@ -37,7 +37,6 @@ export interface DatasetsOperations {
   getCredentials: (
     name: string,
     version: string,
-    body: Record<string, any>,
     options?: DatasetsGetCredentialsOptionalParams,
   ) => Promise<AssetCredentialResponse>;
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
@@ -85,9 +84,8 @@ function _getDatasets(context: AIProjectContext) {
     getCredentials: (
       name: string,
       version: string,
-      body: Record<string, any>,
       options?: DatasetsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, version, body, options),
+    ) => getCredentials(context, name, version, options),
     pendingUpload: (
       name: string,
       version: string,

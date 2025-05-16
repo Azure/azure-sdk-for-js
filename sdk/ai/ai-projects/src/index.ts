@@ -46,6 +46,7 @@ export {
   IndexUnion,
   IndexType,
   AzureAISearchIndex,
+  FieldMapping,
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
@@ -84,7 +85,7 @@ export {
 } from "./api/deployments/index.js";
 export {
   EvaluationsCreateAgentEvaluationOptionalParams,
-  EvaluationsCreateRunOptionalParams,
+  EvaluationsCreateOptionalParams,
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "./api/evaluations/index.js";
@@ -96,7 +97,7 @@ export {
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
 export {
-  RedTeamsCreateRunOptionalParams,
+  RedTeamsCreateOptionalParams,
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
 } from "./api/redTeams/index.js";

@@ -15,7 +15,6 @@ import {
   pendingUploadRequestSerializer,
   PendingUploadResponse,
   pendingUploadResponseDeserializer,
-  _getCredentialsRequestSerializer,
   AssetCredentialResponse,
   assetCredentialResponseDeserializer,
 } from "../../models/models.js";
@@ -45,7 +44,6 @@ export function _getCredentialsSend(
   context: Client,
   name: string,
   version: string,
-  body: Record<string, any>,
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -61,12 +59,10 @@ export function _getCredentialsSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: _getCredentialsRequestSerializer(body),
   });
 }
 
@@ -86,10 +82,9 @@ export async function getCredentials(
   context: Client,
   name: string,
   version: string,
-  body: Record<string, any>,
   options: DatasetsGetCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<AssetCredentialResponse> {
-  const result = await _getCredentialsSend(context, name, version, body, options);
+  const result = await _getCredentialsSend(context, name, version, options);
   return _getCredentialsDeserialize(result);
 }
 
@@ -338,7 +333,7 @@ export function _createOrUpdateSend(
   );
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
+    contentType: "application/merge-patch+json",
     headers: {
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -472,10 +467,9 @@ export function _listSend(
   options: DatasetsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets{?api-version,continuationToken}",
+    "/datasets{?api-version}",
     {
       "api-version": context.apiVersion,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -521,11 +515,10 @@ export function _listVersionsSend(
   options: DatasetsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasets/{name}/versions{?api-version,continuationToken}",
+    "/datasets/{name}/versions{?api-version}",
     {
       name: name,
       "api-version": context.apiVersion,
-      continuationToken: options?.continuationToken,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

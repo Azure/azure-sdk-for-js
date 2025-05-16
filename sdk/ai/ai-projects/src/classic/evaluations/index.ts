@@ -10,11 +10,11 @@ import {
 } from "../../models/models.js";
 import {
   EvaluationsCreateAgentEvaluationOptionalParams,
-  EvaluationsCreateRunOptionalParams,
+  EvaluationsCreateOptionalParams,
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "../../api/evaluations/options.js";
-import { createAgentEvaluation, createRun, list, get } from "../../api/evaluations/operations.js";
+import { createAgentEvaluation, create, list, get } from "../../api/evaluations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Evaluations operations. */
@@ -25,9 +25,9 @@ export interface EvaluationsOperations {
     options?: EvaluationsCreateAgentEvaluationOptionalParams,
   ) => Promise<AgentEvaluation>;
   /** Creates an evaluation run. */
-  createRun: (
+  create: (
     evaluation: EvaluationWithOptionalName,
-    options?: EvaluationsCreateRunOptionalParams,
+    options?: EvaluationsCreateOptionalParams,
   ) => Promise<Evaluation>;
   /** List evaluation runs */
   list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
@@ -41,10 +41,10 @@ function _getEvaluations(context: AIProjectContext) {
       evaluation: AgentEvaluationRequest,
       options?: EvaluationsCreateAgentEvaluationOptionalParams,
     ) => createAgentEvaluation(context, evaluation, options),
-    createRun: (
+    create: (
       evaluation: EvaluationWithOptionalName,
-      options?: EvaluationsCreateRunOptionalParams,
-    ) => createRun(context, evaluation, options),
+      options?: EvaluationsCreateOptionalParams,
+    ) => create(context, evaluation, options),
     list: (options?: EvaluationsListOptionalParams) => list(context, options),
     get: (name: string, options?: EvaluationsGetOptionalParams) => get(context, name, options),
   };
