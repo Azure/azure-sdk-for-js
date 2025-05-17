@@ -229,7 +229,7 @@ export async function uploadFile(
   // file name as blob name
   const blobName = nodePath.basename(filePath);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  await blockBlobClient.uploadFile(filePath);
+  await blockBlobClient.uploadStream(fs.createReadStream(filePath));
 
   const datasetVersion = await createOrUpdate(context, name, outputVersion, {
     name: name,
