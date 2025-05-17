@@ -6,17 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { SearchManagementClient } from "../searchManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   NetworkSecurityPerimeterConfiguration,
   NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams,
   NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
@@ -56,7 +59,11 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     searchServiceName: string,
     options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
-    const iter = this.listByServicePagingAll(resourceGroupName, searchServiceName, options);
+    const iter = this.listByServicePagingAll(
+      resourceGroupName,
+      searchServiceName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -87,7 +94,11 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     let result: NetworkSecurityPerimeterConfigurationsListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(resourceGroupName, searchServiceName, options);
+      result = await this._listByService(
+        resourceGroupName,
+        searchServiceName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -146,7 +157,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   get(
@@ -169,7 +180,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   async beginReconcile(
@@ -193,7 +204,8 @@ export class NetworkSecurityPerimeterConfigurationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -245,7 +257,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   async beginReconcileAndWait(
@@ -335,16 +347,20 @@ const reconcileOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
     },
     201: {
-      headersMapper: Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
     },
     202: {
-      headersMapper: Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
     },
     204: {
-      headersMapper: Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
