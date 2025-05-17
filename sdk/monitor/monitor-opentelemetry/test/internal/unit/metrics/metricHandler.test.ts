@@ -24,7 +24,9 @@ describe("MetricHandler", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    handler.shutdown();
+    if (handler) {
+      handler.shutdown();
+    }
     MetricsApi.disable();
     vi.restoreAllMocks();
   });
@@ -44,8 +46,8 @@ describe("MetricHandler", () => {
     );
     const meterProvider = new MeterProvider({
       views: handler.getViews(),
+      readers: [handler.getMetricReader()],
     });
-    meterProvider.addMetricReader(handler.getMetricReader());
     MetricsApi.setGlobalMeterProvider(meterProvider);
   }
 

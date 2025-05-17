@@ -5,7 +5,7 @@ import * as path from "node:path";
 
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
@@ -32,7 +32,7 @@ const testAttributes: Record<string, string> = {
   "service.name": `unknown_service:${process.argv0}`, // Match OTel's default
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.30.1",
+  "telemetry.sdk.version": "2.0.0",
 };
 
 describe("Library/Config", () => {
@@ -313,7 +313,7 @@ describe("OpenTelemetry Resource", () => {
     customAttributes[SemanticResourceAttributes.SERVICE_NAME] = "testServiceName";
     customAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testServiceInstanceId";
     customAttributes[SemanticResourceAttributes.CONTAINER_ID] = "testContainerId";
-    const customResource = new Resource(customAttributes);
+    const customResource = resourceFromAttributes(customAttributes);
     const config = new InternalConfig();
     config.resource = customResource;
     assert.deepStrictEqual(
@@ -429,29 +429,30 @@ describe("OpenTelemetry Resource", () => {
     );
   });
 
-  it("Azure VM resource attributes", async () => {
-    vi.spyOn(azureVmDetector, "detect").mockResolvedValue(new Resource(testAttributes));
+  it("Azure VM resource attributes", () => {
+    vi.spyOn(azureVmDetector, "detect").mockResolvedValue(resourceFromAttributes(testAttributes));
     const config = new InternalConfig();
     assert.ok(config);
 
     // Wait for the async VM resource detector to finish (ensure detect is called)
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
-      const key = Object.keys(config.resource.attributes)[i];
-      assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
-    }
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-      "azure",
-    );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-      "westus",
-    );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-      CloudPlatformValues.AZURE_VM,
-    );
+    setTimeout(() => {
+      for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
+        const key = Object.keys(config.resource.attributes)[i];
+        assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
+      }
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+        "azure",
+      );
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+        "westus",
+      );
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+        CloudPlatformValues.AZURE_VM,
+      );
+    }, 1000);
   });
 
   it("OTEL_RESOURCE_ATTRIBUTES", () => {

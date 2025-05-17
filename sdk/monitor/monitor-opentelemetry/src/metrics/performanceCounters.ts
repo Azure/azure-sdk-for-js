@@ -32,7 +32,6 @@ export class PerformanceCounterMetrics {
   private collectionInterval = 60000; // 60 seconds
   private meterProvider: MeterProvider;
   private azureExporter: AzureMonitorMetricExporter;
-  private metricReader: PeriodicExportingMetricReader;
   private meter: Meter;
   private requestDurationHistogram: Histogram;
   private requestRateGauge: ObservableGauge;
@@ -85,10 +84,6 @@ export class PerformanceCounterMetrics {
       executionInterval: this.intervalExecutionTime,
     };
 
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this.internalConfig.resource,
-    };
-    this.meterProvider = new MeterProvider(meterProviderConfig);
     this.azureExporter = new AzureMonitorMetricExporter(
       this.internalConfig.azureMonitorExporterOptions,
     );
@@ -96,8 +91,11 @@ export class PerformanceCounterMetrics {
       exporter: this.azureExporter,
       exportIntervalMillis: options?.collectionInterval || this.collectionInterval,
     };
-    this.metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this.meterProvider.addMetricReader(this.metricReader);
+    const meterProviderConfig: MeterProviderOptions = {
+      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+      resource: this.internalConfig.resource,
+    };
+    this.meterProvider = new MeterProvider(meterProviderConfig);
     this.meter = this.meterProvider.getMeter("AzureMonitorPerformanceCountersMeter");
 
     this.lastRequestRate = { count: 0, time: 0, executionInterval: 0 };

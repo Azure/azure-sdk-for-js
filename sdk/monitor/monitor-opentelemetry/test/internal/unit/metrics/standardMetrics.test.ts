@@ -22,7 +22,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { getDependencyTarget } from "../../../../src/metrics/utils.js";
@@ -59,7 +59,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should use AKS attributes to populate common dimensions on standard metrics", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME] = "k8sDeploymentName";
     resource.attributes[SEMRESATTRS_K8S_POD_NAME] = "k8sPodName";
     const clientSpan: any = {
@@ -85,7 +85,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should observe instruments during collection", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
@@ -230,7 +230,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     const serverSpan: any = {
       kind: SpanKind.SERVER,
       duration: [654321],
@@ -260,7 +260,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("[new sem conv] should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     const serverSpan: any = {
       kind: SpanKind.SERVER,
       duration: [654321],
@@ -290,7 +290,7 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should set service name based on service namespace if provided", async () => {
-    const resource = new Resource({});
+    const resource = resourceFromAttributes({});
     resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "testcloudRoleName";
     resource.attributes[SEMRESATTRS_SERVICE_NAME] = "serviceTestName";
     resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";

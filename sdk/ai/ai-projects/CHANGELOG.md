@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.7 ()
+
+### Other Changes
+
+- Updated to OpenTelemetry v2 packages.
+
 ## 1.0.0-beta.6 (2025-05-15)
 
 Major changes happened in this version as the client library switched to using the new AI Foundry data-plane REST APIs.

@@ -84,8 +84,8 @@ import { msToTimeSpan } from "./breezeUtils.js";
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
   tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-  if (span.parentSpanId) {
-    tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanId;
+  if (span.parentSpanContext?.spanId) {
+    tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanContext.spanId;
   }
   const endUserId = span.attributes[SEMATTRS_ENDUSER_ID];
   if (endUserId) {
@@ -188,7 +188,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   if (span.kind === SpanKind.PRODUCER) {
     remoteDependencyData.type = DependencyTypes.QueueMessage;
   }
-  if (span.kind === SpanKind.INTERNAL && span.parentSpanId) {
+  if (span.kind === SpanKind.INTERNAL && span.parentSpanContext) {
     remoteDependencyData.type = DependencyTypes.InProc;
   }
 
@@ -423,7 +423,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 
       const tags: Tags = createTagsFromResource(span.resource);
       tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      const spanId = span.spanContext()?.spanId;
+      const spanId = span.spanContext().spanId;
       if (spanId) {
         tags[KnownContextTagKeys.AiOperationParentId] = spanId;
       }

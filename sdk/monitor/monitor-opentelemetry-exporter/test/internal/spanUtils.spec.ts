@@ -4,9 +4,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
-import { Span, BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
-import { Resource } from "@opentelemetry/resources";
+import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
+import type { SpanOptions} from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode, ROOT_CONTEXT, trace, context as OTelContext } from "@opentelemetry/api";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   ATTR_CLIENT_ADDRESS,
   ATTR_HTTP_REQUEST_METHOD,
@@ -56,15 +57,16 @@ import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
 import { hrTimeToDate } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
+import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
 
 const context = getInstance();
 
 const tracerProviderConfig: TracerConfig = {
-  resource: new Resource({
+  resource: resourceFromAttributes({
     [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
     [SEMRESATTRS_SERVICE_NAME]: "testServiceName",
     [SEMRESATTRS_SERVICE_NAMESPACE]: "testServiceNamespace",
-  }),
+  })
 };
 
 const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
@@ -127,28 +129,36 @@ describe("spanUtils.ts", () => {
   describe("#readableSpanToEnvelope", () => {
     describe("GRPC", () => {
       it("should create a Request Envelope for Server Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          ctx
+        );
+        childSpan.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: "test rpc system",
           [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan)
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
-          [KnownContextTagKeys.AiOperationName]: "parent span",
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
+          [KnownContextTagKeys.AiOperationName]: "child span",
           [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
         };
         const expectedProperties = {
@@ -157,16 +167,16 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RequestData> = {
           source: undefined,
-          id: `${span.spanContext().spanId}`,
+          id: `${childSpan.spanContext().spanId}`,
           success: true,
           responseCode: "123",
-          name: `parent span`,
+          name: `child span`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -179,13 +189,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for Client Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        };
+        const span = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -196,9 +206,9 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span)
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationId]: span.spanContext().traceId,
         };
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -210,13 +220,13 @@ describe("spanUtils.ts", () => {
           resultCode: "123",
           target: "test rpc system",
           type: "GRPC",
-          name: `parent span`,
+          name: readableSpan.name,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -229,13 +239,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create success:false Dependency Envelope for Client spans with status code ERROR", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -246,9 +256,9 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.ERROR,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationId]: span.spanContext().traceId,
         };
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -260,13 +270,13 @@ describe("spanUtils.ts", () => {
           resultCode: "400",
           target: "test rpc system",
           type: "GRPC",
-          name: `parent span`,
+          name: readableSpan.name,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -279,28 +289,35 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for Client Spans with an updated dependency target", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          trace.setSpan(OTelContext.active(), parentSpan)
+        );
+        childSpan.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: "test rpc system",
           [SEMATTRS_PEER_SERVICE]: "test peer service",
           [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
+        parentSpan.end();
+        childSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan)
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
           [KnownContextTagKeys.AiOperationSyntheticSource]: "True",
         };
         const expectedProperties = {
@@ -308,18 +325,18 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `${span.spanContext().spanId}`,
+          id: `${childSpan.spanContext().spanId}`,
           success: true,
           resultCode: "123",
           target: "test peer service",
           type: "GRPC",
-          name: `parent span`,
+          name: `child span`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -332,44 +349,52 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for Client Spans WCF defined as the RPC system", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          ctx
+        );
+        childSpan.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
           [SEMATTRS_RPC_SYSTEM]: DependencyTypes.Wcf,
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
         };
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `${span.spanContext().spanId}`,
+          id: `${childSpan.spanContext().spanId}`,
           success: true,
           resultCode: "123",
           type: "WCF Service",
           target: "WCF Service",
-          name: `parent span`,
+          name: `child span`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -384,39 +409,47 @@ describe("spanUtils.ts", () => {
     });
     describe("Generic", () => {
       it("should create a Request Envelope for Server Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          ctx
+        );
+        childSpan.setAttributes({
           "microsoft.sample_rate": "50",
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
-        const expectedTime = hrTimeToDate(span.startTime);
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
+        const expectedTime = hrTimeToDate(readableSpan.startTime);
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
-          [KnownContextTagKeys.AiOperationName]: "parent span",
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
+          [KnownContextTagKeys.AiOperationName]: "child span",
         };
         const expectedBaseData: Partial<RequestData> = {
-          id: `${span.spanContext().spanId}`,
+          id: `${childSpan.spanContext().spanId}`,
           success: true,
           responseCode: "0",
-          name: `parent span`,
+          name: `child span`,
           version: 2,
           source: undefined,
           properties: {}, // Should not add sampleRate
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -431,40 +464,48 @@ describe("spanUtils.ts", () => {
       });
 
       it("should create a success:false Request Envelope for Server Spans with 4xx status codes", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          ctx
+        );
+        childSpan.setAttributes({
           "microsoft.sample_rate": "50",
           [SEMATTRS_HTTP_STATUS_CODE]: 400,
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.UNSET,
         });
-        span.end();
-        const expectedTime = hrTimeToDate(span.startTime);
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
+        const expectedTime = hrTimeToDate(readableSpan.startTime);
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
-          [KnownContextTagKeys.AiOperationName]: "parent span",
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
+          [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
+          [KnownContextTagKeys.AiOperationName]: readableSpan.name,
         };
         const expectedBaseData: Partial<RequestData> = {
-          id: `${span.spanContext().spanId}`,
+          id: `${childSpan.spanContext().spanId}`,
           success: false,
           responseCode: "0",
-          name: `parent span`,
+          name: `child span`,
           version: 2,
           source: undefined,
           properties: {}, // Should not add sampleRate
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -479,13 +520,13 @@ describe("spanUtils.ts", () => {
       });
 
       it("should set the azure SDK properties", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.INTERNAL,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.INTERNAL,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           "az.namespace": "Microsoft.EventHub",
@@ -494,17 +535,17 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
-        const expectedTime = hrTimeToDate(span.startTime);
+        const readableSpan = spanToReadableSpan(span);
+        const expectedTime = hrTimeToDate(readableSpan.startTime);
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
         };
         const expectedProperties = {
           "az.namespace": "Microsoft.EventHub",
         };
         const expectedBaseData: Partial<RequestData> = {
           id: `${span.spanContext().spanId}`,
-          name: "parent span",
+          name: "span",
           success: true,
           resultCode: "0",
           version: 2,
@@ -513,7 +554,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -528,13 +569,13 @@ describe("spanUtils.ts", () => {
       });
 
       it("should create a Dependency Envelope for Client Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        };
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -543,9 +584,9 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {
-          [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+          [KnownContextTagKeys.AiOperationId]: span.spanContext().traceId,
         };
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -556,13 +597,13 @@ describe("spanUtils.ts", () => {
           success: true,
           resultCode: "0",
           type: "Dependency",
-          name: `parent span`,
+          name: `${readableSpan.name}`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -578,16 +619,22 @@ describe("spanUtils.ts", () => {
 
     describe("HTTP", () => {
       it("(HTTP) should create a Request Envelope for Server Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+          links: [{ context: { traceId: "traceId", spanId: "spanId", traceFlags: 0 } }]
+        };
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
-          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          ctx
+        );
+        childSpan.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
           [SEMATTRS_HTTP_ROUTE]: "/api/example",
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
@@ -595,21 +642,23 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_SCHEME]: "https",
           "extra.attribute": "foo",
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
         expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
         const expectedProperties = {
           "extra.attribute": "foo",
-          "_MS.links": JSON.stringify([{ operation_Id: "traceid", id: "spanId" }]),
+          "_MS.links": JSON.stringify([{ operation_Id: "traceId", id: "spanId" }]),
         };
 
         const expectedBaseData: Partial<RequestData> = {
-          id: `${span.spanContext().spanId}`,
+          id: `${childSpan.spanContext().spanId}`,
           success: true,
           responseCode: "200",
           url: "https://example.com/api/example",
@@ -620,7 +669,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -633,14 +682,14 @@ describe("spanUtils.ts", () => {
         );
       });
       it("(HTTP) [new sem conv] should create a Request Envelope for Server Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          links: [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
+          kind: SpanKind.SERVER,
+        };
+        const span = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
-          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [ATTR_HTTP_REQUEST_METHOD]: "GET",
@@ -656,8 +705,7 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
         expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
         expectedTags[KnownContextTagKeys.AiLocationIp] = "10.1.2.80";
         expectedTags["ai.user.userAgent"] = "test";
@@ -678,7 +726,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -691,13 +739,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should set AiOperationName when only httpUrl is set", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
@@ -711,8 +759,7 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
         expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
         expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
 
@@ -732,7 +779,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -745,13 +792,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("[new sem conv] should set AiOperationName when only httpUrl is set", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [ATTR_HTTP_REQUEST_METHOD]: "GET",
@@ -765,8 +812,7 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
         expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
         expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
 
@@ -786,7 +832,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -799,13 +845,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should set AiLocationIp when httpMethod not set and netPeerIp is", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
@@ -818,9 +864,8 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
-        expectedTags[KnownContextTagKeys.AiOperationName] = "parent span";
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationName] = "span";
         expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
 
         const expectedProperties = {
@@ -838,7 +883,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -851,13 +896,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("[new sem conv] should set AiLocationIp when httpMethod not set and netPeerIp is", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [ATTR_URL_FULL]: "https://example.com/api/example",
@@ -870,9 +915,8 @@ describe("spanUtils.ts", () => {
         });
         span.end();
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
-        expectedTags[KnownContextTagKeys.AiOperationName] = "parent span";
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationName] = "span";
         expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
 
         const expectedProperties = {
@@ -890,7 +934,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.Request",
@@ -903,15 +947,22 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for Client Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        // Get the parent span context to assign to the child span
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          {},
+          ctx
+        );
+        childSpan.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
@@ -919,19 +970,21 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_SCHEME]: "https",
           "extra.attribute": "foo",
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: readableSpan.spanContext().spanId,
           success: true,
           resultCode: "200",
           type: "Http",
@@ -943,7 +996,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -956,34 +1009,42 @@ describe("spanUtils.ts", () => {
         );
       });
       it("[new sem conv] should create a Dependency Envelope for Client Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          {},
+          ctx
+        );
+        childSpan.setAttributes({
           [ATTR_HTTP_REQUEST_METHOD]: "GET",
           [ATTR_URL_FULL]: "https://example.com/api/example",
           [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
           [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
           "extra.attribute": "foo",
         });
-        span.setStatus({
+        childSpan.setStatus({
           code: SpanStatusCode.OK,
         });
-        span.end();
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan)
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: readableSpan.spanContext().spanId,
           success: true,
           resultCode: "200",
           type: "Http",
@@ -995,7 +1056,7 @@ describe("spanUtils.ts", () => {
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1011,37 +1072,45 @@ describe("spanUtils.ts", () => {
 
     describe("createDepenedencyData", () => {
       it("should create a Dependency Envelope for Producer Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.PRODUCER,
+        }
+        const parentSpan = tracer.startSpan(
           "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.PRODUCER,
-          "parentSpanId",
+          spanOptions,
+          ROOT_CONTEXT
         );
-        span.setAttributes({
+        const ctx = trace.setSpan(OTelContext.active(), parentSpan);
+        const childSpan = tracer.startSpan(
+          "child span",
+          spanOptions,
+          ctx
+        );
+        childSpan.setAttributes({
           "extra.attribute": "foo",
         });
-        span.end();
+        childSpan.end();
+        parentSpan.end();
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
-        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: readableSpan.spanContext().spanId,
           success: true,
           resultCode: "0",
           type: "Queue Message",
-          name: "parent span",
+          name: "child span",
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1054,13 +1123,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for Internal Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.INTERNAL,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.INTERNAL,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -1068,23 +1137,22 @@ describe("spanUtils.ts", () => {
         span.end();
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: span.spanContext().spanId,
           success: true,
           resultCode: "0",
           type: "InProc",
-          name: "parent span",
+          name: "span",
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1097,13 +1165,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should remove default port if target is defined", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.INTERNAL,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.INTERNAL,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
@@ -1113,17 +1181,16 @@ describe("spanUtils.ts", () => {
         span.end();
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "Http",
-          name: "parent span",
+          name: "span",
           version: 2,
           properties: expectedProperties,
           measurements: {},
@@ -1131,7 +1198,7 @@ describe("spanUtils.ts", () => {
           data: "",
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1147,13 +1214,13 @@ describe("spanUtils.ts", () => {
 
     describe("DB", () => {
       it("should create a Dependency Envelope for Client Spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_MYSQL,
@@ -1164,27 +1231,27 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "mysql",
           target: "mysql",
           data: "SELECT * FROM Test",
-          name: `parent span`,
+          name: readableSpan.name,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1197,13 +1264,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for PostgreSQL spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_POSTGRESQL,
@@ -1214,27 +1281,27 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "postgresql",
           target: "postgresql",
           data: "SELECT * FROM Test",
-          name: `parent span`,
+          name: readableSpan.name,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1247,13 +1314,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for MongoDB spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_MONGODB,
@@ -1264,27 +1331,27 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "mongodb",
           target: "mongodb",
           data: "SELECT * FROM Test",
-          name: `parent span`,
+          name: `${readableSpan.name}`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1297,13 +1364,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for Redis spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_REDIS,
@@ -1314,27 +1381,27 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "redis",
           target: "redis",
           data: "SELECT * FROM Test",
-          name: `parent span`,
+          name: `${readableSpan.name}`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1347,13 +1414,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for SQL spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_SQLITE,
@@ -1364,27 +1431,27 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "SQL",
           target: "sqlite",
           data: "SELECT * FROM Test",
-          name: `parent span`,
+          name: `${readableSpan.name}`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1397,13 +1464,13 @@ describe("spanUtils.ts", () => {
         );
       });
       it("should create a Dependency Envelope for other database spans", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
-          "parentSpanId",
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.CLIENT,
+        }
+        const span = tracer.startSpan(
+          "span",
+          spanOptions,
+          ROOT_CONTEXT
         );
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_HIVE,
@@ -1416,27 +1483,27 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          id: `spanId`,
+          id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
           type: "hive",
           target: "test|test2",
           data: "SELECT * FROM Test",
-          name: `parent span`,
+          name: `${readableSpan.name}`,
           version: 2,
           properties: expectedProperties,
           measurements: {},
         };
 
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const envelope = readableSpanToEnvelope(spanToReadableSpan(span), "ikey");
         assertEnvelope(
           envelope,
           "Microsoft.ApplicationInsights.RemoteDependency",
@@ -1453,21 +1520,18 @@ describe("spanUtils.ts", () => {
   describe("#spanEventsToEnvelopes", () => {
     it("should create exception envelope for remote exception events", () => {
       const testError = new Error("test error");
-      const span = new Span(
-        tracer,
-        ROOT_CONTEXT,
+      const span = tracer.startSpan(
         "parent span",
-        { traceId: "traceid", spanId: "spanId", traceFlags: 0, isRemote: true },
-        SpanKind.SERVER,
-        "parentSpanId",
+        {},
+        ROOT_CONTEXT
       );
       span.recordException(testError);
       span.end();
-      const envelopes = spanEventsToEnvelopes(span, "ikey");
+      const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
 
       const expectedTags: Tags = {};
       expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+      expectedTags[KnownContextTagKeys.AiOperationParentId] = span.spanContext().spanId;
       const expectedProperties = {};
       const testErrorStack = testError.stack;
       const expectedBaseData: Partial<TelemetryExceptionData> = {
@@ -1497,39 +1561,38 @@ describe("spanUtils.ts", () => {
   });
   it("should create an envelope for internal exception span events", () => {
     const testError = new Error("test error");
-    const span = new Span(
-      tracer,
-      ROOT_CONTEXT,
-      "parent span",
-      { traceId: "4bf92f3577b34da6a3ce929d0e0e4736", spanId: "00f067aa0ba902b7", traceFlags: 0 },
-      SpanKind.INTERNAL,
-      "parentSpanId",
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.INTERNAL,
+    }
+    const span = tracer.startSpan(
+      "span",
+      spanOptions,
+      ROOT_CONTEXT
     );
     span.recordException(testError);
     span.end();
-    const envelopes = spanEventsToEnvelopes(span, "ikey");
+    const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
 
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
     assert.ok(envelopes.length === 1);
   });
   it("should create message envelope for span events", () => {
-    const span = new Span(
-      tracer,
-      ROOT_CONTEXT,
-      "parent span",
-      { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-      SpanKind.SERVER,
-      "parentSpanId",
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    }
+    const span = tracer.startSpan(
+      "span",
+      spanOptions,
+      ROOT_CONTEXT
     );
     span.addEvent("test event");
     span.end();
-    const envelopes = spanEventsToEnvelopes(span, "ikey");
+    const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
 
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+    expectedTags[KnownContextTagKeys.AiOperationParentId] = span.spanContext().spanId;
     const expectedProperties = {};
     const expectedBaseData: Partial<MessageData> = {
       message: "test event",
@@ -1550,21 +1613,21 @@ describe("spanUtils.ts", () => {
   });
   it("should truncate message envelope for span events", () => {
     const message = "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1);
-    const span = new Span(
-      tracer,
-      ROOT_CONTEXT,
-      "parent span",
-      { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-      SpanKind.SERVER,
-      "parentSpanId",
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    }
+    const span = tracer.startSpan(
+      "span",
+      spanOptions,
+      ROOT_CONTEXT
     );
     span.addEvent(message);
     span.end();
-    const envelopes = spanEventsToEnvelopes(span, "ikey");
+    const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
 
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+    expectedTags[KnownContextTagKeys.AiOperationParentId] = span.spanContext().spanId;
     const expectedProperties = {};
     const expectedBaseData: Partial<MessageData> = {
       message: message.substring(0, MaxPropertyLengths.FIFTEEN_BIT),

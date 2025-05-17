@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type * as http from "node:http";
-import type { DetectorSync } from "@opentelemetry/resources";
+import type { ResourceDetector } from "@opentelemetry/resources";
 import {
-  envDetectorSync,
-  hostDetectorSync,
-  osDetectorSync,
-  processDetectorSync,
-  serviceInstanceIdDetectorSync,
+  envDetector,
+  hostDetector,
+  osDetector,
+  processDetector,
+  serviceInstanceIdDetector,
 } from "@opentelemetry/resources";
 import { diag } from "@opentelemetry/api";
 
@@ -116,13 +116,13 @@ export function msToTimeSpan(ms: number): string {
 // This function is a slight modification of an upstream otel util function -
 // mainly for prioritizing the resource detectors customer may specify over
 // env var & not enabling process detector by default.
-export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
-  const resourceDetectors = new Map<string, DetectorSync>([
-    ["env", envDetectorSync],
-    ["host", hostDetectorSync],
-    ["os", osDetectorSync],
-    ["process", processDetectorSync],
-    ["serviceinstance", serviceInstanceIdDetectorSync],
+export function parseResourceDetectorsFromEnvVar(): Array<ResourceDetector> {
+  const resourceDetectors = new Map<string, ResourceDetector>([
+    ["env", envDetector],
+    ["host", hostDetector],
+    ["os", osDetector],
+    ["process", processDetector],
+    ["serviceinstance", serviceInstanceIdDetector],
   ]);
 
   if (process.env.OTEL_NODE_RESOURCE_DETECTORS != null) {
@@ -154,6 +154,6 @@ export function parseResourceDetectorsFromEnvVar(): Array<DetectorSync> {
     // leaving out the process detector as that can add many resource attributes
     // with large values. Also not enabling service instance attributes by default
     // as this is still experimental.
-    return [envDetectorSync, hostDetectorSync, osDetectorSync];
+    return [envDetector, hostDetector, osDetector];
   }
 }
