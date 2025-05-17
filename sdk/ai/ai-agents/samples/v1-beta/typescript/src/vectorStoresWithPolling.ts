@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
 export async function main(): Promise<void> {
   // Create an Azure AI Client

@@ -14,7 +14,7 @@ const fs = require("fs");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -47,8 +47,8 @@ async function main() {
 
   // Create tool set
   const toolSet = new ToolSet();
-  await toolSet.addFileSearchTool([vectorStore.id]);
-  await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+  toolSet.addFileSearchTool([vectorStore.id]);
+  toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
   // Create agent with tool set
   const agent = await client.createAgent(modelDeploymentName, {

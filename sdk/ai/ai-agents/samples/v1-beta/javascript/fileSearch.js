@@ -14,7 +14,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -41,7 +41,7 @@ async function main() {
 
   // Create agent with files
   const agent = await client.createAgent(modelDeploymentName, {
-    name: "SDK Test Agent - Retrieval",
+    name: "File Search Agent",
     instructions: "You are helpful agent that can help fetch data from files you know about.",
     tools: [fileSearchTool.definition],
     toolResources: fileSearchTool.resources,
