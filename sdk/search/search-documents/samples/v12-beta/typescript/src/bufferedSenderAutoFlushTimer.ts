@@ -7,15 +7,15 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import {
-  DEFAULT_FLUSH_WINDOW,
-  GeographyPoint,
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexingBufferedSender,
+    DEFAULT_FLUSH_WINDOW,
+    GeographyPoint,
+    SearchClient,
+    SearchIndexClient,
+    SearchIndexingBufferedSender
 } from "@azure/search-documents";
+import "dotenv/config";
 import type { Hotel } from "./interfaces.js";
 import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup.js";
-import "dotenv/config";
 
 /**
  * This sample is to demonstrate the use of SearchIndexingBufferedSender.

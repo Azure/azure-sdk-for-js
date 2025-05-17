@@ -3,6 +3,7 @@
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AzureOpenAIVectorizer,
   SearchIndex,
@@ -21,7 +22,6 @@ import {
   deleteSynonymMaps,
   WAIT_TIME,
 } from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("SearchIndexClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {

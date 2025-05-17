@@ -1,5 +1,16 @@
 # Release History
 
+## 12.2.0-beta.3 (2024-05-16)
+
+### Features Added
+
+- Added API for listing index statistics [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added scoring profiles for semantic ranking [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added agentic retrieval functionality through `KnowledgeRetrievalClient` and `KnowledgeAgent` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added ACL functionality for indexer ingestion [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added document-level access control [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added `ChatCompletionSkill` as a variant of `WebAPISkill` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+
 ## 12.2.0-beta.2 (2024-11-25)
 
 ### Features Added

@@ -11,6 +11,9 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type { AnalyzeResult } from "./generated/service/models/index.js";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
+import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
+import type { KnowledgeRetrievalClientOptions as GetKnowledgeRetrievalClientOptions } from "./knowledgeRetrievalClient.js";
+import { KnowledgeRetrievalClient } from "./knowledgeRetrievalClient.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -22,22 +25,27 @@ import type {
   AnalyzeTextOptions,
   CreateAliasOptions,
   CreateIndexOptions,
+  CreateKnowledgeAgentOptions,
   CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
+  CreateOrUpdateKnowledgeAgentOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
   DeleteAliasOptions,
   DeleteIndexOptions,
+  DeleteKnowledgeAgentOptions,
   DeleteSynonymMapOptions,
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
+  GetKnowledgeAgentOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
   ListAliasesOptions,
   ListIndexesOptions,
+  ListKnowledgeAgentsOptions,
   ListSynonymMapsOptions,
   SearchIndex,
   SearchIndexAlias,
@@ -654,8 +662,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
-   * recovery option. The mapped index is untouched by this operation.
+   * Deletes a search alias and its associated mapping to an index. This operation is permanent,
+   * with no recovery option. The mapped index is untouched by this operation.
    * @param alias - Alias/Name name of the alias to delete.
    * @param options - The options parameters.
    */
@@ -798,13 +806,154 @@ export class SearchIndexClient {
   }
 
   /**
+   * Creates a new agent or updates an agent if it already exists.
+   * @param agentName - name of the agent to create or update.
+   * @param knowledgeAgent - definition of the agent to create or update.
+   * @param options - options parameters.
+   */
+  public async createOrUpdateKnowledgeAgent(
+    agentName: string,
+    knowledgeAgent: KnowledgeAgent,
+    options?: CreateOrUpdateKnowledgeAgentOptions,
+  ): Promise<KnowledgeAgent> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-createOrUpdateKnowledgeAgent",
+      options,
+    );
+    try {
+      const etag = updatedOptions.onlyIfUnchanged ? knowledgeAgent.etag : undefined;
+
+      const result = await this.client.knowledgeAgents.createOrUpdate(
+        agentName,
+        utils.convertKnowledgeAgentToGenerated(knowledgeAgent)!,
+        {
+          ...updatedOptions,
+          ifMatch: etag,
+        },
+      );
+      return utils.convertKnowledgeAgentToPublic(result)!;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing agent.
+   * @param agentName - name of the agent to delete.
+   * @param options - options parameters.
+   */
+  public async deleteKnowledgeAgent(
+    agent: string | KnowledgeAgent,
+    options?: DeleteKnowledgeAgentOptions,
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteKnowledgeAgent", options);
+    try {
+      const agentName = typeof agent === "string" ? agent : agent.name;
+      const etag =
+        typeof agent !== "string" && updatedOptions.onlyIfUnchanged ? agent.etag : undefined;
+
+      const result = await this.client.knowledgeAgents.delete(agentName, {
+        ...updatedOptions,
+        ifMatch: etag,
+      });
+      return result;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves an agent definition.
+   * @param agentName - name of the agent to retrieve.
+   * @param options - options parameters.
+   */
+  public async getKnowledgeAgent(
+    agentName: string,
+    options?: GetKnowledgeAgentOptions,
+  ): Promise<KnowledgeAgent> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeAgent", options);
+    try {
+      const result = await this.client.knowledgeAgents.get(agentName, updatedOptions);
+      return utils.convertKnowledgeAgentToPublic(result)!;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Lists all agents available for a search service.
+   * @param options - options parameters.
+   */
+  public async listKnowledgeAgents(
+    options?: ListKnowledgeAgentsOptions,
+  ): Promise<KnowledgeAgent[]> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listKnowledgeAgent", options);
+    try {
+      const { knowledgeAgents } = await this.client.knowledgeAgents.list(updatedOptions);
+      return knowledgeAgents.map((agent) => utils.convertKnowledgeAgentToPublic(agent)!);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new agent.
+   * @param knowledgeAgent - definition of the agent to create.
+   * @param options - options parameters.
+   */
+  public async createKnowledgeAgent(
+    knowledgeAgent: KnowledgeAgent,
+    options?: CreateKnowledgeAgentOptions,
+  ): Promise<KnowledgeAgent> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createKnowledgeAgent", options);
+    try {
+      const result = await this.client.knowledgeAgents.create(
+        utils.convertKnowledgeAgentToGenerated(knowledgeAgent)!,
+        updatedOptions,
+      );
+      return utils.convertKnowledgeAgentToPublic(result)!;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
-   * @typeParam TModel - An optional type that represents the documents stored in
-   * the search index. For the best typing experience, all non-key fields should
-   * be marked optional and nullable, and the key property should have the
-   * non-nullable type `string`.
+   * @typeParam TModel - An optional type that represents the documents stored in the search index.
+   * For the best typing experience, all non-key fields should be marked optional and nullable, and
+   * the key property should have the non-nullable type `string`.
    */
   public getSearchClient<TModel extends object>(
     indexName: string,
@@ -813,6 +962,23 @@ export class SearchIndexClient {
     return new SearchClient<TModel>(
       this.endpoint,
       indexName,
+      this.credential,
+      options || this.options,
+    );
+  }
+
+  /**
+   * Retrieves the KnowledgeRetrievalClient corresponding to this SearchIndexClient
+   * @param agentName - Name of the agent
+   * @param options - KnowledgeRetrievalClient Options
+   */
+  public getKnowledgeRetrievalClient(
+    agentName: string,
+    options?: GetKnowledgeRetrievalClientOptions,
+  ): KnowledgeRetrievalClient {
+    return new KnowledgeRetrievalClient(
+      this.endpoint,
+      agentName,
       this.credential,
       options || this.options,
     );
