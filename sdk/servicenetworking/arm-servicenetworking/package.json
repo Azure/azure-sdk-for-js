@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-servicenetworking",
-  "version": "2.1.0-beta.1",
+  "version": "2.1.0-beta.2",
   "description": "A generated SDK for ServiceNetworkingClient.",
   "engines": {
     "node": ">=18.0.0"
