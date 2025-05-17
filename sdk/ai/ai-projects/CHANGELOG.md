@@ -2,8 +2,6 @@
 
 ## 1.0.0-beta.7 (2025-05-16)
 
-- Major changes happen in this version is some function rename and remove some optional params
-
 ### Breaking changes
 
 - Function `project.evaluations.createRun` is renamed to `project.evaluations.create`
