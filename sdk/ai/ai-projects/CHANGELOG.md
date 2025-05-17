@@ -8,6 +8,7 @@ Major changes happen in this version is some function rename and remove some opt
 
 - Function `project.evaluations.createRun` rename to `project.evaluations.create`
 - Function `project.redTeams.createRun` rename to `project.redTeams.createRun`
+- The `targetConfig` of `RedTeam` rename to `target`
 
 ### Features Added
 

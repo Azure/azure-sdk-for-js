@@ -145,6 +145,7 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
+  // Optional connection name for the storage account to be used
   connectionName?: string,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
   // Start a pending upload to get the container URL with SAS token
