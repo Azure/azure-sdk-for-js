@@ -115,7 +115,8 @@ export enum KnownSingleSignOnType {
 
 // @public
 export enum KnownVersions {
-    V20240201Preview = "2024-02-01-preview"
+    // (undocumented)
+    V20240201 = "2024-02-01"
 }
 
 // @public
