@@ -220,12 +220,12 @@ describe("projectsClient - vector stores files", () => {
   });
 });
 
-async function generateFileStream(): Promise<ReadableStream | NodeJS.ReadableStream> {
+async function generateFileStream(): Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream> {
   if (isNodeLike) {
     const stream = await import("stream");
     return stream.Readable.from("fileContent");
   } else {
-    return new ReadableStream({
+    return new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
