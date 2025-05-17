@@ -1,5 +1,14 @@
 # Release History
     
+## 16.3.0 (2025-05-15)
+    
+### Features Added
+
+  - Added Interface FullTextPath
+  - Added Interface FullTextPolicy
+  - Interface SqlContainerResource has a new optional parameter fullTextPolicy
+    
+    
 ## 16.3.0-beta.1 (2024-12-19)
 Compared with version 16.2.0
     
