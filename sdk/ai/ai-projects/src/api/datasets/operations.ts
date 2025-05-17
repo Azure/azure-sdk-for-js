@@ -193,7 +193,7 @@ async function createDatasetAndGetItsContainer(
   );
 
   // Create container client from the blob URI (which includes the SAS token)
-  const containerClient = new ContainerClient(blobReference.blobUri);
+  const containerClient = new ContainerClient(blobReference.credential.sasUri);
 
   return {
     containerClient,
