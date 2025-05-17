@@ -13,13 +13,7 @@ export interface IndexesDeleteOptionalParams extends OperationOptions {}
 export interface IndexesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexesListOptionalParams extends OperationOptions {
-  /** Continuation token for pagination. */
-  continuationToken?: string;
-}
+export interface IndexesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexesListVersionsOptionalParams extends OperationOptions {
-  /** Continuation token for pagination. */
-  continuationToken?: string;
-}
+export interface IndexesListVersionsOptionalParams extends OperationOptions {}

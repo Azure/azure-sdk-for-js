@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -18,13 +19,7 @@ export interface DatasetsDeleteOptionalParams extends OperationOptions {}
 export interface DatasetsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DatasetsListOptionalParams extends OperationOptions {
-  /** Continuation token for pagination. */
-  continuationToken?: string;
-}
+export interface DatasetsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DatasetsListVersionsOptionalParams extends OperationOptions {
-  /** Continuation token for pagination. */
-  continuationToken?: string;
-}
+export interface DatasetsListVersionsOptionalParams extends OperationOptions {}

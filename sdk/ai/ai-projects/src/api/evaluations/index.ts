@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createAgentEvaluation, createRun, list, get } from "./operations.js";
+export { createAgentEvaluation, create, list, get } from "./operations.js";
 export {
   EvaluationsCreateAgentEvaluationOptionalParams,
-  EvaluationsCreateRunOptionalParams,
+  EvaluationsCreateOptionalParams,
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "./options.js";
