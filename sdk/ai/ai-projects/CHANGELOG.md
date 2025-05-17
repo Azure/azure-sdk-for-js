@@ -7,17 +7,14 @@
 - Function `project.evaluations.createRun` is renamed to `project.evaluations.create`
 - Function `project.redTeams.createRun` is renamed to `project.redTeams.createRun`
 - The `targetConfig` of `RedTeam` is renamed to `target`
+- Removes the optional parameters `top`, `skip`, and `maxpagesize` in `project.connections.list`.
+- Removes the optional parameters `top`, `skip`, and `maxpagesize` in `project.deployments.list`.
+- Removes the body parameter in `project.datasets.getCredentials`.
 
 ### Features Added
 
 - Adds an optional `connectionName` field in `project.datasets.uploadFile` and `project.datasets.uploadFolder`.
 - Adds a `fieldMapping` field in `AzureAISearchIndex` and `CosmosDBIndex`.
-
-### Other Changes
-
-- Removes the optional parameters `top`, `skip`, and `maxpagesize` in `project.connections.list`.
-- Removes the optional parameters `top`, `skip`, and `maxpagesize` in `project.deployments.list`.
-- Removes the body parameter in `project.datasets.getCredentials`.
 
 ## 1.0.0-beta.6 (2025-05-15)
 
