@@ -62,7 +62,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
-    "vitest": "^3.0.9"
+    "vitest": "catalog:testing"
   },
   "type": "module",
   "tshy": {
