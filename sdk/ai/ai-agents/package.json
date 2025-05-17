@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-agents",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure AI Agents client library.",
   "engines": {
     "node": ">=18.0.0"
@@ -81,7 +81,6 @@
     "@azure/monitor-opentelemetry-exporter": "workspace:*",
     "@opentelemetry/api": "catalog:otel",
     "@opentelemetry/api-logs": "^0.200.0",
-    "@opentelemetry/api": "catalog:otel",
     "@opentelemetry/instrumentation": "catalog:otel",
     "@opentelemetry/sdk-trace-node": "catalog:otel",
     "@types/node": "catalog:",

@@ -62,7 +62,7 @@ For development, you can use the following command:
 docker build -t azure-turborepo-remote-cache --build-arg NODE_ENV=development .
 ```
 
-In order to run the cache in Docker, you will need to log into Azure to create the token on your local system.  You can do this using the Azure CLI:
+In order to run the cache in Docker, you will need to log into Azure to create the token on your local system. You can do this using the Azure CLI:
 
 ```bash
 az login
@@ -108,6 +108,7 @@ To configure TurboRepo Build to use the remote cache, you need to create the `.t
 ```
 
 ### Creating a New Azure Storage Account
+
 If you don't have an Azure Storage account, you can create one using the Azure CLI. First, log in to your Azure account:
 
 ```bash
@@ -119,6 +120,7 @@ Then, create a new resource group:
 ```bash
 az group create --name myResourceGroup --location eastus
 ```
+
 Next, create a new storage account with our bicep template:
 
 ```bash
@@ -132,7 +134,7 @@ az deployment group create \
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `CACHE_LOG_LEVEL` environment variable to `info`. 
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `CACHE_LOG_LEVEL` environment variable to `info`.
 
 ## Contributing
 

@@ -54,7 +54,7 @@
     "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-client": "workspace:*",
-    "@azure/core-lro": "workspace:*",
+    "@azure/core-lro": "catalog:corelrov2",
     "@azure/core-paging": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-tracing": "workspace:*",
