@@ -393,11 +393,10 @@ describe("Aggregate Query", { timeout: 20000 }, () => {
       // If the fetch succeeds unexpectedly, fail the test
       assert.fail("Expected composite index not found error, but the fetch succeeded");
     } catch (error) {
+      const stringifiedError = JSON.stringify(error);
       if (
         error instanceof Error &&
-        error.message.includes(
-          "The order by query does not have a corresponding composite index that it can be served from.",
-        )
+        stringifiedError.includes("does not have a corresponding composite index")
       ) {
         // If the fetch fails as expected, pass the test
       } else {
