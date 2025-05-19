@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.KubernetesConfiguration/resourcetest1/clusterName/providers/Microsoft.KubernetesConfiguration/extensionTypes?api-version=2024-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-kubernetesconfiguration-extensiontypes/1.0.0-beta.1 core-rest-pipeline/1.20.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "180",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 19 May 2025 06:42:35 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "11ca21aa-6f2f-44a1-88f1-6e2463484926",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20250519T064236Z:11ca21aa-6f2f-44a1-88f1-6e2463484926",
+        "X-MSEdge-Ref": "Ref A: E5884604C90E4525886EDFF6C1D031A5 Ref B: SIN221080712023 Ref C: 2025-05-19T06:42:36Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type could not be found in the namespace 'Microsoft.KubernetesConfiguration' for api version '2024-11-01-preview'."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
