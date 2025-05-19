@@ -290,7 +290,7 @@ describe("Main functions", () => {
     assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
   });
 
-  it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", async () => {
+  it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
     const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "os";
@@ -313,7 +313,7 @@ describe("Main functions", () => {
     });
   });
 
-  it("should skip unknown resource detectors", async () => {
+  it("should skip unknown resource detectors", () => {
     const expectedResourceAttributeNamespaces = new Set(["host", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};
     env.OTEL_NODE_RESOURCE_DETECTORS = "blah,host";
