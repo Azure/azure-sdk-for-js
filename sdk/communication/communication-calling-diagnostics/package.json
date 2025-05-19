@@ -1,0 +1,31 @@
+{
+  "name": "@azure/communication-calling-diagnostics",
+  "version": "1.0.0",
+  "description": "Enhanced diagnostics for Azure Communication Calling SDK",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"No tests yet\" && exit 0",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "azure",
+    "communication",
+    "calling",
+    "diagnostics"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/communication-calling": "^1.33.4"
+  },
+  "peerDependencies": {
+    "@azure/communication-calling": "^1.33.4"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5",
+    "@types/node": "^18.15.0"
+  }
+}
