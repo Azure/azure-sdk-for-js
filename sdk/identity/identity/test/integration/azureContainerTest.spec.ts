@@ -1,51 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { describe, it, assert } from "vitest";
-import * as http from "node:http";
+import { describe, it } from "vitest";
+import { execSync } from "child_process";
 
 describe("Azure Container Instance Integration test", function () {
   it("can authenticate using managed identity", async function (ctx) {
     if (!isLiveMode()) {
       ctx.skip();
     }
+    console.log("Running in live mode");
+    const azPath = runCommand("which", "az");
 
-    const containerIp = process.env.IDENTITY_ACI_IP;
-    if (!containerIp) {
-      ctx.skip("set IDENTITY_ACI_IP to run this test");
-      return;
-    }
-
-    console.log(`Container IP: ${containerIp}`);
-
-    return new Promise<void>((resolve, reject) => {
-      const req = http.get(`http://${containerIp}`, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
-
-        let responseBody = "";
-        res.on("data", (chunk) => {
-          responseBody += chunk;
-        });
-
-        res.on("end", () => {
-          console.log("Receiving response body:", responseBody);
-          console.log("Response status code:", res.statusCode);
-          assert.strictEqual(
-            res.statusCode,
-            200,
-            `Expected status code 200, got ${res.statusCode}. Response body: ${responseBody}`,
-          );
-
-          resolve();
-        });
-      });
-
-      req.on("error", (error) => {
-        console.error("Request error:", error);
-        reject(error);
-      });
-
-      console.log("Sending request to container");
-    });
+    const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
+    const containerInstanceName = requireEnvVar("IDENTITY_CONTAINER_INSTANCE_NAME");
+    const command = `${azPath} container exec -g ${resourceGroup} -n ${containerInstanceName} --exec-command 'node /app/index.js --identity-type user'`;
+    const output = runCommand("script -q -c", `"${command}"`);
+    console.log("Container execution output:", output);
   });
 });
+
+function runCommand(command: string, args: string = ""): string {
+  return execSync(`${command} ${args}`).toString().trim();
+}
+function requireEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Required env var ${name} is not set`);
+  }
+  return value;
+}
