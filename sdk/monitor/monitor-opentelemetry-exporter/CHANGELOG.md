@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.32 ()
+
+### Other Changes
+
+- No longer send statsbeat counters when values are zero.
+
 ## 1.0.0-beta.31 (2025-04-16)
 
 ### Features Added
