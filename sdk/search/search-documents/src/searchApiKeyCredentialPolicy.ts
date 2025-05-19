@@ -14,7 +14,7 @@ const searchApiKeyCredentialPolicy = "SearchApiKeyCredentialPolicy";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
- * using an `AzureKeyCredential` for Azure Cognitive Search
+ * using an `AzureKeyCredential` for Azure AI Search
  */
 export function createSearchApiKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
