@@ -245,13 +245,10 @@ describe("snippets", function () {
           }
         }
         // Create a mapping of function names to their implementations
-        const result = this.functionTools
-          .map((tool) =>
-            tool.definition.function.name === toolCall.function.name
-              ? tool.func(...args)
-              : undefined,
-          )
-          .find((r) => r !== undefined);
+        const functionMap = new Map(
+          this.functionTools.map((tool) => [tool.definition.function.name, tool.func])
+        );
+        const result = functionMap.get(toolCall.function.name)?.(...args);
         return result
           ? {
               toolCallId: toolCall.id,
