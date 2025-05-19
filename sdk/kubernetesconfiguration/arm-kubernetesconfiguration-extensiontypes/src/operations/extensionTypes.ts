@@ -96,11 +96,7 @@ export class ExtensionTypesImpl implements ExtensionTypes {
       yield page;
     }
     while (continuationToken) {
-      result = await this._locationListNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._locationListNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -128,11 +124,7 @@ export class ExtensionTypesImpl implements ExtensionTypes {
     extensionTypeName: string,
     options?: ExtensionTypesListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<ExtensionTypeVersionForReleaseTrain> {
-    const iter = this.listVersionsPagingAll(
-      location,
-      extensionTypeName,
-      options,
-    );
+    const iter = this.listVersionsPagingAll(location, extensionTypeName, options);
     return {
       next() {
         return iter.next();
@@ -144,12 +136,7 @@ export class ExtensionTypesImpl implements ExtensionTypes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listVersionsPagingPage(
-          location,
-          extensionTypeName,
-          options,
-          settings,
-        );
+        return this.listVersionsPagingPage(location, extensionTypeName, options, settings);
       },
     };
   }
@@ -188,11 +175,7 @@ export class ExtensionTypesImpl implements ExtensionTypes {
     extensionTypeName: string,
     options?: ExtensionTypesListVersionsOptionalParams,
   ): AsyncIterableIterator<ExtensionTypeVersionForReleaseTrain> {
-    for await (const page of this.listVersionsPagingPage(
-      location,
-      extensionTypeName,
-      options,
-    )) {
+    for await (const page of this.listVersionsPagingPage(location, extensionTypeName, options)) {
       yield* page;
     }
   }
@@ -423,10 +406,7 @@ export class ExtensionTypesImpl implements ExtensionTypes {
     location: string,
     options?: ExtensionTypesLocationListOptionalParams,
   ): Promise<ExtensionTypesLocationListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      locationListOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, locationListOperationSpec);
   }
 
   /**
@@ -735,11 +715,7 @@ const locationListOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterType,
     Parameters.apiVersion,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

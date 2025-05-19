@@ -186,8 +186,7 @@ export interface ExtensionTypeVersionForReleaseTrain extends ProxyResource {
 }
 
 /** Optional parameters. */
-export interface ExtensionTypesLocationListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExtensionTypesLocationListOptionalParams extends coreClient.OperationOptions {
   /** Filter results by Publisher ID of a marketplace extension type */
   publisherId?: string;
   /** Filter results by Offer or Product ID of a marketplace extension type */
@@ -204,15 +203,13 @@ export interface ExtensionTypesLocationListOptionalParams
 export type ExtensionTypesLocationListResponse = ExtensionTypesList;
 
 /** Optional parameters. */
-export interface ExtensionTypesLocationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionTypesLocationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the locationGet operation. */
 export type ExtensionTypesLocationGetResponse = ExtensionType;
 
 /** Optional parameters. */
-export interface ExtensionTypesListVersionsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExtensionTypesListVersionsOptionalParams extends coreClient.OperationOptions {
   /** Filter results by release train (default value is stable) */
   releaseTrain?: string;
   /** Filter results by the cluster type for extension types */
@@ -227,16 +224,13 @@ export interface ExtensionTypesListVersionsOptionalParams
 export type ExtensionTypesListVersionsResponse = ExtensionTypeVersionsList;
 
 /** Optional parameters. */
-export interface ExtensionTypesGetVersionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionTypesGetVersionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVersion operation. */
-export type ExtensionTypesGetVersionResponse =
-  ExtensionTypeVersionForReleaseTrain;
+export type ExtensionTypesGetVersionResponse = ExtensionTypeVersionForReleaseTrain;
 
 /** Optional parameters. */
-export interface ExtensionTypesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExtensionTypesListOptionalParams extends coreClient.OperationOptions {
   /** Filter results by Publisher ID of a marketplace extension type */
   publisherId?: string;
   /** Filter results by Offer or Product ID of a marketplace extension type */
@@ -251,8 +245,7 @@ export interface ExtensionTypesListOptionalParams
 export type ExtensionTypesListResponse = ExtensionTypesList;
 
 /** Optional parameters. */
-export interface ExtensionTypesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionTypesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ExtensionTypesGetResponse = ExtensionType;
@@ -269,34 +262,29 @@ export interface ExtensionTypesClusterListVersionsOptionalParams
 }
 
 /** Contains response data for the clusterListVersions operation. */
-export type ExtensionTypesClusterListVersionsResponse =
-  ExtensionTypeVersionsList;
+export type ExtensionTypesClusterListVersionsResponse = ExtensionTypeVersionsList;
 
 /** Optional parameters. */
 export interface ExtensionTypesClusterGetVersionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the clusterGetVersion operation. */
-export type ExtensionTypesClusterGetVersionResponse =
-  ExtensionTypeVersionForReleaseTrain;
+export type ExtensionTypesClusterGetVersionResponse = ExtensionTypeVersionForReleaseTrain;
 
 /** Optional parameters. */
-export interface ExtensionTypesLocationListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionTypesLocationListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the locationListNext operation. */
 export type ExtensionTypesLocationListNextResponse = ExtensionTypesList;
 
 /** Optional parameters. */
-export interface ExtensionTypesListVersionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionTypesListVersionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersionsNext operation. */
 export type ExtensionTypesListVersionsNextResponse = ExtensionTypeVersionsList;
 
 /** Optional parameters. */
-export interface ExtensionTypesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionTypesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ExtensionTypesListNextResponse = ExtensionTypesList;
@@ -306,12 +294,10 @@ export interface ExtensionTypesClusterListVersionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the clusterListVersionsNext operation. */
-export type ExtensionTypesClusterListVersionsNextResponse =
-  ExtensionTypeVersionsList;
+export type ExtensionTypesClusterListVersionsNextResponse = ExtensionTypeVersionsList;
 
 /** Optional parameters. */
-export interface ExtensionTypesClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ExtensionTypesClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

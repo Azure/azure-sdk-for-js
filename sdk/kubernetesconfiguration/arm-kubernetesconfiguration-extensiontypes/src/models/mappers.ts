@@ -122,28 +122,27 @@ export const ExtensionTypePropertiesPlanInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const ExtensionTypePropertiesSupportedScopes: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ExtensionTypePropertiesSupportedScopes",
-      modelProperties: {
-        defaultScope: {
-          serializedName: "defaultScope",
-          type: {
-            name: "String",
-          },
+export const ExtensionTypePropertiesSupportedScopes: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionTypePropertiesSupportedScopes",
+    modelProperties: {
+      defaultScope: {
+        serializedName: "defaultScope",
+        type: {
+          name: "String",
         },
-        clusterScopeSettings: {
-          serializedName: "clusterScopeSettings",
-          type: {
-            name: "Composite",
-            className: "ClusterScopeSettings",
-          },
+      },
+      clusterScopeSettings: {
+        serializedName: "clusterScopeSettings",
+        type: {
+          name: "Composite",
+          className: "ClusterScopeSettings",
         },
       },
     },
-  };
+  },
+};
 
 export const Resource: coreClient.CompositeMapper = {
   type: {
@@ -300,47 +299,44 @@ export const ExtensionTypeVersionsList: coreClient.CompositeMapper = {
   },
 };
 
-export const ExtensionTypeVersionForReleaseTrainProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ExtensionTypeVersionForReleaseTrainProperties",
-      modelProperties: {
-        version: {
-          serializedName: "version",
-          type: {
-            name: "String",
-          },
+export const ExtensionTypeVersionForReleaseTrainProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionTypeVersionForReleaseTrainProperties",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String",
         },
-        unsupportedKubernetesVersions: {
-          serializedName: "unsupportedKubernetesVersions",
-          type: {
-            name: "Composite",
-            className:
-              "ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions",
-          },
+      },
+      unsupportedKubernetesVersions: {
+        serializedName: "unsupportedKubernetesVersions",
+        type: {
+          name: "Composite",
+          className: "ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions",
         },
-        supportedClusterTypes: {
-          serializedName: "supportedClusterTypes",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+      },
+      supportedClusterTypes: {
+        serializedName: "supportedClusterTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
-      className:
-        "ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions",
+      className: "ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesVersions",
       modelProperties: {
         connectedCluster: {
           serializedName: "connectedCluster",
@@ -349,8 +345,7 @@ export const ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesV
             element: {
               type: {
                 name: "Composite",
-                className:
-                  "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
+                className: "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
               },
             },
           },
@@ -362,8 +357,7 @@ export const ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesV
             element: {
               type: {
                 name: "Composite",
-                className:
-                  "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
+                className: "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
               },
             },
           },
@@ -375,8 +369,7 @@ export const ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesV
             element: {
               type: {
                 name: "Composite",
-                className:
-                  "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
+                className: "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
               },
             },
           },
@@ -388,8 +381,7 @@ export const ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesV
             element: {
               type: {
                 name: "Composite",
-                className:
-                  "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
+                className: "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
               },
             },
           },
@@ -398,37 +390,36 @@ export const ExtensionTypeVersionForReleaseTrainPropertiesUnsupportedKubernetesV
     },
   };
 
-export const ExtensionTypeVersionUnsupportedKubernetesMatrixItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
-      modelProperties: {
-        distributions: {
-          serializedName: "distributions",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+export const ExtensionTypeVersionUnsupportedKubernetesMatrixItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionTypeVersionUnsupportedKubernetesMatrixItem",
+    modelProperties: {
+      distributions: {
+        serializedName: "distributions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
-        unsupportedVersions: {
-          serializedName: "unsupportedVersions",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+      },
+      unsupportedVersions: {
+        serializedName: "unsupportedVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ProxyResource: coreClient.CompositeMapper = {
   type: {
