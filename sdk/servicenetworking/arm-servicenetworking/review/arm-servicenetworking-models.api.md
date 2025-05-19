@@ -26,7 +26,7 @@ export interface AssociationSubnet {
 
 // @public
 export interface AssociationSubnetUpdate {
-    id: string;
+    id?: string;
 }
 
 // @public
@@ -76,11 +76,39 @@ export interface Frontend extends TrackedResource {
 export interface FrontendProperties {
     readonly fqdn?: string;
     readonly provisioningState?: ProvisioningState;
+    securityPolicyConfigurations?: SecurityPolicyConfigurations;
 }
 
 // @public
 export interface FrontendUpdate {
+    properties?: FrontendUpdateProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface FrontendUpdateProperties {
+    securityPolicyConfigurations?: SecurityPolicyConfigurations;
+}
+
+// @public
+export interface IpAccessRule {
+    action: IpAccessRuleAction;
+    name: string;
+    priority: number;
+    sourceAddressPrefixes: string[];
+}
+
+// @public
+export type IpAccessRuleAction = string;
+
+// @public
+export interface IpAccessRulesPolicy {
+    rules?: IpAccessRule[];
+}
+
+// @public
+export interface IpAccessRulesSecurityPolicy {
+    id: string;
 }
 
 // @public
@@ -102,6 +130,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownIpAccessRuleAction {
+    Allow = "allow",
+    Deny = "deny"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -110,6 +144,7 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownPolicyType {
+    IpAccessRules = "ipAccessRules",
     WAF = "waf"
 }
 
@@ -127,6 +162,8 @@ export enum KnownProvisioningState {
 // @public
 export enum KnownVersions {
     V2023_11_01 = "2023-11-01",
+    V20240501Preview = "2024-05-01-preview",
+    V20250301Preview = "2025-03-01-preview",
     V2025_05_01 = "2025-01-01"
 }
 
@@ -176,11 +213,13 @@ export interface SecurityPolicy extends TrackedResource {
 
 // @public
 export interface SecurityPolicyConfigurations {
+    ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicy;
     wafSecurityPolicy?: WafSecurityPolicy;
 }
 
 // @public
 export interface SecurityPolicyProperties {
+    ipAccessRulesPolicy?: IpAccessRulesPolicy;
     readonly policyType?: PolicyType;
     readonly provisioningState?: ProvisioningState;
     wafPolicy?: WafPolicy;
@@ -194,6 +233,7 @@ export interface SecurityPolicyUpdate {
 
 // @public
 export interface SecurityPolicyUpdateProperties {
+    ipAccessRulesPolicy?: IpAccessRulesPolicy;
     wafPolicy?: WafPolicy;
 }
 

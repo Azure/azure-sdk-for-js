@@ -42,6 +42,13 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export interface BulkOperationResult {
+    error?: ErrorResponse;
+    operationInput: OperationInput;
+    response?: ExtendedOperationResponse;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -524,6 +531,7 @@ export const Constants: {
         Location: string;
         Referer: string;
         A_IM: string;
+        PreferReturnMinimal: string;
         Query: string;
         IsQuery: string;
         IsQueryPlan: string;
@@ -620,6 +628,8 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkMaxDegreeOfConcurrency: number;
     Encryption: {
         DiagnosticsDecryptOperation: string;
         DiagnosticsDuration: string;
@@ -1126,25 +1136,17 @@ export interface ErrorBody {
     message: string;
 }
 
-// @public (undocumented)
+// @public
 export class ErrorResponse extends Error {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     activityId?: string;
-    // (undocumented)
     body?: ErrorBody;
-    // (undocumented)
     code?: number | string;
-    // (undocumented)
     diagnostics?: CosmosDiagnostics;
-    // (undocumented)
     headers?: CosmosHeaders;
-    // (undocumented)
+    requestCharge?: number;
     retryAfterInMilliseconds?: number;
-    // (undocumented)
     retryAfterInMs?: number;
-    // (undocumented)
     substatus?: number;
 }
 
@@ -1154,6 +1156,14 @@ export type ExistingKeyOperation = {
     value: any;
     path: string;
 };
+
+// @public
+export interface ExtendedOperationResponse extends OperationResponse {
+    activityId?: string;
+    diagnostics: CosmosDiagnostics;
+    headers?: CosmosHeaders;
+    sessionToken?: string;
+}
 
 // @public
 export interface FailedRequestAttemptDiagnostic {
@@ -1191,6 +1201,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableHybridSearchQueryPlanOptimization?: boolean;
     disableNonStreamingOrderByQuery?: boolean;
     enableQueryControl?: boolean;
     enableScanInQuery?: boolean;
@@ -1321,6 +1332,7 @@ export enum HTTPMethod {
 // @public
 export interface HybridSearchQueryInfo {
     componentQueryInfos: QueryInfo[];
+    componentWeights?: number[];
     globalStatisticsQuery: string;
     requiresGlobalStatistics: boolean;
     skip: number;
@@ -1417,6 +1429,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<BulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -2083,6 +2096,7 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
@@ -2413,6 +2427,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2420,6 +2436,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)
