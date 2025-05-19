@@ -147,7 +147,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private getEnvironmentStatus(observableResult: BatchObservableResult): void {
     this.setFeatures();
     let attributes;
-    if (this.instrumentation) {
+    // Only send instrumentation statsbeat if value is greater than zero
+    if (this.instrumentation > 0) {
       attributes = {
         ...this.commonProperties,
         feature: this.instrumentation,
@@ -156,7 +157,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
       observableResult.observe(this.featureStatsbeatGauge, 1, { ...attributes });
     }
 
-    if (this.feature) {
+    // Only send feature statsbeat if value is greater than zero
+    if (this.feature > 0) {
       attributes = {
         ...this.commonProperties,
         feature: this.feature,
