@@ -6,17 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Services } from "../operationsInterfaces/index.js";
+import { Services } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { SearchManagementClient } from "../searchManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   SearchService,
   ServicesListByResourceGroupNextOptionalParams,
   ServicesListByResourceGroupOptionalParams,
@@ -75,7 +78,11 @@ export class ServicesImpl implements Services {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -95,7 +102,11 @@ export class ServicesImpl implements Services {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,7 +118,10 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     options?: ServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SearchService> {
-    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -174,7 +188,7 @@ export class ServicesImpl implements Services {
    * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
    *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
    *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
-   *                          length. Search service names must be globally unique since they are part of the service URI
+   *                          length. Search service names must be unique since they are part of the service URI
    *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
    *                          created.
    * @param service The definition of the search service to create or update.
@@ -186,7 +200,10 @@ export class ServicesImpl implements Services {
     service: SearchService,
     options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
+      ServicesCreateOrUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -198,7 +215,8 @@ export class ServicesImpl implements Services {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -249,7 +267,7 @@ export class ServicesImpl implements Services {
    * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
    *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
    *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
-   *                          length. Search service names must be globally unique since they are part of the service URI
+   *                          length. Search service names must be unique since they are part of the service URI
    *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
    *                          created.
    * @param service The definition of the search service to create or update.
@@ -351,7 +369,10 @@ export class ServicesImpl implements Services {
   private _listBySubscription(
     options?: ServicesListBySubscriptionOptionalParams,
   ): Promise<ServicesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
   /**
@@ -366,7 +387,10 @@ export class ServicesImpl implements Services {
     name: string,
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest({ name, options }, checkNameAvailabilityOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      checkNameAvailabilityOperationSpec,
+    );
   }
 
   /**
@@ -381,7 +405,12 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     searchServiceName: string,
     options?: ServicesUpgradeOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesUpgradeResponse>,
+      ServicesUpgradeResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -392,7 +421,8 @@ export class ServicesImpl implements Services {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -449,7 +479,11 @@ export class ServicesImpl implements Services {
     searchServiceName: string,
     options?: ServicesUpgradeOptionalParams,
   ): Promise<ServicesUpgradeResponse> {
-    const poller = await this.beginUpgrade(resourceGroupName, searchServiceName, options);
+    const poller = await this.beginUpgrade(
+      resourceGroupName,
+      searchServiceName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -517,7 +551,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.searchServiceName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.clientRequestId,
+    Parameters.contentType,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -540,7 +578,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.searchServiceName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.clientRequestId,
+    Parameters.contentType,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -598,7 +640,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+  ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer,
 };
@@ -635,7 +681,11 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.clientRequestId,
+    Parameters.contentType,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -700,7 +750,11 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer,
 };
