@@ -555,7 +555,9 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": ["@azure/identity"]
+      "decoupledLocalDependencies": [
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -595,7 +597,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -716,9 +720,9 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
-	  "cyclicDependencyProjects": [
-		"@azure/storage-file-share"
-	  ],
+      "cyclicDependencyProjects": [
+        "@azure/storage-file-share"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -2312,9 +2316,9 @@
       "versionPolicyName": "client"
     },
     {
-       "packageName": "@azure/ai-agents",
-       "projectFolder": "sdk/ai/ai-agents",
-       "versionPolicyName": "client"
+      "packageName": "@azure/ai-agents",
+      "projectFolder": "sdk/ai/ai-agents",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-impactreporting",
@@ -2374,6 +2378,11 @@
     {
       "packageName": "@azure/arm-carbonoptimization",
       "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sitemanager",
+      "projectFolder": "sdk/sitemanager/arm-sitemanager",
       "versionPolicyName": "management"
     },
     {
