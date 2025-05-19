@@ -25,7 +25,7 @@
         "scriptError": "\\[ERROR\\]"
       },
       "stdout": {
-         "showInComment": ".*ERROR.*",
+        "showInComment": ".*ERROR.*",
         "scriptError": "\\[ERROR\\]"
       }
     },
