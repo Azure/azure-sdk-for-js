@@ -37,7 +37,6 @@ export interface DatasetsOperations {
   getCredentials: (
     name: string,
     version: string,
-    body: Record<string, any>,
     options?: DatasetsGetCredentialsOptionalParams,
   ) => Promise<AssetCredentialResponse>;
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
@@ -75,9 +74,19 @@ export interface DatasetsOperations {
     options?: DatasetsListVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatasetVersionUnion>;
   /** Upload a file to the DatasetVersion */
-  uploadFile: (name: string, version: string, filePath: string) => Promise<DatasetVersionUnion>;
+  uploadFile: (
+    name: string,
+    version: string,
+    filePath: string,
+    connectionName?: string,
+  ) => Promise<DatasetVersionUnion>;
   /** Upload a folder to the DatasetVersion */
-  uploadFolder: (name: string, version: string, folderPath: string) => Promise<DatasetVersionUnion>;
+  uploadFolder: (
+    name: string,
+    version: string,
+    folderPath: string,
+    connectionName?: string,
+  ) => Promise<DatasetVersionUnion>;
 }
 
 function _getDatasets(context: AIProjectContext) {
@@ -85,9 +94,8 @@ function _getDatasets(context: AIProjectContext) {
     getCredentials: (
       name: string,
       version: string,
-      body: Record<string, any>,
       options?: DatasetsGetCredentialsOptionalParams,
-    ) => getCredentials(context, name, version, body, options),
+    ) => getCredentials(context, name, version, options),
     pendingUpload: (
       name: string,
       version: string,
@@ -107,10 +115,10 @@ function _getDatasets(context: AIProjectContext) {
     list: (options?: DatasetsListOptionalParams) => list(context, options),
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
-    uploadFile: (name: string, version: string, filePath: string) =>
-      uploadFile(context, name, version, filePath),
-    uploadFolder: (name: string, version: string, folderPath: string) =>
-      uploadFolder(context, name, version, folderPath),
+    uploadFile: (name: string, version: string, filePath: string, connectionName?: string) =>
+      uploadFile(context, name, version, filePath, connectionName),
+    uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) =>
+      uploadFolder(context, name, version, folderPath, connectionName),
   };
 }
 

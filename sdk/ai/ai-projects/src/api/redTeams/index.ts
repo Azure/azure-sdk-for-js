@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createRun, list, get } from "./operations.js";
+export { create, list, get } from "./operations.js";
 export {
-  RedTeamsCreateRunOptionalParams,
+  RedTeamsCreateOptionalParams,
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
 } from "./options.js";

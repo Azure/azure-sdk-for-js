@@ -29,7 +29,7 @@ describe("Agents - files", () => {
   });
 
   it("should upload file", async function () {
-    const fileContent = new ReadableStream({
+    const fileContent = new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
@@ -42,7 +42,7 @@ describe("Agents - files", () => {
   });
 
   it("should upload file and poll (through original method)", async function () {
-    const fileContent = new ReadableStream({
+    const fileContent = new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
@@ -59,7 +59,7 @@ describe("Agents - files", () => {
   });
 
   it("should upload file and poll (through creation method)", async function () {
-    const fileContent = new ReadableStream({
+    const fileContent = new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
@@ -76,7 +76,7 @@ describe("Agents - files", () => {
   });
 
   it("should delete file", async function () {
-    const fileContent = new ReadableStream({
+    const fileContent = new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
@@ -90,7 +90,7 @@ describe("Agents - files", () => {
   });
 
   it("should retrieve file", async function () {
-    const fileContent = new ReadableStream({
+    const fileContent = new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();

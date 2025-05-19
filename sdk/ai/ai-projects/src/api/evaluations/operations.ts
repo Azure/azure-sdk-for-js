@@ -16,7 +16,7 @@ import {
 } from "../../models/models.js";
 import {
   EvaluationsCreateAgentEvaluationOptionalParams,
-  EvaluationsCreateRunOptionalParams,
+  EvaluationsCreateOptionalParams,
   EvaluationsListOptionalParams,
   EvaluationsGetOptionalParams,
 } from "./options.js";
@@ -82,10 +82,10 @@ export async function createAgentEvaluation(
   return _createAgentEvaluationDeserialize(result);
 }
 
-export function _createRunSend(
+export function _createSend(
   context: Client,
   evaluation: EvaluationWithOptionalName,
-  options: EvaluationsCreateRunOptionalParams = { requestOptions: {} },
+  options: EvaluationsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/evaluations/runs:run{?api-version}",
@@ -107,7 +107,7 @@ export function _createRunSend(
   });
 }
 
-export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<Evaluation> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<Evaluation> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -117,13 +117,13 @@ export async function _createRunDeserialize(result: PathUncheckedResponse): Prom
 }
 
 /** Creates an evaluation run. */
-export async function createRun(
+export async function create(
   context: Client,
   evaluation: EvaluationWithOptionalName,
-  options: EvaluationsCreateRunOptionalParams = { requestOptions: {} },
+  options: EvaluationsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Evaluation> {
-  const result = await _createRunSend(context, evaluation, options);
-  return _createRunDeserialize(result);
+  const result = await _createSend(context, evaluation, options);
+  return _createDeserialize(result);
 }
 
 export function _listSend(
@@ -131,12 +131,9 @@ export function _listSend(
   options: EvaluationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/evaluations/runs{?api-version,top,skip,maxpagesize}",
+    "/evaluations/runs{?api-version}",
     {
       "api-version": context.apiVersion,
-      top: options?.top,
-      skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
