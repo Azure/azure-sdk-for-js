@@ -10,7 +10,7 @@ import {
   _pagedRedTeamDeserializer,
 } from "../../models/models.js";
 import {
-  RedTeamsCreateRunOptionalParams,
+  RedTeamsCreateOptionalParams,
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
 } from "./options.js";
@@ -26,10 +26,10 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _createRunSend(
+export function _createSend(
   context: Client,
   redTeam: RedTeam,
-  options: RedTeamsCreateRunOptionalParams = { requestOptions: {} },
+  options: RedTeamsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/redTeams/runs:run{?api-version}",
@@ -51,8 +51,8 @@ export function _createRunSend(
   });
 }
 
-export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<RedTeam> {
-  const expectedStatuses = ["200"];
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<RedTeam> {
+  const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -61,13 +61,13 @@ export async function _createRunDeserialize(result: PathUncheckedResponse): Prom
 }
 
 /** Creates a redteam run. */
-export async function createRun(
+export async function create(
   context: Client,
   redTeam: RedTeam,
-  options: RedTeamsCreateRunOptionalParams = { requestOptions: {} },
+  options: RedTeamsCreateOptionalParams = { requestOptions: {} },
 ): Promise<RedTeam> {
-  const result = await _createRunSend(context, redTeam, options);
-  return _createRunDeserialize(result);
+  const result = await _createSend(context, redTeam, options);
+  return _createDeserialize(result);
 }
 
 export function _listSend(
@@ -75,12 +75,9 @@ export function _listSend(
   options: RedTeamsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/redTeams/runs{?api-version,top,skip,maxpagesize}",
+    "/redTeams/runs{?api-version}",
     {
       "api-version": context.apiVersion,
-      top: options?.top,
-      skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -22,6 +22,7 @@ import { getDataLakeServiceAccountAudience } from "../../src/models.js";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { aclIdForTest } from "../utils/fakeTestSecrets.js";
 
 describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemName: string;
@@ -114,7 +115,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
           permissions: FileSystemSASPermissions.parse("rwd").toString(),
           startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: aclIdForTest,
       },
     ];
 
@@ -138,7 +139,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
           permissions: FileSystemSASPermissions.parse("rwd").toString(),
           startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: aclIdForTest,
       },
     ];
 
@@ -155,7 +156,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
         accessPolicy: {
           permissions: FileSystemSASPermissions.parse("rwd").toString(),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+        id: aclIdForTest,
       },
     ];
 
