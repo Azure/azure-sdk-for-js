@@ -43,6 +43,7 @@ export interface AgentEvaluationResult {
     additionalDetails?: Record<string, string>;
     error?: string;
     evaluator: string;
+    evaluatorId: string;
     reason?: string;
     runId: string;
     score: number;
@@ -99,6 +100,7 @@ export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "
 // @public
 export interface AzureAISearchIndex extends Index {
     connectionName: string;
+    fieldMapping?: FieldMapping;
     indexName: string;
     type: "AzureSearch";
 }
@@ -127,6 +129,7 @@ export interface BlobReference {
 // @public
 export interface Connection {
     readonly credentials: BaseCredentialsUnion;
+    readonly id: string;
     readonly isDefault: boolean;
     readonly metadata: Record<string, string>;
     readonly name: string;
@@ -149,9 +152,6 @@ export interface ConnectionsListOptionalParams extends OperationOptions {
     clientRequestId?: string;
     connectionType?: ConnectionType;
     defaultConnection?: boolean;
-    maxpagesize?: number;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -176,6 +176,7 @@ export interface CosmosDBIndex extends Index {
     containerName: string;
     databaseName: string;
     embeddingConfiguration: EmbeddingConfiguration;
+    fieldMapping: FieldMapping;
     type: "CosmosDBNoSqlVectorStore";
 }
 
@@ -206,12 +207,10 @@ export interface DatasetsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface DatasetsListOptionalParams extends OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
 export interface DatasetsListVersionsOptionalParams extends OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -219,12 +218,12 @@ export interface DatasetsOperations {
     createOrUpdate: (name: string, version: string, body: DatasetVersionUnion, options?: DatasetsCreateOrUpdateOptionalParams) => Promise<DatasetVersionUnion>;
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) => Promise<void>;
     get: (name: string, version: string, options?: DatasetsGetOptionalParams) => Promise<DatasetVersionUnion>;
-    getCredentials: (name: string, version: string, body: Record<string, any>, options?: DatasetsGetCredentialsOptionalParams) => Promise<AssetCredentialResponse>;
+    getCredentials: (name: string, version: string, options?: DatasetsGetCredentialsOptionalParams) => Promise<AssetCredentialResponse>;
     list: (options?: DatasetsListOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) => PagedAsyncIterableIterator<DatasetVersionUnion>;
     pendingUpload: (name: string, version: string, body: PendingUploadRequest, options?: DatasetsPendingUploadOptionalParams) => Promise<PendingUploadResponse>;
-    uploadFile: (name: string, version: string, filePath: string) => Promise<DatasetVersionUnion>;
-    uploadFolder: (name: string, version: string, folderPath: string) => Promise<DatasetVersionUnion>;
+    uploadFile: (name: string, version: string, filePath: string, connectionName?: string) => Promise<DatasetVersionUnion>;
+    uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) => Promise<DatasetVersionUnion>;
 }
 
 // @public
@@ -236,6 +235,7 @@ export type DatasetType = "uri_file" | "uri_folder";
 
 // @public
 export interface DatasetVersion {
+    connectionName?: string;
     dataUri: string;
     description?: string;
     readonly id?: string;
@@ -264,11 +264,8 @@ export interface DeploymentsGetOptionalParams extends OperationOptions {
 export interface DeploymentsListOptionalParams extends OperationOptions {
     clientRequestId?: string;
     deploymentType?: DeploymentType;
-    maxpagesize?: number;
     modelName?: string;
     modelPublisher?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -314,7 +311,7 @@ export interface EvaluationsCreateAgentEvaluationOptionalParams extends Operatio
 }
 
 // @public
-export interface EvaluationsCreateRunOptionalParams extends OperationOptions {
+export interface EvaluationsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -325,15 +322,12 @@ export interface EvaluationsGetOptionalParams extends OperationOptions {
 // @public
 export interface EvaluationsListOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    maxpagesize?: number;
-    skip?: number;
-    top?: number;
 }
 
 // @public
 export interface EvaluationsOperations {
+    create: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateOptionalParams) => Promise<Evaluation>;
     createAgentEvaluation: (evaluation: AgentEvaluationRequest, options?: EvaluationsCreateAgentEvaluationOptionalParams) => Promise<AgentEvaluation>;
-    createRun: (evaluation: EvaluationWithOptionalName, options?: EvaluationsCreateRunOptionalParams) => Promise<Evaluation>;
     get: (name: string, options?: EvaluationsGetOptionalParams) => Promise<Evaluation>;
     list: (options?: EvaluationsListOptionalParams) => PagedAsyncIterableIterator<Evaluation>;
 }
@@ -380,6 +374,16 @@ export const EvaluatorIds: {
 };
 
 // @public
+export interface FieldMapping {
+    contentFields: string[];
+    filepathField?: string;
+    metadataFields?: string[];
+    titleField?: string;
+    urlField?: string;
+    vectorFields?: string[];
+}
+
+// @public
 export interface FileDatasetVersion extends DatasetVersion {
     type: "uri_file";
 }
@@ -413,12 +417,10 @@ export interface IndexesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface IndexesListOptionalParams extends OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
 export interface IndexesListVersionsOptionalParams extends OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -511,20 +513,20 @@ export type PendingUploadType = "None" | "BlobReference";
 // @public
 export interface RedTeam {
     applicationScenario?: string;
-    attackStrategies: AttackStrategy[];
-    readonly id: string;
-    numTurns: number;
+    attackStrategies?: AttackStrategy[];
+    displayName?: string;
+    readonly name: string;
+    numTurns?: number;
     properties?: Record<string, string>;
-    riskCategories: RiskCategory[];
-    scanName?: string;
-    simulationOnly: boolean;
+    riskCategories?: RiskCategory[];
+    simulationOnly?: boolean;
     readonly status?: string;
     tags?: Record<string, string>;
-    targetConfig: TargetConfigUnion;
+    target: TargetConfigUnion;
 }
 
 // @public
-export interface RedTeamsCreateRunOptionalParams extends OperationOptions {
+export interface RedTeamsCreateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -535,14 +537,11 @@ export interface RedTeamsGetOptionalParams extends OperationOptions {
 // @public
 export interface RedTeamsListOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    maxpagesize?: number;
-    skip?: number;
-    top?: number;
 }
 
 // @public
 export interface RedTeamsOperations {
-    createRun: (redTeam: RedTeam, options?: RedTeamsCreateRunOptionalParams) => Promise<RedTeam>;
+    create: (redTeam: RedTeam, options?: RedTeamsCreateOptionalParams) => Promise<RedTeam>;
     get: (name: string, options?: RedTeamsGetOptionalParams) => Promise<RedTeam>;
     list: (options?: RedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
 }

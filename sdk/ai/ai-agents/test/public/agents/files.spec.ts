@@ -30,7 +30,12 @@ describe("Agents - files", () => {
   });
 
   it("should upload file", async function () {
-    const fileContent = await generateFileStream();
+    const fileContent = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
     const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
@@ -38,7 +43,12 @@ describe("Agents - files", () => {
   });
 
   it("should upload file and poll (through original method)", async function () {
-    const fileContent = await generateFileStream();
+    const fileContent = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
     const filePoller = projectsClient.files.uploadAndPoll(fileContent, "assistants", {
       fileName: "filename.txt",
     });
@@ -50,7 +60,12 @@ describe("Agents - files", () => {
   });
 
   it("should upload file and poll (through creation method)", async function () {
-    const fileContent = await generateFileStream();
+    const fileContent = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
     const filePoller = projectsClient.files.uploadAndPoll(fileContent, "assistants", {
       fileName: "filename.txt",
     });
@@ -62,7 +77,12 @@ describe("Agents - files", () => {
   });
 
   it("should delete file", async function () {
-    const fileContent = await generateFileStream();
+    const fileContent = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
     const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
@@ -71,7 +91,12 @@ describe("Agents - files", () => {
   });
 
   it("should retrieve file", async function () {
-    const fileContent = await generateFileStream();
+    const fileContent = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
     const file = await projectsClient.files.upload(fileContent, "assistants", {
       fileName: "filename.txt",
     });
@@ -81,19 +106,3 @@ describe("Agents - files", () => {
     await projectsClient.files.delete(file.id);
   });
 });
-
-async function generateFileStream(): Promise<ReadableStream | NodeJS.ReadableStream> {
-  if (isNodeLike) {
-    const stream = await import("stream");
-    // Create a new stream instance each time to prevent "locked" errors
-    return stream.Readable.from(Buffer.from("fileContent"));
-  } else {
-    // Create a new ReadableStream instance each time
-    return new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
-  }
-}
