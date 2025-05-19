@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ExtensionsClient } from "../extensionsClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Extension,
@@ -172,12 +168,7 @@ export class ExtensionsImpl implements Extensions {
     extensionName: string,
     extension: Extension,
     options?: ExtensionsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExtensionsCreateResponse>,
-      ExtensionsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -188,8 +179,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -336,8 +326,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -436,12 +425,7 @@ export class ExtensionsImpl implements Extensions {
     extensionName: string,
     patchExtension: PatchExtension,
     options?: ExtensionsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExtensionsUpdateResponse>,
-      ExtensionsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -452,8 +436,7 @@ export class ExtensionsImpl implements Extensions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

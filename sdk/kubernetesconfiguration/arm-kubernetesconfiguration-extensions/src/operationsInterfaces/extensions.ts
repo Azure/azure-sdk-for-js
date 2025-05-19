@@ -61,12 +61,7 @@ export interface Extensions {
     extensionName: string,
     extension: Extension,
     options?: ExtensionsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExtensionsCreateResponse>,
-      ExtensionsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
   /**
    * Create a new Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -167,12 +162,7 @@ export interface Extensions {
     extensionName: string,
     patchExtension: PatchExtension,
     options?: ExtensionsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExtensionsUpdateResponse>,
-      ExtensionsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
   /**
    * Patch an existing Kubernetes Cluster Extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

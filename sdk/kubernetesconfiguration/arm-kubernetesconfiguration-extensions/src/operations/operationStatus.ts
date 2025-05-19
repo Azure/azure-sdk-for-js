@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ExtensionsClient } from "../extensionsClient.js";
-import {
-  OperationStatusGetOptionalParams,
-  OperationStatusGetResponse,
-} from "../models/index.js";
+import { OperationStatusGetOptionalParams, OperationStatusGetResponse } from "../models/index.js";
 
 /** Class containing OperationStatus operations. */
 export class OperationStatusImpl implements OperationStatus {

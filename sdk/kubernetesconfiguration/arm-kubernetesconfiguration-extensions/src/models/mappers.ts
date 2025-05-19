@@ -181,36 +181,35 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const ExtensionPropertiesAksAssignedIdentity: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ExtensionPropertiesAksAssignedIdentity",
-      modelProperties: {
-        principalId: {
-          serializedName: "principalId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        tenantId: {
-          serializedName: "tenantId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
+export const ExtensionPropertiesAksAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExtensionPropertiesAksAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
         type: {
-          serializedName: "type",
-          type: {
-            name: "Enum",
-            allowedValues: ["SystemAssigned", "UserAssigned"],
-          },
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["SystemAssigned", "UserAssigned"],
         },
       },
     },
-  };
+  },
+};
 
 export const Identity: coreClient.CompositeMapper = {
   type: {

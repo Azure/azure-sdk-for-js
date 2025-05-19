@@ -359,8 +359,7 @@ export type CreatedByType = string;
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
 
 /** Optional parameters. */
-export interface ExtensionsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExtensionsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -371,15 +370,13 @@ export interface ExtensionsCreateOptionalParams
 export type ExtensionsCreateResponse = Extension;
 
 /** Optional parameters. */
-export interface ExtensionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ExtensionsGetResponse = Extension;
 
 /** Optional parameters. */
-export interface ExtensionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delete the extension resource in Azure - not the normal asynchronous delete. */
   forceDelete?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -389,8 +386,7 @@ export interface ExtensionsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ExtensionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -401,29 +397,25 @@ export interface ExtensionsUpdateOptionalParams
 export type ExtensionsUpdateResponse = Extension;
 
 /** Optional parameters. */
-export interface ExtensionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ExtensionsListResponse = ExtensionsList;
 
 /** Optional parameters. */
-export interface ExtensionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ExtensionsListNextResponse = ExtensionsList;
 
 /** Optional parameters. */
-export interface OperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OperationStatusGetResponse = OperationStatusResult;
 
 /** Optional parameters. */
-export interface ExtensionsClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ExtensionsClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

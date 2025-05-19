@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  OperationStatusGetOptionalParams,
-  OperationStatusGetResponse,
-} from "../models/index.js";
+import { OperationStatusGetOptionalParams, OperationStatusGetResponse } from "../models/index.js";
 
 /** Interface representing a OperationStatus. */
 export interface OperationStatus {
