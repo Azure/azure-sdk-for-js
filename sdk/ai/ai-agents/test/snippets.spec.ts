@@ -73,8 +73,8 @@ describe("snippets", function () {
 
     // Create tool set
     const toolSet = new ToolSet();
-    await toolSet.addFileSearchTool([vectorStore.id]);
-    await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+    toolSet.addFileSearchTool([vectorStore.id]);
+    toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
     // @ts-preserve-whitespace
     // Create agent with tool set
     const agent = await client.createAgent("gpt-4o", {
@@ -244,9 +244,12 @@ describe("snippets", function () {
             return undefined;
           }
         }
+        // Create a mapping of function names to their implementations
         const result = this.functionTools
-          .find((tool) => tool.definition.function.name === toolCall.function.name)
-          ?.func(...args);
+        .map((tool) =>
+          tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined,
+        )
+        .find((r) => r !== undefined);
         return result
           ? {
               toolCallId: toolCall.id,
@@ -511,9 +514,6 @@ describe("snippets", function () {
   });
 
   it("createRun", async function () {
-    function onResponse(response: any): void {
-      console.log(`Received response with status: ${response.parsedBody?.status}`);
-    }
     // @ts-preserve-whitespace
     // Create and poll a run
     console.log("Creating run...");
@@ -521,7 +521,9 @@ describe("snippets", function () {
       pollingOptions: {
         intervalInMs: 2000,
       },
-      onResponse: onResponse,
+      onResponse: (response): void => {
+        console.log(`Received response with status: ${response.parsedBody?.status}`);
+      },
     });
     console.log(`Run finished with status: ${run.status}`);
   });

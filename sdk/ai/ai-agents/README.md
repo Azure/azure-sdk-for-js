@@ -131,8 +131,8 @@ const vectorStore = await client.vectorStores
   .pollUntilDone();
 // Create tool set
 const toolSet = new ToolSet();
-await toolSet.addFileSearchTool([vectorStore.id]);
-await toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+toolSet.addFileSearchTool([vectorStore.id]);
+toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
 
 // Create agent with tool set
 const agent = await client.createAgent("gpt-4o", {
@@ -343,9 +343,12 @@ class FunctionToolExecutor {
         return undefined;
       }
     }
+    // Create a mapping of function names to their implementations
     const result = this.functionTools
-      .find((tool) => tool.definition.function.name === toolCall.function.name)
-      ?.func(...args);
+      .map((tool) =>
+        tool.definition.function.name === toolCall.function.name ? tool.func(...args) : undefined,
+      )
+      .find((r) => r !== undefined);
     return result
       ? {
           toolCallId: toolCall.id,
@@ -618,17 +621,15 @@ console.log(`Created message, message ID: ${message.id}`);
 Here is an example of `runs.create` and poll until the run is completed:
 
 ```ts snippet:createRun
-function onResponse(response: any): void {
-  console.log(`Received response with status: ${response.parsedBody?.status}`);
-}
-
 // Create and poll a run
 console.log("Creating run...");
 const run = await client.runs.createAndPoll(thread.id, agent.id, {
   pollingOptions: {
     intervalInMs: 2000,
   },
-  onResponse: onResponse,
+  onResponse: (response): void => {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
+  },
 });
 console.log(`Run finished with status: ${run.status}`);
 ```
