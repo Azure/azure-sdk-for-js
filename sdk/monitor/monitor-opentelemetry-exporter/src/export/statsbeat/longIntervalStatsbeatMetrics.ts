@@ -134,7 +134,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
           (await this.longIntervalMetricReader.collect()).resourceMetrics,
           (result: ExportResult) => {
             if (result.code !== ExportResultCode.SUCCESS) {
-              diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
+              diag.debug(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
             }
           },
         );
@@ -173,7 +173,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
         this.feature = JSON.parse(statsbeatFeatures).feature;
         this.instrumentation = JSON.parse(statsbeatFeatures).instrumentation;
       } catch (error: any) {
-        diag.error(
+        diag.debug(
           `LongIntervalStatsbeat: Failed to parse features/instrumentations (error ${error})`,
         );
       }
