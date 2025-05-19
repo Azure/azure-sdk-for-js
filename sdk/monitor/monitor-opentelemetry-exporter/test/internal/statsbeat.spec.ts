@@ -428,35 +428,35 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           ...options,
           networkCollectionInterval: 100,
         });
-        
+
         try {
           // Spy on the exporter's export method
           const mockExport = vi.spyOn(zeroStatsbeat["networkAzureExporter"], "export");
 
           zeroStatsbeat.countSuccess(0);
-          
+
           // Wait for the export interval to trigger without adding any counts
           await new Promise((resolve) => setTimeout(resolve, 500));
-          
+
           // Check that export was called
           expect(mockExport).toHaveBeenCalled();
-          
+
           // Get the metrics that were exported
           const resourceMetrics = mockExport.mock.calls[0][0];
           const scopeMetrics = resourceMetrics.scopeMetrics;
           assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
-          
+
           // Check the metrics - there should be 0 data points for most metrics
           // since we're now filtering zero values
           const metrics = scopeMetrics[0].metrics;
-          
+
           // Check each metric to ensure zero values are filtered out
           for (const metric of metrics) {
             // We expect all metrics to have no data points as they all have zero values
             assert.strictEqual(
-              metric.dataPoints.length, 
-              1, 
-              `${metric.descriptor.name} should have no data points apart from success since all other values are zero`
+              metric.dataPoints.length,
+              1,
+              `${metric.descriptor.name} should have no data points apart from success since all other values are zero`,
             );
           }
         } finally {
