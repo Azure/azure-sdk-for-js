@@ -868,8 +868,7 @@ export enum KnownKustomizationValidationType {
 export type KustomizationValidationType = string;
 
 /** Optional parameters. */
-export interface FluxConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FluxConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FluxConfigurationsGetResponse = FluxConfiguration;
@@ -887,8 +886,7 @@ export interface FluxConfigurationsCreateOrUpdateOptionalParams
 export type FluxConfigurationsCreateOrUpdateResponse = FluxConfiguration;
 
 /** Optional parameters. */
-export interface FluxConfigurationsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface FluxConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -899,8 +897,7 @@ export interface FluxConfigurationsUpdateOptionalParams
 export type FluxConfigurationsUpdateResponse = FluxConfiguration;
 
 /** Optional parameters. */
-export interface FluxConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FluxConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delete the extension resource in Azure - not the normal asynchronous delete. */
   forceDelete?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -910,29 +907,25 @@ export interface FluxConfigurationsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface FluxConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FluxConfigurationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type FluxConfigurationsListResponse = FluxConfigurationsList;
 
 /** Optional parameters. */
-export interface FluxConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FluxConfigurationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FluxConfigurationsListNextResponse = FluxConfigurationsList;
 
 /** Optional parameters. */
-export interface FluxConfigOperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FluxConfigOperationStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FluxConfigOperationStatusGetResponse = OperationStatusResult;
 
 /** Optional parameters. */
-export interface FluxConfigurationClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface FluxConfigurationClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

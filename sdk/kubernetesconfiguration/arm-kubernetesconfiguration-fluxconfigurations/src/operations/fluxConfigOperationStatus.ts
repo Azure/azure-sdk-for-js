@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing FluxConfigOperationStatus operations. */
-export class FluxConfigOperationStatusImpl
-  implements FluxConfigOperationStatus
-{
+export class FluxConfigOperationStatusImpl implements FluxConfigOperationStatus {
   private readonly client: FluxConfigurationClient;
 
   /**
