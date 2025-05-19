@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   DockerBuildRequest,
   EncodedTaskRunRequest,
@@ -20,7 +22,7 @@ import "dotenv/config";
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun.json
  */
 async function registriesScheduleRun(): Promise<void> {
   const subscriptionId =
@@ -54,7 +56,7 @@ async function registriesScheduleRun(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -66,7 +68,7 @@ async function registriesScheduleRun(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_EncodedTaskRun.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_EncodedTaskRun.json
  */
 async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
   const subscriptionId =
@@ -96,7 +98,7 @@ async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -108,7 +110,7 @@ async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTaskRun.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_FileTaskRun.json
  */
 async function registriesScheduleRunFileTaskRun(): Promise<void> {
   const subscriptionId =
@@ -139,7 +141,7 @@ async function registriesScheduleRunFileTaskRun(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -151,7 +153,7 @@ async function registriesScheduleRunFileTaskRun(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_Task.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_Task.json
  */
 async function registriesScheduleRunTask(): Promise<void> {
   const subscriptionId =
@@ -190,7 +192,7 @@ async function registriesScheduleRunTask(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -202,7 +204,7 @@ async function registriesScheduleRunTask(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTask_WithCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_FileTask_WithCustomCredentials.json
  */
 async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
   const subscriptionId =
@@ -238,7 +240,7 @@ async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -250,7 +252,7 @@ async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithCustomCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_WithCustomCredentials.json
  */
 async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
   const subscriptionId =
@@ -298,7 +300,7 @@ async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,
@@ -310,7 +312,7 @@ async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
  *
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithLogTemplate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RegistriesScheduleRun_WithLogTemplate.json
  */
 async function registriesScheduleRunWithLogTemplate(): Promise<void> {
   const subscriptionId =
@@ -345,7 +347,7 @@ async function registriesScheduleRunWithLogTemplate(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.registries.beginScheduleRunAndWait(
+  const result = await client.registries.scheduleRun(
     resourceGroupName,
     registryName,
     runRequest,

@@ -2,30 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use basic agent operations from the Azure Agents service.
- *
- * @summary demonstrates how to use basic agent operations.
- *
+ * This sample demonstrates how to create and delete an agent using the Azure AI Projects SDK.
+ * @summary Create and delete an agent.
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
-
 import "dotenv/config";
 
-const connectionString =
-  process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<project connection string>";
-const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 
 export async function main(): Promise<void> {
-  const client = AIProjectsClient.fromConnectionString(
-    connectionString || "",
-    new DefaultAzureCredential(),
-  );
-
-  const agent = await client.agents.createAgent(modelDeploymentName, {
+  const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
+  const agent = await client.agents.createAgent("gpt-4o", {
     name: "my-agent",
-    instructions: "You are helpful agent",
+    instructions: "You are a helpful agent",
   });
 
   console.log(`Created agent, agent ID : ${agent.id}`);

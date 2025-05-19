@@ -294,25 +294,7 @@ export interface Registries {
    * @param runRequest The parameters of a run that needs to scheduled.
    * @param options The options parameters.
    */
-  beginScheduleRun(
-    resourceGroupName: string,
-    registryName: string,
-    runRequest: RunRequestUnion,
-    options?: RegistriesScheduleRunOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesScheduleRunResponse>,
-      RegistriesScheduleRunResponse
-    >
-  >;
-  /**
-   * Schedules a new run based on the request parameters and add it to the run queue.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param runRequest The parameters of a run that needs to scheduled.
-   * @param options The options parameters.
-   */
-  beginScheduleRunAndWait(
+  scheduleRun(
     resourceGroupName: string,
     registryName: string,
     runRequest: RunRequestUnion,

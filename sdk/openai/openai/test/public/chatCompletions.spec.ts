@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe } from "vitest";
 import {
   createClientsAndDeployments,
   filterClientsAndDeployments,
@@ -21,10 +21,11 @@ import {
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import { 
-  functionCallModelsToSkip, 
-  systemRoleModelsToSkip, 
-  toolsModelsToSkip 
+import {
+  dataSourcesModelsToSkip,
+  functionCallModelsToSkip,
+  systemRoleModelsToSkip,
+  toolsModelsToSkip,
 } from "../utils/models.js";
 import "../../src/types/index.js";
 import { assertMathResponseOutput, type MathResponse } from "../utils/structuredOutputUtils.js";
@@ -271,7 +272,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
     });
 
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources [%o]",
+      "works with data sources [$parameters.index_name]",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -282,13 +283,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
               data_sources: [config],
             }),
           validate: assertChatCompletions,
-          modelsListToSkip: [
-            { name: "gpt-35-turbo-0613" }, // Unsupported model
-            { name: "gpt-4-32k" }, // Managed identity is not enabled
-            { name: "o1-preview" }, // o-series models are not supported with OYD.
-            { name: "o1-mini" },
-            { name: "gpt-4", version: "vision-preview" },
-          ],
+          modelsListToSkip: dataSourcesModelsToSkip,
           acceptableErrors: {
             messageSubstring: [
               "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
@@ -299,7 +294,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
       },
     );
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources and user security context [%o]",
+      "works with data sources and user security context [$parameters.index_name]",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -316,13 +311,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
               },
             }),
           validate: assertChatCompletions,
-          modelsListToSkip: [
-            { name: "gpt-35-turbo-0613" }, // Unsupported model
-            { name: "gpt-4-32k" }, // Managed identity is not enabled
-            { name: "o1-preview" }, // o-series models are not supported with OYD.
-            { name: "o1-mini" },
-            { name: "gpt-4", version: "vision-preview" },
-          ],
+          modelsListToSkip: dataSourcesModelsToSkip,
           acceptableErrors: {
             messageSubstring: [
               "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
@@ -406,7 +395,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
     });
 
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources [%o]",
+      "works with data sources [$parameters.index_name]",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -420,13 +409,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
               }),
             ),
           validate: assertChatCompletionsList,
-          modelsListToSkip: [
-            { name: "gpt-35-turbo-0613" }, // Unsupported model
-            { name: "gpt-4-32k" }, // Managed identity is not enabled
-            { name: "o1-preview" }, // o-series models are not supported with OYD.
-            { name: "o1-mini" },
-            { name: "gpt-4", version: "vision-preview" },
-          ],
+          modelsListToSkip: dataSourcesModelsToSkip,
           acceptableErrors: {
             messageSubstring: [
               "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
@@ -438,7 +421,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
     );
 
     describe.concurrent.each(createAzureSearchExtensions())(
-      "works with data sources and user security context [%o])",
+      "works with data sources and user security context [$parameters.index_name])",
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
@@ -458,13 +441,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
               }),
             ),
           validate: assertChatCompletionsList,
-          modelsListToSkip: [
-            { name: "gpt-35-turbo-0613" }, // Unsupported model
-            { name: "gpt-4-32k" }, // Managed identity is not enabled
-            { name: "o1-preview" }, // o-series models are not supported with OYD.
-            { name: "o1-mini" },
-            { name: "gpt-4", version: "vision-preview" },
-          ],
+          modelsListToSkip: dataSourcesModelsToSkip,
           acceptableErrors: {
             messageSubstring: [
               "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others

@@ -48,7 +48,7 @@ describe("Apimanagement test", () => {
     );
     location = "eastus";
     resourceGroupName = "myjstest";
-    serviceName = "myserviceyyy1";
+    serviceName = "czwserviceyyy1";
   });
 
   afterEach(async () => {
@@ -111,9 +111,31 @@ describe("Apimanagement test", () => {
     }
   });
 
-  it("backend create test1", async () => {});
+  it("backend create test1", async function () {
+    await client.backend.createOrUpdate(
+      resourceGroupName,
+      serviceName,
+      "sfbackend1",
+      {
+        description: "Service Fabric Test App 1",
+        url: "https://backendname26441",
+        protocol: "http"
+      },
+    );
+  })
 
-  it("backend create test2", async () => {});
+  it("backend create test2", async function () {
+    await client.backend.createOrUpdate(
+      resourceGroupName,
+      serviceName,
+      "sfbackend2",
+      {
+        description: "Service Fabric Test App 1",
+        url: "https://backendname26442",
+        protocol: "http"
+      },
+    );
+  })
 
   it("backend list test", async () => {
     const resArray = new Array();
@@ -127,6 +149,18 @@ describe("Apimanagement test", () => {
 
   it("backend delete test", async () => {
     const resArray = new Array();
+    await client.backend.delete(
+      resourceGroupName,
+      serviceName,
+      "sfbackend1",
+      "*"
+    );
+    await client.backend.delete(
+      resourceGroupName,
+      serviceName,
+      "sfbackend2",
+      "*"
+    );
     for await (const item of client.backend.listByService(resourceGroupName, serviceName)) {
       resArray.push(item);
     }
@@ -139,6 +173,8 @@ describe("Apimanagement test", () => {
       count++;
       const res = await client.apiManagementService.get(resourceGroupName, serviceName);
       if (res.provisioningState === "Succeeded") {
+        await client.apiManagementService.beginDeleteAndWait(resourceGroupName, serviceName, testPollingOptions);
+        await client.deletedServices.beginPurgeAndWait(serviceName, location, testPollingOptions);
         const resArray = new Array();
         for await (const item of client.apiManagementService.listByResourceGroup(
           resourceGroupName,

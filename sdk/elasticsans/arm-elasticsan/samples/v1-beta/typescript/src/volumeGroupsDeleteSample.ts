@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete an VolumeGroup.
  *
  * @summary Delete an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Delete_MaximumSet_Gen.json
  */
 async function volumeGroupsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function volumeGroupsDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Delete an VolumeGroup.
  *
  * @summary Delete an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_Delete_MinimumSet_Gen.json
  */
 async function volumeGroupsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -59,8 +59,8 @@ async function volumeGroupsDeleteMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  volumeGroupsDeleteMaximumSetGen();
-  volumeGroupsDeleteMinimumSetGen();
+  await volumeGroupsDeleteMaximumSetGen();
+  await volumeGroupsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);
