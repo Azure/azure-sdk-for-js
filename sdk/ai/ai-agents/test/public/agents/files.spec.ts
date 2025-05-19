@@ -5,7 +5,6 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { isNodeLike } from "@azure/core-util";
 
 describe("Agents - files", () => {
   let recorder: Recorder;

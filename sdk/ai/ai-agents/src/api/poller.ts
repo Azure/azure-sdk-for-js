@@ -144,12 +144,12 @@ export function createPoller<T>({
       if (pollOptions?.abortSignal?.aborted) {
         throw new Error("Operation aborted");
       }
-      
+
       // Make sure we have a result to poll with
       if (!state.result) {
         throw new Error("Cannot poll with undefined result");
       }
-      
+
       const result = await pollOperation(state.result);
       state = {
         result,

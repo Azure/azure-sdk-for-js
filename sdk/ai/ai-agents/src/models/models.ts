@@ -3464,7 +3464,9 @@ export interface _UploadFileRequest {
   filename?: string;
 }
 
-export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
+export function _uploadFileRequestSerializer(
+  item: _UploadFileRequest,
+): Array<{ name: "file" | "purpose"; body: any; filename?: string }> {
   return [
     { name: "file" as const, body: item["file"], filename: item["filename"] ?? randomUUID() },
     { name: "purpose" as const, body: item["purpose"] },
