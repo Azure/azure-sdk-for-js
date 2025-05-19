@@ -42,7 +42,7 @@ $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 $userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
-
+$identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
 
