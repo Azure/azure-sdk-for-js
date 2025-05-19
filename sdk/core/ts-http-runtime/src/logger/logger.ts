@@ -140,7 +140,7 @@ export function createLoggerContext(options: CreateLoggerContextOptions): Logger
     debug.log(...args);
   };
 
-  function setLogLevel(level?: TypeSpecRuntimeLogLevel): void {
+  function contextSetLogLevel(level?: TypeSpecRuntimeLogLevel): void {
     if (level && !isTypeSpecRuntimeLogLevel(level)) {
       throw new Error(
         `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
@@ -161,7 +161,7 @@ export function createLoggerContext(options: CreateLoggerContextOptions): Logger
   if (logLevelFromEnv) {
     // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
     if (isTypeSpecRuntimeLogLevel(logLevelFromEnv)) {
-      setLogLevel(logLevelFromEnv);
+      contextSetLogLevel(logLevelFromEnv);
     } else {
       console.error(
         `${options.logLevelEnvVarName} set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(
@@ -195,11 +195,11 @@ export function createLoggerContext(options: CreateLoggerContextOptions): Logger
     return logger;
   }
 
-  function getLogLevel(): TypeSpecRuntimeLogLevel | undefined {
+  function contextGetLogLevel(): TypeSpecRuntimeLogLevel | undefined {
     return logLevel;
   }
 
-  function createClientLogger(namespace: string): TypeSpecRuntimeLogger {
+  function contextCreateClientLogger(namespace: string): TypeSpecRuntimeLogger {
     const clientRootLogger: TypeSpecRuntimeClientLogger = clientLogger.extend(namespace);
     patchLogMethod(clientLogger, clientRootLogger);
     return {
@@ -211,9 +211,9 @@ export function createLoggerContext(options: CreateLoggerContextOptions): Logger
   }
 
   return {
-    setLogLevel,
-    getLogLevel,
-    createClientLogger,
+    setLogLevel: contextSetLogLevel,
+    getLogLevel: contextGetLogLevel,
+    createClientLogger: contextCreateClientLogger,
     logger: clientLogger,
   };
 }
