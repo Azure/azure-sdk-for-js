@@ -51,7 +51,7 @@ Phone numbers can have a combination of capabilities. They can be configured to 
 
 It is important to consider the assignment type of your phone number. Some capabilities are restricted to a particular assignment type.
 
-#### Browsing and Reserving Phone Numbers
+#### Browsing and reserving phone numbers
 
 The Browse and Reservations APIs provide an alternate way to acquire phone numbers via a shopping-cart-like experience. This is achieved by splitting the search operation, which finds and reserves numbers using a single LRO, into two separate synchronous steps, Browse and Reservation. 
 
