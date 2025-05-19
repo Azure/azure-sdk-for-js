@@ -500,7 +500,7 @@ export interface SearchDocumentsResultBase {
   /**
    * The total count of results found by the search operation, or null if the count was not
    * requested. If present, the count may be greater than the number of results in this response.
-   * This can happen if you use the $top or $skip parameters, or if Azure Cognitive Search can't
+   * This can happen if you use the $top or $skip parameters, or if Azure AI Search can't
    * return all the requested documents in a single Search response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -775,7 +775,7 @@ export type UnionToIntersection<Union> =
 export type ExcludedODataTypes = Date | GeographyPoint;
 
 /**
- * Produces a union of valid Cognitive Search OData $select paths for T
+ * Produces a union of valid AI Search OData $select paths for T
  * using a post-order traversal of the field tree rooted at T.
  */
 export type SelectFields<TModel extends object> =
@@ -818,7 +818,7 @@ export type SelectFields<TModel extends object> =
               string;
 
 /**
- * Deeply pick fields of T using valid Cognitive Search OData $select
+ * Deeply pick fields of T using valid AI Search OData $select
  * paths.
  */
 export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> =
