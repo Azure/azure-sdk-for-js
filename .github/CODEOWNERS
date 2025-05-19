@@ -657,6 +657,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
