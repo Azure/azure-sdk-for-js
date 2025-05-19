@@ -477,7 +477,7 @@ export class PartitionKeyRangeFailoverInfo {
           } else {
             this.consecutiveWriteRequestFailureCount++;
           }
-          resolve();
+          return resolve();
         } catch (error) {
           reject(error);
         } finally {

@@ -105,6 +105,19 @@ describe("PartitionKeyRangeFailoverInfo", () => {
     assert.equal(counts2.consecutiveWriteRequestFailureCount, 2);
   });
 
+  it("incrementRequestFailureCounts returns accurate counts", async () => {
+    await failoverInfo.incrementRequestFailureCounts(false, Date.now());
+
+    const counts = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    assert.equal(counts.consecutiveWriteRequestFailureCount, 1);
+
+    (failoverInfo as any).lastRequestFailureTime = new Date(Date.now() - 1000 * 61);
+    // The count should be reset first then incremented
+    await failoverInfo.incrementRequestFailureCounts(false, Date.now());
+    const counts2 = await failoverInfo.snapshotConsecutiveRequestFailureCount();
+    assert.equal(counts2.consecutiveWriteRequestFailureCount, 1);
+  });
+
   it("snapshotPartitionFailoverTimestamps returns accurate timestamps", async () => {
     const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
     assert.instanceOf(timestamps.firstRequestFailureTime, Date);
