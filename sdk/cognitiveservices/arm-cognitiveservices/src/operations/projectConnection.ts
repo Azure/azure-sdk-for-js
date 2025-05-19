@@ -54,12 +54,7 @@ export class ProjectConnectionImpl implements ProjectConnection {
     projectName: string,
     options?: ProjectConnectionListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      accountName,
-      projectName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, accountName, projectName, options);
     return {
       next() {
         return iter.next();
@@ -71,13 +66,7 @@ export class ProjectConnectionImpl implements ProjectConnection {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          projectName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, projectName, options, settings);
       },
     };
   }
@@ -92,12 +81,7 @@ export class ProjectConnectionImpl implements ProjectConnection {
     let result: ProjectConnectionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        accountName,
-        projectName,
-        options,
-      );
+      result = await this._list(resourceGroupName, accountName, projectName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

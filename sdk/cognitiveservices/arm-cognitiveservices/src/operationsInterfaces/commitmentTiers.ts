@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  CommitmentTier,
-  CommitmentTiersListOptionalParams,
-} from "../models/index.js";
+import { CommitmentTier, CommitmentTiersListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommitmentTiers. */

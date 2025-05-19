@@ -64,12 +64,7 @@ export class AccountConnectionImpl implements AccountConnection {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -90,12 +85,7 @@ export class AccountConnectionImpl implements AccountConnection {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -108,11 +98,7 @@ export class AccountConnectionImpl implements AccountConnection {
     accountName: string,
     options?: AccountConnectionListOptionalParams,
   ): AsyncIterableIterator<ConnectionPropertiesV2BasicResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }

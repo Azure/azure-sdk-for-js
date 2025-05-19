@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Project,
@@ -70,12 +66,7 @@ export class ProjectsImpl implements Projects {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -96,12 +87,7 @@ export class ProjectsImpl implements Projects {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,11 +100,7 @@ export class ProjectsImpl implements Projects {
     accountName: string,
     options?: ProjectsListOptionalParams,
   ): AsyncIterableIterator<Project> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -138,12 +120,7 @@ export class ProjectsImpl implements Projects {
     projectName: string,
     project: Project,
     options?: ProjectsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ProjectsCreateResponse>,
-      ProjectsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ProjectsCreateResponse>, ProjectsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -154,8 +131,7 @@ export class ProjectsImpl implements Projects {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -238,12 +214,7 @@ export class ProjectsImpl implements Projects {
     projectName: string,
     project: Project,
     options?: ProjectsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ProjectsUpdateResponse>,
-      ProjectsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ProjectsUpdateResponse>, ProjectsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -254,8 +225,7 @@ export class ProjectsImpl implements Projects {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -346,8 +316,7 @@ export class ProjectsImpl implements Projects {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -400,12 +369,7 @@ export class ProjectsImpl implements Projects {
     projectName: string,
     options?: ProjectsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      projectName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, projectName, options);
     return poller.pollUntilDone();
   }
 
