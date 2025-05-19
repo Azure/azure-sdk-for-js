@@ -34,12 +34,8 @@ describe("#parseEventHubSpan(...)", () => {
     const envelope = { data: { baseData: {} } } as Envelope;
     const spanOptions = {
       kind: SpanKind.CLIENT,
-    }
-    const span = tracer.startSpan(
-      "test span",
-      spanOptions,
-      ROOT_CONTEXT,
-    );
+    };
+    const span = tracer.startSpan("test span", spanOptions, ROOT_CONTEXT);
     span.setAttributes(attributes);
 
     const baseData = envelope.data?.baseData as RemoteDependencyData;
@@ -56,12 +52,8 @@ describe("#parseEventHubSpan(...)", () => {
     const envelope = { data: { baseData: {} } } as Envelope;
     const spanOptions: SpanOptions = {
       kind: SpanKind.PRODUCER,
-    }
-    const span = tracer.startSpan(
-      "test span",
-      spanOptions,
-      ROOT_CONTEXT,
-    );
+    };
+    const span = tracer.startSpan("test span", spanOptions, ROOT_CONTEXT);
     span.setAttributes(attributes);
 
     const baseData = envelope.data?.baseData as RemoteDependencyData;
@@ -95,11 +87,7 @@ describe("#parseEventHubSpan(...)", () => {
       ],
     };
 
-    const span = tracer.startSpan(
-      "test span",
-      spanOptions,
-      ROOT_CONTEXT,
-    );
+    const span = tracer.startSpan("test span", spanOptions, ROOT_CONTEXT);
 
     // cast since startTime is readonly
     (spanToReadableSpan(span) as { startTime: HrTime }).startTime = timeInputToHrTime(startTime);
@@ -109,7 +97,7 @@ describe("#parseEventHubSpan(...)", () => {
     parseEventHubSpan(spanToReadableSpan(span), baseData);
     assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
     assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
-    assert.isAtLeast((baseData.measurements?.[TIME_SINCE_ENQUEUED] as unknown as number), 148);
+    assert.isAtLeast(baseData.measurements?.[TIME_SINCE_ENQUEUED] as unknown as number, 148);
 
     assert.strictEqual(baseData.target, undefined);
   });

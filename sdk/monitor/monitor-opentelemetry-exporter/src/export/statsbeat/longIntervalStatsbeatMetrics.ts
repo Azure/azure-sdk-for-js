@@ -81,7 +81,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
       longIntervalMetricReaderOptions,
     );
     this.longIntervalStatsbeatMeterProvider = new MeterProvider({
-      readers: [new PeriodicExportingMetricReader(longIntervalMetricReaderOptions)]
+      readers: [new PeriodicExportingMetricReader(longIntervalMetricReaderOptions)],
     });
     this.longIntervalStatsbeatMeter = this.longIntervalStatsbeatMeterProvider.getMeter(
       "Azure Monitor Long Interval Statsbeat",

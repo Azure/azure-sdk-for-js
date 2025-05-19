@@ -47,7 +47,7 @@ export class TraceBasicScenario implements Scenario {
     });
     const provider = new BasicTracerProvider({
       spanProcessors: [this._processor],
-      resource: resource
+      resource: resource,
     });
     trace.setGlobalTracerProvider(provider);
   }
@@ -281,7 +281,7 @@ export class MetricBasicScenario implements Scenario {
     };
     this._provider = new MeterProvider({
       resource: testResource,
-      readers: [new PeriodicExportingMetricReader(metricReaderOptions)]
+      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
     });
   }
 

@@ -151,7 +151,11 @@ describe("Library/TraceHandler", () => {
     it("http outgoing/incoming requests & custom span processor", async () => {
       createHandler({ enabled: true });
       tracerProvider = new NodeTracerProvider({
-        spanProcessors: [handler.getAzureMonitorSpanProcessor(), customSpanProcessor, handler.getBatchSpanProcessor()],
+        spanProcessors: [
+          handler.getAzureMonitorSpanProcessor(),
+          customSpanProcessor,
+          handler.getBatchSpanProcessor(),
+        ],
       });
       trace.setGlobalTracerProvider(tracerProvider);
       await makeHttpRequest();

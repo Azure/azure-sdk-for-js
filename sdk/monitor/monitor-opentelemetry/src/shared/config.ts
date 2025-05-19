@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceDetectionConfig , Resource} from "@opentelemetry/resources";
-import { defaultResource, detectResources, emptyResource, envDetector } from "@opentelemetry/resources";
+import type { ResourceDetectionConfig, Resource } from "@opentelemetry/resources";
+import {
+  defaultResource,
+  detectResources,
+  emptyResource,
+  envDetector,
+} from "@opentelemetry/resources";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,

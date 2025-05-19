@@ -61,7 +61,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   constructor(options: StatsbeatOptions) {
     super();
     this.connectionString = super.getConnectionString(options.endpointUrl);
-        const exporterConfig: AzureMonitorExporterOptions = {
+    const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
     };
 
@@ -72,7 +72,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionShortInterval, // 15 minutes
     };
     this.networkStatsbeatMeterProvider = new MeterProvider({
-      readers: [new PeriodicExportingMetricReader(networkMetricReaderOptions)]
+      readers: [new PeriodicExportingMetricReader(networkMetricReaderOptions)],
     });
 
     this.networkStatsbeatMeter = this.networkStatsbeatMeterProvider.getMeter(

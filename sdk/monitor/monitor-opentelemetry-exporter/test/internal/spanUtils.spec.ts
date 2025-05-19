@@ -5,8 +5,14 @@ import fs from "node:fs";
 import path from "node:path";
 import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import type { SpanOptions} from "@opentelemetry/api";
-import { SpanKind, SpanStatusCode, ROOT_CONTEXT, trace, context as OTelContext } from "@opentelemetry/api";
+import type { SpanOptions } from "@opentelemetry/api";
+import {
+  SpanKind,
+  SpanStatusCode,
+  ROOT_CONTEXT,
+  trace,
+  context as OTelContext,
+} from "@opentelemetry/api";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   ATTR_CLIENT_ADDRESS,
@@ -66,7 +72,7 @@ const tracerProviderConfig: TracerConfig = {
     [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
     [SEMRESATTRS_SERVICE_NAME]: "testServiceName",
     [SEMRESATTRS_SERVICE_NAMESPACE]: "testServiceNamespace",
-  })
+  }),
 };
 
 const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
@@ -131,18 +137,10 @@ describe("spanUtils.ts", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          spanOptions,
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
         childSpan.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
@@ -154,7 +152,7 @@ describe("spanUtils.ts", () => {
         });
         childSpan.end();
         parentSpan.end();
-        const readableSpan = spanToReadableSpan(childSpan)
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
           [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
@@ -192,11 +190,7 @@ describe("spanUtils.ts", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
         };
-        const span = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        const span = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
@@ -206,7 +200,7 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
-        const readableSpan = spanToReadableSpan(span)
+        const readableSpan = spanToReadableSpan(span);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: span.spanContext().traceId,
         };
@@ -241,12 +235,8 @@ describe("spanUtils.ts", () => {
       it("should create success:false Dependency Envelope for Client spans with status code ERROR", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 400,
@@ -291,16 +281,12 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans with an updated dependency target", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const childSpan = tracer.startSpan(
           "child span",
           spanOptions,
-          trace.setSpan(OTelContext.active(), parentSpan)
+          trace.setSpan(OTelContext.active(), parentSpan),
         );
         childSpan.setAttributes({
           "extra.attribute": "foo",
@@ -314,7 +300,7 @@ describe("spanUtils.ts", () => {
         });
         parentSpan.end();
         childSpan.end();
-        const readableSpan = spanToReadableSpan(childSpan)
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: readableSpan.spanContext().traceId,
           [KnownContextTagKeys.AiOperationParentId]: readableSpan.parentSpanContext?.spanId || "",
@@ -351,18 +337,10 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans WCF defined as the RPC system", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          spanOptions,
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
         childSpan.setAttributes({
           "extra.attribute": "foo",
           [SEMATTRS_RPC_GRPC_STATUS_CODE]: 123,
@@ -411,18 +389,10 @@ describe("spanUtils.ts", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          spanOptions,
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
         childSpan.setAttributes({
           "microsoft.sample_rate": "50",
         });
@@ -466,18 +436,10 @@ describe("spanUtils.ts", () => {
       it("should create a success:false Request Envelope for Server Spans with 4xx status codes", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          spanOptions,
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
         childSpan.setAttributes({
           "microsoft.sample_rate": "50",
           [SEMATTRS_HTTP_STATUS_CODE]: 400,
@@ -522,12 +484,8 @@ describe("spanUtils.ts", () => {
       it("should set the azure SDK properties", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.INTERNAL,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           "az.namespace": "Microsoft.EventHub",
         });
@@ -572,11 +530,7 @@ describe("spanUtils.ts", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
         };
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           "extra.attribute": "foo",
         });
@@ -621,19 +575,11 @@ describe("spanUtils.ts", () => {
       it("(HTTP) should create a Request Envelope for Server Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-          links: [{ context: { traceId: "traceId", spanId: "spanId", traceFlags: 0 } }]
+          links: [{ context: { traceId: "traceId", spanId: "spanId", traceFlags: 0 } }],
         };
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          spanOptions,
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
         childSpan.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
           [SEMATTRS_HTTP_ROUTE]: "/api/example",
@@ -650,7 +596,8 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] =
+          readableSpan.parentSpanContext?.spanId || "";
         expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
         const expectedProperties = {
           "extra.attribute": "foo",
@@ -686,11 +633,7 @@ describe("spanUtils.ts", () => {
           links: [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
           kind: SpanKind.SERVER,
         };
-        const span = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        const span = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [ATTR_HTTP_REQUEST_METHOD]: "GET",
           [ATTR_HTTP_ROUTE]: "/api/example",
@@ -741,12 +684,8 @@ describe("spanUtils.ts", () => {
       it("should set AiOperationName when only httpUrl is set", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
@@ -794,12 +733,8 @@ describe("spanUtils.ts", () => {
       it("[new sem conv] should set AiOperationName when only httpUrl is set", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [ATTR_HTTP_REQUEST_METHOD]: "GET",
           [ATTR_URL_FULL]: "https://example.com/api/example",
@@ -847,12 +782,8 @@ describe("spanUtils.ts", () => {
       it("should set AiLocationIp when httpMethod not set and netPeerIp is", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
@@ -898,12 +829,8 @@ describe("spanUtils.ts", () => {
       it("[new sem conv] should set AiLocationIp when httpMethod not set and netPeerIp is", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.SERVER,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [ATTR_URL_FULL]: "https://example.com/api/example",
           [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
@@ -949,19 +876,11 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         // Get the parent span context to assign to the child span
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          {},
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", {}, ctx);
         childSpan.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
@@ -978,7 +897,8 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] =
+          readableSpan.parentSpanContext?.spanId || "";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
@@ -1011,18 +931,10 @@ describe("spanUtils.ts", () => {
       it("[new sem conv] should create a Dependency Envelope for Client Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          {},
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", {}, ctx);
         childSpan.setAttributes({
           [ATTR_HTTP_REQUEST_METHOD]: "GET",
           [ATTR_URL_FULL]: "https://example.com/api/example",
@@ -1035,10 +947,11 @@ describe("spanUtils.ts", () => {
         });
         childSpan.end();
         parentSpan.end();
-        const readableSpan = spanToReadableSpan(childSpan)
+        const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] =
+          readableSpan.parentSpanContext?.spanId || "";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
@@ -1074,18 +987,10 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Producer Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.PRODUCER,
-        }
-        const parentSpan = tracer.startSpan(
-          "parent span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const parentSpan = tracer.startSpan("parent span", spanOptions, ROOT_CONTEXT);
         const ctx = trace.setSpan(OTelContext.active(), parentSpan);
-        const childSpan = tracer.startSpan(
-          "child span",
-          spanOptions,
-          ctx
-        );
+        const childSpan = tracer.startSpan("child span", spanOptions, ctx);
         childSpan.setAttributes({
           "extra.attribute": "foo",
         });
@@ -1094,7 +999,8 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(childSpan);
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = readableSpan.spanContext().traceId;
-        expectedTags[KnownContextTagKeys.AiOperationParentId] = readableSpan.parentSpanContext?.spanId || "";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] =
+          readableSpan.parentSpanContext?.spanId || "";
         const expectedProperties = {
           "extra.attribute": "foo",
         };
@@ -1125,12 +1031,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Internal Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.INTERNAL,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           "extra.attribute": "foo",
         });
@@ -1167,12 +1069,8 @@ describe("spanUtils.ts", () => {
       it("should remove default port if target is defined", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.INTERNAL,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_HTTP_METHOD]: "GET",
           [SEMATTRS_HTTP_HOST]: "http://test:80",
@@ -1216,12 +1114,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_MYSQL,
           [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
@@ -1266,12 +1160,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for PostgreSQL spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_POSTGRESQL,
           [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
@@ -1316,12 +1206,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for MongoDB spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_MONGODB,
           [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
@@ -1366,12 +1252,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Redis spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_REDIS,
           [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
@@ -1416,12 +1298,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for SQL spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_SQLITE,
           [SEMATTRS_DB_STATEMENT]: "SELECT * FROM Test",
@@ -1466,12 +1344,8 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for other database spans", () => {
         const spanOptions: SpanOptions = {
           kind: SpanKind.CLIENT,
-        }
-        const span = tracer.startSpan(
-          "span",
-          spanOptions,
-          ROOT_CONTEXT
-        );
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
         span.setAttributes({
           [SEMATTRS_DB_SYSTEM]: DBSYSTEMVALUES_HIVE,
           [SEMATTRS_DB_OPERATION]: "SELECT * FROM Test",
@@ -1520,11 +1394,7 @@ describe("spanUtils.ts", () => {
   describe("#spanEventsToEnvelopes", () => {
     it("should create exception envelope for remote exception events", () => {
       const testError = new Error("test error");
-      const span = tracer.startSpan(
-        "parent span",
-        {},
-        ROOT_CONTEXT
-      );
+      const span = tracer.startSpan("parent span", {}, ROOT_CONTEXT);
       span.recordException(testError);
       span.end();
       const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
@@ -1563,12 +1433,8 @@ describe("spanUtils.ts", () => {
     const testError = new Error("test error");
     const spanOptions: SpanOptions = {
       kind: SpanKind.INTERNAL,
-    }
-    const span = tracer.startSpan(
-      "span",
-      spanOptions,
-      ROOT_CONTEXT
-    );
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
     span.recordException(testError);
     span.end();
     const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
@@ -1580,12 +1446,8 @@ describe("spanUtils.ts", () => {
   it("should create message envelope for span events", () => {
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,
-    }
-    const span = tracer.startSpan(
-      "span",
-      spanOptions,
-      ROOT_CONTEXT
-    );
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
     span.addEvent("test event");
     span.end();
     const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
@@ -1615,12 +1477,8 @@ describe("spanUtils.ts", () => {
     const message = "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1);
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,
-    }
-    const span = tracer.startSpan(
-      "span",
-      spanOptions,
-      ROOT_CONTEXT
-    );
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
     span.addEvent(message);
     span.end();
     const envelopes = spanEventsToEnvelopes(spanToReadableSpan(span), "ikey");
