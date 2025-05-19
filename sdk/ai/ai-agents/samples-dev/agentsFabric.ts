@@ -10,7 +10,6 @@
 
 import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, ToolUtility, isOutputOfType } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

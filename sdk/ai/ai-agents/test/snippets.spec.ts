@@ -24,7 +24,6 @@ import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
 import * as fs from "fs";
-import { delay } from "@azure/core-util";
 import { RestError } from "@azure/core-rest-pipeline";
 
 describe("snippets", function () {

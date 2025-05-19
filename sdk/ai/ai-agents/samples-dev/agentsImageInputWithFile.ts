@@ -8,7 +8,6 @@
  */
 
 import { AgentsClient } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
