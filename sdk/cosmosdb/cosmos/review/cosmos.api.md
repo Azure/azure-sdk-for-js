@@ -540,7 +540,7 @@ export const Constants: {
         Location: string;
         Referer: string;
         A_IM: string;
-        PREFER_RETURN_MINIMAL: string;
+        PreferReturnMinimal: string;
         Query: string;
         IsQuery: string;
         IsQueryPlan: string;
@@ -1145,25 +1145,17 @@ export interface ErrorBody {
     message: string;
 }
 
-// @public (undocumented)
+// @public
 export class ErrorResponse extends Error {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     activityId?: string;
-    // (undocumented)
     body?: ErrorBody;
-    // (undocumented)
     code?: number | string;
-    // (undocumented)
     diagnostics?: CosmosDiagnostics;
-    // (undocumented)
     headers?: CosmosHeaders;
-    // (undocumented)
+    requestCharge?: number;
     retryAfterInMilliseconds?: number;
-    // (undocumented)
     retryAfterInMs?: number;
-    // (undocumented)
     substatus?: number;
 }
 

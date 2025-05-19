@@ -9,12 +9,25 @@ import type { StorageClient } from "../../src/StorageClient.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
 import type { TestContext } from "vitest";
+import type { ShareServiceClient } from "@azure/storage-file-share";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 export function configureBlobStorageClient(recorder: Recorder, serviceClient: StorageClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
+  }
+}
+
+export function configureFileStorageClient(
+  recorder: Recorder,
+  serviceClient: ShareServiceClient,
+): void {
   const options = recorder.configureClientOptions({});
 
   const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
