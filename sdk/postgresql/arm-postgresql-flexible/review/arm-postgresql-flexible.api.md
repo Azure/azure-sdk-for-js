@@ -260,6 +260,19 @@ export interface CheckNameAvailabilityWithLocationExecuteOptionalParams extends 
 export type CheckNameAvailabilityWithLocationExecuteResponse = NameAvailability;
 
 // @public
+export interface Cluster {
+    clusterSize?: number;
+}
+
+// @public
+export interface ConfigTuningRequestParameter {
+    allowServerRestarts?: boolean;
+    configTuningUsageMode?: boolean;
+    serverName?: string;
+    targetImprovementMetric?: string;
+}
+
+// @public
 export interface Configuration extends ProxyResource {
     readonly allowedValues?: string;
     readonly dataType?: ConfigurationDataType;
@@ -615,6 +628,7 @@ export interface FlexibleServerCapability extends CapabilityBase {
     readonly restricted?: RestrictedEnum;
     readonly storageAutoGrowthSupported?: StorageAutoGrowthSupportedEnum;
     readonly supportedFastProvisioningEditions?: FastProvisioningEditionCapability[];
+    readonly supportedFeatures?: SupportedFeature[];
     readonly supportedServerEditions?: FlexibleServerEditionCapability[];
     readonly supportedServerVersions?: ServerVersionCapability[];
     readonly zoneRedundantHaAndGeoBackupSupported?: ZoneRedundantHaAndGeoBackupSupportedEnum;
@@ -705,6 +719,58 @@ export type HighAvailabilityMode = string;
 
 // @public
 export type IdentityType = string;
+
+// @public
+export interface ImpactRecord {
+    absoluteValue?: number;
+    dimensionName?: string;
+    queryId?: number;
+    unit?: string;
+}
+
+// @public
+export interface IndexRecommendationDetails {
+    databaseName?: string;
+    includedColumns?: string[];
+    indexColumns?: string[];
+    indexName?: string;
+    indexType?: string;
+    schema?: string;
+    table?: string;
+}
+
+// @public
+export interface IndexRecommendationListResult {
+    nextLink?: string;
+    value?: IndexRecommendationResource[];
+}
+
+// @public
+export interface IndexRecommendationResource extends ProxyResource {
+    analyzedWorkload?: IndexRecommendationResourcePropertiesAnalyzedWorkload;
+    readonly details?: IndexRecommendationDetails;
+    readonly estimatedImpact?: ImpactRecord[];
+    implementationDetails?: IndexRecommendationResourcePropertiesImplementationDetails;
+    improvedQueryIds?: number[];
+    initialRecommendedTime?: Date;
+    lastRecommendedTime?: Date;
+    recommendationReason?: string;
+    recommendationType?: RecommendationTypeEnum;
+    timesRecommended?: number;
+}
+
+// @public
+export interface IndexRecommendationResourcePropertiesAnalyzedWorkload {
+    endTime?: Date;
+    queryCount?: number;
+    startTime?: Date;
+}
+
+// @public
+export interface IndexRecommendationResourcePropertiesImplementationDetails {
+    method?: string;
+    script?: string;
+}
 
 // @public
 export type KeyStatusEnum = string;
@@ -835,6 +901,7 @@ export enum KnownHighAvailabilityMode {
 export enum KnownIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -986,6 +1053,19 @@ export enum KnownReadReplicaPromoteMode {
 }
 
 // @public
+export enum KnownRecommendationType {
+    CreateIndex = "CreateIndex",
+    DropIndex = "DropIndex"
+}
+
+// @public
+export enum KnownRecommendationTypeEnum {
+    CreateIndex = "CreateIndex",
+    DropIndex = "DropIndex",
+    ReIndex = "ReIndex"
+}
+
+// @public
 export enum KnownReplicationPromoteOption {
     Forced = "forced",
     Planned = "planned"
@@ -1035,7 +1115,10 @@ export enum KnownServerPublicNetworkAccessState {
 export enum KnownServerState {
     Disabled = "Disabled",
     Dropping = "Dropping",
+    Inaccessible = "Inaccessible",
+    Provisioning = "Provisioning",
     Ready = "Ready",
+    Restarting = "Restarting",
     Starting = "Starting",
     Stopped = "Stopped",
     Stopping = "Stopping",
@@ -1047,6 +1130,7 @@ export enum KnownServerVersion {
     Eleven = "11",
     Fifteen = "15",
     Fourteen = "14",
+    Seventeen = "17",
     Sixteen = "16",
     Thirteen = "13",
     Twelve = "12"
@@ -1061,18 +1145,30 @@ export enum KnownSkuTier {
 
 // @public
 export enum KnownSourceType {
+    ApsaraDBRDS = "ApsaraDB_RDS",
     AWS = "AWS",
     AWSAurora = "AWS_AURORA",
     AWSEC2 = "AWS_EC2",
     AWSRDS = "AWS_RDS",
     AzureVM = "AzureVM",
+    CrunchyPostgreSQL = "Crunchy_PostgreSQL",
+    DigitalOceanDroplets = "Digital_Ocean_Droplets",
+    DigitalOceanPostgreSQL = "Digital_Ocean_PostgreSQL",
     EDB = "EDB",
+    EDBOracleServer = "EDB_Oracle_Server",
+    EDBPostgreSQL = "EDB_PostgreSQL",
     GCP = "GCP",
     GCPAlloyDB = "GCP_AlloyDB",
     GCPCloudSQL = "GCP_CloudSQL",
     GCPCompute = "GCP_Compute",
+    HerokuPostgreSQL = "Heroku_PostgreSQL",
+    HuaweiCompute = "Huawei_Compute",
+    HuaweiRDS = "Huawei_RDS",
     OnPremises = "OnPremises",
-    PostgreSQLSingleServer = "PostgreSQLSingleServer"
+    PostgreSQLCosmosDB = "PostgreSQLCosmosDB",
+    PostgreSQLFlexibleServer = "PostgreSQLFlexibleServer",
+    PostgreSQLSingleServer = "PostgreSQLSingleServer",
+    SupabasePostgreSQL = "Supabase_PostgreSQL"
 }
 
 // @public
@@ -1104,7 +1200,14 @@ export enum KnownStorageAutoGrowthSupportedEnum {
 // @public
 export enum KnownStorageType {
     PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS"
+    PremiumV2LRS = "PremiumV2_LRS",
+    UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownSupportedFeatureStatusEnum {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1116,6 +1219,12 @@ export enum KnownThreatProtectionName {
 export enum KnownTriggerCutoverEnum {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownTuningOptionEnum {
+    Configuration = "configuration",
+    Index = "index"
 }
 
 // @public
@@ -1453,6 +1562,12 @@ export interface NameAvailability extends CheckNameAvailabilityResponse {
 }
 
 // @public
+export interface NameProperty {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
 export interface Network {
     delegatedSubnetResourceId?: string;
     privateDnsZoneArmResourceId?: string;
@@ -1492,8 +1607,15 @@ export type OperationOrigin = string;
 
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
@@ -1555,6 +1677,8 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    quotaUsages: QuotaUsages;
+    // (undocumented)
     replicas: Replicas;
     // (undocumented)
     serverCapabilities: ServerCapabilities;
@@ -1564,6 +1688,12 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     serverThreatProtectionSettings: ServerThreatProtectionSettings;
     // (undocumented)
     subscriptionId?: string;
+    // (undocumented)
+    tuningConfiguration: TuningConfiguration;
+    // (undocumented)
+    tuningIndex: TuningIndex;
+    // (undocumented)
+    tuningOptions: TuningOptions;
     // (undocumented)
     virtualEndpoints: VirtualEndpoints;
     // (undocumented)
@@ -1722,7 +1852,47 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface QuotaUsage {
+    currentValue?: number;
+    id?: string;
+    limit?: number;
+    name?: NameProperty;
+    unit?: string;
+}
+
+// @public
+export interface QuotaUsages {
+    list(locationName: string, options?: QuotaUsagesListOptionalParams): PagedAsyncIterableIterator<QuotaUsage>;
+}
+
+// @public
+export interface QuotaUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaUsagesListNextResponse = QuotaUsagesListResult;
+
+// @public
+export interface QuotaUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaUsagesListResponse = QuotaUsagesListResult;
+
+// @public
+export interface QuotaUsagesListResult {
+    readonly nextLink?: string;
+    readonly value?: QuotaUsage[];
+}
+
+// @public
 export type ReadReplicaPromoteMode = string;
+
+// @public
+export type RecommendationType = string;
+
+// @public
+export type RecommendationTypeEnum = string;
 
 // @public
 export interface Replica {
@@ -1778,6 +1948,7 @@ export interface Server extends TrackedResource {
     authConfig?: AuthConfig;
     availabilityZone?: string;
     backup?: Backup;
+    cluster?: Cluster;
     createMode?: CreateMode;
     dataEncryption?: DataEncryption;
     readonly fullyQualifiedDomainName?: string;
@@ -1836,6 +2007,7 @@ export interface ServerForUpdate {
     administratorLoginPassword?: string;
     authConfig?: AuthConfig;
     backup?: Backup;
+    cluster?: Cluster;
     createMode?: CreateModeForUpdate;
     dataEncryption?: DataEncryption;
     highAvailability?: HighAvailability;
@@ -1926,6 +2098,8 @@ export interface ServerSku {
 // @public
 export interface ServerSkuCapability extends CapabilityBase {
     readonly name?: string;
+    readonly securityProfile?: string;
+    readonly supportedFeatures?: SupportedFeature[];
     readonly supportedHaMode?: HaMode[];
     readonly supportedIops?: number;
     readonly supportedMemoryPerVcoreMb?: number;
@@ -2078,7 +2252,41 @@ export type ServerVersion = string;
 // @public
 export interface ServerVersionCapability extends CapabilityBase {
     readonly name?: string;
+    readonly supportedFeatures?: SupportedFeature[];
     readonly supportedVersionsToUpgrade?: string[];
+}
+
+// @public
+export interface SessionDetailsListResult {
+    nextLink?: string;
+    value?: SessionDetailsResource[];
+}
+
+// @public
+export interface SessionDetailsResource {
+    appliedConfiguration?: string;
+    averageQueryRuntimeMs?: string;
+    iterationId?: string;
+    iterationStartTime?: string;
+    sessionId?: string;
+    transactionsPerSecond?: string;
+}
+
+// @public
+export interface SessionResource {
+    postTuningAqr?: string;
+    postTuningTps?: string;
+    preTuningAqr?: string;
+    preTuningTps?: string;
+    sessionId?: string;
+    sessionStartTime?: string;
+    status?: string;
+}
+
+// @public
+export interface SessionsListResult {
+    nextLink?: string;
+    value?: SessionResource[];
 }
 
 // @public
@@ -2145,6 +2353,15 @@ export interface StorageTierCapability extends CapabilityBase {
 export type StorageType = string;
 
 // @public
+export interface SupportedFeature {
+    readonly name?: string;
+    readonly status?: SupportedFeatureStatusEnum;
+}
+
+// @public
+export type SupportedFeatureStatusEnum = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -2172,7 +2389,170 @@ export interface TrackedResource extends Resource {
 export type TriggerCutoverEnum = string;
 
 // @public
+export interface TuningConfiguration {
+    beginDisable(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationDisableOptionalParams): Promise<SimplePollerLike<OperationState<TuningConfigurationDisableResponse>, TuningConfigurationDisableResponse>>;
+    beginDisableAndWait(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationDisableOptionalParams): Promise<TuningConfigurationDisableResponse>;
+    beginEnable(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationEnableOptionalParams): Promise<SimplePollerLike<OperationState<TuningConfigurationEnableResponse>, TuningConfigurationEnableResponse>>;
+    beginEnableAndWait(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationEnableOptionalParams): Promise<TuningConfigurationEnableResponse>;
+    beginStartSession(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, configTuningRequest: ConfigTuningRequestParameter, options?: TuningConfigurationStartSessionOptionalParams): Promise<SimplePollerLike<OperationState<TuningConfigurationStartSessionResponse>, TuningConfigurationStartSessionResponse>>;
+    beginStartSessionAndWait(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, configTuningRequest: ConfigTuningRequestParameter, options?: TuningConfigurationStartSessionOptionalParams): Promise<TuningConfigurationStartSessionResponse>;
+    beginStopSession(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationStopSessionOptionalParams): Promise<SimplePollerLike<OperationState<TuningConfigurationStopSessionResponse>, TuningConfigurationStopSessionResponse>>;
+    beginStopSessionAndWait(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationStopSessionOptionalParams): Promise<TuningConfigurationStopSessionResponse>;
+    listSessionDetails(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, sessionId: string, options?: TuningConfigurationListSessionDetailsOptionalParams): PagedAsyncIterableIterator<SessionDetailsResource>;
+    listSessions(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningConfigurationListSessionsOptionalParams): PagedAsyncIterableIterator<SessionResource>;
+}
+
+// @public
+export interface TuningConfigurationDisableHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TuningConfigurationDisableOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TuningConfigurationDisableResponse = TuningConfigurationDisableHeaders;
+
+// @public
+export interface TuningConfigurationEnableHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TuningConfigurationEnableOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TuningConfigurationEnableResponse = TuningConfigurationEnableHeaders;
+
+// @public
+export interface TuningConfigurationListSessionDetailsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningConfigurationListSessionDetailsNextResponse = SessionDetailsListResult;
+
+// @public
+export interface TuningConfigurationListSessionDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningConfigurationListSessionDetailsResponse = SessionDetailsListResult;
+
+// @public
+export interface TuningConfigurationListSessionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningConfigurationListSessionsNextResponse = SessionsListResult;
+
+// @public
+export interface TuningConfigurationListSessionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningConfigurationListSessionsResponse = SessionsListResult;
+
+// @public
+export interface TuningConfigurationStartSessionHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TuningConfigurationStartSessionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TuningConfigurationStartSessionResponse = TuningConfigurationStartSessionHeaders;
+
+// @public
+export interface TuningConfigurationStopSessionHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TuningConfigurationStopSessionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TuningConfigurationStopSessionResponse = TuningConfigurationStopSessionHeaders;
+
+// @public
+export interface TuningIndex {
+    listRecommendations(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningIndexListRecommendationsOptionalParams): PagedAsyncIterableIterator<IndexRecommendationResource>;
+}
+
+// @public
+export interface TuningIndexListRecommendationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningIndexListRecommendationsNextResponse = IndexRecommendationListResult;
+
+// @public
+export interface TuningIndexListRecommendationsOptionalParams extends coreClient.OperationOptions {
+    recommendationType?: RecommendationType;
+}
+
+// @public
+export type TuningIndexListRecommendationsResponse = IndexRecommendationListResult;
+
+// @public
+export type TuningOptionEnum = string;
+
+// @public
+export interface TuningOptions {
+    get(resourceGroupName: string, serverName: string, tuningOption: TuningOptionEnum, options?: TuningOptionsGetOptionalParams): Promise<TuningOptionsGetResponse>;
+    listByServer(resourceGroupName: string, serverName: string, options?: TuningOptionsListByServerOptionalParams): PagedAsyncIterableIterator<TuningOptionsResource>;
+}
+
+// @public
+export interface TuningOptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningOptionsGetResponse = TuningOptionsResource;
+
+// @public
+export interface TuningOptionsListByServerNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningOptionsListByServerNextResponse = TuningOptionsListResult;
+
+// @public
+export interface TuningOptionsListByServerOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TuningOptionsListByServerResponse = TuningOptionsListResult;
+
+// @public
+export interface TuningOptionsListResult {
+    nextLink?: string;
+    value?: TuningOptionsResource[];
+}
+
+// @public
+export interface TuningOptionsResource extends ProxyResource {
+}
+
+// @public
 export interface UserAssignedIdentity {
+    principalId?: string;
     readonly tenantId?: string;
     type: IdentityType;
     userAssignedIdentities?: {

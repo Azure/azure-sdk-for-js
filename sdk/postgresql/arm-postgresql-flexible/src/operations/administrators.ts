@@ -131,7 +131,7 @@ export class AdministratorsImpl implements Administrators {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
-   * @param parameters The required parameters for adding an active directory administrator for a server.
+   * @param parameters The required parameters for adding an Microsoft Entra Administrator for a server.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -206,7 +206,7 @@ export class AdministratorsImpl implements Administrators {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
-   * @param parameters The required parameters for adding an active directory administrator for a server.
+   * @param parameters The required parameters for adding an Microsoft Entra Administrator for a server.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -227,7 +227,7 @@ export class AdministratorsImpl implements Administrators {
   }
 
   /**
-   * Deletes an Active Directory Administrator associated with the server.
+   * Deletes an Microsoft Entra Administrator associated with the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
@@ -292,7 +292,7 @@ export class AdministratorsImpl implements Administrators {
   }
 
   /**
-   * Deletes an Active Directory Administrator associated with the server.
+   * Deletes an Microsoft Entra Administrator associated with the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
