@@ -6,7 +6,7 @@ KubernetesConfiguration Extensions Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-kubernetesconfiguration-extensions) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensions) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
