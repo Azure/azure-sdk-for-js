@@ -21,6 +21,22 @@ export {
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
   KnownMediaStreamingTransportType,
+  KnownAudioFormat,
+  KnownTranscriptionTransportType,
+  KnownCallConnectionStateModel,
+  KnownMediaStreamingSubscriptionState,
+  KnownTranscriptionSubscriptionState,
+  KnownTranscriptionResultState,
+  KnownRecognitionType,
+  KnownRecordingState,
+  KnownRecordingKind,
+  KnownTone,
+  KnownMediaStreamingStatus,
+  KnownMediaStreamingStatusDetails,
+  KnownTranscriptionStatus,
+  KnownTranscriptionStatusDetails,
+  KnownCommunicationIdentifierModelKind,
+  KnownCommunicationCloudEnvironmentModel,
   MediaStreamingAudioChannelType,
   MediaStreamingOptions,
   MediaStreamingContentType,
@@ -32,7 +48,28 @@ export {
   DtmfResult,
   SpeechResult,
   RecordingState,
+  RecordingKind,
   Tone,
+  MediaStreamingUpdate,
+  MediaStreamingStatus,
+  MediaStreamingStatusDetails,
+  AudioFormat,
+  TranscriptionResultState,
+  TranscriptionUpdate,
+  TranscriptionStatus,
+  TranscriptionStatusDetails,
+  CustomCallingContextInternal,
+  CommunicationIdentifierModel,
+  CommunicationUserIdentifierModel,
+  CommunicationIdentifierModelKind,
+  MicrosoftTeamsAppIdentifierModel,
+  MicrosoftTeamsUserIdentifierModel,
+  PhoneNumberIdentifierModel,
+  CommunicationCloudEnvironmentModel,
+  MediaStreamingSubscription,
+  TranscriptionSubscription,
+  MediaStreamingSubscriptionState,
+  TranscriptionSubscriptionState,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
@@ -205,9 +242,6 @@ export type RecordingChannel = "mixed" | "unmixed";
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
-/** The format type of a call recording. */
-export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
-
 /** The storage type of a call recording. */
 export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
 
@@ -230,7 +264,7 @@ export interface RecordingStorage {
   recordingDestinationContainerUrl?: string;
 }
 
-interface CustomCallingContextHeader {
+export interface CustomCallingContextHeader {
   key: string;
   value: string;
 }

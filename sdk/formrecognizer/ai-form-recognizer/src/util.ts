@@ -8,7 +8,10 @@ import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredenti
 import { DEFAULT_COGNITIVE_SCOPE, FORM_RECOGNIZER_API_VERSION } from "./constants.js";
 import type { GeneratedClientOptionalParams } from "./generated/index.js";
 import { GeneratedClient } from "./generated/index.js";
-import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions.js";
+import {
+  DEFAULT_GENERATED_CLIENT_OPTIONS,
+  type DocumentAnalysisClientOptions,
+} from "./options/FormRecognizerClientOptions.js";
 
 import * as Mappers from "./generated/models/mappers.js";
 import { createSerializer } from "@azure/core-client";
@@ -53,7 +56,7 @@ export const maybemap = <T1, T2>(value: T1 | undefined, f: (v: T1) => T2): T2 | 
 export function makeServiceClient(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: GeneratedClientOptionalParams,
+  options: GeneratedClientOptionalParams & Pick<DocumentAnalysisClientOptions, "audience">,
 ): GeneratedClient {
   const client = new GeneratedClient(endpoint?.replace(/\/$/, ""), {
     ...DEFAULT_GENERATED_CLIENT_OPTIONS,
@@ -64,7 +67,10 @@ export function makeServiceClient(
   const authPolicy = isTokenCredential(credential)
     ? bearerTokenAuthenticationPolicy({
         credential,
-        scopes: DEFAULT_COGNITIVE_SCOPE,
+        scopes: [options.audience ?? DEFAULT_COGNITIVE_SCOPE].map((scope) => {
+          if (scope.endsWith("/.default")) return scope;
+          return `${scope}/.default`;
+        }),
       })
     : createFormRecognizerAzureKeyCredentialPolicy(credential);
 
