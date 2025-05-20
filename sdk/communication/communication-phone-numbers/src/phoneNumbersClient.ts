@@ -28,7 +28,6 @@ import type {
   PurchasedPhoneNumber,
 } from "./generated/src/models/index.js";
 import type {
-  BeginReservationPurchaseOptions,
   BrowseAvailableNumbersRequest,
   DeleteReservationOptions,
   GetPurchasedPhoneNumberOptions,
@@ -51,6 +50,7 @@ import type {
 import type {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
+  BeginReservationPurchaseOptions,
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels.js";
