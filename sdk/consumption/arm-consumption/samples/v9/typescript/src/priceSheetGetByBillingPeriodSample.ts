@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/PriceSheetExpand.json
  */
-async function priceSheetExpand() {
+async function priceSheetExpand(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +40,7 @@ async function priceSheetExpand() {
  * @summary Get the price sheet for a scope by subscriptionId and billing period. Price sheet is available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/PriceSheetForBillingPeriod.json
  */
-async function priceSheetForBillingPeriod() {
+async function priceSheetForBillingPeriod(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +51,7 @@ async function priceSheetForBillingPeriod() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   priceSheetExpand();
   priceSheetForBillingPeriod();
 }

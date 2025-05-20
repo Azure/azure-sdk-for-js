@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByBillingAccountList.json
  */
-async function billingAccountMarketplacesList() {
+async function billingAccountMarketplacesList(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function billingAccountMarketplacesList() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByBillingAccountListForBillingPeriod.json
  */
-async function billingAccountMarketplacesListForBillingPeriod() {
+async function billingAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -55,7 +55,7 @@ async function billingAccountMarketplacesListForBillingPeriod() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByDepartmentList.json
  */
-async function departmentMarketplacesList() {
+async function departmentMarketplacesList(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -75,7 +75,7 @@ async function departmentMarketplacesList() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByDepartment_ListByBillingPeriod.json
  */
-async function departmentMarketplacesListForBillingPeriod() {
+async function departmentMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -95,7 +95,7 @@ async function departmentMarketplacesListForBillingPeriod() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByEnrollmentAccountList.json
  */
-async function enrollmentAccountMarketplacesList() {
+async function enrollmentAccountMarketplacesList(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -115,7 +115,7 @@ async function enrollmentAccountMarketplacesList() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByEnrollmentAccounts_ListByBillingPeriod.json
  */
-async function enrollmentAccountMarketplacesListForBillingPeriod() {
+async function enrollmentAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -135,7 +135,7 @@ async function enrollmentAccountMarketplacesListForBillingPeriod() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByManagementGroupList.json
  */
-async function managementGroupMarketplacesList() {
+async function managementGroupMarketplacesList(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -155,7 +155,7 @@ async function managementGroupMarketplacesList() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesByManagementGroup_ListForBillingPeriod.json
  */
-async function managementGroupMarketplacesListForBillingPeriod() {
+async function managementGroupMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -175,7 +175,7 @@ async function managementGroupMarketplacesListForBillingPeriod() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesList.json
  */
-async function subscriptionMarketplacesList() {
+async function subscriptionMarketplacesList(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -195,7 +195,7 @@ async function subscriptionMarketplacesList() {
  * @summary Lists the marketplaces for a scope at the defined scope. Marketplaces are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/MarketplacesListForBillingPeriod.json
  */
-async function subscriptionMarketplacesListForBillingPeriod() {
+async function subscriptionMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -209,7 +209,7 @@ async function subscriptionMarketplacesListForBillingPeriod() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingAccountMarketplacesList();
   billingAccountMarketplacesListForBillingPeriod();
   departmentMarketplacesList();

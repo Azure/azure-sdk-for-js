@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List of transactions for reserved instances on billing account scope
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationTransactionsListByBillingProfileId.json
  */
-async function reservationTransactionsByBillingProfileId() {
+async function reservationTransactionsByBillingProfileId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function reservationTransactionsByBillingProfileId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationTransactionsByBillingProfileId();
 }
 

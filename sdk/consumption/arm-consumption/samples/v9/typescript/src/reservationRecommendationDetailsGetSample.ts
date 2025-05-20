@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingAccount.json
  */
-async function reservationRecommendationsByBillingAccountLegacy() {
+async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +42,7 @@ async function reservationRecommendationsByBillingAccountLegacy() {
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingProfile.json
  */
-async function reservationRecommendationsByBillingProfileModern() {
+async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -69,7 +69,7 @@ async function reservationRecommendationsByBillingProfileModern() {
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByResourceGroup.json
  */
-async function reservationRecommendationsByResourceGroupLegacy() {
+async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -96,7 +96,7 @@ async function reservationRecommendationsByResourceGroupLegacy() {
  * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsBySubscription.json
  */
-async function reservationRecommendationsBySubscriptionLegacy() {
+async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -117,7 +117,7 @@ async function reservationRecommendationsBySubscriptionLegacy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationRecommendationsByBillingAccountLegacy();
   reservationRecommendationsByBillingProfileModern();
   reservationRecommendationsByResourceGroupLegacy();

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists the reservations details for provided date range.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetails.json
  */
-async function reservationDetails() {
+async function reservationDetails(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function reservationDetails() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationDetails();
 }
 
