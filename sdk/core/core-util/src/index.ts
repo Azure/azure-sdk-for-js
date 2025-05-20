@@ -15,6 +15,7 @@ export {
 export { type DelayOptions, delay } from "./delay.js";
 export { getErrorMessage } from "./error.js";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
+export { type ResourceIdentifier, parseResourceId } from "./resourceIdentifier.js";
 
 /**
  * Calculates the delay interval for retry attempts using exponential delay with jitter.

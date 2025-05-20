@@ -104,7 +104,21 @@ export const isWebWorker: boolean;
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export function parseResourceId(resourceId: string): ResourceIdentifier;
+
+// @public
 export function randomUUID(): string;
+
+// @public
+export interface ResourceIdentifier {
+    readonly id: string;
+    readonly name?: string;
+    readonly parentResources: string[];
+    readonly provider?: string;
+    readonly resourceGroupName?: string;
+    readonly resourceType?: string;
+    readonly subscriptionId?: string;
+}
 
 // @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
