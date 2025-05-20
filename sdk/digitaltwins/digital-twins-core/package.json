@@ -1,6 +1,6 @@
 {
   "name": "@azure/digital-twins-core",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "An isomorphic client library for Azure Digital Twins",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
