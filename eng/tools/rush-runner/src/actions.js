@@ -63,5 +63,6 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
     }
   }
 
+  console.dir({l:"###", exitCode, action, serviceDirs, rushParams, artifactNames });
   return exitCode;
 }

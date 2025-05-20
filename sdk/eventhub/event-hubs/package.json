@@ -51,7 +51,7 @@
     "test:node:esm": "echo skipped",
     "test:node:live": "npm run build:test:node && dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node --esm",
     "update-snippets": "dev-tool run update-snippets",
-    "vitest:node": "dev-tool run test:vitest --no-test-proxy"
+    "vitest:node": "dev-tool run test:vitest --no-test-proxy "
   },
   "//metadata": {
     "constantPaths": [
