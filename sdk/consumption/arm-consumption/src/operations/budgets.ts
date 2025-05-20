@@ -126,14 +126,8 @@ export class BudgetsImpl implements Budgets {
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
-  private _list(
-    scope: string,
-    options?: BudgetsListOptionalParams,
-  ): Promise<BudgetsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+  private _list(scope: string, options?: BudgetsListOptionalParams): Promise<BudgetsListResponse> {
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -159,10 +153,7 @@ export class BudgetsImpl implements Budgets {
     budgetName: string,
     options?: BudgetsGetOptionalParams,
   ): Promise<BudgetsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, budgetName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, budgetName, options }, getOperationSpec);
   }
 
   /**
@@ -216,15 +207,8 @@ export class BudgetsImpl implements Budgets {
    * @param budgetName Budget Name.
    * @param options The options parameters.
    */
-  delete(
-    scope: string,
-    budgetName: string,
-    options?: BudgetsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { scope, budgetName, options },
-      deleteOperationSpec,
-    );
+  delete(scope: string, budgetName: string, options?: BudgetsDeleteOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ scope, budgetName, options }, deleteOperationSpec);
   }
 
   /**
@@ -250,10 +234,7 @@ export class BudgetsImpl implements Budgets {
     nextLink: string,
     options?: BudgetsListNextOptionalParams,
   ): Promise<BudgetsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

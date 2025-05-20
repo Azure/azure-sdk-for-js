@@ -16,18 +16,12 @@ export type ModernReservationRecommendationPropertiesUnion =
   | ModernReservationRecommendationProperties
   | ModernSingleScopeReservationRecommendationProperties
   | ModernSharedScopeReservationRecommendationProperties;
-export type UsageDetailUnion =
-  | UsageDetail
-  | LegacyUsageDetail
-  | ModernUsageDetail;
+export type UsageDetailUnion = UsageDetail | LegacyUsageDetail | ModernUsageDetail;
 export type ReservationRecommendationUnion =
   | ReservationRecommendation
   | LegacyReservationRecommendation
   | ModernReservationRecommendation;
-export type ChargeSummaryUnion =
-  | ChargeSummary
-  | LegacyChargeSummary
-  | ModernChargeSummary;
+export type ChargeSummaryUnion = ChargeSummary | LegacyChargeSummary | ModernChargeSummary;
 
 /** The status of the long running operation. */
 export interface OperationStatus {
@@ -1415,9 +1409,7 @@ export interface ReservationDetail extends Resource {
 }
 
 /** A reservation recommendation resource. */
-export interface ReservationRecommendation
-  extends Resource,
-    ResourceAttributes {
+export interface ReservationRecommendation extends Resource, ResourceAttributes {
   /** Specifies the kind of reservation recommendation. */
   kind: ReservationRecommendationKind;
 }
@@ -1971,8 +1963,7 @@ export interface ReservationTransaction extends ReservationTransactionResource {
 }
 
 /** Modern Reservation transaction resource. */
-export interface ModernReservationTransaction
-  extends ReservationTransactionResource {
+export interface ModernReservationTransaction extends ReservationTransactionResource {
   /**
    * The charge of the transaction.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2730,8 +2721,7 @@ export interface ModernUsageDetail extends UsageDetail {
 }
 
 /** Legacy reservation recommendation. */
-export interface LegacyReservationRecommendation
-  extends ReservationRecommendation {
+export interface LegacyReservationRecommendation extends ReservationRecommendation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "legacy";
   /**
@@ -2819,8 +2809,7 @@ export interface LegacyReservationRecommendation
 }
 
 /** Modern reservation recommendation. */
-export interface ModernReservationRecommendation
-  extends ReservationRecommendation {
+export interface ModernReservationRecommendation extends ReservationRecommendation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "modern";
   /**
@@ -3541,8 +3530,7 @@ export interface PriceSheetDownloadByBillingAccountPeriodOptionalParams
 export type PriceSheetDownloadByBillingAccountPeriodResponse = OperationStatus;
 
 /** Optional parameters. */
-export interface PriceSheetGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface PriceSheetGetOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the properties/meterDetails within a price sheet. By default, these fields are not included when returning price sheet. */
   expand?: string;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
@@ -3555,8 +3543,7 @@ export interface PriceSheetGetOptionalParams
 export type PriceSheetGetResponse = PriceSheetResult;
 
 /** Optional parameters. */
-export interface PriceSheetGetByBillingPeriodOptionalParams
-  extends coreClient.OperationOptions {
+export interface PriceSheetGetByBillingPeriodOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the properties/meterDetails within a price sheet. By default, these fields are not included when returning price sheet. */
   expand?: string;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
@@ -3569,8 +3556,7 @@ export interface PriceSheetGetByBillingPeriodOptionalParams
 export type PriceSheetGetByBillingPeriodResponse = PriceSheetResult;
 
 /** Optional parameters. */
-export interface UsageDetailsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface UsageDetailsListOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the properties/additionalInfo or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details. */
   expand?: string;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
@@ -3587,15 +3573,13 @@ export interface UsageDetailsListOptionalParams
 export type UsageDetailsListResponse = UsageDetailsListResult;
 
 /** Optional parameters. */
-export interface UsageDetailsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UsageDetailsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsageDetailsListNextResponse = UsageDetailsListResult;
 
 /** Optional parameters. */
-export interface MarketplacesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface MarketplacesListOptionalParams extends coreClient.OperationOptions {
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   skiptoken?: string;
   /** May be used to limit the number of results to the most recent N marketplaces. */
@@ -3608,15 +3592,13 @@ export interface MarketplacesListOptionalParams
 export type MarketplacesListResponse = MarketplacesListResult;
 
 /** Optional parameters. */
-export interface MarketplacesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MarketplacesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MarketplacesListNextResponse = MarketplacesListResult;
 
 /** Optional parameters. */
-export interface BudgetsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BudgetsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type BudgetsListResponse = BudgetsListResult;
@@ -3628,19 +3610,16 @@ export interface BudgetsGetOptionalParams extends coreClient.OperationOptions {}
 export type BudgetsGetResponse = Budget;
 
 /** Optional parameters. */
-export interface BudgetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BudgetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type BudgetsCreateOrUpdateResponse = Budget;
 
 /** Optional parameters. */
-export interface BudgetsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BudgetsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface BudgetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BudgetsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BudgetsListNextResponse = BudgetsListResult;
@@ -3667,8 +3646,7 @@ export interface ChargesListOptionalParams extends coreClient.OperationOptions {
 export type ChargesListResponse = ChargesListResult;
 
 /** Optional parameters. */
-export interface BalancesGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BalancesGetByBillingAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingAccount operation. */
 export type BalancesGetByBillingAccountResponse = Balance;
@@ -3688,8 +3666,7 @@ export interface ReservationsSummariesListByReservationOrderOptionalParams
 }
 
 /** Contains response data for the listByReservationOrder operation. */
-export type ReservationsSummariesListByReservationOrderResponse =
-  ReservationSummariesListResult;
+export type ReservationsSummariesListByReservationOrderResponse = ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams
@@ -3703,8 +3680,7 @@ export type ReservationsSummariesListByReservationOrderAndReservationResponse =
   ReservationSummariesListResult;
 
 /** Optional parameters. */
-export interface ReservationsSummariesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationsSummariesListOptionalParams extends coreClient.OperationOptions {
   /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'. Not applicable when querying with billing profile */
   filter?: string;
   /** Start date. Only applicable when querying with billing profile */
@@ -3737,20 +3713,17 @@ export type ReservationsSummariesListByReservationOrderAndReservationNextRespons
   ReservationSummariesListResult;
 
 /** Optional parameters. */
-export interface ReservationsSummariesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationsSummariesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReservationsSummariesListNextResponse =
-  ReservationSummariesListResult;
+export type ReservationsSummariesListNextResponse = ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListByReservationOrderOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrder operation. */
-export type ReservationsDetailsListByReservationOrderResponse =
-  ReservationDetailsListResult;
+export type ReservationsDetailsListByReservationOrderResponse = ReservationDetailsListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListByReservationOrderAndReservationOptionalParams
@@ -3761,8 +3734,7 @@ export type ReservationsDetailsListByReservationOrderAndReservationResponse =
   ReservationDetailsListResult;
 
 /** Optional parameters. */
-export interface ReservationsDetailsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationsDetailsListOptionalParams extends coreClient.OperationOptions {
   /** Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'. Not applicable when querying with billing profile */
   filter?: string;
   /** Start date. Only applicable when querying with billing profile */
@@ -3783,8 +3755,7 @@ export interface ReservationsDetailsListByReservationOrderNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderNext operation. */
-export type ReservationsDetailsListByReservationOrderNextResponse =
-  ReservationDetailsListResult;
+export type ReservationsDetailsListByReservationOrderNextResponse = ReservationDetailsListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListByReservationOrderAndReservationNextOptionalParams
@@ -3795,30 +3766,26 @@ export type ReservationsDetailsListByReservationOrderAndReservationNextResponse 
   ReservationDetailsListResult;
 
 /** Optional parameters. */
-export interface ReservationsDetailsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReservationsDetailsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationsDetailsListNextResponse = ReservationDetailsListResult;
 
 /** Optional parameters. */
-export interface ReservationRecommendationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationRecommendationsListOptionalParams extends coreClient.OperationOptions {
   /** May be used to filter reservationRecommendations by: properties/scope with allowed values ['Single', 'Shared'] and default value 'Single'; properties/resourceType with allowed values ['VirtualMachines', 'SQLDatabases', 'PostgreSQL', 'ManagedDisk', 'MySQL', 'RedHat', 'MariaDB', 'RedisCache', 'CosmosDB', 'SqlDataWarehouse', 'SUSELinux', 'AppService', 'BlockBlob', 'AzureDataExplorer', 'VMwareCloudSimple'] and default value 'VirtualMachines'; and properties/lookBackPeriod with allowed values ['Last7Days', 'Last30Days', 'Last60Days'] and default value 'Last7Days'. */
   filter?: string;
 }
 
 /** Contains response data for the list operation. */
-export type ReservationRecommendationsListResponse =
-  ReservationRecommendationsListResult;
+export type ReservationRecommendationsListResponse = ReservationRecommendationsListResult;
 
 /** Optional parameters. */
 export interface ReservationRecommendationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReservationRecommendationsListNextResponse =
-  ReservationRecommendationsListResult;
+export type ReservationRecommendationsListNextResponse = ReservationRecommendationsListResult;
 
 /** Optional parameters. */
 export interface ReservationRecommendationDetailsGetOptionalParams
@@ -3828,12 +3795,10 @@ export interface ReservationRecommendationDetailsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type ReservationRecommendationDetailsGetResponse =
-  ReservationRecommendationDetailsModel;
+export type ReservationRecommendationDetailsGetResponse = ReservationRecommendationDetailsModel;
 
 /** Optional parameters. */
-export interface ReservationTransactionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationTransactionsListOptionalParams extends coreClient.OperationOptions {
   /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for the entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
   /** Applies mark up to the transactions if the caller is a partner. */
@@ -3843,8 +3808,7 @@ export interface ReservationTransactionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ReservationTransactionsListResponse =
-  ReservationTransactionsListResult;
+export type ReservationTransactionsListResponse = ReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileOptionalParams
@@ -3862,8 +3826,7 @@ export interface ReservationTransactionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReservationTransactionsListNextResponse =
-  ReservationTransactionsListResult;
+export type ReservationTransactionsListNextResponse = ReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileNextOptionalParams
@@ -3874,15 +3837,13 @@ export type ReservationTransactionsListByBillingProfileNextResponse =
   ModernReservationTransactionsListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -3895,8 +3856,7 @@ export interface AggregatedCostGetByManagementGroupOptionalParams
 }
 
 /** Contains response data for the getByManagementGroup operation. */
-export type AggregatedCostGetByManagementGroupResponse =
-  ManagementGroupAggregatedCostResult;
+export type AggregatedCostGetByManagementGroupResponse = ManagementGroupAggregatedCostResult;
 
 /** Optional parameters. */
 export interface AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams
@@ -3907,15 +3867,13 @@ export type AggregatedCostGetForBillingPeriodByManagementGroupResponse =
   ManagementGroupAggregatedCostResult;
 
 /** Optional parameters. */
-export interface EventsListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventsListByBillingProfileOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
 export type EventsListByBillingProfileResponse = Events;
 
 /** Optional parameters. */
-export interface EventsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface EventsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** May be used to filter the events by lotId, lotSource etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
   filter?: string;
 }
@@ -3924,29 +3882,25 @@ export interface EventsListByBillingAccountOptionalParams
 export type EventsListByBillingAccountResponse = Events;
 
 /** Optional parameters. */
-export interface EventsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type EventsListByBillingProfileNextResponse = Events;
 
 /** Optional parameters. */
-export interface EventsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type EventsListByBillingAccountNextResponse = Events;
 
 /** Optional parameters. */
-export interface LotsListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LotsListByBillingProfileOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
 export type LotsListByBillingProfileResponse = Lots;
 
 /** Optional parameters. */
-export interface LotsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface LotsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
   filter?: string;
 }
@@ -3955,8 +3909,7 @@ export interface LotsListByBillingAccountOptionalParams
 export type LotsListByBillingAccountResponse = Lots;
 
 /** Optional parameters. */
-export interface LotsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {
+export interface LotsListByCustomerOptionalParams extends coreClient.OperationOptions {
   /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
   filter?: string;
 }
@@ -3965,22 +3918,19 @@ export interface LotsListByCustomerOptionalParams
 export type LotsListByCustomerResponse = Lots;
 
 /** Optional parameters. */
-export interface LotsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LotsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type LotsListByBillingProfileNextResponse = Lots;
 
 /** Optional parameters. */
-export interface LotsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LotsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type LotsListByBillingAccountNextResponse = Lots;
 
 /** Optional parameters. */
-export interface LotsListByCustomerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LotsListByCustomerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
 export type LotsListByCustomerNextResponse = Lots;
@@ -3992,8 +3942,7 @@ export interface CreditsGetOptionalParams extends coreClient.OperationOptions {}
 export type CreditsGetResponse = CreditSummary;
 
 /** Optional parameters. */
-export interface ConsumptionManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ConsumptionManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

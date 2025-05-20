@@ -85,11 +85,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        billingAccountId,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(billingAccountId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -122,11 +118,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
     billingProfileId: string,
     options?: ReservationTransactionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<ModernReservationTransaction> {
-    const iter = this.listByBillingProfilePagingAll(
-      billingAccountId,
-      billingProfileId,
-      options,
-    );
+    const iter = this.listByBillingProfilePagingAll(billingAccountId, billingProfileId, options);
     return {
       next() {
         return iter.next();
@@ -157,11 +149,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
     let result: ReservationTransactionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountId,
-        billingProfileId,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountId, billingProfileId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -209,10 +197,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
     billingAccountId: string,
     options?: ReservationTransactionsListOptionalParams,
   ): Promise<ReservationTransactionsListResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountId, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ billingAccountId, options }, listOperationSpec);
   }
 
   /**
@@ -309,11 +294,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.billingProfileId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.billingProfileId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -328,11 +309,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

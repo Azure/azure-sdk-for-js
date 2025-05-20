@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
-import {
-  ChargesListOptionalParams,
-  ChargesListResponse,
-} from "../models/index.js";
+import { ChargesListOptionalParams, ChargesListResponse } from "../models/index.js";
 
 /** Class containing Charges operations. */
 export class ChargesImpl implements Charges {
@@ -48,14 +45,8 @@ export class ChargesImpl implements Charges {
    *              for partners.
    * @param options The options parameters.
    */
-  list(
-    scope: string,
-    options?: ChargesListOptionalParams,
-  ): Promise<ChargesListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+  list(scope: string, options?: ChargesListOptionalParams): Promise<ChargesListResponse> {
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 }
 // Operation Specifications

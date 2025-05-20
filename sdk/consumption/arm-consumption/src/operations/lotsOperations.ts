@@ -54,11 +54,7 @@ export class LotsOperationsImpl implements LotsOperations {
     billingProfileId: string,
     options?: LotsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<LotSummary> {
-    const iter = this.listByBillingProfilePagingAll(
-      billingAccountId,
-      billingProfileId,
-      options,
-    );
+    const iter = this.listByBillingProfilePagingAll(billingAccountId, billingProfileId, options);
     return {
       next() {
         return iter.next();
@@ -89,11 +85,7 @@ export class LotsOperationsImpl implements LotsOperations {
     let result: LotsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountId,
-        billingProfileId,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountId, billingProfileId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -149,11 +141,7 @@ export class LotsOperationsImpl implements LotsOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountId,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountId, options, settings);
       },
     };
   }
@@ -173,11 +161,7 @@ export class LotsOperationsImpl implements LotsOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountId,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -189,10 +173,7 @@ export class LotsOperationsImpl implements LotsOperations {
     billingAccountId: string,
     options?: LotsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<LotSummary> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountId,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountId, options)) {
       yield* page;
     }
   }
@@ -209,11 +190,7 @@ export class LotsOperationsImpl implements LotsOperations {
     customerId: string,
     options?: LotsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<LotSummary> {
-    const iter = this.listByCustomerPagingAll(
-      billingAccountId,
-      customerId,
-      options,
-    );
+    const iter = this.listByCustomerPagingAll(billingAccountId, customerId, options);
     return {
       next() {
         return iter.next();
@@ -225,12 +202,7 @@ export class LotsOperationsImpl implements LotsOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByCustomerPagingPage(
-          billingAccountId,
-          customerId,
-          options,
-          settings,
-        );
+        return this.listByCustomerPagingPage(billingAccountId, customerId, options, settings);
       },
     };
   }
@@ -244,11 +216,7 @@ export class LotsOperationsImpl implements LotsOperations {
     let result: LotsListByCustomerResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCustomer(
-        billingAccountId,
-        customerId,
-        options,
-      );
+      result = await this._listByCustomer(billingAccountId, customerId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -273,11 +241,7 @@ export class LotsOperationsImpl implements LotsOperations {
     customerId: string,
     options?: LotsListByCustomerOptionalParams,
   ): AsyncIterableIterator<LotSummary> {
-    for await (const page of this.listByCustomerPagingPage(
-      billingAccountId,
-      customerId,
-      options,
-    )) {
+    for await (const page of this.listByCustomerPagingPage(billingAccountId, customerId, options)) {
       yield* page;
     }
   }
@@ -404,11 +368,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.billingProfileId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.billingProfileId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -440,11 +400,7 @@ const listByCustomerOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.customerId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.customerId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -479,11 +435,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

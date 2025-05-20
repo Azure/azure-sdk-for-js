@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  ChargesListOptionalParams,
-  ChargesListResponse,
-} from "../models/index.js";
+import { ChargesListOptionalParams, ChargesListResponse } from "../models/index.js";
 
 /** Interface representing a Charges. */
 export interface Charges {
@@ -33,8 +30,5 @@ export interface Charges {
    *              for partners.
    * @param options The options parameters.
    */
-  list(
-    scope: string,
-    options?: ChargesListOptionalParams,
-  ): Promise<ChargesListResponse>;
+  list(scope: string, options?: ChargesListOptionalParams): Promise<ChargesListResponse>;
 }

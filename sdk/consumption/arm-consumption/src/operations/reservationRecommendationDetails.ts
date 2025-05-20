@@ -20,9 +20,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ReservationRecommendationDetails operations. */
-export class ReservationRecommendationDetailsImpl
-  implements ReservationRecommendationDetails
-{
+export class ReservationRecommendationDetailsImpl implements ReservationRecommendationDetails {
   private readonly client: ConsumptionManagementClient;
 
   /**

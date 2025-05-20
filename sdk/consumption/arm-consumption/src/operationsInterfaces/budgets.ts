@@ -37,10 +37,7 @@ export interface Budgets {
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
-  list(
-    scope: string,
-    options?: BudgetsListOptionalParams,
-  ): PagedAsyncIterableIterator<Budget>;
+  list(scope: string, options?: BudgetsListOptionalParams): PagedAsyncIterableIterator<Budget>;
   /**
    * Gets the budget for the scope by budget name.
    * @param scope The scope associated with budget operations. This includes
@@ -109,9 +106,5 @@ export interface Budgets {
    * @param budgetName Budget Name.
    * @param options The options parameters.
    */
-  delete(
-    scope: string,
-    budgetName: string,
-    options?: BudgetsDeleteOptionalParams,
-  ): Promise<void>;
+  delete(scope: string, budgetName: string, options?: BudgetsDeleteOptionalParams): Promise<void>;
 }

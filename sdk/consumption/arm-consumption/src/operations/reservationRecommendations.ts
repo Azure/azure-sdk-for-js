@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReservationRecommendations operations. */
-export class ReservationRecommendationsImpl
-  implements ReservationRecommendations
-{
+export class ReservationRecommendationsImpl implements ReservationRecommendations {
   private readonly client: ConsumptionManagementClient;
 
   /**
@@ -113,10 +111,7 @@ export class ReservationRecommendationsImpl
     resourceScope: string,
     options?: ReservationRecommendationsListOptionalParams,
   ): Promise<ReservationRecommendationsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceScope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceScope, options }, listOperationSpec);
   }
 
   /**
@@ -173,11 +168,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceScope,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
   serializer,
 };

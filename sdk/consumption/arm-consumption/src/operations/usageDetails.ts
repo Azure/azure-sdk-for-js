@@ -151,10 +151,7 @@ export class UsageDetailsImpl implements UsageDetails {
     scope: string,
     options?: UsageDetailsListOptionalParams,
   ): Promise<UsageDetailsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -186,10 +183,7 @@ export class UsageDetailsImpl implements UsageDetails {
     nextLink: string,
     options?: UsageDetailsListNextOptionalParams,
   ): Promise<UsageDetailsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

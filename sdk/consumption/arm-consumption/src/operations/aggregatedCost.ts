@@ -83,24 +83,19 @@ const getByManagementGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getForBillingPeriodByManagementGroupOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/aggregatedCost",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ManagementGroupAggregatedCostResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const getForBillingPeriodByManagementGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/aggregatedCost",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagementGroupAggregatedCostResult,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.billingPeriodName1,
-      Parameters.managementGroupId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.billingPeriodName1, Parameters.managementGroupId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

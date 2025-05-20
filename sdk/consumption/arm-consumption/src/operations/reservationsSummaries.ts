@@ -56,11 +56,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     grain: Datagrain,
     options?: ReservationsSummariesListByReservationOrderOptionalParams,
   ): PagedAsyncIterableIterator<ReservationSummary> {
-    const iter = this.listByReservationOrderPagingAll(
-      reservationOrderId,
-      grain,
-      options,
-    );
+    const iter = this.listByReservationOrderPagingAll(reservationOrderId, grain, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +68,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByReservationOrderPagingPage(
-          reservationOrderId,
-          grain,
-          options,
-          settings,
-        );
+        return this.listByReservationOrderPagingPage(reservationOrderId, grain, options, settings);
       },
     };
   }
@@ -91,11 +82,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     let result: ReservationsSummariesListByReservationOrderResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByReservationOrder(
-        reservationOrderId,
-        grain,
-        options,
-      );
+      result = await this._listByReservationOrder(reservationOrderId, grain, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -285,11 +272,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams,
   ): AsyncIterableIterator<ReservationSummary> {
-    for await (const page of this.listPagingPage(
-      resourceScope,
-      grain,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceScope, grain, options)) {
       yield* page;
     }
   }
@@ -351,10 +334,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams,
   ): Promise<ReservationsSummariesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceScope, grain, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceScope, grain, options }, listOperationSpec);
   }
 
   /**
@@ -434,31 +414,22 @@ const listByReservationOrderOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ReservationSummariesListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationSummariesListResult,
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.filter,
-      Parameters.grain,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.reservationOrderId,
-      Parameters.reservationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.grain],
+  urlParameters: [Parameters.$host, Parameters.reservationOrderId, Parameters.reservationId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries",
   httpMethod: "GET",
@@ -494,36 +465,11 @@ const listByReservationOrderNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.reservationOrderId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByReservationOrderAndReservationNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ReservationSummariesListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.nextLink,
-      Parameters.reservationOrderId,
-      Parameters.reservationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByReservationOrderAndReservationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -537,8 +483,24 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceScope,
+    Parameters.reservationOrderId,
+    Parameters.reservationId,
   ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationSummariesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
   serializer,
 };

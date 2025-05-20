@@ -123,10 +123,7 @@ export class MarketplacesImpl implements Marketplaces {
     scope: string,
     options?: MarketplacesListOptionalParams,
   ): Promise<MarketplacesListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -150,10 +147,7 @@ export class MarketplacesImpl implements Marketplaces {
     nextLink: string,
     options?: MarketplacesListNextOptionalParams,
   ): Promise<MarketplacesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -171,12 +165,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.top,
-    Parameters.filter,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken, Parameters.top, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer,

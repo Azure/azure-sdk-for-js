@@ -58,11 +58,7 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
     filter: string,
     options?: ReservationsDetailsListByReservationOrderOptionalParams,
   ): PagedAsyncIterableIterator<ReservationDetail> {
-    const iter = this.listByReservationOrderPagingAll(
-      reservationOrderId,
-      filter,
-      options,
-    );
+    const iter = this.listByReservationOrderPagingAll(reservationOrderId, filter, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +70,7 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByReservationOrderPagingPage(
-          reservationOrderId,
-          filter,
-          options,
-          settings,
-        );
+        return this.listByReservationOrderPagingPage(reservationOrderId, filter, options, settings);
       },
     };
   }
@@ -93,11 +84,7 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
     let result: ReservationsDetailsListByReservationOrderResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByReservationOrder(
-        reservationOrderId,
-        filter,
-        options,
-      );
+      result = await this._listByReservationOrder(reservationOrderId, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -356,10 +343,7 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
     resourceScope: string,
     options?: ReservationsDetailsListOptionalParams,
   ): Promise<ReservationsDetailsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceScope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceScope, options }, listOperationSpec);
   }
 
   /**
@@ -439,27 +423,22 @@ const listByReservationOrderOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationDetails",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ReservationDetailsListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationDetails",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationDetailsListResult,
     },
-    queryParameters: [Parameters.apiVersion, Parameters.filter1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.reservationOrderId,
-      Parameters.reservationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter1],
+  urlParameters: [Parameters.$host, Parameters.reservationOrderId, Parameters.reservationId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceScope}/providers/Microsoft.Consumption/reservationDetails",
   httpMethod: "GET",
@@ -494,36 +473,11 @@ const listByReservationOrderNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.reservationOrderId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByReservationOrderAndReservationNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ReservationDetailsListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.nextLink,
-      Parameters.reservationOrderId,
-      Parameters.reservationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByReservationOrderAndReservationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -537,8 +491,24 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceScope,
+    Parameters.reservationOrderId,
+    Parameters.reservationId,
   ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReservationDetailsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
   serializer,
 };

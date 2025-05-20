@@ -161,11 +161,7 @@ export class EventsOperationsImpl implements EventsOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountId,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountId, options, settings);
       },
     };
   }
@@ -185,11 +181,7 @@ export class EventsOperationsImpl implements EventsOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountId,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -201,10 +193,7 @@ export class EventsOperationsImpl implements EventsOperations {
     billingAccountId: string,
     options?: EventsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<EventSummary> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountId,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountId, options)) {
       yield* page;
     }
   }
@@ -297,16 +286,8 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startDate1,
-    Parameters.endDate1,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.billingProfileId,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startDate1, Parameters.endDate1],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.billingProfileId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -357,11 +338,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

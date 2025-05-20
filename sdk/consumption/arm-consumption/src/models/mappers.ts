@@ -536,53 +536,51 @@ export const ChargesListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const BalancePropertiesNewPurchasesDetailsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BalancePropertiesNewPurchasesDetailsItem",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const BalancePropertiesNewPurchasesDetailsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BalancePropertiesNewPurchasesDetailsItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BalancePropertiesAdjustmentDetailsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BalancePropertiesAdjustmentDetailsItem",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const BalancePropertiesAdjustmentDetailsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BalancePropertiesAdjustmentDetailsItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const ReservationSummariesListResult: coreClient.CompositeMapper = {
   type: {
@@ -642,42 +640,41 @@ export const ReservationDetailsListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const ReservationRecommendationsListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationRecommendationsListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ReservationRecommendation",
-              },
+export const ReservationRecommendationsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationRecommendation",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        previousLink: {
-          serializedName: "previousLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      previousLink: {
+        serializedName: "previousLink",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ResourceAttributes: coreClient.CompositeMapper = {
   type: {
@@ -702,120 +699,117 @@ export const ResourceAttributes: coreClient.CompositeMapper = {
   },
 };
 
-export const ReservationRecommendationDetailsResourceProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationRecommendationDetailsResourceProperties",
-      modelProperties: {
-        appliedScopes: {
-          serializedName: "appliedScopes",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+export const ReservationRecommendationDetailsResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationDetailsResourceProperties",
+    modelProperties: {
+      appliedScopes: {
+        serializedName: "appliedScopes",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
-        onDemandRate: {
-          serializedName: "onDemandRate",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      onDemandRate: {
+        serializedName: "onDemandRate",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        product: {
-          serializedName: "product",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      product: {
+        serializedName: "product",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        region: {
-          serializedName: "region",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      region: {
+        serializedName: "region",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        reservationRate: {
-          serializedName: "reservationRate",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      reservationRate: {
+        serializedName: "reservationRate",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        resourceType: {
-          serializedName: "resourceType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const ReservationRecommendationDetailsSavingsProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationRecommendationDetailsSavingsProperties",
-      modelProperties: {
-        calculatedSavings: {
-          serializedName: "calculatedSavings",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className:
-                  "ReservationRecommendationDetailsCalculatedSavingsProperties",
-              },
+export const ReservationRecommendationDetailsSavingsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationDetailsSavingsProperties",
+    modelProperties: {
+      calculatedSavings: {
+        serializedName: "calculatedSavings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationRecommendationDetailsCalculatedSavingsProperties",
             },
           },
         },
-        lookBackPeriod: {
-          serializedName: "lookBackPeriod",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      lookBackPeriod: {
+        serializedName: "lookBackPeriod",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        recommendedQuantity: {
-          serializedName: "recommendedQuantity",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      recommendedQuantity: {
+        serializedName: "recommendedQuantity",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        reservationOrderTerm: {
-          serializedName: "reservationOrderTerm",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      reservationOrderTerm: {
+        serializedName: "reservationOrderTerm",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        savingsType: {
-          serializedName: "savingsType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      savingsType: {
+        serializedName: "savingsType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        unitOfMeasure: {
-          serializedName: "unitOfMeasure",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      unitOfMeasure: {
+        serializedName: "unitOfMeasure",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ReservationRecommendationDetailsCalculatedSavingsProperties: coreClient.CompositeMapper =
   {
@@ -875,55 +869,54 @@ export const ReservationRecommendationDetailsCalculatedSavingsProperties: coreCl
     },
   };
 
-export const ReservationRecommendationDetailsUsageProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationRecommendationDetailsUsageProperties",
-      modelProperties: {
-        firstConsumptionDate: {
-          serializedName: "firstConsumptionDate",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const ReservationRecommendationDetailsUsageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationDetailsUsageProperties",
+    modelProperties: {
+      firstConsumptionDate: {
+        serializedName: "firstConsumptionDate",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        lastConsumptionDate: {
-          serializedName: "lastConsumptionDate",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      lastConsumptionDate: {
+        serializedName: "lastConsumptionDate",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        lookBackUnitType: {
-          serializedName: "lookBackUnitType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      lookBackUnitType: {
+        serializedName: "lookBackUnitType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        usageData: {
-          serializedName: "usageData",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Number",
-              },
+      },
+      usageData: {
+        serializedName: "usageData",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number",
             },
           },
         },
-        usageGrain: {
-          serializedName: "usageGrain",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      usageGrain: {
+        serializedName: "usageGrain",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const HighCasedErrorResponse: coreClient.CompositeMapper = {
   type: {
@@ -1035,35 +1028,34 @@ export const ReservationTransactionResource: coreClient.CompositeMapper = {
   },
 };
 
-export const ModernReservationTransactionsListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ModernReservationTransactionsListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ModernReservationTransaction",
-              },
+export const ModernReservationTransactionsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModernReservationTransactionsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModernReservationTransaction",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const PriceSheetProperties: coreClient.CompositeMapper = {
   type: {
@@ -1520,145 +1512,144 @@ export const MeterDetailsResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const LegacyReservationRecommendationProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "LegacyReservationRecommendationProperties",
-      uberParent: "LegacyReservationRecommendationProperties",
-      polymorphicDiscriminator: {
-        serializedName: "scope",
-        clientName: "scope",
+export const LegacyReservationRecommendationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LegacyReservationRecommendationProperties",
+    uberParent: "LegacyReservationRecommendationProperties",
+    polymorphicDiscriminator: {
+      serializedName: "scope",
+      clientName: "scope",
+    },
+    modelProperties: {
+      lookBackPeriod: {
+        serializedName: "lookBackPeriod",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
-      modelProperties: {
-        lookBackPeriod: {
-          serializedName: "lookBackPeriod",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      instanceFlexibilityRatio: {
+        serializedName: "instanceFlexibilityRatio",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        instanceFlexibilityRatio: {
-          serializedName: "instanceFlexibilityRatio",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      instanceFlexibilityGroup: {
+        serializedName: "instanceFlexibilityGroup",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        instanceFlexibilityGroup: {
-          serializedName: "instanceFlexibilityGroup",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      normalizedSize: {
+        serializedName: "normalizedSize",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        normalizedSize: {
-          serializedName: "normalizedSize",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      recommendedQuantityNormalized: {
+        serializedName: "recommendedQuantityNormalized",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        recommendedQuantityNormalized: {
-          serializedName: "recommendedQuantityNormalized",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      meterId: {
+        serializedName: "meterId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
         },
-        meterId: {
-          serializedName: "meterId",
-          readOnly: true,
-          type: {
-            name: "Uuid",
-          },
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        resourceType: {
-          serializedName: "resourceType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      term: {
+        serializedName: "term",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        term: {
-          serializedName: "term",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      costWithNoReservedInstances: {
+        serializedName: "costWithNoReservedInstances",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        costWithNoReservedInstances: {
-          serializedName: "costWithNoReservedInstances",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      recommendedQuantity: {
+        serializedName: "recommendedQuantity",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        recommendedQuantity: {
-          serializedName: "recommendedQuantity",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      totalCostWithReservedInstances: {
+        serializedName: "totalCostWithReservedInstances",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        totalCostWithReservedInstances: {
-          serializedName: "totalCostWithReservedInstances",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      netSavings: {
+        serializedName: "netSavings",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        netSavings: {
-          serializedName: "netSavings",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      firstUsageDate: {
+        serializedName: "firstUsageDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        firstUsageDate: {
-          serializedName: "firstUsageDate",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      scope: {
+        serializedName: "scope",
+        required: true,
+        type: {
+          name: "String",
         },
-        scope: {
-          serializedName: "scope",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-        skuProperties: {
-          serializedName: "skuProperties",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "SkuProperty",
-              },
+      },
+      skuProperties: {
+        serializedName: "skuProperties",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuProperty",
             },
           },
         },
-        lastUsageDate: {
-          serializedName: "lastUsageDate",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      lastUsageDate: {
+        serializedName: "lastUsageDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        totalHours: {
-          serializedName: "totalHours",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      totalHours: {
+        serializedName: "totalHours",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const SkuProperty: coreClient.CompositeMapper = {
   type: {
@@ -1683,159 +1674,158 @@ export const SkuProperty: coreClient.CompositeMapper = {
   },
 };
 
-export const ModernReservationRecommendationProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ModernReservationRecommendationProperties",
-      uberParent: "ModernReservationRecommendationProperties",
-      polymorphicDiscriminator: {
-        serializedName: "scope",
-        clientName: "scope",
+export const ModernReservationRecommendationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModernReservationRecommendationProperties",
+    uberParent: "ModernReservationRecommendationProperties",
+    polymorphicDiscriminator: {
+      serializedName: "scope",
+      clientName: "scope",
+    },
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      lookBackPeriod: {
+        serializedName: "lookBackPeriod",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        lookBackPeriod: {
-          serializedName: "lookBackPeriod",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      instanceFlexibilityRatio: {
+        serializedName: "instanceFlexibilityRatio",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        instanceFlexibilityRatio: {
-          serializedName: "instanceFlexibilityRatio",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      instanceFlexibilityGroup: {
+        serializedName: "instanceFlexibilityGroup",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        instanceFlexibilityGroup: {
-          serializedName: "instanceFlexibilityGroup",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      normalizedSize: {
+        serializedName: "normalizedSize",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        normalizedSize: {
-          serializedName: "normalizedSize",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      recommendedQuantityNormalized: {
+        serializedName: "recommendedQuantityNormalized",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        recommendedQuantityNormalized: {
-          serializedName: "recommendedQuantityNormalized",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      meterId: {
+        serializedName: "meterId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
         },
-        meterId: {
-          serializedName: "meterId",
-          readOnly: true,
-          type: {
-            name: "Uuid",
-          },
+      },
+      term: {
+        serializedName: "term",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        term: {
-          serializedName: "term",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      costWithNoReservedInstances: {
+        serializedName: "costWithNoReservedInstances",
+        type: {
+          name: "Composite",
+          className: "Amount",
         },
-        costWithNoReservedInstances: {
-          serializedName: "costWithNoReservedInstances",
-          type: {
-            name: "Composite",
-            className: "Amount",
-          },
+      },
+      recommendedQuantity: {
+        serializedName: "recommendedQuantity",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        recommendedQuantity: {
-          serializedName: "recommendedQuantity",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      resourceType: {
+        serializedName: "resourceType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        resourceType: {
-          serializedName: "resourceType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      totalCostWithReservedInstances: {
+        serializedName: "totalCostWithReservedInstances",
+        type: {
+          name: "Composite",
+          className: "Amount",
         },
-        totalCostWithReservedInstances: {
-          serializedName: "totalCostWithReservedInstances",
-          type: {
-            name: "Composite",
-            className: "Amount",
-          },
+      },
+      netSavings: {
+        serializedName: "netSavings",
+        type: {
+          name: "Composite",
+          className: "Amount",
         },
-        netSavings: {
-          serializedName: "netSavings",
-          type: {
-            name: "Composite",
-            className: "Amount",
-          },
+      },
+      firstUsageDate: {
+        serializedName: "firstUsageDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        firstUsageDate: {
-          serializedName: "firstUsageDate",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      scope: {
+        serializedName: "scope",
+        required: true,
+        type: {
+          name: "String",
         },
-        scope: {
-          serializedName: "scope",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-        skuProperties: {
-          serializedName: "skuProperties",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "SkuProperty",
-              },
+      },
+      skuProperties: {
+        serializedName: "skuProperties",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuProperty",
             },
           },
         },
-        skuName: {
-          serializedName: "skuName",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      skuName: {
+        serializedName: "skuName",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        lastUsageDate: {
-          serializedName: "lastUsageDate",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      lastUsageDate: {
+        serializedName: "lastUsageDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        totalHours: {
-          serializedName: "totalHours",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      totalHours: {
+        serializedName: "totalHours",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const DownloadProperties: coreClient.CompositeMapper = {
   type: {
@@ -2434,70 +2424,69 @@ export const ReservationRecommendation: coreClient.CompositeMapper = {
   },
 };
 
-export const ReservationRecommendationDetailsModel: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationRecommendationDetailsModel",
-      modelProperties: {
-        ...Resource.type.modelProperties,
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const ReservationRecommendationDetailsModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationRecommendationDetailsModel",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        sku: {
-          serializedName: "sku",
-          type: {
-            name: "String",
-          },
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "String",
         },
-        currency: {
-          serializedName: "properties.currency",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      currency: {
+        serializedName: "properties.currency",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        resource: {
-          serializedName: "properties.resource",
-          type: {
-            name: "Composite",
-            className: "ReservationRecommendationDetailsResourceProperties",
-          },
+      },
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "ReservationRecommendationDetailsResourceProperties",
         },
-        resourceGroup: {
-          serializedName: "properties.resourceGroup",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      resourceGroup: {
+        serializedName: "properties.resourceGroup",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        savings: {
-          serializedName: "properties.savings",
-          type: {
-            name: "Composite",
-            className: "ReservationRecommendationDetailsSavingsProperties",
-          },
+      },
+      savings: {
+        serializedName: "properties.savings",
+        type: {
+          name: "Composite",
+          className: "ReservationRecommendationDetailsSavingsProperties",
         },
-        scope: {
-          serializedName: "properties.scope",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      scope: {
+        serializedName: "properties.scope",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        usage: {
-          serializedName: "properties.usage",
-          type: {
-            name: "Composite",
-            className: "ReservationRecommendationDetailsUsageProperties",
-          },
+      },
+      usage: {
+        serializedName: "properties.usage",
+        type: {
+          name: "Composite",
+          className: "ReservationRecommendationDetailsUsageProperties",
         },
       },
     },
-  };
+  },
+};
 
 export const PriceSheetResult: coreClient.CompositeMapper = {
   type: {
@@ -3503,79 +3492,75 @@ export const AmountWithExchangeRate: coreClient.CompositeMapper = {
   },
 };
 
-export const LegacySingleScopeReservationRecommendationProperties: coreClient.CompositeMapper =
-  {
-    serializedName: "Single",
-    type: {
-      name: "Composite",
-      className: "LegacySingleScopeReservationRecommendationProperties",
-      uberParent: "LegacyReservationRecommendationProperties",
-      polymorphicDiscriminator:
-        LegacyReservationRecommendationProperties.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...LegacyReservationRecommendationProperties.type.modelProperties,
-        subscriptionId: {
-          serializedName: "subscriptionId",
-          readOnly: true,
-          type: {
-            name: "Uuid",
-          },
+export const LegacySingleScopeReservationRecommendationProperties: coreClient.CompositeMapper = {
+  serializedName: "Single",
+  type: {
+    name: "Composite",
+    className: "LegacySingleScopeReservationRecommendationProperties",
+    uberParent: "LegacyReservationRecommendationProperties",
+    polymorphicDiscriminator:
+      LegacyReservationRecommendationProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LegacyReservationRecommendationProperties.type.modelProperties,
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
         },
       },
     },
-  };
+  },
+};
 
-export const LegacySharedScopeReservationRecommendationProperties: coreClient.CompositeMapper =
-  {
-    serializedName: "Shared",
-    type: {
-      name: "Composite",
-      className: "LegacySharedScopeReservationRecommendationProperties",
-      uberParent: "LegacyReservationRecommendationProperties",
-      polymorphicDiscriminator:
-        LegacyReservationRecommendationProperties.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...LegacyReservationRecommendationProperties.type.modelProperties,
-      },
+export const LegacySharedScopeReservationRecommendationProperties: coreClient.CompositeMapper = {
+  serializedName: "Shared",
+  type: {
+    name: "Composite",
+    className: "LegacySharedScopeReservationRecommendationProperties",
+    uberParent: "LegacyReservationRecommendationProperties",
+    polymorphicDiscriminator:
+      LegacyReservationRecommendationProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LegacyReservationRecommendationProperties.type.modelProperties,
     },
-  };
+  },
+};
 
-export const ModernSingleScopeReservationRecommendationProperties: coreClient.CompositeMapper =
-  {
-    serializedName: "Single",
-    type: {
-      name: "Composite",
-      className: "ModernSingleScopeReservationRecommendationProperties",
-      uberParent: "ModernReservationRecommendationProperties",
-      polymorphicDiscriminator:
-        ModernReservationRecommendationProperties.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...ModernReservationRecommendationProperties.type.modelProperties,
-        subscriptionId: {
-          serializedName: "subscriptionId",
-          readOnly: true,
-          type: {
-            name: "Uuid",
-          },
+export const ModernSingleScopeReservationRecommendationProperties: coreClient.CompositeMapper = {
+  serializedName: "Single",
+  type: {
+    name: "Composite",
+    className: "ModernSingleScopeReservationRecommendationProperties",
+    uberParent: "ModernReservationRecommendationProperties",
+    polymorphicDiscriminator:
+      ModernReservationRecommendationProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ModernReservationRecommendationProperties.type.modelProperties,
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
         },
       },
     },
-  };
+  },
+};
 
-export const ModernSharedScopeReservationRecommendationProperties: coreClient.CompositeMapper =
-  {
-    serializedName: "Shared",
-    type: {
-      name: "Composite",
-      className: "ModernSharedScopeReservationRecommendationProperties",
-      uberParent: "ModernReservationRecommendationProperties",
-      polymorphicDiscriminator:
-        ModernReservationRecommendationProperties.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...ModernReservationRecommendationProperties.type.modelProperties,
-      },
+export const ModernSharedScopeReservationRecommendationProperties: coreClient.CompositeMapper = {
+  serializedName: "Shared",
+  type: {
+    name: "Composite",
+    className: "ModernSharedScopeReservationRecommendationProperties",
+    uberParent: "ModernReservationRecommendationProperties",
+    polymorphicDiscriminator:
+      ModernReservationRecommendationProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ModernReservationRecommendationProperties.type.modelProperties,
     },
-  };
+  },
+};
 
 export const LegacyUsageDetail: coreClient.CompositeMapper = {
   serializedName: "legacy",
@@ -4435,8 +4420,7 @@ export const LegacyReservationRecommendation: coreClient.CompositeMapper = {
     name: "Composite",
     className: "LegacyReservationRecommendation",
     uberParent: "ReservationRecommendation",
-    polymorphicDiscriminator:
-      ReservationRecommendation.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: ReservationRecommendation.type.polymorphicDiscriminator,
     modelProperties: {
       ...ReservationRecommendation.type.modelProperties,
       lookBackPeriod: {
@@ -4574,8 +4558,7 @@ export const ModernReservationRecommendation: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ModernReservationRecommendation",
     uberParent: "ReservationRecommendation",
-    polymorphicDiscriminator:
-      ReservationRecommendation.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: ReservationRecommendation.type.polymorphicDiscriminator,
     modelProperties: {
       ...ReservationRecommendation.type.modelProperties,
       locationPropertiesLocation: {
@@ -4890,33 +4873,30 @@ export const LegacyReservationTransaction: coreClient.CompositeMapper = {
   },
 };
 
-export const PriceSheetDownloadByBillingAccountPeriodHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PriceSheetDownloadByBillingAccountPeriodHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PriceSheetDownloadByBillingAccountPeriodHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PriceSheetDownloadByBillingAccountPeriodHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export let discriminators = {
-  LegacyReservationRecommendationProperties:
-    LegacyReservationRecommendationProperties,
-  ModernReservationRecommendationProperties:
-    ModernReservationRecommendationProperties,
+  LegacyReservationRecommendationProperties: LegacyReservationRecommendationProperties,
+  ModernReservationRecommendationProperties: ModernReservationRecommendationProperties,
   "Resource.UsageDetail": UsageDetail,
   "Resource.ReservationRecommendation": ReservationRecommendation,
   "ProxyResource.ChargeSummary": ChargeSummary,

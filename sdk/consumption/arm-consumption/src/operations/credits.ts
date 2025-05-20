@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
-import {
-  CreditsGetOptionalParams,
-  CreditsGetResponse,
-} from "../models/index.js";
+import { CreditsGetOptionalParams, CreditsGetResponse } from "../models/index.js";
 
 /** Class containing Credits operations. */
 export class CreditsImpl implements Credits {
@@ -61,11 +58,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.billingProfileId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.billingProfileId],
   headerParameters: [Parameters.accept],
   serializer,
 };

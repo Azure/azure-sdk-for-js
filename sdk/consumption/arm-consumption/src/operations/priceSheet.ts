@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PriceSheetDownloadByBillingAccountPeriodOptionalParams,
@@ -64,8 +60,7 @@ export class PriceSheetImpl implements PriceSheet {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -177,11 +172,7 @@ const downloadByBillingAccountPeriodOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.billingPeriodName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountId, Parameters.billingPeriodName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -196,12 +187,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.skiptoken,
-    Parameters.top,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.skiptoken, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -217,17 +203,8 @@ const getByBillingPeriodOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.skiptoken,
-    Parameters.top,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.billingPeriodName1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand, Parameters.skiptoken, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.billingPeriodName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
