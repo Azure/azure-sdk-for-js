@@ -312,7 +312,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
         const metrics = scopeMetrics[0].metrics;
-        assert.strictEqual(metrics.length, 8, "Metrics count");
+        assert.strictEqual(metrics.length, 6, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.FAILURE_COUNT);
         assert.strictEqual(metrics[2].descriptor.name, StatsbeatCounter.RETRY_COUNT);
@@ -420,6 +420,49 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env.STATSBEAT_INSTRUMENTATIONS;
         delete process.env.STATSBEAT_FEATURES;
         delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
+      });
+
+      it("should not export zero value statsbeats", async () => {
+        // Create a new statsbeat instance to avoid interference from other tests
+        const zeroStatsbeat = new NetworkStatsbeatMetrics({
+          ...options,
+          networkCollectionInterval: 100,
+        });
+
+        try {
+          // Spy on the exporter's export method
+          const mockExport = vi.spyOn(zeroStatsbeat["networkAzureExporter"], "export");
+
+          zeroStatsbeat.countSuccess(0);
+
+          // Wait for the export interval to trigger without adding any counts
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          // Check that export was called
+          expect(mockExport).toHaveBeenCalled();
+
+          // Get the metrics that were exported
+          const resourceMetrics = mockExport.mock.calls[0][0];
+          const scopeMetrics = resourceMetrics.scopeMetrics;
+          assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
+
+          // Check the metrics - there should be 0 data points for most metrics
+          // since we're now filtering zero values
+          const metrics = scopeMetrics[0].metrics;
+
+          // Check each metric to ensure zero values are filtered out
+          for (const metric of metrics) {
+            // We expect all metrics to have no data points as they all have zero values
+            assert.strictEqual(
+              metric.dataPoints.length,
+              1,
+              `${metric.descriptor.name} should have no data points apart from success since all other values are zero`,
+            );
+          }
+        } finally {
+          // Clean up
+          await zeroStatsbeat.shutdown();
+        }
       });
     });
 
