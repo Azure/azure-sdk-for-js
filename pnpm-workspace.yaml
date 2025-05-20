@@ -2,6 +2,7 @@ packages:
   - 'sdk/**'
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
+  - common/tools/mcp-server
   - common/tools/turborepo-remote-cache
   - common/tools/vite-plugin-browser-test-map
   - '!sdk/**/src/**'
@@ -19,8 +20,10 @@ packages:
 # Main catalog
 catalog:
   '@types/node': ^18.19.101
+  autorest: latest
   eslint: ^9.9.0
   tslib: ^2.8.1
+  tsx: ^4.19.3
   typescript: ~5.8.2
 
 # Named catalogs

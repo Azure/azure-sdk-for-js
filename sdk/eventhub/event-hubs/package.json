@@ -130,7 +130,6 @@
     "chai": "catalog:testing",
     "chai-as-promised": "catalog:testing",
     "chai-exclude": "catalog:testing",
-    "copyfiles": "^2.4.1",
     "debug": "catalog:polyfills",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",

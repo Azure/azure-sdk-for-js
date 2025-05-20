@@ -90,7 +90,7 @@
     "eslint": "catalog:",
     "express": "^4.19.2",
     "playwright": "catalog:testing",
-    "tsx": "^4.17.0",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

@@ -16,7 +16,7 @@
     "start": "tsx server.ts"
   },
   "devDependencies": {
-    "tsx": "^4.19.3",
+    "tsx": "catalog:",
     "typescript": "^5.8.2",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.9"

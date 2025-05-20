@@ -60,7 +60,7 @@
     "ts-morph": "^25.0.0",
     "tshy": "^2.0.0",
     "tslib": "^2.8.1",
-    "tsx": "4.19.3",
+    "tsx": "catalog:",
     "typescript": "~5.8.2",
     "unzipper": "~0.12.3",
     "yaml": "^2.3.4"
@@ -76,7 +76,7 @@
     "@types/semver": "^7.7.0",
     "@types/unzipper": "~0.10.11",
     "@vitest/coverage-istanbul": "catalog:testing",
-    "autorest": "^3.7.1",
+    "autorest": "catalog:",
     "builtin-modules": "^3.1.0",
     "cross-env": "^7.0.3",
     "eslint": "catalog:",
