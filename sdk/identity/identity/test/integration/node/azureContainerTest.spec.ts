@@ -14,7 +14,22 @@ describe("Azure Container Instance Integration test", function () {
 
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const containerInstanceName = requireEnvVar("IDENTITY_CONTAINER_INSTANCE_NAME");
+    const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
 
+    if (process.env.ARM_OIDC_TOKEN) {
+      // Log in as service principal in CI
+      const clientId = requireEnvVar("AZURE_CLIENT_ID");
+      const tenantId = requireEnvVar("AZURE_TENANT_ID");
+      const oidc = requireEnvVar("ARM_OIDC_TOKEN");
+      console.log("Logging in with OIDC token");
+      runCommand(
+        "az",
+        `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
+      );
+      console.log("Logged in with OIDC token");
+    }
+
+    runCommand("az", `account set --subscription ${subscriptionId}`);
 
     const command = `${azPath} container exec -g ${resourceGroup} -n ${containerInstanceName} --exec-command 'node /app/index.js --identity-type user'`;
     const output = runCommand("script -q -c", `"${command}"`);
