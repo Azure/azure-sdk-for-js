@@ -31,6 +31,14 @@ export interface FeatureFlagValue {
    * [More Info](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
    */
   conditions: {
+    /**
+     * Determines whether any or all registered client filters must be evaluated as true for the feature to be considered enabled.
+     */
+    requirementType?: "Any" | "All";
+    
+    /**
+     * Filters that must run on the client and be evaluated as true for the feature to be considered enabled.
+     */
     clientFilters: { name: string; parameters?: Record<string, unknown> }[];
   };
   /**
@@ -45,6 +53,58 @@ export interface FeatureFlagValue {
    * Display name for the feature to use for display rather than the ID.
    */
   displayName?: string;
+  /**
+   * The variants of the feature flag.
+   */
+  variants?: Record<string, unknown>;
+  /**
+   * The allocation rules for feature flag variants.
+   */
+  allocation?: {
+    /**
+     * The default variant to use if no allocation matches.
+     */
+    default?: string;
+    /**
+     * User allocation rules.
+     */
+    user?: Array<{
+      variant: string;
+      users: string[];
+    }>;
+    /**
+     * Group allocation rules.
+     */
+    group?: Array<{
+      variant: string;
+      groups: string[];
+    }>;
+    /**
+     * Percentile allocation rules.
+     */
+    percentile?: Array<{
+      variant: string;
+      from: number;
+      to: number;
+    }>;
+    /**
+     * The value percentile calculations are based on.
+     */
+    seed?: string;
+  };
+  /**
+   * Telemetry options for the feature flag.
+   */
+  telemetry?: {
+    /**
+     * Indicates if telemetry is enabled.
+     */
+    enabled?: boolean;
+    /**
+     * A container for metadata that should be bundled with flag telemetry.
+     */
+    metadata?: Record<string, string>;
+  };
 }
 
 /**
@@ -71,9 +131,13 @@ export const FeatureFlagHelper = {
       enabled: featureFlag.value.enabled,
       description: featureFlag.value.description,
       conditions: {
+        requirement_type: featureFlag.value.conditions.requirementType,
         client_filters: featureFlag.value.conditions.clientFilters,
       },
       display_name: featureFlag.value.displayName,
+      variants: featureFlag.value.variants,
+      allocation: featureFlag.value.allocation,
+      telemetry: featureFlag.value.telemetry,
     };
 
     const configSetting = {
@@ -112,7 +176,13 @@ export function parseFeatureFlag(
       enabled: jsonFeatureFlagValue.enabled,
       description: jsonFeatureFlagValue.description,
       displayName: jsonFeatureFlagValue.display_name,
-      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters },
+      conditions: { 
+        requirementType: jsonFeatureFlagValue.conditions.requirement_type,
+        clientFilters: jsonFeatureFlagValue.conditions.client_filters 
+      },
+      variants: jsonFeatureFlagValue.variants,
+      allocation: jsonFeatureFlagValue.allocation,
+      telemetry: jsonFeatureFlagValue.telemetry,
     },
     key,
     contentType: featureFlagContentType,
