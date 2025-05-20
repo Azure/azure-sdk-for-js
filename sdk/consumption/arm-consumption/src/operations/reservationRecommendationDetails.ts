@@ -12,15 +12,17 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
 import {
+  Scope,
   Term,
   LookBackPeriod,
   ReservationRecommendationDetailsGetOptionalParams,
-  ReservationRecommendationDetailsGetResponse
+  ReservationRecommendationDetailsGetResponse,
 } from "../models/index.js";
 
 /** Class containing ReservationRecommendationDetails operations. */
 export class ReservationRecommendationDetailsImpl
-  implements ReservationRecommendationDetails {
+  implements ReservationRecommendationDetails
+{
   private readonly client: ConsumptionManagementClient;
 
   /**
@@ -33,12 +35,13 @@ export class ReservationRecommendationDetailsImpl
 
   /**
    * Details of a reservation recommendation for what-if analysis of reserved instances.
-   * @param scope The scope associated with reservation recommendation details operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
+   * @param resourceScope The scope associated with reservation recommendation details operations. This
+   *                      includes '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
+   * @param scope Scope of the reservation.
    * @param region Used to select the region the recommendation should be generated for.
    * @param term Specify length of reservation recommendation term.
    * @param lookBackPeriod Filter the time period on which reservation recommendation results are based.
@@ -47,16 +50,17 @@ export class ReservationRecommendationDetailsImpl
    * @param options The options parameters.
    */
   get(
-    scope: string,
+    resourceScope: string,
+    scope: Scope,
     region: string,
     term: Term,
     lookBackPeriod: LookBackPeriod,
     product: string,
-    options?: ReservationRecommendationDetailsGetOptionalParams
+    options?: ReservationRecommendationDetailsGetOptionalParams,
   ): Promise<ReservationRecommendationDetailsGetResponse> {
     return this.client.sendOperationRequest(
-      { scope, region, term, lookBackPeriod, product, options },
-      getOperationSpec
+      { resourceScope, scope, region, term, lookBackPeriod, product, options },
+      getOperationSpec,
     );
   }
 }
@@ -64,26 +68,27 @@ export class ReservationRecommendationDetailsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Consumption/reservationRecommendationDetails",
+  path: "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationRecommendationDetailsModel
+      bodyMapper: Mappers.ReservationRecommendationDetailsModel,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.HighCasedErrorResponse
-    }
+      bodyMapper: Mappers.HighCasedErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.scope1,
     Parameters.region,
     Parameters.term,
     Parameters.lookBackPeriod,
-    Parameters.product
+    Parameters.product,
   ],
-  urlParameters: [Parameters.$host, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -23,7 +23,7 @@ import {
   ReservationTransactionsListByBillingProfileOptionalParams,
   ReservationTransactionsListByBillingProfileResponse,
   ReservationTransactionsListNextResponse,
-  ReservationTransactionsListByBillingProfileNextResponse
+  ReservationTransactionsListByBillingProfileNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,13 +40,18 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing account scope. Note: The refund transactions
+   * are posted along with its purchase transaction (i.e. in the purchase billing month). For example,
+   * The refund is requested in May 2021. This refund transaction will have event date as May 2021 but
+   * the billing month as April 2020 when the reservation purchase was made. Note: ARM has a payload size
+   * limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such
+   * cases, API call should be made with smaller date ranges.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
   public list(
     billingAccountId: string,
-    options?: ReservationTransactionsListOptionalParams
+    options?: ReservationTransactionsListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationTransaction> {
     const iter = this.listPagingAll(billingAccountId, options);
     return {
@@ -61,14 +66,14 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(billingAccountId, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     billingAccountId: string,
     options?: ReservationTransactionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationTransaction[]> {
     let result: ReservationTransactionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +88,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
       result = await this._listNext(
         billingAccountId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -94,7 +99,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
 
   private async *listPagingAll(
     billingAccountId: string,
-    options?: ReservationTransactionsListOptionalParams
+    options?: ReservationTransactionsListOptionalParams,
   ): AsyncIterableIterator<ReservationTransaction> {
     for await (const page of this.listPagingPage(billingAccountId, options)) {
       yield* page;
@@ -102,7 +107,12 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing profile scope. The refund transactions are
+   * posted along with its purchase transaction (i.e. in the purchase billing month). For example, The
+   * refund is requested in May 2021. This refund transaction will have event date as May 2021 but the
+   * billing month as April 2020 when the reservation purchase was made. Note: ARM has a payload size
+   * limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such
+   * cases, API call should be made with smaller date ranges.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
@@ -110,12 +120,12 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   public listByBillingProfile(
     billingAccountId: string,
     billingProfileId: string,
-    options?: ReservationTransactionsListByBillingProfileOptionalParams
+    options?: ReservationTransactionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<ModernReservationTransaction> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountId,
       billingProfileId,
-      options
+      options,
     );
     return {
       next() {
@@ -132,9 +142,9 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
           billingAccountId,
           billingProfileId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -142,7 +152,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
     billingAccountId: string,
     billingProfileId: string,
     options?: ReservationTransactionsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ModernReservationTransaction[]> {
     let result: ReservationTransactionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +160,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
       result = await this._listByBillingProfile(
         billingAccountId,
         billingProfileId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -162,7 +172,7 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
         billingAccountId,
         billingProfileId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -174,34 +184,44 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   private async *listByBillingProfilePagingAll(
     billingAccountId: string,
     billingProfileId: string,
-    options?: ReservationTransactionsListByBillingProfileOptionalParams
+    options?: ReservationTransactionsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<ModernReservationTransaction> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountId,
       billingProfileId,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing account scope. Note: The refund transactions
+   * are posted along with its purchase transaction (i.e. in the purchase billing month). For example,
+   * The refund is requested in May 2021. This refund transaction will have event date as May 2021 but
+   * the billing month as April 2020 when the reservation purchase was made. Note: ARM has a payload size
+   * limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such
+   * cases, API call should be made with smaller date ranges.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
   private _list(
     billingAccountId: string,
-    options?: ReservationTransactionsListOptionalParams
+    options?: ReservationTransactionsListOptionalParams,
   ): Promise<ReservationTransactionsListResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * List of transactions for reserved instances on billing account scope
+   * List of transactions for reserved instances on billing profile scope. The refund transactions are
+   * posted along with its purchase transaction (i.e. in the purchase billing month). For example, The
+   * refund is requested in May 2021. This refund transaction will have event date as May 2021 but the
+   * billing month as April 2020 when the reservation purchase was made. Note: ARM has a payload size
+   * limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such
+   * cases, API call should be made with smaller date ranges.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
@@ -209,11 +229,11 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   private _listByBillingProfile(
     billingAccountId: string,
     billingProfileId: string,
-    options?: ReservationTransactionsListByBillingProfileOptionalParams
+    options?: ReservationTransactionsListByBillingProfileOptionalParams,
   ): Promise<ReservationTransactionsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingProfileId, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
@@ -226,11 +246,11 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
   private _listNext(
     billingAccountId: string,
     nextLink: string,
-    options?: ReservationTransactionsListNextOptionalParams
+    options?: ReservationTransactionsListNextOptionalParams,
   ): Promise<ReservationTransactionsListNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -245,11 +265,11 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
     billingAccountId: string,
     billingProfileId: string,
     nextLink: string,
-    options?: ReservationTransactionsListByBillingProfileNextOptionalParams
+    options?: ReservationTransactionsListByBillingProfileNextOptionalParams,
   ): Promise<ReservationTransactionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingProfileId, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 }
@@ -257,79 +277,82 @@ export class ReservationTransactionsImpl implements ReservationTransactions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/reservationTransactions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/reservationTransactions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationTransactionsListResult
+      bodyMapper: Mappers.ReservationTransactionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.useMarkupIfPartner,
+    Parameters.previewMarkupPercentage,
+  ],
   urlParameters: [Parameters.$host, Parameters.billingAccountId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/reservationTransactions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/reservationTransactions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModernReservationTransactionsListResult
+      bodyMapper: Mappers.ModernReservationTransactionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountId,
-    Parameters.billingProfileId
+    Parameters.billingProfileId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationTransactionsListResult
+      bodyMapper: Mappers.ReservationTransactionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.billingAccountId,
     Parameters.nextLink,
-    Parameters.billingAccountId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ModernReservationTransactionsListResult
+      bodyMapper: Mappers.ModernReservationTransactionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.billingAccountId,
-    Parameters.billingProfileId
+    Parameters.nextLink,
+    Parameters.billingProfileId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

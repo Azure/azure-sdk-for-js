@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ReservationRecommendationUnion,
-  ReservationRecommendationsListOptionalParams
+  ReservationRecommendationsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -17,16 +17,16 @@ import {
 export interface ReservationRecommendations {
   /**
    * List of recommendations for purchasing reserved instances.
-   * @param scope The scope associated with reservation recommendations operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
+   * @param resourceScope The scope associated with reservation recommendations operations. This includes
+   *                      '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
    * @param options The options parameters.
    */
   list(
-    scope: string,
-    options?: ReservationRecommendationsListOptionalParams
+    resourceScope: string,
+    options?: ReservationRecommendationsListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationRecommendationUnion>;
 }

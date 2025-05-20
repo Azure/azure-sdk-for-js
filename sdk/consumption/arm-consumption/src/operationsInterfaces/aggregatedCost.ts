@@ -10,7 +10,7 @@ import {
   AggregatedCostGetByManagementGroupOptionalParams,
   AggregatedCostGetByManagementGroupResponse,
   AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams,
-  AggregatedCostGetForBillingPeriodByManagementGroupResponse
+  AggregatedCostGetForBillingPeriodByManagementGroupResponse,
 } from "../models/index.js";
 
 /** Interface representing a AggregatedCost. */
@@ -23,7 +23,7 @@ export interface AggregatedCost {
    */
   getByManagementGroup(
     managementGroupId: string,
-    options?: AggregatedCostGetByManagementGroupOptionalParams
+    options?: AggregatedCostGetByManagementGroupOptionalParams,
   ): Promise<AggregatedCostGetByManagementGroupResponse>;
   /**
    * Provides the aggregate cost of a management group and all child management groups by specified
@@ -35,6 +35,6 @@ export interface AggregatedCost {
   getForBillingPeriodByManagementGroup(
     managementGroupId: string,
     billingPeriodName: string,
-    options?: AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams
+    options?: AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams,
   ): Promise<AggregatedCostGetForBillingPeriodByManagementGroupResponse>;
 }

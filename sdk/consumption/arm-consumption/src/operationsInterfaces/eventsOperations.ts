@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   EventSummary,
   EventsListByBillingProfileOptionalParams,
-  EventsListByBillingAccountOptionalParams
+  EventsListByBillingAccountOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface EventsOperations {
     billingProfileId: string,
     startDate: string,
     endDate: string,
-    options?: EventsListByBillingProfileOptionalParams
+    options?: EventsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<EventSummary>;
   /**
    * Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a
@@ -40,6 +40,6 @@ export interface EventsOperations {
    */
   listByBillingAccount(
     billingAccountId: string,
-    options?: EventsListByBillingAccountOptionalParams
+    options?: EventsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<EventSummary>;
 }

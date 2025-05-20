@@ -10,7 +10,7 @@ import {
   BalancesGetByBillingAccountOptionalParams,
   BalancesGetByBillingAccountResponse,
   BalancesGetForBillingPeriodByBillingAccountOptionalParams,
-  BalancesGetForBillingPeriodByBillingAccountResponse
+  BalancesGetForBillingPeriodByBillingAccountResponse,
 } from "../models/index.js";
 
 /** Interface representing a Balances. */
@@ -23,7 +23,7 @@ export interface Balances {
    */
   getByBillingAccount(
     billingAccountId: string,
-    options?: BalancesGetByBillingAccountOptionalParams
+    options?: BalancesGetByBillingAccountOptionalParams,
   ): Promise<BalancesGetByBillingAccountResponse>;
   /**
    * Gets the balances for a scope by billing period and billingAccountId. Balances are available via
@@ -35,6 +35,6 @@ export interface Balances {
   getForBillingPeriodByBillingAccount(
     billingAccountId: string,
     billingPeriodName: string,
-    options?: BalancesGetForBillingPeriodByBillingAccountOptionalParams
+    options?: BalancesGetForBillingPeriodByBillingAccountOptionalParams,
   ): Promise<BalancesGetForBillingPeriodByBillingAccountResponse>;
 }

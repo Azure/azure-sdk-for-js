@@ -7,7 +7,10 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { UsageDetailUnion, UsageDetailsListOptionalParams } from "../models/index.js";
+import {
+  UsageDetailUnion,
+  UsageDetailsListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UsageDetails. */
@@ -15,6 +18,12 @@ export interface UsageDetails {
   /**
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
+   *
+   * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We
+   * do not recommend that you take a new dependency on this API. Please use the Cost Details API
+   * instead. We will notify customers once a date for retirement has been determined.For Learn more,see
+   * [Generate Cost Details Report - Create
+   * Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
    * @param scope The scope associated with usage details operations. This includes
    *              '/subscriptions/{subscriptionId}/' for subscription scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
@@ -30,14 +39,14 @@ export interface UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   list(
     scope: string,
-    options?: UsageDetailsListOptionalParams
+    options?: UsageDetailsListOptionalParams,
   ): PagedAsyncIterableIterator<UsageDetailUnion>;
 }

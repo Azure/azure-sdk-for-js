@@ -27,7 +27,7 @@ import {
   ReservationsSummariesListResponse,
   ReservationsSummariesListByReservationOrderNextResponse,
   ReservationsSummariesListByReservationOrderAndReservationNextResponse,
-  ReservationsSummariesListNextResponse
+  ReservationsSummariesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,9 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   }
 
   /**
-   * Lists the reservations summaries for daily or monthly grain.
+   * Lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of
+   * 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API
+   * call should be made with smaller date ranges.
    * @param reservationOrderId Order Id of the reservation
    * @param grain Can be daily or monthly
    * @param options The options parameters.
@@ -52,12 +54,12 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   public listByReservationOrder(
     reservationOrderId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderOptionalParams
+    options?: ReservationsSummariesListByReservationOrderOptionalParams,
   ): PagedAsyncIterableIterator<ReservationSummary> {
     const iter = this.listByReservationOrderPagingAll(
       reservationOrderId,
       grain,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +76,9 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
           reservationOrderId,
           grain,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +86,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationOrderId: string,
     grain: Datagrain,
     options?: ReservationsSummariesListByReservationOrderOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationSummary[]> {
     let result: ReservationsSummariesListByReservationOrderResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +94,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
       result = await this._listByReservationOrder(
         reservationOrderId,
         grain,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +105,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
       result = await this._listByReservationOrderNext(
         reservationOrderId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,19 +117,21 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   private async *listByReservationOrderPagingAll(
     reservationOrderId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderOptionalParams
+    options?: ReservationsSummariesListByReservationOrderOptionalParams,
   ): AsyncIterableIterator<ReservationSummary> {
     for await (const page of this.listByReservationOrderPagingPage(
       reservationOrderId,
       grain,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the reservations summaries for daily or monthly grain.
+   * Lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of
+   * 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API
+   * call should be made with smaller date ranges.
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
    * @param grain Can be daily or monthly
@@ -137,13 +141,13 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationOrderId: string,
     reservationId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams
+    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
   ): PagedAsyncIterableIterator<ReservationSummary> {
     const iter = this.listByReservationOrderAndReservationPagingAll(
       reservationOrderId,
       reservationId,
       grain,
-      options
+      options,
     );
     return {
       next() {
@@ -161,9 +165,9 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
           reservationId,
           grain,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -172,7 +176,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationId: string,
     grain: Datagrain,
     options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationSummary[]> {
     let result: ReservationsSummariesListByReservationOrderAndReservationResponse;
     let continuationToken = settings?.continuationToken;
@@ -181,7 +185,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
         reservationOrderId,
         reservationId,
         grain,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -193,7 +197,7 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
         reservationOrderId,
         reservationId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -206,34 +210,36 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationOrderId: string,
     reservationId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams
+    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
   ): AsyncIterableIterator<ReservationSummary> {
     for await (const page of this.listByReservationOrderAndReservationPagingPage(
       reservationOrderId,
       reservationId,
       grain,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the reservations summaries for the defined scope daily or monthly grain.
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * Lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a
+   * payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM
+   * limit. In such cases, API call should be made with smaller date ranges.
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param grain Can be daily or monthly
    * @param options The options parameters.
    */
   public list(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListOptionalParams
+    options?: ReservationsSummariesListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationSummary> {
-    const iter = this.listPagingAll(scope, grain, options);
+    const iter = this.listPagingAll(resourceScope, grain, options);
     return {
       next() {
         return iter.next();
@@ -245,28 +251,28 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(scope, grain, options, settings);
-      }
+        return this.listPagingPage(resourceScope, grain, options, settings);
+      },
     };
   }
 
   private async *listPagingPage(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationSummary[]> {
     let result: ReservationsSummariesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(scope, grain, options);
+      result = await this._list(resourceScope, grain, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(scope, continuationToken, options);
+      result = await this._listNext(resourceScope, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -275,17 +281,23 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   }
 
   private async *listPagingAll(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListOptionalParams
+    options?: ReservationsSummariesListOptionalParams,
   ): AsyncIterableIterator<ReservationSummary> {
-    for await (const page of this.listPagingPage(scope, grain, options)) {
+    for await (const page of this.listPagingPage(
+      resourceScope,
+      grain,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the reservations summaries for daily or monthly grain.
+   * Lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of
+   * 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API
+   * call should be made with smaller date ranges.
    * @param reservationOrderId Order Id of the reservation
    * @param grain Can be daily or monthly
    * @param options The options parameters.
@@ -293,16 +305,18 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   private _listByReservationOrder(
     reservationOrderId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderOptionalParams
+    options?: ReservationsSummariesListByReservationOrderOptionalParams,
   ): Promise<ReservationsSummariesListByReservationOrderResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, grain, options },
-      listByReservationOrderOperationSpec
+      listByReservationOrderOperationSpec,
     );
   }
 
   /**
-   * Lists the reservations summaries for daily or monthly grain.
+   * Lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of
+   * 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API
+   * call should be made with smaller date ranges.
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
    * @param grain Can be daily or monthly
@@ -312,34 +326,34 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationOrderId: string,
     reservationId: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams
-  ): Promise<
-    ReservationsSummariesListByReservationOrderAndReservationResponse
-  > {
+    options?: ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
+  ): Promise<ReservationsSummariesListByReservationOrderAndReservationResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, grain, options },
-      listByReservationOrderAndReservationOperationSpec
+      listByReservationOrderAndReservationOperationSpec,
     );
   }
 
   /**
-   * Lists the reservations summaries for the defined scope daily or monthly grain.
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * Lists the reservations summaries for the defined scope daily or monthly grain. Note: ARM has a
+   * payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM
+   * limit. In such cases, API call should be made with smaller date ranges.
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param grain Can be daily or monthly
    * @param options The options parameters.
    */
   private _list(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
-    options?: ReservationsSummariesListOptionalParams
+    options?: ReservationsSummariesListOptionalParams,
   ): Promise<ReservationsSummariesListResponse> {
     return this.client.sendOperationRequest(
-      { scope, grain, options },
-      listOperationSpec
+      { resourceScope, grain, options },
+      listOperationSpec,
     );
   }
 
@@ -352,11 +366,11 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
   private _listByReservationOrderNext(
     reservationOrderId: string,
     nextLink: string,
-    options?: ReservationsSummariesListByReservationOrderNextOptionalParams
+    options?: ReservationsSummariesListByReservationOrderNextOptionalParams,
   ): Promise<ReservationsSummariesListByReservationOrderNextResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, nextLink, options },
-      listByReservationOrderNextOperationSpec
+      listByReservationOrderNextOperationSpec,
     );
   }
 
@@ -372,34 +386,32 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
     reservationOrderId: string,
     reservationId: string,
     nextLink: string,
-    options?: ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams
-  ): Promise<
-    ReservationsSummariesListByReservationOrderAndReservationNextResponse
-  > {
+    options?: ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams,
+  ): Promise<ReservationsSummariesListByReservationOrderAndReservationNextResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, nextLink, options },
-      listByReservationOrderAndReservationNextOperationSpec
+      listByReservationOrderAndReservationNextOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    scope: string,
+    resourceScope: string,
     nextLink: string,
-    options?: ReservationsSummariesListNextOptionalParams
+    options?: ReservationsSummariesListNextOptionalParams,
   ): Promise<ReservationsSummariesListNextResponse> {
     return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec
+      { resourceScope, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -407,118 +419,126 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReservationOrderOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationSummaries",
+  path: "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationSummaries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationSummariesListResult
+      bodyMapper: Mappers.ReservationSummariesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion, Parameters.grain],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.grain],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReservationSummariesListResult
+const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationSummaries",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ReservationSummariesListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion, Parameters.grain],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.reservationOrderId,
-    Parameters.reservationId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [
+      Parameters.apiVersion,
+      Parameters.filter,
+      Parameters.grain,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.reservationOrderId,
+      Parameters.reservationId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Consumption/reservationSummaries",
+  path: "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationSummariesListResult
+      bodyMapper: Mappers.ReservationSummariesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
-    Parameters.filter,
     Parameters.apiVersion,
+    Parameters.filter,
     Parameters.startDate,
     Parameters.endDate,
     Parameters.grain,
     Parameters.reservationId1,
-    Parameters.reservationOrderId1
+    Parameters.reservationOrderId1,
   ],
-  urlParameters: [Parameters.$host, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByReservationOrderNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationSummariesListResult
+      bodyMapper: Mappers.ReservationSummariesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.reservationOrderId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByReservationOrderAndReservationNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReservationSummariesListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.reservationOrderId,
-    Parameters.reservationId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listByReservationOrderAndReservationNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ReservationSummariesListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.reservationOrderId,
+      Parameters.reservationId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationSummariesListResult
+      bodyMapper: Mappers.ReservationSummariesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.resourceScope,
+  ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

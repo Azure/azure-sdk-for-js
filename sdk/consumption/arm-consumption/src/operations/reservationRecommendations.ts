@@ -18,13 +18,14 @@ import {
   ReservationRecommendationsListNextOptionalParams,
   ReservationRecommendationsListOptionalParams,
   ReservationRecommendationsListResponse,
-  ReservationRecommendationsListNextResponse
+  ReservationRecommendationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReservationRecommendations operations. */
 export class ReservationRecommendationsImpl
-  implements ReservationRecommendations {
+  implements ReservationRecommendations
+{
   private readonly client: ConsumptionManagementClient;
 
   /**
@@ -37,19 +38,19 @@ export class ReservationRecommendationsImpl
 
   /**
    * List of recommendations for purchasing reserved instances.
-   * @param scope The scope associated with reservation recommendations operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
+   * @param resourceScope The scope associated with reservation recommendations operations. This includes
+   *                      '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
    * @param options The options parameters.
    */
   public list(
-    scope: string,
-    options?: ReservationRecommendationsListOptionalParams
+    resourceScope: string,
+    options?: ReservationRecommendationsListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationRecommendationUnion> {
-    const iter = this.listPagingAll(scope, options);
+    const iter = this.listPagingAll(resourceScope, options);
     return {
       next() {
         return iter.next();
@@ -61,27 +62,27 @@ export class ReservationRecommendationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(scope, options, settings);
-      }
+        return this.listPagingPage(resourceScope, options, settings);
+      },
     };
   }
 
   private async *listPagingPage(
-    scope: string,
+    resourceScope: string,
     options?: ReservationRecommendationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationRecommendationUnion[]> {
     let result: ReservationRecommendationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(scope, options);
+      result = await this._list(resourceScope, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(scope, continuationToken, options);
+      result = await this._listNext(resourceScope, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -90,53 +91,53 @@ export class ReservationRecommendationsImpl
   }
 
   private async *listPagingAll(
-    scope: string,
-    options?: ReservationRecommendationsListOptionalParams
+    resourceScope: string,
+    options?: ReservationRecommendationsListOptionalParams,
   ): AsyncIterableIterator<ReservationRecommendationUnion> {
-    for await (const page of this.listPagingPage(scope, options)) {
+    for await (const page of this.listPagingPage(resourceScope, options)) {
       yield* page;
     }
   }
 
   /**
    * List of recommendations for purchasing reserved instances.
-   * @param scope The scope associated with reservation recommendations operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
+   * @param resourceScope The scope associated with reservation recommendations operations. This includes
+   *                      '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
    * @param options The options parameters.
    */
   private _list(
-    scope: string,
-    options?: ReservationRecommendationsListOptionalParams
+    resourceScope: string,
+    options?: ReservationRecommendationsListOptionalParams,
   ): Promise<ReservationRecommendationsListResponse> {
     return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec
+      { resourceScope, options },
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param scope The scope associated with reservation recommendations operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
+   * @param resourceScope The scope associated with reservation recommendations operations. This includes
+   *                      '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    scope: string,
+    resourceScope: string,
     nextLink: string,
-    options?: ReservationRecommendationsListNextOptionalParams
+    options?: ReservationRecommendationsListNextOptionalParams,
   ): Promise<ReservationRecommendationsListNextResponse> {
     return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec
+      { resourceScope, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -144,35 +145,39 @@ export class ReservationRecommendationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Consumption/reservationRecommendations",
+  path: "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationRecommendationsListResult
+      bodyMapper: Mappers.ReservationRecommendationsListResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.scope],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationRecommendationsListResult
+      bodyMapper: Mappers.ReservationRecommendationsListResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.resourceScope,
+  ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

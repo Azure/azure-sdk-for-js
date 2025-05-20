@@ -11,7 +11,10 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
-import { CreditsGetOptionalParams, CreditsGetResponse } from "../models/index.js";
+import {
+  CreditsGetOptionalParams,
+  CreditsGetResponse,
+} from "../models/index.js";
 
 /** Class containing Credits operations. */
 export class CreditsImpl implements Credits {
@@ -34,11 +37,11 @@ export class CreditsImpl implements Credits {
   get(
     billingAccountId: string,
     billingProfileId: string,
-    options?: CreditsGetOptionalParams
+    options?: CreditsGetOptionalParams,
   ): Promise<CreditsGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingProfileId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -46,24 +49,23 @@ export class CreditsImpl implements Credits {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CreditSummary
+      bodyMapper: Mappers.CreditSummary,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountId,
-    Parameters.billingProfileId
+    Parameters.billingProfileId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

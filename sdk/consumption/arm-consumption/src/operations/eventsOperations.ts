@@ -22,7 +22,7 @@ import {
   EventsListByBillingAccountOptionalParams,
   EventsListByBillingAccountResponse,
   EventsListByBillingProfileNextResponse,
-  EventsListByBillingAccountNextResponse
+  EventsListByBillingAccountNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,14 +52,14 @@ export class EventsOperationsImpl implements EventsOperations {
     billingProfileId: string,
     startDate: string,
     endDate: string,
-    options?: EventsListByBillingProfileOptionalParams
+    options?: EventsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<EventSummary> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountId,
       billingProfileId,
       startDate,
       endDate,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +78,9 @@ export class EventsOperationsImpl implements EventsOperations {
           startDate,
           endDate,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class EventsOperationsImpl implements EventsOperations {
     startDate: string,
     endDate: string,
     options?: EventsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventSummary[]> {
     let result: EventsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class EventsOperationsImpl implements EventsOperations {
         billingProfileId,
         startDate,
         endDate,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +112,7 @@ export class EventsOperationsImpl implements EventsOperations {
         billingAccountId,
         billingProfileId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,14 +126,14 @@ export class EventsOperationsImpl implements EventsOperations {
     billingProfileId: string,
     startDate: string,
     endDate: string,
-    options?: EventsListByBillingProfileOptionalParams
+    options?: EventsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<EventSummary> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountId,
       billingProfileId,
       startDate,
       endDate,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,7 +147,7 @@ export class EventsOperationsImpl implements EventsOperations {
    */
   public listByBillingAccount(
     billingAccountId: string,
-    options?: EventsListByBillingAccountOptionalParams
+    options?: EventsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<EventSummary> {
     const iter = this.listByBillingAccountPagingAll(billingAccountId, options);
     return {
@@ -164,16 +164,16 @@ export class EventsOperationsImpl implements EventsOperations {
         return this.listByBillingAccountPagingPage(
           billingAccountId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountId: string,
     options?: EventsListByBillingAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventSummary[]> {
     let result: EventsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -188,7 +188,7 @@ export class EventsOperationsImpl implements EventsOperations {
       result = await this._listByBillingAccountNext(
         billingAccountId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -199,11 +199,11 @@ export class EventsOperationsImpl implements EventsOperations {
 
   private async *listByBillingAccountPagingAll(
     billingAccountId: string,
-    options?: EventsListByBillingAccountOptionalParams
+    options?: EventsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<EventSummary> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -223,11 +223,11 @@ export class EventsOperationsImpl implements EventsOperations {
     billingProfileId: string,
     startDate: string,
     endDate: string,
-    options?: EventsListByBillingProfileOptionalParams
+    options?: EventsListByBillingProfileOptionalParams,
   ): Promise<EventsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingProfileId, startDate, endDate, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
@@ -239,11 +239,11 @@ export class EventsOperationsImpl implements EventsOperations {
    */
   private _listByBillingAccount(
     billingAccountId: string,
-    options?: EventsListByBillingAccountOptionalParams
+    options?: EventsListByBillingAccountOptionalParams,
   ): Promise<EventsListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, options },
-      listByBillingAccountOperationSpec
+      listByBillingAccountOperationSpec,
     );
   }
 
@@ -258,11 +258,11 @@ export class EventsOperationsImpl implements EventsOperations {
     billingAccountId: string,
     billingProfileId: string,
     nextLink: string,
-    options?: EventsListByBillingProfileNextOptionalParams
+    options?: EventsListByBillingProfileNextOptionalParams,
   ): Promise<EventsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingProfileId, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 
@@ -275,11 +275,11 @@ export class EventsOperationsImpl implements EventsOperations {
   private _listByBillingAccountNext(
     billingAccountId: string,
     nextLink: string,
-    options?: EventsListByBillingAccountNextOptionalParams
+    options?: EventsListByBillingAccountNextOptionalParams,
   ): Promise<EventsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 }
@@ -287,83 +287,81 @@ export class EventsOperationsImpl implements EventsOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/events",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.startDate1,
-    Parameters.endDate1
+    Parameters.endDate1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountId,
-    Parameters.billingProfileId
+    Parameters.billingProfileId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/events",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.billingAccountId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.billingAccountId,
-    Parameters.billingProfileId
+    Parameters.nextLink,
+    Parameters.billingProfileId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Events
+      bodyMapper: Mappers.Events,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.billingAccountId,
     Parameters.nextLink,
-    Parameters.billingAccountId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

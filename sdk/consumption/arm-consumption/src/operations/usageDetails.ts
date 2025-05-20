@@ -18,7 +18,7 @@ import {
   UsageDetailsListNextOptionalParams,
   UsageDetailsListOptionalParams,
   UsageDetailsListResponse,
-  UsageDetailsListNextResponse
+  UsageDetailsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,6 +37,12 @@ export class UsageDetailsImpl implements UsageDetails {
   /**
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
+   *
+   * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We
+   * do not recommend that you take a new dependency on this API. Please use the Cost Details API
+   * instead. We will notify customers once a date for retirement has been determined.For Learn more,see
+   * [Generate Cost Details Report - Create
+   * Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
    * @param scope The scope associated with usage details operations. This includes
    *              '/subscriptions/{subscriptionId}/' for subscription scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
@@ -52,15 +58,15 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   public list(
     scope: string,
-    options?: UsageDetailsListOptionalParams
+    options?: UsageDetailsListOptionalParams,
   ): PagedAsyncIterableIterator<UsageDetailUnion> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -75,14 +81,14 @@ export class UsageDetailsImpl implements UsageDetails {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: UsageDetailsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UsageDetailUnion[]> {
     let result: UsageDetailsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +110,7 @@ export class UsageDetailsImpl implements UsageDetails {
 
   private async *listPagingAll(
     scope: string,
-    options?: UsageDetailsListOptionalParams
+    options?: UsageDetailsListOptionalParams,
   ): AsyncIterableIterator<UsageDetailUnion> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -114,6 +120,12 @@ export class UsageDetailsImpl implements UsageDetails {
   /**
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
+   *
+   * **Note:Microsoft will be retiring the Consumption Usage Details API at some point in the future. We
+   * do not recommend that you take a new dependency on this API. Please use the Cost Details API
+   * instead. We will notify customers once a date for retirement has been determined.For Learn more,see
+   * [Generate Cost Details Report - Create
+   * Operation](https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP)**
    * @param scope The scope associated with usage details operations. This includes
    *              '/subscriptions/{subscriptionId}/' for subscription scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
@@ -129,19 +141,19 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   private _list(
     scope: string,
-    options?: UsageDetailsListOptionalParams
+    options?: UsageDetailsListOptionalParams,
   ): Promise<UsageDetailsListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -162,21 +174,21 @@ export class UsageDetailsImpl implements UsageDetails {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: UsageDetailsListNextOptionalParams
+    options?: UsageDetailsListNextOptionalParams,
   ): Promise<UsageDetailsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -188,36 +200,38 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageDetailsListResult
+      bodyMapper: Mappers.UsageDetailsListResult,
     },
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.expand,
-    Parameters.filter,
     Parameters.skiptoken,
     Parameters.top,
-    Parameters.apiVersion,
-    Parameters.metric
+    Parameters.filter,
+    Parameters.metric,
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageDetailsListResult
+      bodyMapper: Mappers.UsageDetailsListResult,
     },
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

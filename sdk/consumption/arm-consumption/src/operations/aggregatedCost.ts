@@ -15,7 +15,7 @@ import {
   AggregatedCostGetByManagementGroupOptionalParams,
   AggregatedCostGetByManagementGroupResponse,
   AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams,
-  AggregatedCostGetForBillingPeriodByManagementGroupResponse
+  AggregatedCostGetForBillingPeriodByManagementGroupResponse,
 } from "../models/index.js";
 
 /** Class containing AggregatedCost operations. */
@@ -38,11 +38,11 @@ export class AggregatedCostImpl implements AggregatedCost {
    */
   getByManagementGroup(
     managementGroupId: string,
-    options?: AggregatedCostGetByManagementGroupOptionalParams
+    options?: AggregatedCostGetByManagementGroupOptionalParams,
   ): Promise<AggregatedCostGetByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, options },
-      getByManagementGroupOperationSpec
+      getByManagementGroupOperationSpec,
     );
   }
 
@@ -56,11 +56,11 @@ export class AggregatedCostImpl implements AggregatedCost {
   getForBillingPeriodByManagementGroup(
     managementGroupId: string,
     billingPeriodName: string,
-    options?: AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams
+    options?: AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams,
   ): Promise<AggregatedCostGetForBillingPeriodByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupId, billingPeriodName, options },
-      getForBillingPeriodByManagementGroupOperationSpec
+      getForBillingPeriodByManagementGroupOperationSpec,
     );
   }
 }
@@ -68,40 +68,39 @@ export class AggregatedCostImpl implements AggregatedCost {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/aggregatedcost",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/aggregatedcost",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementGroupAggregatedCostResult
+      bodyMapper: Mappers.ManagementGroupAggregatedCostResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getForBillingPeriodByManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/aggregatedCost",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagementGroupAggregatedCostResult
+const getForBillingPeriodByManagementGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/aggregatedCost",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ManagementGroupAggregatedCostResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingPeriodName,
-    Parameters.managementGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.billingPeriodName1,
+      Parameters.managementGroupId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

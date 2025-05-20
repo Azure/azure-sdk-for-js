@@ -23,7 +23,7 @@ import {
   BudgetsCreateOrUpdateOptionalParams,
   BudgetsCreateOrUpdateResponse,
   BudgetsDeleteOptionalParams,
-  BudgetsListNextResponse
+  BudgetsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,13 +52,13 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
   public list(
     scope: string,
-    options?: BudgetsListOptionalParams
+    options?: BudgetsListOptionalParams,
   ): PagedAsyncIterableIterator<Budget> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -73,14 +73,14 @@ export class BudgetsImpl implements Budgets {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: BudgetsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Budget[]> {
     let result: BudgetsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class BudgetsImpl implements Budgets {
 
   private async *listPagingAll(
     scope: string,
-    options?: BudgetsListOptionalParams
+    options?: BudgetsListOptionalParams,
   ): AsyncIterableIterator<Budget> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -122,17 +122,17 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
   private _list(
     scope: string,
-    options?: BudgetsListOptionalParams
+    options?: BudgetsListOptionalParams,
   ): Promise<BudgetsListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,7 +149,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param options The options parameters.
@@ -157,11 +157,11 @@ export class BudgetsImpl implements Budgets {
   get(
     scope: string,
     budgetName: string,
-    options?: BudgetsGetOptionalParams
+    options?: BudgetsGetOptionalParams,
   ): Promise<BudgetsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, budgetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,7 +180,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param parameters Parameters supplied to the Create Budget operation.
@@ -190,11 +190,11 @@ export class BudgetsImpl implements Budgets {
     scope: string,
     budgetName: string,
     parameters: Budget,
-    options?: BudgetsCreateOrUpdateOptionalParams
+    options?: BudgetsCreateOrUpdateOptionalParams,
   ): Promise<BudgetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, budgetName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -211,7 +211,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param options The options parameters.
@@ -219,11 +219,11 @@ export class BudgetsImpl implements Budgets {
   delete(
     scope: string,
     budgetName: string,
-    options?: BudgetsDeleteOptionalParams
+    options?: BudgetsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, budgetName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -240,7 +240,7 @@ export class BudgetsImpl implements Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -248,11 +248,11 @@ export class BudgetsImpl implements Budgets {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: BudgetsListNextOptionalParams
+    options?: BudgetsListNextOptionalParams,
   ): Promise<BudgetsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -264,53 +264,53 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BudgetsListResult
+      bodyMapper: Mappers.BudgetsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Budget
+      bodyMapper: Mappers.Budget,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.budgetName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Budget
+      bodyMapper: Mappers.Budget,
     },
     201: {
-      bodyMapper: Mappers.Budget
+      bodyMapper: Mappers.Budget,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.budgetName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
@@ -318,26 +318,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.budgetName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BudgetsListResult
+      bodyMapper: Mappers.BudgetsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

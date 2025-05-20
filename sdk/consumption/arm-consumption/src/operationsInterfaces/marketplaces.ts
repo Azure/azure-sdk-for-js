@@ -7,7 +7,10 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Marketplace, MarketplacesListOptionalParams } from "../models/index.js";
+import {
+  Marketplace,
+  MarketplacesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Marketplaces. */
@@ -30,6 +33,6 @@ export interface Marketplaces {
    */
   list(
     scope: string,
-    options?: MarketplacesListOptionalParams
+    options?: MarketplacesListOptionalParams,
   ): PagedAsyncIterableIterator<Marketplace>;
 }

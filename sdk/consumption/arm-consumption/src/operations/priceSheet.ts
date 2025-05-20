@@ -12,10 +12,18 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
+  PriceSheetDownloadByBillingAccountPeriodOptionalParams,
+  PriceSheetDownloadByBillingAccountPeriodResponse,
   PriceSheetGetOptionalParams,
   PriceSheetGetResponse,
   PriceSheetGetByBillingPeriodOptionalParams,
-  PriceSheetGetByBillingPeriodResponse
+  PriceSheetGetByBillingPeriodResponse,
 } from "../models/index.js";
 
 /** Class containing PriceSheet operations. */
@@ -28,6 +36,96 @@ export class PriceSheetImpl implements PriceSheet {
    */
   constructor(client: ConsumptionManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Generates the pricesheet for the provided billing period asynchronously based on the enrollment id
+   * @param billingAccountId BillingAccount ID
+   * @param billingPeriodName Billing Period Name.
+   * @param options The options parameters.
+   */
+  async beginDownloadByBillingAccountPeriod(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: PriceSheetDownloadByBillingAccountPeriodOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PriceSheetDownloadByBillingAccountPeriodResponse>,
+      PriceSheetDownloadByBillingAccountPeriodResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<PriceSheetDownloadByBillingAccountPeriodResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountId, billingPeriodName, options },
+      spec: downloadByBillingAccountPeriodOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      PriceSheetDownloadByBillingAccountPeriodResponse,
+      OperationState<PriceSheetDownloadByBillingAccountPeriodResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Generates the pricesheet for the provided billing period asynchronously based on the enrollment id
+   * @param billingAccountId BillingAccount ID
+   * @param billingPeriodName Billing Period Name.
+   * @param options The options parameters.
+   */
+  async beginDownloadByBillingAccountPeriodAndWait(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: PriceSheetDownloadByBillingAccountPeriodOptionalParams,
+  ): Promise<PriceSheetDownloadByBillingAccountPeriodResponse> {
+    const poller = await this.beginDownloadByBillingAccountPeriod(
+      billingAccountId,
+      billingPeriodName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -47,62 +145,89 @@ export class PriceSheetImpl implements PriceSheet {
    */
   getByBillingPeriod(
     billingPeriodName: string,
-    options?: PriceSheetGetByBillingPeriodOptionalParams
+    options?: PriceSheetGetByBillingPeriodOptionalParams,
   ): Promise<PriceSheetGetByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
       { billingPeriodName, options },
-      getByBillingPeriodOperationSpec
+      getByBillingPeriodOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const downloadByBillingAccountPeriodOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/download",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatus,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatus,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatus,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountId,
+    Parameters.billingPeriodName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PriceSheetResult
+      bodyMapper: Mappers.PriceSheetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.expand,
     Parameters.skiptoken,
     Parameters.top,
-    Parameters.apiVersion
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByBillingPeriodOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PriceSheetResult
+      bodyMapper: Mappers.PriceSheetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.expand,
     Parameters.skiptoken,
     Parameters.top,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingPeriodName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.billingPeriodName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

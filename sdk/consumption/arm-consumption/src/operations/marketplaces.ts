@@ -18,7 +18,7 @@ import {
   MarketplacesListNextOptionalParams,
   MarketplacesListOptionalParams,
   MarketplacesListResponse,
-  MarketplacesListNextResponse
+  MarketplacesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class MarketplacesImpl implements Marketplaces {
    */
   public list(
     scope: string,
-    options?: MarketplacesListOptionalParams
+    options?: MarketplacesListOptionalParams,
   ): PagedAsyncIterableIterator<Marketplace> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -67,14 +67,14 @@ export class MarketplacesImpl implements Marketplaces {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: MarketplacesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Marketplace[]> {
     let result: MarketplacesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class MarketplacesImpl implements Marketplaces {
 
   private async *listPagingAll(
     scope: string,
-    options?: MarketplacesListOptionalParams
+    options?: MarketplacesListOptionalParams,
   ): AsyncIterableIterator<Marketplace> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -121,11 +121,11 @@ export class MarketplacesImpl implements Marketplaces {
    */
   private _list(
     scope: string,
-    options?: MarketplacesListOptionalParams
+    options?: MarketplacesListOptionalParams,
   ): Promise<MarketplacesListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class MarketplacesImpl implements Marketplaces {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: MarketplacesListNextOptionalParams
+    options?: MarketplacesListNextOptionalParams,
   ): Promise<MarketplacesListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -164,34 +164,36 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MarketplacesListResult
+      bodyMapper: Mappers.MarketplacesListResult,
     },
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
-    Parameters.filter,
+    Parameters.apiVersion,
     Parameters.skiptoken,
     Parameters.top,
-    Parameters.apiVersion
+    Parameters.filter,
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MarketplacesListResult
+      bodyMapper: Mappers.MarketplacesListResult,
     },
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

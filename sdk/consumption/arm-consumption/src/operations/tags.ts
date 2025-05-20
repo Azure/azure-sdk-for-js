@@ -40,11 +40,11 @@ export class TagsImpl implements Tags {
    */
   get(
     scope: string,
-    options?: TagsGetOptionalParams
+    options?: TagsGetOptionalParams,
   ): Promise<TagsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -56,15 +56,15 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsResult
+      bodyMapper: Mappers.TagsResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

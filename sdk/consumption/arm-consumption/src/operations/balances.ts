@@ -15,7 +15,7 @@ import {
   BalancesGetByBillingAccountOptionalParams,
   BalancesGetByBillingAccountResponse,
   BalancesGetForBillingPeriodByBillingAccountOptionalParams,
-  BalancesGetForBillingPeriodByBillingAccountResponse
+  BalancesGetForBillingPeriodByBillingAccountResponse,
 } from "../models/index.js";
 
 /** Class containing Balances operations. */
@@ -38,11 +38,11 @@ export class BalancesImpl implements Balances {
    */
   getByBillingAccount(
     billingAccountId: string,
-    options?: BalancesGetByBillingAccountOptionalParams
+    options?: BalancesGetByBillingAccountOptionalParams,
   ): Promise<BalancesGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, options },
-      getByBillingAccountOperationSpec
+      getByBillingAccountOperationSpec,
     );
   }
 
@@ -56,11 +56,11 @@ export class BalancesImpl implements Balances {
   getForBillingPeriodByBillingAccount(
     billingAccountId: string,
     billingPeriodName: string,
-    options?: BalancesGetForBillingPeriodByBillingAccountOptionalParams
+    options?: BalancesGetForBillingPeriodByBillingAccountOptionalParams,
   ): Promise<BalancesGetForBillingPeriodByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingPeriodName, options },
-      getForBillingPeriodByBillingAccountOperationSpec
+      getForBillingPeriodByBillingAccountOperationSpec,
     );
   }
 }
@@ -68,40 +68,39 @@ export class BalancesImpl implements Balances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/balances",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/balances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Balance
+      bodyMapper: Mappers.Balance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getForBillingPeriodByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Balance
+const getForBillingPeriodByBillingAccountOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.Balance,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountId,
-    Parameters.billingPeriodName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.billingAccountId,
+      Parameters.billingPeriodName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

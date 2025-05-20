@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./priceSheet.js";
 export * from "./usageDetails.js";
 export * from "./marketplaces.js";
 export * from "./budgets.js";
@@ -17,7 +18,6 @@ export * from "./reservationsDetails.js";
 export * from "./reservationRecommendations.js";
 export * from "./reservationRecommendationDetails.js";
 export * from "./reservationTransactions.js";
-export * from "./priceSheet.js";
 export * from "./operations.js";
 export * from "./aggregatedCost.js";
 export * from "./eventsOperations.js";

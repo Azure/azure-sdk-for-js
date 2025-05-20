@@ -7,22 +7,24 @@
  */
 
 import {
+  Scope,
   Term,
   LookBackPeriod,
   ReservationRecommendationDetailsGetOptionalParams,
-  ReservationRecommendationDetailsGetResponse
+  ReservationRecommendationDetailsGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a ReservationRecommendationDetails. */
 export interface ReservationRecommendationDetails {
   /**
    * Details of a reservation recommendation for what-if analysis of reserved instances.
-   * @param scope The scope associated with reservation recommendation details operations. This includes
-   *              '/subscriptions/{subscriptionId}/' for subscription scope,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
-   *              /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for billingProfile scope
+   * @param resourceScope The scope associated with reservation recommendation details operations. This
+   *                      includes '/subscriptions/{subscriptionId}/' for subscription scope,
+   *                      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope,
+   *                      /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for billingProfile scope
+   * @param scope Scope of the reservation.
    * @param region Used to select the region the recommendation should be generated for.
    * @param term Specify length of reservation recommendation term.
    * @param lookBackPeriod Filter the time period on which reservation recommendation results are based.
@@ -31,11 +33,12 @@ export interface ReservationRecommendationDetails {
    * @param options The options parameters.
    */
   get(
-    scope: string,
+    resourceScope: string,
+    scope: Scope,
     region: string,
     term: Term,
     lookBackPeriod: LookBackPeriod,
     product: string,
-    options?: ReservationRecommendationDetailsGetOptionalParams
+    options?: ReservationRecommendationDetailsGetOptionalParams,
   ): Promise<ReservationRecommendationDetailsGetResponse>;
 }
