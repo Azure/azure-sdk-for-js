@@ -320,7 +320,7 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
-/sdk/loadtesting/ @prativen @mitsha-microsoft @ninallam
+/sdk/loadtesting/ @azure/testing-services
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
