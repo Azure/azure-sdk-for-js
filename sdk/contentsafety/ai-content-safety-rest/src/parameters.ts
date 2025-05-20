@@ -38,8 +38,8 @@ export interface DetectTextProtectedMaterialBodyParam {
   body: DetectTextProtectedMaterialOptions;
 }
 
-export type DetectTextProtectedMaterialParameters =
-  DetectTextProtectedMaterialBodyParam & RequestParameters;
+export type DetectTextProtectedMaterialParameters = DetectTextProtectedMaterialBodyParam &
+  RequestParameters;
 export type GetTextBlocklistParameters = RequestParameters;
 /** The resource instance. */
 export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
@@ -54,10 +54,9 @@ export interface CreateOrUpdateTextBlocklistMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateTextBlocklistParameters =
-  CreateOrUpdateTextBlocklistMediaTypesParam &
-    CreateOrUpdateTextBlocklistBodyParam &
-    RequestParameters;
+export type CreateOrUpdateTextBlocklistParameters = CreateOrUpdateTextBlocklistMediaTypesParam &
+  CreateOrUpdateTextBlocklistBodyParam &
+  RequestParameters;
 export type DeleteTextBlocklistParameters = RequestParameters;
 export type ListTextBlocklistsParameters = RequestParameters;
 
@@ -66,16 +65,15 @@ export interface AddOrUpdateBlocklistItemsBodyParam {
   body: AddOrUpdateTextBlocklistItemsOptions;
 }
 
-export type AddOrUpdateBlocklistItemsParameters =
-  AddOrUpdateBlocklistItemsBodyParam & RequestParameters;
+export type AddOrUpdateBlocklistItemsParameters = AddOrUpdateBlocklistItemsBodyParam &
+  RequestParameters;
 
 export interface RemoveBlocklistItemsBodyParam {
   /** Options for removing blocklist items. */
   body: RemoveTextBlocklistItemsOptions;
 }
 
-export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam &
-  RequestParameters;
+export type RemoveBlocklistItemsParameters = RemoveBlocklistItemsBodyParam & RequestParameters;
 export type GetTextBlocklistItemParameters = RequestParameters;
 
 export interface ListTextBlocklistItemsQueryParamProperties {
@@ -91,5 +89,4 @@ export interface ListTextBlocklistItemsQueryParam {
   queryParameters?: ListTextBlocklistItemsQueryParamProperties;
 }
 
-export type ListTextBlocklistItemsParameters =
-  ListTextBlocklistItemsQueryParam & RequestParameters;
+export type ListTextBlocklistItemsParameters = ListTextBlocklistItemsQueryParam & RequestParameters;

@@ -77,8 +77,7 @@ export interface DetectTextProtectedMaterialDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface DetectTextProtectedMaterialDefaultResponse
-  extends HttpResponse {
+export interface DetectTextProtectedMaterialDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
@@ -118,8 +117,7 @@ export interface CreateOrUpdateTextBlocklistDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateTextBlocklistDefaultResponse
-  extends HttpResponse {
+export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
