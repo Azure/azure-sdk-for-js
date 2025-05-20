@@ -95,7 +95,7 @@ try {
       "headSha" = $configuration["commit"]
       "repoHttpsUrl" = "https://github.com/Azure/azure-rest-api-specs"
       "changedFiles" = @()
-      "runMode" = "local",
+      "runMode" = "local"
       "installInstructionInput" = @{
         "isPublic" = $true
         "downloadUrlPrefix" = ""
