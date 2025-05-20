@@ -54,10 +54,10 @@ function NpmInstallForProject([string]$workingDirectory) {
         }
 
         if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci"
+            Invoke-LoggedCommand "npm ci" -GroupOutput
         }
         else {
-            Invoke-LoggedCommand "npm install"
+            Invoke-LoggedCommand "npm install" -GroupOutput
         }
 
         if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -87,26 +87,53 @@ try {
 
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
 
-    if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
-        $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
-        if ($emitterAdditionalOptions.Length -gt 0) {
-            $emitterAdditionalOptions = " $emitterAdditionalOptions"
-        }
-    }
-    $typespecCompileCommand = "npx tsp compile $mainTypeSpecFile --emit $emitterName$emitterAdditionalOptions"
-    if ($TypespecAdditionalOptions) {
-        $options = $TypespecAdditionalOptions.Split(";");
-        foreach ($option in $options) {
-            $typespecCompileCommand += " --option $emitterName.$option"
-        }
+    Write-Host "Creating inputJson file"
+    $fileGenerateInput = 'generateInput.json';
+    $fileGenerateOutput = 'generateOutput.json';
+    $file_content = @{
+      "specFolder" = "../azure-rest-api-specs"
+      "headSha" = $configuration["commit"]
+      "repoHttpsUrl" = "https://github.com/Azure/azure-rest-api-specs"
+      "changedFiles" = @()
+      "runMode" = "local",
+      "installInstructionInput" = @{
+        "isPublic" = $true
+        "downloadUrlPrefix" = ""
+        "downloadCommandTemplate" = "downloadCommand"
+      }
+      "relatedTypeSpecProjectFolder" = @(
+        $configuration["directory"]
+      )
     }
 
-    if ($SaveInputs) {
-        $typespecCompileCommand += " --option $emitterName.save-inputs=true"
-    }
+    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
+    $destJson = $file_content | ConvertTo-Json -Depth 100
+    $destJson| Out-File -FilePath $inputJsonPath
+    Write-Host $destJson
 
-    Write-Host($typespecCompileCommand)
-    Invoke-Expression $typespecCompileCommand
+    $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
+    Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
+    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath" -GroupOutput
+    # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
+    #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
+    #     if ($emitterAdditionalOptions.Length -gt 0) {
+    #         $emitterAdditionalOptions = " $emitterAdditionalOptions"
+    #     }
+    # }
+    # $typespecCompileCommand = "npx tsp compile $mainTypeSpecFile --emit $emitterName$emitterAdditionalOptions"
+    # if ($TypespecAdditionalOptions) {
+    #     $options = $TypespecAdditionalOptions.Split(";");
+    #     foreach ($option in $options) {
+    #         $typespecCompileCommand += " --option $emitterName.$option"
+    #     }
+    # }
+
+    # if ($SaveInputs) {
+    #     $typespecCompileCommand += " --option $emitterName.save-inputs=true"
+    # }
+
+    # Write-Host($typespecCompileCommand)
+    # Invoke-Expression $typespecCompileCommand
 
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
 }

@@ -7,7 +7,10 @@ param(
 . $PSScriptRoot/common.ps1
 . $PSScriptRoot/Helpers/CommandInvocation-Helpers.ps1
 
-$ErrorActionPreference = 'Stop'
+Write-Host "Running automation_init.sh"
+Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_init.sh" -GroupOutput
+
+#$ErrorActionPreference = 'Stop'
 
 if (Test-Path "Function:$UpdateGeneratedSdksFn") {
     &$UpdateGeneratedSdksFn $PackageDirectoriesFile
