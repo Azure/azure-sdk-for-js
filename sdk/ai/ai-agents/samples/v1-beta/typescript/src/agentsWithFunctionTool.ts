@@ -103,9 +103,10 @@ export async function main(): Promise<void> {
           return undefined;
         }
       }
-      const result = this.functionTools
-        .find((tool) => tool.definition.function.name === toolCall.function.name)
-        ?.func(...args);
+      const functionMap = new Map(
+        this.functionTools.map((tool) => [tool.definition.function.name, tool.func]),
+      );
+      const result = functionMap.get(toolCall.function.name)?.(...args);
       return result
         ? {
             toolCallId: toolCall.id,
