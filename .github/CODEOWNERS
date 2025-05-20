@@ -804,6 +804,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/policy/arm-policy/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/planetarycomputer/arm-planetarycomputer/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
