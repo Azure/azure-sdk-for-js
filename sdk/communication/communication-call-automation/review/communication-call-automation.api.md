@@ -88,7 +88,6 @@ export type AudioFormat = string;
 export interface AudioMetadata {
     channels: Channel;
     encoding: string;
-    length: number;
     sampleRate: number;
     subscriptionId: string;
 }
@@ -570,11 +569,8 @@ export interface ListParticipantsResult {
     values?: CallParticipant[];
 }
 
-// @public (undocumented)
-export enum MediaKind {
-    AudioData = "audioData",
-    StopAudio = "stopAudio"
-}
+// @public
+export type MediaKind = "audioData" | "stopAudio";
 
 // @public
 export type MediaStreamingAudioChannelType = string;
@@ -1008,24 +1004,10 @@ export class StreamingData {
 }
 
 // @public (undocumented)
-export enum StreamingDataKind {
-    // (undocumented)
-    AudioData = "AudioData",
-    // (undocumented)
-    AudioMetadata = "AudioMetadata",
-    // (undocumented)
-    TranscriptionData = "TranscriptionData",
-    // (undocumented)
-    TranscriptionMetadata = "TranscriptionMetadata"
-}
+export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata";
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
-
-// @public
-export enum TextFormat {
-    Display = "display"
-}
 
 // @public
 export interface TextSource extends PlaySource {
@@ -1050,7 +1032,7 @@ export type Tone = string;
 export interface TranscriptionData {
     confidence: number;
     durationInTicks: number;
-    format: TextFormat;
+    format: string;
     offsetInTicks: number;
     participant: CommunicationIdentifier;
     // Warning: (ae-forgotten-export) The symbol "TranscriptionResultState" needs to be exported by the entry point index.d.ts
