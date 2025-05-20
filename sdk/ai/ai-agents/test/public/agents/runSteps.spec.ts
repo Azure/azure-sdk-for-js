@@ -37,33 +37,32 @@ describe("Agents - run steps", () => {
 
     // Create and poll a run
     console.log("Creating run...");
-    function onResponse(response: any): void {
-      const status = response.parsedBody?.status;
-      assert.oneOf(status, [
-        "queued",
-        "in_progress",
-        "requires_action",
-        "cancelling",
-        "cancelled",
-        "failed",
-        "completed",
-        "expired",
-      ]);
-
-      if (response.parsedBody?.lastError) {
-        console.log(
-          `Run status ${status} - ${response.parsedBody.lastError.code} - ${response.parsedBody.lastError.message}`,
-        );
-      }
-
-      console.log(`Run status - ${status}, run ID: ${response.parsedBody?.id}`);
-    }
-
     const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
       pollingOptions: {
         intervalInMs: 2000,
       },
-      onResponse: onResponse,
+      onResponse: (response): void => {
+        if (typeof response.parsedBody === 'object' && response.parsedBody !== null) {
+          const body = response.parsedBody as unknown as { status: string; lastError?: { code: string; message: string } };
+          const status = body.status;
+          assert.oneOf(status, [
+            "queued",
+            "in_progress",
+            "requires_action",
+            "cancelling",
+            "cancelled",
+            "failed",
+            "completed",
+            "expired",
+          ]);
+
+          if (body.lastError) {
+            console.log(
+              `Run status ${status} - ${body.lastError.code} - ${body.lastError.message}`,
+            );
+          }
+        }
+      },
     });
 
     assert.isNotNull(run);
@@ -98,22 +97,29 @@ describe("Agents - run steps", () => {
     const message = await projectsClient.messages.create(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
-    function onResponse(response: any): void {
-      assert.oneOf(response.parsedBody?.status, [
-        "queued",
-        "in_progress",
-        "requires_action",
-        "completed",
-      ]);
-      console.log(`Received response with status: ${response.parsedBody?.status}`);
-    }
     // Create and poll a run
     console.log("Creating run...");
     const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
       pollingOptions: {
         intervalInMs: 2000,
       },
-      onResponse: onResponse,
+      onResponse: (response): void => {
+        if (typeof response.parsedBody === 'object' && response.parsedBody !== null) {
+          const body = response.parsedBody as unknown as { status: string };
+          const status = body.status;
+          assert.oneOf(status, [
+            "queued",
+            "in_progress",
+            "requires_action",
+            "cancelling",
+            "cancelled",
+            "failed",
+            "completed",
+            "expired",
+          ]);
+          console.log(`Received response with status: ${body.status}`);
+        }
+      },
     });
     console.log(`Created run, run ID: ${run.id}`);
     console.log(`Run finished with status: ${run.status}`);
