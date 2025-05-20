@@ -10,7 +10,7 @@ import {
 import { setLogLevel } from "@azure/logger";
 import { diag, DiagConsoleLogger, DiagLogLevel, metrics } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { BatchLogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { BatchSpanProcessor, NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -26,7 +26,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Create and configure the Node Tracer provider
     const tracerProvider = new NodeTracerProvider({
-      resource: new Resource({
+      resource: resourceFromAttributes({
         [ATTR_SERVICE_NAME]: "basic-service",
       }),
       spanProcessors: [
@@ -79,7 +79,7 @@ describe("snippets", () => {
     const aiSampler = new ApplicationInsightsSampler(0.75);
     const provider = new NodeTracerProvider({
       sampler: aiSampler,
-      resource: new Resource({
+      resource: resourceFromAttributes({
         [ATTR_SERVICE_NAME]: "basic-service",
       }),
     });

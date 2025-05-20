@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import fs from "node:fs";
 import path from "node:path";
 import * as os from "node:os";
@@ -41,7 +41,7 @@ class TestExporter extends AzureMonitorMetricExporter {
   }
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
-    testMetrics.resource = new Resource({
+    testMetrics.resource = resourceFromAttributes({
       [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
       [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
@@ -116,19 +116,18 @@ describe("metricUtil.ts", () => {
     newEnv[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] = "false";
     process.env = newEnv;
 
-    const provider = new MeterProvider({
-      resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-      }),
-    });
     const exporter = new TestExporter({
       connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
     });
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: exporter,
     };
-    const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    provider.addMetricReader(metricReader);
+    const provider = new MeterProvider({
+      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+      resource: resourceFromAttributes({
+        [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+      }),
+    });
     const meter = provider.getMeter("example-meter-node");
     // Create Counter instrument with the meter
     const counter = meter.createCounter("counter");
@@ -156,19 +155,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter("counter");
@@ -209,19 +207,18 @@ describe("metricUtil.ts", () => {
       const expectedProperties = {
         "_MS.SentToAMW": "True",
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter("counter");
@@ -255,19 +252,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.PRIVATE_BYTES);
@@ -297,19 +293,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.AVAILABLE_BYTES);
@@ -339,19 +334,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.PROCESSOR_TIME);
@@ -381,19 +375,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.PROCESS_TIME_STANDARD);
@@ -423,19 +416,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_RATE);
@@ -465,19 +457,18 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_DURATION);
@@ -518,19 +509,18 @@ describe("metricUtil.ts", () => {
       const expectedProperties = {
         "_MS.SentToAMW": "True",
       };
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_DURATION);
@@ -551,19 +541,18 @@ describe("metricUtil.ts", () => {
       process.env = originalEnv;
     });
     it("should add not attach tags to statsbeat telemetry", async () => {
-      const provider = new MeterProvider({
-        resource: new Resource({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-      provider.addMetricReader(metricReader);
+      const provider = new MeterProvider({
+        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+        resource: resourceFromAttributes({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(StatsbeatCounter.SUCCESS_COUNT);
