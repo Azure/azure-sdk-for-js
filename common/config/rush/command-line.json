@@ -49,6 +49,28 @@
     },
     {
       "commandKind": "bulk",
+      "name": "integration-test:browser",
+      "summary": "Execute browser integration tests defined in projects",
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "integration-test:node",
+      "summary": "Execute Node integration tests defined in projects",
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "integration-test",
+      "summary": "Execute integration tests defined in projects",
+      "description": "Execute tests which require an actual service instance (live Azure, emulator, etc). Integration tests typically require service endpoints to be specified via environment variables in order to run.",
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "lint",
       "summary": "Lint projects",
       "enableParallelism": true

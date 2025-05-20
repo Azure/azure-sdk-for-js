@@ -1,54 +1,6 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
-
-## 4.4.1 (2025-05-15)
-
-### Bugs Fixed
-
-[#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346) Fixed an issue where `require` is being used in an ESM context. 
-
-## 4.4.0 (2025-05-13)
-
-### Features Added
-#### New Bulk API (Preview)
-The new `executeBulkOperations` API in the SDK brings significant enhancements for bulk workloads. It removes the previous 100-operation limit, adds operation-level retries for improved resilience, and introduces dynamic congestion control to optimize performance based on real-time system feedback.
-
-Example of using `executeBulkOperations`:
-```js
-const operations: OperationInput[] = [
-    {
-      operationType: BulkOperationType.Create,
-      partitionKey: "pkValue1",
-      resourceBody: { id: "doc1", name: "sample1", key: "key1" },
-    },
-    {
-      operationType: BulkOperationType.Create,
-      partitionKey: "pkValue2",
-      resourceBody: { id: "doc2", name: "sample2", key: "key1" },
-    },
-    // ...more operations
-  ];
-  const response = await container.items.executeBulkOperations(
-    operations,
-  );
-  // process the response
-```
-
-#### Weighted RRF
-Adds WeightedRankFusion query feature and support of component weights for weighted rank fusion in Hybrid Search.
-
-#### Optimized query plan that skips the order by rewrite
-Adds support for the optimized query plan that skips the order by rewrite. 
-This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanOptimization:true` in FeedOptions to disable this feature.
-
-### Bugs Fixed
-#### [#34088](https://github.com/Azure/azure-sdk-for-js/pull/34088) Fix documentation for default values of `useMultipleWriteLocations` and `enableBackgroundEndpointRefreshing`.
-#### [#33869](https://github.com/Azure/azure-sdk-for-js/pull/33869) Fix ChangeFeed Iterator merge
-
-### Other Changes
-#### Migrated the codebase to ESM. This change is internal and should not affect customers.
-#### Migrated tests to vitest.
-#### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use Uint8Array instead of Buffer.
-#### [#33728](https://github.com/Azure/azure-sdk-for-js/pull/33728) Update Entra authentication samples
 
 ## 4.3.0 (2025-03-18)
 

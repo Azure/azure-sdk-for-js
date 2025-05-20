@@ -720,9 +720,6 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
-      "cyclicDependencyProjects": [
-        "@azure/storage-file-share"
-      ],
       "versionPolicyName": "client"
     },
     {
@@ -828,11 +825,6 @@
     {
       "packageName": "@azure-tools/test-utils-vitest",
       "projectFolder": "sdk/test-utils/test-utils-vitest",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "@azure-tools/mcp-server",
-      "projectFolder": "common/tools/mcp-server",
       "versionPolicyName": "utility"
     },
     {
@@ -2316,11 +2308,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-agents",
-      "projectFolder": "sdk/ai/ai-agents",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/arm-impactreporting",
       "projectFolder": "sdk/impactreporting/arm-impactreporting",
       "versionPolicyName": "management"
@@ -2379,16 +2366,6 @@
       "packageName": "@azure/arm-carbonoptimization",
       "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
       "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-sitemanager",
-      "projectFolder": "sdk/sitemanager/arm-sitemanager",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure-rest/analytics-onlineexperimentation",
-      "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
-      "versionPolicyName": "client"
     }
   ]
 }

@@ -40,14 +40,10 @@ export interface DigitalTwinsAddRelationshipOptionalParams extends coreClient.Op
 }
 
 // @public
-export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & {
-    [propertyName: string]: any;
-};
+export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & Record<string, unknown>;
 
 // @public
-export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
-    [propertyName: string]: any;
-};
+export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & Record<string, unknown>;
 
 // @public
 export class DigitalTwinsClient {
@@ -98,9 +94,7 @@ export interface DigitalTwinsGetByIdHeaders {
 }
 
 // @public
-export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
-    [propertyName: string]: any;
-};
+export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & Record<string, unknown>;
 
 // @public
 export interface DigitalTwinsGetComponentHeaders {
@@ -108,9 +102,7 @@ export interface DigitalTwinsGetComponentHeaders {
 }
 
 // @public
-export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & {
-    [propertyName: string]: any;
-};
+export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & Record<string, unknown>;
 
 // @public
 export interface DigitalTwinsGetRelationshipByIdHeaders {
@@ -118,9 +110,7 @@ export interface DigitalTwinsGetRelationshipByIdHeaders {
 }
 
 // @public
-export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & {
-    [propertyName: string]: any;
-};
+export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & Record<string, unknown>;
 
 // @public
 export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection;
@@ -191,7 +181,7 @@ export interface EventRoute {
 // @public
 export interface EventRouteCollection {
     nextLink?: string;
-    value: EventRoute[];
+    value?: EventRoute[];
 }
 
 // @public
@@ -217,7 +207,7 @@ export interface IncomingRelationship {
 export interface IncomingRelationshipCollection {
     nextLink?: string;
     // (undocumented)
-    value: IncomingRelationship[];
+    value?: IncomingRelationship[];
 }
 
 // @public
@@ -244,7 +234,7 @@ export interface ListRelationshipsOptions extends coreClient.OperationOptions {
 // @public
 export interface PagedDigitalTwinsModelDataCollection {
     nextLink?: string;
-    value: DigitalTwinsModelData[];
+    value?: DigitalTwinsModelData[];
 }
 
 // @public
@@ -258,7 +248,7 @@ export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult;
 // @public
 export interface QueryResult {
     continuationToken?: string;
-    value: Record<string, unknown>[];
+    value?: Record<string, unknown>[];
 }
 
 // @public
@@ -275,7 +265,7 @@ export interface QueryTwinsOptions extends coreClient.OperationOptions {
 // @public
 export interface RelationshipCollection {
     nextLink?: string;
-    value: Record<string, unknown>[];
+    value?: Record<string, unknown>[];
 }
 
 // (No @packageDocumentation comment for this package)

@@ -116,7 +116,6 @@ import type {
   BlobSetImmutabilityPolicyResponse,
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
-  FileShareTokenIntent,
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
@@ -683,10 +682,6 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * Optional. Default 'REPLACE'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
    */
   copySourceTags?: BlobCopySourceTags;
-  /**
-   * Valid value is backup
-   */
-  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -1832,7 +1827,6 @@ export class BlobClient extends StorageClient {
           legalHold: options.legalHold,
           encryptionScope: options.encryptionScope,
           copySourceTags: options.copySourceTags,
-          fileRequestIntent: options.sourceShareTokenIntent,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
@@ -2575,10 +2569,6 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    */
   sourceContentCrc64?: Uint8Array;
   /**
-   * Valid value is backup
-   */
-  sourceShareTokenIntent?: FileShareTokenIntent;
-  /**
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
@@ -3027,7 +3017,6 @@ export class AppendBlobClient extends BlobClient {
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
             cpkInfo: options.customerProvidedKey,
             encryptionScope: options.encryptionScope,
-            fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -3174,10 +3163,6 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
    */
   copySourceTags?: BlobCopySourceTags;
-  /**
-   * Valid value is backup
-   */
-  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -3408,10 +3393,6 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
-  /**
-   * Valid value is backup
-   */
-  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -4023,7 +4004,6 @@ export class BlockBlobClient extends BlobClient {
             tier: toAccessTier(options.tier),
             blobTagsString: toBlobTagsString(options.tags),
             copySourceTags: options.copySourceTags,
-            fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -4110,7 +4090,6 @@ export class BlockBlobClient extends BlobClient {
             cpkInfo: options.customerProvidedKey,
             encryptionScope: options.encryptionScope,
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-            fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -4925,10 +4904,6 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
-  /**
-   * Valid value is backup
-   */
-  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -5293,7 +5268,6 @@ export class PageBlobClient extends BlobClient {
               cpkInfo: options.customerProvidedKey,
               encryptionScope: options.encryptionScope,
               copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-              fileRequestIntent: options.sourceShareTokenIntent,
               tracingOptions: updatedOptions.tracingOptions,
             },
           ),

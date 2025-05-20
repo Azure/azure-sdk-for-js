@@ -150,7 +150,6 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
-    sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 // @public
@@ -1321,7 +1320,6 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
-    sourceShareTokenIntent?: FileShareTokenIntent;
     tags?: Tags;
     tier?: BlockBlobTier | PremiumPageBlobTier | string;
 }
@@ -1520,7 +1518,6 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
-    sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 // @public
@@ -1567,7 +1564,6 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     sourceAuthorization?: HttpAuthorization;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentMD5?: Uint8Array;
-    sourceShareTokenIntent?: FileShareTokenIntent;
     tags?: Tags;
     tier?: BlockBlobTier | string;
     timeoutInSeconds?: number;
@@ -2152,9 +2148,6 @@ export type DeleteSnapshotsOptionType = "include" | "only";
 export type EncryptionAlgorithmType = string;
 
 // @public
-export type FileShareTokenIntent = string;
-
-// @public
 export interface FilterBlobItem {
     containerName: string;
     name: string;
@@ -2705,7 +2698,6 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
-    sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 // @public

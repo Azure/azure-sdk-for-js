@@ -22,12 +22,12 @@ export interface ConnectionPolicy {
   retryOptions?: RetryOptions;
   /**
    * The flag that enables writes on any locations (regions) for geo-replicated database accounts in the Azure Cosmos DB service.
-   * Default is `true`.
+   * Default is `false`.
    */
   useMultipleWriteLocations?: boolean;
   /** Rate in milliseconds at which the client will refresh the endpoints list in the background */
   endpointRefreshRateInMs?: number;
-  /** Flag to enable/disable background refreshing of endpoints. Defaults to true.
+  /** Flag to enable/disable background refreshing of endpoints. Defaults to false.
    * Endpoint discovery using `enableEndpointsDiscovery` will still work for failed requests. */
   enableBackgroundEndpointRefreshing?: boolean;
 }

@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/12de00e62d5760d296c3cf30796aeb315f6891ee/specification/storage/data-plane/Microsoft.BlobStorage/stable/2025-07-05/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b478dcdabacb37945ff89daa0eda1ae1afc98db4/specification/storage/data-plane/Microsoft.BlobStorage/stable/2025-01-05/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1472,6 +1472,15 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
+```
+
+### Update service version from "2025-01-05" to "2025-05-05"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2025-05-05" ];
 ```
 
 ### Remove structured body parameters.

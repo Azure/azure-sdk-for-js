@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -9,24 +9,6 @@
 ### Bugs Fixed
 
 ### Other Changes
-
-## 1.0.0-beta.7 (2025-05-14)
-
-### Features Added
-
-- Added new System Events:
-
-  - `Microsoft.ApiManagement.CircuitBreaker.Closed`
-  - `Microsoft.ApiManagement.CircuitBreaker.Opened`
-  - `Microsoft.ApiManagement.GatewayTokenExpired`
-  - `Microsoft.ApiManagement.GatewayTokenNearExpiry`
-  - `Microsoft.Communication.CallEnded": AcsCallEndedEventData`
-  - `Microsoft.Communication.CallParticipantAdded`
-  - `Microsoft.Communication.CallParticipantRemoved`
-  - `Microsoft.Communication.CallStarted`
-  - `Microsoft.Communication.ChatAzureBotCommandReceivedInThread`
-  - `Microsoft.Communication.ChatTypingIndicatorReceivedInThread`
-  - `Microsoft.Edge.SolutionVersionPublished`
 
 ## 1.0.0-beta.6 (2025-02-20)
 

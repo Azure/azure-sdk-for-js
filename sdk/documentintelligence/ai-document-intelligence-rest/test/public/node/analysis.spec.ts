@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
-import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "../../../src/index.js";
+import DocumentIntelligence from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   ASSET_PATH,
@@ -41,9 +41,7 @@ describe("DocumentIntelligenceClient", () => {
     client = DocumentIntelligence(
       getEndpoint(),
       createTestCredential(),
-      recorder.configureClientOptions({
-        credentials: { scopes: [KnownDocumentIntelligenceAudience.AzurePublicCloud] },
-      }),
+      recorder.configureClientOptions({}),
     );
   });
 

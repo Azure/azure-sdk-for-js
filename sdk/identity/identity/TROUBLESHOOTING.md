@@ -20,6 +20,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Permission issues](#permission-issues)
 - [Troubleshoot default Azure credential authentication issues](#troubleshoot-default-azure-credential-authentication-issues)
 - [Troubleshoot environment credential authentication issues](#troubleshoot-environment-credential-authentication-issues)
+- [Troubleshoot username and password authentication issues](#troubleshoot-username-and-password-authentication-issues)
 - [Troubleshoot service principal authentication issues](#troubleshoot-service-principal-authentication-issues)
 - [Troubleshoot managed identity authentication issues](#troubleshoot-managed-identity-authentication-issues)
   - [Azure Virtual Machine managed identity](#azure-virtual-machine-managed-identity)
@@ -209,12 +210,36 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 ### Client authentication error
 
-The `EnvironmentCredential` supports service principal authentication.
-Follow the troubleshooting guidelines below for the authentication type that failed.
+The `EnvironmentCredential` supports service principal authentication and username and password authentication.
+Follow the troubleshooting guidelines below for the respective authentication type that failed.
 
-| Authentication Type                            | Troubleshooting Guide                                                                 |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------- |
-| ClientSecret/ClientCertificate/ClientAssertion | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues) |
+| Authentication Type                            | Troubleshooting Guide                                                                     |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| ClientSecret/ClientCertificate/ClientAssertion | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues)     |
+| Username and password                          | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
+
+## Troubleshoot username and password authentication issues
+
+### AuthenticationRequiredError
+
+| Error Code  | Issue                                        | Mitigation                                                                                |
+| ----------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| AADSTS50126 | The provided username or password is invalid | Ensure the `username` and `password` provided when constructing the credential are valid. |
+
+### Two-factor authentication required error
+
+The `UsernamePasswordCredential` works only for users whose two-factor authentication has been disabled in Microsoft Entra ID. You can change the multi-factor authentication in the Azure portal with the steps [here](https://learn.microsoft.com/entra/identity/authentication/howto-mfa-userstates#change-the-status-for-a-user).
+
+### Request body must contain the following parameter: 'client_assertion' or 'client_secret'
+
+The error `The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, occurs because of how the Microsoft Entra app is configured. The Microsoft Entra app registration seems to be configured as a confidential app. The `UsernamePasswordCredential` works only with public clients and doesn't support confidential apps. To support confidential apps, use either `ClientSecretCredential` or `ClientCertificateCredential` instead.
+
+To allow public client authentication on your Microsoft Entra tenant:
+
+1. In the Azure portal, navigate to the **Authentication** page.
+2. Scroll to the bottom of the page. You'll see something that says **Allow public client flows**. Near that, you'll see a **yes** / **no** toggle. Set this toggle to **yes**.
+
+After that, you shouldn't need to specify a client secret to authenticate with this credential.
 
 ## Troubleshoot service principal authentication issues
 

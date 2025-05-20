@@ -55,7 +55,7 @@ export type ExtractPromise<T> = T extends Promise<infer U> ? U : never;
  * Created a Diagnostic node and add it as a child to existing diagnostic session.
  * @hidden
  */
-export async function addDiagnosticChild<
+export async function addDignosticChild<
   Callback extends (node: DiagnosticNodeInternal) => Promise<any>,
 >(
   callback: Callback,

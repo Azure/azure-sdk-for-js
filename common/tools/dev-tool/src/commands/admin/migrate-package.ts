@@ -348,15 +348,15 @@ function setScriptsSection(
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   if (options.browser) {
-    scripts["test:browser"] =
+    scripts["unit-test:browser"] =
       "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
   }
 
-  scripts["test:node"] = "dev-tool run test:vitest";
-  scripts["test:node:esm"] = "dev-tool run test:vitest --esm";
+  scripts["unit-test:node"] = "dev-tool run test:vitest";
 
   if (options.isArm) {
-    scripts["test:browser"] = "echo skipped";
+    scripts["unit-test:browser"] = "echo skipped";
+    scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
   }
 
   if (!options.formatTests) {

@@ -9,12 +9,11 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
+  OperationQueryParameter
 } from "@azure/core-client";
 import {
   QuerySpecification as QuerySpecificationMapper,
-  EventRoute as EventRouteMapper,
-  ImportJob as ImportJobMapper,
+  EventRoute as EventRouteMapper
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -24,30 +23,29 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const models: OperationParameter = {
-  parameterPath: "models",
+  parameterPath: ["options", "models"],
   mapper: {
     constraints: {
       MinItems: 1,
-      UniqueItems: true,
+      UniqueItems: true
     },
     serializedName: "models",
-    required: true,
     type: {
       name: "Sequence",
       element: {
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
 };
 
 export const accept: OperationParameter = {
@@ -57,9 +55,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const $host: OperationURLParameter = {
@@ -68,22 +66,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String",
-    },
+      name: "String"
+    }
   },
-  skipEncoding: true,
+  skipEncoding: true
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-31",
+    defaultValue: "2020-10-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const dependenciesFor: OperationQueryParameter = {
@@ -94,12 +92,12 @@ export const dependenciesFor: OperationQueryParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String",
-        },
-      },
-    },
+          name: "String"
+        }
+      }
+    }
   },
-  collectionFormat: "Multi",
+  collectionFormat: "Multi"
 };
 
 export const includeModelDefinition: OperationQueryParameter = {
@@ -108,9 +106,9 @@ export const includeModelDefinition: OperationQueryParameter = {
     defaultValue: false,
     serializedName: "includeModelDefinition",
     type: {
-      name: "Boolean",
-    },
-  },
+      name: "Boolean"
+    }
+  }
 };
 
 export const resultsPerPage: OperationParameter = {
@@ -118,9 +116,9 @@ export const resultsPerPage: OperationParameter = {
   mapper: {
     serializedName: "max-items-per-page",
     type: {
-      name: "Number",
-    },
-  },
+      name: "Number"
+    }
+  }
 };
 
 export const id: OperationURLParameter = {
@@ -129,9 +127,9 @@ export const id: OperationURLParameter = {
     serializedName: "id",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const contentType1: OperationParameter = {
@@ -141,9 +139,9 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const updateModel: OperationParameter = {
@@ -156,11 +154,11 @@ export const updateModel: OperationParameter = {
       element: {
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {
@@ -169,15 +167,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String",
-    },
+      name: "String"
+    }
   },
-  skipEncoding: true,
+  skipEncoding: true
 };
 
 export const querySpecification: OperationParameter = {
   parameterPath: "querySpecification",
-  mapper: QuerySpecificationMapper,
+  mapper: QuerySpecificationMapper
 };
 
 export const twin: OperationParameter = {
@@ -187,9 +185,9 @@ export const twin: OperationParameter = {
     required: true,
     type: {
       name: "Dictionary",
-      value: { type: { name: "any" } },
-    },
-  },
+      value: { type: { name: "any" } }
+    }
+  }
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -197,9 +195,9 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const ifMatch: OperationParameter = {
@@ -207,9 +205,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const patchDocument: OperationParameter = {
@@ -222,11 +220,11 @@ export const patchDocument: OperationParameter = {
       element: {
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
 };
 
 export const relationshipId: OperationURLParameter = {
@@ -235,9 +233,9 @@ export const relationshipId: OperationURLParameter = {
     serializedName: "relationshipId",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const relationship: OperationParameter = {
@@ -247,9 +245,9 @@ export const relationship: OperationParameter = {
     required: true,
     type: {
       name: "Dictionary",
-      value: { type: { name: "any" } },
-    },
-  },
+      value: { type: { name: "any" } }
+    }
+  }
 };
 
 export const relationshipName: OperationQueryParameter = {
@@ -257,9 +255,9 @@ export const relationshipName: OperationQueryParameter = {
   mapper: {
     serializedName: "relationshipName",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const telemetry: OperationParameter = {
@@ -269,9 +267,9 @@ export const telemetry: OperationParameter = {
     required: true,
     type: {
       name: "Dictionary",
-      value: { type: { name: "any" } },
-    },
-  },
+      value: { type: { name: "any" } }
+    }
+  }
 };
 
 export const messageId: OperationParameter = {
@@ -280,9 +278,9 @@ export const messageId: OperationParameter = {
     serializedName: "Message-Id",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const telemetrySourceTime: OperationParameter = {
@@ -290,9 +288,9 @@ export const telemetrySourceTime: OperationParameter = {
   mapper: {
     serializedName: "Telemetry-Source-Time",
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const componentPath: OperationURLParameter = {
@@ -301,37 +299,12 @@ export const componentPath: OperationURLParameter = {
     serializedName: "componentPath",
     required: true,
     type: {
-      name: "String",
-    },
-  },
+      name: "String"
+    }
+  }
 };
 
 export const eventRoute: OperationParameter = {
-  parameterPath: "eventRoute",
-  mapper: EventRouteMapper,
-};
-
-export const importJob: OperationParameter = {
-  parameterPath: "importJob",
-  mapper: ImportJobMapper,
-};
-
-export const operationId: OperationParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operation-id",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const timeoutInMinutes: OperationQueryParameter = {
-  parameterPath: "timeoutInMinutes",
-  mapper: {
-    serializedName: "timeoutInMinutes",
-    type: {
-      name: "Number",
-    },
-  },
+  parameterPath: ["options", "eventRoute"],
+  mapper: EventRouteMapper
 };

@@ -368,7 +368,7 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
 
     # this is the primary loop that identifies the packages that have changes
     foreach ($pkg in $allPackageProperties) {
-        Write-Verbose "Processing changed files against $($pkg.Name). $pkgCounter of $($allPackageProperties.Count)."
+        Write-Host "Processing changed files against $($pkg.Name). $pkgCounter of $($allPackageProperties.Count)."
         $pkgDirectory = (Resolve-Path "$($pkg.DirectoryPath)").Path.Replace("`\", "/")
         $lookupKey = $pkgDirectory.Replace($RepoRoot, "").TrimStart('\/')
         $lookup[$lookupKey] = $pkg
@@ -389,8 +389,6 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
             # handle direct changes to packages
             $shouldInclude = $filePath -eq $pkgDirectory -or $filePath -like "$pkgDirectory/*"
 
-            $includeMsg = "Including '$($pkg.Name)' because of changed file '$filePath'."
-
             # we only need to do additional work for indirect packages if we haven't already decided
             # to include this package due to this file
             if (-not $shouldInclude) {
@@ -401,7 +399,6 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
                     $includedForValidation = ($filePath -like ("$resolvedRelativePath/*") -or $filePath -eq $resolvedRelativePath)
                     $shouldInclude = $shouldInclude -or $includedForValidation
                     if ($includedForValidation) {
-                        $includeMsg += " - (triggerPath: '$triggerPath')"
                         break
                     }
                 }
@@ -451,8 +448,6 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
             }
 
             if ($shouldInclude) {
-
-                LogInfo $includeMsg
                 $packagesWithChanges += $pkg
 
                 if ($pkg.AdditionalValidationPackages) {
@@ -479,7 +474,6 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
 
             if ($pkg.Name -notin $existingPackageNames) {
                 $pkg.IncludedForValidation = $true
-                LogInfo "Including '$($pkg.Name)' for validation only because it is a dependency of another package."
                 $packagesWithChanges += $pkg
             }
         }
@@ -490,9 +484,6 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
     if ($AdditionalValidationPackagesFromPackageSetFn -and (Test-Path "Function:$AdditionalValidationPackagesFromPackageSetFn")) {
         $additionalPackages = &$AdditionalValidationPackagesFromPackageSetFn $packagesWithChanges $diff $allPackageProperties
         $packagesWithChanges += $additionalPackages
-        foreach ($pkg in $additionalPackages) {
-            LogInfo "Including '$($pkg.Name)' from the additional validation package set."
-        }
     }
 
     # finally, if we have gotten all the way here and we still don't have any packages, we should include the template service

@@ -224,7 +224,6 @@ const appendBlockFromUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.sourceIfNoneMatch,
     Parameters.sourceContentMD5,
     Parameters.copySourceAuthorization,
-    Parameters.fileRequestIntent,
     Parameters.transactionalContentMD5,
     Parameters.sourceUrl,
     Parameters.sourceContentCrc64,

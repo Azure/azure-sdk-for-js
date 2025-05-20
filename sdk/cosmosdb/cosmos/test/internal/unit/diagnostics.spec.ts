@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import {
-  addDiagnosticChild,
+  addDignosticChild,
   getEmptyCosmosDiagnostics,
   withDiagnostics,
 } from "../../../src/utils/diagnostics.js";
@@ -67,17 +67,17 @@ describe("Diagnostic Unit Tests", () => {
     });
   });
 
-  describe("Test addDiagnosticChild utility function", async function () {
-    it("Test in case of exception, exception Diagnostic Node is marked failed and exception is rethrown.", async function () {
+  describe("Test addDignosticChild utility function", async () => {
+    it("Test in case of exception, exception Diagnostic Node is marked failed and exception is rethrown.", async () => {
       const diagnosticNode = new DiagnosticNodeInternal(
         CosmosDbDiagnosticLevel.debug,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
         null,
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-      // Ensure that addDiagnosticChild throws an exception by wrapping it in a function
-      const wrapperFunction = async () => {
-        await addDiagnosticChild(
+      // Ensure that addDignosticChild throws an exception by wrapping it in a function
+      const wrapperFunction = async (): Promise<void> => {
+        await addDignosticChild(
           async (childNode) => {
             assert.isDefined(childNode);
             throw new ErrorResponse("Testing error handling in diagnostic child.");
@@ -98,7 +98,7 @@ describe("Diagnostic Unit Tests", () => {
 
     it("Test in case debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async () => {
       const testValue = "testValue";
-      // Ensure that addDiagnosticChild throws an exception by wrapping it in a function
+      // Ensure that addDignosticChild throws an exception by wrapping it in a function
       await Promise.all(
         [CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debugUnsafe].map(
           async (diagnosticLevel) => {
@@ -108,7 +108,7 @@ describe("Diagnostic Unit Tests", () => {
               null,
             );
             const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-            const testResponse = await addDiagnosticChild(
+            const testResponse = await addDignosticChild(
               async (childNode) => {
                 assert.isDefined(childNode);
                 return testValue;
@@ -134,8 +134,8 @@ describe("Diagnostic Unit Tests", () => {
         null,
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-      // Ensure that addDiagnosticChild throws an exception by wrapping it in a function
-      await addDiagnosticChild(
+      // Ensure that addDignosticChild throws an exception by wrapping it in a function
+      await addDignosticChild(
         async (childNode) => {
           assert.isDefined(childNode);
         },

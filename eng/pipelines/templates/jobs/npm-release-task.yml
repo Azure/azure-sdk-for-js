@@ -34,7 +34,7 @@ jobs:
           steps:
           - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
           - pwsh: |
-              $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName | Select -First 1
+              $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
               $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
               New-Item -ItemType Directory -Force -Path $tempDir
               tar -xzf $tarFile -C $tempDir

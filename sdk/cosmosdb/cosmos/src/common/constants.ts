@@ -61,7 +61,6 @@ export const Constants = {
     Location: "Location",
     Referer: "referer",
     A_IM: "A-IM",
-    PreferReturnMinimal: "return=minimal",
 
     // Query
     Query: "x-ms-documentdb-query",
@@ -218,15 +217,13 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.4.1",
+  SDKVersion: "4.3.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
-  MaxBulkOperationsCount: 100,
-  BulkMaxDegreeOfConcurrency: 20,
 
   // Encryption
   Encryption: {
@@ -526,8 +523,6 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
-  WeightedRankFusion = "WeightedRankFusion",
-  HybridSearchSkipOrderByRewrite = "HybridSearchSkipOrderByRewrite",
 }
 
 export enum SDKSupportedCapabilities {

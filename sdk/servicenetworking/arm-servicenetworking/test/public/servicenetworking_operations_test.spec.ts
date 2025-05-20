@@ -49,7 +49,7 @@ describe("ServiceNetworking test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "eastus";
+    location = "centraluseuap";
     resourceGroup = "myjstest";
     trafficControllerName = "TC1";
   });

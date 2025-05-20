@@ -2010,13 +2010,6 @@ export function isUnexpected(response: AuthorizeClassifierCopy200Response | Auth
 export function isUnexpected(response: CopyClassifierTo202Response | CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse): response is CopyClassifierToDefaultResponse;
 
 // @public
-export enum KnownDocumentIntelligenceAudience {
-    AzureChina = "https://cognitiveservices.azure.cn",
-    AzureGovernment = "https://cognitiveservices.azure.us",
-    AzurePublicCloud = "https://cognitiveservices.azure.com"
-}
-
-// @public
 export type LengthUnitOutput = string;
 
 // @public (undocumented)

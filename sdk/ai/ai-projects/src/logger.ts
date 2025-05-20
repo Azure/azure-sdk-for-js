@@ -2,4 +2,5 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("ai-projects");
+import { PACKAGE_NAME } from "./constants.js";
+export const logger = createClientLogger(PACKAGE_NAME);

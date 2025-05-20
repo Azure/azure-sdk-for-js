@@ -13,6 +13,5 @@ export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 export * from "./utils.js";
-export { KnownDocumentIntelligenceAudience } from "./audience.js";
 
 export default DocumentIntelligence;

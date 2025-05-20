@@ -24,7 +24,7 @@ import {
   DigitalTwinModelsGetByIdResponse,
   DigitalTwinModelsUpdateOptionalParams,
   DigitalTwinModelsDeleteOptionalParams,
-  DigitalTwinModelsListNextResponse,
+  DigitalTwinModelsListNextResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    * @param options The options parameters.
    */
   public list(
-    options?: DigitalTwinModelsListOptionalParams,
+    options?: DigitalTwinModelsListOptionalParams
   ): PagedAsyncIterableIterator<DigitalTwinsModelData> {
     const iter = this.listPagingAll(options);
     return {
@@ -67,13 +67,13 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     options?: DigitalTwinModelsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<DigitalTwinsModelData[]> {
     let result: DigitalTwinModelsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
   }
 
   private async *listPagingAll(
-    options?: DigitalTwinModelsListOptionalParams,
+    options?: DigitalTwinModelsListOptionalParams
   ): AsyncIterableIterator<DigitalTwinsModelData> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -112,17 +112,12 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    *   * ModelVersionNotSupported - The version of DTDL used is not supported.
    * * 409 Conflict
    *   * ModelAlreadyExists - The model provided already exists.
-   * @param models An array of models to add.
    * @param options The options parameters.
    */
   add(
-    models: Record<string, unknown>[],
-    options?: DigitalTwinModelsAddOptionalParams,
+    options?: DigitalTwinModelsAddOptionalParams
   ): Promise<DigitalTwinModelsAddResponse> {
-    return this.client.sendOperationRequest(
-      { models, options },
-      addOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, addOperationSpec);
   }
 
   /**
@@ -137,7 +132,7 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    * @param options The options parameters.
    */
   private _list(
-    options?: DigitalTwinModelsListOptionalParams,
+    options?: DigitalTwinModelsListOptionalParams
   ): Promise<DigitalTwinModelsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -156,11 +151,11 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    */
   getById(
     id: string,
-    options?: DigitalTwinModelsGetByIdOptionalParams,
+    options?: DigitalTwinModelsGetByIdOptionalParams
   ): Promise<DigitalTwinModelsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { id, options },
-      getByIdOperationSpec,
+      getByIdOperationSpec
     );
   }
 
@@ -184,11 +179,11 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
   update(
     id: string,
     updateModel: Record<string, unknown>[],
-    options?: DigitalTwinModelsUpdateOptionalParams,
+    options?: DigitalTwinModelsUpdateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { id, updateModel, options },
-      updateOperationSpec,
+      updateOperationSpec
     );
   }
 
@@ -208,11 +203,11 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    */
   delete(
     id: string,
-    options?: DigitalTwinModelsDeleteOptionalParams,
+    options?: DigitalTwinModelsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { id, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -223,11 +218,11 @@ export class DigitalTwinModelsImpl implements DigitalTwinModels {
    */
   private _listNext(
     nextLink: string,
-    options?: DigitalTwinModelsListNextOptionalParams,
+    options?: DigitalTwinModelsListNextOptionalParams
   ): Promise<DigitalTwinModelsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -243,60 +238,57 @@ const addOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DigitalTwinsModelData" },
-          },
-        },
-      },
+            type: { name: "Composite", className: "DigitalTwinsModelData" }
+          }
+        }
+      }
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.DigitalTwinModelsAddExceptionHeaders,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.models,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/models",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedDigitalTwinsModelDataCollection,
+      bodyMapper: Mappers.PagedDigitalTwinsModelDataCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.DigitalTwinModelsListExceptionHeaders,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.dependenciesFor,
-    Parameters.includeModelDefinition,
+    Parameters.includeModelDefinition
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.resultsPerPage],
-  serializer,
+  serializer
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/models/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsModelData,
+      bodyMapper: Mappers.DigitalTwinsModelData
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.DigitalTwinModelsGetByIdExceptionHeaders,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeModelDefinition],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/models/{id}",
@@ -304,16 +296,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.DigitalTwinModelsUpdateExceptionHeaders,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.updateModel,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/models/{id}",
@@ -321,28 +312,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.DigitalTwinModelsDeleteExceptionHeaders,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedDigitalTwinsModelDataCollection,
+      bodyMapper: Mappers.PagedDigitalTwinsModelDataCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.DigitalTwinModelsListNextExceptionHeaders,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.resultsPerPage],
-  serializer,
+  serializer
 };

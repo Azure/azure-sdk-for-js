@@ -68,11 +68,10 @@ import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking"
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>"
- });
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
 ```
-
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
@@ -81,7 +80,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### ServiceNetworkingManagementClient
 
-`ServiceNetworkingManagementClient` is the primary interface for developers using the Azure ServiceNetworkingManagement client library. Explore the methods on this client object to understand the different features of the Azure ServiceNetworkingManagement service that you can access.
+`ServiceNetworkingManagementClient` is the primary interface for developers using the Azure ServiceNetworking client library. Explore the methods on this client object to understand the different features of the Azure ServiceNetworking service that you can access.
 
 ## Troubleshooting
 

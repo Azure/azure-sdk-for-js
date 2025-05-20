@@ -539,36 +539,6 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
 export type FileCreateResponse = WithResponse<FileCreateHeaders, FileCreateHeaders>;
 
 // @public
-export interface FileCreateSymbolicLinkHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    etag?: string;
-    fileChangeTime?: Date;
-    fileCreationTime?: Date;
-    fileId?: string;
-    fileLastWriteTime?: Date;
-    fileParentId?: string;
-    lastModified?: Date;
-    posixProperties?: FilePosixProperties;
-    requestId?: string;
-    version?: string;
-}
-
-// @public
-export interface FileCreateSymbolicLinkOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    creationTime?: Date | TimeNowType;
-    group?: string;
-    lastWriteTime?: Date | TimeNowType;
-    leaseAccessConditions?: LeaseAccessConditions;
-    metadata?: Metadata;
-    owner?: string;
-}
-
-// @public
-export type FileCreateSymbolicLinkResponse = WithResponse<FileCreateSymbolicLinkHeaders, FileCreateSymbolicLinkHeaders>;
-
-// @public
 export interface FileDeleteHeaders {
     date?: Date;
     errorCode?: string;
@@ -767,25 +737,6 @@ export interface FileGetRangeListOptions extends CommonOptions {
 export type FileGetRangeListResponse = WithResponse<FileGetRangeListHeaders & {
     rangeList: RangeModel[];
 }, FileGetRangeListHeaders, RangeModel[]>;
-
-// @public
-export interface FileGetSymbolicLinkHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    etag?: string;
-    lastModified?: Date;
-    linkText?: string;
-    requestId?: string;
-    version?: string;
-}
-
-// @public
-export interface FileGetSymbolicLinkOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export type FileGetSymbolicLinkResponse = WithResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>;
 
 // @public (undocumented)
 export interface FileHttpHeaders {
@@ -1747,7 +1698,6 @@ export class ShareFileClient extends StorageClient {
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     createHardLink(targetFile: string, options?: FileCreateHardLinkOptions): Promise<FileCreateHardLinkResponse>;
-    createSymbolicLink(linkText: string, options?: FileCreateSymbolicLinkOptions): Promise<FileCreateSymbolicLinkResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
@@ -1763,7 +1713,6 @@ export class ShareFileClient extends StorageClient {
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
-    getSymbolicLink(options?: FileGetSymbolicLinkOptions): Promise<FileGetSymbolicLinkResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
     get name(): string;
     get path(): string;

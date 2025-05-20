@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.4.1",
+  "version": "4.3.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -51,10 +51,9 @@
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "npm run test:node:unit && npm run test:node:live",
+    "test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test:node:live": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
-    "test:node:unit": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "update-snippets": "dev-tool run update-snippets"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -102,7 +101,6 @@
       "EntraAuth.ts",
       "AlterQueryThroughput.ts",
       "Bulk.ts",
-      "ExecuteBulkOperations.ts",
       "BulkUpdateWithSproc.ts",
       "ChangeFeed.ts",
       "ContainerManagement.ts",

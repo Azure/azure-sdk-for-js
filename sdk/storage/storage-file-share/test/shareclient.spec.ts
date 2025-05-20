@@ -10,7 +10,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import type { ShareItem, ShareServiceClient, SignedIdentifier } from "../src/index.js";
+import type { ShareItem, ShareServiceClient } from "../src/index.js";
 import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
@@ -372,41 +372,6 @@ describe("ShareClient - OAuth", () => {
     assert.equal(getPermissionResp.errorCode, undefined);
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
-  });
-
-  it("create and get access policy", async () => {
-    const yesterday = new Date(recorder.variable("now", new Date().toISOString()));
-    const tomorrow = new Date(recorder.variable("now", new Date().toISOString()));
-    yesterday.setDate(yesterday.getDate() - 1);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const identifiers: SignedIdentifier[] = [
-      {
-        accessPolicy: {
-          expiresOn: tomorrow,
-          permissions: "rwd",
-          startsOn: yesterday,
-        },
-        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
-      },
-    ];
-
-    await shareClient.setAccessPolicy(identifiers);
-    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
-
-    assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
-    assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiresOn.getTime(),
-      identifiers[0].accessPolicy.expiresOn.getTime(),
-    );
-    assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.startsOn.getTime(),
-      identifiers[0].accessPolicy.startsOn.getTime(),
-    );
-    assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,
-      identifiers[0].accessPolicy.permissions,
-    );
   });
 
   it("create and delete directory", async () => {

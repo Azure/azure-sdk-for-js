@@ -46,7 +46,6 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames, c
         break;
 
       case "lint":
-      case "update-snippets":
         exitCode = runRushInPackageDirs(action, packageDirs);
         break;
       case "check-format":

@@ -15,7 +15,7 @@ import {
   DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsGetByIdResponse,
   DigitalTwinModelsUpdateOptionalParams,
-  DigitalTwinModelsDeleteOptionalParams,
+  DigitalTwinModelsDeleteOptionalParams
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface DigitalTwinModels {
    * @param options The options parameters.
    */
   list(
-    options?: DigitalTwinModelsListOptionalParams,
+    options?: DigitalTwinModelsListOptionalParams
   ): PagedAsyncIterableIterator<DigitalTwinsModelData>;
   /**
    * Uploads one or more models. When any error occurs, no models are uploaded.
@@ -46,12 +46,10 @@ export interface DigitalTwinModels {
    *   * ModelVersionNotSupported - The version of DTDL used is not supported.
    * * 409 Conflict
    *   * ModelAlreadyExists - The model provided already exists.
-   * @param models An array of models to add.
    * @param options The options parameters.
    */
   add(
-    models: Record<string, unknown>[],
-    options?: DigitalTwinModelsAddOptionalParams,
+    options?: DigitalTwinModelsAddOptionalParams
   ): Promise<DigitalTwinModelsAddResponse>;
   /**
    * Retrieves model metadata and optionally the model definition.
@@ -67,7 +65,7 @@ export interface DigitalTwinModels {
    */
   getById(
     id: string,
-    options?: DigitalTwinModelsGetByIdOptionalParams,
+    options?: DigitalTwinModelsGetByIdOptionalParams
   ): Promise<DigitalTwinModelsGetByIdResponse>;
   /**
    * Updates the metadata for a model.
@@ -89,7 +87,7 @@ export interface DigitalTwinModels {
   update(
     id: string,
     updateModel: Record<string, unknown>[],
-    options?: DigitalTwinModelsUpdateOptionalParams,
+    options?: DigitalTwinModelsUpdateOptionalParams
   ): Promise<void>;
   /**
    * Deletes a model. A model can only be deleted if no other models reference it.
@@ -107,6 +105,6 @@ export interface DigitalTwinModels {
    */
   delete(
     id: string,
-    options?: DigitalTwinModelsDeleteOptionalParams,
+    options?: DigitalTwinModelsDeleteOptionalParams
   ): Promise<void>;
 }

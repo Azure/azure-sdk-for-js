@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
 import {
   TrafficControllerInterfaceListBySubscriptionOptionalParams,
   TrafficControllerInterfaceListByResourceGroupOptionalParams,
@@ -10,15 +8,17 @@ import {
   TrafficControllerInterfaceUpdateOptionalParams,
   TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   TrafficControllerInterfaceGetOptionalParams,
-} from "../../api/trafficControllerInterface/options.js";
+} from "../../api/options.js";
+import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
 import {
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/trafficControllerInterface/operations.js";
+  trafficControllerInterfaceListBySubscription,
+  trafficControllerInterfaceListByResourceGroup,
+  trafficControllerInterfaceDelete,
+  trafficControllerInterfaceUpdate,
+  trafficControllerInterfaceCreateOrUpdate,
+  trafficControllerInterfaceGet,
+} from "../../api/trafficControllerInterface/index.js";
+import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface TrafficControllerInterfaceOperations {
     options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<TrafficController>;
   /** Delete a TrafficController */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,
@@ -69,33 +64,48 @@ export interface TrafficControllerInterfaceOperations {
 function _getTrafficControllerInterface(context: ServiceNetworkingManagementContext) {
   return {
     listBySubscription: (options?: TrafficControllerInterfaceListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+      trafficControllerInterfaceListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
+    ) => trafficControllerInterfaceListByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: TrafficControllerInterfaceDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, trafficControllerName, options),
+    ) =>
+      trafficControllerInterfaceDelete(context, resourceGroupName, trafficControllerName, options),
     update: (
       resourceGroupName: string,
       trafficControllerName: string,
       properties: TrafficControllerUpdate,
       options?: TrafficControllerInterfaceUpdateOptionalParams,
-    ) => update(context, resourceGroupName, trafficControllerName, properties, options),
+    ) =>
+      trafficControllerInterfaceUpdate(
+        context,
+        resourceGroupName,
+        trafficControllerName,
+        properties,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       trafficControllerName: string,
       resource: TrafficController,
       options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, trafficControllerName, resource, options),
+    ) =>
+      trafficControllerInterfaceCreateOrUpdate(
+        context,
+        resourceGroupName,
+        trafficControllerName,
+        resource,
+        options,
+      ),
     get: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: TrafficControllerInterfaceGetOptionalParams,
-    ) => get(context, resourceGroupName, trafficControllerName, options),
+    ) => trafficControllerInterfaceGet(context, resourceGroupName, trafficControllerName, options),
   };
 }
 

@@ -192,7 +192,6 @@ export class DocumentAnalysisClient {
 
 // @public
 export interface DocumentAnalysisClientOptions extends CommonClientOptions {
-    audience?: string;
     stringIndexType?: StringIndexType;
 }
 
@@ -399,7 +398,6 @@ export class DocumentModelAdministrationClient {
 
 // @public
 export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {
-    audience?: string;
 }
 
 // @public
@@ -742,13 +740,6 @@ export enum KnownFontStyle {
 export enum KnownFontWeight {
     Bold = "bold",
     Normal = "normal"
-}
-
-// @public
-export enum KnownFormRecognizerAudience {
-    AzureChina = "https://cognitiveservices.azure.cn",
-    AzureGovernment = "https://cognitiveservices.azure.us",
-    AzurePublicCloud = "https://cognitiveservices.azure.com"
 }
 
 // @public

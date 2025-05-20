@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
+import {
+  frontendsInterfaceListByTrafficController,
+  frontendsInterfaceDelete,
+  frontendsInterfaceUpdate,
+  frontendsInterfaceCreateOrUpdate,
+  frontendsInterfaceGet,
+} from "../../api/frontendsInterface/index.js";
 import { Frontend, FrontendUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FrontendsInterfaceListByTrafficControllerOptionalParams,
   FrontendsInterfaceDeleteOptionalParams,
   FrontendsInterfaceUpdateOptionalParams,
   FrontendsInterfaceCreateOrUpdateOptionalParams,
   FrontendsInterfaceGetOptionalParams,
-} from "../../api/frontendsInterface/options.js";
-import {
-  listByTrafficController,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/frontendsInterface/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+} from "../../api/options.js";
 
 /** Interface representing a FrontendsInterface operations. */
 export interface FrontendsInterfaceOperations {
@@ -29,11 +29,6 @@ export interface FrontendsInterfaceOperations {
     options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
   ) => PagedAsyncIterableIterator<Frontend>;
   /** Delete a Frontend */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     trafficControllerName: string,
@@ -71,13 +66,26 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       resourceGroupName: string,
       trafficControllerName: string,
       options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
-    ) => listByTrafficController(context, resourceGroupName, trafficControllerName, options),
+    ) =>
+      frontendsInterfaceListByTrafficController(
+        context,
+        resourceGroupName,
+        trafficControllerName,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       trafficControllerName: string,
       frontendName: string,
       options?: FrontendsInterfaceDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, trafficControllerName, frontendName, options),
+    ) =>
+      frontendsInterfaceDelete(
+        context,
+        resourceGroupName,
+        trafficControllerName,
+        frontendName,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -85,7 +93,14 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       properties: FrontendUpdate,
       options?: FrontendsInterfaceUpdateOptionalParams,
     ) =>
-      update(context, resourceGroupName, trafficControllerName, frontendName, properties, options),
+      frontendsInterfaceUpdate(
+        context,
+        resourceGroupName,
+        trafficControllerName,
+        frontendName,
+        properties,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -93,7 +108,7 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       resource: Frontend,
       options?: FrontendsInterfaceCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(
+      frontendsInterfaceCreateOrUpdate(
         context,
         resourceGroupName,
         trafficControllerName,
@@ -106,7 +121,14 @@ function _getFrontendsInterface(context: ServiceNetworkingManagementContext) {
       trafficControllerName: string,
       frontendName: string,
       options?: FrontendsInterfaceGetOptionalParams,
-    ) => get(context, resourceGroupName, trafficControllerName, frontendName, options),
+    ) =>
+      frontendsInterfaceGet(
+        context,
+        resourceGroupName,
+        trafficControllerName,
+        frontendName,
+        options,
+      ),
   };
 }
 

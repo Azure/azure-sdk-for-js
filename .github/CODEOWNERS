@@ -248,10 +248,6 @@
 # ServiceLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @quentinRobinson
 
-# ServiceLabel: %Online Experimentation
-# PRLabel: %Online Experimentation
-/sdk/onlineexperimentation/ @Azure/azure-sdk-write-onlineexperimentation
-
 # ServiceLabel: %OpenAI
 # ServiceOwners: @trrwilson
 
@@ -879,9 +875,6 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/search/arm-search/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/sitemanager/arm-sitemanager/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1033,10 +1026,8 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
-
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
-
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms @rads-1996
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber @harsimar @MSNev @Karlie-777 @siyuniu-ms @rads-1996
 /sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 

@@ -8,7 +8,7 @@ import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { Response } from "../request/index.js";
 import type { RequestContext } from "../request/RequestContext.js";
 import { TimeoutErrorCode } from "../request/TimeoutError.js";
-import { addDiagnosticChild } from "../utils/diagnostics.js";
+import { addDignosticChild } from "../utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../utils/time.js";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy.js";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy.js";
@@ -54,7 +54,7 @@ export async function execute({
   executeRequest,
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
-  return addDiagnosticChild(
+  return addDignosticChild(
     async (localDiagnosticNode: DiagnosticNodeInternal) => {
       localDiagnosticNode.addData({ requestAttempNumber: retryContext.retryCount });
       if (!retryPolicies) {
@@ -129,7 +129,7 @@ export async function execute({
               err.substatus === SubStatusCodes.WriteForbidden))
         ) {
           retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
-        } else if (err.code === StatusCodes.TooManyRequests && !isBulkRequest(requestContext)) {
+        } else if (err.code === StatusCodes.TooManyRequests) {
           retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
         } else if (
           err.code === StatusCodes.NotFound &&
@@ -181,15 +181,5 @@ export async function execute({
     },
     diagnosticNode,
     DiagnosticNodeType.HTTP_REQUEST,
-  );
-}
-
-/**
- * @hidden
- */
-function isBulkRequest(requestContext: RequestContext): boolean {
-  return (
-    requestContext.operationType === "batch" &&
-    !requestContext.headers[Constants.HttpHeaders.IsBatchAtomic]
   );
 }

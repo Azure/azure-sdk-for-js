@@ -381,9 +381,7 @@ describe("test bulk operations", async () => {
         assert.equal(response[3].statusCode, 200);
 
         // cleanup
-        if (splitContainer) {
-          await splitContainer.database.delete();
-        }
+        await splitContainer.database.delete();
       });
 
       async function getSplitContainer(): Promise<Container> {
@@ -1181,9 +1179,7 @@ describe("test bulk operations", async () => {
           assert.strictEqual(res.resourceBody.id, "item" + index, "Read Items id should match");
         });
         // Delete database after use
-        if (container) {
-          await container.database.delete();
-        }
+        await container.database.delete();
       });
     });
   });

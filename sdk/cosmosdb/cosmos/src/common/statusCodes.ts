@@ -10,7 +10,6 @@ export interface StatusCodesType {
   Created: 201;
   Accepted: 202;
   NoContent: 204;
-  MultiStatus: 207;
   NotModified: 304;
 
   // Client error
@@ -24,7 +23,6 @@ export interface StatusCodesType {
   Gone: 410;
   PreconditionFailed: 412;
   RequestEntityTooLarge: 413;
-  FailedDependency: 424;
   TooManyRequests: 429;
   RetryWith: 449;
 
@@ -49,7 +47,6 @@ export const StatusCodes: StatusCodesType = {
   Created: 201,
   Accepted: 202,
   NoContent: 204,
-  MultiStatus: 207,
   NotModified: 304,
 
   // Client error
@@ -63,7 +60,6 @@ export const StatusCodes: StatusCodesType = {
   Gone: 410,
   PreconditionFailed: 412,
   RequestEntityTooLarge: 413,
-  FailedDependency: 424,
   TooManyRequests: 429,
   RetryWith: 449,
 
@@ -93,8 +89,6 @@ export interface SubStatusCodesType {
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002;
   CompletingSplit: 1007;
-  CompletingPartitionMigration: 1008;
-  NameCacheIsStale: 1000;
 
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002;
@@ -102,9 +96,6 @@ export interface SubStatusCodesType {
   // 403: Forbidden Substatus
   WriteForbidden: 3;
   DatabaseAccountNotFound: 1008;
-
-  // 413: Request Entity Too Large Substatus
-  ResponseSizeExceeded: 3402;
 }
 
 /**
@@ -121,16 +112,10 @@ export const SubStatusCodes: SubStatusCodesType = {
   // 410: StatusCodeType_Gone: substatus
   PartitionKeyRangeGone: 1002,
   CompletingSplit: 1007,
-  CompletingPartitionMigration: 1008,
-  NameCacheIsStale: 1000,
-
   // 404: NotFound Substatus
   ReadSessionNotAvailable: 1002,
 
   // 403: Forbidden Substatus
   WriteForbidden: 3,
   DatabaseAccountNotFound: 1008,
-
-  // 413: Request Entity Too Large Substatus
-  ResponseSizeExceeded: 3402,
 };

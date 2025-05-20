@@ -909,12 +909,3 @@ directive:
     transform: >
       delete $["x-ms-structured-body"];
 ```
-
-### Update service version from "2025-05-05" to "2025-07-05"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2025-07-05" ];
-```

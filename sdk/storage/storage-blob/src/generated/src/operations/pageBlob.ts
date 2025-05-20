@@ -371,7 +371,6 @@ const uploadPagesFromURLOperationSpec: coreClient.OperationSpec = {
     Parameters.sourceIfNoneMatch,
     Parameters.sourceContentMD5,
     Parameters.copySourceAuthorization,
-    Parameters.fileRequestIntent,
     Parameters.pageWrite,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
