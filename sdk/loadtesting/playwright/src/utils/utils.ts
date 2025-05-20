@@ -11,6 +11,7 @@ import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/identity";
 import * as process from "node:process";
+import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -127,7 +128,7 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
 export const getPackageVersion = (): string => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const version = require("../../package.json").version;
+    const version = require(path.join(__dirname, "../../../package.json")).version;
     return version;
   } catch (error) {
     console.error("Error fetching package version:", error);
