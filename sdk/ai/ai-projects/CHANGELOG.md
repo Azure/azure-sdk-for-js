@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.8 ()
+## 1.0.0-beta.8 (Unreleased)
 
 ### Other Changes
 
