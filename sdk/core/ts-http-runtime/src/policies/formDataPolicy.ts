@@ -3,6 +3,7 @@
 
 import { stringToUint8Array } from "../util/bytesEncoding.js";
 import { isNodeLike } from "../util/checkEnvironment.js";
+import { isNodeReadableStream } from "../util/typeGuards.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import type {
   BodyPart,
@@ -97,7 +98,15 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
-        const fileName = (value as File).name || "blob";
+        let fileName = "blob";
+        if ((value as File).name) {
+          fileName = (value as File).name || "blob";
+        } else if (isNodeReadableStream(value) && "path" in value && typeof value.path === "string") {
+          // Extract filename from path for Node.js ReadableStreams created with fs.createReadStream
+          const pathStr = value.path;
+          const lastSlashIndex = Math.max(pathStr.lastIndexOf('/'), pathStr.lastIndexOf('\\'));
+          fileName = lastSlashIndex !== -1 ? pathStr.substring(lastSlashIndex + 1) : pathStr;
+        }
         const headers = createHttpHeaders();
         headers.set(
           "Content-Disposition",
