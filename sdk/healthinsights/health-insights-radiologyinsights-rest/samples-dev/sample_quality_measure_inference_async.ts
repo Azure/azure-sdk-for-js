@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Displays the quality measuref the Radiology Insights request.
+ * @summary Displays the quality measure the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -180,14 +180,14 @@ Findings communicated to Dr. Jane Smith.`,
     measureTypes: ["mips364", "mips360", "mips436"],
   }
 
-  const guidancOptions = {
+  const guidanceOptions = {
     showGuidanceInHistory: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
     findingOptions: findingOptions,
-    GuidanceOptions: guidancOptions,
+    GuidanceOptions: guidanceOptions,
     QualityMeasureOptions: qualityMeasureOptions,
   };
 

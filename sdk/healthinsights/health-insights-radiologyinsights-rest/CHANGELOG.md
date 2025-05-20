@@ -2,7 +2,7 @@
 
 ## 1.1.0 (Unreleased)
 
-- Adding Scope 2
+Extending scope with inferences for scoring and assessment, quality measure and clinical guidance
 
 ### Features Added
 - Added sample and test code for scoring and assessment, quality measure and clinical guidance.
@@ -13,7 +13,6 @@
   - Adding guidanceOptions (default true) and qualityMeasureOptions (needed for Quality Measure Inferences).
 
 - for azureHealthInsightsClient:
-  - Adding new endpointParam
   - Adding ClientApiVersionPolicy
 
 - for HealthInsightsErrorResponseOutput:

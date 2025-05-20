@@ -25,7 +25,7 @@ import RadiologyInsightsRestClient, {
   RadiologyProcedureInference,
   ScoringAndAssessmentInference,
   SexMismatchInference,
-} from "../src/index.js";
+} from "@azure-rest/health-insights-radiologyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -144,14 +144,14 @@ describe("snippets", () => {
       measureTypes: ["mipsxxx", "mipsyyy", "mipszz"],
     };
     //@ts-preserve-whitespace
-    const guidancOptions = {
+    const guidanceOptions = {
       showGuidanceInHistory: true,
     };
     // @ts-preserve-whitespace
     const inferenceOptions = {
       followupRecommendationOptions: followupRecommendationOptions,
       findingOptions: findingOptions,
-      GuidanceOptions: guidancOptions,
+      GuidanceOptions: guidanceOptions,
       QualityMeasureOptions: qualityMeasureOptions,
     };
     // @ts-preserve-whitespace
