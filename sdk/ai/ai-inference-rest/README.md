@@ -14,7 +14,7 @@ Key links:
 ## Getting started
 
 ```ts snippet:ReadmeSample_Node
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const client = ModelClient(
@@ -67,7 +67,7 @@ Use the [Azure Portal][azure_portal] to browse to your Model deployment and retr
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```ts snippet:ReadmeSample_KeyCredential
-import ModelClient from "../src/index.js";
+import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const client = ModelClient("<endpoint>", new AzureKeyCredential("<API key>"));
@@ -85,7 +85,7 @@ npm install @azure/identity
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```ts snippet:ReadmeSample_TokenCredential
-import ModelClient from "../src/index.js";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = ModelClient("<endpoint>", new DefaultAzureCredential());
@@ -96,7 +96,7 @@ const client = ModelClient("<endpoint>", new DefaultAzureCredential());
 The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
 
 ```ts snippet:ReadmeSample_Completions
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const client = ModelClient(
@@ -130,7 +130,7 @@ npm install @azure/core-sse
 This example authenticates using a DefaultAzureCredential, then generates chat responses to input chat question and messages.
 
 ```ts snippet:ReadmeSample_ChatbotResponse
-import ModelClient from "../src/index.js";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
 import { IncomingMessage } from "node:http";
@@ -185,7 +185,7 @@ for await (const event of sses) {
 This example generates text responses to input prompts using an Azure subscription key
 
 ```ts snippet:ReadmeSample_MultipleCompletions
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Replace with your Model API key
@@ -227,7 +227,7 @@ for (const choice of response.body.choices) {
 This example generates a summarization of the given input prompt.
 
 ```ts snippet:ReadmeSample_SummarizeText
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "https://myaccount.openai.azure.com/";
@@ -272,7 +272,7 @@ console.log(`Summarization: ${completion}`);
 process of fulfilling a chat completions request. To use chat tools, start by defining a function tool named `getCurrentWeather`. With the tool defined, include that new definition in the options for a chat completions request:
 
 ```ts snippet:ReadmeSample_ChatTools
-import ModelClient from "../src/index.js";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "https://myaccount.openai.azure.com/";
@@ -336,7 +336,7 @@ context -- including the original system and user messages, the response from th
 calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
 
 ```ts snippet:ReadmeSample_ChatToolsResolution
-import ModelClient from "../src/index.js";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "https://myaccount.openai.azure.com/";
@@ -380,7 +380,7 @@ To do this, provide distinct content items on the user message(s) for the chat c
 of `finish_reason`.
 
 ```ts snippet:ReadmeSample_ChatWithImages
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "https://myaccount.openai.azure.com/";
@@ -421,7 +421,7 @@ console.log(`Chatbot: ${response.body.choices[0].message?.content}`);
 This example demonstrates how to get text embeddings with Entra ID authentication.
 
 ```ts snippet:ReadmeSample_TextEmbeddings
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "https://myaccount.openai.azure.com/";
@@ -460,7 +460,7 @@ This example demonstrates how to get image embeddings with Entra ID authenticati
 ```ts snippet:ReadmeSample_ImageEmbeddings
 import { DefaultAzureCredential } from "@azure/identity";
 import { readFileSync } from "node:fs";
-import ModelClient, { isUnexpected } from "../src/index.js";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 
 const endpoint = "https://myaccount.openai.azure.com/";
 const credential = new DefaultAzureCredential();
@@ -554,7 +554,7 @@ Finally when you are making a call for chat completion, you need to include the 
 
 ```ts snippet:ReadmeSample_InstrumentationRequest
 import { DefaultAzureCredential } from "@azure/identity";
-import ModelClient from "../src/index.js";
+import ModelClient from "@azure-rest/ai-inference";
 import { context } from "@opentelemetry/api";
 
 const endpoint = "https://myaccount.openai.azure.com/";
