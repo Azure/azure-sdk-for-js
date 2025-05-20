@@ -2493,7 +2493,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-odSSGvAcisnuz/HlQhATgex0RPSULn2EUkSfiRYYP5Ta8KzmQDZwtAvTGHEwhRgROdtyjD9AfaSKXcg9mYhANg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-1T8/lazPZHPDQkpsY+/Pn811kcDVlXtlOidtXNALcgphHFgJe0B5uWLFz/lk8pExSdm9G3U8t5BJqGDO6CpRiw==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -4041,7 +4041,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-OPYqk6vxKTf0oD+43SNIfWc+MPu5umKC87w9kLpvfxSxQBfUYIWrSj8SdToTqgcu7CAUvwP/usLkjWGLGblviw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-AyVqGpjC94qhpQuFchmaYCZLBzdcBrnKXMP4eQz5OxT3KT64EB8TtgGvEojP6eI5UhRI+xHFROHr7YY3LmWIIg==, tarball: file:projects/storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
@@ -4049,11 +4049,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
-    resolution: {integrity: sha512-6NrpfY6cXybr+aup2fHMseGjRJ4RlO1E2r512tgaoyrDwlRr29YFLP1jVV7ae/m6P0ud1ht21vEaGNesg/xDrQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-yvigDbUPlyV8LQCSuOaqFcsCRqwHtuvwsKGLb9sKAsytWFebHRjvz1i2GLYv0lRHQ/2lsqhXHP+7ZX0Zd1vZ2A==, tarball: file:projects/storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz':
-    resolution: {integrity: sha512-bssg60zcWNGlKiAUyXcHcJwFznnGswp7fD8xnGnVv6llomjIVb7FJ66v/JNdMyVuzOJTSwi0+FwECJIKHt/V6Q==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-sIsV7NrMCcgWQ/zLz9O2FtzewSNTK5x2sa0XOGZkhUywNClM+ljnuZrsQ0b5xb2qFds0TQ9ikxzmyEJWLFw3+Q==, tarball: file:projects/storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
@@ -4061,7 +4061,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-Sc1eBI9yB+UHwqpIEGhb5KTKGtyDHoOHYP/3Z8Qbd3ugbgLj5q9YwskwknwCkLzr6JHtctUC6SHu19cFTp6HpA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-FXWXOalgICmtdxPvuEYdBpBcWWflhNI/cVxm4JF5HjK3Pyqyv/HDHEluaRrzeuecjM9Fj9JVumf1OBhwYOBCpA==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -9322,9 +9322,9 @@ snapshots:
       '@opentelemetry/api-logs': 0.200.0
       '@opentelemetry/exporter-logs-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/exporter-trace-otlp-grpc': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.57.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
       '@traceloop/instrumentation-langchain': 0.13.0(@opentelemetry/api@1.9.0)
       '@traceloop/instrumentation-openai': 0.13.0(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.101
