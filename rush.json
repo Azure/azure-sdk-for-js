@@ -1946,6 +1946,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/playwright",
+      "projectFolder": "sdk/loadtesting/playwright",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-elasticsan",
       "projectFolder": "sdk/elasticsans/arm-elasticsan",
       "versionPolicyName": "management"
