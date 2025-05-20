@@ -1,5 +1,3 @@
-<!-- dev-tool snippets ignore -->"
-
 # Release History
 
 ## 2.0.1 (2025-05-13)
