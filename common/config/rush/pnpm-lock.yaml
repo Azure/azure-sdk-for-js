@@ -1174,6 +1174,9 @@ importers:
       '@rush-temp/perf-template':
         specifier: file:./projects/perf-template.tgz
         version: file:projects/perf-template.tgz
+      '@rush-temp/playwright':
+        specifier: file:./projects/playwright.tgz
+        version: file:projects/playwright.tgz(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/purview-administration':
         specifier: file:./projects/purview-administration.tgz
         version: file:projects/purview-administration.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -3973,6 +3976,10 @@ packages:
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
     resolution: {integrity: sha512-ipd3vAsSEyS9D8jF7VcFj4d7xvQZ5oWqx0k+QzhoqD3TebZKcEZuZSuqUM0/x79jOEjgpz8fjbUuv/1+ZIYCsw==, tarball: file:projects/perf-template.tgz}
+    version: 0.0.0
+
+  '@rush-temp/playwright@file:projects/playwright.tgz':
+    resolution: {integrity: sha512-XpwfrhyRE8LRKMBm2UZD/eU0/GtsADnwUwRMJJT79WqJLcoqpoTuTRv20g9k2bPK1UkOrnBF9GoejilI/+XIQA==, tarball: file:projects/playwright.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
@@ -22046,6 +22053,41 @@ snapshots:
     transitivePeerDependencies:
       - jiti
       - supports-color
+
+  '@rush-temp/playwright@file:projects/playwright.tgz(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@playwright/test': 1.52.0
+      '@types/debug': 4.1.12
+      '@types/node': 20.17.48
+      '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.3)
+      '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
+      eslint: 9.27.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.3(@types/debug@4.1.12)(@types/node@20.17.48)(@vitest/browser@3.1.3)(tsx@4.19.4)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
