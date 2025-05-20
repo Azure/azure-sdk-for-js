@@ -4,8 +4,8 @@
 
 ### Features Added
 
-- Adding `runs.createAndPoll` function using `@azure/core-lro` package
-- Adding `resumeFrom` option for polling operations
+- Adds `runs.createAndPoll` method that automatically polls for the result.
+- Adds `resumeFrom` option in polling operations.
 
 ## 1.0.0-beta.2 (2025-05-16)
 
