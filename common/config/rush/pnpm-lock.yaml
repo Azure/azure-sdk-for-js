@@ -613,6 +613,9 @@ importers:
       '@rush-temp/arm-pineconevectordb':
         specifier: file:./projects/arm-pineconevectordb.tgz
         version: file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/arm-planetarycomputer':
+        specifier: file:./projects/arm-planetarycomputer.tgz
+        version: file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/arm-playwrighttesting':
         specifier: file:./projects/arm-playwrighttesting.tgz
         version: file:projects/arm-playwrighttesting.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
@@ -3222,6 +3225,10 @@ packages:
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
     resolution: {integrity: sha512-ygeV6VyzUTjDxRxsG0+XobXdXca+g74cXvl+hWj3+rbCede/+dhDqvAKVvwfpHzdpVRwjmD5Db065XQcer1w+A==, tarball: file:projects/arm-pineconevectordb.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz':
+    resolution: {integrity: sha512-H7w0Q6ZuLplboutQoLLIJuBOmRNjRdLCZvLBUw5RMCGVj8CgKedNH5mToMH0ODsAZBUSR8ZmEPdF0lRmflaF7A==, tarball: file:projects/arm-planetarycomputer.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -15869,6 +15876,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.100
+      '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
+      '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
+      dotenv: 16.5.0
+      eslint: 9.26.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.3(@types/debug@4.1.12)(@types/node@18.19.100)(@vitest/browser@3.1.3)(tsx@4.19.4)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@types/node': 18.19.100
@@ -23579,7 +23621,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/triple-beam@1.3.5': {}
 
