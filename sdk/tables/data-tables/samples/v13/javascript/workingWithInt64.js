@@ -7,23 +7,15 @@
  * @summary creates and works with an entity containing an Int64 value
  */
 
-const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
-
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+const { TableClient } = require("@azure/data-tables");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 const tablesUrl = process.env["TABLES_URL"] || "";
-const accountName = process.env["ACCOUNT_NAME"] || "";
-const accountKey = process.env["ACCOUNT_KEY"] || "";
 
 async function workingWithInt64() {
   console.log("working with Int64 sample");
-  const client = new TableClient(
-    tablesUrl,
-    "testInt64",
-    new AzureNamedKeyCredential(accountName, accountKey)
-  );
+  const client = new TableClient(tablesUrl, "testInt64", new DefaultAzureCredential());
 
   await client.createTable();
 
@@ -32,7 +24,7 @@ async function workingWithInt64() {
     rowKey: "1",
     // To work with Int64 we need to use an object that includes
     // the value as a string and a notation of the type, in this case Int64
-    foo: { value: "12345", type: "Int64" }
+    foo: { value: "12345", type: "Int64" },
   });
 
   const entity = await client.getEntity("p1", "1", { disableTypeConversion: true });
@@ -51,3 +43,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

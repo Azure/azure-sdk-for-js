@@ -8,7 +8,7 @@ function getInferenceChoices(resultDiv) {
 
   resultDiv.innerHTML = "";
   const credential = new AzureKeyCredential(azureKey.value);
-  const client = new ModelClient(endpoint.value, credential);
+  const client = ModelClient(endpoint.value, credential);
 
   async function showResponseChoices() {
     try {

@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   RunsListOptionalParams,
   ContainerRegistryManagementClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets all the runs for a registry.
  *
  * @summary Gets all the runs for a registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RunsList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RunsList.json
  */
 async function runsList(): Promise<void> {
   const subscriptionId =
@@ -35,7 +37,7 @@ async function runsList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.runs.list(
+  for await (const item of client.runs.list(
     resourceGroupName,
     registryName,
     options,

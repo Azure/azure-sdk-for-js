@@ -184,7 +184,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.storageName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

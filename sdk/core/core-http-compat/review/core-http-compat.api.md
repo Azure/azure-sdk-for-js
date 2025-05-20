@@ -159,6 +159,7 @@ export interface WebResourceLike {
         [key: string]: any;
     };
     requestId: string;
+    requestOverrides?: Record<string, unknown>;
     // @deprecated
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;

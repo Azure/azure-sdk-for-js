@@ -10,14 +10,14 @@ export {
   GroupByExpressions,
   GroupByAliasToAggregateType,
   HybridSearchQueryInfo,
-} from "./ErrorResponse";
-export { FeedOptions } from "./FeedOptions";
-export { RequestOptions } from "./RequestOptions";
-export { Response } from "./Response";
-export { ResourceResponse } from "./ResourceResponse";
-export { SharedOptions } from "./SharedOptions";
-export { StatusCode, SubStatusCode } from "./StatusCodes";
-export { FeedResponse } from "./FeedResponse";
-export { RequestContext } from "./RequestContext";
-export { TimeoutError } from "./TimeoutError";
-export * from "./globalStatistics";
+} from "./ErrorResponse.js";
+export { FeedOptions } from "./FeedOptions.js";
+export { RequestOptions } from "./RequestOptions.js";
+export { Response } from "./Response.js";
+export { ResourceResponse } from "./ResourceResponse.js";
+export { SharedOptions } from "./SharedOptions.js";
+export { StatusCode, SubStatusCode } from "./StatusCodes.js";
+export { FeedResponse } from "./FeedResponse.js";
+export { RequestContext } from "./RequestContext.js";
+export { TimeoutError } from "./TimeoutError.js";
+export * from "./globalStatistics.js";

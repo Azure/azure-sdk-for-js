@@ -11,5 +11,6 @@ export default subCommand(commandInfo, {
   "migrate-package": () => import("./migrate-package"),
   "migrate-snippets": () => import("./migrate-snippets"),
   "migrate-source": () => import("./migrate-source"),
+  "migrate-tests": () => import("./migrate-tests"),
   list: () => import("./list"),
 });

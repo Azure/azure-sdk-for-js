@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "./enums";
+import type { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "./enums/index.js";
 
 /**
  * Metadata used to wrap/unwrap data encryption key using a customer managed key

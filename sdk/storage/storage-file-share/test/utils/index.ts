@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -11,22 +11,22 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
 
-import type { ShareClientConfig, ShareClientOptions } from "../../src";
+import type { ShareClientConfig, ShareClientOptions } from "../../src/index.js";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
-} from "../../src";
-import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { getUniqueName, configureStorageClient } from "./testutils.common";
-import type { StorageClient } from "../../src/StorageClient";
+} from "../../src/index.js";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { newPipeline } from "../../src/Pipeline.js";
+import { ShareServiceClient } from "../../src/ShareServiceClient.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { getUniqueName, configureStorageClient } from "./testutils.common.js";
+import type { StorageClient } from "../../src/StorageClient.js";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 
 export function getGenericBSU(
   recorder: Recorder,

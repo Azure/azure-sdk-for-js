@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the scope maps for the specified container registry.
  *
  * @summary Lists all the scope maps for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ScopeMapList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ScopeMapList.json
  */
 async function scopeMapList(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function scopeMapList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.scopeMaps.list(
+  for await (const item of client.scopeMaps.list(
     resourceGroupName,
     registryName,
   )) {

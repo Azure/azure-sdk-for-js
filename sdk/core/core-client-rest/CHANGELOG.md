@@ -1,16 +1,30 @@
 # Release History
 
-## 2.3.5 (Unreleased)
+## 2.4.1 (Unreleased)
 
 ### Features Added
-
-- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.4.0 (2025-05-01)
+
+### Other Changes
+
+- Depend on `@typespec/ts-http-runtime`. [PR #33948](https://github.com/Azure/azure-sdk-for-js/pull/33948)
+
+## 2.3.5 (2025-04-07)
+
+### Features Added
+
+- `asNodeStream` now returns a `NodeJSReadableStream` which can be canceled by calling the `destroy` method.
+
+### Other Changes
+
+- Handling REST errors that don't have a response body.
 
 ## 2.3.4 (2025-03-06)
 

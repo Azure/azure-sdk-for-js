@@ -42,6 +42,13 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export interface BulkOperationResult {
+    error?: ErrorResponse;
+    operationInput: OperationInput;
+    response?: ExtendedOperationResponse;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -524,6 +531,7 @@ export const Constants: {
         Location: string;
         Referer: string;
         A_IM: string;
+        PreferReturnMinimal: string;
         Query: string;
         IsQuery: string;
         IsQueryPlan: string;
@@ -620,6 +628,8 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkMaxDegreeOfConcurrency: number;
     Encryption: {
         DiagnosticsDecryptOperation: string;
         DiagnosticsDuration: string;
@@ -906,8 +916,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location[];
-    readonly writableLocations: Location[];
+    readonly readableLocations: Location_2[];
+    readonly writableLocations: Location_2[];
 }
 
 // @public (undocumented)
@@ -1126,25 +1136,17 @@ export interface ErrorBody {
     message: string;
 }
 
-// @public (undocumented)
+// @public
 export class ErrorResponse extends Error {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     activityId?: string;
-    // (undocumented)
     body?: ErrorBody;
-    // (undocumented)
     code?: number | string;
-    // (undocumented)
     diagnostics?: CosmosDiagnostics;
-    // (undocumented)
     headers?: CosmosHeaders;
-    // (undocumented)
+    requestCharge?: number;
     retryAfterInMilliseconds?: number;
-    // (undocumented)
     retryAfterInMs?: number;
-    // (undocumented)
     substatus?: number;
 }
 
@@ -1154,6 +1156,14 @@ export type ExistingKeyOperation = {
     value: any;
     path: string;
 };
+
+// @public
+export interface ExtendedOperationResponse extends OperationResponse {
+    activityId?: string;
+    diagnostics: CosmosDiagnostics;
+    headers?: CosmosHeaders;
+    sessionToken?: string;
+}
 
 // @public
 export interface FailedRequestAttemptDiagnostic {
@@ -1191,6 +1201,7 @@ export interface FeedOptions extends SharedOptions {
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableHybridSearchQueryPlanOptimization?: boolean;
     disableNonStreamingOrderByQuery?: boolean;
     enableQueryControl?: boolean;
     enableScanInQuery?: boolean;
@@ -1321,6 +1332,7 @@ export enum HTTPMethod {
 // @public
 export interface HybridSearchQueryInfo {
     componentQueryInfos: QueryInfo[];
+    componentWeights?: number[];
     globalStatisticsQuery: string;
     requiresGlobalStatistics: boolean;
     skip: number;
@@ -1417,6 +1429,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    executeBulkOperations(operations: OperationInput[], options?: RequestOptions): Promise<BulkOperationResult[]>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1454,7 +1467,7 @@ export enum KeyEncryptionAlgorithm {
 }
 
 // @public
-export interface Location {
+interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1464,6 +1477,7 @@ export interface Location {
     // (undocumented)
     unavailable?: boolean;
 }
+export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1783,7 +1797,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-export class Permissions {
+class Permissions_2 {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1793,14 +1807,16 @@ export class Permissions {
     // (undocumented)
     readonly user: User;
 }
+export { Permissions_2 as Permissions }
 
 // @public
-export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
+type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
+export { Plugin_2 as Plugin }
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin<any>;
+    plugin: Plugin_2<any>;
 }
 
 // @public
@@ -2060,7 +2076,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-export interface RequestInfo {
+interface RequestInfo_2 {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2072,6 +2088,7 @@ export interface RequestInfo {
     // (undocumented)
     verb: HTTPMethod;
 }
+export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2079,6 +2096,7 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
@@ -2409,6 +2427,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2416,6 +2436,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)
@@ -2554,7 +2576,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2649,7 +2671,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions;
+    readonly permissions: Permissions_2;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;

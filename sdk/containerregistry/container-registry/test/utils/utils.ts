@@ -10,7 +10,7 @@ import {
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
 } from "../../src/index.js";
-import { createXhrHttpClient } from "@azure-tools/test-utils";
+import { createXhrHttpClient } from "@azure-tools/test-utils-vitest";
 import { isNodeLike } from "@azure/core-util";
 
 // When the recorder observes the values of these environment variables in any

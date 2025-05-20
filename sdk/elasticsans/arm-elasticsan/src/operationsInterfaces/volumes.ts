@@ -19,6 +19,12 @@ import {
   VolumesDeleteOptionalParams,
   VolumesGetOptionalParams,
   VolumesGetResponse,
+  VolumeNameList,
+  VolumesPreBackupOptionalParams,
+  VolumesPreBackupResponse,
+  DiskSnapshotList,
+  VolumesPreRestoreOptionalParams,
+  VolumesPreRestoreResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -160,4 +166,80 @@ export interface Volumes {
     volumeName: string,
     options?: VolumesGetOptionalParams,
   ): Promise<VolumesGetResponse>;
+  /**
+   * Validate whether a disk snapshot backup can be taken for list of volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Volume Name List (currently only one volume name in the list is supported. Server
+   *                   would return error if list is bigger)
+   * @param options The options parameters.
+   */
+  beginPreBackup(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: VolumeNameList,
+    options?: VolumesPreBackupOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPreBackupResponse>,
+      VolumesPreBackupResponse
+    >
+  >;
+  /**
+   * Validate whether a disk snapshot backup can be taken for list of volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Volume Name List (currently only one volume name in the list is supported. Server
+   *                   would return error if list is bigger)
+   * @param options The options parameters.
+   */
+  beginPreBackupAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: VolumeNameList,
+    options?: VolumesPreBackupOptionalParams,
+  ): Promise<VolumesPreBackupResponse>;
+  /**
+   * Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Disk Snapshot List (currently only one Disk Snapshot in the list is supported and
+   *                   that the Disk Snapshot must be in same azure region as the ElasticSan. Server would return error if
+   *                   list is bigger)
+   * @param options The options parameters.
+   */
+  beginPreRestore(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: DiskSnapshotList,
+    options?: VolumesPreRestoreOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPreRestoreResponse>,
+      VolumesPreRestoreResponse
+    >
+  >;
+  /**
+   * Validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param parameters Disk Snapshot List (currently only one Disk Snapshot in the list is supported and
+   *                   that the Disk Snapshot must be in same azure region as the ElasticSan. Server would return error if
+   *                   list is bigger)
+   * @param options The options parameters.
+   */
+  beginPreRestoreAndWait(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    parameters: DiskSnapshotList,
+    options?: VolumesPreRestoreOptionalParams,
+  ): Promise<VolumesPreRestoreResponse>;
 }

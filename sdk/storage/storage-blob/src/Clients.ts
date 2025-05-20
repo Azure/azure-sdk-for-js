@@ -9,21 +9,20 @@ import type {
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
-import type { Readable } from "stream";
-
-import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { BlobQueryResponse } from "./BlobQueryResponse";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { Readable } from "node:stream";
+import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
+import { BlobQueryResponse } from "./BlobQueryResponse.js";
+import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type {
   AppendBlob,
   Blob as StorageBlob,
   BlockBlob,
   PageBlob,
-} from "./generated/src/operationsInterfaces";
+} from "./generated/src/operationsInterfaces/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -56,7 +55,7 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
-} from "./generated/src";
+} from "./generated/src/index.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
@@ -117,7 +116,8 @@ import type {
   BlobSetImmutabilityPolicyResponse,
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
-} from "./generatedModels";
+  FileShareTokenIntent,
+} from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
   BlobDownloadResponseParsed,
@@ -136,26 +136,26 @@ import type {
   BlobImmutabilityPolicy,
   HttpAuthorization,
   PollerLikeWithCancellation,
-} from "./models";
-import { ensureCpkIfSpecified, toAccessTier } from "./models";
+} from "./models.js";
+import { ensureCpkIfSpecified, toAccessTier } from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-} from "./PageBlobRangeResponse";
-import { rangeResponseFromModel } from "./PageBlobRangeResponse";
-import type { PipelineLike, StoragePipelineOptions } from "./Pipeline";
-import { newPipeline, isPipelineLike } from "./Pipeline";
+} from "./PageBlobRangeResponse.js";
+import { rangeResponseFromModel } from "./PageBlobRangeResponse.js";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
+import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type {
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient,
-} from "./pollers/BlobStartCopyFromUrlPoller";
-import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller";
-import type { Range } from "./Range";
-import { rangeToString } from "./Range";
-import type { CommonOptions } from "./StorageClient";
-import { StorageClient } from "./StorageClient";
-import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "../../storage-common/src";
+} from "./pollers/BlobStartCopyFromUrlPoller.js";
+import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller.js";
+import type { Range } from "./Range.js";
+import { rangeToString } from "./Range.js";
+import type { CommonOptions } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
+import { Batch } from "./utils/Batch.js";
+import { BufferScheduler } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
@@ -167,9 +167,9 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
   URLConstants,
-} from "./utils/constants";
-import { tracingClient } from "./utils/tracing";
-import type { WithResponse } from "./utils/utils.common";
+} from "./utils/constants.js";
+import { tracingClient } from "./utils/tracing.js";
+import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -186,23 +186,23 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 import {
   fsCreateReadStream,
   fsStat,
   readStreamToLocalFile,
   streamToBuffer,
-} from "./utils/utils.node";
-import type { SASProtocol } from "./sas/SASQueryParameters";
-import type { SasIPRange } from "./sas/SasIPRange";
+} from "./utils/utils.js";
+import type { SASProtocol } from "./sas/SASQueryParameters.js";
+import type { SasIPRange } from "./sas/SasIPRange.js";
 import {
   generateBlobSASQueryParameters,
   generateBlobSASQueryParametersInternal,
-} from "./sas/BlobSASSignatureValues";
-import type { BlobSASPermissions } from "./sas/BlobSASPermissions";
-import { BlobLeaseClient } from "./BlobLeaseClient";
+} from "./sas/BlobSASSignatureValues.js";
+import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
+import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { UserDelegationKey } from "./BlobServiceClient";
+import type { UserDelegationKey } from "./BlobServiceClient.js";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -683,6 +683,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * Optional. Default 'REPLACE'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
    */
   copySourceTags?: BlobCopySourceTags;
+  /**
+   * Valid value is backup
+   */
+  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -1016,7 +1020,7 @@ export class BlobClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -1047,7 +1051,7 @@ export class BlobClient extends StorageClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -1168,46 +1172,68 @@ export class BlobClient extends StorageClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
-   * // Download and convert a blob to a string
-   * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await streamToBuffer(downloadBlockBlobResponse.readableStreamBody);
-   * console.log("Downloaded blob content:", downloaded.toString());
+   * ```ts snippet:ReadmeSampleDownloadBlob_Node
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobClient = containerClient.getBlobClient(blobName);
+   *
+   * // Get blob content from position 0 to the end
+   * // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * if (downloadBlockBlobResponse.readableStreamBody) {
+   *   const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+   *   console.log(`Downloaded blob content: ${downloaded}`);
+   * }
+   *
+   * async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
+   *   const result = await new Promise<Buffer<ArrayBuffer>>((resolve, reject) => {
+   *     const chunks: Buffer[] = [];
+   *     stream.on("data", (data) => {
+   *       chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
    *     });
-   *     readableStream.on("end", () => {
+   *     stream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
    *     });
-   *     readableStream.on("error", reject);
+   *     stream.on("error", reject);
    *   });
+   *   return result.toString();
    * }
    * ```
    *
    * Example usage (browser):
    *
-   * ```js
-   * // Download and convert a blob to a string
-   * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await blobToString(await downloadBlockBlobResponse.blobBody);
-   * console.log(
-   *   "Downloaded blob content",
-   *   downloaded
+   * ```ts snippet:ReadmeSampleDownloadBlob_Browser
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
    * );
    *
-   * async function blobToString(blob: Blob): Promise<string> {
-   *   const fileReader = new FileReader();
-   *   return new Promise<string>((resolve, reject) => {
-   *     fileReader.onloadend = (ev: any) => {
-   *       resolve(ev.target!.result);
-   *     };
-   *     fileReader.onerror = reject;
-   *     fileReader.readAsText(blob);
-   *   });
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobClient = containerClient.getBlobClient(blobName);
+   *
+   * // Get blob content from position 0 to the end
+   * // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+   * const downloadBlockBlobResponse = await blobClient.download();
+   * const blobBody = await downloadBlockBlobResponse.blobBody;
+   * if (blobBody) {
+   *   const downloaded = await blobBody.text();
+   *   console.log(`Downloaded blob content: ${downloaded}`);
    * }
    * ```
    */
@@ -1230,7 +1256,7 @@ export class BlobClient extends StorageClient {
             ifTags: options.conditions?.tagConditions,
           },
           requestOptions: {
-            onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1248,7 +1274,7 @@ export class BlobClient extends StorageClient {
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
       // Return browser response immediately
-      if (!isNode) {
+      if (!isNodeLike) {
         return wrappedRes;
       }
 
@@ -1653,55 +1679,56 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://learn.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * Example using automatic polling:
+   * ```ts snippet:ClientsBeginCopyFromURL
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url');
-   * const result = await copyPoller.pollUntilDone();
-   * ```
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
    *
-   * Example using manual polling:
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blobClient = containerClient.getBlobClient(blobName);
    *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url');
-   * while (!poller.isDone()) {
-   *    await poller.poll();
+   * // Example using automatic polling
+   * const automaticCopyPoller = await blobClient.beginCopyFromURL("url");
+   * const automaticResult = await automaticCopyPoller.pollUntilDone();
+   *
+   * // Example using manual polling
+   * const manualCopyPoller = await blobClient.beginCopyFromURL("url");
+   * while (!manualCopyPoller.isDone()) {
+   *   await manualCopyPoller.poll();
    * }
-   * const result = copyPoller.getResult();
-   * ```
+   * const manualResult = manualCopyPoller.getResult();
    *
-   * Example using progress updates:
-   *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url', {
+   * // Example using progress updates
+   * const progressUpdatesCopyPoller = await blobClient.beginCopyFromURL("url", {
    *   onProgress(state) {
    *     console.log(`Progress: ${state.copyProgress}`);
-   *   }
+   *   },
    * });
-   * const result = await copyPoller.pollUntilDone();
-   * ```
+   * const progressUpdatesResult = await progressUpdatesCopyPoller.pollUntilDone();
    *
-   * Example using a changing polling interval (default 15 seconds):
-   *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url', {
-   *   intervalInMs: 1000 // poll blob every 1 second for copy progress
+   * // Example using a changing polling interval (default 15 seconds)
+   * const pollingIntervalCopyPoller = await blobClient.beginCopyFromURL("url", {
+   *   intervalInMs: 1000, // poll blob every 1 second for copy progress
    * });
-   * const result = await copyPoller.pollUntilDone();
-   * ```
+   * const pollingIntervalResult = await pollingIntervalCopyPoller.pollUntilDone();
    *
-   * Example using copy cancellation:
-   *
-   * ```js
-   * const copyPoller = await blobClient.beginCopyFromURL('url');
+   * // Example using copy cancellation:
+   * const cancelCopyPoller = await blobClient.beginCopyFromURL("url");
    * // cancel operation after starting it.
    * try {
-   *   await copyPoller.cancelOperation();
+   *   await cancelCopyPoller.cancelOperation();
    *   // calls to get the result now throw PollerCancelledError
-   *   await copyPoller.getResult();
-   * } catch (err) {
-   *   if (err.name === 'PollerCancelledError') {
-   *     console.log('The copy was cancelled.');
+   *   cancelCopyPoller.getResult();
+   * } catch (err: any) {
+   *   if (err.name === "PollerCancelledError") {
+   *     console.log("The copy was cancelled.");
    *   }
    * }
    * ```
@@ -1805,6 +1832,7 @@ export class BlobClient extends StorageClient {
           legalHold: options.legalHold,
           encryptionScope: options.encryptionScope,
           copySourceTags: options.copySourceTags,
+          fileRequestIntent: options.sourceShareTokenIntent,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
@@ -2547,6 +2575,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    */
   sourceContentCrc64?: Uint8Array;
   /**
+   * Valid value is backup
+   */
+  sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
@@ -2669,7 +2701,7 @@ export class AppendBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -2697,7 +2729,7 @@ export class AppendBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -2764,8 +2796,21 @@ export class AppendBlobClient extends BlobClient {
    *
    * Example usage:
    *
-   * ```js
-   * const appendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * ```ts snippet:ClientsCreateAppendBlob
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   *
+   * const appendBlobClient = containerClient.getAppendBlobClient(blobName);
    * await appendBlobClient.create();
    * ```
    */
@@ -2870,16 +2915,29 @@ export class AppendBlobClient extends BlobClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ClientsAppendBlock
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   *
    * const content = "Hello World!";
    *
    * // Create a new append blob and append data to the blob.
-   * const newAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * const newAppendBlobClient = containerClient.getAppendBlobClient(blobName);
    * await newAppendBlobClient.create();
    * await newAppendBlobClient.appendBlock(content, content.length);
    *
    * // Append data to an existing append blob.
-   * const existingAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * const existingAppendBlobClient = containerClient.getAppendBlobClient(blobName);
    * await existingAppendBlobClient.appendBlock(content, content.length);
    * ```
    */
@@ -2969,6 +3027,7 @@ export class AppendBlobClient extends BlobClient {
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
             cpkInfo: options.customerProvidedKey,
             encryptionScope: options.encryptionScope,
+            fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -3115,6 +3174,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
    */
   copySourceTags?: BlobCopySourceTags;
+  /**
+   * Valid value is backup
+   */
+  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -3345,6 +3408,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Valid value is backup
+   */
+  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -3658,7 +3725,7 @@ export class BlockBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -3689,7 +3756,7 @@ export class BlockBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -3755,17 +3822,34 @@ export class BlockBlobClient extends BlobClient {
    *
    * Example usage (Node.js):
    *
-   * ```js
-   * // Query and convert a blob to a string
-   * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
-   * const downloaded = (await streamToBuffer(queryBlockBlobResponse.readableStreamBody)).toString();
-   * console.log("Query blob content:", downloaded);
+   * ```ts snippet:ClientsQuery
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * async function streamToBuffer(readableStream) {
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+   *
+   * // Query and convert a blob to a string
+   * const queryBlockBlobResponse = await blockBlobClient.query("select from BlobStorage");
+   * if (queryBlockBlobResponse.readableStreamBody) {
+   *   const downloadedBuffer = await streamToBuffer(queryBlockBlobResponse.readableStreamBody);
+   *   const downloaded = downloadedBuffer.toString();
+   *   console.log(`Query blob content: ${downloaded}`);
+   * }
+   *
+   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
    *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
+   *     const chunks: Buffer[] = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(typeof data === "string" ? Buffer.from(data) : data);
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
    *       resolve(Buffer.concat(chunks));
@@ -3783,7 +3867,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobQueryOptions = {},
   ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    if (!isNode) {
+    if (!isNodeLike) {
       throw new Error("This operation currently is only supported in Node.js.");
     }
 
@@ -3836,7 +3920,21 @@ export class BlockBlobClient extends BlobClient {
    *
    * Example usage:
    *
-   * ```js
+   * ```ts snippet:ClientsUpload
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+   *
    * const content = "Hello world!";
    * const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
    * ```
@@ -3925,6 +4023,7 @@ export class BlockBlobClient extends BlobClient {
             tier: toAccessTier(options.tier),
             blobTagsString: toBlobTagsString(options.tags),
             copySourceTags: options.copySourceTags,
+            fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -4011,6 +4110,7 @@ export class BlockBlobClient extends BlobClient {
             cpkInfo: options.customerProvidedKey,
             encryptionScope: options.encryptionScope,
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+            fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -4135,7 +4235,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeLike) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -4825,6 +4925,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Valid value is backup
+   */
+  sourceShareTokenIntent?: FileShareTokenIntent;
 }
 
 /**
@@ -4925,7 +5029,7 @@ export class PageBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -4953,7 +5057,7 @@ export class PageBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -5189,6 +5293,7 @@ export class PageBlobClient extends BlobClient {
               cpkInfo: options.customerProvidedKey,
               encryptionScope: options.encryptionScope,
               copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+              fileRequestIntent: options.sourceShareTokenIntent,
               tracingOptions: updatedOptions.tracingOptions,
             },
           ),
@@ -5378,66 +5483,67 @@ export class PageBlobClient extends BlobClient {
    *
    *  .byPage() returns an async iterable iterator to list of page ranges for a page blob.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:ClientsListPageBlobs
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * // Get the pageBlobClient before you run these snippets,
-   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const pageBlobClient = containerClient.getPageBlobClient(blobName);
+   *
+   * // Example using `for await` syntax
    * let i = 1;
    * for await (const pageRange of pageBlobClient.listPageRanges()) {
    *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * let iter = pageBlobClient.listPageRanges();
-   * let pageRangeItem = await iter.next();
-   * while (!pageRangeItem.done) {
-   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
-   *   pageRangeItem = await iter.next();
+   * // Example using `iter.next()` syntax
+   * i = 1;
+   * const iter = pageBlobClient.listPageRanges();
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Page range ${i++}: ${value.start} - ${value.end}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of pageBlobClient.listPageRanges().byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of page.pageRange || []) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of pageBlobClient.listPageRanges().byPage({ maxPageSize: 20 })) {
-   *   for (const pageRange of response) {
+   * // Example using paging with a marker
+   * i = 1;
+   * let iterator = pageBlobClient.listPageRanges().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = pageBlobClient.listPageRanges().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   * // Prints 10 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
    *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    *   }
    * }
    * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
-   * let iterator = pageBlobClient.listPageRanges().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 page ranges
-   * for (const pageRange of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   *
-   * // Gets next marker
-   * let marker = response.continuationToken;
-   *
-   * // Passing next marker as continuationToken
-   *
-   * iterator = pageBlobClient.listPageRanges().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 page ranges
-   * for (const blob of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   * ```
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
    * @param options - Options to the Page Blob Get Ranges operation.
@@ -5640,66 +5746,76 @@ export class PageBlobClient extends BlobClient {
    *
    *  .byPage() returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
    *
-   * Example using `for await` syntax:
+   * ```ts snippet:ClientsListPageBlobsDiff
+   * import { BlobServiceClient } from "@azure/storage-blob";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * ```js
-   * // Get the pageBlobClient before you run these snippets,
-   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * const account = "<account>";
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   new DefaultAzureCredential(),
+   * );
+   *
+   * const containerName = "<container name>";
+   * const blobName = "<blob name>";
+   * const containerClient = blobServiceClient.getContainerClient(containerName);
+   * const pageBlobClient = containerClient.getPageBlobClient(blobName);
+   *
+   * const offset = 0;
+   * const count = 1024;
+   * const previousSnapshot = "<previous snapshot>";
+   * // Example using `for await` syntax
    * let i = 1;
-   * for await (const pageRange of pageBlobClient.listPageRangesDiff()) {
+   * for await (const pageRange of pageBlobClient.listPageRangesDiff(offset, count, previousSnapshot)) {
    *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * let iter = pageBlobClient.listPageRangesDiff();
-   * let pageRangeItem = await iter.next();
-   * while (!pageRangeItem.done) {
-   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
-   *   pageRangeItem = await iter.next();
+   * // Example using `iter.next()` syntax
+   * i = 1;
+   * const iter = pageBlobClient.listPageRangesDiff(offset, count, previousSnapshot);
+   * let { value, done } = await iter.next();
+   * while (!done) {
+   *   console.log(`Page range ${i++}: ${value.start} - ${value.end}`);
+   *   ({ value, done } = await iter.next());
    * }
-   * ```
    *
-   * Example using `byPage()`:
+   * // Example using `byPage()` syntax
+   * i = 1;
+   * for await (const page of pageBlobClient
+   *   .listPageRangesDiff(offset, count, previousSnapshot)
+   *   .byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of page.pageRange || []) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
    *
-   * ```js
-   * // passing optional maxPageSize in the page settings
-   * let i = 1;
-   * for await (const response of pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 20 })) {
-   *   for (const pageRange of response) {
+   * // Example using paging with a marker
+   * i = 1;
+   * let iterator = pageBlobClient
+   *   .listPageRangesDiff(offset, count, previousSnapshot)
+   *   .byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   * // Prints 2 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = pageBlobClient
+   *   .listPageRangesDiff(offset, count, previousSnapshot)
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   * // Prints 10 page ranges
+   * if (response.pageRange) {
+   *   for (const pageRange of response.pageRange) {
    *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
    *   }
    * }
    * ```
    *
-   * Example using paging with a marker:
-   *
-   * ```js
-   * let i = 1;
-   * let iterator = pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 2 });
-   * let response = (await iterator.next()).value;
-   *
-   * // Prints 2 page ranges
-   * for (const pageRange of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   *
-   * // Gets next marker
-   * let marker = response.continuationToken;
-   *
-   * // Passing next marker as continuationToken
-   *
-   * iterator = pageBlobClient.listPageRangesDiff().byPage({ continuationToken: marker, maxPageSize: 10 });
-   * response = (await iterator.next()).value;
-   *
-   * // Prints 10 page ranges
-   * for (const blob of response) {
-   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
-   * }
-   * ```
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
    * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.

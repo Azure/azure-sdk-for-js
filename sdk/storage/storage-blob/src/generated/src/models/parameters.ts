@@ -17,7 +17,7 @@ import {
   QueryRequest as QueryRequestMapper,
   BlobTags as BlobTagsMapper,
   BlockLookupList as BlockLookupListMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -102,7 +102,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-05-05",
+    defaultValue: "2025-07-05",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -1217,6 +1217,17 @@ export const copySourceTags: OperationParameter = {
     type: {
       name: "Enum",
       allowedValues: ["REPLACE", "COPY"],
+    },
+  },
+};
+
+export const fileRequestIntent: OperationParameter = {
+  parameterPath: ["options", "fileRequestIntent"],
+  mapper: {
+    serializedName: "x-ms-file-request-intent",
+    xmlName: "x-ms-file-request-intent",
+    type: {
+      name: "String",
     },
   },
 };

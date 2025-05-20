@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants } from "../common";
-import type { CosmosHeaders } from "../queryExecutionContext/headerUtils";
+import { Constants } from "../common/index.js";
+import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
 import {
   decodeAndParseJSONString,
   getRequestChargeIfAny,
-} from "../queryExecutionContext/headerUtils";
-import type { CosmosDiagnostics } from "../CosmosDiagnostics";
+} from "../queryExecutionContext/headerUtils.js";
+import type { CosmosDiagnostics } from "../CosmosDiagnostics.js";
 
 export class FeedResponse<TResource> {
   constructor(

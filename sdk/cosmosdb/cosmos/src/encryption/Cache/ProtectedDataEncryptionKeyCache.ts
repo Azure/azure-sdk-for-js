@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey";
-import type { KeyEncryptionKey } from "../KeyEncryptionKey";
-import { Constants } from "../../common";
+import { randomBytes } from "node:crypto";
+import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey.js";
+import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
+import { Constants } from "../../common/index.js";
 
 /**
  * The cache used to store the protected data encryption key.

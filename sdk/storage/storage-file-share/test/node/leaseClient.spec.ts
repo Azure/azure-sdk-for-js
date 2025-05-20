@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import {
   recorderEnvSetup,
   uriSanitizers,
   getUniqueName,
   getTokenBSUWithDefaultCredential,
   bodyToString,
-} from "../utils";
+} from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
-import type { Context } from "mocha";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // for file
 describe("LeaseClient Node.js only - OAuth", () => {
@@ -27,8 +25,8 @@ describe("LeaseClient Node.js only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -55,7 +53,7 @@ describe("LeaseClient Node.js only - OAuth", () => {
     await fileClient.create(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -154,8 +152,8 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
@@ -174,7 +172,7 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await shareClient.delete();
     await recorder.stop();
   });

@@ -29,10 +29,9 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Enter your storage account name
   const account = process.env.ACCOUNT_NAME || "<account name>";
 

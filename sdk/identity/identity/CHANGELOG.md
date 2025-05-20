@@ -1,16 +1,32 @@
 # Release History
 
-## 4.8.1 (Unreleased)
+## 4.10.0 (2025-05-14)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for the `AZURE_TOKEN_CREDENTIALS` environment variable to `DefaultAzureCredential`, which allows for choosing between 'deployed service' and 'developer tools' credentials. Valid values are 'dev' for developer tools and 'prod' for deployed service. [#34301](https://github.com/Azure/azure-sdk-for-js/pull/34301)
 
 ### Other Changes
 
-- Marked `VisualStudioCodeCredential`, `VisualStudioCodeCredentialOptions` and `VSCodeCredentialFinder` as deprecated.
+- Added deprecation warnings for username password usage in `EnvironmentCredential` constructor to warn the users. `UsernamePassword` authentication doesn't support Multi-Factor Authentication (MFA), and MFA will enabled soon on all tenants.  For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#34054](https://github.com/Azure/azure-sdk-for-js/pull/34054)
+
+## 4.9.1 (2025-04-17)
+
+### Bugs Fixed
+
+- Update the order for conditional exports so that the most specific conditions are listed first. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
+- Fix a bug in which `self.location` is undefined in specific environment. [#33914](https://github.com/Azure/azure-sdk-for-js/pull/33914)
+
+## 4.9.0 (2025-04-16)
+
+### Features Added
+
+- Add `workerd` conditional exports support for Cloudflare environment. [#32422](https://github.com/Azure/azure-sdk-for-js/pull/32422)
+
+### Other Changes
+
+- Marked `VisualStudioCodeCredential`, `VisualStudioCodeCredentialOptions` and `VSCodeCredentialFinder` as deprecated. [#33413](https://github.com/Azure/azure-sdk-for-js/pull/33413)
+- Upgraded version of `@azure/msal-node` to v3.5.0 that has [a bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/7631) for Azure Machine Learning Managed Identity. [#33792](https://github.com/Azure/azure-sdk-for-js/pull/33792)
 
 ## 4.8.0 (2025-03-11)
 

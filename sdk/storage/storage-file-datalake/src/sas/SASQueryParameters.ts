@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { UserDelegationKey } from "../models";
-import type { SasIPRange } from "./SasIPRange";
-import { ipRangeToString } from "./SasIPRange";
-import { truncatedISO8061Date } from "../utils/utils.common";
+
+import type { UserDelegationKey } from "../models.js";
+import type { SasIPRange } from "./SasIPRange.js";
+import { ipRangeToString } from "./SasIPRange.js";
+import { truncatedISO8061Date } from "../utils/utils.common.js";
 
 /**
  * Protocols for generated SAS.

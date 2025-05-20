@@ -366,11 +366,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-language-textauthoring",
-      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
@@ -595,7 +590,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/mock-hub",
+      "packageName": "@azure-tools/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
     },
@@ -718,8 +713,16 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/storage-common",
+      "projectFolder": "sdk/storage/storage-common",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+      "cyclicDependencyProjects": [
+        "@azure/storage-file-share"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -823,13 +826,13 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils",
-      "projectFolder": "sdk/test-utils/test-utils",
+      "packageName": "@azure-tools/test-utils-vitest",
+      "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils-vitest",
-      "projectFolder": "sdk/test-utils/test-utils-vitest",
+      "packageName": "@azure-tools/mcp-server",
+      "projectFolder": "common/tools/mcp-server",
       "versionPolicyName": "utility"
     },
     {
@@ -908,11 +911,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-authentication",
-      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -966,11 +964,6 @@
       "packageName": "@azure-tests/perf-schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
-    },
-    {
-      "packageName": "@azure/mixed-reality-remote-rendering",
-      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
-      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-network",
@@ -1550,11 +1543,6 @@
     {
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mixedreality",
-      "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
     },
     {
@@ -2328,6 +2316,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-agents",
+      "projectFolder": "sdk/ai/ai-agents",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-impactreporting",
       "projectFolder": "sdk/impactreporting/arm-impactreporting",
       "versionPolicyName": "management"
@@ -2356,6 +2349,46 @@
       "packageName": "@azure/arm-weightsandbiases",
       "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-lambdatesthyperexecute",
+      "projectFolder": "sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dependencymap",
+      "projectFolder": "sdk/dependencymap/arm-dependencymap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-programmableconnectivity",
+      "projectFolder": "sdk/programmableconnectivity/arm-programmableconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portalservicescopilot",
+      "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-carbonoptimization",
+      "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sitemanager",
+      "projectFolder": "sdk/sitemanager/arm-sitemanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/analytics-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

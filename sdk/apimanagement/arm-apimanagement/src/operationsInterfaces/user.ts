@@ -7,143 +7,163 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-    UserContract,
-    UserCreateOrUpdateOptionalParams,
-    UserCreateOrUpdateResponse,
-    UserCreateParameters,
-    UserDeleteOptionalParams,
-    UserGenerateSsoUrlOptionalParams,
-    UserGenerateSsoUrlResponse,
-    UserGetEntityTagOptionalParams,
-    UserGetEntityTagResponse,
-    UserGetOptionalParams,
-    UserGetResponse,
-    UserGetSharedAccessTokenOptionalParams,
-    UserGetSharedAccessTokenResponse,
-    UserListByServiceOptionalParams,
-    UserTokenParameters,
-    UserUpdateOptionalParams,
-    UserUpdateParameters,
-    UserUpdateResponse
+  UserContract,
+  UserListByServiceOptionalParams,
+  UserGetEntityTagOptionalParams,
+  UserGetEntityTagResponse,
+  UserGetOptionalParams,
+  UserGetResponse,
+  UserCreateParameters,
+  UserCreateOrUpdateOptionalParams,
+  UserCreateOrUpdateResponse,
+  UserUpdateParameters,
+  UserUpdateOptionalParams,
+  UserUpdateResponse,
+  UserDeleteOptionalParams,
+  UserDeleteResponse,
+  UserGenerateSsoUrlOptionalParams,
+  UserGenerateSsoUrlResponse,
+  UserTokenParameters,
+  UserGetSharedAccessTokenOptionalParams,
+  UserGetSharedAccessTokenResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a User. */
 export interface User {
-    /**
-     * Lists a collection of registered users in the specified service instance.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param options The options parameters.
-     */
-    listByService(
-        resourceGroupName: string,
-        serviceName: string,
-        options?: UserListByServiceOptionalParams
-    ): PagedAsyncIterableIterator<UserContract>;
-    /**
-     * Gets the entity state (Etag) version of the user specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    getEntityTag(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGetEntityTagOptionalParams
-    ): Promise<UserGetEntityTagResponse>;
-    /**
-     * Gets the details of the user specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    get(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGetOptionalParams
-    ): Promise<UserGetResponse>;
-    /**
-     * Creates or Updates a user.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param parameters Create or update parameters.
-     * @param options The options parameters.
-     */
-    createOrUpdate(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        parameters: UserCreateParameters,
-        options?: UserCreateOrUpdateOptionalParams
-    ): Promise<UserCreateOrUpdateResponse>;
-    /**
-     * Updates the details of the user specified by its identifier.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param parameters Update parameters.
-     * @param options The options parameters.
-     */
-    update(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        ifMatch: string,
-        parameters: UserUpdateParameters,
-        options?: UserUpdateOptionalParams
-    ): Promise<UserUpdateResponse>;
-    /**
-     * Deletes specific user.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-     *                response of the GET request or it should be * for unconditional update.
-     * @param options The options parameters.
-     */
-    delete(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        ifMatch: string,
-        options?: UserDeleteOptionalParams
-    ): Promise<void>;
-    /**
-     * Retrieves a redirection URL containing an authentication token for signing a given user into the
-     * developer portal.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param options The options parameters.
-     */
-    generateSsoUrl(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        options?: UserGenerateSsoUrlOptionalParams
-    ): Promise<UserGenerateSsoUrlResponse>;
-    /**
-     * Gets the Shared Access Authorization Token for the User.
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param serviceName The name of the API Management service.
-     * @param userId User identifier. Must be unique in the current API Management service instance.
-     * @param parameters Create Authorization Token parameters.
-     * @param options The options parameters.
-     */
-    getSharedAccessToken(
-        resourceGroupName: string,
-        serviceName: string,
-        userId: string,
-        parameters: UserTokenParameters,
-        options?: UserGetSharedAccessTokenOptionalParams
-    ): Promise<UserGetSharedAccessTokenResponse>;
+  /**
+   * Lists a collection of registered users in the specified service instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param options The options parameters.
+   */
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: UserListByServiceOptionalParams,
+  ): PagedAsyncIterableIterator<UserContract>;
+  /**
+   * Gets the entity state (Etag) version of the user specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGetEntityTagOptionalParams,
+  ): Promise<UserGetEntityTagResponse>;
+  /**
+   * Gets the details of the user specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGetOptionalParams,
+  ): Promise<UserGetResponse>;
+  /**
+   * Creates or Updates a user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: UserCreateParameters,
+    options?: UserCreateOrUpdateOptionalParams,
+  ): Promise<UserCreateOrUpdateResponse>;
+  /**
+   * Updates the details of the user specified by its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param parameters Update parameters.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    parameters: UserUpdateParameters,
+    options?: UserUpdateOptionalParams,
+  ): Promise<UserUpdateResponse>;
+  /**
+   * Deletes specific user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>
+  >;
+  /**
+   * Deletes specific user.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: UserDeleteOptionalParams,
+  ): Promise<UserDeleteResponse>;
+  /**
+   * Retrieves a redirection URL containing an authentication token for signing a given user into the
+   * developer portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param options The options parameters.
+   */
+  generateSsoUrl(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: UserGenerateSsoUrlOptionalParams,
+  ): Promise<UserGenerateSsoUrlResponse>;
+  /**
+   * Gets the Shared Access Authorization Token for the User.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of the API Management service.
+   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create Authorization Token parameters.
+   * @param options The options parameters.
+   */
+  getSharedAccessToken(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: UserTokenParameters,
+    options?: UserGetSharedAccessTokenOptionalParams,
+  ): Promise<UserGetSharedAccessTokenResponse>;
 }
