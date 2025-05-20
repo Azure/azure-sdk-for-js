@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 const dotenv = require("dotenv");
 const AzureHealthInsightsClient = require("../../../src").default,
-  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../../../src");
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
