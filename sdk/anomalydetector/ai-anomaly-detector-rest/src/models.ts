@@ -1,245 +1,224 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** The request of entire or last anomaly detection. */
+/** Request of the entire or last anomaly detection. */
 export interface UnivariateDetectionOptions {
   /**
-   * Time series data points. Points should be sorted by timestamp in ascending
+   * Time series data points. Points should be sorted by time stamp in ascending
    * order to match the anomaly detection result. If the data is not sorted
-   * correctly or there is duplicated timestamp, the API will not work. In such
-   * case, an error message will be returned.
+   * correctly or there's a duplicated time stamp, the API won't work. In such
+   * a case, an error message is returned.
    */
   series: Array<TimeSeriesPoint>;
   /**
-   * Optional argument, can be one of yearly, monthly, weekly, daily, hourly,
-   * minutely, secondly, microsecond or none. If granularity is not present, it will
-   * be none by default. If granularity is none, the timestamp property in time
+   * Argument that indicates time granularity. If granularity is not present, the value
+   * is none by default. If granularity is none, the time stamp property in the time
    * series point can be absent.
+   *
+   * Possible values: "yearly", "monthly", "weekly", "daily", "hourly", "minutely", "secondly", "microsecond", "none"
    */
-  granularity?:
-    | "yearly"
-    | "monthly"
-    | "weekly"
-    | "daily"
-    | "hourly"
-    | "minutely"
-    | "secondly"
-    | "microsecond"
-    | "none";
+  granularity?: TimeGranularity;
   /**
-   * Custom Interval is used to set non-standard time interval, for example, if the
-   * series is 5 minutes, request can be set as {"granularity":"minutely",
+   * A custom interval is used to set a nonstandard time interval. For example, if the
+   * series is 5 minutes, the request can be set as {"granularity":"minutely",
    * "customInterval":5}.
    */
   customInterval?: number;
   /**
-   * Optional argument, periodic value of a time series. If the value is null or
-   * does not present, the API will determine the period automatically.
+   * Argument that indicates the periodic value of a time series. If the value is null or
+   * is not present, the API determines the period automatically.
    */
   period?: number;
-  /** Optional argument, advanced model parameter, max anomaly ratio in a time series. */
+  /** Argument that indicates an advanced model parameter. It's the maximum anomaly ratio in a time series. */
   maxAnomalyRatio?: number;
   /**
-   * Optional argument, advanced model parameter, between 0-99, the lower the value
-   * is, the larger the margin value will be which means less anomalies will be
+   * Argument that indicates an advanced model parameter between 0 and 99. The lower the value
+   * is, the larger the margin value is, which means fewer anomalies will be
    * accepted.
    */
   sensitivity?: number;
   /**
-   * Used to specify how to deal with missing values in the input series, it's used
+   * Specifies how to deal with missing values in the input series. It's used
    * when granularity is not "none".
    *
-   * Possible values: auto, previous, linear, fixed, zero, notFill
+   * Possible values: "auto", "previous", "linear", "fixed", "zero", "notFill"
    */
-  imputeMode?: string;
+  imputeMode?: ImputeMode;
   /**
-   * Used to specify the value to fill, it's used when granularity is not "none"
+   * Specifies the value to fill. It's used when granularity is not "none"
    * and imputeMode is "fixed".
    */
   imputeFixedValue?: number;
 }
 
-/** The definition of input timeseries points. */
+/** Definition of input time series points. */
 export interface TimeSeriesPoint {
-  /** Optional argument, timestamp of a data point (ISO8601 format). */
+  /** Argument that indicates the time stamp of a data point (ISO8601 format). */
   timestamp?: Date | string;
-  /** The measurement of that point, should be float. */
+  /** Measurement of that point. */
   value: number;
 }
 
-/** The request of change point detection. */
+/** Request of change point detection. */
 export interface UnivariateChangePointDetectionOptions {
   /**
-   * Time series data points. Points should be sorted by timestamp in ascending
+   * Time series data points. Points should be sorted by time stamp in ascending
    * order to match the change point detection result.
    */
   series: Array<TimeSeriesPoint>;
   /**
-   * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or
-   * secondly. Granularity is used for verify whether input series is valid.
+   * Granularity is used to verify whether the input series is valid.
+   *
+   * Possible values: "yearly", "monthly", "weekly", "daily", "hourly", "minutely", "secondly", "microsecond", "none"
    */
-  granularity:
-    | "yearly"
-    | "monthly"
-    | "weekly"
-    | "daily"
-    | "hourly"
-    | "minutely"
-    | "secondly"
-    | "microsecond"
-    | "none";
+  granularity: TimeGranularity;
   /**
-   * Custom Interval is used to set non-standard time interval, for example, if the
-   * series is 5 minutes, request can be set as {"granularity":"minutely",
+   * A custom interval is used to set a nonstandard time interval. For example, if the
+   * series is 5 minutes, the request can be set as {"granularity":"minutely",
    * "customInterval":5}.
    */
   customInterval?: number;
   /**
-   * Optional argument, periodic value of a time series. If the value is null or
-   * does not present, the API will determine the period automatically.
+   * Argument that indicates the periodic value of a time series. If the value is null or
+   * not present, the API will determine the period automatically.
    */
   period?: number;
   /**
-   * Optional argument, advanced model parameter, a default stableTrendWindow will
+   * Argument that indicates an advanced model parameter. A default stableTrendWindow value will
    * be used in detection.
    */
   stableTrendWindow?: number;
   /**
-   * Optional argument, advanced model parameter, between 0.0-1.0, the lower the
-   * value is, the larger the trend error will be which means less change point will
+   * Argument that indicates an advanced model parameter between 0.0 and 1.0. The lower the
+   * value is, the larger the trend error is, which means less change point will
    * be accepted.
    */
   threshold?: number;
 }
 
-/** ErrorResponse contains code and message that shows the error information. */
+/** Error information that the API returned. */
 export interface ErrorResponse {
-  /** The error code. */
+  /** Error code. */
   code: string;
-  /** The message explaining the error reported by the service. */
+  /** Message that explains the error that the service reported. */
   message: string;
 }
 
-/** Variable Status. */
+/** Variable status. */
 export interface VariableState {
   /** Variable name in variable states. */
   variable?: string;
   /** Proportion of missing values that need to be filled by fillNAMethod. */
   filledNARatio?: number;
-  /** Number of effective data points before applying fillNAMethod. */
+  /** Number of effective data points before fillNAMethod is applied. */
   effectiveCount?: number;
-  /** First valid timestamp with value of input data. */
+  /** First valid time stamp with a value of input data. */
   firstTimestamp?: Date | string;
-  /** Last valid timestamp with value of input data. */
+  /** Last valid time stamp with a value of input data. */
   lastTimestamp?: Date | string;
 }
 
 /**
- * Detection request for batch inference. This is an asynchronous inference which
+ * Detection request for batch inference. This is an asynchronous inference that
  * will need another API to get detection results.
  */
 export interface MultivariateBatchDetectionOptions {
   /**
-   * Source link to the input data to indicate an accessible Azure storage Uri,
-   * either pointed to an Azure blob storage folder, or pointed to a CSV file in
-   * Azure blob storage based on you data schema selection. The data schema should
-   * be exactly the same with those used in the training phase.
+   * Source link to the input data to indicate an accessible Azure Storage URI.
+   * It either points to an Azure Blob Storage folder or points to a CSV file in
+   * Azure Blob Storage, based on your data schema selection. The data schema should
+   * be exactly the same as those used in the training phase. The input data must
+   * contain at least slidingWindow entries preceding the start time of the data
+   * to be detected.
    */
   dataSource: string;
+  /** Number of top contributed variables for one anomalous time stamp in the response. */
+  topContributorCount?: number;
   /**
-   * An optional field, which is used to specify the number of top contributed
-   * variables for one anomalous timestamp in the response. The default number is
-   * 10.
-   */
-  topContributorCount: number;
-  /**
-   * A required field, indicating the start time of data for detection, which should
-   * be date-time of ISO 8601 format.
+   * Start date/time of data for detection, which should
+   * be in ISO 8601 format.
    */
   startTime: Date | string;
   /**
-   * A required field, indicating the end time of data for detection, which should
-   * be date-time of ISO 8601 format.
+   * End date/time of data for detection, which should
+   * be in ISO 8601 format.
    */
   endTime: Date | string;
 }
 
 /**
- * Training result of a model including its status, errors and diagnostics
+ * Training result of a model, including its status, errors, and diagnostics
  * information.
  */
 export interface ModelInfo {
   /**
-   * Source link to the input data to indicate an accessible Azure storage Uri,
-   * either pointed to an Azure blob storage folder, or pointed to a CSV file in
-   * Azure blob storage based on you data schema selection.
+   * Source link to the input data to indicate an accessible Azure Storage URI.
+   * It either points to an Azure Blob Storage folder or points to a CSV file in
+   * Azure Blob Storage, based on your data schema selection.
    */
   dataSource: string;
   /**
-   * Data schema of input data source: OneTable or MultiTable. The default
-   * DataSchema is OneTable.
+   * Data schema of the input data source. The default
+   * is OneTable.
    *
-   * Possible values: OneTable, MultiTable
+   * Possible values: "OneTable", "MultiTable"
    */
-  dataSchema?: string;
+  dataSchema?: DataSchema;
   /**
-   * A required field, indicating the start time of training data, which should be
-   * date-time of ISO 8601 format.
+   * Start date/time of training data, which should be
+   * in ISO 8601 format.
    */
   startTime: Date | string;
   /**
-   * A required field, indicating the end time of training data, which should be
-   * date-time of ISO 8601 format.
+   * End date/time of training data, which should be
+   * in ISO 8601 format.
    */
   endTime: Date | string;
   /**
-   * An optional field. The display name of the model whose maximum length is 24
+   * Display name of the model. Maximum length is 24
    * characters.
    */
   displayName?: string;
   /**
-   * An optional field, indicating how many previous timestamps will be used to
-   * detect whether the timestamp is anomaly or not.
+   * Number of previous time stamps that will be used to
+   * detect whether the time stamp is an anomaly or not.
    */
   slidingWindow?: number;
-  /** An optional field, indicating the manner to align multiple variables. */
+  /** Manner of aligning multiple variables. */
   alignPolicy?: AlignPolicy;
-  /** Model status. One of CREATED, RUNNING, READY, and FAILED. */
-  status?: "CREATED" | "RUNNING" | "READY" | "FAILED";
-  /** Diagnostics information to help inspect the states of model or variable. */
-  diagnosticsInfo?: DiagnosticsInfo;
 }
 
-/** An optional field, indicating the manner to align multiple variables. */
+/** Manner of aligning multiple variables. */
 export interface AlignPolicy {
   /**
-   * An optional field, indicating how to align different variables to the same
-   * time-range. Either Inner or Outer.
-   */
-  alignMode?: "Inner" | "Outer";
-  /**
-   * An optional field, indicating how missing values will be filled. One of
-   * Previous, Subsequent, Linear, Zero, Fixed.
+   * Field that indicates how to align different variables to the same
+   * time range.
    *
-   * Possible values: Previous, Subsequent, Linear, Zero, Fixed
+   * Possible values: "Inner", "Outer"
    */
-  fillNAMethod?: string;
-  /** An optional field. Required when fillNAMethod is Fixed. */
+  alignMode?: AlignMode;
+  /**
+   * Field that indicates how missing values will be filled.
+   *
+   * Possible values: "Previous", "Subsequent", "Linear", "Zero", "Fixed"
+   */
+  fillNAMethod?: FillNAMethod;
+  /** Field that's required when fillNAMethod is Fixed. */
   paddingValue?: number;
 }
 
-/** Diagnostics information to help inspect the states of model or variable. */
+/** Diagnostics information to help inspect the states of a model or variable. */
 export interface DiagnosticsInfo {
   /** Model status. */
   modelState?: ModelState;
-  /** Variable Status. */
+  /** Variable status. */
   variableStates?: Array<VariableState>;
 }
 
 /** Model status. */
 export interface ModelState {
   /**
-   * This indicates the number of passes of the entire training dataset the
+   * Number of passes of the entire training dataset that the
    * algorithm has completed.
    */
   epochIds?: number[];
@@ -257,27 +236,42 @@ export interface ModelState {
   latenciesInSeconds?: number[];
 }
 
-/** Request of last detection. */
+/** Request of the last detection. */
 export interface MultivariateLastDetectionOptions {
   /**
-   * This contains the inference data, including the name, timestamps(ISO 8601) and
+   * Contains the inference data, including the name, time stamps (ISO 8601), and
    * values of variables.
    */
   variables: Array<VariableValues>;
   /**
-   * An optional field, which is used to specify the number of top contributed
-   * variables for one anomalous timestamp in the response. The default number is
+   * Number of top contributed
+   * variables for one anomalous time stamp in the response. The default is
    * 10.
    */
-  topContributorCount: number;
+  topContributorCount?: number;
 }
 
 /** Variable values. */
 export interface VariableValues {
-  /** Variable name of last detection request. */
+  /** Variable name of the last detection request. */
   variable: string;
-  /** Timestamps of last detection request */
+  /** Time stamps of the last detection request. */
   timestamps: string[];
   /** Values of variables. */
   values: number[];
 }
+
+/** Alias for TimeGranularity */
+export type TimeGranularity = string;
+/** Alias for ImputeMode */
+export type ImputeMode = string;
+/** Alias for DataSchema */
+export type DataSchema = string;
+/** Alias for AlignMode */
+export type AlignMode = string;
+/** Alias for FillNAMethod */
+export type FillNAMethod = string;
+/** Alias for ModelStatus */
+export type ModelStatus = string;
+/** Alias for APIVersion */
+export type APIVersion = "v1.1";

@@ -15,24 +15,24 @@ export interface DetectUnivariateEntireSeriesBodyParam {
   body: UnivariateDetectionOptions;
 }
 
-export type DetectUnivariateEntireSeriesParameters = DetectUnivariateEntireSeriesBodyParam &
-  RequestParameters;
+export type DetectUnivariateEntireSeriesParameters =
+  DetectUnivariateEntireSeriesBodyParam & RequestParameters;
 
 export interface DetectUnivariateLastPointBodyParam {
   /** Method of univariate anomaly detection. */
   body: UnivariateDetectionOptions;
 }
 
-export type DetectUnivariateLastPointParameters = DetectUnivariateLastPointBodyParam &
-  RequestParameters;
+export type DetectUnivariateLastPointParameters =
+  DetectUnivariateLastPointBodyParam & RequestParameters;
 
 export interface DetectUnivariateChangePointBodyParam {
   /** Method of univariate anomaly detection. */
   body: UnivariateChangePointDetectionOptions;
 }
 
-export type DetectUnivariateChangePointParameters = DetectUnivariateChangePointBodyParam &
-  RequestParameters;
+export type DetectUnivariateChangePointParameters =
+  DetectUnivariateChangePointBodyParam & RequestParameters;
 export type GetMultivariateBatchDetectionResultParameters = RequestParameters;
 
 export interface TrainMultivariateModelBodyParam {
@@ -40,12 +40,13 @@ export interface TrainMultivariateModelBodyParam {
   body: ModelInfo;
 }
 
-export type TrainMultivariateModelParameters = TrainMultivariateModelBodyParam & RequestParameters;
+export type TrainMultivariateModelParameters = TrainMultivariateModelBodyParam &
+  RequestParameters;
 
 export interface ListMultivariateModelsQueryParamProperties {
-  /** Skip indicates how many models will be skipped. */
+  /** The number of result items to skip. */
   skip?: number;
-  /** Top indicates how many models will be fetched. */
+  /** The number of result items to return. */
   top?: number;
 }
 
@@ -53,7 +54,8 @@ export interface ListMultivariateModelsQueryParam {
   queryParameters?: ListMultivariateModelsQueryParamProperties;
 }
 
-export type ListMultivariateModelsParameters = ListMultivariateModelsQueryParam & RequestParameters;
+export type ListMultivariateModelsParameters =
+  ListMultivariateModelsQueryParam & RequestParameters;
 export type DeleteMultivariateModelParameters = RequestParameters;
 export type GetMultivariateModelParameters = RequestParameters;
 
@@ -62,13 +64,13 @@ export interface DetectMultivariateBatchAnomalyBodyParam {
   body: MultivariateBatchDetectionOptions;
 }
 
-export type DetectMultivariateBatchAnomalyParameters = DetectMultivariateBatchAnomalyBodyParam &
-  RequestParameters;
+export type DetectMultivariateBatchAnomalyParameters =
+  DetectMultivariateBatchAnomalyBodyParam & RequestParameters;
 
 export interface DetectMultivariateLastAnomalyBodyParam {
-  /** Request of last detection. */
+  /** Request of the last detection. */
   body: MultivariateLastDetectionOptions;
 }
 
-export type DetectMultivariateLastAnomalyParameters = DetectMultivariateLastAnomalyBodyParam &
-  RequestParameters;
+export type DetectMultivariateLastAnomalyParameters =
+  DetectMultivariateLastAnomalyBodyParam & RequestParameters;

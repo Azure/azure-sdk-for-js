@@ -1,78 +1,78 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** The response of entire anomaly detection. */
+/** Response of the entire anomaly detection. */
 export interface UnivariateEntireDetectionResultOutput {
   /**
-   * Frequency extracted from the series, zero means no recurrent pattern has been
+   * Frequency extracted from the series. Zero means no recurrent pattern has been
    * found.
    */
   period: number;
   /**
-   * ExpectedValues contain expected value for each input point. The index of the
+   * Expected value for each input point. The index of the
    * array is consistent with the input series.
    */
   expectedValues: number[];
   /**
-   * UpperMargins contain upper margin of each input point. UpperMargin is used to
-   * calculate upperBoundary, which equals to expectedValue + (100 -
-   * marginScale)*upperMargin. Anomalies in response can be filtered by
-   * upperBoundary and lowerBoundary. By adjusting marginScale value, less
-   * significant anomalies can be filtered in client side. The index of the array is
+   * Upper margin of each input point. UpperMargin is used to
+   * calculate upperBoundary, which is equal to expectedValue + (100 -
+   * marginScale)*upperMargin. Anomalies in the response can be filtered by
+   * upperBoundary and lowerBoundary. Adjusting the marginScale value can help filter less
+   * significant anomalies on the client side. The index of the array is
    * consistent with the input series.
    */
   upperMargins: number[];
   /**
-   * LowerMargins contain lower margin of each input point. LowerMargin is used to
-   * calculate lowerBoundary, which equals to expectedValue - (100 -
+   * Lower margin of each input point. LowerMargin is used to
+   * calculate lowerBoundary, which is equal to expectedValue - (100 -
    * marginScale)*lowerMargin. Points between the boundary can be marked as normal
-   * ones in client side. The index of the array is consistent with the input
+   * ones on the client side. The index of the array is consistent with the input
    * series.
    */
   lowerMargins: number[];
   /**
-   * IsAnomaly contains anomaly properties for each input point. True means an
-   * anomaly either negative or positive has been detected. The index of the array
+   * Anomaly properties for each input point. True means an
+   * anomaly (either negative or positive) has been detected. The index of the array
    * is consistent with the input series.
    */
   isAnomaly: boolean[];
   /**
-   * IsNegativeAnomaly contains anomaly status in negative direction for each input
+   * Anomaly status in a negative direction for each input
    * point. True means a negative anomaly has been detected. A negative anomaly
    * means the point is detected as an anomaly and its real value is smaller than
    * the expected one. The index of the array is consistent with the input series.
    */
   isNegativeAnomaly: boolean[];
   /**
-   * IsPositiveAnomaly contain anomaly status in positive direction for each input
+   * Anomaly status in a positive direction for each input
    * point. True means a positive anomaly has been detected. A positive anomaly
    * means the point is detected as an anomaly and its real value is larger than the
    * expected one. The index of the array is consistent with the input series.
    */
   isPositiveAnomaly: boolean[];
   /**
-   * The severity score for each input point. The larger the value is, the more
-   * sever the anomaly is. For normal points, the "severity" is always 0.
+   * Severity score for each input point. The larger the value is, the more
+   * severe the anomaly is. For normal points, the severity is always 0.
    */
   severity?: number[];
 }
 
-/** Error information returned by the API. */
+/** Error information that the API returned. */
 export interface AnomalyDetectorErrorOutput {
   /**
-   * The error code.
+   * Error code.
    *
-   * Possible values: InvalidCustomInterval, BadArgument, InvalidGranularity, InvalidPeriod, InvalidModelArgument, InvalidSeries, InvalidJsonFormat, RequiredGranularity, RequiredSeries, InvalidImputeMode, InvalidImputeFixedValue
+   * Possible values: "InvalidCustomInterval", "BadArgument", "InvalidGranularity", "InvalidPeriod", "InvalidModelArgument", "InvalidSeries", "InvalidJsonFormat", "RequiredGranularity", "RequiredSeries", "InvalidImputeMode", "InvalidImputeFixedValue"
    */
-  code?: string;
-  /** A message explaining the error reported by the service. */
-  message?: string;
+  code: AnomalyDetectorErrorCodesOutput;
+  /** Message that explains the error that the service reported. */
+  message: string;
 }
 
-/** The response of last anomaly detection. */
+/** Response of the last anomaly detection. */
 export interface UnivariateLastDetectionResultOutput {
   /**
-   * Frequency extracted from the series, zero means no recurrent pattern has been
+   * Frequency extracted from the series. Zero means no recurrent pattern has been
    * found.
    */
   period: number;
@@ -82,259 +82,270 @@ export interface UnivariateLastDetectionResultOutput {
   expectedValue: number;
   /**
    * Upper margin of the latest point. UpperMargin is used to calculate
-   * upperBoundary, which equals to expectedValue + (100 - marginScale)*upperMargin.
+   * upperBoundary, which is equal to expectedValue + (100 - marginScale)*upperMargin.
    * If the value of latest point is between upperBoundary and lowerBoundary, it
-   * should be treated as normal value. By adjusting marginScale value, anomaly
-   * status of latest point can be changed.
+   * should be treated as a normal value. Adjusting the marginScale value enables the anomaly
+   * status of the latest point to be changed.
    */
   upperMargin: number;
   /**
    * Lower margin of the latest point. LowerMargin is used to calculate
-   * lowerBoundary, which equals to expectedValue - (100 - marginScale)*lowerMargin.
-   *
+   * lowerBoundary, which is equal to expectedValue - (100 - marginScale)*lowerMargin.
    */
   lowerMargin: number;
   /**
-   * Anomaly status of the latest point, true means the latest point is an anomaly
-   * either in negative direction or positive direction.
+   * Anomaly status of the latest point. True means the latest point is an anomaly,
+   * either in the negative direction or in the positive direction.
    */
   isAnomaly: boolean;
   /**
-   * Anomaly status in negative direction of the latest point. True means the latest
+   * Anomaly status of the latest point in a negative direction. True means the latest
    * point is an anomaly and its real value is smaller than the expected one.
    */
   isNegativeAnomaly: boolean;
   /**
-   * Anomaly status in positive direction of the latest point. True means the latest
+   * Anomaly status of the latest point in a positive direction. True means the latest
    * point is an anomaly and its real value is larger than the expected one.
    */
   isPositiveAnomaly: boolean;
   /**
-   * The severity score for the last input point. The larger the value is, the more
-   * sever the anomaly is. For normal points, the "severity" is always 0.
+   * Severity score for the last input point. The larger the value is, the more
+   * severe the anomaly is. For normal points, the severity is always 0.
    */
   severity?: number;
 }
 
-/** The response of change point detection. */
+/** Response of change point detection. */
 export interface UnivariateChangePointDetectionResultOutput {
   /**
-   * Frequency extracted from the series, zero means no recurrent pattern has been
+   * Frequency extracted from the series. Zero means no recurrent pattern has been
    * found.
    */
   readonly period?: number;
   /**
-   * isChangePoint contains change point properties for each input point. True means
-   * an anomaly either negative or positive has been detected. The index of the
+   * Change point properties for each input point. True means
+   * an anomaly (either negative or positive) has been detected. The index of the
    * array is consistent with the input series.
    */
   isChangePoint?: boolean[];
-  /** the change point confidence of each point */
+  /** Change point confidence of each point. */
   confidenceScores?: number[];
 }
 
-/** Detection results for the given resultId. */
+/** Detection results for the resultId value. */
 export interface MultivariateDetectionResultOutput {
-  /** Result identifier, which is used to fetch the results of an inference call. */
+  /** Result identifier that's used to fetch the results of an inference call. */
   resultId: string;
   /** Multivariate anomaly detection status. */
   summary: MultivariateBatchDetectionResultSummaryOutput;
-  /** Detection result for each timestamp. */
+  /** Detection result for each time stamp. */
   results: Array<AnomalyStateOutput>;
 }
 
 /** Multivariate anomaly detection status. */
 export interface MultivariateBatchDetectionResultSummaryOutput {
-  /** Status of detection results. One of CREATED, RUNNING, READY, and FAILED. */
-  status: "CREATED" | "RUNNING" | "READY" | "FAILED";
-  /** Error message when detection is failed. */
+  /**
+   * Status of detection results.
+   *
+   * Possible values: "CREATED", "RUNNING", "READY", "FAILED"
+   */
+  status: MultivariateBatchDetectionStatusOutput;
+  /** Error message when detection fails. */
   errors?: Array<ErrorResponseOutput>;
-  /** Variable Status. */
+  /** Variable status. */
   variableStates?: Array<VariableStateOutput>;
   /**
-   * Detection request for batch inference. This is an asynchronous inference which
+   * Detection request for batch inference. This is an asynchronous inference that
    * will need another API to get detection results.
    */
   setupInfo: MultivariateBatchDetectionOptionsOutput;
 }
 
-/** ErrorResponse contains code and message that shows the error information. */
+/** Error information that the API returned. */
 export interface ErrorResponseOutput {
-  /** The error code. */
+  /** Error code. */
   code: string;
-  /** The message explaining the error reported by the service. */
+  /** Message that explains the error that the service reported. */
   message: string;
 }
 
-/** Variable Status. */
+/** Variable status. */
 export interface VariableStateOutput {
   /** Variable name in variable states. */
   variable?: string;
   /** Proportion of missing values that need to be filled by fillNAMethod. */
   filledNARatio?: number;
-  /** Number of effective data points before applying fillNAMethod. */
+  /** Number of effective data points before fillNAMethod is applied. */
   effectiveCount?: number;
-  /** First valid timestamp with value of input data. */
+  /** First valid time stamp with a value of input data. */
   firstTimestamp?: string;
-  /** Last valid timestamp with value of input data. */
+  /** Last valid time stamp with a value of input data. */
   lastTimestamp?: string;
 }
 
 /**
- * Detection request for batch inference. This is an asynchronous inference which
+ * Detection request for batch inference. This is an asynchronous inference that
  * will need another API to get detection results.
  */
 export interface MultivariateBatchDetectionOptionsOutput {
   /**
-   * Source link to the input data to indicate an accessible Azure storage Uri,
-   * either pointed to an Azure blob storage folder, or pointed to a CSV file in
-   * Azure blob storage based on you data schema selection. The data schema should
-   * be exactly the same with those used in the training phase.
+   * Source link to the input data to indicate an accessible Azure Storage URI.
+   * It either points to an Azure Blob Storage folder or points to a CSV file in
+   * Azure Blob Storage, based on your data schema selection. The data schema should
+   * be exactly the same as those used in the training phase. The input data must
+   * contain at least slidingWindow entries preceding the start time of the data
+   * to be detected.
    */
   dataSource: string;
+  /** Number of top contributed variables for one anomalous time stamp in the response. */
+  topContributorCount?: number;
   /**
-   * An optional field, which is used to specify the number of top contributed
-   * variables for one anomalous timestamp in the response. The default number is
-   * 10.
-   */
-  topContributorCount: number;
-  /**
-   * A required field, indicating the start time of data for detection, which should
-   * be date-time of ISO 8601 format.
+   * Start date/time of data for detection, which should
+   * be in ISO 8601 format.
    */
   startTime: string;
   /**
-   * A required field, indicating the end time of data for detection, which should
-   * be date-time of ISO 8601 format.
+   * End date/time of data for detection, which should
+   * be in ISO 8601 format.
    */
   endTime: string;
 }
 
 /** Anomaly status and information. */
 export interface AnomalyStateOutput {
-  /** The timestamp for this anomaly. */
+  /** Time stamp for this anomaly. */
   timestamp: string;
-  /** The detailed value of this anomalous timestamp. */
+  /** Detailed value of this anomalous time stamp. */
   value?: AnomalyValueOutput;
-  /** Error message for the current timestamp. */
+  /** Error message for the current time stamp. */
   errors?: Array<ErrorResponseOutput>;
 }
 
-/** Detailed information of the anomalous timestamp. */
+/** Detailed information of the anomalous time stamp. */
 export interface AnomalyValueOutput {
-  /** True if an anomaly is detected at the current timestamp. */
+  /** True if an anomaly is detected at the current time stamp. */
   isAnomaly: boolean;
   /**
    * Indicates the significance of the anomaly. The higher the severity, the more
    * significant the anomaly is.
    */
   severity: number;
-  /**
-   * Raw anomaly score of severity, will help indicate the degree of abnormality as
-   * well.
-   */
+  /** Raw anomaly score of severity, to help indicate the degree of abnormality. */
   score: number;
-  /** Interpretation of this anomalous timestamp. */
+  /** Interpretation of this anomalous time stamp. */
   interpretation?: Array<AnomalyInterpretationOutput>;
 }
 
-/** Interpretation of the anomalous timestamp. */
+/** Interpretation of the anomalous time stamp. */
 export interface AnomalyInterpretationOutput {
   /** Variable. */
   variable?: string;
   /**
-   * This score shows the percentage contributing to the anomalous timestamp. A
+   * This score shows the percentage that contributes to the anomalous time stamp. It's a
    * number between 0 and 1.
    */
   contributionScore?: number;
-  /** Correlation changes among the anomalous variables */
+  /** Correlation changes among the anomalous variables. */
   correlationChanges?: CorrelationChangesOutput;
 }
 
-/** Correlation changes among the anomalous variables */
+/** Correlation changes among the anomalous variables. */
 export interface CorrelationChangesOutput {
-  /** The correlated variables that have correlation changes under an anomaly. */
+  /** Correlated variables that have correlation changes under an anomaly. */
   changedVariables?: string[];
 }
 
+/** Error response. */
+export interface ResponseErrorOutput {
+  /** Error code. */
+  code: string;
+  /** Message that explains the error that the service reported. */
+  message: string;
+}
+
 /**
- * Training result of a model including its status, errors and diagnostics
+ * Training result of a model, including its status, errors, and diagnostics
  * information.
  */
 export interface ModelInfoOutput {
   /**
-   * Source link to the input data to indicate an accessible Azure storage Uri,
-   * either pointed to an Azure blob storage folder, or pointed to a CSV file in
-   * Azure blob storage based on you data schema selection.
+   * Source link to the input data to indicate an accessible Azure Storage URI.
+   * It either points to an Azure Blob Storage folder or points to a CSV file in
+   * Azure Blob Storage, based on your data schema selection.
    */
   dataSource: string;
   /**
-   * Data schema of input data source: OneTable or MultiTable. The default
-   * DataSchema is OneTable.
+   * Data schema of the input data source. The default
+   * is OneTable.
    *
-   * Possible values: OneTable, MultiTable
+   * Possible values: "OneTable", "MultiTable"
    */
-  dataSchema?: string;
+  dataSchema?: DataSchemaOutput;
   /**
-   * A required field, indicating the start time of training data, which should be
-   * date-time of ISO 8601 format.
+   * Start date/time of training data, which should be
+   * in ISO 8601 format.
    */
   startTime: string;
   /**
-   * A required field, indicating the end time of training data, which should be
-   * date-time of ISO 8601 format.
+   * End date/time of training data, which should be
+   * in ISO 8601 format.
    */
   endTime: string;
   /**
-   * An optional field. The display name of the model whose maximum length is 24
+   * Display name of the model. Maximum length is 24
    * characters.
    */
   displayName?: string;
   /**
-   * An optional field, indicating how many previous timestamps will be used to
-   * detect whether the timestamp is anomaly or not.
+   * Number of previous time stamps that will be used to
+   * detect whether the time stamp is an anomaly or not.
    */
   slidingWindow?: number;
-  /** An optional field, indicating the manner to align multiple variables. */
+  /** Manner of aligning multiple variables. */
   alignPolicy?: AlignPolicyOutput;
-  /** Model status. One of CREATED, RUNNING, READY, and FAILED. */
-  status?: "CREATED" | "RUNNING" | "READY" | "FAILED";
-  /** Error messages when failed to create a model. */
+  /**
+   * Model status.
+   *
+   * Possible values: "CREATED", "RUNNING", "READY", "FAILED"
+   */
+  readonly status?: ModelStatusOutput;
+  /** Error messages after failure to create a model. */
   readonly errors?: Array<ErrorResponseOutput>;
-  /** Diagnostics information to help inspect the states of model or variable. */
-  diagnosticsInfo?: DiagnosticsInfoOutput;
+  /** Diagnostics information to help inspect the states of a model or variable. */
+  readonly diagnosticsInfo?: DiagnosticsInfoOutput;
 }
 
-/** An optional field, indicating the manner to align multiple variables. */
+/** Manner of aligning multiple variables. */
 export interface AlignPolicyOutput {
   /**
-   * An optional field, indicating how to align different variables to the same
-   * time-range. Either Inner or Outer.
-   */
-  alignMode?: "Inner" | "Outer";
-  /**
-   * An optional field, indicating how missing values will be filled. One of
-   * Previous, Subsequent, Linear, Zero, Fixed.
+   * Field that indicates how to align different variables to the same
+   * time range.
    *
-   * Possible values: Previous, Subsequent, Linear, Zero, Fixed
+   * Possible values: "Inner", "Outer"
    */
-  fillNAMethod?: string;
-  /** An optional field. Required when fillNAMethod is Fixed. */
+  alignMode?: AlignModeOutput;
+  /**
+   * Field that indicates how missing values will be filled.
+   *
+   * Possible values: "Previous", "Subsequent", "Linear", "Zero", "Fixed"
+   */
+  fillNAMethod?: FillNAMethodOutput;
+  /** Field that's required when fillNAMethod is Fixed. */
   paddingValue?: number;
 }
 
-/** Diagnostics information to help inspect the states of model or variable. */
+/** Diagnostics information to help inspect the states of a model or variable. */
 export interface DiagnosticsInfoOutput {
   /** Model status. */
   modelState?: ModelStateOutput;
-  /** Variable Status. */
+  /** Variable status. */
   variableStates?: Array<VariableStateOutput>;
 }
 
 /** Model status. */
 export interface ModelStateOutput {
   /**
-   * This indicates the number of passes of the entire training dataset the
+   * Number of passes of the entire training dataset that the
    * algorithm has completed.
    */
   epochIds?: number[];
@@ -361,7 +372,7 @@ export interface AnomalyDetectionModelOutput {
   /** Date and time (UTC) when the model was last updated. */
   lastUpdatedTime: string;
   /**
-   * Training result of a model including its status, errors and diagnostics
+   * Training result of a model, including its status, errors, and diagnostics
    * information.
    */
   modelInfo?: ModelInfoOutput;
@@ -375,14 +386,27 @@ export interface ModelListOutput {
   currentCount: number;
   /** Maximum number of models that can be trained for this Anomaly Detector resource. */
   maxCount: number;
-  /** The link to fetch more models. */
+  /** Link to fetch more models. */
   nextLink?: string;
 }
 
-/** Results of last detection. */
+/** Results of the last detection. */
 export interface MultivariateLastDetectionResultOutput {
-  /** Variable Status. */
+  /** Variable status. */
   variableStates?: Array<VariableStateOutput>;
   /** Anomaly status and information. */
   results?: Array<AnomalyStateOutput>;
 }
+
+/** Alias for AnomalyDetectorErrorCodesOutput */
+export type AnomalyDetectorErrorCodesOutput = string;
+/** Alias for MultivariateBatchDetectionStatusOutput */
+export type MultivariateBatchDetectionStatusOutput = string;
+/** Alias for DataSchemaOutput */
+export type DataSchemaOutput = string;
+/** Alias for AlignModeOutput */
+export type AlignModeOutput = string;
+/** Alias for FillNAMethodOutput */
+export type FillNAMethodOutput = string;
+/** Alias for ModelStatusOutput */
+export type ModelStatusOutput = string;
