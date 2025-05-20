@@ -19,7 +19,7 @@ import type {
   BatchTaskCountsResultOutput,
   BatchCertificateListResultOutput,
   BatchCertificateStateOutput,
-  DeleteBatchCertificateErrorOutput,
+  BatchCertificateDeleteErrorOutput,
   BatchJobScheduleOutput,
   BatchJobScheduleListResultOutput,
   BatchTaskListResultOutput,
@@ -853,7 +853,7 @@ export interface GetCertificate200Response extends HttpResponse {
     previousState?: BatchCertificateStateOutput;
     previousStateTransitionTime?: string;
     publicData?: string;
-    deleteCertificateError?: DeleteBatchCertificateErrorOutput;
+    deleteCertificateError?: BatchCertificateDeleteErrorOutput;
   };
   headers: RawHttpHeaders & GetCertificate200Headers;
 }

@@ -73,7 +73,7 @@ export interface BatchPoolUsageMetricsOutput {
  */
 export interface VirtualMachineConfigurationOutput {
   /** A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use. */
-  imageReference: BatchImageReferenceOutput;
+  imageReference: BatchVmImageReferenceOutput;
   /** The SKU of the Batch Compute Node agent to be provisioned on Compute Nodes in the Pool. The Batch Compute Node agent is a program that runs on each Compute Node in the Pool, and provides the command-and-control interface between the Compute Node and the Batch service. There are different implementations of the Compute Node agent, known as SKUs, for different operating systems. You must specify a Compute Node agent SKU which matches the selected Image reference. To get the list of supported Compute Node agent SKUs along with their list of verified Image references, see the 'List supported Compute Node agent SKUs' operation. */
   nodeAgentSKUId: string;
   /** Windows operating system settings on the virtual machine. This property must not be specified if the imageReference property specifies a Linux OS Image. */
@@ -101,7 +101,7 @@ export interface VirtualMachineConfigurationOutput {
   /** The virtual machine extension for the pool. If specified, the extensions mentioned in this configuration will be installed on each node. */
   extensions?: Array<VMExtensionOutput>;
   /** Settings for the operating system disk of the Virtual Machine. */
-  osDisk?: OSDiskOutput;
+  osDisk?: BatchOsDiskOutput;
   /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
   securityProfile?: SecurityProfileOutput;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
@@ -113,7 +113,7 @@ export interface VirtualMachineConfigurationOutput {
  * To get the list of all Azure Marketplace Image references verified by Azure Batch, see the
  * ' List Supported Images ' operation.
  */
-export interface BatchImageReferenceOutput {
+export interface BatchVmImageReferenceOutput {
   /** The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or MicrosoftWindowsServer. */
   publisher?: string;
   /** The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or WindowsServer. */
@@ -244,9 +244,9 @@ export interface VMExtensionOutput {
 }
 
 /** Settings for the operating system disk of the compute node (VM). */
-export interface OSDiskOutput {
+export interface BatchOsDiskOutput {
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the compute node (VM). */
-  ephemeralOSDiskSettings?: DiffDiskSettingsOutput;
+  ephemeralOSDiskSettings?: BatchDiffDiskSettingsOutput;
   /**
    * Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The default values are: None for Standard storage. ReadOnly for Premium storage.
    *
@@ -265,7 +265,7 @@ export interface OSDiskOutput {
  * Specifies the ephemeral Disk Settings for the operating system disk used by the
  * compute node (VM).
  */
-export interface DiffDiskSettingsOutput {
+export interface BatchDiffDiskSettingsOutput {
   /**
    * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    *
@@ -283,11 +283,11 @@ export interface ManagedDiskOutput {
    */
   storageAccountType?: StorageAccountTypeOutput;
   /** Specifies the security profile settings for the managed disk. */
-  securityProfile?: VMDiskSecurityProfileOutput;
+  securityProfile?: BatchVMDiskSecurityProfileOutput;
 }
 
 /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and required when using Confidential VMs. */
-export interface VMDiskSecurityProfileOutput {
+export interface BatchVMDiskSecurityProfileOutput {
   /**
    * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when using Confidential VMs.
    *
@@ -307,11 +307,11 @@ export interface SecurityProfileOutput {
    */
   securityType: SecurityTypesOutput;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-  uefiSettings: UefiSettingsOutput;
+  uefiSettings: BatchUefiSettingsOutput;
 }
 
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-export interface UefiSettingsOutput {
+export interface BatchUefiSettingsOutput {
   /** Specifies whether secure boot should be enabled on the virtual machine. */
   secureBootEnabled?: boolean;
   /** Specifies whether vTPM should be enabled on the virtual machine. */
@@ -340,7 +340,7 @@ export interface NetworkConfigurationOutput {
   /** The configuration for endpoints on Compute Nodes in the Batch Pool. */
   endpointConfiguration?: BatchPoolEndpointConfigurationOutput;
   /** The Public IPAddress configuration for Compute Nodes in the Batch Pool. */
-  publicIPAddressConfiguration?: PublicIpAddressConfigurationOutput;
+  publicIPAddressConfiguration?: BatchPublicIpAddressConfigurationOutput;
   /** Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
   enableAcceleratedNetworking?: boolean;
 }
@@ -348,14 +348,14 @@ export interface NetworkConfigurationOutput {
 /** The endpoint configuration for a Pool. */
 export interface BatchPoolEndpointConfigurationOutput {
   /** A list of inbound NAT Pools that can be used to address specific ports on an individual Compute Node externally. The maximum number of inbound NAT Pools per Batch Pool is 5. If the maximum number of inbound NAT Pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses. */
-  inboundNATPools: Array<InboundNatPoolOutput>;
+  inboundNATPools: Array<BatchInboundNatPoolOutput>;
 }
 
 /**
  * A inbound NAT Pool that can be used to address specific ports on Compute Nodes
  * in a Batch Pool externally.
  */
-export interface InboundNatPoolOutput {
+export interface BatchInboundNatPoolOutput {
   /** The name of the endpoint. The name must be unique within a Batch Pool, can contain letters, numbers, underscores, periods, and hyphens. Names must start with a letter or number, must end with a letter, number, or underscore, and cannot exceed 77 characters.  If any invalid values are provided the request fails with HTTP status code 400. */
   name: string;
   /**
@@ -391,7 +391,7 @@ export interface NetworkSecurityGroupRuleOutput {
 }
 
 /** The public IP Address configuration of the networking configuration of a Pool. */
-export interface PublicIpAddressConfigurationOutput {
+export interface BatchPublicIpAddressConfigurationOutput {
   /**
    * The provisioning type for Public IP Addresses for the Pool. The default value is BatchManaged.
    *
@@ -953,7 +953,7 @@ export interface BatchSupportedImageOutput {
   /** The ID of the Compute Node agent SKU which the Image supports. */
   nodeAgentSKUId: string;
   /** The reference to the Azure Virtual Machine's Marketplace Image. */
-  imageReference: BatchImageReferenceOutput;
+  imageReference: BatchVmImageReferenceOutput;
   /**
    * The type of operating system (e.g. Windows or Linux) of the Image.
    *
@@ -1677,7 +1677,7 @@ export interface BatchCertificateOutput {
   /** The public part of the Certificate as a base-64 encoded .cer file. */
   readonly publicData?: string;
   /** The error that occurred on the last attempt to delete this Certificate. This property is set only if the Certificate is in the DeleteFailed state. */
-  readonly deleteCertificateError?: DeleteBatchCertificateErrorOutput;
+  readonly deleteCertificateError?: BatchCertificateDeleteErrorOutput;
   /** The base64-encoded contents of the Certificate. The maximum size is 10KB. */
   data: string;
   /**
@@ -1691,7 +1691,7 @@ export interface BatchCertificateOutput {
 }
 
 /** An error encountered by the Batch service when deleting a Certificate. */
-export interface DeleteBatchCertificateErrorOutput {
+export interface BatchCertificateDeleteErrorOutput {
   /** An identifier for the Certificate deletion error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
   /** A message describing the Certificate deletion error, intended to be suitable for display in a user interface. */
@@ -2400,7 +2400,7 @@ export interface BatchNodeAgentInfoOutput {
 /** Info about the current state of the virtual machine. */
 export interface VirtualMachineInfoOutput {
   /** The reference to the Azure Virtual Machine's Marketplace Image. */
-  imageReference?: BatchImageReferenceOutput;
+  imageReference?: BatchVmImageReferenceOutput;
   /** The resource ID of the Compute Node's current Virtual Machine Scale Set VM. Only defined if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
   scaleSetVmResourceId?: string;
 }

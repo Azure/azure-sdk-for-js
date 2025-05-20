@@ -66,7 +66,7 @@ export interface BatchPoolCreateOptions {
  */
 export interface VirtualMachineConfiguration {
   /** A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image to use. */
-  imageReference: BatchImageReference;
+  imageReference: BatchVmImageReference;
   /** The SKU of the Batch Compute Node agent to be provisioned on Compute Nodes in the Pool. The Batch Compute Node agent is a program that runs on each Compute Node in the Pool, and provides the command-and-control interface between the Compute Node and the Batch service. There are different implementations of the Compute Node agent, known as SKUs, for different operating systems. You must specify a Compute Node agent SKU which matches the selected Image reference. To get the list of supported Compute Node agent SKUs along with their list of verified Image references, see the 'List supported Compute Node agent SKUs' operation. */
   nodeAgentSKUId: string;
   /** Windows operating system settings on the virtual machine. This property must not be specified if the imageReference property specifies a Linux OS Image. */
@@ -94,7 +94,7 @@ export interface VirtualMachineConfiguration {
   /** The virtual machine extension for the pool. If specified, the extensions mentioned in this configuration will be installed on each node. */
   extensions?: Array<VMExtension>;
   /** Settings for the operating system disk of the Virtual Machine. */
-  osDisk?: OSDisk;
+  osDisk?: BatchOsDisk;
   /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
   securityProfile?: SecurityProfile;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
@@ -106,7 +106,7 @@ export interface VirtualMachineConfiguration {
  * To get the list of all Azure Marketplace Image references verified by Azure Batch, see the
  * ' List Supported Images ' operation.
  */
-export interface BatchImageReference {
+export interface BatchVmImageReference {
   /** The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or MicrosoftWindowsServer. */
   publisher?: string;
   /** The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or WindowsServer. */
@@ -235,9 +235,9 @@ export interface VMExtension {
 }
 
 /** Settings for the operating system disk of the compute node (VM). */
-export interface OSDisk {
+export interface BatchOsDisk {
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the compute node (VM). */
-  ephemeralOSDiskSettings?: DiffDiskSettings;
+  ephemeralOSDiskSettings?: BatchDiffDiskSettings;
   /**
    * Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The default values are: None for Standard storage. ReadOnly for Premium storage.
    *
@@ -256,7 +256,7 @@ export interface OSDisk {
  * Specifies the ephemeral Disk Settings for the operating system disk used by the
  * compute node (VM).
  */
-export interface DiffDiskSettings {
+export interface BatchDiffDiskSettings {
   /**
    * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    *
@@ -274,11 +274,11 @@ export interface ManagedDisk {
    */
   storageAccountType?: StorageAccountType;
   /** Specifies the security profile settings for the managed disk. */
-  securityProfile?: VMDiskSecurityProfile;
+  securityProfile?: BatchVMDiskSecurityProfile;
 }
 
 /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and required when using Confidential VMs. */
-export interface VMDiskSecurityProfile {
+export interface BatchVMDiskSecurityProfile {
   /**
    * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when using Confidential VMs.
    *
@@ -298,11 +298,11 @@ export interface SecurityProfile {
    */
   securityType: SecurityTypes;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-  uefiSettings: UefiSettings;
+  uefiSettings: BatchUefiSettings;
 }
 
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
-export interface UefiSettings {
+export interface BatchUefiSettings {
   /** Specifies whether secure boot should be enabled on the virtual machine. */
   secureBootEnabled?: boolean;
   /** Specifies whether vTPM should be enabled on the virtual machine. */
@@ -331,7 +331,7 @@ export interface NetworkConfiguration {
   /** The configuration for endpoints on Compute Nodes in the Batch Pool. */
   endpointConfiguration?: BatchPoolEndpointConfiguration;
   /** The Public IPAddress configuration for Compute Nodes in the Batch Pool. */
-  publicIPAddressConfiguration?: PublicIpAddressConfiguration;
+  publicIPAddressConfiguration?: BatchPublicIpAddressConfiguration;
   /** Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
   enableAcceleratedNetworking?: boolean;
 }
@@ -339,14 +339,14 @@ export interface NetworkConfiguration {
 /** The endpoint configuration for a Pool. */
 export interface BatchPoolEndpointConfiguration {
   /** A list of inbound NAT Pools that can be used to address specific ports on an individual Compute Node externally. The maximum number of inbound NAT Pools per Batch Pool is 5. If the maximum number of inbound NAT Pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses. */
-  inboundNATPools: Array<InboundNatPool>;
+  inboundNATPools: Array<BatchInboundNatPool>;
 }
 
 /**
  * A inbound NAT Pool that can be used to address specific ports on Compute Nodes
  * in a Batch Pool externally.
  */
-export interface InboundNatPool {
+export interface BatchInboundNatPool {
   /** The name of the endpoint. The name must be unique within a Batch Pool, can contain letters, numbers, underscores, periods, and hyphens. Names must start with a letter or number, must end with a letter, number, or underscore, and cannot exceed 77 characters.  If any invalid values are provided the request fails with HTTP status code 400. */
   name: string;
   /**
@@ -382,7 +382,7 @@ export interface NetworkSecurityGroupRule {
 }
 
 /** The public IP Address configuration of the networking configuration of a Pool. */
-export interface PublicIpAddressConfiguration {
+export interface BatchPublicIpAddressConfiguration {
   /**
    * The provisioning type for Public IP Addresses for the Pool. The default value is BatchManaged.
    *
@@ -1365,7 +1365,7 @@ export interface BatchCertificate {
 }
 
 /** An error encountered by the Batch service when deleting a Certificate. */
-export interface DeleteBatchCertificateError {
+export interface BatchCertificateDeleteError {
   /** An identifier for the Certificate deletion error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
   /** A message describing the Certificate deletion error, intended to be suitable for display in a user interface. */
@@ -1775,7 +1775,7 @@ export interface BatchNodeUserUpdateOptions {
 }
 
 /** Parameters for rebooting an Azure Batch Compute Node. */
-export interface BatchNodeRebootKinds {
+export interface BatchNodeRebootOptions {
   /**
    * When to reboot the Compute Node and what to do with currently running Tasks. The default value is requeue.
    *

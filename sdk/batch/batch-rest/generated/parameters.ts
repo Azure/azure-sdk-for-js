@@ -25,7 +25,7 @@ import type {
   BatchTask,
   BatchNodeUserCreateOptions,
   BatchNodeUserUpdateOptions,
-  BatchNodeRebootKinds,
+  BatchNodeRebootOptions,
   BatchNodeDeallocateOptions,
   BatchNodeReimageOptions,
   BatchNodeDisableSchedulingOptions,
@@ -3474,7 +3474,7 @@ export interface RebootNodeHeaders {
 
 export interface RebootNodeBodyParam {
   /** The options to use for rebooting the Compute Node. */
-  body?: BatchNodeRebootKinds;
+  body?: BatchNodeRebootOptions;
 }
 
 export interface RebootNodeQueryParamProperties {
