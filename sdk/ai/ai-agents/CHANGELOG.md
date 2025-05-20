@@ -7,6 +7,11 @@
 - Adds `runs.createAndPoll` method that automatically polls for the result.
 - Adds `resumeFrom` option in polling operations.
 
+### Bugs Fixed
+
+- fixed an issue with bing grounding serialization
+- fixed an issue with url encoding
+
 ## 1.0.0-beta.2 (2025-05-16)
 
 ### Bugs Fixed

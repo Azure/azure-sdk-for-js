@@ -42,24 +42,36 @@ describe("Agents - run steps", () => {
         intervalInMs: 2000,
       },
       onResponse: (response): void => {
-        if (typeof response.parsedBody === 'object' && response.parsedBody !== null) {
-          const body = response.parsedBody as unknown as { status: string; lastError?: { code: string; message: string } };
-          const status = body.status;
-          assert.oneOf(status, [
-            "queued",
-            "in_progress",
-            "requires_action",
-            "cancelling",
-            "cancelled",
-            "failed",
-            "completed",
-            "expired",
-          ]);
+        const parsedBody =
+          typeof response.parsedBody === "object" && response.parsedBody !== null
+            ? response.parsedBody
+            : null;
+        const status = parsedBody && "status" in parsedBody ? parsedBody.status : "unknown";
+        assert.oneOf(status, [
+          "queued",
+          "in_progress",
+          "requires_action",
+          "cancelling",
+          "cancelled",
+          "failed",
+          "completed",
+          "expired",
+        ]);
 
-          if (body.lastError) {
-            console.log(
-              `Run status ${status} - ${body.lastError.code} - ${body.lastError.message}`,
-            );
+        if (
+          parsedBody &&
+          "lastError" in parsedBody &&
+          typeof parsedBody.lastError === "object" &&
+          parsedBody.lastError !== null
+        ) {
+          const lastError = parsedBody.lastError;
+          if (
+            "code" in lastError &&
+            "message" in lastError &&
+            lastError.code &&
+            lastError.message
+          ) {
+            console.log(`Run status ${status} - ${lastError.code} - ${lastError.message}`);
           }
         }
       },
@@ -104,21 +116,23 @@ describe("Agents - run steps", () => {
         intervalInMs: 2000,
       },
       onResponse: (response): void => {
-        if (typeof response.parsedBody === 'object' && response.parsedBody !== null) {
-          const body = response.parsedBody as unknown as { status: string };
-          const status = body.status;
-          assert.oneOf(status, [
-            "queued",
-            "in_progress",
-            "requires_action",
-            "cancelling",
-            "cancelled",
-            "failed",
-            "completed",
-            "expired",
-          ]);
-          console.log(`Received response with status: ${body.status}`);
-        }
+        const status =
+          typeof response.parsedBody === "object" &&
+          response.parsedBody !== null &&
+          "status" in response.parsedBody
+            ? response.parsedBody.status
+            : "unknown";
+        assert.oneOf(status, [
+          "queued",
+          "in_progress",
+          "requires_action",
+          "cancelling",
+          "cancelled",
+          "failed",
+          "completed",
+          "expired",
+        ]);
+        console.log(`Received response with status: ${status}`);
       },
     });
     console.log(`Created run, run ID: ${run.id}`);

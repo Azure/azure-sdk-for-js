@@ -56,12 +56,13 @@ export function createAgents(
       // Use the apiVersion defined in request url directly
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
-      if (!url.searchParams.get("api-version")) {
-        // Properly handle URL parameter encoding by using URLSearchParams
-        url.searchParams.set("api-version", apiVersion);
-        req.url = url.toString();
-      }
-
+      const defaultApiVersion = url.searchParams.get("api-version") ?? apiVersion;
+      // remove api-version from url
+      url.searchParams.delete("api-version");
+      // add api-version to url
+      req.url = `${url.toString()}${
+        Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+      }api-version=${defaultApiVersion}`;
       return next(req);
     },
   });
