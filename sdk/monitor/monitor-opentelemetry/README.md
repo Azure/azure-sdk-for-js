@@ -28,7 +28,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 > _Important:_ `useAzureMonitor` must be called _before_ you import anything else. There may be resulting telemetry loss if other libraries are imported first.
 
 ```ts snippet:ReadmeSampleUseAzureMonitor
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "../src";
+import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
@@ -45,7 +45,7 @@ useAzureMonitor(options);
 
 ```ts snippet:ReadmeSampleConfiguration
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "../src";
+import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
@@ -221,7 +221,7 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
 ```ts snippet:ReadmeSampleCustomInstrumentation
-import { useAzureMonitor } from "../src";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { trace, metrics } from "@opentelemetry/api";
 import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
@@ -256,7 +256,7 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "../src";
+import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 // ----------------------------------------
 // Setting role name and role instance
@@ -297,7 +297,7 @@ Use a custom processor:
 import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Span } from "@opentelemetry/api";
 import { SEMATTRS_HTTP_CLIENT_IP } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "../src";
+import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
   async forceFlush(): Promise<void> {
@@ -332,7 +332,7 @@ import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { Span, Context, trace } from "@opentelemetry/api";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "../src";
+import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
   async forceFlush(): Promise<void> {
@@ -388,7 +388,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "../src";
+    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
@@ -469,7 +469,7 @@ The [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetr
 describes the instruments and provides examples of when you might use each one.
 
 ```ts snippet:ReadmeSampleCustomMetrics
-import { useAzureMonitor } from "../src";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { metrics, ObservableResult } from "@opentelemetry/api";
 
 useAzureMonitor();
@@ -500,7 +500,7 @@ For instance, exceptions caught by your code are _not_ ordinarily not reported, 
 and thus draw attention to them in relevant experiences including the failures blade and end-to-end transaction view.
 
 ```ts snippet:ReadmeSampleCustomExceptions
-import { useAzureMonitor } from "../src";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { trace, Exception } from "@opentelemetry/api";
 
 useAzureMonitor();
@@ -521,7 +521,7 @@ try {
 Azure Monitor OpenTelemetry uses the OpenTelemetry API Logger for internal logs. To enable it, use the following code:
 
 ```ts snippet:ReadmeSampleSelfDiagnostics
-import { useAzureMonitor } from "../src";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "VERBOSE";
 process.env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file";
