@@ -65,7 +65,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
           abortSignal: controller.signal,
         },
       ),
-    ).rejects.toThrowError(expect.objectContaining({ name: "AbortError" }));
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort getRoleAssignment", async () => {
