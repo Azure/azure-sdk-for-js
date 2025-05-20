@@ -307,6 +307,10 @@ export function bingGroundingSearchConfigurationListSerializer(
 export function bingGroundingSearchConfigurationListDeserializer(
   item: any,
 ): BingGroundingSearchConfigurationList {
+  // Handle the case where item might be undefined
+  if (!item) {
+    return { searchConfigurations: [] };
+  }
   return {
     searchConfigurations: bingGroundingSearchConfigurationArrayDeserializer(
       item["search_configurations"],
@@ -323,8 +327,12 @@ export function bingGroundingSearchConfigurationArraySerializer(
 }
 
 export function bingGroundingSearchConfigurationArrayDeserializer(
-  result: Array<BingGroundingSearchConfiguration>,
+  result: Array<BingGroundingSearchConfiguration> | undefined,
 ): any[] {
+  // Handle the case where result might be undefined
+  if (!result) {
+    return [];
+  }
   return result.map((item) => {
     return bingGroundingSearchConfigurationDeserializer(item);
   });

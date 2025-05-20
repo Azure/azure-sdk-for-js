@@ -57,9 +57,9 @@ export function createAgents(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
+        // Properly handle URL parameter encoding by using URLSearchParams
+        url.searchParams.set("api-version", apiVersion);
+        req.url = url.toString();
       }
 
       return next(req);
