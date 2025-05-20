@@ -195,6 +195,20 @@ export interface BatchCertificate {
 }
 
 // @public
+export interface BatchCertificateDeleteError {
+    code?: string;
+    message?: string;
+    values?: Array<NameValuePair>;
+}
+
+// @public
+export interface BatchCertificateDeleteErrorOutput {
+    code?: string;
+    message?: string;
+    values?: Array<NameValuePairOutput>;
+}
+
+// @public
 export type BatchCertificateFormat = string;
 
 // @public
@@ -210,7 +224,7 @@ export interface BatchCertificateListResultOutput {
 export interface BatchCertificateOutput {
     certificateFormat?: BatchCertificateFormatOutput;
     data: string;
-    readonly deleteCertificateError?: DeleteBatchCertificateErrorOutput;
+    readonly deleteCertificateError?: BatchCertificateDeleteErrorOutput;
     password?: string;
     readonly previousState?: BatchCertificateStateOutput;
     readonly previousStateTransitionTime?: string;
@@ -288,6 +302,16 @@ export interface BatchCreateTaskCollectionResultOutput {
 }
 
 // @public
+export interface BatchDiffDiskSettings {
+    placement?: DiffDiskPlacement;
+}
+
+// @public
+export interface BatchDiffDiskSettingsOutput {
+    placement?: DiffDiskPlacementOutput;
+}
+
+// @public
 export interface BatchErrorDetailOutput {
     key?: string;
     value?: string;
@@ -313,26 +337,23 @@ export type BatchErrorSourceCategory = string;
 export type BatchErrorSourceCategoryOutput = string;
 
 // @public
-export interface BatchImageReference {
-    communityGalleryImageId?: string;
-    offer?: string;
-    publisher?: string;
-    sharedGalleryImageId?: string;
-    sku?: string;
-    version?: string;
-    virtualMachineImageId?: string;
+export interface BatchInboundNatPool {
+    backendPort: number;
+    frontendPortRangeEnd: number;
+    frontendPortRangeStart: number;
+    name: string;
+    networkSecurityGroupRules?: Array<NetworkSecurityGroupRule>;
+    protocol: InboundEndpointProtocol;
 }
 
 // @public
-export interface BatchImageReferenceOutput {
-    communityGalleryImageId?: string;
-    readonly exactVersion?: string;
-    offer?: string;
-    publisher?: string;
-    sharedGalleryImageId?: string;
-    sku?: string;
-    version?: string;
-    virtualMachineImageId?: string;
+export interface BatchInboundNatPoolOutput {
+    backendPort: number;
+    frontendPortRangeEnd: number;
+    frontendPortRangeStart: number;
+    name: string;
+    networkSecurityGroupRules?: Array<NetworkSecurityGroupRuleOutput>;
+    protocol: InboundEndpointProtocolOutput;
 }
 
 // @public
@@ -1004,7 +1025,7 @@ export type BatchNodePlacementPolicyTypeOutput = string;
 export type BatchNodeRebootKind = string;
 
 // @public
-export interface BatchNodeRebootKinds {
+export interface BatchNodeRebootOptions {
     nodeRebootOption?: BatchNodeRebootKind;
 }
 
@@ -1062,6 +1083,24 @@ export interface BatchNodeVMExtensionOutput {
 }
 
 // @public
+export interface BatchOsDisk {
+    caching?: CachingType;
+    diskSizeGB?: number;
+    ephemeralOSDiskSettings?: BatchDiffDiskSettings;
+    managedDisk?: ManagedDisk;
+    writeAcceleratorEnabled?: boolean;
+}
+
+// @public
+export interface BatchOsDiskOutput {
+    caching?: CachingTypeOutput;
+    diskSizeGB?: number;
+    ephemeralOSDiskSettings?: BatchDiffDiskSettingsOutput;
+    managedDisk?: ManagedDiskOutput;
+    writeAcceleratorEnabled?: boolean;
+}
+
+// @public
 export interface BatchPoolCreateOptions {
     applicationPackageReferences?: Array<BatchApplicationPackageReference>;
     autoScaleEvaluationInterval?: string;
@@ -1096,12 +1135,12 @@ export interface BatchPoolEnableAutoScaleOptions {
 
 // @public
 export interface BatchPoolEndpointConfiguration {
-    inboundNATPools: Array<InboundNatPool>;
+    inboundNATPools: Array<BatchInboundNatPool>;
 }
 
 // @public
 export interface BatchPoolEndpointConfigurationOutput {
-    inboundNATPools: Array<InboundNatPoolOutput>;
+    inboundNATPools: Array<BatchInboundNatPoolOutput>;
 }
 
 // @public
@@ -1338,6 +1377,18 @@ export interface BatchPoolUsageStatisticsOutput {
 }
 
 // @public
+export interface BatchPublicIpAddressConfiguration {
+    ipAddressIds?: string[];
+    provision?: IpAddressProvisioningType;
+}
+
+// @public
+export interface BatchPublicIpAddressConfigurationOutput {
+    ipAddressIds?: string[];
+    provision?: IpAddressProvisioningTypeOutput;
+}
+
+// @public
 export interface BatchStartTask {
     commandLine: string;
     containerSettings?: BatchTaskContainerSettings;
@@ -1398,7 +1449,7 @@ export type BatchSubtaskStateOutput = string;
 export interface BatchSupportedImageOutput {
     batchSupportEndOfLife?: string;
     capabilities?: string[];
-    imageReference: BatchImageReferenceOutput;
+    imageReference: BatchVmImageReferenceOutput;
     nodeAgentSKUId: string;
     osType: OSTypeOutput;
     verificationType: ImageVerificationTypeOutput;
@@ -1697,10 +1748,55 @@ export interface BatchTaskStatisticsOutput {
 }
 
 // @public
+export interface BatchUefiSettings {
+    secureBootEnabled?: boolean;
+    vTpmEnabled?: boolean;
+}
+
+// @public
+export interface BatchUefiSettingsOutput {
+    secureBootEnabled?: boolean;
+    vTpmEnabled?: boolean;
+}
+
+// @public
 export interface BatchUserAssignedIdentityOutput {
     readonly clientId?: string;
     readonly principalId?: string;
     resourceId: string;
+}
+
+// @public
+export interface BatchVMDiskSecurityProfile {
+    securityEncryptionType?: SecurityEncryptionTypes;
+}
+
+// @public
+export interface BatchVMDiskSecurityProfileOutput {
+    securityEncryptionType?: SecurityEncryptionTypesOutput;
+}
+
+// @public
+export interface BatchVmImageReference {
+    communityGalleryImageId?: string;
+    offer?: string;
+    publisher?: string;
+    sharedGalleryImageId?: string;
+    sku?: string;
+    version?: string;
+    virtualMachineImageId?: string;
+}
+
+// @public
+export interface BatchVmImageReferenceOutput {
+    communityGalleryImageId?: string;
+    readonly exactVersion?: string;
+    offer?: string;
+    publisher?: string;
+    sharedGalleryImageId?: string;
+    sku?: string;
+    version?: string;
+    virtualMachineImageId?: string;
 }
 
 // @public
@@ -2392,20 +2488,6 @@ export interface DeallocateNodeQueryParamProperties {
     timeOut?: number;
 }
 
-// @public
-export interface DeleteBatchCertificateError {
-    code?: string;
-    message?: string;
-    values?: Array<NameValuePair>;
-}
-
-// @public
-export interface DeleteBatchCertificateErrorOutput {
-    code?: string;
-    message?: string;
-    values?: Array<NameValuePairOutput>;
-}
-
 // @public (undocumented)
 export interface DeleteCertificate {
     delete(options?: DeleteCertificateParameters): StreamableMethod<DeleteCertificate202Response | DeleteCertificateDefaultResponse>;
@@ -2880,16 +2962,6 @@ export type DiffDiskPlacement = string;
 
 // @public
 export type DiffDiskPlacementOutput = string;
-
-// @public
-export interface DiffDiskSettings {
-    placement?: DiffDiskPlacement;
-}
-
-// @public
-export interface DiffDiskSettingsOutput {
-    placement?: DiffDiskPlacementOutput;
-}
 
 // @public
 export type DisableBatchJobOption = string;
@@ -3655,7 +3727,7 @@ export interface GetCertificate200Response extends HttpResponse {
         previousState?: BatchCertificateStateOutput;
         previousStateTransitionTime?: string;
         publicData?: string;
-        deleteCertificateError?: DeleteBatchCertificateErrorOutput;
+        deleteCertificateError?: BatchCertificateDeleteErrorOutput;
     };
     // (undocumented)
     headers: RawHttpHeaders & GetCertificate200Headers;
@@ -4509,26 +4581,6 @@ export type InboundEndpointProtocol = string;
 
 // @public
 export type InboundEndpointProtocolOutput = string;
-
-// @public
-export interface InboundNatPool {
-    backendPort: number;
-    frontendPortRangeEnd: number;
-    frontendPortRangeStart: number;
-    name: string;
-    networkSecurityGroupRules?: Array<NetworkSecurityGroupRule>;
-    protocol: InboundEndpointProtocol;
-}
-
-// @public
-export interface InboundNatPoolOutput {
-    backendPort: number;
-    frontendPortRangeEnd: number;
-    frontendPortRangeStart: number;
-    name: string;
-    networkSecurityGroupRules?: Array<NetworkSecurityGroupRuleOutput>;
-    protocol: InboundEndpointProtocolOutput;
-}
 
 // @public
 export interface InstanceViewStatusOutput {
@@ -5923,13 +5975,13 @@ export type LoginModeOutput = string;
 
 // @public
 export interface ManagedDisk {
-    securityProfile?: VMDiskSecurityProfile;
+    securityProfile?: BatchVMDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
 }
 
 // @public
 export interface ManagedDiskOutput {
-    securityProfile?: VMDiskSecurityProfileOutput;
+    securityProfile?: BatchVMDiskSecurityProfileOutput;
     storageAccountType?: StorageAccountTypeOutput;
 }
 
@@ -5980,7 +6032,7 @@ export interface NetworkConfiguration {
     dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
     enableAcceleratedNetworking?: boolean;
     endpointConfiguration?: BatchPoolEndpointConfiguration;
-    publicIPAddressConfiguration?: PublicIpAddressConfiguration;
+    publicIPAddressConfiguration?: BatchPublicIpAddressConfiguration;
     subnetId?: string;
 }
 
@@ -5989,7 +6041,7 @@ export interface NetworkConfigurationOutput {
     dynamicVNetAssignmentScope?: DynamicVNetAssignmentScopeOutput;
     enableAcceleratedNetworking?: boolean;
     endpointConfiguration?: BatchPoolEndpointConfigurationOutput;
-    publicIPAddressConfiguration?: PublicIpAddressConfigurationOutput;
+    publicIPAddressConfiguration?: BatchPublicIpAddressConfigurationOutput;
     subnetId?: string;
 }
 
@@ -6027,24 +6079,6 @@ export interface NfsMountConfigurationOutput {
     mountOptions?: string;
     relativeMountPath: string;
     source: string;
-}
-
-// @public
-export interface OSDisk {
-    caching?: CachingType;
-    diskSizeGB?: number;
-    ephemeralOSDiskSettings?: DiffDiskSettings;
-    managedDisk?: ManagedDisk;
-    writeAcceleratorEnabled?: boolean;
-}
-
-// @public
-export interface OSDiskOutput {
-    caching?: CachingTypeOutput;
-    diskSizeGB?: number;
-    ephemeralOSDiskSettings?: DiffDiskSettingsOutput;
-    managedDisk?: ManagedDiskOutput;
-    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -6206,18 +6240,6 @@ export interface PoolExistsQueryParamProperties {
     timeOut?: number;
 }
 
-// @public
-export interface PublicIpAddressConfiguration {
-    ipAddressIds?: string[];
-    provision?: IpAddressProvisioningType;
-}
-
-// @public
-export interface PublicIpAddressConfigurationOutput {
-    ipAddressIds?: string[];
-    provision?: IpAddressProvisioningTypeOutput;
-}
-
 // @public (undocumented)
 export interface ReactivateTask {
     post(options?: ReactivateTaskParameters): StreamableMethod<ReactivateTask204Response | ReactivateTaskDefaultResponse>;
@@ -6303,7 +6325,7 @@ export interface RebootNode202Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RebootNodeBodyParam {
-    body?: BatchNodeRebootKinds;
+    body?: BatchNodeRebootOptions;
 }
 
 // @public (undocumented)
@@ -7016,14 +7038,14 @@ export type SecurityEncryptionTypesOutput = string;
 export interface SecurityProfile {
     encryptionAtHost: boolean;
     securityType: SecurityTypes;
-    uefiSettings: UefiSettings;
+    uefiSettings: BatchUefiSettings;
 }
 
 // @public
 export interface SecurityProfileOutput {
     encryptionAtHost: boolean;
     securityType: SecurityTypesOutput;
-    uefiSettings: UefiSettingsOutput;
+    uefiSettings: BatchUefiSettingsOutput;
 }
 
 // @public
@@ -7364,18 +7386,6 @@ export interface TerminateTaskQueryParamProperties {
     timeOut?: number;
 }
 
-// @public
-export interface UefiSettings {
-    secureBootEnabled?: boolean;
-    vTpmEnabled?: boolean;
-}
-
-// @public
-export interface UefiSettingsOutput {
-    secureBootEnabled?: boolean;
-    vTpmEnabled?: boolean;
-}
-
 // @public (undocumented)
 export interface UpdateJob200Headers {
     "client-request-id"?: string;
@@ -7712,11 +7722,11 @@ export interface VirtualMachineConfiguration {
     dataDisks?: Array<DataDisk>;
     diskEncryptionConfiguration?: DiskEncryptionConfiguration;
     extensions?: Array<VMExtension>;
-    imageReference: BatchImageReference;
+    imageReference: BatchVmImageReference;
     licenseType?: string;
     nodeAgentSKUId: string;
     nodePlacementConfiguration?: BatchNodePlacementConfiguration;
-    osDisk?: OSDisk;
+    osDisk?: BatchOsDisk;
     securityProfile?: SecurityProfile;
     serviceArtifactReference?: ServiceArtifactReference;
     windowsConfiguration?: WindowsConfiguration;
@@ -7728,11 +7738,11 @@ export interface VirtualMachineConfigurationOutput {
     dataDisks?: Array<DataDiskOutput>;
     diskEncryptionConfiguration?: DiskEncryptionConfigurationOutput;
     extensions?: Array<VMExtensionOutput>;
-    imageReference: BatchImageReferenceOutput;
+    imageReference: BatchVmImageReferenceOutput;
     licenseType?: string;
     nodeAgentSKUId: string;
     nodePlacementConfiguration?: BatchNodePlacementConfigurationOutput;
-    osDisk?: OSDiskOutput;
+    osDisk?: BatchOsDiskOutput;
     securityProfile?: SecurityProfileOutput;
     serviceArtifactReference?: ServiceArtifactReferenceOutput;
     windowsConfiguration?: WindowsConfigurationOutput;
@@ -7740,18 +7750,8 @@ export interface VirtualMachineConfigurationOutput {
 
 // @public
 export interface VirtualMachineInfoOutput {
-    imageReference?: BatchImageReferenceOutput;
+    imageReference?: BatchVmImageReferenceOutput;
     scaleSetVmResourceId?: string;
-}
-
-// @public
-export interface VMDiskSecurityProfile {
-    securityEncryptionType?: SecurityEncryptionTypes;
-}
-
-// @public
-export interface VMDiskSecurityProfileOutput {
-    securityEncryptionType?: SecurityEncryptionTypesOutput;
 }
 
 // @public
