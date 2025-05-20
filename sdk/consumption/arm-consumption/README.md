@@ -6,7 +6,7 @@ Consumption management client provides access to consumption resources for Azure
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/consumption/arm-consumption) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-consumption) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-consumption?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-consumption) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
