@@ -143,7 +143,7 @@ export async function main(): Promise<void> {
   );
   console.log(`Created message, message ID ${message.id}`);
 
-  async function onResponse(response: any): Promise<void> {
+  async function onResponse(response: { parsedBody?: ThreadRun }): Promise<void> {
     if (!response || !response.parsedBody) return;
 
     const run = response.parsedBody as ThreadRun;

@@ -46,16 +46,15 @@ export async function main(): Promise<void> {
   );
   console.log(`Created message, message ID : ${message.id}`);
 
-  function onResponse(response: any): void {
-    console.log(`Received response with status: ${response.parsedBody?.status}`);
-  }
   // Create and poll a run
   console.log("Creating run...");
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: onResponse,
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
   });
   console.log(`Run finished with status: ${run.status}`);
 

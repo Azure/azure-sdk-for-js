@@ -521,7 +521,7 @@ describe("snippets", function () {
         intervalInMs: 2000,
       },
       onResponse: (response): void => {
-        console.log(`Received response with status: ${response.parsedBody?.status}`);
+        console.log(`Received response with status: ${response.status}`);
       },
     });
     console.log(`Run finished with status: ${run.status}`);
