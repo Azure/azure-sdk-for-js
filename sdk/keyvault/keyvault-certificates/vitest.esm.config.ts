@@ -6,8 +6,10 @@ import vitestConfig from "./vitest.config.ts";
 import vitestEsmConfig from "../../../vitest.esm.shared.config.ts";
 
 export default mergeConfig(
-  vitestConfig,
-  vitestEsmConfig,
+  mergeConfig(
+    vitestConfig,
+    vitestEsmConfig,
+  ),
   defineConfig({
     test: {
       testTimeout: 350000,
