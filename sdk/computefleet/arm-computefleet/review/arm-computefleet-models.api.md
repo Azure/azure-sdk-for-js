@@ -151,6 +151,26 @@ export interface EncryptionIdentity {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EvictionPolicy = string;
 
 // @public
@@ -218,7 +238,7 @@ export enum KnownAcceleratorManufacturer {
 
 // @public
 export enum KnownAcceleratorType {
-    FPGA = "FPGA",
+    Fpga = "FPGA",
     GPU = "GPU"
 }
 
@@ -277,7 +297,7 @@ export enum KnownDiffDiskPlacement {
 // @public
 export enum KnownDiskControllerTypes {
     NVMe = "NVMe",
-    SCSI = "SCSI"
+    Scsi = "SCSI"
 }
 
 // @public
@@ -462,6 +482,11 @@ export enum KnownStorageAccountTypes {
 }
 
 // @public
+export enum KnownVersions {
+    V20241101 = "2024-11-01"
+}
+
+// @public
 export enum KnownVMAttributeSupport {
     Excluded = "Excluded",
     Included = "Included",
@@ -574,8 +599,8 @@ export type OperatingSystemTypes = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -799,7 +824,7 @@ export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
-    diskIOPSReadWrite?: number;
+    diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     lun: number;
