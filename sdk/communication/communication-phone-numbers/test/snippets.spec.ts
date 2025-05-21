@@ -205,20 +205,20 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-       countryCode: "US",
-       phoneNumberType: "tollFree",
-       };
-   
-  const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-       browseAvailableNumberRequest,
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+    };
+
+    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+      browseAvailableNumberRequest,
       {
-         capabilities: {
-           calling: "outbound",
+        capabilities: {
+          calling: "outbound",
         },
-      assignmentType: "application",
+        assignmentType: "application",
       },
     );
-  
+
     for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
       console.log("Found phone number: ", phoneNumber.phoneNumber);
     }
@@ -229,30 +229,30 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-       countryCode: "US",
-       phoneNumberType: "tollFree",
-       };
-   
-  const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-       browseAvailableNumberRequest,
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+    };
+
+    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+      browseAvailableNumberRequest,
       {
-         capabilities: {
-           calling: "outbound",
+        capabilities: {
+          calling: "outbound",
         },
-      assignmentType: "application",
+        assignmentType: "application",
       },
     );
     const phoneNumbers = browseAvailableNumbers.phoneNumbers;
     const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
     const reservationResponse = await client.createOrUpdateReservation(
-         {
-            reservationId: "reservationId",
-          },
-          {
-            add: phoneNumbersList,
-          },
-        );
-    const numbersWithError : AvailablePhoneNumber[] = [];
+      {
+        reservationId: "reservationId",
+      },
+      {
+        add: phoneNumbersList,
+      },
+    );
+    const numbersWithError: AvailablePhoneNumber[] = [];
     for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
       if (number != null && number.status === "error") {
         numbersWithError.push(number);
@@ -260,8 +260,7 @@ describe("snippets", () => {
     }
     if (numbersWithError.length > 0) {
       console.log("Errors occurred during reservation");
-    }
-    else{
+    } else {
       console.log("Reservation operation completed without errors.");
     }
   });
@@ -271,17 +270,17 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     const reservationId = "<reservation-id>";
     const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-       countryCode: "US",
-       phoneNumberType: "tollFree",
-       };
-   
-  const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-       browseAvailableNumberRequest,
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+    };
+
+    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+      browseAvailableNumberRequest,
       {
-         capabilities: {
-           calling: "outbound",
+        capabilities: {
+          calling: "outbound",
         },
-      assignmentType: "application",
+        assignmentType: "application",
       },
     );
     const phoneNumbers = browseAvailableNumbers.phoneNumbers;
@@ -294,8 +293,8 @@ describe("snippets", () => {
         add: phoneNumbersList,
       },
     );
-   console.log(`Reservation updated with status: ${reservationResponse.status}`);
-   console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
+    console.log(`Reservation updated with status: ${reservationResponse.status}`);
+    console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
   });
 
   it("PhoneNumbersClientGetReservation", async () => {
@@ -304,15 +303,15 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
     const reservationResponse = await client.getReservation(reservationId);
-   
-   console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
+
+    console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
   });
 
   it("PhoneNumbersClientListReservations", async () => {
     const credential = new DefaultAzureCredential();
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     const reservationResponse = await client.listReservations();
-   
+
     for await (const reservation of reservationResponse) {
       console.log(`Reservation id: ${reservation.id}`);
     }
@@ -323,7 +322,7 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
-   
+
     await client.deleteReservation(reservationId);
   });
 
@@ -332,7 +331,7 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
-   
+
     await client.deleteReservation(reservationId);
   });
 
@@ -341,9 +340,9 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
-   
+
     const purchasePoller = await client.beginReservationPurchase(reservationId);
-   
+
     // Purchase is underway.
     const purchaseResult = await purchasePoller.pollUntilDone();
     console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
