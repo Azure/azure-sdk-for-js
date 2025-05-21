@@ -242,48 +242,51 @@ console.log(`Successfully purchased ${phoneNumbers[0]}`);
 Use the Browse and Reservations API to reserve a phone number
 
 ```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
-   import { DefaultAzureCredential } from "@azure/identity";
-   import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { DefaultAzureCredential } from "@azure/identity";
+import {
+  PhoneNumbersClient,
+  BrowseAvailableNumbersRequest,
+  AvailablePhoneNumber,
+} from "@azure/communication-phone-numbers";
 
-   const credential = new DefaultAzureCredential();
-   const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-   
-   const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-       countryCode: "US",
-       phoneNumberType: "tollFree",
-       };
-   
-  const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-       browseAvailableNumberRequest,
-      {
-         capabilities: {
-           calling: "outbound",
-        },
-      assignmentType: "application",
-      },
-    );
-    const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-    const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
-    const reservationResponse = await client.createOrUpdateReservation(
-         {
-            reservationId: "reservationId",
-          },
-          {
-            add: phoneNumbersList,
-          },
-        );
-    const numbersWithError : AvailablePhoneNumber[] = [];
-    for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
-      if (number != null && number.status === "error") {
-        numbersWithError.push(number);
-      }
-    }
-    if (numbersWithError.length > 0) {
-      console.log("Errors occurred during reservation");
-    }
-    else{
-      console.log("Reservation operation completed without errors.");
-    }
+const credential = new DefaultAzureCredential();
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+
+const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+  countryCode: "US",
+  phoneNumberType: "tollFree",
+};
+
+const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+  browseAvailableNumberRequest,
+  {
+    capabilities: {
+      calling: "outbound",
+    },
+    assignmentType: "application",
+  },
+);
+const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
+const reservationResponse = await client.createOrUpdateReservation(
+  {
+    reservationId: "reservationId",
+  },
+  {
+    add: phoneNumbersList,
+  },
+);
+const numbersWithError: AvailablePhoneNumber[] = [];
+for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+  if (number != null && number.status === "error") {
+    numbersWithError.push(number);
+  }
+}
+if (numbersWithError.length > 0) {
+  console.log("Errors occurred during reservation");
+} else {
+  console.log("Reservation operation completed without errors.");
+}
 ```
 
 #### Release a purchased phone number
@@ -366,19 +369,19 @@ console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 Given an existing and active reservation, purchase the phone numbers in that reservation.
 
 ```ts snippet:PhoneNumbersClientBeginReservationPurchase
-   import { DefaultAzureCredential } from "@azure/identity";
-   import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { DefaultAzureCredential } from "@azure/identity";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
-   const credential = new DefaultAzureCredential();
-   const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+const credential = new DefaultAzureCredential();
+const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 
-   const reservationId = "<reservation-id>";
-   
-   const purchasePoller = await client.beginReservationPurchase(reservationId);
-   
-   // Purchase is underway.
-   const purchaseResult = await purchasePoller.pollUntilDone();
-   console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
+const reservationId = "<reservation-id>";
+
+const purchasePoller = await client.beginReservationPurchase(reservationId);
+
+// Purchase is underway.
+const purchaseResult = await purchasePoller.pollUntilDone();
+console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
    ```
 
 #### List purchased phone numbers
