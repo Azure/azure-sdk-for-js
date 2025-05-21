@@ -98,8 +98,10 @@ export abstract class BaseSender {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
           this.networkStatsbeatMetrics?.countThrottle(statusCode);
-        }
-        if (result) {
+          return {
+            code: ExportResultCode.SUCCESS,
+          };
+        } else if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
