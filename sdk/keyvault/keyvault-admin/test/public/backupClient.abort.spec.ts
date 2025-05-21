@@ -41,7 +41,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort beginRestore", async () => {
@@ -54,7 +54,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort beginSelectiveKeyRestore", async () => {
@@ -68,6 +68,6 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 });

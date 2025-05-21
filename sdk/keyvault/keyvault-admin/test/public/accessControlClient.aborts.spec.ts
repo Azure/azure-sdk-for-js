@@ -32,7 +32,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
 
     await expect(
       client.listRoleDefinitions("/", { abortSignal: controller.signal }).next(),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort listRoleAssignments", async () => {
@@ -45,7 +45,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
           abortSignal: controller.signal,
         })
         .next(),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort createRoleAssignment", async () => {
@@ -65,7 +65,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
           abortSignal: controller.signal,
         },
       ),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort getRoleAssignment", async () => {
@@ -78,7 +78,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
       client.getRoleAssignment(globalScope, name, {
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort deleteRoleAssignment", async () => {
@@ -91,6 +91,6 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
       client.deleteRoleAssignment(globalScope, name, {
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(/The operation was aborted. Request has already been canceled./);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 });

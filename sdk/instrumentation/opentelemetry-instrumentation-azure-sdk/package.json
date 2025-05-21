@@ -64,6 +64,7 @@
     "@opentelemetry/api": "catalog:otel",
     "@opentelemetry/core": "catalog:otel",
     "@opentelemetry/instrumentation": "catalog:otel",
+    "@opentelemetry/sdk-trace-web": "catalog:otel",
     "tslib": "catalog:"
   },
   "devDependencies": {

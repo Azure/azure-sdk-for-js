@@ -51,7 +51,11 @@ interface SnippetLocationInfo {
 async function* getAllSnippetFiles(dir: string): AsyncIterable<string> {
   // Only consider markdown files up to a depth of 1 (i.e. _in_ the project folder). This is to prevent grabbing things
   // like samples/*/README.md and other similar files that are not really part of the "source" of the package.
-  yield* findMatchingFiles(dir, (name) => name.endsWith(".md"), { maxDepth: 1 });
+  yield* findMatchingFiles(
+    dir,
+    (name) => name.endsWith(".md") && name.toLowerCase() !== "changelog.md",
+    { maxDepth: 1 },
+  );
 
   if (existsSync(path.join(dir, "src"))) {
     yield* findMatchingFiles(path.join(dir, "src"), (name) => name.endsWith(".ts"));

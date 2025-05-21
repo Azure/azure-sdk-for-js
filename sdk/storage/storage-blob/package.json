@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.28.0-beta.1",
+  "version": "12.28.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -100,12 +100,11 @@
     "@azure/core-lro": "catalog:corelrov2",
     "@azure/core-paging": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
-    "@azure/storage-common": "workspace:*",
-    "@azure/storage-internal-avro": "workspace:*",
     "@azure/core-tracing": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/core-xml": "workspace:*",
     "@azure/logger": "workspace:*",
+    "@azure/storage-common": "workspace:*",
     "events": "catalog:polyfills",
     "tslib": "catalog:"
   },

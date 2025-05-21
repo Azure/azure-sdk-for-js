@@ -81,7 +81,7 @@
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@azure/monitor-query": "catalog:otel",
+    "@azure/monitor-query": "workspace:*",
     "@types/node": "catalog:",
     "@types/pako": "^2.0.0",
     "@vitest/browser": "catalog:testing",
