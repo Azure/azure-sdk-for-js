@@ -101,7 +101,8 @@ export abstract class BaseSender {
           return {
             code: ExportResultCode.SUCCESS,
           };
-        } else if (result) {
+        }
+        if (result) {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
