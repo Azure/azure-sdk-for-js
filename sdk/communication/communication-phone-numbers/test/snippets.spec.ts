@@ -232,7 +232,7 @@ describe("snippets", () => {
       countryCode: "US",
       phoneNumberType: "tollFree",
     };
-
+    // @ts-preserve-whitespace
     const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
       browseAvailableNumberRequest,
       {
@@ -265,54 +265,21 @@ describe("snippets", () => {
     }
   });
 
-  it("PhoneNumbersClientUpdateReservation", async () => {
-    const credential = new DefaultAzureCredential();
-    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-    const reservationId = "<reservation-id>";
-    const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-      countryCode: "US",
-      phoneNumberType: "tollFree",
-    };
-
-    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-      browseAvailableNumberRequest,
-      {
-        capabilities: {
-          calling: "outbound",
-        },
-        assignmentType: "application",
-      },
-    );
-    const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-    const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
-    const reservationResponse = await client.createOrUpdateReservation(
-      {
-        reservationId: reservationId,
-      },
-      {
-        add: phoneNumbersList,
-      },
-    );
-    console.log(`Reservation updated with status: ${reservationResponse.status}`);
-    console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
-  });
-
   it("PhoneNumbersClientGetReservation", async () => {
     const credential = new DefaultAzureCredential();
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
     const reservationResponse = await client.getReservation(reservationId);
-
+    // @ts-preserve-whitespace
     console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
   });
 
   it("PhoneNumbersClientListReservations", async () => {
     const credential = new DefaultAzureCredential();
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-    const reservationResponse = await client.listReservations();
-
-    for await (const reservation of reservationResponse) {
+    // @ts-preserve-whitespace
+    for await (const reservation of client.listReservations()) {
       console.log(`Reservation id: ${reservation.id}`);
     }
   });
@@ -322,17 +289,9 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
-
     await client.deleteReservation(reservationId);
-  });
-
-  it("PhoneNumbersClientGetReservation", async () => {
-    const credential = new DefaultAzureCredential();
-    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
-    const reservationId = "<reservation-id>";
-
-    await client.deleteReservation(reservationId);
+    console.log(`Reservation with ID ${reservationId} has been deleted.`);
   });
 
   it("PhoneNumbersClientBeginReservationPurchase", async () => {
@@ -340,9 +299,9 @@ describe("snippets", () => {
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     const reservationId = "<reservation-id>";
-
+    // @ts-preserve-whitespace
     const purchasePoller = await client.beginReservationPurchase(reservationId);
-
+    // @ts-preserve-whitespace
     // Purchase is underway.
     const purchaseResult = await purchasePoller.pollUntilDone();
     console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);

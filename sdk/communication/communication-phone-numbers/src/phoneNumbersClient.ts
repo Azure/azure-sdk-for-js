@@ -149,13 +149,15 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientDeleteReservation
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const reservationId = "<reservation-id>";
    * await client.deleteReservation(reservationId);
+   *
+   * console.log(`Reservation with ID ${reservationId} has been deleted.`);
    * ```
    * Delete a reservation.
    * @param reservationId - The id of the reservation.
@@ -203,13 +205,17 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientGetReservation
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const reservationId = "<reservation-id>";
-   * await client.deleteReservation(reservationId);
+   * const reservationResponse = await client.getReservation(reservationId);
+   *
+   * console.log(`Reservation ID: ${reservationResponse.id}`);
+   * console.log(`Reservation status: ${reservationResponse.status}`);
+   * console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
    * ```
    * Get a reservation.
    * @param reservationId - The id of the reservation.
@@ -236,7 +242,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListPurchasedPhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -281,22 +287,23 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientBrowseAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, BrowseAvailableNumbersRequest } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-   *   countryCode: "US",
-   *   phoneNumberType: "tollFree",
-   * };
+   *    countryCode: "FR",
+   *    phoneNumberType: "tollFree",
+   *    };
+   *
    * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-   *   browseAvailableNumberRequest,
+   *    browseAvailableNumberRequest,
    *   {
-   *     capabilities: {
-   *       calling: "outbound",
+   *      capabilities: {
+   *        calling: "outbound",
    *     },
-   *     assignmentType: "application",
+   *   assignmentType: "application",
    *   },
    * );
    * for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
@@ -342,7 +349,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientReleasePhoneNumber
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -380,7 +387,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientSearchAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   SearchAvailablePhoneNumbersRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -438,7 +448,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientPurchasePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   SearchAvailablePhoneNumbersRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -495,13 +508,15 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientBeginReservationPurchase
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const reservationId = "<reservation-id>";
+   *
    * const purchasePoller = await client.beginReservationPurchase(reservationId);
+   *
    * // Purchase is underway.
    * const purchaseResult = await purchasePoller.pollUntilDone();
    * console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
@@ -535,7 +550,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientUpdatePhoneNumberCapabilities
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   PhoneNumberCapabilitiesRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -593,17 +611,21 @@ export class PhoneNumbersClient {
    * Partial success is possible, in which case the response will have a 207 status code.
    *
    * Example usage:
-   * ```ts snippet:PhoneNumbersClientUpdateReservation
+   * ```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, BrowseAvailableNumbersRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   PhoneNumbersCreateOrUpdateReservationOptionalParams,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
-   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-   * const reservationId = "<reservation-id>";
+   *  const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   * 
    * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
    *   countryCode: "US",
    *   phoneNumberType: "tollFree",
    * };
+   *
    * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
    *   browseAvailableNumberRequest,
    *   {
@@ -617,14 +639,23 @@ export class PhoneNumbersClient {
    * const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
    * const reservationResponse = await client.createOrUpdateReservation(
    *   {
-   *     reservationId: reservationId,
+   *     reservationId: "reservationId",
    *   },
    *   {
    *     add: phoneNumbersList,
    *   },
    * );
-   * console.log(`Reservation updated with status: ${reservationResponse.status}`);
-   * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
+   * const numbersWithError: AvailablePhoneNumber[] = [];
+   * for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+   *   if (number != null && number.status === "error") {
+   *     numbersWithError.push(number);
+   *   }
+   * }
+   * if (numbersWithError.length > 0) {
+   *   console.log("Errors occurred during reservation");
+   * } else {
+   *   console.log("Reservation operation completed without errors.");
+   * }
    * ```
    *
    * Create or update a reservation.
@@ -677,7 +708,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListAvailableCountries
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -720,7 +751,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListTollFreeAreaCodes
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -765,7 +796,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListGeographicAreaCodes
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -809,7 +840,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListAvailableLocalities
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -854,7 +885,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListAvailableOfferings
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -899,13 +930,13 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListReservations
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-   * const reservationResponse = await client.listReservations();
-   * for await (const reservation of reservationResponse) {
-   *   console.log(`Reservation id: ${reservation.id}`);
+   *
+   * for await (const reservation of client.listReservations()) {
+   *   console.log("reservation: ", reservation.id);
    * }
    * ```
    * List all phone number reservations. Note that the reservations will not be populated with the phone numbers associated with them.

@@ -79,14 +79,14 @@ Once you have a key, you can authenticate the client with any of the following m
 ### Using a connection string
 
 ```ts snippet:ReadmeSampleCreatePhoneClient_ConnectionString
-import { PhoneNumbersClient } from "../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 ```
 
 ```ts snippet:ReadmeSampleCreateSipClient_ConnectionString
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new SipRoutingClient(connectionString);
@@ -98,7 +98,7 @@ If you use a key to initialize the client you will also need to provide the appr
 
 ```ts snippet:ReadmeSampleCreatePhoneClient_KeyCredential
 import { AzureKeyCredential } from "@azure/core-auth";
-import { PhoneNumbersClient } from "../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -106,7 +106,7 @@ const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 
 ```ts snippet:ReadmeSampleCreateSipClient_KeyCredential
 import { AzureKeyCredential } from "@azure/core-auth";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
@@ -124,7 +124,7 @@ The [`@azure/identity`][azure_identity] package provides a variety of credential
 
 ```ts snippet:ReadmeSampleCreatePhoneClient_DefaultAzureCredential
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient } from "../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -132,7 +132,7 @@ const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 
 ```ts snippet:ReadmeSampleCreateSipClient_DefaultAzureCredential
 import { DefaultAzureCredential } from "@azure/identity";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
@@ -171,7 +171,10 @@ Use the `beginSearchAvailablePhoneNumbers` method to search for phone numbers an
 
 ```ts snippet:PhoneNumbersClientSearchAvailablePhoneNumbers
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../src/index.js";
+import {
+  PhoneNumbersClient,
+  SearchAvailablePhoneNumbersRequest,
+} from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -203,7 +206,10 @@ Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from yo
 
 ```ts snippet:PhoneNumbersClientPurchasePhoneNumbers
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../src/index.js";
+import {
+  PhoneNumbersClient,
+  SearchAvailablePhoneNumbersRequest,
+} from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -236,50 +242,47 @@ console.log(`Successfully purchased ${phoneNumbers[0]}`);
 Use the Browse and Reservations API to reserve a phone number
 
 ```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
-import { DefaultAzureCredential } from "@azure/identity";
-import {
-  PhoneNumbersClient,
-  BrowseAvailableNumbersRequest,
-  AvailablePhoneNumber,
-} from "../src/index.js";
+   import { DefaultAzureCredential } from "@azure/identity";
+   import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
-const credential = new DefaultAzureCredential();
-const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   const credential = new DefaultAzureCredential();
+   const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 
-const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-  countryCode: "US",
-  phoneNumberType: "tollFree",
-};
-const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-  browseAvailableNumberRequest,
-  {
-    capabilities: {
-      calling: "outbound",
-    },
-    assignmentType: "application",
-  },
-);
-const phoneNumbers = browseAvailableNumbers.phoneNumbers;
-const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
-const reservationResponse = await client.createOrUpdateReservation(
-  {
-    reservationId: "reservationId",
-  },
-  {
-    add: phoneNumbersList,
-  },
-);
-const numbersWithError: AvailablePhoneNumber[] = [];
-for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
-  if (number != null && number.status === "error") {
-    numbersWithError.push(number);
-  }
-}
-if (numbersWithError.length > 0) {
-  console.log("Errors occurred during reservation");
-} else {
-  console.log("Reservation operation completed without errors.");
-}
+   const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+    };
+    
+    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+      browseAvailableNumberRequest,
+      {
+        capabilities: {
+          calling: "outbound",
+        },
+        assignmentType: "application",
+      },
+    );
+    const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+    const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
+    const reservationResponse = await client.createOrUpdateReservation(
+      {
+        reservationId: "reservationId",
+      },
+      {
+        add: phoneNumbersList,
+      },
+    );
+    const numbersWithError: AvailablePhoneNumber[] = [];
+    for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+      if (number != null && number.status === "error") {
+        numbersWithError.push(number);
+      }
+    }
+    if (numbersWithError.length > 0) {
+      console.log("Errors occurred during reservation");
+    } else {
+      console.log("Reservation operation completed without errors.");
+    }
 ```
 
 #### Release a purchased phone number
@@ -290,7 +293,7 @@ Use the `beginReleasePhoneNumber` method to release a previously purchased phone
 
 ```ts snippet:PhoneNumbersClientReleasePhoneNumber
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient } from "../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -312,7 +315,10 @@ Use the `beginUpdatePhoneNumberCapabilities` method to update the capabilities o
 
 ```ts snippet:PhoneNumbersClientUpdatePhoneNumberCapabilities
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../src/index.js";
+import {
+  PhoneNumbersClient,
+  PhoneNumberCapabilitiesRequest,
+} from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -341,7 +347,7 @@ Use the `getPurchasedPhoneNumber` method to get information about a purchased ph
 
 ```ts snippet:PhoneNumbersClientGetPurchasedPhoneNumber
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient } from "../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -359,17 +365,19 @@ console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 Given an existing and active reservation, purchase the phone numbers in that reservation.
 
 ```ts snippet:PhoneNumbersClientBeginReservationPurchase
-import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient } from "../src/index.js";
+   import { DefaultAzureCredential } from "@azure/identity";
+   import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
-const credential = new DefaultAzureCredential();
-const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   const credential = new DefaultAzureCredential();
+   const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 
-const reservationId = "<reservation-id>";
-const purchasePoller = await client.beginReservationPurchase(reservationId);
-// Purchase is underway.
-const purchaseResult = await purchasePoller.pollUntilDone();
-console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
+   const reservationId = "<reservation-id>";
+   
+   const purchasePoller = await client.beginReservationPurchase(reservationId);
+   
+   // Purchase is underway.
+   const purchaseResult = await purchasePoller.pollUntilDone();
+   console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
    ```
 
 #### List purchased phone numbers
@@ -378,7 +386,7 @@ Use the `listPurchasedPhoneNumbers` method to page through all purchased phone n
 
 ```ts snippet:PhoneNumbersClientListPurchasedPhoneNumbers
 import { DefaultAzureCredential } from "@azure/identity";
-import { PhoneNumbersClient } from "../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -399,7 +407,7 @@ Get the list of currently configured trunks or routes.
 
 ```ts snippet:SipRoutingClientRetrieveTrunksAndRoutes
 import { DefaultAzureCredential } from "@azure/identity";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
@@ -422,7 +430,7 @@ Replace the list of currently configured trunks or routes with new values.
 
 ```ts snippet:SipRoutingClientReplaceTrunksAndRoutes
 import { DefaultAzureCredential } from "@azure/identity";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
@@ -458,7 +466,7 @@ await client.setRoutes([
 
 ```ts snippet:SipRoutingClientRetrieveSingleTrunk
 import { DefaultAzureCredential } from "@azure/identity";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
@@ -475,7 +483,7 @@ if (trunk) {
 
 ```ts snippet:SipRoutingClientSetSingleTrunk
 import { DefaultAzureCredential } from "@azure/identity";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
@@ -490,7 +498,7 @@ await client.setTrunk({
 
 ```ts snippet:SipRoutingClientDeleteSingleTrunk
 import { DefaultAzureCredential } from "@azure/identity";
-import { SipRoutingClient } from "../src/index.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
