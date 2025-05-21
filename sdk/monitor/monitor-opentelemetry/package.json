@@ -69,7 +69,7 @@
     "@azure/core-client": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@azure/monitor-opentelemetry-exporter": "catalog:otel",
+    "@azure/monitor-opentelemetry-exporter": "workspace:*",
     "@azure/opentelemetry-instrumentation-azure-sdk": "workspace:*",
     "@microsoft/applicationinsights-web-snippet": "catalog:otel",
     "@opentelemetry/api": "catalog:otel",
