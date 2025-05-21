@@ -1,16 +1,10 @@
-<!-- dev-tool snippets ignore -->"
-
 # Release History
-
-## 2.0.1 (2025-05-13)
-
-### Features Added
-
-- Updated service API version to use API version 2023-10-31 by default.
 
 ## 2.0.0 (Unreleased)
 
 ### Features Added
+
+- Updated service API version to use API version 2023-10-31 by default.
 
 ### Breaking Changes
 

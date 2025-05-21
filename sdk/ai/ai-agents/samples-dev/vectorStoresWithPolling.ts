@@ -19,18 +19,16 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
 
-  // (Optional) Define an onResponse callback to monitor the progress of polling
-  function onResponse(response: any): void {
-    console.log(`Received response with status: ${response.parsedBody?.status}`);
-  }
-
   // Create a vector, which will automatically poll until the operation is complete
   const vectorStore1 = await client.vectorStores.create({
     name: "myVectorStore",
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: onResponse,
+    // (Optional) Define an onResponse callback to monitor the progress of polling
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
   });
   console.log(
     `Created vector store with status ${vectorStore1.status}, vector store ID: ${vectorStore1.id}`,
@@ -45,7 +43,9 @@ export async function main(): Promise<void> {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: onResponse,
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
   });
   const vectorStore2 = await vectorStorePoller.pollUntilDone({
     abortSignal: abortController.signal,
