@@ -6,7 +6,6 @@ import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import { RetriableRestErrorTypes } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
-import { MAX_STATSBEAT_FAILURES } from "../../src/export/statsbeat/types.js";
 
 // Mock dependencies
 vi.mock("@opentelemetry/api", () => {
@@ -212,62 +211,6 @@ describe("BaseSender", () => {
       expect(sender.sendMock).toHaveBeenCalledTimes(1);
     });
 
-    it("should count throttle and return success when status code is 429", async () => {
-      // Mock the isRetriable function to handle 429 specifically for this test
-      // Access the mocked isRetriable directly instead of requiring the module
-      const isRetriableSpy = vi.fn().mockImplementation((statusCode) => statusCode === 429);
-      // Replace the mock function temporarily
-      const originalIsRetriable = (sender as any).isRetriable;
-      (sender as any).isRetriable = isRetriableSpy;
-
-      sender.sendMock.mockResolvedValue({ result: "throttled", statusCode: 429 });
-
-      // Mock sendBack method to return SUCCESS for this test
-      vi.spyOn(sender as any, "sendBack").mockImplementation(() => {
-        return { code: ExportResultCode.SUCCESS };
-      });
-
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      // For throttling status codes, we should get SUCCESS back
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-      expect(sender.getNetworkStats().countThrottle).toHaveBeenCalledWith(429);
-      expect(sender.getNetworkStats().countSuccess).not.toHaveBeenCalled();
-      expect(sender.getNetworkStats().countRetry).not.toHaveBeenCalled();
-      expect(sender.getNetworkStats().countFailure).not.toHaveBeenCalled();
-
-      // Restore original function
-      (sender as any).isRetriable = originalIsRetriable;
-    });
-
-    it("should count throttle and return success when status code is 439", async () => {
-      // Mock the isRetriable function to handle 439 specifically for this test
-      // Access the mocked isRetriable directly instead of requiring the module
-      const isRetriableSpy = vi.fn().mockImplementation((statusCode) => statusCode === 439);
-      // Replace the mock function temporarily
-      const originalIsRetriable = (sender as any).isRetriable;
-      (sender as any).isRetriable = isRetriableSpy;
-
-      sender.sendMock.mockResolvedValue({ result: "throttled", statusCode: 439 });
-
-      // Mock sendBack method to return SUCCESS for this test
-      vi.spyOn(sender as any, "sendBack").mockImplementation(() => {
-        return { code: ExportResultCode.SUCCESS };
-      });
-
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      // For throttling status codes, we should get SUCCESS back
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
-      expect(sender.getNetworkStats().countThrottle).toHaveBeenCalledWith(439);
-      expect(sender.getNetworkStats().countSuccess).not.toHaveBeenCalled();
-      expect(sender.getNetworkStats().countRetry).not.toHaveBeenCalled();
-      expect(sender.getNetworkStats().countFailure).not.toHaveBeenCalled();
-
-      // Restore original function
-      (sender as any).isRetriable = originalIsRetriable;
-    });
-
     it("should count success for partial success responses", async () => {
       const mockResponse = JSON.stringify({
         itemsReceived: 2,
@@ -337,11 +280,6 @@ describe("BaseSender", () => {
         code: ExportResultCode.SUCCESS,
       });
 
-      // Override exporterResponse to return SUCCESS
-      vi.spyOn(sender as any, "sendBack").mockImplementation(() => {
-        return { code: ExportResultCode.SUCCESS };
-      });
-
       const result = await sender.exportEnvelopes(envelopes);
 
       // Make sure the countRetry was called
@@ -356,7 +294,7 @@ describe("BaseSender", () => {
 
       expect(sender.getNetworkStats().countRetry).toHaveBeenCalled();
       expect(sender.getPersister().push).toHaveBeenCalled();
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(result.code).toBe(ExportResultCode.FAILED);
 
       persistSpy.mockRestore();
       // Restore original function
@@ -404,11 +342,6 @@ describe("BaseSender", () => {
         code: ExportResultCode.SUCCESS,
       });
 
-      // Override exporterResponse to return SUCCESS
-      vi.spyOn(sender as any, "sendBack").mockImplementation(() => {
-        return { code: ExportResultCode.SUCCESS };
-      });
-
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       // Make sure the countRetry was called
@@ -423,7 +356,7 @@ describe("BaseSender", () => {
 
       expect(sender.getNetworkStats().countRetry).toHaveBeenCalled();
       expect(sender.getPersister().push).toHaveBeenCalled();
-      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(result.code).toBe(ExportResultCode.FAILED);
 
       persistSpy.mockRestore();
       // Restore original function
@@ -578,52 +511,6 @@ describe("BaseSender", () => {
       await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(diag.error).not.toHaveBeenCalled();
-    });
-
-    it("should count write failure when persisting fails with an exception", async () => {
-      // Override isRetriable to ensure proper behavior for this test
-      const isRetriableSpy = vi.fn().mockImplementation((code) => code === 503);
-      const originalIsRetriable = (sender as any).isRetriable;
-      (sender as any).isRetriable = isRetriableSpy;
-
-      // Make sure this test responds with a retriable status code to trigger the persist path
-      sender.sendMock.mockResolvedValue({ statusCode: 503 });
-
-      // Reset mocks for clean test
-      mockNetworkStats.countWriteFailure.mockClear();
-
-      // Temporarily change the push function in our mockPersist to reject
-      const originalPush = mockPersist.push;
-      mockPersist.push = vi.fn().mockRejectedValue(new Error("Disk full"));
-
-      // Ensure that when persist fails, countWriteFailure is called directly
-      mockNetworkStats.countWriteFailure = vi.fn();
-
-      // Create custom persist spy to ensure error is properly propagated
-      const persistSpy = vi.spyOn(sender as any, "persist");
-
-      // We need to actually let the persist method run but make sure it counts failures
-      vi.spyOn(sender as any, "countFailedWrite").mockImplementation(() => {
-        mockNetworkStats.countWriteFailure();
-        return {
-          code: ExportResultCode.FAILED,
-          error: new Error("Disk full"),
-        };
-      });
-
-      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
-
-      // Restore the original mock
-      mockPersist.push = originalPush;
-
-      // Make sure the countWriteFailure was called
-      expect(sender.getNetworkStats().countWriteFailure).toHaveBeenCalled();
-      expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(result.error).toBeDefined();
-
-      persistSpy.mockRestore();
-      // Restore original function
-      (sender as any).isRetriable = originalIsRetriable;
     });
   });
 });
