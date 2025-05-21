@@ -12,12 +12,11 @@
  */
 
 const { AgentsClient, ToolUtility, isOutputOfType } = require("@azure/ai-agents");
-const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -94,9 +93,10 @@ async function main() {
           return undefined;
         }
       }
-      const result = this.functionTools
-        .find((tool) => tool.definition.function.name === toolCall.function.name)
-        ?.func(...args);
+      const functionMap = new Map(
+        this.functionTools.map((tool) => [tool.definition.function.name, tool.func]),
+      );
+      const result = functionMap.get(toolCall.function.name)?.(...args);
       return result
         ? {
             toolCallId: toolCall.id,
@@ -134,20 +134,22 @@ async function main() {
   );
   console.log(`Created message, message ID ${message.id}`);
 
-  // Create run
-  let run = await client.runs.create(thread.id, agent.id);
-  console.log(`Created Run, Run ID:  ${run.id}`);
+  async function onResponse(response) {
+    if (!response || !response.parsedBody) return;
 
-  while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
+    const run = response.parsedBody;
     console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
-    if (run.status === "requires_action" && run.requiredAction) {
-      console.log(`Run requires action - ${run.requiredAction}`);
-      if (isOutputOfType(run.requiredAction, "submit_tool_outputs")) {
-        const submitToolOutputsActionOutput = run.requiredAction;
-        const toolCalls = submitToolOutputsActionOutput.submitToolOutputs.toolCalls;
+
+    // Ensure we have a run with requires_action status and required_action object
+    if (run.status === "requires_action" && run.required_action) {
+      console.log("Run requires action");
+
+      // Check if the required_action is of type submit_tool_outputs and has the expected structure
+      if (isOutputOfType(run.required_action, "submit_tool_outputs")) {
+        const submitToolOutputsActionOutput = run.required_action;
+        const toolCalls = submitToolOutputsActionOutput.submit_tool_outputs.tool_calls;
         const toolResponses = [];
+
         for (const toolCall of toolCalls) {
           if (isOutputOfType(toolCall, "function")) {
             const toolResponse = functionToolExecutor.invokeTool(toolCall);
@@ -157,12 +159,26 @@ async function main() {
           }
         }
         if (toolResponses.length > 0) {
-          run = await client.runs.submitToolOutputs(thread.id, run.id, toolResponses);
-          console.log(`Submitted tool response - ${run.status}`);
+          try {
+            await client.runs.submitToolOutputs(thread.id, run.id, toolResponses);
+            console.log(`Submitted tool responses successfully`);
+          } catch (err) {
+            console.error("Error submitting tool outputs:", err);
+          }
         }
       }
     }
   }
+
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: onResponse,
+  });
+  console.log(`Run finished with status: ${run.status}`);
 
   console.log(`Run status - ${run.status}, run ID: ${run.id}`);
   const messages = client.messages.list(thread.id);

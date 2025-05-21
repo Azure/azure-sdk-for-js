@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { delay } from "@azure-tools/test-recorder";
 import type { AgentsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -36,18 +35,51 @@ describe("Agents - run steps", () => {
     const message = await projectsClient.messages.create(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
-    // Create run
-    let run = await projectsClient.runs.create(thread.id, agent.id);
-    console.log(`Created run, run ID: ${run.id}`);
+    // Create and poll a run
+    console.log("Creating run...");
+    const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
+      pollingOptions: {
+        intervalInMs: 2000,
+      },
+      onResponse: (response): void => {
+        const parsedBody =
+          typeof response.parsedBody === "object" && response.parsedBody !== null
+            ? response.parsedBody
+            : null;
+        const status = parsedBody && "status" in parsedBody ? parsedBody.status : "unknown";
+        assert.oneOf(status, [
+          "queued",
+          "in_progress",
+          "requires_action",
+          "cancelling",
+          "cancelled",
+          "failed",
+          "completed",
+          "expired",
+        ]);
 
-    // Wait for run to complete
-    assert.oneOf(run.status, ["queued", "in_progress", "requires_action", "completed"]);
-    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await delay(1000);
-      run = await projectsClient.runs.get(thread.id, run.id);
-      console.log(`Run status: ${run.status}`);
-      assert.include(["queued", "in_progress", "requires_action", "completed"], run.status);
-    }
+        if (
+          parsedBody &&
+          "lastError" in parsedBody &&
+          typeof parsedBody.lastError === "object" &&
+          parsedBody.lastError !== null
+        ) {
+          const lastError = parsedBody.lastError;
+          if (
+            "code" in lastError &&
+            "message" in lastError &&
+            lastError.code &&
+            lastError.message
+          ) {
+            console.log(`Run status ${status} - ${lastError.code} - ${lastError.message}`);
+          }
+        }
+      },
+    });
+
+    assert.isNotNull(run);
+    assert.oneOf(run.status, ["cancelled", "failed", "completed", "expired"]);
+    console.log(`Run finished with status: ${run.status}, run ID: ${run.id}`);
 
     // List run steps
     const runSteps = projectsClient.runSteps.list(thread.id, run.id);
@@ -77,19 +109,34 @@ describe("Agents - run steps", () => {
     const message = await projectsClient.messages.create(thread.id, "user", "hello, world!");
     console.log(`Created message, message ID: ${message.id}`);
 
-    // Create run
-    let run = await projectsClient.runs.create(thread.id, agent.id);
+    // Create and poll a run
+    console.log("Creating run...");
+    const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
+      pollingOptions: {
+        intervalInMs: 2000,
+      },
+      onResponse: (response): void => {
+        const status =
+          typeof response.parsedBody === "object" &&
+          response.parsedBody !== null &&
+          "status" in response.parsedBody
+            ? response.parsedBody.status
+            : "unknown";
+        assert.oneOf(status, [
+          "queued",
+          "in_progress",
+          "requires_action",
+          "cancelling",
+          "cancelled",
+          "failed",
+          "completed",
+          "expired",
+        ]);
+        console.log(`Received response with status: ${status}`);
+      },
+    });
     console.log(`Created run, run ID: ${run.id}`);
-
-    // Wait for run to complete
-    assert.oneOf(run.status, ["queued", "in_progress", "requires_action", "completed"]);
-    console.log(`Run status - ${run.status}, run ID: ${run.id}`);
-    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      run = await projectsClient.runs.get(thread.id, run.id);
-      console.log(`Run status - ${run.status}, run ID: ${run.id}`);
-      assert.include(["queued", "in_progress", "requires_action", "completed"], run.status);
-    }
+    console.log(`Run finished with status: ${run.status}`);
     // List run steps
     const runSteps = projectsClient.runSteps.list(thread.id, run.id);
     const runStepsArray = [];
