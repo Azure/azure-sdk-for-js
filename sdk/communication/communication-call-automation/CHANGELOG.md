@@ -1,5 +1,11 @@
 # Release History
 
+## 1.5.0-beta.2 (2025-05-21)
+
+### Bugs Fixed
+
+- Fix to correctly reflect the client version in telemetry data.
+
 ## 1.5.0-beta.1 (2025-05-20)
 
 ### Features Added
