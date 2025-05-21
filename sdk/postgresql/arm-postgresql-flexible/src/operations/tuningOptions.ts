@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { TuningOptions } from "../operationsInterfaces/index.js";
+import type { TuningOptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type {
   TuningOptionsResource,
   TuningOptionsListByServerNextOptionalParams,
   TuningOptionsListByServerOptionalParams,
@@ -48,11 +48,7 @@ export class TuningOptionsImpl implements TuningOptions {
     serverName: string,
     options?: TuningOptionsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<TuningOptionsResource> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -64,12 +60,7 @@ export class TuningOptionsImpl implements TuningOptions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -84,7 +75,7 @@ export class TuningOptionsImpl implements TuningOptions {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -97,7 +88,7 @@ export class TuningOptionsImpl implements TuningOptions {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -108,11 +99,7 @@ export class TuningOptionsImpl implements TuningOptions {
     serverName: string,
     options?: TuningOptionsListByServerOptionalParams,
   ): AsyncIterableIterator<TuningOptionsResource> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

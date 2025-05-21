@@ -21,10 +21,8 @@ import "dotenv/config";
  */
 async function tuningIndexListFilteredRecommendations(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestrecs";
   const tuningOption = "index";
   const recommendationType = "CreateIndex";
@@ -32,10 +30,7 @@ async function tuningIndexListFilteredRecommendations(): Promise<void> {
     recommendationType,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.tuningIndex.listRecommendations(
     resourceGroupName,
@@ -56,17 +51,12 @@ async function tuningIndexListFilteredRecommendations(): Promise<void> {
  */
 async function tuningIndexListRecommendations(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const tuningOption = "index";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.tuningIndex.listRecommendations(
     resourceGroupName,

@@ -18,22 +18,13 @@ import "dotenv/config";
  */
 async function getADatabase(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "testserver";
   const databaseName = "db1";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.databases.get(
-    resourceGroupName,
-    serverName,
-    databaseName,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.databases.get(resourceGroupName, serverName, databaseName);
   console.log(result);
 }
 

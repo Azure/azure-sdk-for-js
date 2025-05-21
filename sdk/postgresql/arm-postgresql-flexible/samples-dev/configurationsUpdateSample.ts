@@ -21,10 +21,8 @@ import "dotenv/config";
  */
 async function updateAUserConfiguration(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const configurationName = "constraint_exclusion";
   const parameters: ConfigurationForUpdate = {
@@ -32,10 +30,7 @@ async function updateAUserConfiguration(): Promise<void> {
     value: "on",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.configurations.beginUpdateAndWait(
     resourceGroupName,
     serverName,

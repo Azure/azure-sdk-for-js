@@ -18,22 +18,13 @@ import "dotenv/config";
  */
 async function getsAPrivateLinkResourceForPostgreSql(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "Default";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "Default";
   const serverName = "test-svr";
   const groupName = "plr";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.privateLinkResources.get(
-    resourceGroupName,
-    serverName,
-    groupName,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.privateLinkResources.get(resourceGroupName, serverName, groupName);
   console.log(result);
 }
 

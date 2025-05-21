@@ -18,21 +18,13 @@ import "dotenv/config";
  */
 async function sampleListOfLongTernRetentionOperationsByFlexibleServer(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
   const serverName = "pgsqlltrtestserver";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.ltrBackupOperations.listByServer(
-    resourceGroupName,
-    serverName,
-  )) {
+  for await (const item of client.ltrBackupOperations.listByServer(resourceGroupName, serverName)) {
     resArray.push(item);
   }
   console.log(resArray);

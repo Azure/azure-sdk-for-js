@@ -18,17 +18,12 @@ import "dotenv/config";
  */
 async function tuningConfigurationStopSession(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const tuningOption = "configuration";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.tuningConfiguration.beginStopSessionAndWait(
     resourceGroupName,
     serverName,

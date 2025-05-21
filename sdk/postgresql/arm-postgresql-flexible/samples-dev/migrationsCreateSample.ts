@@ -21,8 +21,7 @@ import "dotenv/config";
  */
 async function createMigrationWithOtherSourceTypesForValidateAndMigrate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {
@@ -61,8 +60,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate(): Promi
  */
 async function createPreMigrationValidation(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {
@@ -100,8 +98,7 @@ async function createPreMigrationValidation(): Promise<void> {
  */
 async function migrationsCreateByPassingUserNames(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {
@@ -139,8 +136,7 @@ async function migrationsCreateByPassingUserNames(): Promise<void> {
  */
 async function migrationsCreateWithFullyQualifiedDomainName(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {
@@ -179,8 +175,7 @@ async function migrationsCreateWithFullyQualifiedDomainName(): Promise<void> {
  */
 async function migrationsCreateWithPrivateEndpoint(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {
@@ -219,8 +214,7 @@ async function migrationsCreateWithPrivateEndpoint(): Promise<void> {
  */
 async function migrationsCreateWithRoles(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {
@@ -258,8 +252,7 @@ async function migrationsCreateWithRoles(): Promise<void> {
  */
 async function migrationsCreate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters: MigrationResource = {

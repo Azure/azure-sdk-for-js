@@ -10,7 +10,5 @@
       "path": "./tsconfig.test.json"
     }
   ],
-  "include": [
-    "./src/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts"]
 }

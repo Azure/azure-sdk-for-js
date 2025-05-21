@@ -18,8 +18,7 @@ import "dotenv/config";
  */
 async function migrationsDelete(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const credential = new DefaultAzureCredential();

@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { TuningConfiguration } from "../operationsInterfaces/index.js";
+import type { TuningConfiguration } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   SessionResource,
   TuningOptionEnum,
   TuningConfigurationListSessionsNextOptionalParams,
@@ -68,12 +65,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
     tuningOption: TuningOptionEnum,
     options?: TuningConfigurationListSessionsOptionalParams,
   ): PagedAsyncIterableIterator<SessionResource> {
-    const iter = this.listSessionsPagingAll(
-      resourceGroupName,
-      serverName,
-      tuningOption,
-      options,
-    );
+    const iter = this.listSessionsPagingAll(resourceGroupName, serverName, tuningOption, options);
     return {
       next() {
         return iter.next();
@@ -106,13 +98,8 @@ export class TuningConfigurationImpl implements TuningConfiguration {
     let result: TuningConfigurationListSessionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSessions(
-        resourceGroupName,
-        serverName,
-        tuningOption,
-        options,
-      );
-      let page = result.value || [];
+      result = await this._listSessions(resourceGroupName, serverName, tuningOption, options);
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -126,7 +113,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -211,7 +198,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
         sessionId,
         options,
       );
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -225,7 +212,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -277,8 +264,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -335,12 +321,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
     tuningOption: TuningOptionEnum,
     options?: TuningConfigurationEnableOptionalParams,
   ): Promise<TuningConfigurationEnableResponse> {
-    const poller = await this.beginEnable(
-      resourceGroupName,
-      serverName,
-      tuningOption,
-      options,
-    );
+    const poller = await this.beginEnable(resourceGroupName, serverName, tuningOption, options);
     return poller.pollUntilDone();
   }
 
@@ -372,8 +353,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -430,12 +410,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
     tuningOption: TuningOptionEnum,
     options?: TuningConfigurationDisableOptionalParams,
   ): Promise<TuningConfigurationDisableResponse> {
-    const poller = await this.beginDisable(
-      resourceGroupName,
-      serverName,
-      tuningOption,
-      options,
-    );
+    const poller = await this.beginDisable(resourceGroupName, serverName, tuningOption, options);
     return poller.pollUntilDone();
   }
 
@@ -469,8 +444,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -573,8 +547,7 @@ export class TuningConfigurationImpl implements TuningConfiguration {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

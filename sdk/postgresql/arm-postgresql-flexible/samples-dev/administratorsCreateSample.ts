@@ -21,10 +21,8 @@ import "dotenv/config";
  */
 async function addsAnMicrosoftEntraAdministratorForTheServer(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const objectId = "oooooooo-oooo-oooo-oooo-oooooooooooo";
   const parameters: ActiveDirectoryAdministratorAdd = {
@@ -33,10 +31,7 @@ async function addsAnMicrosoftEntraAdministratorForTheServer(): Promise<void> {
     tenantId: "tttttttt-tttt-tttt-tttt-tttttttttttt",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.administrators.beginCreateAndWait(
     resourceGroupName,
     serverName,

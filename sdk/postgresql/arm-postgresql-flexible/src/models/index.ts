@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** Represents an Microsoft Entra Administrator. */
 export interface ActiveDirectoryAdministratorAdd {
@@ -1161,9 +1161,7 @@ export interface PrivateLinkResource extends Resource {
 }
 
 /** Represents a virtual endpoint for a server. */
-export interface VirtualEndpointResource
-  extends VirtualEndpointResourceForPatch,
-    Resource {}
+export interface VirtualEndpointResource extends VirtualEndpointResourceForPatch, Resource {}
 
 /** Represents capability of a storage tier */
 export interface StorageTierCapability extends CapabilityBase {
@@ -3351,8 +3349,7 @@ export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 export type ThreatProtectionState = "Enabled" | "Disabled";
 
 /** Optional parameters. */
-export interface AdministratorsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AdministratorsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3363,8 +3360,7 @@ export interface AdministratorsCreateOptionalParams
 export type AdministratorsCreateResponse = ActiveDirectoryAdministrator;
 
 /** Optional parameters. */
-export interface AdministratorsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AdministratorsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3372,29 +3368,25 @@ export interface AdministratorsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AdministratorsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdministratorsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AdministratorsGetResponse = ActiveDirectoryAdministrator;
 
 /** Optional parameters. */
-export interface AdministratorsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdministratorsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type AdministratorsListByServerResponse = AdministratorListResult;
 
 /** Optional parameters. */
-export interface AdministratorsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdministratorsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type AdministratorsListByServerNextResponse = AdministratorListResult;
 
 /** Optional parameters. */
-export interface BackupsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3405,8 +3397,7 @@ export interface BackupsCreateOptionalParams
 export type BackupsCreateResponse = ServerBackup;
 
 /** Optional parameters. */
-export interface BackupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3423,15 +3414,13 @@ export interface BackupsGetOptionalParams extends coreClient.OperationOptions {}
 export type BackupsGetResponse = ServerBackup;
 
 /** Optional parameters. */
-export interface BackupsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackupsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type BackupsListByServerResponse = ServerBackupListResult;
 
 /** Optional parameters. */
-export interface BackupsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackupsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type BackupsListByServerNextResponse = ServerBackupListResult;
@@ -3448,26 +3437,22 @@ export interface LocationBasedCapabilitiesExecuteNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the executeNext operation. */
-export type LocationBasedCapabilitiesExecuteNextResponse =
-  CapabilitiesListResult;
+export type LocationBasedCapabilitiesExecuteNextResponse = CapabilitiesListResult;
 
 /** Optional parameters. */
-export interface ServerCapabilitiesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServerCapabilitiesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ServerCapabilitiesListResponse = CapabilitiesListResult;
 
 /** Optional parameters. */
-export interface ServerCapabilitiesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServerCapabilitiesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServerCapabilitiesListNextResponse = CapabilitiesListResult;
 
 /** Optional parameters. */
-export interface CheckNameAvailabilityExecuteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CheckNameAvailabilityExecuteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
 export type CheckNameAvailabilityExecuteResponse = NameAvailability;
@@ -3480,22 +3465,19 @@ export interface CheckNameAvailabilityWithLocationExecuteOptionalParams
 export type CheckNameAvailabilityWithLocationExecuteResponse = NameAvailability;
 
 /** Optional parameters. */
-export interface ConfigurationsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type ConfigurationsListByServerResponse = ConfigurationListResult;
 
 /** Optional parameters. */
-export interface ConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationsGetResponse = Configuration;
 
 /** Optional parameters. */
-export interface ConfigurationsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3506,8 +3488,7 @@ export interface ConfigurationsUpdateOptionalParams
 export type ConfigurationsUpdateResponse = Configuration;
 
 /** Optional parameters. */
-export interface ConfigurationsPutOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsPutOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3518,15 +3499,13 @@ export interface ConfigurationsPutOptionalParams
 export type ConfigurationsPutResponse = Configuration;
 
 /** Optional parameters. */
-export interface ConfigurationsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type ConfigurationsListByServerNextResponse = ConfigurationListResult;
 
 /** Optional parameters. */
-export interface DatabasesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3537,8 +3516,7 @@ export interface DatabasesCreateOptionalParams
 export type DatabasesCreateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3546,29 +3524,25 @@ export interface DatabasesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DatabasesGetResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type DatabasesListByServerResponse = DatabaseListResult;
 
 /** Optional parameters. */
-export interface DatabasesListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type DatabasesListByServerNextResponse = DatabaseListResult;
 
 /** Optional parameters. */
-export interface FirewallRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3579,8 +3553,7 @@ export interface FirewallRulesCreateOrUpdateOptionalParams
 export type FirewallRulesCreateOrUpdateResponse = FirewallRule;
 
 /** Optional parameters. */
-export interface FirewallRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3588,29 +3561,25 @@ export interface FirewallRulesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface FirewallRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FirewallRulesGetResponse = FirewallRule;
 
 /** Optional parameters. */
-export interface FirewallRulesListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallRulesListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type FirewallRulesListByServerResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
-export interface FirewallRulesListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallRulesListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type FirewallRulesListByServerNextResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
-export interface ServersCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3621,8 +3590,7 @@ export interface ServersCreateOptionalParams
 export type ServersCreateResponse = Server;
 
 /** Optional parameters. */
-export interface ServersUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3633,8 +3601,7 @@ export interface ServersUpdateOptionalParams
 export type ServersUpdateResponse = Server;
 
 /** Optional parameters. */
-export interface ServersDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3648,22 +3615,19 @@ export interface ServersGetOptionalParams extends coreClient.OperationOptions {}
 export type ServersGetResponse = Server;
 
 /** Optional parameters. */
-export interface ServersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ServersListByResourceGroupResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface ServersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ServersListResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface ServersRestartOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersRestartOptionalParams extends coreClient.OperationOptions {
   /** The parameters for restarting a server. */
   parameters?: RestartParameter;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3673,8 +3637,7 @@ export interface ServersRestartOptionalParams
 }
 
 /** Optional parameters. */
-export interface ServersStartOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersStartOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3690,15 +3653,13 @@ export interface ServersStopOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ServersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ServersListByResourceGroupNextResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface ServersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServersListNextResponse = ServerListResult;
@@ -3708,12 +3669,11 @@ export interface FlexibleServerTriggerLtrPreBackupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the triggerLtrPreBackup operation. */
-export type FlexibleServerTriggerLtrPreBackupResponse =
-  FlexibleServerTriggerLtrPreBackupHeaders & LtrPreBackupResponse;
+export type FlexibleServerTriggerLtrPreBackupResponse = FlexibleServerTriggerLtrPreBackupHeaders &
+  LtrPreBackupResponse;
 
 /** Optional parameters. */
-export interface FlexibleServerStartLtrBackupOptionalParams
-  extends coreClient.OperationOptions {
+export interface FlexibleServerStartLtrBackupOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3721,12 +3681,11 @@ export interface FlexibleServerStartLtrBackupOptionalParams
 }
 
 /** Contains response data for the startLtrBackup operation. */
-export type FlexibleServerStartLtrBackupResponse =
-  FlexibleServerStartLtrBackupHeaders & LtrBackupResponse;
+export type FlexibleServerStartLtrBackupResponse = FlexibleServerStartLtrBackupHeaders &
+  LtrBackupResponse;
 
 /** Optional parameters. */
-export interface LtrBackupOperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LtrBackupOperationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LtrBackupOperationsGetResponse = LtrServerBackupOperation;
@@ -3736,45 +3695,38 @@ export interface LtrBackupOperationsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type LtrBackupOperationsListByServerResponse =
-  LtrServerBackupOperationList;
+export type LtrBackupOperationsListByServerResponse = LtrServerBackupOperationList;
 
 /** Optional parameters. */
 export interface LtrBackupOperationsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type LtrBackupOperationsListByServerNextResponse =
-  LtrServerBackupOperationList;
+export type LtrBackupOperationsListByServerNextResponse = LtrServerBackupOperationList;
 
 /** Optional parameters. */
-export interface MigrationsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type MigrationsCreateResponse = MigrationResource;
 
 /** Optional parameters. */
-export interface MigrationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MigrationsGetResponse = MigrationResource;
 
 /** Optional parameters. */
-export interface MigrationsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type MigrationsUpdateResponse = MigrationResource;
 
 /** Optional parameters. */
-export interface MigrationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface MigrationsListByTargetServerOptionalParams
-  extends coreClient.OperationOptions {
+export interface MigrationsListByTargetServerOptionalParams extends coreClient.OperationOptions {
   /** Migration list filter. Retrieves either active migrations or all migrations. */
   migrationListFilter?: MigrationListFilter;
 }
@@ -3787,34 +3739,28 @@ export interface MigrationsListByTargetServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTargetServerNext operation. */
-export type MigrationsListByTargetServerNextResponse =
-  MigrationResourceListResult;
+export type MigrationsListByTargetServerNextResponse = MigrationResourceListResult;
 
 /** Optional parameters. */
-export interface CheckMigrationNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CheckMigrationNameAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkMigrationNameAvailability operation. */
-export type CheckMigrationNameAvailabilityResponse =
-  MigrationNameAvailabilityResource;
+export type CheckMigrationNameAvailabilityResponse = MigrationNameAvailabilityResource;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface GetPrivateDnsZoneSuffixExecuteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetPrivateDnsZoneSuffixExecuteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
 export type GetPrivateDnsZoneSuffixExecuteResponse = {
@@ -3823,8 +3769,7 @@ export type GetPrivateDnsZoneSuffixExecuteResponse = {
 };
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -3834,8 +3779,7 @@ export interface PrivateEndpointConnectionsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateEndpointConnectionsListByServerResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServerNextOptionalParams
@@ -3846,8 +3790,7 @@ export type PrivateEndpointConnectionsListByServerNextResponse =
   PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3858,8 +3801,7 @@ export interface PrivateEndpointConnectionUpdateOptionalParams
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3867,20 +3809,17 @@ export interface PrivateEndpointConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse =
-  PrivateEndpointConnectionDeleteHeaders;
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateLinkResourcesListByServerResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
@@ -3890,40 +3829,34 @@ export interface PrivateLinkResourcesListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type PrivateLinkResourcesListByServerNextResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface QuotaUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaUsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type QuotaUsagesListResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
-export interface QuotaUsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaUsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaUsagesListNextResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
-export interface ReplicasListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReplicasListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type ReplicasListByServerResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface LogFilesListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogFilesListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type LogFilesListByServerResponse = LogFileListResult;
 
 /** Optional parameters. */
-export interface LogFilesListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogFilesListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type LogFilesListByServerNextResponse = LogFileListResult;
@@ -3933,16 +3866,14 @@ export interface ServerThreatProtectionSettingsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type ServerThreatProtectionSettingsListByServerResponse =
-  ServerThreatProtectionListResult;
+export type ServerThreatProtectionSettingsListByServerResponse = ServerThreatProtectionListResult;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ServerThreatProtectionSettingsGetResponse =
-  ServerThreatProtectionSettingsModel;
+export type ServerThreatProtectionSettingsGetResponse = ServerThreatProtectionSettingsModel;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
@@ -3966,48 +3897,41 @@ export type ServerThreatProtectionSettingsListByServerNextResponse =
   ServerThreatProtectionListResult;
 
 /** Optional parameters. */
-export interface TuningOptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TuningOptionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TuningOptionsGetResponse = TuningOptionsResource;
 
 /** Optional parameters. */
-export interface TuningOptionsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TuningOptionsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type TuningOptionsListByServerResponse = TuningOptionsListResult;
 
 /** Optional parameters. */
-export interface TuningOptionsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TuningOptionsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type TuningOptionsListByServerNextResponse = TuningOptionsListResult;
 
 /** Optional parameters. */
-export interface TuningIndexListRecommendationsOptionalParams
-  extends coreClient.OperationOptions {
+export interface TuningIndexListRecommendationsOptionalParams extends coreClient.OperationOptions {
   /** Recommendations list filter. Retrieves recommendations based on type. */
   recommendationType?: RecommendationType;
 }
 
 /** Contains response data for the listRecommendations operation. */
-export type TuningIndexListRecommendationsResponse =
-  IndexRecommendationListResult;
+export type TuningIndexListRecommendationsResponse = IndexRecommendationListResult;
 
 /** Optional parameters. */
 export interface TuningIndexListRecommendationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendationsNext operation. */
-export type TuningIndexListRecommendationsNextResponse =
-  IndexRecommendationListResult;
+export type TuningIndexListRecommendationsNextResponse = IndexRecommendationListResult;
 
 /** Optional parameters. */
-export interface TuningConfigurationEnableOptionalParams
-  extends coreClient.OperationOptions {
+export interface TuningConfigurationEnableOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4015,12 +3939,10 @@ export interface TuningConfigurationEnableOptionalParams
 }
 
 /** Contains response data for the enable operation. */
-export type TuningConfigurationEnableResponse =
-  TuningConfigurationEnableHeaders;
+export type TuningConfigurationEnableResponse = TuningConfigurationEnableHeaders;
 
 /** Optional parameters. */
-export interface TuningConfigurationDisableOptionalParams
-  extends coreClient.OperationOptions {
+export interface TuningConfigurationDisableOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4028,12 +3950,10 @@ export interface TuningConfigurationDisableOptionalParams
 }
 
 /** Contains response data for the disable operation. */
-export type TuningConfigurationDisableResponse =
-  TuningConfigurationDisableHeaders;
+export type TuningConfigurationDisableResponse = TuningConfigurationDisableHeaders;
 
 /** Optional parameters. */
-export interface TuningConfigurationStartSessionOptionalParams
-  extends coreClient.OperationOptions {
+export interface TuningConfigurationStartSessionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4041,12 +3961,10 @@ export interface TuningConfigurationStartSessionOptionalParams
 }
 
 /** Contains response data for the startSession operation. */
-export type TuningConfigurationStartSessionResponse =
-  TuningConfigurationStartSessionHeaders;
+export type TuningConfigurationStartSessionResponse = TuningConfigurationStartSessionHeaders;
 
 /** Optional parameters. */
-export interface TuningConfigurationStopSessionOptionalParams
-  extends coreClient.OperationOptions {
+export interface TuningConfigurationStopSessionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4054,8 +3972,7 @@ export interface TuningConfigurationStopSessionOptionalParams
 }
 
 /** Contains response data for the stopSession operation. */
-export type TuningConfigurationStopSessionResponse =
-  TuningConfigurationStopSessionHeaders;
+export type TuningConfigurationStopSessionResponse = TuningConfigurationStopSessionHeaders;
 
 /** Optional parameters. */
 export interface TuningConfigurationListSessionsOptionalParams
@@ -4069,8 +3986,7 @@ export interface TuningConfigurationListSessionDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSessionDetails operation. */
-export type TuningConfigurationListSessionDetailsResponse =
-  SessionDetailsListResult;
+export type TuningConfigurationListSessionDetailsResponse = SessionDetailsListResult;
 
 /** Optional parameters. */
 export interface TuningConfigurationListSessionsNextOptionalParams
@@ -4084,12 +4000,10 @@ export interface TuningConfigurationListSessionDetailsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSessionDetailsNext operation. */
-export type TuningConfigurationListSessionDetailsNextResponse =
-  SessionDetailsListResult;
+export type TuningConfigurationListSessionDetailsNextResponse = SessionDetailsListResult;
 
 /** Optional parameters. */
-export interface VirtualEndpointsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VirtualEndpointsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4100,8 +4014,7 @@ export interface VirtualEndpointsCreateOptionalParams
 export type VirtualEndpointsCreateResponse = VirtualEndpointResource;
 
 /** Optional parameters. */
-export interface VirtualEndpointsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VirtualEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4112,8 +4025,7 @@ export interface VirtualEndpointsUpdateOptionalParams
 export type VirtualEndpointsUpdateResponse = VirtualEndpointResource;
 
 /** Optional parameters. */
-export interface VirtualEndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VirtualEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4124,15 +4036,13 @@ export interface VirtualEndpointsDeleteOptionalParams
 export type VirtualEndpointsDeleteResponse = VirtualEndpointsDeleteHeaders;
 
 /** Optional parameters. */
-export interface VirtualEndpointsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VirtualEndpointsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VirtualEndpointsGetResponse = VirtualEndpointResource;
 
 /** Optional parameters. */
-export interface VirtualEndpointsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VirtualEndpointsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type VirtualEndpointsListByServerResponse = VirtualEndpointsListResult;
@@ -4142,16 +4052,14 @@ export interface VirtualEndpointsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type VirtualEndpointsListByServerNextResponse =
-  VirtualEndpointsListResult;
+export type VirtualEndpointsListByServerNextResponse = VirtualEndpointsListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkSubnetUsageExecuteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
-export type VirtualNetworkSubnetUsageExecuteResponse =
-  VirtualNetworkSubnetUsageResult;
+export type VirtualNetworkSubnetUsageExecuteResponse = VirtualNetworkSubnetUsageResult;
 
 /** Optional parameters. */
 export interface PostgreSQLManagementFlexibleServerClientOptionalParams

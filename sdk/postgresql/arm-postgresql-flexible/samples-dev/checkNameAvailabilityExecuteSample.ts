@@ -21,20 +21,14 @@ import "dotenv/config";
  */
 async function nameAvailability(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const nameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "name1",
     type: "Microsoft.DBforPostgreSQL/flexibleServers",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.checkNameAvailability.execute(
-    nameAvailabilityRequest,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.checkNameAvailability.execute(nameAvailabilityRequest);
   console.log(result);
 }
 

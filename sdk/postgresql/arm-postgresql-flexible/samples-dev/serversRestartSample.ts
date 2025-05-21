@@ -22,20 +22,12 @@ import "dotenv/config";
  */
 async function serverRestart(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginRestartAndWait(
-    resourceGroupName,
-    serverName,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginRestartAndWait(resourceGroupName, serverName);
   console.log(result);
 }
 
@@ -47,10 +39,8 @@ async function serverRestart(): Promise<void> {
  */
 async function serverRestartWithFailover(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const parameters: RestartParameter = {
     failoverMode: "ForcedFailover",
@@ -58,15 +48,8 @@ async function serverRestartWithFailover(): Promise<void> {
   };
   const options: ServersRestartOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginRestartAndWait(
-    resourceGroupName,
-    serverName,
-    options,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginRestartAndWait(resourceGroupName, serverName, options);
   console.log(result);
 }
 

@@ -21,20 +21,15 @@ import "dotenv/config";
  */
 async function sampleExecuteBackup(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
   const serverName = "pgsqlltrtestserver";
   const parameters: LtrBackupRequest = {
     backupSettings: { backupName: "backup1" },
     targetDetails: { sasUriList: ["sasuri"] },
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.flexibleServer.beginStartLtrBackupAndWait(
     resourceGroupName,
     serverName,

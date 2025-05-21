@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  Server,
-  PostgreSQLManagementFlexibleServerClient,
-} from "@azure/arm-postgresql-flexible";
+import { Server, PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,10 +18,8 @@ import "dotenv/config";
  */
 async function clusterCreate(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestcluster";
   const parameters: Server = {
     administratorLogin: "login",
@@ -40,15 +35,8 @@ async function clusterCreate(): Promise<void> {
     version: "16",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -60,10 +48,8 @@ async function clusterCreate(): Promise<void> {
  */
 async function createADatabaseAsAGeoRestoreInGeoPairedLocation(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc5geo";
   const parameters: Server = {
     createMode: "GeoRestore",
@@ -93,15 +79,8 @@ async function createADatabaseAsAGeoRestoreInGeoPairedLocation(): Promise<void> 
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/sourcepgservername",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -113,10 +92,8 @@ async function createADatabaseAsAGeoRestoreInGeoPairedLocation(): Promise<void> 
  */
 async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc5";
   const parameters: Server = {
     createMode: "PointInTimeRestore",
@@ -126,15 +103,8 @@ async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/sourcepgservername",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -146,10 +116,8 @@ async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
  */
 async function createANewServer(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testpgflex";
   const parameters: Server = {
     administratorLogin: "login",
@@ -171,15 +139,8 @@ async function createANewServer(): Promise<void> {
     version: "16",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -191,10 +152,8 @@ async function createANewServer(): Promise<void> {
  */
 async function createANewServerWithMicrosoftEntraAuthenticationEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const parameters: Server = {
     administratorLogin: "login",
@@ -222,15 +181,8 @@ async function createANewServerWithMicrosoftEntraAuthenticationEnabled(): Promis
     version: "16",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -242,10 +194,8 @@ async function createANewServerWithMicrosoftEntraAuthenticationEnabled(): Promis
  */
 async function serverCreateReplica(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc5rep";
   const parameters: Server = {
     createMode: "Replica",
@@ -271,15 +221,8 @@ async function serverCreateReplica(): Promise<void> {
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/sourcepgservername",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -291,10 +234,8 @@ async function serverCreateReplica(): Promise<void> {
  */
 async function serverCreateReviveDropped(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc5-rev";
   const parameters: Server = {
     createMode: "ReviveDropped",
@@ -304,15 +245,8 @@ async function serverCreateReviveDropped(): Promise<void> {
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/pgtestsvc5",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
@@ -324,10 +258,8 @@ async function serverCreateReviveDropped(): Promise<void> {
  */
 async function serverCreateWithDataEncryptionEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const parameters: Server = {
     administratorLogin: "login",
@@ -364,15 +296,8 @@ async function serverCreateWithDataEncryptionEnabled(): Promise<void> {
     version: "16",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.servers.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 

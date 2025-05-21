@@ -18,18 +18,12 @@ import "dotenv/config";
  */
 async function capabilitiesList(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "eastus";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.locationBasedCapabilities.listExecute(
-    locationName,
-  )) {
+  for await (const item of client.locationBasedCapabilities.listExecute(locationName)) {
     resArray.push(item);
   }
   console.log(resArray);

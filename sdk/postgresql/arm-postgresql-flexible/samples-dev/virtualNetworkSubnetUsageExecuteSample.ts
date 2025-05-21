@@ -21,22 +21,15 @@ import "dotenv/config";
  */
 async function virtualNetworkSubnetUsageList(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "westus";
   const parameters: VirtualNetworkSubnetUsageParameter = {
     virtualNetworkArmResourceId:
       "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/testvnet",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.virtualNetworkSubnetUsage.execute(
-    locationName,
-    parameters,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.virtualNetworkSubnetUsage.execute(locationName, parameters);
   console.log(result);
 }
 

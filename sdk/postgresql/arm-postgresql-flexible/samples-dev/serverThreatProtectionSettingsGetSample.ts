@@ -18,17 +18,12 @@ import "dotenv/config";
  */
 async function getAServerThreatProtectionSettings(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "threatprotection-6852";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "threatprotection-6852";
   const serverName = "threatprotection-2080";
   const threatProtectionName = "Default";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.serverThreatProtectionSettings.get(
     resourceGroupName,
     serverName,

@@ -18,22 +18,13 @@ import "dotenv/config";
  */
 async function createANewBackupForAFlexibleServer(): Promise<void> {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "postgresqltestserver";
   const backupName = "backup_20250303T160516";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.backups.beginCreateAndWait(
-    resourceGroupName,
-    serverName,
-    backupName,
-  );
+  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const result = await client.backups.beginCreateAndWait(resourceGroupName, serverName, backupName);
   console.log(result);
 }
 

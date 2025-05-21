@@ -18,8 +18,7 @@ import "dotenv/config";
  */
 async function migrationsGet(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const credential = new DefaultAzureCredential();
@@ -41,8 +40,7 @@ async function migrationsGet(): Promise<void> {
  */
 async function migrationsGetMigrationWithSuccessfulValidationAndMigration(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigrationwithsuccessfulvalidationandmigration";
   const credential = new DefaultAzureCredential();
@@ -64,11 +62,9 @@ async function migrationsGetMigrationWithSuccessfulValidationAndMigration(): Pro
  */
 async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
-  const migrationName =
-    "testmigrationwithsuccessfulvalidationbutmigrationfailure";
+  const migrationName = "testmigrationwithsuccessfulvalidationbutmigrationfailure";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.migrations.get(
@@ -88,8 +84,7 @@ async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure
  */
 async function migrationsGetMigrationWithSuccessfulValidationOnly(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigrationwithsuccessfulvalidationonly";
   const credential = new DefaultAzureCredential();
@@ -111,8 +106,7 @@ async function migrationsGetMigrationWithSuccessfulValidationOnly(): Promise<voi
  */
 async function migrationsGetMigrationWithValidationFailures(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigrationwithvalidationfailure";
   const credential = new DefaultAzureCredential();

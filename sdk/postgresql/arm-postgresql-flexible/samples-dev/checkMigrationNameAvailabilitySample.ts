@@ -21,8 +21,7 @@ import "dotenv/config";
  */
 async function checkMigrationNameAvailability(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const parameters: MigrationNameAvailabilityResource = {
     name: "name1",
