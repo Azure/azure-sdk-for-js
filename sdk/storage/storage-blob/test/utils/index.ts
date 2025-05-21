@@ -24,6 +24,7 @@ import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
+import { BlobClientOptions } from "../../src/models";
 
 export * from "./testutils.common";
 config();
@@ -70,19 +71,19 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: BlobClientOptions = {},
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
     env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
   ) {
-    return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+    return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), pipelineOptions);
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, pipelineOptions);
-    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
-    const client = new BlobServiceClient(blobPrimaryURL, pipeline);
+    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.preprod.core.windows.net/`;
+    const client = new BlobServiceClient(blobPrimaryURL, pipeline, pipelineOptions);
     configureBlobStorageClient(recorder, client);
     return client;
   }
@@ -146,7 +147,7 @@ export async function getStorageAccessTokenWithDefaultCredential(): Promise<Acce
 
 export function getBSU(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {},
+  pipelineOptions: BlobClientOptions = {},
 ): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
