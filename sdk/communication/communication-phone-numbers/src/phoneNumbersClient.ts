@@ -620,7 +620,7 @@ export class PhoneNumbersClient {
    *
    * const credential = new DefaultAzureCredential();
    *  const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
-   * 
+   *
    * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
    *   countryCode: "US",
    *   phoneNumberType: "tollFree",
