@@ -190,10 +190,9 @@ async function parseSnippetDefinitions(
 
   const snippetFile = path.join(project.path, ...SNIPPET_PATH);
 
-  const relativeIndexPath = path.relative(
-    path.dirname(snippetFile),
-    path.join(project.path, "src"),
-  );
+  const relativeIndexPath = path
+    .relative(path.dirname(snippetFile), path.join(project.path, "src"))
+    .replaceAll("\\", "/");
 
   const program = ts.createProgram({
     rootNames: [snippetFile],
@@ -453,11 +452,20 @@ async function parseSnippetDefinitions(
             (decl.parent.parent as ts.ImportClause).parent.moduleSpecifier as ts.StringLiteral
           ).text;
 
+          console.dir({
+            moduleSpecifierText,
+            relativeIndexPath,
+            name: project.name,
+            condition:
+              moduleSpecifierText === relativeIndexPath ||
+              moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+              moduleSpecifierText === path.posix.join(relativeIndexPath, "index"),
+            posixJoined: path.posix.join(relativeIndexPath, "index.js"),
+          });
           if (
-            moduleSpecifierText === relativeIndexPath.replaceAll("\\", "/") ||
-            moduleSpecifierText ===
-              path.join(relativeIndexPath, "index.js").replaceAll("\\", "/") ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index").replaceAll("\\", "/")
+            moduleSpecifierText === relativeIndexPath ||
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
           ) {
             return { moduleSpecifier: project.name, isDefault: false };
           } else {
@@ -479,10 +487,20 @@ async function parseSnippetDefinitions(
           (decl.parent as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral
         ).text;
 
+        console.dir({
+          moduleSpecifierText,
+          relativeIndexPath,
+          name: project.name,
+          condition:
+            moduleSpecifierText === relativeIndexPath ||
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index"),
+          posixJoined: path.posix.join(relativeIndexPath, "index.js"),
+        });
         if (
           moduleSpecifierText === relativeIndexPath ||
-          moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
-          moduleSpecifierText === path.join(relativeIndexPath, "index")
+          moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+          moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
         ) {
           return { moduleSpecifier: project.name, isDefault: true };
         } else {
