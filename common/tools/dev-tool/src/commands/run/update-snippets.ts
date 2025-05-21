@@ -454,9 +454,10 @@ async function parseSnippetDefinitions(
           ).text;
 
           if (
-            moduleSpecifierText === relativeIndexPath ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index")
+            moduleSpecifierText === relativeIndexPath.replaceAll("\\", "/") ||
+            moduleSpecifierText ===
+              path.join(relativeIndexPath, "index.js").replaceAll("\\", "/") ||
+            moduleSpecifierText === path.join(relativeIndexPath, "index").replaceAll("\\", "/")
           ) {
             return { moduleSpecifier: project.name, isDefault: false };
           } else {
