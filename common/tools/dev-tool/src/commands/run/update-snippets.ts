@@ -452,16 +452,6 @@ async function parseSnippetDefinitions(
             (decl.parent.parent as ts.ImportClause).parent.moduleSpecifier as ts.StringLiteral
           ).text;
 
-          console.dir({
-            moduleSpecifierText,
-            relativeIndexPath,
-            name: project.name,
-            condition:
-              moduleSpecifierText === relativeIndexPath ||
-              moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
-              moduleSpecifierText === path.posix.join(relativeIndexPath, "index"),
-            posixJoined: path.posix.join(relativeIndexPath, "index.js"),
-          });
           if (
             moduleSpecifierText === relativeIndexPath ||
             moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
@@ -487,16 +477,6 @@ async function parseSnippetDefinitions(
           (decl.parent as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral
         ).text;
 
-        console.dir({
-          moduleSpecifierText,
-          relativeIndexPath,
-          name: project.name,
-          condition:
-            moduleSpecifierText === relativeIndexPath ||
-            moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
-            moduleSpecifierText === path.posix.join(relativeIndexPath, "index"),
-          posixJoined: path.posix.join(relativeIndexPath, "index.js"),
-        });
         if (
           moduleSpecifierText === relativeIndexPath ||
           moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
