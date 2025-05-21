@@ -149,7 +149,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientDeleteReservation
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -205,7 +205,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientGetReservation
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -240,7 +240,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListPurchasedPhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -285,7 +285,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientBrowseAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, BrowseAvailableNumbersRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   BrowseAvailableNumbersRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -346,7 +349,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientReleasePhoneNumber
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -384,7 +387,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientSearchAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   SearchAvailablePhoneNumbersRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -442,7 +448,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientPurchasePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   SearchAvailablePhoneNumbersRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -499,7 +508,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientBeginReservationPurchase
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -541,7 +550,10 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientUpdatePhoneNumberCapabilities
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../src/index.js";
+   * import {
+   *   PhoneNumbersClient,
+   *   PhoneNumberCapabilitiesRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -605,7 +617,7 @@ export class PhoneNumbersClient {
    *   PhoneNumbersClient,
    *   BrowseAvailableNumbersRequest,
    *   AvailablePhoneNumber,
-   * } from "../src/index.js";
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -697,7 +709,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListAvailableCountries
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -740,7 +752,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListTollFreeAreaCodes
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -785,7 +797,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListGeographicAreaCodes
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -829,7 +841,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListAvailableLocalities
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -874,7 +886,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListAvailableOfferings
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -919,7 +931,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientListReservations
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "../src/index.js";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);

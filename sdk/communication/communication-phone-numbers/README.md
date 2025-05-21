@@ -242,8 +242,12 @@ console.log(`Successfully purchased ${phoneNumbers[0]}`);
 Use the Browse and Reservations API to reserve a phone number
 
 ```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
-   import { DefaultAzureCredential } from "@azure/identity";
-   import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { DefaultAzureCredential } from "@azure/identity";
+import {
+  PhoneNumbersClient,
+  BrowseAvailableNumbersRequest,
+  AvailablePhoneNumber,
+} from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
@@ -277,7 +281,7 @@ for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
   if (number != null && number.status === "error") {
     numbersWithError.push(number);
   }
-    }
+}
 if (numbersWithError.length > 0) {
   console.log("Errors occurred during reservation");
 } else {
@@ -365,8 +369,8 @@ console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 Given an existing and active reservation, purchase the phone numbers in that reservation.
 
 ```ts snippet:PhoneNumbersClientBeginReservationPurchase
-   import { DefaultAzureCredential } from "@azure/identity";
-   import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { DefaultAzureCredential } from "@azure/identity";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
