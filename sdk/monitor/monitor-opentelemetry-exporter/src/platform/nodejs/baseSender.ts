@@ -107,7 +107,7 @@ export abstract class BaseSender {
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes: Envelope[] = [];
           // If we have a partial success, count the succeeded envelopes
-          if (breezeResponse.itemsReceived > 0) {
+          if (breezeResponse.itemsAccepted > 0 && statusCode === 206 ) {
             this.networkStatsbeatMetrics?.countSuccess(duration);
           }
           // Figure out if we need to either retry or count failures
