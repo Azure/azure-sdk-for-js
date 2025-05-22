@@ -1,14 +1,8 @@
 # Release History
 
-## 3.2.1 (Unreleased)
+## 3.2.1 (2025-05-29)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Fixed to prevent error logging from Statsbeat initialization failures in OpenTelemetry exporter. [PR #34447](https://github.com/Azure/azure-sdk-for-js/pull/34447)
 
 ## 3.2.0 (2025-04-07)
 
