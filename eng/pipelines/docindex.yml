@@ -27,7 +27,8 @@ jobs:
   - job: UpgradeRexTool
     timeoutInMinutes: 10
     pool:
-      vmImage: ubuntu-22.04
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
 
     steps:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -55,7 +56,8 @@ jobs:
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
     pool:
-      vmImage: ubuntu-24.04
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs
       DocRepoOwner: MicrosoftDocs
