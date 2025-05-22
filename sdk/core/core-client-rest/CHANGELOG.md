@@ -1,14 +1,6 @@
 # Release History
 
-## 2.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+## 2.4.1 (2025-05-29)
 
 ## 2.4.0 (2025-05-01)
 
