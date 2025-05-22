@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-agents",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Azure AI Agents client library.",
   "engines": {
     "node": ">=18.0.0"

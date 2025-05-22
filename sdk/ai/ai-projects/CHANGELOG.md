@@ -1,12 +1,10 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.8 (2025-05-21)
 
 ### Bugs Fixed
+
+- Upgrading ai-agents package to fix bugs with bing grounding serialization and url encoding
 
 ### Other Changes
 

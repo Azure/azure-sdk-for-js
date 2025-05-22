@@ -58,8 +58,6 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/ai-inference": "^1.0.0-beta.6",
-    "@azure-rest/core-client": "workspace:*",
     "@azure/ai-agents": "workspace:*",
     "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
