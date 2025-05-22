@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// dev-tool snippets ignore
 import path from "node:path";
 import fs from "node:fs";
 import { RecorderError } from "./utils.js";

@@ -88,6 +88,8 @@ Do `pnpm install` and `pnpm build -r` to install and build the latest dependenci
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 
+<!-- dev-tool snippets ignore -->
+
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
 ```
