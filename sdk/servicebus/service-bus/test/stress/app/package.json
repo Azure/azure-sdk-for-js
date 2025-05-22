@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "applicationinsights": "^1.8.8",
-    "@azure/service-bus": "latest",
+    "@azure/service-bus": "catalog:internal",
     "@azure/core-util": "latest",
     "dotenv": "^16.0.0",
     "minimist": "^1.2.8",

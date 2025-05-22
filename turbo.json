@@ -1,0 +1,51 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
+    },
+    "build:samples": {
+      "cache": false
+    },
+    "check-format": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "format": {
+      "cache": false
+    },
+    "lint": {
+      "cache": false
+    },
+    "lint:fix": {
+      "cache": false
+    },
+    "pack": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["build"]
+    },
+    "test:browser": {
+      "dependsOn": ["build"]
+    },
+    "test:node": {
+      "dependsOn": ["build"]
+    },
+    "update-snippets": {
+      "cache": false
+    },
+    "dev": {
+      "cache": true,
+      "persistent": true
+    }
+  }
+}
