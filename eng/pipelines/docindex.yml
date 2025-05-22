@@ -55,7 +55,7 @@ jobs:
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: ubuntu-24.04
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs
       DocRepoOwner: MicrosoftDocs
