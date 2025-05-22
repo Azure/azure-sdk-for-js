@@ -42,7 +42,7 @@ $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 $userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
-
+$identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
 
@@ -141,3 +141,24 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+
+Write-Host "Deploying Azure Container Instance"
+Write-Host "Creating Azure Container Instance $identityResourceGroup"
+az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
+  --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --assign-identity [system] $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --role "Storage Blob Data Reader" `
+  --cpu "1" `
+  --ip-address "Public" `
+  --memory "1.0"`
+  --os-type "Linux" `
+  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_1'] `
+  -e IDENTITY_STORAGE_NAME=$DeploymentOutputs['IDENTITY_STORAGE_NAME_1']`
+     IDENTITY_STORAGE_NAME_USER_ASSIGNED=$DeploymentOutputs['IDENTITY_STORAGE_NAME_2']`
+     IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID=$DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']`
+     FUNCTIONS_CUSTOMHANDLER_PORT=80
+  
+Write-Host "Container instance created"
+$aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query ipAddress.ip --output tsv
+Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"
+Write-Host "Deployed Azure Container Instance"
