@@ -34,9 +34,9 @@ function Invoke-LoggedCommand
       if($LastExitCode -notin $AllowedExitCodes)
       {
           if($pipelineBuild) {
-              Write-Error "##[error]Command failed to execute ($duration): $Command`n"
+              Write-Host "##[error]Command failed to execute ($duration): $Command`n"
           } else {
-              Write-Error "Command failed to execute ($duration): $Command`n"
+              Write-Host "Command failed to execute ($duration): $Command`n"
           }
       }
       else {
