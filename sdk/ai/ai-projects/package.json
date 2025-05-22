@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=18.0.0"
@@ -58,7 +58,7 @@
     ]
   },
   "dependencies": {
-    "@azure/ai-agents": "1.0.0-beta.2",
+    "@azure/ai-agents": "1.0.0-beta.3",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-lro": "^3.0.0",
