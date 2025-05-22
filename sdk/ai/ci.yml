@@ -24,7 +24,8 @@ extends:
   parameters:
     ServiceDirectory: ai
     Artifacts:
-      # TODO: put artifacts for inference and agents back when ready for release
+      - name: azure-rest-ai-inference
+        safeName: azurerestaiinference
       - name: azure-ai-projects
         safeName: azureaaiprojects
       - name: azure-ai-agents

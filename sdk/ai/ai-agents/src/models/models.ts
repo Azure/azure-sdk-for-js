@@ -307,6 +307,10 @@ export function bingGroundingSearchConfigurationListSerializer(
 export function bingGroundingSearchConfigurationListDeserializer(
   item: any,
 ): BingGroundingSearchConfigurationList {
+  // Handle the case where item might be undefined
+  if (!item) {
+    return { searchConfigurations: [] };
+  }
   return {
     searchConfigurations: bingGroundingSearchConfigurationArrayDeserializer(
       item["search_configurations"],
@@ -323,8 +327,12 @@ export function bingGroundingSearchConfigurationArraySerializer(
 }
 
 export function bingGroundingSearchConfigurationArrayDeserializer(
-  result: Array<BingGroundingSearchConfiguration>,
+  result: Array<BingGroundingSearchConfiguration> | undefined,
 ): any[] {
+  // Handle the case where result might be undefined
+  if (!result) {
+    return [];
+  }
   return result.map((item) => {
     return bingGroundingSearchConfigurationDeserializer(item);
   });
@@ -3464,7 +3472,9 @@ export interface _UploadFileRequest {
   filename?: string;
 }
 
-export function _uploadFileRequestSerializer(item: _UploadFileRequest): any {
+export function _uploadFileRequestSerializer(
+  item: _UploadFileRequest,
+): Array<{ name: "file" | "purpose"; body: any; filename?: string }> {
   return [
     { name: "file" as const, body: item["file"], filename: item["filename"] ?? randomUUID() },
     { name: "purpose" as const, body: item["purpose"] },

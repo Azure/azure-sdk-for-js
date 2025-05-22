@@ -2381,6 +2381,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-sitemanager",
+      "projectFolder": "sdk/sitemanager/arm-sitemanager",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure-rest/analytics-onlineexperimentation",
       "projectFolder": "sdk/onlineexperimentation/analytics-onlineexperimentation-rest",
       "versionPolicyName": "client"
