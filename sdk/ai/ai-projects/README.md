@@ -72,7 +72,7 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-To construct an `AIProjectsClient`:
+To construct an `AIProjectsClient` you will need the project endpoint string. It can be found in your Azure AI Foundry project overview page, under "Azure AI Foundry project endpoint". Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
 
 ```ts snippet:setup
 import { AIProjectClient } from "@azure/ai-projects";
