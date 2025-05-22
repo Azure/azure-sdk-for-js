@@ -66,7 +66,7 @@ export type OperationStatus = string;
 export type ErrorModel = {
   code?: string;
   message?: string;
-  innerError?: ErrorModel_1;
+  innerError?: ErrorModel;
 } | null;
 
 /** model interface _FullBackupOperationError */
@@ -76,7 +76,7 @@ export interface _FullBackupOperationError {
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel_1;
+  readonly innerError?: ErrorModel;
 }
 
 export function _fullBackupOperationErrorDeserializer(
@@ -90,13 +90,6 @@ export function _fullBackupOperationErrorDeserializer(
       : _fullBackupOperationErrorDeserializer(item["innererror"]),
   };
 }
-
-/** Alias for ErrorModel */
-export type ErrorModel_1 = {
-  code?: string;
-  message?: string;
-  innerError?: ErrorModel_1;
-} | null;
 
 /** The key vault error exception. */
 export interface KeyVaultError {
@@ -122,7 +115,7 @@ export interface SASTokenParameter {
   useManagedIdentity?: boolean;
 }
 
-export function sASTokenParameterSerializer(item: SASTokenParameter): any {
+export function sasTokenParameterSerializer(item: SASTokenParameter): any {
   return {
     storageResourceUri: item["storageResourceUri"],
     token: item["token"],
@@ -184,6 +177,23 @@ export function restoreOperationDeserializer(item: any): RestoreOperation {
 }
 
 /** The authentication method and location for the restore operation. */
+export interface RestoreOperationParameters {
+  /** A user-provided SAS token to an Azure blob storage container. */
+  sasTokenParameters: SASTokenParameter;
+  /** The Folder name of the blob where the previous successful full backup was stored */
+  folderToRestore: string;
+}
+
+export function restoreOperationParametersSerializer(
+  item: RestoreOperationParameters,
+): any {
+  return {
+    sasTokenParameters: sasTokenParameterSerializer(item["sasTokenParameters"]),
+    folderToRestore: item["folderToRestore"],
+  };
+}
+
+/** The authentication method and location for the restore operation. */
 export interface PreRestoreOperationParameters {
   /** A user-provided SAS token to an Azure blob storage container. */
   sasTokenParameters?: SASTokenParameter;
@@ -197,24 +207,7 @@ export function preRestoreOperationParametersSerializer(
   return {
     sasTokenParameters: !item["sasTokenParameters"]
       ? item["sasTokenParameters"]
-      : sASTokenParameterSerializer(item["sasTokenParameters"]),
-    folderToRestore: item["folderToRestore"],
-  };
-}
-
-/** The authentication method and location for the restore operation. */
-export interface RestoreOperationParameters {
-  /** A user-provided SAS token to an Azure blob storage container. */
-  sasTokenParameters: SASTokenParameter;
-  /** The Folder name of the blob where the previous successful full backup was stored */
-  folderToRestore: string;
-}
-
-export function restoreOperationParametersSerializer(
-  item: RestoreOperationParameters,
-): any {
-  return {
-    sasTokenParameters: sASTokenParameterSerializer(item["sasTokenParameters"]),
+      : sasTokenParameterSerializer(item["sasTokenParameters"]),
     folderToRestore: item["folderToRestore"],
   };
 }
@@ -266,7 +259,7 @@ export function selectiveKeyRestoreOperationParametersSerializer(
   item: SelectiveKeyRestoreOperationParameters,
 ): any {
   return {
-    sasTokenParameters: sASTokenParameterSerializer(item["sasTokenParameters"]),
+    sasTokenParameters: sasTokenParameterSerializer(item["sasTokenParameters"]),
     folder: item["folder"],
   };
 }
@@ -304,7 +297,7 @@ export function settingDeserializer(item: any): Setting {
 /** The type specifier of the value. */
 export enum KnownSettingTypeEnum {
   /** A boolean setting value. */
-  boolean = "boolean",
+  Boolean = "boolean",
 }
 
 /**
@@ -336,123 +329,6 @@ export function settingArrayDeserializer(result: Array<Setting>): any[] {
   });
 }
 
-/** Role Assignments */
-export interface RoleAssignment {
-  /** The role assignment ID. */
-  readonly id?: string;
-  /** The role assignment name. */
-  readonly name?: string;
-  /** The role assignment type. */
-  readonly type?: string;
-  /** Role assignment properties. */
-  properties?: RoleAssignmentPropertiesWithScope;
-}
-
-export function roleAssignmentDeserializer(item: any): RoleAssignment {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : roleAssignmentPropertiesWithScopeDeserializer(item["properties"]),
-  };
-}
-
-/** Role assignment properties with scope. */
-export interface RoleAssignmentPropertiesWithScope {
-  /** The role scope. */
-  scope?: RoleScope;
-  /** The role definition ID. */
-  roleDefinitionId?: string;
-  /** The principal ID. */
-  principalId?: string;
-}
-
-export function roleAssignmentPropertiesWithScopeDeserializer(
-  item: any,
-): RoleAssignmentPropertiesWithScope {
-  return {
-    scope: item["scope"],
-    roleDefinitionId: item["roleDefinitionId"],
-    principalId: item["principalId"],
-  };
-}
-
-/** The role scope. */
-export enum KnownRoleScope {
-  /** Global scope */
-  Global = "/",
-  /** Keys scope */
-  Keys = "/keys",
-}
-
-/**
- * The role scope. \
- * {@link KnownRoleScope} can be used interchangeably with RoleScope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **\/**: Global scope \
- * **\/keys**: Keys scope
- */
-export type RoleScope = string;
-
-/** Role assignment create parameters. */
-export interface RoleAssignmentCreateParameters {
-  /** Role assignment properties. */
-  properties: RoleAssignmentProperties;
-}
-
-export function roleAssignmentCreateParametersSerializer(
-  item: RoleAssignmentCreateParameters,
-): any {
-  return { properties: roleAssignmentPropertiesSerializer(item["properties"]) };
-}
-
-/** Role assignment properties. */
-export interface RoleAssignmentProperties {
-  /** The role definition ID used in the role assignment. */
-  roleDefinitionId: string;
-  /** The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group. */
-  principalId: string;
-}
-
-export function roleAssignmentPropertiesSerializer(
-  item: RoleAssignmentProperties,
-): any {
-  return {
-    roleDefinitionId: item["roleDefinitionId"],
-    principalId: item["principalId"],
-  };
-}
-
-/** Role assignment list operation result. */
-export interface _RoleAssignmentListResult {
-  /** Role assignment list. */
-  value?: RoleAssignment[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-export function _roleAssignmentListResultDeserializer(
-  item: any,
-): _RoleAssignmentListResult {
-  return {
-    value: !item["value"]
-      ? item["value"]
-      : roleAssignmentArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function roleAssignmentArrayDeserializer(
-  result: Array<RoleAssignment>,
-): any[] {
-  return result.map((item) => {
-    return roleAssignmentDeserializer(item);
-  });
-}
-
 /** Role definition. */
 export interface RoleDefinition {
   /** The role definition ID. */
@@ -479,7 +355,7 @@ export function roleDefinitionDeserializer(item: any): RoleDefinition {
 /** The role definition type. */
 export enum KnownRoleDefinitionType {
   /** Microsoft-defined role definitions. */
-  "Microsoft.Authorization/roleDefinitions" = "Microsoft.Authorization/roleDefinitions",
+  MicrosoftAuthorizationRoleDefinitions = "Microsoft.Authorization/roleDefinitions",
 }
 
 /**
@@ -747,6 +623,24 @@ export enum KnownDataAction {
  */
 export type DataAction = string;
 
+/** The role scope. */
+export enum KnownRoleScope {
+  /** Global scope */
+  Global = "/",
+  /** Keys scope */
+  Keys = "/keys",
+}
+
+/**
+ * The role scope. \
+ * {@link KnownRoleScope} can be used interchangeably with RoleScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **\/**: Global scope \
+ * **\/keys**: Keys scope
+ */
+export type RoleScope = string;
+
 /** Role definition create parameters. */
 export interface RoleDefinitionCreateParameters {
   /** Role definition properties. */
@@ -786,10 +680,109 @@ export function roleDefinitionArrayDeserializer(
   });
 }
 
+/** Role Assignments */
+export interface RoleAssignment {
+  /** The role assignment ID. */
+  readonly id?: string;
+  /** The role assignment name. */
+  readonly name?: string;
+  /** The role assignment type. */
+  readonly type?: string;
+  /** Role assignment properties. */
+  properties?: RoleAssignmentPropertiesWithScope;
+}
+
+export function roleAssignmentDeserializer(item: any): RoleAssignment {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : roleAssignmentPropertiesWithScopeDeserializer(item["properties"]),
+  };
+}
+
+/** Role assignment properties with scope. */
+export interface RoleAssignmentPropertiesWithScope {
+  /** The role scope. */
+  scope?: RoleScope;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
+  principalId?: string;
+}
+
+export function roleAssignmentPropertiesWithScopeDeserializer(
+  item: any,
+): RoleAssignmentPropertiesWithScope {
+  return {
+    scope: item["scope"],
+    roleDefinitionId: item["roleDefinitionId"],
+    principalId: item["principalId"],
+  };
+}
+
+/** Role assignment create parameters. */
+export interface RoleAssignmentCreateParameters {
+  /** Role assignment properties. */
+  properties: RoleAssignmentProperties;
+}
+
+export function roleAssignmentCreateParametersSerializer(
+  item: RoleAssignmentCreateParameters,
+): any {
+  return { properties: roleAssignmentPropertiesSerializer(item["properties"]) };
+}
+
+/** Role assignment properties. */
+export interface RoleAssignmentProperties {
+  /** The role definition ID used in the role assignment. */
+  roleDefinitionId: string;
+  /** The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group. */
+  principalId: string;
+}
+
+export function roleAssignmentPropertiesSerializer(
+  item: RoleAssignmentProperties,
+): any {
+  return {
+    roleDefinitionId: item["roleDefinitionId"],
+    principalId: item["principalId"],
+  };
+}
+
+/** Role assignment list operation result. */
+export interface _RoleAssignmentListResult {
+  /** Role assignment list. */
+  value?: RoleAssignment[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+export function _roleAssignmentListResultDeserializer(
+  item: any,
+): _RoleAssignmentListResult {
+  return {
+    value: !item["value"]
+      ? item["value"]
+      : roleAssignmentArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function roleAssignmentArrayDeserializer(
+  result: Array<RoleAssignment>,
+): any[] {
+  return result.map((item) => {
+    return roleAssignmentDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
+  V75 = "7.5",
   /** The 7.6-preview.2 API version. */
-  "v7.6_preview.2" = "7.6-preview.2",
+  V76Preview2 = "7.6-preview.2",
 }

@@ -2,53 +2,57 @@
 // Licensed under the MIT License.
 
 import {
-  _getRoleAssignmentsOperations,
-  RoleAssignmentsOperations,
-} from "./classic/roleAssignments/index.js";
-import {
-  _getRoleDefinitionsOperations,
-  RoleDefinitionsOperations,
-} from "./classic/roleDefinitions/index.js";
-import {
   createKeyVault,
   KeyVaultContext,
   KeyVaultClientOptionalParams,
-  getSettings,
-  getSetting,
-  updateSetting,
-  selectiveKeyRestoreOperation,
-  selectiveKeyRestoreStatus,
-  fullRestoreOperation,
-  preFullRestoreOperation,
-  restoreStatus,
-  preFullBackup,
-  fullBackup,
-  fullBackupStatus,
-  GetSettingsOptionalParams,
-  GetSettingOptionalParams,
-  UpdateSettingOptionalParams,
-  SelectiveKeyRestoreOperationOptionalParams,
-  SelectiveKeyRestoreStatusOptionalParams,
-  FullRestoreOperationOptionalParams,
-  PreFullRestoreOperationOptionalParams,
-  RestoreStatusOptionalParams,
-  PreFullBackupOptionalParams,
-  FullBackupOptionalParams,
-  FullBackupStatusOptionalParams,
 } from "./api/index.js";
 import {
   FullBackupOperation,
   SASTokenParameter,
   PreBackupOperationParameters,
   RestoreOperation,
-  PreRestoreOperationParameters,
   RestoreOperationParameters,
+  PreRestoreOperationParameters,
   SelectiveKeyRestoreOperation,
   SelectiveKeyRestoreOperationParameters,
   UpdateSettingRequest,
   Setting,
   SettingsListResult,
 } from "./models/models.js";
+import {
+  GetSettingsOptionalParams,
+  GetSettingOptionalParams,
+  UpdateSettingOptionalParams,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreStatusOptionalParams,
+  PreFullRestoreOperationOptionalParams,
+  FullRestoreOperationOptionalParams,
+  RestoreStatusOptionalParams,
+  PreFullBackupOptionalParams,
+  FullBackupOptionalParams,
+  FullBackupStatusOptionalParams,
+} from "./api/options.js";
+import {
+  getSettings,
+  getSetting,
+  updateSetting,
+  selectiveKeyRestoreOperation,
+  selectiveKeyRestoreStatus,
+  preFullRestoreOperation,
+  fullRestoreOperation,
+  restoreStatus,
+  preFullBackup,
+  fullBackup,
+  fullBackupStatus,
+} from "./api/operations.js";
+import {
+  RoleAssignmentsOperations,
+  _getRoleAssignmentsOperations,
+} from "./classic/roleAssignments/index.js";
+import {
+  RoleDefinitionsOperations,
+  _getRoleDefinitionsOperations,
+} from "./classic/roleDefinitions/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -78,11 +82,6 @@ export class KeyVaultClient {
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
   }
-
-  /** The operation groups for roleAssignments */
-  public readonly roleAssignments: RoleAssignmentsOperations;
-  /** The operation groups for roleDefinitions */
-  public readonly roleDefinitions: RoleDefinitionsOperations;
 
   /** Retrieves a list of all the available account settings that can be configured. */
   getSettings(
@@ -135,14 +134,6 @@ export class KeyVaultClient {
     return selectiveKeyRestoreStatus(this._client, jobId, options);
   }
 
-  /** Restores all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder */
-  fullRestoreOperation(
-    restoreBlobDetails: RestoreOperationParameters,
-    options: FullRestoreOperationOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
-    return fullRestoreOperation(this._client, restoreBlobDetails, options);
-  }
-
   /** Pre-restore operation for checking whether the customer can perform a full restore operation. */
   preFullRestoreOperation(
     preRestoreOperationParameters: PreRestoreOperationParameters,
@@ -153,6 +144,14 @@ export class KeyVaultClient {
       preRestoreOperationParameters,
       options,
     );
+  }
+
+  /** Restores all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder */
+  fullRestoreOperation(
+    restoreBlobDetails: RestoreOperationParameters,
+    options: FullRestoreOperationOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
+    return fullRestoreOperation(this._client, restoreBlobDetails, options);
   }
 
   /** Returns the status of restore operation */
@@ -186,4 +185,9 @@ export class KeyVaultClient {
   ): Promise<FullBackupOperation> {
     return fullBackupStatus(this._client, jobId, options);
   }
+
+  /** The operation groups for roleAssignments */
+  public readonly roleAssignments: RoleAssignmentsOperations;
+  /** The operation groups for roleDefinitions */
+  public readonly roleDefinitions: RoleDefinitionsOperations;
 }
