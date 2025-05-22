@@ -55,7 +55,7 @@ describe("extensions test", () => {
     await recorder.stop();
   });
 
-  // Skip this test case as it is too troublesome because the list opeartion needs  to create a resource with another service first.
+  // Skip this test case as the list opeartion needs to create a resource with another service first.
   // Feel free to ask service team to test this package if the new api version is available.
   it.skip("extensions list test", async function () {
     const resArray = new Array();

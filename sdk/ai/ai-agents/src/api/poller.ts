@@ -2,10 +2,21 @@
 // Licensed under the MIT License.
 
 import { delay } from "@azure/core-util";
-import type { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
+import { type PollerLike, type OperationState, type OperationStatus } from "@azure/core-lro";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
 const DEFAULT_POLL_INTERVAL_IN_MS = 1000;
+
+/**
+ * Deserializes the state from a serialized string
+ */
+export function deserializeState<T>(serializedState: string): OperationState<T> {
+  try {
+    return JSON.parse(serializedState).state;
+  } catch (e) {
+    throw new Error(`Unable to deserialize input state: ${serializedState}`);
+  }
+}
 
 export function createPoller<T>({
   initOperation,
@@ -13,21 +24,30 @@ export function createPoller<T>({
   getOperationStatus,
   getOperationError,
   intervalInMs,
+  resumeFrom,
 }: {
   initOperation: () => Promise<T>;
   pollOperation: (currentResult: T) => Promise<T>;
   getOperationStatus: (result: T) => OperationStatus;
   getOperationError?: (result: T) => Error | undefined;
   intervalInMs?: number;
+  resumeFrom?: string;
 }): PollerLike<OperationState<T>, T> {
+  let statePromise: Promise<OperationState<T>>;
   let state: OperationState<T>;
-  const statePromise = initOperation().then((result) => {
-    state = {
-      result,
-      status: getOperationStatus(result),
-    };
-    return state;
-  });
+
+  if (resumeFrom) {
+    state = deserializeState<T>(resumeFrom);
+    statePromise = Promise.resolve(state);
+  } else {
+    statePromise = initOperation().then((result) => {
+      state = {
+        result,
+        status: getOperationStatus(result),
+      };
+      return state;
+    });
+  }
 
   let resultPromise: Promise<T> | undefined;
   const abortController = new AbortController();
@@ -108,7 +128,7 @@ export function createPoller<T>({
     async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<OperationState<T>> {
       // Check state before polling
       await statePromise;
-      if (!state || !state.result) {
+      if (!state) {
         throw new Error("Poller is not initialized");
       }
       switch (state.status) {
@@ -124,6 +144,12 @@ export function createPoller<T>({
       if (pollOptions?.abortSignal?.aborted) {
         throw new Error("Operation aborted");
       }
+
+      // Make sure we have a result to poll with
+      if (!state.result) {
+        throw new Error("Cannot poll with undefined result");
+      }
+
       const result = await pollOperation(state.result);
       state = {
         result,
