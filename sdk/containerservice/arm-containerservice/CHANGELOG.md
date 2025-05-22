@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 22.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 22.0.0-beta.2 (2025-04-25)
 Compared with version 21.6.0
     
