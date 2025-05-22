@@ -155,7 +155,7 @@ export function keyVaultErrorDeserializer(item: any): KeyVaultError {
 export type ErrorModel = {
   code?: string;
   message?: string;
-  innerError?: ErrorModel_1;
+  innerError?: ErrorModel;
 } | null;
 
 /** model interface _KeyVaultErrorError */
@@ -165,7 +165,7 @@ export interface _KeyVaultErrorError {
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel_1;
+  readonly innerError?: ErrorModel;
 }
 
 export function _keyVaultErrorErrorDeserializer(
@@ -179,13 +179,6 @@ export function _keyVaultErrorErrorDeserializer(
       : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
-
-/** Alias for ErrorModel */
-export type ErrorModel_1 = {
-  code?: string;
-  message?: string;
-  innerError?: ErrorModel_1;
-} | null;
 
 /** A Deleted Secret consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedSecretBundle {
@@ -402,7 +395,7 @@ export function secretRestoreParametersSerializer(
 /** The available API versions. */
 export enum KnownVersions {
   /** The 7.5 API version. */
-  "v7.5" = "7.5",
+  V75 = "7.5",
   /** The 7.6-preview.2 API version. */
-  "v7.6_preview.2" = "7.6-preview.2",
+  V76Preview2 = "7.6-preview.2",
 }
