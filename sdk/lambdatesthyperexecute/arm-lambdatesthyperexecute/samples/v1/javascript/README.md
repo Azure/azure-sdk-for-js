@@ -1,4 +1,4 @@
-# @azure/arm-lambdatesthyperexecute client library samples for JavaScript (Beta)
+# @azure/arm-lambdatesthyperexecute client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-lambdatesthyperexecute in some common scenarios.
 
@@ -50,13 +50,13 @@ npx dev-tool run vendored cross-env  node operationsListSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/operationsListSample.js
-[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/organizationsCreateOrUpdateSample.js
-[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/organizationsDeleteSample.js
-[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/organizationsGetSample.js
-[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/organizationsListByResourceGroupSample.js
-[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/organizationsListBySubscriptionSample.js
-[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1-beta/javascript/organizationsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/operationsListSample.js
+[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/organizationsCreateOrUpdateSample.js
+[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/organizationsDeleteSample.js
+[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/organizationsGetSample.js
+[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/organizationsListByResourceGroupSample.js
+[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/organizationsListBySubscriptionSample.js
+[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/samples/v1/javascript/organizationsUpdateSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-lambdatesthyperexecute?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute/README.md

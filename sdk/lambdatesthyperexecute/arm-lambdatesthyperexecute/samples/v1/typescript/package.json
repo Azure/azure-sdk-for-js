@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-lambdatesthyperexecute-ts-beta",
+  "name": "@azure-samples/arm-lambdatesthyperexecute-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-lambdatesthyperexecute client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-lambdatesthyperexecute client library samples for TypeScript",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
   "dependencies": {
-    "@azure/arm-lambdatesthyperexecute": "next",
+    "@azure/arm-lambdatesthyperexecute": "latest",
     "dotenv": "latest",
     "@azure/identity": "^4.9.1"
   },
