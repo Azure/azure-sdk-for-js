@@ -11,11 +11,17 @@ import { fileURLToPath } from "node:url";
 
 /**
  * An ESM module loader for Azure Function Core.
+ * @returns The @azure/functions-core module if it exists, otherwise undefined
  */
-export function loadAzureFunctionCore(): ReturnType<typeof require> {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore ESM only output
-  return createRequire(import.meta.url)("@azure/functions-core");
+export function loadAzureFunctionCore(): ReturnType<typeof require> | undefined {
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore ESM only output
+    return createRequire(import.meta.url)("@azure/functions-core");
+  } catch (e) {
+    // Module not found, this is expected in non-Azure Functions environments
+    return undefined;
+  }
 }
 
 /**

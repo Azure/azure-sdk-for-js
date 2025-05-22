@@ -7,10 +7,16 @@
 
 /**
  * A CommonJS module loader for Azure Function Core.
+ * @returns The @azure/functions-core module if it exists, otherwise undefined
  */
-export function loadAzureFunctionCore(): ReturnType<typeof require> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  return require("@azure/functions-core");
+export function loadAzureFunctionCore(): ReturnType<typeof require> | undefined {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    return require("@azure/functions-core");
+  } catch (e) {
+    // Module not found, this is expected in non-Azure Functions environments
+    return undefined;
+  }
 }
 
 /**
