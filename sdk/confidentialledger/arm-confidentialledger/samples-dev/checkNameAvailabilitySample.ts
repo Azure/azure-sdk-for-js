@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  CheckNameAvailabilityRequest} from "@azure/arm-confidentialledger";
 import {
-  CheckNameAvailabilityRequest,
   ConfidentialLedgerClient,
 } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";

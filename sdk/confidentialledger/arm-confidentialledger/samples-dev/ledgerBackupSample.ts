@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  ConfidentialLedgerBackup} from "@azure/arm-confidentialledger";
 import {
-  ConfidentialLedgerBackup,
   ConfidentialLedgerClient,
 } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
