@@ -1,21 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  BackupSecretOptionalParams,
-  KeyVaultContext as Client,
-  DeleteSecretOptionalParams,
-  GetDeletedSecretOptionalParams,
-  GetDeletedSecretsOptionalParams,
-  GetSecretOptionalParams,
-  GetSecretsOptionalParams,
-  GetSecretVersionsOptionalParams,
-  PurgeDeletedSecretOptionalParams,
-  RecoverDeletedSecretOptionalParams,
-  RestoreSecretOptionalParams,
-  SetSecretOptionalParams,
-  UpdateSecretOptionalParams,
-} from "./index.js";
+import { KeyVaultContext as Client } from "./index.js";
 import {
   SecretSetParameters,
   secretSetParametersSerializer,
@@ -38,9 +24,24 @@ import {
   secretRestoreParametersSerializer,
 } from "../models/models.js";
 import {
+  RestoreSecretOptionalParams,
+  BackupSecretOptionalParams,
+  RecoverDeletedSecretOptionalParams,
+  PurgeDeletedSecretOptionalParams,
+  GetDeletedSecretOptionalParams,
+  GetDeletedSecretsOptionalParams,
+  GetSecretVersionsOptionalParams,
+  GetSecretsOptionalParams,
+  GetSecretOptionalParams,
+  UpdateSecretOptionalParams,
+  DeleteSecretOptionalParams,
+  SetSecretOptionalParams,
+} from "./options.js";
+import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -53,8 +54,17 @@ export function _restoreSecretSend(
   parameters: SecretRestoreParameters,
   options: RestoreSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/restore{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/restore")
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -62,7 +72,6 @@ export function _restoreSecretSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: secretRestoreParametersSerializer(parameters),
     });
 }
@@ -95,15 +104,24 @@ export function _backupSecretSend(
   secretName: string,
   options: BackupSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/{secret-name}/backup{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/{secret-name}/backup", secretName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -135,15 +153,24 @@ export function _recoverDeletedSecretSend(
   secretName: string,
   options: RecoverDeletedSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedsecrets/{secret-name}/recover{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedsecrets/{secret-name}/recover", secretName)
+    .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -175,15 +202,24 @@ export function _purgeDeletedSecretSend(
   secretName: string,
   options: PurgeDeletedSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedsecrets/{secret-name}{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedsecrets/{secret-name}", secretName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -215,15 +251,24 @@ export function _getDeletedSecretSend(
   secretName: string,
   options: GetDeletedSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedsecrets/{secret-name}{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedsecrets/{secret-name}", secretName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -254,17 +299,23 @@ export function _getDeletedSecretsSend(
   context: Client,
   options: GetDeletedSecretsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/deletedsecrets{?api%2Dversion,maxresults}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/deletedsecrets")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -301,17 +352,24 @@ export function _getSecretVersionsSend(
   secretName: string,
   options: GetSecretVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/{secret-name}/versions{?api%2Dversion,maxresults}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/{secret-name}/versions", secretName)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -348,17 +406,23 @@ export function _getSecretsSend(
   context: Client,
   options: GetSecretsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets{?api%2Dversion,maxresults}",
+    {
+      "api%2Dversion": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets")
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
       },
     });
 }
@@ -396,15 +460,25 @@ export function _getSecretSend(
   secretVersion: string,
   options: GetSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/{secret-name}/{secret-version}{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "secret-version": secretVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/{secret-name}/{secret-version}", secretName, secretVersion)
+    .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -444,8 +518,19 @@ export function _updateSecretSend(
   parameters: SecretUpdateParameters,
   options: UpdateSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/{secret-name}/{secret-version}{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "secret-version": secretVersion,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/{secret-name}/{secret-version}", secretName, secretVersion)
+    .path(path)
     .patch({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -453,7 +538,6 @@ export function _updateSecretSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: secretUpdateParametersSerializer(parameters),
     });
 }
@@ -494,15 +578,24 @@ export function _deleteSecretSend(
   secretName: string,
   options: DeleteSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/{secret-name}{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/{secret-name}", secretName)
+    .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
     });
 }
 
@@ -535,8 +628,18 @@ export function _setSecretSend(
   parameters: SecretSetParameters,
   options: SetSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/secrets/{secret-name}{?api%2Dversion}",
+    {
+      "secret-name": secretName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return context
-    .path("/secrets/{secret-name}", secretName)
+    .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
       contentType: "application/json",
@@ -544,7 +647,6 @@ export function _setSecretSend(
         accept: "application/json",
         ...options.requestOptions?.headers,
       },
-      queryParameters: { "api-version": context.apiVersion },
       body: secretSetParametersSerializer(parameters),
     });
 }

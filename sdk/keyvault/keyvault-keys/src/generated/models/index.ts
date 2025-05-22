@@ -18,7 +18,6 @@ export {
   JsonWebKey,
   KeyVaultError,
   ErrorModel,
-  ErrorModel_1,
   KeyImportParameters,
   DeletedKeyBundle,
   KeyUpdateParameters,

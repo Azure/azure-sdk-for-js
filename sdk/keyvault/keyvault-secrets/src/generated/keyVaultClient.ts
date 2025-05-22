@@ -5,18 +5,18 @@ import {
   createKeyVault,
   KeyVaultContext,
   KeyVaultClientOptionalParams,
-  restoreSecret,
-  backupSecret,
-  recoverDeletedSecret,
-  purgeDeletedSecret,
-  getDeletedSecret,
-  getDeletedSecrets,
-  getSecretVersions,
-  getSecrets,
-  getSecret,
-  updateSecret,
-  deleteSecret,
-  setSecret,
+} from "./api/index.js";
+import {
+  SecretSetParameters,
+  SecretBundle,
+  DeletedSecretBundle,
+  SecretUpdateParameters,
+  SecretItem,
+  DeletedSecretItem,
+  BackupSecretResult,
+  SecretRestoreParameters,
+} from "./models/models.js";
+import {
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
   RecoverDeletedSecretOptionalParams,
@@ -29,17 +29,21 @@ import {
   UpdateSecretOptionalParams,
   DeleteSecretOptionalParams,
   SetSecretOptionalParams,
-} from "./api/index.js";
+} from "./api/options.js";
 import {
-  SecretSetParameters,
-  SecretBundle,
-  DeletedSecretBundle,
-  SecretUpdateParameters,
-  SecretItem,
-  DeletedSecretItem,
-  BackupSecretResult,
-  SecretRestoreParameters,
-} from "./models/models.js";
+  restoreSecret,
+  backupSecret,
+  recoverDeletedSecret,
+  purgeDeletedSecret,
+  getDeletedSecret,
+  getDeletedSecrets,
+  getSecretVersions,
+  getSecrets,
+  getSecret,
+  updateSecret,
+  deleteSecret,
+  setSecret,
+} from "./api/operations.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
