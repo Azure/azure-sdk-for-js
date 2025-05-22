@@ -1655,3 +1655,4 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
+/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @weshaggard @benbp
