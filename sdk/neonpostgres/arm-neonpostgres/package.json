@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-neonpostgres",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for PostgresClient.",
   "engines": {
     "node": ">=18.0.0"
