@@ -1,16 +1,11 @@
 # Release History
 
-## 1.1.2-beta.3 (2025-05-22)
-
-### Bugs Fixed
-
-- Updated IsUnexpected method signature and corrected api-version to 2024-12-09-preview in confidentialLedger.ts
-
-## 1.1.2-beta.2 (2025-05-01)
+## 1.1.2-beta.2 (2025-05-22)
 
 ### Bugs Fixed
 
 - Added missed models in previous release
+- Updated IsUnexpected method signature and corrected api-version to 2024-12-09-preview in confidentialLedger.ts
 
 ## 1.1.2-beta.1 (2025-04-23)
 
