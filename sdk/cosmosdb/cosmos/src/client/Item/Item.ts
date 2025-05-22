@@ -130,6 +130,30 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+
+        let partitionKeyRangeId: string;
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.getIsPartitionLevelFailOverEnabled();
+
+        if (
+          isPartitionLevelFailOverEnabled &&
+          partitionKey &&
+          partitionKey.length > 0 &&
+          partitionKeyDefinition
+        ) {
+          partitionKeyRangeId =
+            await this.partitionKeyRangeCache.getPartitionKeyRangeIdFromPartitionKey(
+              this.container.url,
+              partitionKey,
+              partitionKeyDefinition,
+              diagnosticNode,
+            );
+        }
+
         response = await this.clientContext.read<T>({
           path,
           resourceType: ResourceType.item,
@@ -137,6 +161,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {

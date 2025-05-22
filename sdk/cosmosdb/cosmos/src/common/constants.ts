@@ -203,7 +203,7 @@ export const Constants = {
   ReadableLocations: "readableLocations",
   LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
   StalePartitionUnavailabilityRefreshIntervalInMs: 1 * 60 * 1000, // 1 minute
-  AllowedPartitionUnavailabilityDurationInMs: 5 * 1000, // 5 minutes
+  AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",

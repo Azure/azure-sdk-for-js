@@ -319,7 +319,7 @@ export class GlobalPartitionEndpointManager {
     partitionKeyRangeToLocation.delete(partitionKeyRangeId);
     return false;
   }
-  // todoujjwal : take help from nackgorund refresh task
+  // todoujjwal : take help from nackgorund refresh task , //clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
   /**  Initialize and start the background connection periodic refresh task. */
   public async initializeAndStartCircuitBreakerFailbackBackgroundRefresh(): Promise<void> {
     if (this.isBackgroundConnectionInitActive) {

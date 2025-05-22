@@ -121,6 +121,7 @@ export async function execute({
       }
 
       try {
+        // todoujjwal: read parition key range going to default endpoint?
         const response = await executeRequest(localDiagnosticNode, requestContext);
         response.headers[Constants.ThrottleRetryCount] =
           retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;

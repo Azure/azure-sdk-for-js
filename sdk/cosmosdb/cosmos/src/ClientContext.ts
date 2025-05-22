@@ -108,6 +108,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -115,6 +116,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -133,6 +135,9 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      if (partitionKeyRangeId) {
+        request.partitionKeyRangeId = partitionKeyRangeId;
+      }
       if (resourceType === ResourceType.clientencryptionkey) {
         request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
         if (options.databaseRid) {
