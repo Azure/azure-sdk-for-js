@@ -6,18 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { ExtensionsClient } from "../src/extensionsClient.js";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,13 +37,12 @@ describe("extensions test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ExtensionsClient(credential, subscriptionId, recorder.configureClientOptions({}));
     resourceGroup = "myjstest";
     resourcename = "resourcetest1";
-
   });
 
   afterEach(async () => {
@@ -63,10 +57,10 @@ describe("extensions test", () => {
       resourceGroup,
       "Microsoft.Kubernetes",
       "connectedClusters",
-      resourcename
+      resourcename,
     )) {
       resArray.push(item);
     }
     assert.ok(resArray);
   });
-})
+});
