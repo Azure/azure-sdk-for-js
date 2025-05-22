@@ -537,9 +537,17 @@ function createRegistrationDescription(
 function createTemplateRegistrationDescription(
   rawRegistrationDescription: Record<string, any>,
 ): TemplateRegistrationDescription {
+  let templateName: string | undefined;
+  if (
+    rawRegistrationDescription["TemplateName"] &&
+    typeof rawRegistrationDescription["TemplateName"] === "string"
+  ) {
+    console.log("TemplateName", rawRegistrationDescription["TemplateName"]);
+    templateName = rawRegistrationDescription["TemplateName"];
+  }
   return {
     bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate").trim(),
-    templateName: getStringOrUndefined(rawRegistrationDescription["TemplateName"])?.trim(),
+    templateName: templateName,
     ...createRegistrationDescription(rawRegistrationDescription),
   };
 }
