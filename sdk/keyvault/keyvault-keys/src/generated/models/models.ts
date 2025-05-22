@@ -49,11 +49,11 @@ export enum KnownJsonWebKeyType {
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is stored in the HSM. */
-  Echsm = "EC-HSM",
+  ECHSM = "EC-HSM",
   /** RSA (https://tools.ietf.org/html/rfc3447) */
   RSA = "RSA",
   /** RSA with a private key which is stored in the HSM. */
-  Rsahsm = "RSA-HSM",
+  RSAHSM = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys) */
   Oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
