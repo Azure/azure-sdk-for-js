@@ -360,7 +360,6 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
 
   foreach ($directory in $moduleFolders) {
     $directoryPath = "$RepoRoot/sdk/$directory"
-    Write-Host "##[group] Processing $directoryPath"
     if (Test-Path "$directoryPath/tsp-location.yaml") {
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
       Write-Host "$directory" -ForegroundColor Yellow
@@ -382,7 +381,6 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
     else {
       Write-Host "No tsp-location.yaml found in $directory"
     }
-    Write-Host "##[endgroup]"
   }
 
   if ($directoriesWithErrors.Count -gt 0) {

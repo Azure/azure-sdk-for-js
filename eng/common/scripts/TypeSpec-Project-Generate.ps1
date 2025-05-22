@@ -54,10 +54,10 @@ function NpmInstallForProject([string]$workingDirectory) {
         }
 
         if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci"
+            Invoke-LoggedCommand "npm ci" -GroupOutput
         }
         else {
-            Invoke-LoggedCommand "npm install"
+            Invoke-LoggedCommand "npm install" -GroupOutput
         }
 
         if ($LASTEXITCODE) { exit $LASTEXITCODE }
