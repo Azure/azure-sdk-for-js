@@ -92,6 +92,7 @@ function GetSpecCloneDir([string]$projectName) {
   return $createResult
 }
 
+Write-Host "##[group]TypeSpec-Project-Sync"
 $typespecConfigurationFile = Resolve-Path "$ProjectDirectory/tsp-location.yaml"
 Write-Host "Reading configuration from $typespecConfigurationFile"
 $configuration = Get-Content -Path $typespecConfigurationFile -Raw | ConvertFrom-Yaml
@@ -143,5 +144,5 @@ CopySpecToProjectIfNeeded `
   -mainSpecDir $specSubDirectory `
   -dest $tempTypeSpecDir `
   -specAdditionalSubDirectories $configuration["additionalDirectories"]
-
+Write-Host "##[endgroup]"
 exit 0
