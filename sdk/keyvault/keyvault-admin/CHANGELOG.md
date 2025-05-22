@@ -1,5 +1,3 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
 
 ## 4.7.0-beta.2 (Unreleased)

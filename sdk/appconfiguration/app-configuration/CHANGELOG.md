@@ -1,5 +1,3 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
 
 ## 1.9.1 (Unreleased)

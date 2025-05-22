@@ -7,7 +7,6 @@
  * @summary demonstrates how to track the token usage of an Agent.
  */
 import { AgentsClient } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
@@ -31,17 +30,17 @@ export async function main(): Promise<void> {
 
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create run
-  let run = await client.runs.create(thread.id, agent.id);
-  console.log(`Created run, run ID: ${run.id}`);
-  // the usage should be null at this point
-  console.log(`usage for run ${run.id}:`, JSON.stringify(run.usage, null, 2));
-  // Wait for run to complete
-  while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-    console.log(`Run status: ${run.status}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
+  });
+  console.log(`Run finished with status: ${run.status}`);
 
   // token usage should be like this:
   // {

@@ -1,0 +1,35 @@
+name: "Copilot Setup Steps"
+
+# Allow testing of the setup steps from your repository's "Actions" tab.
+on: workflow_dispatch
+
+env:
+  # rush build cache, playwright for browser testing
+  COPILOT_AGENT_FIREWALL_ALLOW_LIST_ADDITIONS: azuresdkartifacts.blob.core.windows.net,cdn.playwright.dev,playwright.download.prss.microsoft.com
+
+jobs:
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # If you want to clone the repository as part of your setup steps, for example to install dependencies, you'll need the `contents: read` permission. If you don't clone the repository in your setup steps, Copilot will do this for you automatically after the steps complete.
+      contents: read
+
+    # You can define any steps you want, and they will run before the agent starts.
+    # If you do not check out your code, Copilot will do this for you.
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install Rush
+        run: npm install -g @microsoft/rush
+
+      - name: Install library dependencies
+        run: rush update

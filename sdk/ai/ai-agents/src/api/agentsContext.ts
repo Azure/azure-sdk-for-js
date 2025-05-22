@@ -25,7 +25,7 @@ export function createAgents(
   options: AgentsClientOptionalParams = {},
 ): AgentsContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-agents/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-ai-agents/1.0.0-beta.3`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -56,12 +56,13 @@ export function createAgents(
       // Use the apiVersion defined in request url directly
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
-      if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
-
+      const defaultApiVersion = url.searchParams.get("api-version") ?? apiVersion;
+      // remove api-version from url
+      url.searchParams.delete("api-version");
+      // add api-version to url
+      req.url = `${url.toString()}${
+        Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+      }api-version=${defaultApiVersion}`;
       return next(req);
     },
   });
