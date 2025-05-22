@@ -9,6 +9,7 @@ import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import { withMetadataDiagnostics } from "./utils/diagnostics.js";
+import { normalizeEndpoint } from "./utils/checkURL.js";
 
 /**
  * @hidden
@@ -365,9 +366,4 @@ export class GlobalEndpointManager {
 
     return null;
   }
-}
-
-// todoujjwal : remove this
-function normalizeEndpoint(endpoint: string): string {
-  return endpoint.split(" ").join("").toLowerCase();
 }
