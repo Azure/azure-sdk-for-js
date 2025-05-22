@@ -54,10 +54,10 @@ function NpmInstallForProject([string]$workingDirectory) {
         }
 
         if ($usingLockFile) {
-            Invoke-LoggedCommand "npm ci" -GroupOutput
+            Invoke-LoggedCommand "npm ci"
         }
         else {
-            Invoke-LoggedCommand "npm install" -GroupOutput
+            Invoke-LoggedCommand "npm install"
         }
 
         if ($LASTEXITCODE) { exit $LASTEXITCODE }
@@ -95,7 +95,7 @@ try {
       "headSha" = $configuration["commit"]
       "repoHttpsUrl" = "https://github.com/Azure/azure-rest-api-specs"
       "changedFiles" = @()
-      "runMode" = "local"
+      "runMode" = "release"
       "installInstructionInput" = @{
         "isPublic" = $true
         "downloadUrlPrefix" = ""
@@ -113,7 +113,7 @@ try {
 
     $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
-    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath" -GroupOutput
+    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
     #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
     #     if ($emitterAdditionalOptions.Length -gt 0) {
