@@ -92,8 +92,10 @@ const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"
 
 Connect to alternative Azure cloud environments (such as Azure China or Azure Government) by specifying the `scopes` field in the `credentials` option and use the appropriate value from `KnownDocumentIntelligenceAudience`.
 
-```ts
-import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "@azure-rest/ai-document-intelligence";
+```ts snippet:ReadmeSampleCreateClient_SovereignClouds
+import DocumentIntelligence, {
+  KnownDocumentIntelligenceAudience,
+} from "@azure-rest/ai-document-intelligence";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = DocumentIntelligence(
@@ -102,9 +104,9 @@ const client = DocumentIntelligence(
   {
     credentials: {
       // Use the correct audience for your cloud environment
-      scopes: [KnownDocumentIntelligenceAudience.AzureGovernment]
-    }
-  }
+      scopes: [KnownDocumentIntelligenceAudience.AzureGovernment],
+    },
+  },
 );
 ```
 

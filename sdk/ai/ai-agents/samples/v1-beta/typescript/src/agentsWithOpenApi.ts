@@ -9,12 +9,11 @@
 
 import type { MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 import "dotenv/config";
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 export async function main(): Promise<void> {
@@ -55,18 +54,17 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(thread.id, "user", "What's the weather in Seattle?");
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create and execute a run
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-  }
-  if (run.status === "failed") {
-    // Check if you got "Rate limit is exceeded.", then you want to get more quota
-    console.log(`Run failed: ${run.lastError}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
+  });
   console.log(`Run finished with status: ${run.status}`);
-
   // Get most recent message from the assistant
   const messagesIterator = client.messages.list(thread.id);
   const messages = [];
