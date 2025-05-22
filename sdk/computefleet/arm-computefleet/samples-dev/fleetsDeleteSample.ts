@@ -14,7 +14,7 @@ async function fleetsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
-  await client.fleets.delete("rgazurefleet", "testFleet");
+  await client.fleets.delete("2024-11-01", "rgazurefleet", "testFleet");
 }
 
 async function main(): Promise<void> {

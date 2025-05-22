@@ -14,7 +14,7 @@ async function fleetsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
-  const result = await client.fleets.get("rgazurefleet", "testFleet");
+  const result = await client.fleets.get("2024-11-01", "rgazurefleet", "testFleet");
   console.log(result);
 }
 

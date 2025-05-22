@@ -14,7 +14,7 @@ async function fleetsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
-  const result = await client.fleets.createOrUpdate("rgazurefleet", "testFleet", {
+  const result = await client.fleets.createOrUpdate("2024-11-01", "rgazurefleet", "testFleet", {
     properties: {
       spotPriorityProfile: {
         capacity: 20,
@@ -161,6 +161,7 @@ async function fleetsCreateOrUpdate(): Promise<void> {
                 deleteOption: "Delete",
               },
             ],
+            diskControllerType: "uzb",
           },
           networkProfile: {
             healthProbe: {
@@ -361,7 +362,7 @@ async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
-  const result = await client.fleets.createOrUpdate("rgazurefleet", "testFleet", {
+  const result = await client.fleets.createOrUpdate("2024-11-01", "rgazurefleet", "testFleet", {
     properties: {
       spotPriorityProfile: {
         capacity: 2,
@@ -429,6 +430,7 @@ async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
                 },
               },
             ],
+            networkApiVersion: "2022-07-01",
           },
         },
         computeApiVersion: "2023-09-01",
