@@ -248,6 +248,10 @@
 # ServiceLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @quentinRobinson
 
+# ServiceLabel: %Online Experimentation
+# PRLabel: %Online Experimentation
+/sdk/onlineexperimentation/ @Azure/azure-sdk-write-onlineexperimentation
+
 # ServiceLabel: %OpenAI
 # ServiceOwners: @trrwilson
 
@@ -873,6 +877,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/sitemanager/arm-sitemanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
@@ -1606,7 +1613,7 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /common/tools/ @Azure/azure-sdk-js-dev
 
 # PRLabel: %dev-tool
-/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
+/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv @maorleger
 
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
