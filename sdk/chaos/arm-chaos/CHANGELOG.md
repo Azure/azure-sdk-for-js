@@ -52,7 +52,10 @@
   - Type of parameter tags of interface TrackedResource is changed from {
         [propertyName: string]: string;
     } to Record<string, string>
-    
+  - Type of parameter type of interface ChaosExperimentAction is changed from "delay" | "discrete" | "continuous" to ExperimentActionType
+  - Type of parameter type of interface ChaosTargetFilter is changed from "Simple" to FilterType
+  - Type of parameter type of interface ChaosTargetSelector is changed from "List" | "Query" to SelectorType
+  
 ### Breaking Changes
 
   - Removed operation Experiments.beginCancel
@@ -120,9 +123,6 @@
   - Interface TargetType no longer has parameter systemData
   - Interface Experiment has a new required parameter properties
   - Interface TargetType has a new required parameter properties
-  - Type of parameter type of interface ChaosExperimentAction is changed from "delay" | "discrete" | "continuous" to ExperimentActionType
-  - Type of parameter type of interface ChaosTargetFilter is changed from "Simple" to FilterType
-  - Type of parameter type of interface ChaosTargetSelector is changed from "List" | "Query" to SelectorType
   - Class ChaosManagementClient no longer has parameter $host
   - Class ChaosManagementClient no longer has parameter apiVersion
   - Class ChaosManagementClient no longer has parameter subscriptionId
