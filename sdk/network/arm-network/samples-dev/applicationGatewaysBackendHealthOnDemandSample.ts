@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  ApplicationGatewayOnDemandProbe} from "@azure/arm-network";
 import {
-  ApplicationGatewayOnDemandProbe,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

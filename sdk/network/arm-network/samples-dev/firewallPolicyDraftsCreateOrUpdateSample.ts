@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  FirewallPolicyDraft} from "@azure/arm-network";
 import {
-  FirewallPolicyDraft,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  VirtualNetworksListDdosProtectionStatusOptionalParams} from "@azure/arm-network";
 import {
-  VirtualNetworksListDdosProtectionStatusOptionalParams,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  AdminRuleCollectionsDeleteOptionalParams} from "@azure/arm-network";
 import {
-  AdminRuleCollectionsDeleteOptionalParams,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

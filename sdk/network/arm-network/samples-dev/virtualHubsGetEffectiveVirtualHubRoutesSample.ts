@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   EffectiveRoutesParameters,
-  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
+  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams} from "@azure/arm-network";
+import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
