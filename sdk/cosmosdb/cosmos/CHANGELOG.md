@@ -1,14 +1,10 @@
 # Release History
 
-## 4.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.4.1 (2025-05-15)
 
 ### Bugs Fixed
 
-### Other Changes
+[#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346) Fixed an issue where `require` is being used in an ESM context. 
 
 ## 4.4.0 (2025-05-13)
 
@@ -49,6 +45,8 @@ This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanO
 #### [#33869](https://github.com/Azure/azure-sdk-for-js/pull/33869) Fix ChangeFeed Iterator merge
 
 ### Other Changes
+#### Migrated the codebase to ESM. This change is internal and should not affect customers.
+#### Migrated tests to vitest.
 #### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use Uint8Array instead of Buffer.
 #### [#33728](https://github.com/Azure/azure-sdk-for-js/pull/33728) Update Entra authentication samples
 

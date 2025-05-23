@@ -4,11 +4,11 @@
 import { InMemorySpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 import { OpenTelemetryInstrumenter } from "../../../src/instrumenter.js";
-import { tracerProvider } from "./tracerProvider.js";
 import { useInstrumenter } from "@azure/core-tracing";
+import { createTracerProvider } from "./tracerProvider.js";
 
 // Setup all the necessary instrumenters, exporters, etc.
 export const inMemoryExporter = new InMemorySpanExporter();
-tracerProvider.addSpanProcessor(new SimpleSpanProcessor(inMemoryExporter));
+const tracerProvider = createTracerProvider([new SimpleSpanProcessor(inMemoryExporter)]);
 tracerProvider.register();
 useInstrumenter(new OpenTelemetryInstrumenter());
