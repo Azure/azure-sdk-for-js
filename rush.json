@@ -2398,7 +2398,7 @@
     {
       "packageName": "@azure/arm-kubernetesconfiguration-extensiontypes",
       "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes",
-      "versionPolicyName": "client"
+      "versionPolicyName": "management"
     }
   ]
 }
