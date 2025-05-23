@@ -10,7 +10,11 @@ trigger:
     include:
       - sdk/kubernetesconfiguration/ci.mgmt.yml
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration
+<<<<<<< HEAD
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions
+=======
+      - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations
+>>>>>>> main
 pr:
   branches:
     include:
@@ -24,6 +28,7 @@ pr:
     include:
       - sdk/kubernetesconfiguration/ci.mgmt.yml
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration
+      - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -32,5 +37,7 @@ extends:
     Artifacts:
       - name: azure-arm-kubernetesconfiguration
         safeName: azurearmkubernetesconfiguration
+      - name: azure-arm-kubernetesconfiguration-fluxconfigurations
+        safeName: azurearmkubernetesconfigurationfluxconfigurations
       - name: azure-arm-kubernetesconfiguration-extensions
         safeName: azurearmkubernetesconfigurationextensions
