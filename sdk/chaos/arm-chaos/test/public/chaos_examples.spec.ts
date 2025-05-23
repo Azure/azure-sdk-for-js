@@ -166,7 +166,7 @@ describe("Chaos test", () => {
               ],
             },
           ],
-        }
+        },
       },
       testPollingOptions,
     );
