@@ -67,6 +67,8 @@ export interface TranscriptionMetadata {
   callConnectionId: string;
   /** correlation Id.*/
   correlationId: string;
+  /** The custom speech recognition model endpoint id.*/
+  speechRecognitionModelEndpointId: string;
 }
 
 /**
@@ -91,19 +93,35 @@ export interface TranscriptionData {
   resultState: TranscriptionResultState;
 }
 
+/**
+ * Dtmf streaming data.
+ */
+export interface DtmfData {
+  /** A unique identifier for the media subscription.*/
+  data: string;
+  /** The timestamp indicating when the media content was received by the bot,
+          or if the bot is sending media, the timestamp of when the media was sourced.
+          The format is ISO 8601 (yyyy-mm-ddThh:mm).*/
+  timestamp?: Date;
+  /** The identified speaker based on participant raw ID. */
+  participant?: CommunicationIdentifier | undefined;
+}
+
 // StreamingDataResult type  | TranscriptionMetadata| TranscriptionData| AudioData| AudioMetadata;
 export type StreamingDataResult =
   | TranscriptionMetadata
   | TranscriptionData
   | AudioData
-  | AudioMetadata;
+  | AudioMetadata
+  | DtmfData;
 
 // Enum for different kinds of streaming data in a call automation system
 export type StreamingDataKind =
   | "AudioData"
   | "AudioMetadata"
   | "TranscriptionData"
-  | "TranscriptionMetadata";
+  | "TranscriptionMetadata"
+  | "DtmfData";
 
 // Enum for channel.
 export enum Channel {

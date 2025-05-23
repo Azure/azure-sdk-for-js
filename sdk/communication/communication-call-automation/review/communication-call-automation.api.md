@@ -557,6 +557,13 @@ export interface DownloadRecordingOptions extends OperationOptions {
     offset?: number;
 }
 
+// @public
+export interface DtmfData {
+    data: string;
+    participant?: CommunicationIdentifier | undefined;
+    timestamp?: Date;
+}
+
 // @public (undocumented)
 export interface DtmfResult {
     readonly tones?: Tone[];
@@ -1500,10 +1507,10 @@ export class StreamingData {
 }
 
 // @public (undocumented)
-export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata";
+export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata" | "DtmfData";
 
 // @public (undocumented)
-export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata | DtmfData;
 
 // @public
 export interface TextSource extends PlaySource {
@@ -1556,6 +1563,7 @@ export interface TranscriptionMetadata {
     callConnectionId: string;
     correlationId: string;
     locale: string;
+    speechRecognitionModelEndpointId: string;
     subscriptionId: string;
 }
 

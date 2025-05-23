@@ -5,6 +5,7 @@ import { createIdentifierFromRawId } from "@azure/communication-common";
 import type {
   AudioData,
   AudioMetadata,
+  DtmfData,
   StreamingDataKind,
   StreamingDataResult,
   TranscriptionData,
@@ -49,6 +50,8 @@ export class StreamingData {
           locale: jsonObject.transcriptionMetadata.locale,
           callConnectionId: jsonObject.transcriptionMetadata.callConnectionId,
           correlationId: jsonObject.transcriptionMetadata.correlationId,
+          speechRecognitionModelEndpointId:
+            jsonObject.transcriptionMetadata.speechRecognitionModelEndpointId,
         };
         StreamingData.streamingKind = kind;
         return transcriptionMetadata;
@@ -95,6 +98,18 @@ export class StreamingData {
         };
         StreamingData.streamingKind = kind;
         return audioData;
+      }
+      case "DtmfData": {
+        const dtmfData: DtmfData = {
+          data: jsonObject.dtmfData.data,
+          timestamp: jsonObject.dtmfData.timestamp,
+          participant:
+            jsonObject.dtmfData.participantRawID !== undefined
+              ? createIdentifierFromRawId(jsonObject.dtmfData.participantRawID)
+              : undefined,
+        };
+        StreamingData.streamingKind = kind;
+        return dtmfData;
       }
       default:
         throw new Error("Unknown data kind: " + jsonObject.kind);
