@@ -93,6 +93,8 @@ export interface MicrosoftTeamsAppIdentifierModel {
 export interface CallIntelligenceOptionsInternal {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
+  /** A backup identifier of the Cognitive Service resource assigned to this call. */
+  backupCognitiveServicesEndpoint?: string;
 }
 
 /** The custom calling context which will be sent to the target */
@@ -2145,8 +2147,6 @@ export type CallRejectReason = string;
 
 /** Known values of {@link CallLocatorKind} that the service accepts. */
 export enum KnownCallLocatorKind {
-  /** Unknown */
-  Unknown = "unknown",
   /** GroupCallLocator */
   GroupCallLocator = "groupCallLocator",
   /** ServerCallLocator */
@@ -2160,7 +2160,6 @@ export enum KnownCallLocatorKind {
  * {@link KnownCallLocatorKind} can be used interchangeably with CallLocatorKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **unknown** \
  * **groupCallLocator** \
  * **serverCallLocator** \
  * **roomCallLocator**

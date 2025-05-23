@@ -205,6 +205,7 @@ export interface CallDisconnected {
 
 // @public
 export interface CallIntelligenceOptions {
+    backupCognitiveServicesEndpoint?: string;
     cognitiveServicesEndpoint?: string;
 }
 
