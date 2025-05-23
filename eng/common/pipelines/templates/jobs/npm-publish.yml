@@ -21,7 +21,7 @@ jobs:
       inputs:
       - input: pipelineArtifact
         artifactName: ${{ parameters.ArtifactName }}
-        itemPattern: **/*.tgz
+        itemPattern: '**/*.tgz'
         targetPath: $(ArtifactPath)
 
     pool:
