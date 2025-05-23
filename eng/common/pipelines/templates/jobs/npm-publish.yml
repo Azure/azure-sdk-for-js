@@ -17,7 +17,7 @@ jobs:
 
     templateContext:
       type: releaseJob
-      isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
+      #isProduction: ${{ eq(parameters.Registry, 'https://registry.npmjs.org/') }}
       inputs:
       - input: pipelineArtifact
         artifactName: ${{ parameters.ArtifactName }}
