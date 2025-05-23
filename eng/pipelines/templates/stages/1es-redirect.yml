@@ -53,6 +53,8 @@ extends:
       sourceRepositoriesToScan:
         exclude:
           - repository: azure-sdk-build-tools
+          - ${{ if ne(parameters.CheckoutNone, 'true') }}:
+            - repository: azure-sdk-for-js
       credscan:
         ${{ if ne(parameters.CheckoutNone, 'true') }}:
           suppressionsFile: '$(Build.SourcesDirectory)/eng/CredScanSuppression.json'
