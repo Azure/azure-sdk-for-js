@@ -25,9 +25,7 @@ export class GlobalPartitionEndpointManager {
   private enablePartitionLevelCircuitBreaker: boolean;
   private preferredLocations: string[];
   public preferredLocationsCount: number;
-  // A boolean flag indicating if the background connection initialization recursive task is active.
-  private isBackgroundConnectionInitActive: boolean = false;
-  private backgroundConnectionSemaphore: semaphore.Semaphore;
+  circuitBreakerFailbackBackgroundRefresher: NodeJS.Timeout;
 
   /**
    * @internal
@@ -49,8 +47,7 @@ export class GlobalPartitionEndpointManager {
 
     this.preferredLocations = options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    this.backgroundConnectionSemaphore = semaphore(1);
-    this.initializeAndStartCircuitBreakerFailbackBackgroundRefresh();
+    this.initiateCircuitBreakerFailbackLoop();
   }
 
   /**
@@ -319,50 +316,21 @@ export class GlobalPartitionEndpointManager {
     partitionKeyRangeToLocation.delete(partitionKeyRangeId);
     return false;
   }
-  // todoujjwal : take help from nackgorund refresh task , //clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
-  /**  Initialize and start the background connection periodic refresh task. */
-  public async initializeAndStartCircuitBreakerFailbackBackgroundRefresh(): Promise<void> {
-    if (this.isBackgroundConnectionInitActive) {
-      return;
-    }
-    return new Promise<void>((resolve, reject) => {
-      this.backgroundConnectionSemaphore.take(async () => {
-        try {
-          if (this.isBackgroundConnectionInitActive) {
-            return;
-          }
-          this.isBackgroundConnectionInitActive = true;
-          // Proceed with the task
-          await this.initiateCircuitBreakerFailbackLoop();
-          resolve();
-        } catch (error) {
-          this.isBackgroundConnectionInitActive = false;
-          reject(error);
-        } finally {
-          // Release the semaphore lock
-          this.backgroundConnectionSemaphore.leave();
-        }
-      });
-    });
-  }
 
   /**
    * This method that will run a continious loop with a delay of one minute to refresh
    *  the connection to the failed backend replicas.
    */
-  private async initiateCircuitBreakerFailbackLoop(): Promise<void> {
-    while (true) {
-      try {
-        await this.delay(Constants.StalePartitionUnavailabilityRefreshIntervalInMs);
-        await this.tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
-      } catch (err) {
-        throw new ErrorResponse(err.message);
-      }
-    }
-  }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  private initiateCircuitBreakerFailbackLoop(): void {
+    this.circuitBreakerFailbackBackgroundRefresher = setInterval(() => {
+      (async () => {
+        try {
+          await this.tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+        } catch (err) {
+          throw new ErrorResponse(err.message);
+        }
+      })();
+    }, Constants.StalePartitionUnavailabilityRefreshIntervalInMs);
   }
 
   /**

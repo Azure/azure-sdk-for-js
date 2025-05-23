@@ -41,11 +41,7 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type {
-  PartitionKey,
-  PartitionKeyDefinition,
-  PrimitivePartitionKeyValue,
-} from "../../documents/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -155,7 +151,6 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
-      // todoujjwal : check this
       const partitionKeyDefinition = await readPartitionKeyDefinition(
         diagnosticNode,
         this.container,
