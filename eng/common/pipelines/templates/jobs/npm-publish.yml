@@ -69,3 +69,5 @@ jobs:
                 npm publish $package --verbose --access public --tag ${{ parameters.Tag }} --registry ${{ parameters.Registry }}
               }
             displayName: 'Publish ${{ parameters.ArtifactName }}'
+            workingDirectory: $(ArtifactPath)
+            
