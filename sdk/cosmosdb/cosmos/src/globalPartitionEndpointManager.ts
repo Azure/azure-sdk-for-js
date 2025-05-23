@@ -187,8 +187,10 @@ export class GlobalPartitionEndpointManager {
       return false;
     }
 
+    const currentTime = new Date();
     await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
+      currentTime,
     );
 
     return partitionKeyRangeFailoverInfo.CanCircuitBreakerTriggerPartitionFailOver(
@@ -423,12 +425,15 @@ export class PartitionKeyRangeFailoverInfo {
       : consecutiveWriteRequestFailureCount > Constants.WriteRequestFailureCounterThreshold;
   }
 
-  public async incrementRequestFailureCounts(isReadOnlyRequest: boolean): Promise<void> {
+  public async incrementRequestFailureCounts(
+    isReadOnlyRequest: boolean,
+    currentTime: Date,
+  ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.failureCountSemaphore.take(async () => {
         try {
           const { lastRequestFailureTime } = await this.snapshotPartitionFailoverTimestamps();
-          const currentTime = new Date();
+
           if (
             currentTime.getTime() - lastRequestFailureTime.getTime() >
             Constants.TimeoutCounterResetWindow
