@@ -9,9 +9,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js",],
+      testTimeout: 3600000,
+      hookTimeout: 3600000,
     },
   }),
 );
