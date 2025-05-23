@@ -26,15 +26,12 @@ export function _listSend(
   options: DeploymentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/deployments{?api-version,modelPublisher,modelName,deploymentType,top,skip,maxpagesize}",
+    "/deployments{?api-version,modelPublisher,modelName,deploymentType}",
     {
       "api-version": context.apiVersion,
       modelPublisher: options?.modelPublisher,
       modelName: options?.modelName,
       deploymentType: options?.deploymentType,
-      top: options?.top,
-      skip: options?.skip,
-      maxpagesize: options?.maxpagesize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

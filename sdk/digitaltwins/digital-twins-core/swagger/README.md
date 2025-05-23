@@ -15,7 +15,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/digitaltwins/data-plane/Microsoft.DigitalTwins/stable/2023-10-31/digitaltwins.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 2.0.1
+package-version: 2.0.0
 module-kind: esm
 ```
 

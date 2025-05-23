@@ -382,8 +382,8 @@ export interface FilesOperations {
     get: (fileId: string, options?: FilesGetFileOptionalParams) => Promise<FileInfo>;
     getContent: (fileId: string, options?: FilesGetFileContentOptionalParams) => StreamableMethod<string | Uint8Array>;
     list: (options?: FilesListFilesOptionalParams) => Promise<FileListResponse>;
-    upload: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
-    uploadAndPoll: (file: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
+    upload: (file: ReadableStream<Uint8Array> | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => Promise<FileInfo>;
+    uploadAndPoll: (file: ReadableStream<Uint8Array> | NodeJS.ReadableStream, purpose: FilePurpose, options: FilesUploadFileOptionalParams) => PollerLike<OperationState<FileInfo>, FileInfo>;
 }
 
 // @public
@@ -885,7 +885,7 @@ export interface RunsCancelRunOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RunsCreateRunOptionalParams extends OperationOptions {
+export interface RunsCreateRunOptionalParams extends OperationOptions, PollingOptionsParams {
     additionalInstructions?: string | null;
     additionalMessages?: ThreadMessageOptions[] | null;
     include?: RunAdditionalFieldList[];
@@ -920,10 +920,11 @@ export interface RunsListRunsOptionalParams extends OperationOptions {
 export interface RunsOperations {
     cancel: (threadId: string, runId: string, options?: RunsCancelRunOptionalParams) => Promise<ThreadRun>;
     create: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) => AgentRunResponse;
+    createAndPoll: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) => PollerLike<OperationState<ThreadRun>, ThreadRun>;
     createThreadAndRun: (assistantId: string, options?: CreateThreadAndRunOptionalParams) => AgentRunResponse;
     get: (threadId: string, runId: string, options?: RunsGetRunOptionalParams) => Promise<ThreadRun>;
     list: (threadId: string, options?: RunsListRunsOptionalParams) => PagedAsyncIterableIterator<ThreadRun>;
-    submitToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams) => Promise<ThreadRun>;
+    submitToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: RunsSubmitToolOutputsToRunOptionalParams) => AgentRunResponse;
     update: (threadId: string, runId: string, options?: RunsUpdateRunOptionalParams) => Promise<ThreadRun>;
 }
 

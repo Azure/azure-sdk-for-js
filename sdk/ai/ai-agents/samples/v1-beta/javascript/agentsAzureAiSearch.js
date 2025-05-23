@@ -8,26 +8,25 @@
  */
 
 const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents");
-const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
-  const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
+  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-search-sample", {
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
     queryType: "simple",
     topK: 3,
     filter: "",
-    indexConnectionId: "",
-    indexName: "",
+    indexConnectionId: connectionName,
+    indexName: "search-index",
   });
 
   // Create agent with the Azure AI search tool
@@ -51,15 +50,16 @@ async function main() {
   );
   console.log(`Created message, message ID : ${message.id}`);
 
-  // Create and process agent run in thread with tools
-  let run = await client.runs.create(thread.id, agent.id);
-  while (run.status === "queued" || run.status === "in_progress") {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-  }
-  if (run.status === "failed") {
-    console.log(`Run failed:`, JSON.stringify(run, null, 2));
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response) => {
+      console.log(`Received response with status: ${response.status}`);
+    },
+  });
   console.log(`Run finished with status: ${run.status}`);
 
   // Fetch run steps to get the details of agent run
