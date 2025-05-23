@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 21.6.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 21.6.0-beta.1 (2025-05-14)
 Compared with version 21.5.0
     
