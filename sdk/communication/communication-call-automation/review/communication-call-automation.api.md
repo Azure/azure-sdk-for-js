@@ -16,11 +16,15 @@ import type { PhoneNumberIdentifier } from '@azure/communication-common';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AddParticipantFailed {
+export interface AddParticipantFailed
+/**
+* @deprecated RestAddParticipantFailed is deprecated.
+* Use AddParticipantFailed instead.
+*/
+extends Omit<RestAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "AddParticipantFailed";
-    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
@@ -41,11 +45,15 @@ export interface AddParticipantResult {
 }
 
 // @public
-export interface AddParticipantSucceeded {
+export interface AddParticipantSucceeded
+/**
+* @deprecated RestAddParticipantSucceeded is deprecated.
+* Use AddParticipantSucceeded instead.
+*/
+extends Omit<RestAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "AddParticipantSucceeded";
-    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
@@ -63,11 +71,29 @@ export interface AnswerCallOptions extends OperationOptions {
 export type AnswerCallResult = CallResult;
 
 // @public (undocumented)
-export interface AnswerFailed {
+export interface AnswerFailed
+/**
+* @deprecated RestAnswerFailed is deprecated.
+* Use AnswerFailed instead.
+*/
+extends Omit<RestAnswerFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "AnswerFailed";
-    operationContext?: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public (undocumented)
+export interface AnswerFailed
+/**
+* @deprecated RestAnswerFailed is deprecated.
+* Use AnswerFailed instead.
+*/
+extends Omit<RestAnswerFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "AnswerFailed";
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -116,11 +142,15 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted;
 
 // @public
-export interface CallConnected {
+export interface CallConnected
+/**
+* @deprecated RestCallConnected is deprecated.
+* Use CallConnected instead.
+*/
+extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallConnected";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -164,11 +194,15 @@ export interface CallConnectionProperties {
 export type CallConnectionStateModel = string;
 
 // @public
-export interface CallDisconnected {
+export interface CallDisconnected
+/**
+* @deprecated RestCallDisconnected is deprecated.
+* Use CallDisconnected instead.
+*/
+extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallDisconnected";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -304,11 +338,15 @@ export interface CallResult {
 }
 
 // @public
-export interface CallTransferAccepted {
+export interface CallTransferAccepted
+/**
+* @deprecated RestCallTransferAccepted is deprecated.
+* Use CallTransferAccepted instead.
+*/
+extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
     transferee: CommunicationIdentifier;
@@ -316,22 +354,30 @@ export interface CallTransferAccepted {
 }
 
 // @public
-export interface CallTransferFailed {
+export interface CallTransferFailed
+/**
+* @deprecated RestCallTransferFailed is deprecated.
+* Use CallTransferFailed instead.
+*/
+extends Omit<RestCallTransferFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface CancelAddParticipantFailed {
+export interface CancelAddParticipantFailed
+/**
+* @deprecated RestCancelAddParticipantFailed is deprecated.
+* Use CancelAddParticipantFailed instead.
+*/
+extends Omit<RestCancelAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     invitationId: string;
     kind: "CancelAddParticipantFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -349,12 +395,16 @@ export interface CancelAddParticipantOperationResult {
 }
 
 // @public
-export interface CancelAddParticipantSucceeded {
+export interface CancelAddParticipantSucceeded
+/**
+* @deprecated RestCancelAddParticipantSucceeded is deprecated.
+* Use CancelAddParticipantSucceeded instead.
+*/
+extends Omit<RestCancelAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     invitationId: string;
     kind: "CancelAddParticipantSucceeded";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -392,13 +442,16 @@ export interface ConnectCallOptions extends OperationOptions {
 export type ConnectCallResult = CallResult;
 
 // @public (undocumented)
-export interface ConnectFailed {
+export interface ConnectFailed
+/**
+* @deprecated RestConnectFailed is deprecated.
+* Use ConnectFailed instead.
+*/
+extends Omit<RestConnectFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ConnectFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
-    serverCallId: string;
 }
 
 // @public
@@ -408,31 +461,43 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 }
 
 // @public
-export interface ContinuousDtmfRecognitionStopped {
+export interface ContinuousDtmfRecognitionStopped
+/**
+* @deprecated RestContinuousDtmfRecognitionStopped is deprecated.
+* Use ContinuousDtmfRecognitionStopped instead.
+*/
+extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionStopped";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneFailed {
+export interface ContinuousDtmfRecognitionToneFailed
+/**
+* @deprecated RestContinuousDtmfRecognitionToneFailed is deprecated.
+* Use ContinuousDtmfRecognitionToneFailed instead.
+*/
+extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneReceived {
+export interface ContinuousDtmfRecognitionToneReceived
+/**
+* @deprecated RestContinuousDtmfRecognitionToneReceived is deprecated.
+* Use ContinuousDtmfRecognitionToneReceived instead.
+*/
+extends Omit<RestContinuousDtmfRecognitionToneReceived, "sequenceId" | "tone" | "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneReceived";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     sequenceId: number;
     serverCallId: string;
@@ -440,11 +505,29 @@ export interface ContinuousDtmfRecognitionToneReceived {
 }
 
 // @public (undocumented)
-export interface CreateCallFailed {
+export interface CreateCallFailed
+/**
+* @deprecated RestCreateCallFailed is deprecated.
+* Use CreateCallFailed instead.
+*/
+extends Omit<RestCreateCallFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CreateCallFailed";
-    operationContext?: string;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public (undocumented)
+export interface CreateCallFailed
+/**
+* @deprecated RestCreateCallFailed is deprecated.
+* Use CreateCallFailed instead.
+*/
+extends Omit<RestCreateCallFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "CreateCallFailed";
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -524,11 +607,15 @@ export type GetRecordingPropertiesOptions = OperationOptions;
 export type HangUpOptions = OperationOptions;
 
 // @public (undocumented)
-export interface HoldFailed {
+export interface HoldFailed
+/**
+* @deprecated RestHoldFailed is deprecated.
+* Use HoldFailed instead.
+*/
+extends Omit<RestHoldFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "HoldFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -579,12 +666,15 @@ export type MediaStreamingAudioChannelType = string;
 export type MediaStreamingContentType = string;
 
 // @public (undocumented)
-export interface MediaStreamingFailed {
+export interface MediaStreamingFailed
+/**
+* @deprecated RestMediaStreamingFailed is deprecated.
+* Use MediaStreamingFailed instead.
+*/
+extends Omit<RestMediaStreamingFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingFailed";
-    mediaStreamingUpdate?: MediaStreamingUpdate;
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -603,23 +693,29 @@ export interface MediaStreamingOptions {
 }
 
 // @public (undocumented)
-export interface MediaStreamingStarted {
+export interface MediaStreamingStarted
+/**
+* @deprecated RestMediaStreamingStarted is deprecated.
+* Use MediaStreamingStarted instead.
+*/
+extends Omit<RestMediaStreamingStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingStarted";
-    mediaStreamingUpdate?: MediaStreamingUpdate;
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public (undocumented)
-export interface MediaStreamingStopped {
+export interface MediaStreamingStopped
+/**
+* @deprecated RestMediaStreamingStopped is deprecated.
+* Use MediaStreamingStopped instead.
+*/
+extends Omit<RestMediaStreamingStopped, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "MediaStreamingStopped";
-    mediaStreamingUpdate?: MediaStreamingUpdate;
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -662,13 +758,17 @@ export class OutStreamingData {
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
 
 // @public
-export interface ParticipantsUpdated {
+export interface ParticipantsUpdated
+/**
+* @deprecated RestParticipantsUpdated is deprecated.
+* Use ParticipantsUpdated instead.
+*/
+extends Omit<RestParticipantsUpdated, "callConnectionId" | "serverCallId" | "correlationId" | "participants" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ParticipantsUpdated";
     participants: CallParticipant[];
     resultInformation?: ResultInformation;
-    sequenceNumber?: number;
     serverCallId: string;
 }
 
@@ -676,32 +776,43 @@ export interface ParticipantsUpdated {
 export type PauseRecordingOptions = OperationOptions;
 
 // @public
-export interface PlayCanceled {
+export interface PlayCanceled
+/**
+* @deprecated RestPlayCanceled is deprecated.
+* Use PlayCanceled instead.
+*/
+extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayCanceled";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface PlayCompleted {
+export interface PlayCompleted
+/**
+* @deprecated RestPlayCompleted is deprecated.
+* Use PlayCompleted instead.
+*/
+extends Omit<RestPlayCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayCompleted";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface PlayFailed {
+export interface PlayFailed
+/**
+* @deprecated RestPlayFailed is deprecated.
+* Use PlayFailed instead.
+*/
+extends Omit<RestPlayFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
-    failedPlaySourceIndex?: number;
     kind: "PlayFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -721,11 +832,15 @@ export interface PlaySource {
 }
 
 // @public
-export interface PlayStarted {
+export interface PlayStarted
+/**
+* @deprecated RestPlayStarted is deprecated.
+* Use PlayStarted instead.
+*/
+extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "PlayStarted";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -747,36 +862,43 @@ export interface RecognitionChoice {
 export type RecognitionType = string;
 
 // @public
-export interface RecognizeCanceled {
+export interface RecognizeCanceled
+/**
+* @deprecated RestRecognizeCanceled is deprecated.
+* Use RecognizeCanceled instead.
+*/
+extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RecognizeCanceled";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface RecognizeCompleted {
+export interface RecognizeCompleted
+/**
+* @deprecated RestRecognizeCompleted is deprecated.
+* Use RecognizeCompleted instead.
+*/
+extends Omit<RestRecognizeCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
-    choiceResult?: ChoiceResult;
     correlationId: string;
-    dtmfResult?: DtmfResult;
     kind: "RecognizeCompleted";
-    operationContext?: string;
-    recognitionType?: RecognitionType;
     resultInformation?: ResultInformation;
     serverCallId: string;
-    speechResult?: SpeechResult;
 }
 
 // @public
-export interface RecognizeFailed {
+export interface RecognizeFailed
+/**
+* @deprecated RestRecognizeFailed is deprecated.
+* Use RecognizeFailed instead.
+*/
+extends Omit<RestRecognizeFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
-    failedPlaySourceIndex?: number;
     kind: "RecognizeFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -803,18 +925,17 @@ type RecordingState_2 = string;
 export { RecordingState_2 as RecordingState }
 
 // @public
-export interface RecordingStateChanged {
+export interface RecordingStateChanged
+/**
+* @deprecated RestRecordingStateChanged is deprecated.
+* Use RecordingStateChanged instead.
+*/
+extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RecordingStateChanged";
-    recordingId?: string;
-    // (undocumented)
-    recordingKind?: RecordingKind;
     resultInformation?: ResultInformation;
     serverCallId: string;
-    startDateTime?: Date;
-    // (undocumented)
-    state?: RecordingState_2;
 }
 
 // @public
@@ -847,11 +968,15 @@ export interface RejectCallOptions extends OperationOptions {
 }
 
 // @public
-export interface RemoveParticipantFailed {
+export interface RemoveParticipantFailed
+/**
+* @deprecated RestRemoveParticipantFailed is deprecated.
+* Use RemoveParticipantFailed instead.
+*/
+extends Omit<RestRemoveParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RemoveParticipantFailed";
-    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
@@ -869,18 +994,381 @@ export interface RemoveParticipantsOption extends OperationOptions {
 }
 
 // @public
-export interface RemoveParticipantSucceeded {
+export interface RemoveParticipantSucceeded
+/**
+* @deprecated RestRemoveParticipantSucceeded is deprecated.
+* Use RemoveParticipantSucceeded instead.
+*/
+extends Omit<RestRemoveParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "RemoveParticipantSucceeded";
-    operationContext?: string;
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
+// @public
+export interface RestAddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestAddParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestAnswerFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCallConnected {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCallDisconnected {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCallTransferAccepted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    transferee?: CommunicationIdentifierModel;
+    transferTarget?: CommunicationIdentifierModel;
+}
+
+// @public
+export interface RestCallTransferFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCancelAddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCancelAddParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestConnectFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
 // @public (undocumented)
-export interface ResultInformation {
+export interface RestContinuousDtmfRecognitionStopped {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionToneFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionToneReceived {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    readonly sequenceId?: number;
+    serverCallId?: string;
+    // (undocumented)
+    tone?: Tone;
+}
+
+// @public
+export interface RestCreateCallFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestHoldFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestMediaStreamingFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestMediaStreamingStarted {
+    callConnectionId?: string;
+    correlationId?: string;
+    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestMediaStreamingStopped {
+    callConnectionId?: string;
+    correlationId?: string;
+    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestParticipantsUpdated {
+    callConnectionId?: string;
+    correlationId?: string;
+    // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
+    participants?: CallParticipantInternal[];
+    resultInformation?: RestResultInformation;
+    sequenceNumber?: number;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestPlayCanceled {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestPlayCompleted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestPlayFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    failedPlaySourceIndex?: number;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestPlayStarted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestRecognizeCanceled {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestRecognizeCompleted {
+    callConnectionId?: string;
+    choiceResult?: ChoiceResult;
+    correlationId?: string;
+    dtmfResult?: DtmfResult;
+    operationContext?: string;
+    recognitionType?: RecognitionType;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly speechResult?: SpeechResult;
+}
+
+// @public (undocumented)
+export interface RestRecognizeFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    failedPlaySourceIndex?: number;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestRecordingStateChanged {
+    callConnectionId?: string;
+    correlationId?: string;
+    readonly recordingId?: string;
+    // (undocumented)
+    recordingKind?: RecordingKind_2;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly startDateTime?: Date;
+    // (undocumented)
+    state?: RecordingState_2;
+}
+
+// @public
+export interface RestRemoveParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestRemoveParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestResultInformation {
+    code?: number;
+    message?: string;
+    subCode?: number;
+}
+
+// @public (undocumented)
+export interface RestSendDtmfTonesCompleted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestSendDtmfTonesFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestTranscriptionFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly transcriptionUpdate?: TranscriptionUpdate;
+}
+
+// @public (undocumented)
+export interface RestTranscriptionStarted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly transcriptionUpdate?: TranscriptionUpdate;
+}
+
+// @public (undocumented)
+export interface RestTranscriptionStopped {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly transcriptionUpdate?: TranscriptionUpdate;
+}
+
+// @public (undocumented)
+export interface RestTranscriptionUpdated {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly transcriptionUpdate?: TranscriptionUpdate;
+}
+
+// @public (undocumented)
+export interface ResultInformation
+/**
+* @deprecated RestResultInformation is deprecated.
+* Use ResultInformation instead.
+*/
+extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
     code: number;
     message: string;
     subCode: number;
@@ -890,21 +1378,29 @@ export interface ResultInformation {
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
-export interface SendDtmfTonesCompleted {
+export interface SendDtmfTonesCompleted
+/**
+* @deprecated RestSendDtmfTonesCompleted is deprecated.
+* Use SendDtmfTonesCompleted instead.
+*/
+extends Omit<RestSendDtmfTonesCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfTonesCompleted";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface SendDtmfTonesFailed {
+export interface SendDtmfTonesFailed
+/**
+* @deprecated RestSendDtmfTonesFailed is deprecated.
+* Use SendDtmfTonesFailed instead.
+*/
+extends Omit<RestSendDtmfTonesFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfTonesFailed";
-    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
@@ -1042,14 +1538,17 @@ export interface TranscriptionData {
 }
 
 // @public (undocumented)
-export interface TranscriptionFailed {
+export interface TranscriptionFailed
+/**
+* @deprecated RestTranscriptionFailed is deprecated.
+* Use TranscriptionFailed instead.
+*/
+extends Omit<RestTranscriptionFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "TranscriptionFailed";
-    operationContext?: string;
-    resultInformation?: ResultInformation;
+    resultInformation?: RestResultInformation;
     serverCallId: string;
-    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public
@@ -1071,25 +1570,31 @@ export interface TranscriptionOptions {
 }
 
 // @public (undocumented)
-export interface TranscriptionStarted {
+export interface TranscriptionStarted
+/**
+* @deprecated RestTranscriptionStarted is deprecated.
+* Use TranscriptionStarted instead.
+*/
+extends Omit<RestTranscriptionStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "TranscriptionStarted";
-    operationContext?: string;
-    resultInformation?: ResultInformation;
+    resultInformation?: RestResultInformation;
     serverCallId: string;
-    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
-export interface TranscriptionStopped {
+export interface TranscriptionStopped
+/**
+* @deprecated RestTranscriptionStopped is deprecated.
+* Use TranscriptionStopped instead.
+*/
+extends Omit<RestTranscriptionStopped, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "TranscriptionStopped";
-    operationContext?: string;
-    resultInformation?: ResultInformation;
+    resultInformation?: RestResultInformation;
     serverCallId: string;
-    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
@@ -1105,14 +1610,17 @@ export interface TranscriptionUpdate {
 }
 
 // @public (undocumented)
-export interface TranscriptionUpdated {
+export interface TranscriptionUpdated
+/**
+* @deprecated RestTranscriptionUpdated is deprecated.
+* Use TranscriptionUpdated instead.
+*/
+extends Omit<RestTranscriptionUpdated, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "TranscriptionUpdated";
-    operationContext?: string;
-    resultInformation?: ResultInformation;
+    resultInformation?: RestResultInformation;
     serverCallId: string;
-    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public
@@ -1131,6 +1639,7 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 
 // @public
 export interface UnholdOptions extends OperationOptions {
+    operationCallbackUrl?: string;
     operationContext?: string;
 }
 

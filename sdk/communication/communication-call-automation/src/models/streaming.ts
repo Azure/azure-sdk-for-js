@@ -99,7 +99,11 @@ export type StreamingDataResult =
   | AudioMetadata;
 
 // Enum for different kinds of streaming data in a call automation system
-export type StreamingDataKind =  "AudioData" | "AudioMetadata" |"TranscriptionData" | "TranscriptionMetadata";
+export type StreamingDataKind =
+  | "AudioData"
+  | "AudioMetadata"
+  | "TranscriptionData"
+  | "TranscriptionMetadata";
 
 // Enum for channel.
 export enum Channel {

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PhoneNumberIdentifier,
-  CommunicationIdentifier,
-} from "@azure/communication-common";
+import type { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 import type {
   MediaStreamingOptions,
@@ -393,6 +390,8 @@ export interface HoldOptions extends OperationOptions {
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
+  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUrl?: string;
 }
 
 /**

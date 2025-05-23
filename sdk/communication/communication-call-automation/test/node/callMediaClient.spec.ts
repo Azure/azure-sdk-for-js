@@ -83,11 +83,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() }
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -2318,7 +2314,7 @@ describe("Call Media Client Live Tests", function () {
         },
       ];
 
-      const playOption: PlayOptions = { operationContext: "playAudio"};
+      const playOption: PlayOptions = { operationContext: "playAudio" };
       await callConnection.getCallMedia().play(playSource, [testUser2], playOption);
       const holdAudioPausedEvent = await waitForEvent("HoldAudioPaused", callConnectionId, 8000);
       assert.isDefined(holdAudioPausedEvent);
