@@ -39,6 +39,8 @@ extends:
         - 1ES.PT.Tag-refs/tags/canary
     settings:
       skipBuildTagsForGitHubPullRequests: true
+      ${{ if ne(parameters.CheckoutNone, 'true') }}:
+        skipSDLSourcesWhenCheckoutIsNoneForAllJobs: true
     sdl:
       ${{ if and(eq(variables['Build.DefinitionName'], 'js - core'), eq(variables['Build.SourceBranchName'], 'main'), eq(variables['System.TeamProject'], 'internal')) }}:
         autobaseline:
@@ -53,8 +55,6 @@ extends:
       sourceRepositoriesToScan:
         exclude:
           - repository: azure-sdk-build-tools
-          - ${{ if ne(parameters.CheckoutNone, 'true') }}:
-            - repository: azure-sdk-for-js
       credscan:
         ${{ if ne(parameters.CheckoutNone, 'true') }}:
           suppressionsFile: '$(Build.SourcesDirectory)/eng/CredScanSuppression.json'
