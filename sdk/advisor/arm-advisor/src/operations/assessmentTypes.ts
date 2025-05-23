@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Operations } from "../operationsInterfaces/index.js";
+import { AssessmentTypes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AdvisorManagementClient } from "../advisorManagementClient.js";
 import {
-  OperationEntity,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse,
+  AssessmentTypeResult,
+  AssessmentTypesListNextOptionalParams,
+  AssessmentTypesListOptionalParams,
+  AssessmentTypesListResponse,
+  AssessmentTypesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing AssessmentTypes operations. */
+export class AssessmentTypesImpl implements AssessmentTypes {
   private readonly client: AdvisorManagementClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class AssessmentTypes class.
    * @param client Reference to the service client
    */
   constructor(client: AdvisorManagementClient) {
@@ -35,12 +35,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all the available Advisor REST API operations.
+   * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationEntity> {
+    options?: AssessmentTypesListOptionalParams,
+  ): PagedAsyncIterableIterator<AssessmentTypeResult> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,10 +59,10 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    options?: AssessmentTypesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<OperationEntity[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<AssessmentTypeResult[]> {
+    let result: AssessmentTypesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,20 +81,20 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<OperationEntity> {
+    options?: AssessmentTypesListOptionalParams,
+  ): AsyncIterableIterator<AssessmentTypeResult> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all the available Advisor REST API operations.
+   * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+    options?: AssessmentTypesListOptionalParams,
+  ): Promise<AssessmentTypesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -105,8 +105,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams,
-  ): Promise<OperationsListNextResponse> {
+    options?: AssessmentTypesListNextOptionalParams,
+  ): Promise<AssessmentTypesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec,
@@ -117,18 +117,18 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Advisor/operations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/assessmentTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationEntityListResult,
+      bodyMapper: Mappers.AssessmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -137,13 +137,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationEntityListResult,
+      bodyMapper: Mappers.AssessmentTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
