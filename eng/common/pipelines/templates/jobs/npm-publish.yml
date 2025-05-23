@@ -57,16 +57,16 @@ jobs:
                 MainPublisher: 'ESRPRELPACMANTEST'
                 productstate: ${{ parameters.Tag }}
 
-            - ${{ else }}:
-              - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-                parameters:
-                  npmrcPath: $(ArtifactPath)/.npmrc
-                  registryUrl: ${{ parameters.Registry }}
+          - ${{ else }}:
+            - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+              parameters:
+                npmrcPath: $(ArtifactPath)/.npmrc
+                registryUrl: ${{ parameters.Registry }}
 
-              - pwsh: |
-                  foreach ($package in (dir $(ArtifactPath) *.tgz -Recurse)) {
-                    Write-Host "npm publish $package --verbose --access public --tag ${{ parameters.Tag }} --registry ${{ parameters.Registry }}"
-                    npm publish $package --verbose --access public --tag ${{ parameters.Tag }} --registry ${{ parameters.Registry }}
-                  }
-                displayName: 'Publish ${{ parameters.ArtifactName }}'
+            - pwsh: |
+                foreach ($package in (dir $(ArtifactPath) *.tgz -Recurse)) {
+                  Write-Host "npm publish $package --verbose --access public --tag ${{ parameters.Tag }} --registry ${{ parameters.Registry }}"
+                  npm publish $package --verbose --access public --tag ${{ parameters.Tag }} --registry ${{ parameters.Registry }}
+                }
+              displayName: 'Publish ${{ parameters.ArtifactName }}'
   
