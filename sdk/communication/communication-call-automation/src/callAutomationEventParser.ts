@@ -93,6 +93,29 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.IncomingCall":
       callbackEvent = { kind: "IncomingCall" } as IncomingCall;
+
+      // Normalize customContext: convert undefined to null and ensure all properties are null if undefined
+      if (parsed.customContext === undefined) {
+        parsed.customContext = {
+          voipHeaders: null,
+          sipHeaders: null,
+          teamsPhoneCallDetails: null,
+        };
+      } else if (parsed.customContext) {
+        // If customContext exists, ensure its properties are null instead of undefined
+        parsed.customContext = {
+          voipHeaders:
+            parsed.customContext.voipHeaders === undefined
+              ? null
+              : parsed.customContext.voipHeaders,
+          sipHeaders:
+            parsed.customContext.sipHeaders === undefined ? null : parsed.customContext.sipHeaders,
+          teamsPhoneCallDetails:
+            parsed.customContext.teamsPhoneCallDetails === undefined
+              ? null
+              : parsed.customContext.teamsPhoneCallDetails,
+        };
+      }
       break;
     case "Microsoft.Communication.CallDisconnected":
       callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;
