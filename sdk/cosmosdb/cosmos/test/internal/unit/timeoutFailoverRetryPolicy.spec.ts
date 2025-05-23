@@ -96,7 +96,7 @@ describe("TimeoutFailoverRetryPolicy", () => {
       OperationType.Read,
       true,
       false,
-      rqContext,
+      gpem,
     );
     retryCtx = { retryCount: 2 };
     timeoutErr = new TimeoutError();
@@ -138,7 +138,7 @@ describe("TimeoutFailoverRetryPolicy", () => {
       OperationType.Read,
       true,
       false,
-      rqContext,
+      gpem,
     );
     assert.equal(
       await retryPolicy_post.shouldRetry(
@@ -159,7 +159,7 @@ describe("TimeoutFailoverRetryPolicy", () => {
       OperationType.Read,
       false,
       false,
-      rqContext,
+      gpem,
     );
     assert.equal(
       await retryPolicy_endpointDiscoveryDisabled.shouldRetry(
@@ -216,7 +216,7 @@ describe("TimeoutFailoverRetryPolicy", () => {
       OperationType.Read,
       true,
       false,
-      rqContext,
+      gpem,
     );
 
     for (let i = 0; i < 120; i++) {
@@ -270,7 +270,7 @@ describe("TimeoutFailoverRetryPolicy", () => {
       OperationType.Create,
       true,
       false,
-      rqContext,
+      gpem,
     );
     assert.equal(
       await retryPolicy_multipleWriteLocationsDisabled.shouldRetry(
@@ -311,7 +311,7 @@ describe("TimeoutFailoverRetryPolicy", () => {
       OperationType.Read,
       true,
       false,
-      rqContext,
+      gpem,
     );
     //  initialising redable locations
     await gem_test2.resolveServiceEndpoint(
