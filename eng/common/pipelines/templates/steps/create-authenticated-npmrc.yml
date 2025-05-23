@@ -21,3 +21,6 @@ steps:
   displayName: Authenticate .npmrc
   inputs:
     workingFile: ${{ parameters.npmrcPath }}
+- pwsh: |
+    Get-Content '${{ parameters.npmrcPath }}'
+  displayName: 'Show .npmrc'
