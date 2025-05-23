@@ -56,7 +56,8 @@ jobs:
                 ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
                 MainPublisher: 'ESRPRELPACMANTEST'
                 productstate: ${{ parameters.Tag }}
-          - ${{ else }}:
+
+          - ${{ if ne(parameters.Registry, 'https://registry.npmjs.org/') }}:
             - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
               parameters:
                 npmrcPath: $(ArtifactPath)/.npmrc
