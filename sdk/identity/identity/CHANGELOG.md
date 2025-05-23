@@ -79,8 +79,6 @@
 
 - Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209)
 
-<!-- dev-tool snippets ignore -->
-
 ## 4.5.0-beta.3 (2024-09-18)
 
 ### Features Added

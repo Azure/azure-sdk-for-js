@@ -33,18 +33,16 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
-  // (Optional) Define an onResponse callback to monitor the progress of polling
-  function onResponse(response: any): void {
-    console.log(`Received response with status: ${response.parsedBody?.status}`);
-  }
-
   // Create vector store file, which will automatically poll until the operation is complete
   const vectorStoreFile1 = await client.vectorStoreFiles.create(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: onResponse,
+    // (Optional) Define an onResponse callback to monitor the progress of polling
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
   });
   console.log(
     `Created vector store file with status ${vectorStoreFile1.status}, vector store file ID: ${vectorStoreFile1.id}`,
@@ -59,7 +57,9 @@ export async function main(): Promise<void> {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: onResponse,
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.status}`);
+    },
   });
   const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
     abortSignal: abortController.signal,

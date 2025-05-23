@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "../src";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import {
@@ -40,7 +40,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleConfiguration", () => {
-    const resource = new Resource({ testAttribute: "testValue" });
+    const resource = resourceFromAttributes({ testAttribute: "testValue" });
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         // Offline storage

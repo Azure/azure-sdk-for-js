@@ -30,7 +30,7 @@ export function createServiceNetworkingManagement(
 ): ServiceNetworkingManagementContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-servicenetworking/2.0.1`;
+  const userAgentInfo = `azsdk-js-arm-servicenetworking/2.1.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -44,7 +44,7 @@ export function createServiceNetworkingManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-01-01";
+  const apiVersion = options.apiVersion ?? "2025-03-01-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

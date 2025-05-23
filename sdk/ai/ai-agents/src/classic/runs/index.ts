@@ -18,11 +18,13 @@ import {
   getRun,
   listRuns,
   createRun,
+  createRunAndPoll,
 } from "../../api/runs/operations.js";
 import { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
 import { CreateThreadAndRunOptionalParams } from "../../api/options.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Runs operations. */
 export interface RunsOperations {
@@ -38,7 +40,7 @@ export interface RunsOperations {
     runId: string,
     toolOutputs: ToolOutput[],
     options?: RunsSubmitToolOutputsToRunOptionalParams,
-  ) => Promise<ThreadRun>;
+  ) => AgentRunResponse;
   /** Modifies an existing thread run. */
   update: (
     threadId: string,
@@ -58,6 +60,12 @@ export interface RunsOperations {
     assistantId: string,
     options?: RunsCreateRunOptionalParams,
   ) => AgentRunResponse;
+  /** Creates a new run for an agent thread with polling. */
+  createAndPoll: (
+    threadId: string,
+    assistantId: string,
+    options?: RunsCreateRunOptionalParams,
+  ) => PollerLike<OperationState<ThreadRun>, ThreadRun>;
   /** Creates a new thread and run for an agent. */
   createThreadAndRun: (
     assistantId: string,
@@ -83,6 +91,8 @@ function _getRuns(context: AgentsContext) {
       listRuns(context, threadId, options),
     create: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) =>
       createRun(context, threadId, assistantId, options),
+    createAndPoll: (threadId: string, assistantId: string, options?: RunsCreateRunOptionalParams) =>
+      createRunAndPoll(context, threadId, assistantId, options),
     createThreadAndRun: (assistantId: string, options?: RunsCreateRunOptionalParams) =>
       createThreadAndRun(context, assistantId, options),
   };

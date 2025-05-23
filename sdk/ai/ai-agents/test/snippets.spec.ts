@@ -23,8 +23,7 @@ import {
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
-import * as fs from "node:fs";
-import { delay } from "@azure/core-util";
+import * as fs from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 
 describe("snippets", function () {
@@ -76,6 +75,15 @@ describe("snippets", function () {
     const toolSet = new ToolSet();
     toolSet.addFileSearchTool([vectorStore.id]);
     toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+    // @ts-preserve-whitespace
+    // Create agent with tool set
+    const agent = await client.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful agent",
+      tools: toolSet.toolDefinitions,
+      toolResources: toolSet.toolResources,
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
   it("fileSearch", async function () {
@@ -236,13 +244,11 @@ describe("snippets", function () {
             return undefined;
           }
         }
-        const result = this.functionTools
-          .map((tool) =>
-            tool.definition.function.name === toolCall.function.name
-              ? tool.func(...args)
-              : undefined,
-          )
-          .find((r) => r !== undefined);
+        // Create a mapping of function names to their implementations
+        const functionMap = new Map(
+          this.functionTools.map((tool) => [tool.definition.function.name, tool.func]),
+        );
+        const result = functionMap.get(toolCall.function.name)?.(...args);
         return result
           ? {
               toolCallId: toolCall.id,
@@ -507,15 +513,18 @@ describe("snippets", function () {
   });
 
   it("createRun", async function () {
-    let run = await client.runs.create(thread.id, agent.id);
-    console.log(`Created run, run ID: ${run.id}`);
     // @ts-preserve-whitespace
-    // Wait for run to complete
-    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await delay(1000);
-      run = await client.runs.get(thread.id, run.id);
-      console.log(`Run status: ${run.status}`);
-    }
+    // Create and poll a run
+    console.log("Creating run...");
+    const run = await client.runs.createAndPoll(thread.id, agent.id, {
+      pollingOptions: {
+        intervalInMs: 2000,
+      },
+      onResponse: (response): void => {
+        console.log(`Received response with status: ${response.status}`);
+      },
+    });
+    console.log(`Run finished with status: ${run.status}`);
   });
 
   it("createThreadAndRun", async function () {

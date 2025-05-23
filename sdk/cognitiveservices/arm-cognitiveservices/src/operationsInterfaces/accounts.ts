@@ -48,9 +48,7 @@ export interface Accounts {
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: AccountsListOptionalParams,
-  ): PagedAsyncIterableIterator<Account>;
+  list(options?: AccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
   /**
    * List available Models for the requested Cognitive Services account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -75,12 +73,7 @@ export interface Accounts {
     accountName: string,
     account: Account,
     options?: AccountsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsCreateResponse>,
-      AccountsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
   /**
    * Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the
    * keys for developer to access intelligent APIs. It's also the resource type for billing.
@@ -107,12 +100,7 @@ export interface Accounts {
     accountName: string,
     account: Account,
     options?: AccountsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsUpdateResponse>,
-      AccountsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
   /**
    * Updates a Cognitive Services account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

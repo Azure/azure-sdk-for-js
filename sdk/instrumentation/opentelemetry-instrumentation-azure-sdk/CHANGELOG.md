@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updates OpenTelemetry packages to v2.
+
 ## 1.0.0-beta.8 (2025-02-11)
 
 ### Bugs Fixed
