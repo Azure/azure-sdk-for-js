@@ -183,7 +183,7 @@ const SuccessResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-describe("Per Partition Automatic Failover", { timeout: 180000 }, () => {
+describe("Per Partition Circuit Breaker", { timeout: 30000 }, () => {
   it("ppcb", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
