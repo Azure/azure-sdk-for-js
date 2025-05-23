@@ -212,7 +212,7 @@ describe("Per Partition Circuit Breaker", { timeout: 30000 }, () => {
         preferredLocations: ["East US", "Australia East", "West US"],
         enablePartitionLevelFailover: true,
         enablePartitionLevelCircuitBreaker: true,
-        useMultipleWriteLocations: false,
+        useMultipleWriteLocations: true,
       },
     };
     const plugins: PluginConfig[] = [
