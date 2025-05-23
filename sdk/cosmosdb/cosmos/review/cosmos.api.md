@@ -183,7 +183,6 @@ export type ClientConfigDiagnostic = {
 
 // @public (undocumented)
 export class ClientContext {
-    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager, clientConfig: ClientConfigDiagnostic, diagnosticLevel: CosmosDbDiagnosticLevel, globalPartitionEndpointManager: GlobalPartitionEndpointManager);
     // (undocumented)
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticNode, partitionKeyRangeId, }: {
@@ -254,6 +253,10 @@ export class ClientContext {
     getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<readonly string[]>;
+    // Warning: (ae-forgotten-export) The symbol "GlobalPartitionEndpointManager" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    globalPartitionEndpointManager: GlobalPartitionEndpointManager;
     // (undocumented)
     initializeDiagnosticSettings(diagnosticLevel: CosmosDbDiagnosticLevel): void;
     // (undocumented)
@@ -291,13 +294,14 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey, diagnosticNode, partitionKeyRangeId, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
+        partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     recordDiagnostics(diagnostic: CosmosDiagnostics): void;
@@ -472,6 +476,7 @@ export interface ConnectionPolicy {
     connectionMode?: ConnectionMode;
     enableBackgroundEndpointRefreshing?: boolean;
     enableEndpointDiscovery?: boolean;
+    enablePartitionLevelCircuitBreaker?: boolean;
     enablePartitionLevelFailover?: boolean;
     endpointRefreshRateInMs?: number;
     preferredLocations?: string[];
@@ -626,6 +631,11 @@ export const Constants: {
     WritableLocations: string;
     ReadableLocations: string;
     LocationUnavailableExpirationTimeInMs: number;
+    StalePartitionUnavailabilityRefreshIntervalInMs: number;
+    AllowedPartitionUnavailabilityDurationInMs: number;
+    ReadRequestFailureCounterThreshold: number;
+    WriteRequestFailureCounterThreshold: number;
+    TimeoutCounterResetWindow: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -1299,7 +1309,7 @@ export class GlobalEndpointManager {
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
     // (undocumented)
-    getAvailableReadEndpoints(): Promise<ReadonlyArray<string>>;
+    getAvailableReadLocations(): Promise<ReadonlyArray<Location_2>>;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
