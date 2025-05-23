@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
-import type { OperationType } from "../common/index.js";
+import { type OperationType } from "../common/index.js";
 import { isReadRequest } from "../common/helper.js";
 import type { GlobalEndpointManager } from "../globalEndpointManager.js";
-import type { ErrorResponse } from "../request/index.js";
+import type { ErrorResponse, RequestContext } from "../request/index.js";
 import type { RetryContext } from "./RetryContext.js";
 import type { RetryPolicy } from "./RetryPolicy.js";
 
@@ -29,6 +29,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
   constructor(
     private globalEndpointManager: GlobalEndpointManager,
     private operationType: OperationType,
+    private requestContext: RequestContext,
   ) {
     this.maxTries = EndpointDiscoveryRetryPolicy.maxTries;
     this.currentRetryAttemptCount = 0;
@@ -53,10 +54,17 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
       return false;
     }
 
+    const resp =
+      await this.requestContext.globalPartitionEndpointManager.tryMarkEndpointUnavailableForPartitionKeyRange(
+        this.requestContext,
+      );
+    if (resp) {
+      return true;
+    }
+
     if (!this.globalEndpointManager.enableEndpointDiscovery) {
       return false;
     }
-
     if (this.currentRetryAttemptCount >= this.maxTries) {
       return false;
     }
