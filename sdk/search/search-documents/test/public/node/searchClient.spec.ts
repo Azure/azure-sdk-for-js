@@ -4,6 +4,7 @@
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
   AutocompleteResult,
   SearchFieldArray,
@@ -23,7 +24,6 @@ import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("SearchClient", { timeout: 20_000 }, () => {
   describe("constructor", () => {
@@ -71,17 +71,25 @@ describe("SearchClient", { timeout: 20_000 }, () => {
     let indexClient: SearchIndexClient;
     let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
+    let TEST_AGENT_NAME: string;
     let indexDefinition: SearchIndex;
 
     beforeEach(async (ctx) => {
       recorder = new Recorder(ctx);
       TEST_INDEX_NAME = createRandomIndexName();
+      TEST_AGENT_NAME = createRandomIndexName();
       ({
         searchClient,
+        openAIClient,
         indexClient,
         indexName: TEST_INDEX_NAME,
-        openAIClient,
-      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+        agentName: TEST_AGENT_NAME,
+      } = await createClients<Hotel>(
+        defaultServiceVersion,
+        recorder,
+        TEST_INDEX_NAME,
+        TEST_AGENT_NAME,
+      ));
       indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
