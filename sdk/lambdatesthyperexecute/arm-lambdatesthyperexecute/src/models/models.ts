@@ -545,10 +545,10 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -557,8 +557,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -715,6 +715,5 @@ export function organizationResourceArrayDeserializer(result: Array<Organization
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** 2024-02-01-preview version */
-  V20240201Preview = "2024-02-01-preview",
+  V20240201 = "2024-02-01",
 }

@@ -154,7 +154,7 @@ export async function deleteFile(
 export function _uploadFileSend(
   context: Client,
   body: {
-    file: ReadableStream | NodeJS.ReadableStream;
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream;
     purpose: FilePurpose;
     filename?: string;
   },
@@ -184,7 +184,7 @@ export async function _uploadFileDeserialize(result: PathUncheckedResponse): Pro
 export async function uploadFileInternal(
   context: Client,
   body: {
-    file: ReadableStream | NodeJS.ReadableStream;
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream;
     purpose: FilePurpose;
     filename?: string;
   },
@@ -198,7 +198,7 @@ export async function uploadFileInternal(
 export function uploadFile(
   context: Client,
   body: {
-    file: ReadableStream | NodeJS.ReadableStream;
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream;
     purpose: FilePurpose;
     filename?: string;
   },
@@ -225,7 +225,7 @@ export function uploadFile(
 export function uploadFileAndPoll(
   context: Client,
   body: {
-    file: ReadableStream | NodeJS.ReadableStream;
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream;
     purpose: FilePurpose;
     filename?: string;
   },

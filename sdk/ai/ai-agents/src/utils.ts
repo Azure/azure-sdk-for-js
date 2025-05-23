@@ -124,11 +124,13 @@ export class ToolUtility {
   static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
     definition: BingGroundingToolDefinition;
   } {
+    // Ensure searchConfigurations is an array even if it's undefined
+    const configs = searchConfigurations || [];
     return {
       definition: {
         type: "bing_grounding",
         bingGrounding: {
-          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
+          searchConfigurations: configs.map((searchConfiguration) => ({
             connectionId: searchConfiguration.connectionId,
             market: searchConfiguration?.market,
             setLang: searchConfiguration?.setLang,

@@ -30,7 +30,7 @@ Add the exporter to your existing OpenTelemetry Tracer Provider (`NodeTracerProv
 ```ts snippet:ReadmeSampleDistributedTracing
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { NodeTracerProvider, BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 
 // Create an exporter instance
@@ -40,7 +40,7 @@ const exporter = new AzureMonitorTraceExporter({
 
 // Create and configure the Node Tracer provider
 const tracerProvider = new NodeTracerProvider({
-  resource: new Resource({
+  resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: "basic-service",
   }),
   spanProcessors: [
@@ -110,7 +110,7 @@ You can enable sampling to limit the amount of telemetry records you receive. In
 ```ts snippet:ReadmeSampleSampling
 import { ApplicationInsightsSampler } from "@azure/monitor-opentelemetry-exporter";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
@@ -118,7 +118,7 @@ import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 const aiSampler = new ApplicationInsightsSampler(0.75);
 const provider = new NodeTracerProvider({
   sampler: aiSampler,
-  resource: new Resource({
+  resource: resourceFromAttributes({
     [ATTR_SERVICE_NAME]: "basic-service",
   }),
 });

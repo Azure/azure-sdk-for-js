@@ -39,13 +39,13 @@ export interface FilesOperations {
   delete: (fileId: string, options?: FilesDeleteFileOptionalParams) => Promise<FileDeletionStatus>;
   /** Uploads a file for use by other operations. */
   upload: (
-    file: ReadableStream | NodeJS.ReadableStream,
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options: FilesUploadFileOptionalParams,
   ) => Promise<FileInfo>;
   /** Uploads a file for use by other operations with polling */
   uploadAndPoll: (
-    file: ReadableStream | NodeJS.ReadableStream,
+    file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options: FilesUploadFileOptionalParams,
   ) => PollerLike<OperationState<FileInfo>, FileInfo>;
@@ -62,12 +62,12 @@ function _getFiles(context: AgentsContext) {
     delete: (fileId: string, options?: FilesDeleteFileOptionalParams) =>
       deleteFile(context, fileId, options),
     upload: (
-      file: ReadableStream | NodeJS.ReadableStream,
+      file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
       purpose: FilePurpose,
       options: FilesUploadFileOptionalParams,
     ) => uploadFile(context, { file: file, purpose: purpose, filename: options.fileName }, options),
     uploadAndPoll: (
-      file: ReadableStream | NodeJS.ReadableStream,
+      file: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
       purpose: FilePurpose,
       options: FilesUploadFileOptionalParams,
     ) => uploadFileAndPoll(context, { file, purpose, filename: options.fileName }, options),

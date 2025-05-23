@@ -37,6 +37,7 @@ export {
   IndexUnion,
   IndexType,
   AzureAISearchIndex,
+  FieldMapping,
   ManagedAzureAISearchIndex,
   CosmosDBIndex,
   EmbeddingConfiguration,
