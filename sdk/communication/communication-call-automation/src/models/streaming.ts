@@ -120,8 +120,8 @@ export type StreamingDataKind =
   | "AudioData"
   | "AudioMetadata"
   | "TranscriptionData"
-    | "TranscriptionMetadata"
-    | "DtmfData";
+  | "TranscriptionMetadata"
+  | "DtmfData";
 
 // Enum for channel.
 export enum Channel {

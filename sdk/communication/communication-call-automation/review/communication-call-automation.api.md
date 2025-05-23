@@ -1507,7 +1507,7 @@ export class StreamingData {
 }
 
 // @public (undocumented)
-export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata";
+export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata" | "DtmfData";
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata | DtmfData;
