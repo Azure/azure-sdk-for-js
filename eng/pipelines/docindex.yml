@@ -57,8 +57,8 @@ jobs:
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
     pool:
-      name: azsdk-pool
-      demands: ImageOverride -equals ubuntu-22.04
+      name: $(LINUXPOOL)
+      demands: $(LinuxImageDemand)
 
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs
