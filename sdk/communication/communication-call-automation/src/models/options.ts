@@ -390,6 +390,8 @@ export interface HoldOptions extends OperationOptions {
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
+  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUrl?: string;
 }
 
 /**

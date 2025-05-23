@@ -499,6 +499,8 @@ export class CallMedia {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext:
         options.operationContext !== undefined ? options.operationContext : undefined,
+      operationCallbackUri:
+        options.operationCallbackUrl !== undefined ? options.operationCallbackUrl : undefined,
     };
     return this.callMedia.unhold(this.callConnectionId, unholdRequest);
   }

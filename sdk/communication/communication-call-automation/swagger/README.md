@@ -15,7 +15,7 @@ module-kind: esm
 tag: package-2025-05-15
 require:
   - https://github.com/Azure/azure-rest-api-specs/blob/8bf7f264d186b52eccb579accd3f584788511049/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.4.0-beta.2
+package-version: 1.4.0
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -64,143 +64,14 @@ directive:
       from: SsmlSource
       to: SsmlSourceInternal
   - rename-model:
-      from: AddParticipantSucceeded
-      to: RestAddParticipantSucceeded
-  - rename-model:
-      from: AddParticipantFailed
-      to: RestAddParticipantFailed
-  - rename-model:
-      from: RemoveParticipantSucceeded
-      to: RestRemoveParticipantSucceeded
-  - rename-model:
-      from: RemoveParticipantFailed
-      to: RestRemoveParticipantFailed
-  - rename-model:
-      from: CallConnected
-      to: RestCallConnected
-  - rename-model:
-      from: CallDisconnected
-      to: RestCallDisconnected
-  - rename-model:
-      from: CallTransferAccepted
-      to: RestCallTransferAccepted
-  - rename-model:
-      from: CallTransferFailed
-      to: RestCallTransferFailed
-  - rename-model:
-      from: RecordingStateChanged
-      to: RestRecordingStateChanged
-  - rename-model:
-      from: TeamsRecordingStateChanged
-      to: RestTeamsRecordingStateChanged
-  - rename-model:
-      from: TeamsComplianceRecordingStateChanged
-      to: RestTeamsComplianceRecordingStateChanged
-  - rename-model:
-      from: ParticipantsUpdated
-      to: RestParticipantsUpdated
-  - rename-model:
-      from: PlayCompleted
-      to: RestPlayCompleted
-  - rename-model:
-      from: PlayFailed
-      to: RestPlayFailed
-  - rename-model:
-      from: PlayCanceled
-      to: RestPlayCanceled
-  - rename-model:
-      from: RecognizeCompleted
-      to: RestRecognizeCompleted
-  - rename-model:
-      from: RecognizeFailed
-      to: RestRecognizeFailed
-  - rename-model:
-      from: RecognizeCanceled
-      to: RestRecognizeCanceled
-  - rename-model:
-      from: ResultInformation
-      to: RestResultInformation
-  - rename-model:
-      from: ContinuousDtmfRecognitionToneReceived
-      to: RestContinuousDtmfRecognitionToneReceived
-  - rename-model:
-      from: ContinuousDtmfRecognitionToneFailed
-      to: RestContinuousDtmfRecognitionToneFailed
-  - rename-model:
-      from: ContinuousDtmfRecognitionStopped
-      to: RestContinuousDtmfRecognitionStopped
-  - rename-model:
-      from: SendDtmfTonesCompleted
-      to: RestSendDtmfTonesCompleted
-  - rename-model:
-      from: SendDtmfTonesFailed
-      to: RestSendDtmfTonesFailed
-  - rename-model:
-      from: ToneInfo
-      to: RestToneInfo
-  - rename-model:
-      from: CancelAddParticipantSucceeded
-      to: RestCancelAddParticipantSucceeded
-  - rename-model:
-      from: CancelAddParticipantFailed
-      to: RestCancelAddParticipantFailed
-  - rename-model:
       from: CallIntelligenceOptions
       to: CallIntelligenceOptionsInternal
   - rename-model:
       from: CustomCallingContext
       to: CustomCallingContextInternal
   - rename-model:
-      from: TranscriptionStarted
-      to: RestTranscriptionStarted
-  - rename-model:
-      from: TranscriptionStopped
-      to: RestTranscriptionStopped
-  - rename-model:
-      from: TranscriptionUpdated
-      to: RestTranscriptionUpdated
-  - rename-model:
-      from: TranscriptionFailed
-      to: RestTranscriptionFailed
-  - rename-model:
-      from: CreateCallFailed
-      to: RestCreateCallFailed
-  - rename-model:
-      from: AnswerFailed
-      to: RestAnswerFailed
-  - rename-model:
-      from: HoldFailed
-      to: RestHoldFailed
-  - rename-model:
-      from: ConnectFailed
-      to: RestConnectFailed
-  - rename-model:
-      from: MediaStreamingStopped
-      to: RestMediaStreamingStopped
-  - rename-model:
-      from: MediaStreamingStarted
-      to: RestMediaStreamingStarted
-  - rename-model:
-      from: MediaStreamingFailed
-      to: RestMediaStreamingFailed
-  - rename-model:
-      from: PlayStarted
-      to: RestPlayStarted
-  - rename-model:
       from: MediaStreamingOptions
       to: MediaStreamingOptionsInternal
-  - rename-model:
-      from: MediaStreamingStopped
-      to: RestMediaStreamingStopped
-  - rename-model:
-      from: MediaStreamingStarted
-      to: RestMediaStreamingStarted
-  - rename-model:
-      from: MediaStreamingFailed
-      to: RestMediaStreamingFailed
-  - rename-model:
-      from: PlayStarted
-      to: RestPlayStarted 
 ```
 
 ```yaml

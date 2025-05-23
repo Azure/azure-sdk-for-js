@@ -82,7 +82,6 @@ export class StreamingData {
           encoding: jsonObject.audioMetadata.encoding,
           sampleRate: jsonObject.audioMetadata.sampleRate,
           channels: jsonObject.audioMetadata.channels,
-          length: jsonObject.audioMetadata.length,
         };
         StreamingData.streamingKind = kind;
         return audioMetadata;
