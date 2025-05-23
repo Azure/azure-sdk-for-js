@@ -33,12 +33,12 @@ jobs:
       runOnce:
         deploy:
           steps:
+          - pwsh: |
+              foreach ($package in (dir $(ArtifactPath) *.tgz -Recurse)) {
+                Write-Host "Publishing $package"
+              }
+            displayName: 'Display packages to be published'
           - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
-            - pwsh: |
-                foreach ($package in (dir $(ArtifactPath) *.tgz -Recurse)) {
-                  Write-Host "Publishing $package to NPMJS via ESRP"
-                }
-              displayName: 'Display packages to be published'
             - task: EsrpRelease@9
               displayName: 'Publish ${{ parameters.ArtifactName }} via ESRP'
               inputs:
@@ -56,8 +56,8 @@ jobs:
                 ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
                 MainPublisher: 'ESRPRELPACMANTEST'
                 productstate: ${{ parameters.Tag }}
-
-          - ${{ if ne(parameters.Registry, 'https://registry.npmjs.org/') }}:
+  
+            - ${{ if ne(parameters.Registry, 'https://registry.npmjs.org/') }}:
             - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
               parameters:
                 npmrcPath: $(ArtifactPath)/.npmrc
@@ -69,4 +69,3 @@ jobs:
                   npm publish $package --verbose --access public --tag ${{ parameters.Tag }} --registry ${{ parameters.Registry }}
                 }
               displayName: 'Publish ${{ parameters.ArtifactName }}'
-  
