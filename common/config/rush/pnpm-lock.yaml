@@ -463,6 +463,9 @@ importers:
       '@rush-temp/arm-kubernetesconfiguration':
         specifier: file:./projects/arm-kubernetesconfiguration.tgz
         version: file:projects/arm-kubernetesconfiguration.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-kubernetesconfiguration-extensions':
+        specifier: file:./projects/arm-kubernetesconfiguration-extensions.tgz
+        version: file:projects/arm-kubernetesconfiguration-extensions.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-kubernetesconfiguration-extensiontypes':
         specifier: file:./projects/arm-kubernetesconfiguration-extensiontypes.tgz
         version: file:projects/arm-kubernetesconfiguration-extensiontypes.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)
@@ -3056,6 +3059,10 @@ packages:
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
     resolution: {integrity: sha512-Aiden6jzQamDNk/C2lmBij5nSTwOd4npjmS/IRJgwmbaL1ruVBUubx9vzdeN1tt6qN5952A73UpxFfJLFEQRHw==, tarball: file:projects/arm-keyvault.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-kubernetesconfiguration-extensions@file:projects/arm-kubernetesconfiguration-extensions.tgz':
+    resolution: {integrity: sha512-tfTEGLtWnLLrzmBeIIfiZSg2spsoDnqDjd7+uK7p97CTIj6U0D+TISVJAMFa2J9iK4xrxrvVhFTDzeWtiZT4Qg==, tarball: file:projects/arm-kubernetesconfiguration-extensions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration-extensiontypes@file:projects/arm-kubernetesconfiguration-extensiontypes.tgz':
@@ -14154,6 +14161,41 @@ snapshots:
       - yaml
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/core-lro': 2.7.2
+      '@types/node': 18.19.101
+      '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(vitest@3.1.3)
+      '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
+      dotenv: 16.5.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.3(@types/debug@4.1.12)(@types/node@18.19.101)(@vitest/browser@3.1.3)(tsx@4.19.4)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-kubernetesconfiguration-extensions@file:projects/arm-kubernetesconfiguration-extensions.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.101

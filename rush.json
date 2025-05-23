@@ -2391,6 +2391,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-kubernetesconfiguration-extensions",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-kubernetesconfiguration-fluxconfigurations",
       "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations",
       "versionPolicyName": "management"

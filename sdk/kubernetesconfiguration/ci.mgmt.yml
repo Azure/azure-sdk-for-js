@@ -12,6 +12,7 @@ trigger:
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations
+      - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes
       - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations
+      - sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -38,3 +40,5 @@ extends:
         safeName: azurearmkubernetesconfigurationextensiontypes
       - name: azure-arm-kubernetesconfiguration-fluxconfigurations
         safeName: azurearmkubernetesconfigurationfluxconfigurations
+      - name: azure-arm-kubernetesconfiguration-extensions
+        safeName: azurearmkubernetesconfigurationextensions
