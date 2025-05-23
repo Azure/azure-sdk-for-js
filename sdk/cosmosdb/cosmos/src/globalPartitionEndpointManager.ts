@@ -187,10 +187,8 @@ export class GlobalPartitionEndpointManager {
       return false;
     }
 
-    const currentTime = Date.now();
     await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
-      currentTime,
     );
 
     return partitionKeyRangeFailoverInfo.CanCircuitBreakerTriggerPartitionFailOver(
@@ -393,15 +391,14 @@ export class PartitionKeyRangeFailoverInfo {
   private failedEndPoints: string[] = [];
   public currentEndPoint: string;
   public firstFailedEndPoint: string;
+
   private consecutiveReadRequestFailureCount: number = 0;
   private consecutiveWriteRequestFailureCount: number = 0;
-  private readRequestFailureCounterThreshold: number = 10;
-  private writeRequestFailureCounterThreshold: number = 5;
-  private failureCountSemaphore: semaphore.Semaphore;
   private firstRequestFailureTime = new Date();
   private lastRequestFailureTime = new Date();
+
+  private failureCountSemaphore: semaphore.Semaphore;
   private timestampSemaphore: semaphore.Semaphore;
-  private timeoutCounterResetWindow: number = 1000 * 60 * 1; // 1 minute
   private tryMoveNextLocationSemaphore: semaphore.Semaphore;
 
   /**
@@ -422,20 +419,20 @@ export class PartitionKeyRangeFailoverInfo {
       await this.snapshotConsecutiveRequestFailureCount();
 
     return isReadOnlyRequest
-      ? consecutiveReadRequestFailureCount > this.readRequestFailureCounterThreshold
-      : consecutiveWriteRequestFailureCount > this.writeRequestFailureCounterThreshold;
+      ? consecutiveReadRequestFailureCount > Constants.ReadRequestFailureCounterThreshold
+      : consecutiveWriteRequestFailureCount > Constants.WriteRequestFailureCounterThreshold;
   }
 
-  public async incrementRequestFailureCounts(
-    isReadOnlyRequest: boolean,
-    currentTime: number,
-  ): Promise<void> {
+  public async incrementRequestFailureCounts(isReadOnlyRequest: boolean): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.failureCountSemaphore.take(async () => {
         try {
           const { lastRequestFailureTime } = await this.snapshotPartitionFailoverTimestamps();
-
-          if (currentTime - lastRequestFailureTime.getTime() > this.timeoutCounterResetWindow) {
+          const currentTime = new Date();
+          if (
+            currentTime.getTime() - lastRequestFailureTime.getTime() >
+            Constants.TimeoutCounterResetWindow
+          ) {
             this.consecutiveReadRequestFailureCount = 0;
             this.consecutiveWriteRequestFailureCount = 0;
           }
@@ -445,6 +442,7 @@ export class PartitionKeyRangeFailoverInfo {
           } else {
             this.consecutiveWriteRequestFailureCount++;
           }
+          this.lastRequestFailureTime = currentTime;
           return resolve();
         } catch (error) {
           reject(error);
