@@ -19,6 +19,9 @@ parameters:
 - name: oneESTemplateTag
   type: string
   default: release
+- name: CheckoutNone
+  type: boolean
+  default: false
 
 extends:
   ${{ if and(parameters.Use1ESOfficial, eq(parameters.oneESTemplateTag, 'canary')) }}:
@@ -51,7 +54,8 @@ extends:
         exclude:
           - repository: azure-sdk-build-tools
       credscan:
-        suppressionsFile: '$(Build.SourcesDirectory)/eng/CredScanSuppression.json'
+        ${{ if ne(parameters.CheckoutNone, 'true') }}:
+          suppressionsFile: '$(Build.SourcesDirectory)/eng/CredScanSuppression.json'
         toolVersion: '2.3.12.23'
       eslint:
         enabled: false
