@@ -24,8 +24,8 @@ jobs:
         artifactName: packages
         targetPath: $(Pipeline.Workspace)/packages
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-general
-      image: azsdk-pool-mms-ubuntu-2004-1espt
+      name: azsdk-pool
+      image: ubuntu-24.04
       os: linux
     displayName: 'Publish ${{parameters.Artifact.name}} to ${{parameters.Registry}}'
     strategy:
