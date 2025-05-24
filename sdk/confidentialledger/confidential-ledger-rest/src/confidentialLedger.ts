@@ -22,7 +22,7 @@ export interface ConfidentialLedgerClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-01-26-preview", ...options }: ConfidentialLedgerClientOptions = {},
+  { apiVersion = "2024-12-09-preview", ...options }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
   const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.2-beta.1`;
