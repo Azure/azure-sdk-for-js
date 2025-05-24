@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-neonpostgres",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A generated SDK for PostgresClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -20,8 +20,7 @@
       "./api/projects": "./src/api/projects/index.ts",
       "./api/organizations": "./src/api/organizations/index.ts",
       "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts",
-      "./models/models": "./src/models/models/index.ts"
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -72,9 +71,9 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "@azure/core-util": "^1.11.0",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-util": "^1.12.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -83,7 +82,7 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.9.0",
+    "@azure/identity": "^4.9.1",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
@@ -106,7 +105,7 @@
     "lint:fix": "echo skipped",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
@@ -319,24 +318,6 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
-      }
-    },
-    "./models/models": {
-      "browser": {
-        "types": "./dist/browser/models/models/index.d.ts",
-        "default": "./dist/browser/models/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/models/index.d.ts",
-        "default": "./dist/react-native/models/models/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/models/models/index.d.ts",
-        "default": "./dist/esm/models/models/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/models/models/index.d.ts",
-        "default": "./dist/commonjs/models/models/index.js"
       }
     }
   },
