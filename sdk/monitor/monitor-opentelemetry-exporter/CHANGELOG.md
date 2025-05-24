@@ -6,6 +6,7 @@
 
 - Removed error logging upon failure to initialize long interval statsbeat.
 - No longer send statsbeat counters when values are zero.
+- Fix statsbeat throttle recording logic.
 
 ## 1.0.0-beta.31 (2025-04-16)
 
