@@ -1512,7 +1512,7 @@ describe("spanUtils.ts", () => {
     const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
     span.setAttributes({
       [SEMATTRS_ENDUSER_ID]: "test-user-id",
-      "extra.attribute": "foo"
+      "extra.attribute": "foo",
     });
     span.setStatus({
       code: SpanStatusCode.OK,
@@ -1523,11 +1523,11 @@ describe("spanUtils.ts", () => {
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
     expectedTags[KnownContextTagKeys.AiUserId] = "test-user-id";
     expectedTags[KnownContextTagKeys.AiOperationName] = "span";
-      
+
     const expectedProperties = {
       "extra.attribute": "foo",
     };
-    
+
     const expectedBaseData: Partial<RequestData> = {
       id: `${span.spanContext().spanId}`,
       success: true,
@@ -1550,9 +1550,11 @@ describe("spanUtils.ts", () => {
       emptyMeasurements,
       expectedBaseData,
     );
-    
+
     // Specifically verify that SEMATTRS_ENDUSER_ID is not in properties
-    assert.ok(!envelope.data?.baseData?.properties?.[SEMATTRS_ENDUSER_ID], 
-      "SEMATTRS_ENDUSER_ID should not be included in properties");
+    assert.ok(
+      !envelope.data?.baseData?.properties?.[SEMATTRS_ENDUSER_ID],
+      "SEMATTRS_ENDUSER_ID should not be included in properties",
+    );
   });
 });
