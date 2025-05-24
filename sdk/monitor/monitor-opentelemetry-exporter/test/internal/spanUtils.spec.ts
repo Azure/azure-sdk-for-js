@@ -1518,14 +1518,15 @@ describe("spanUtils.ts", () => {
       code: SpanStatusCode.OK,
     });
     span.end();
-    const readableSpan = spanToReadableSpan(span);      const expectedTags: Tags = {};
-      expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      expectedTags[KnownContextTagKeys.AiUserId] = "test-user-id";
-      expectedTags[KnownContextTagKeys.AiOperationName] = "span";
+    const readableSpan = spanToReadableSpan(span);
+    const expectedTags: Tags = {};
+    expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+    expectedTags[KnownContextTagKeys.AiUserId] = "test-user-id";
+    expectedTags[KnownContextTagKeys.AiOperationName] = "span";
       
-      const expectedProperties = {
-        "extra.attribute": "foo",
-      };
+    const expectedProperties = {
+      "extra.attribute": "foo",
+    };
     
     const expectedBaseData: Partial<RequestData> = {
       id: `${span.spanContext().spanId}`,
