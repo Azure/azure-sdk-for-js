@@ -18,21 +18,22 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-import api from "@opentelemetry/api";
+import * as api from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import type { Tracer } from "@opentelemetry/sdk-trace-base";
 import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import type { IncomingMessage, ServerResponse } from "node:http";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 // OPEN TELEMETRY SETUP
-let serverTracer: Tracer;
-let clientTracer: Tracer;
+let serverTracer: api.Tracer;
+let clientTracer: api.Tracer;
 setupOpenTelemetry();
 
 // Open Telemetry setup need to happen before http library is loaded
@@ -58,7 +59,7 @@ function handleRequest(request: IncomingMessage, response: ServerResponse): void
     console.log(`traceId: ${currentSpan.spanContext().traceId}`);
   }
   const span = serverTracer.startSpan("handleRequest", {
-    kind: 1, // server
+    kind: api.SpanKind.SERVER,
     attributes: { key: "value" },
   });
   // Annotate our span to capture metadata about the operation
@@ -116,11 +117,14 @@ function setupOpenTelemetry(): void {
   });
 
   const provider = new NodeTracerProvider({
+    resource: resourceFromAttributes({
+      [SemanticResourceAttributes.SERVICE_NAME]: "http-server",
+    }),
     spanProcessors: [new SimpleSpanProcessor(exporter)],
   });
 
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
-  provider.register();
+  api.trace.setGlobalTracerProvider(provider);
 
   registerInstrumentations({
     instrumentations: [new HttpInstrumentation()],
