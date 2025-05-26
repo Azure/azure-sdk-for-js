@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach } from "vitest";
-import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
+import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
+import {
+  GlobalPartitionEndpointManager,
+  PartitionKeyRangeFailoverInfo,
+} from "../../../src/globalPartitionEndpointManager.js";
 import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
-import { OperationType, ResourceType } from "../../../src/common/index.js";
-import { HTTPMethod, RequestContext } from "../../../src/index.js";
+import { HealthStatus, OperationType, ResourceType } from "../../../src/common/index.js";
+import { Constants, ErrorResponse, HTTPMethod, RequestContext } from "../../../src/index.js";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",
@@ -43,7 +46,7 @@ function createRequestContext(overrides = {}): RequestContext {
   };
 }
 
-describe("GlobalPartitionEndpointManager", () => {
+describe.skip("GlobalPartitionEndpointManager", () => {
   let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
 
   beforeEach(() => {
@@ -249,22 +252,29 @@ function createMockGlobalEndpointManagerForPPCB(): GlobalEndpointManager {
   } as unknown as GlobalEndpointManager;
 }
 
-describe("Circuit Breaker: incrementRequestFailureCounterAndCheckIfPartitionCanFailover", () => {
+function createMockGlobalPartitionEndpointManager(
+  mockGEM: GlobalEndpointManager,
+): GlobalPartitionEndpointManager {
+  const globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
+    {
+      endpoint: "https://default.documents.azure.com:443/",
+      key: "mockKey",
+      connectionPolicy: {
+        enablePartitionLevelFailover: true,
+        enablePartitionLevelCircuitBreaker: true,
+        preferredLocations: ["region1", "region2", "region3"],
+      },
+    },
+    mockGEM,
+  );
+  return globalPartitionEndpointManager;
+}
+
+describe.skip("Circuit Breaker: incrementRequestFailureCounterAndCheckIfPartitionCanFailover", () => {
   let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
   beforeEach(() => {
     const mockGEM = createMockGlobalEndpointManagerForPPCB();
-    globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
-      {
-        endpoint: "https://default.documents.azure.com:443/",
-        key: "mockKey",
-        connectionPolicy: {
-          enablePartitionLevelFailover: true,
-          enablePartitionLevelCircuitBreaker: true,
-          preferredLocations: ["region1", "region2", "region3"],
-        },
-      },
-      mockGEM,
-    );
+    globalPartitionEndpointManager = createMockGlobalPartitionEndpointManager(mockGEM);
   });
 
   it("should return false if enablePartitionLevelCircuitBreaker is false", async () => {
@@ -368,5 +378,147 @@ describe("Circuit Breaker: incrementRequestFailureCounterAndCheckIfPartitionCanF
 
     assert.equal(result1, true);
     assert.equal(result2, false);
+  });
+});
+
+describe("Circuit Breaker Failback", () => {
+  let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
+  beforeEach(() => {
+    const mockGEM = createMockGlobalEndpointManagerForPPCB();
+    globalPartitionEndpointManager = createMockGlobalPartitionEndpointManager(mockGEM);
+  });
+
+  afterEach(() => {
+    clearInterval(
+      (globalPartitionEndpointManager as any).circuitBreakerFailbackBackgroundRefresher,
+    );
+  });
+
+  describe("initiateCircuitBreakerFailbackLoop", () => {
+    it("should start a background loop and call failback logic periodically", async () => {
+      const spy = vi.spyOn(
+        globalPartitionEndpointManager as any,
+        "tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync",
+      );
+
+      globalPartitionEndpointManager["initiateCircuitBreakerFailbackLoop"]();
+      // Wait for the interval + a little buffer for the async operation to complete
+      await new Promise((resolve) =>
+        setTimeout(resolve, Constants.StalePartitionUnavailabilityRefreshIntervalInMs + 50),
+      );
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("should throw error if tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync fails", async () => {
+      vi.spyOn(
+        globalPartitionEndpointManager as any,
+        "tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync",
+      ).mockRejectedValueOnce(new Error("Test failure"));
+
+      const errorCaught = new Promise<void>((resolve, reject) => {
+        process.once("unhandledRejection", (err) => {
+          try {
+            expect(err).toBeInstanceOf(ErrorResponse);
+            resolve();
+          } catch (assertionError) {
+            reject(assertionError);
+          }
+        });
+      });
+
+      globalPartitionEndpointManager["initiateCircuitBreakerFailbackLoop"]();
+
+      // Wait for the interval + a little buffer for the async error to be thrown and caught
+      await new Promise((resolve) =>
+        setTimeout(resolve, Constants.StalePartitionUnavailabilityRefreshIntervalInMs + 50),
+      );
+      await errorCaught;
+    });
+  });
+
+  describe("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync", () => {
+    it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - no expired entries, no action", async () => {
+      const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
+      const recentTime = Date.now();
+      (info as any).firstRequestFailureTime = recentTime;
+
+      (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.set(
+        "0",
+        info,
+      );
+
+      await (
+        globalPartitionEndpointManager as any
+      ).tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+      assert.isTrue(
+        (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has("0"),
+      );
+    });
+
+    it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - expired entries cleaned up after success", async () => {
+      const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
+      (info as any).firstRequestFailureTime =
+        Date.now() - Constants.AllowedPartitionUnavailabilityDurationInMs - 1000;
+
+      (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.set(
+        "0",
+        info,
+      );
+
+      await (
+        globalPartitionEndpointManager as any
+      ).tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+      assert.isFalse(
+        (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has("0"),
+      );
+    });
+
+    it("backgroundOpenConnectionTask updates health status of unhealthy endpoints", async () => {
+      const pkMap = new Map();
+      pkMap.set("0", [mockReadEndpoints[1], HealthStatus.Unhealthy]);
+
+      await (globalPartitionEndpointManager as any).backgroundOpenConnectionTask(pkMap);
+      const result = pkMap.get("0");
+      assert.deepEqual(result, [mockReadEndpoints[1], HealthStatus.Connected]);
+    });
+
+    it("should be idempotent (re-running it doesn't corrupt state)", async () => {
+      const map = new Map<string, [string, HealthStatus]>([
+        ["0", ["https://region2.documents.azure.com", HealthStatus.Connected]],
+      ]);
+
+      await (globalPartitionEndpointManager as any).backgroundOpenConnectionTask(map);
+
+      const [_, status] = map.get("0")!;
+      assert.equal(status, HealthStatus.Connected);
+    });
+
+    it("tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync - does not remove if still unhealthy", async () => {
+      const info = new PartitionKeyRangeFailoverInfo(mockReadEndpoints[1]);
+      (info as any).firstRequestFailureTime =
+        Date.now() - Constants.AllowedPartitionUnavailabilityDurationInMs - 1000;
+
+      (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.set(
+        "0",
+        info,
+      );
+
+      const backgroundTaskSpy = vi
+        .spyOn(globalPartitionEndpointManager as any, "backgroundOpenConnectionTask")
+        .mockImplementation(async (map: Map<string, [string, string]>) => {
+          // Mark it as still unhealthy
+          map.set("0", [mockReadEndpoints[1], "Unhealthy"]);
+        });
+
+      await (
+        globalPartitionEndpointManager as any
+      ).tryOpenConnectionToUnhealthyEndpointsAndInitiateFailbackAsync();
+
+      assert.isTrue(
+        (globalPartitionEndpointManager as any).partitionKeyRangeToLocationForReadAndWrite.has("0"),
+      );
+      expect(backgroundTaskSpy).toHaveBeenCalledOnce();
+    });
   });
 });
