@@ -146,7 +146,7 @@ PhoneNumbersClient
 
 - [Search for available phone numbers](#search-for-available-phone-numbers)
 - [Purchase phone numbers from a search](#purchase-phone-numbers-from-a-search)
-- [Browse and reserve available phone numbers](#broswse-and-reserve-available-phone-numbers)
+- [Browse and reserve available phone numbers](#browse-and-reserve-available-phone-numbers)
 - [Release a purchased phone number](#release-a-purchased-phone-number)
 - [Update phone number capabilities](#update-phone-number-capabilities)
 - [Purchase reservation](#purchase-reservation)
