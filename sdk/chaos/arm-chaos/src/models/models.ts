@@ -1,524 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** Model that represents a Capability resource. */
-export interface Capability extends ProxyResource {
-  /** The properties of a capability resource. */
-  properties?: CapabilityProperties;
-}
-
-export function capabilitySerializer(item: Capability): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : capabilityPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function capabilityDeserializer(item: any): Capability {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : capabilityPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Model that represents the Capability properties model. */
-export interface CapabilityProperties {
-  /** String of the Publisher that this Capability extends. */
-  readonly publisher?: string;
-  /** String of the Target Type that this Capability extends. */
-  readonly targetType?: string;
-  /** Localized string of the description. */
-  readonly description?: string;
-  /** URL to retrieve JSON schema of the Capability parameters. */
-  readonly parametersSchema?: string;
-  /** String of the URN for this Capability Type. */
-  readonly urn?: string;
-}
-
-export function capabilityPropertiesSerializer(item: CapabilityProperties): any {
-  return item;
-}
-
-export function capabilityPropertiesDeserializer(item: any): CapabilityProperties {
-  return {
-    publisher: item["publisher"],
-    targetType: item["targetType"],
-    description: item["description"],
-    parametersSchema: item["parametersSchema"],
-    urn: item["urn"],
-  };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: Record<string, any>;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
-  };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
-}
-
-/** Model that represents a list of Capability resources and a link for pagination. */
-export interface _CapabilityListResult {
-  /** The Capability items on this page */
-  value: Capability[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _capabilityListResultDeserializer(item: any): _CapabilityListResult {
-  return {
-    value: capabilityArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function capabilityArraySerializer(result: Array<Capability>): any[] {
-  return result.map((item) => {
-    return capabilitySerializer(item);
-  });
-}
-
-export function capabilityArrayDeserializer(result: Array<Capability>): any[] {
-  return result.map((item) => {
-    return capabilityDeserializer(item);
-  });
-}
-
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _operationListResultDeserializer(item: any): _OperationListResult {
-  return {
-    value: operationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  readonly actionType?: ActionType;
-}
-
-export function operationDeserializer(item: any): Operation {
-  return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
-  };
-}
-
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
-}
-
-export function operationDisplayDeserializer(item: any): OperationDisplay {
-  return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
-  };
-}
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
-}
-
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
- */
-export type Origin = string;
-
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
-}
-
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
- */
-export type ActionType = string;
-
-/** Model that represents a Target resource. */
-export interface Target extends ProxyResource {
-  /** The properties of the target resource. */
-  properties: Record<string, any>;
-  /** Azure resource location. */
-  location?: string;
-}
-
-export function targetSerializer(item: Target): any {
-  return { properties: item["properties"], location: item["location"] };
-}
-
-export function targetDeserializer(item: any): Target {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: item["properties"],
-    location: item["location"],
-  };
-}
-
-/** Model that represents a list of Target resources and a link for pagination. */
-export interface _TargetListResult {
-  /** The Target items on this page */
-  value: Target[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _targetListResultDeserializer(item: any): _TargetListResult {
-  return {
-    value: targetArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function targetArraySerializer(result: Array<Target>): any[] {
-  return result.map((item) => {
-    return targetSerializer(item);
-  });
-}
-
-export function targetArrayDeserializer(result: Array<Target>): any[] {
-  return result.map((item) => {
-    return targetDeserializer(item);
-  });
-}
-
-/** Model that represents a Capability Type resource. */
-export interface CapabilityType extends ProxyResource {
-  /** The properties of the capability type resource. */
-  properties?: CapabilityTypeProperties;
-}
-
-export function capabilityTypeDeserializer(item: any): CapabilityType {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : capabilityTypePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Model that represents the Capability Type properties model. */
-export interface CapabilityTypeProperties {
-  /** String of the Publisher that this Capability Type extends. */
-  readonly publisher?: string;
-  /** String of the Target Type that this Capability Type extends. */
-  readonly targetType?: string;
-  /** Localized string of the display name. */
-  readonly displayName?: string;
-  /** Localized string of the description. */
-  readonly description?: string;
-  /** URL to retrieve JSON schema of the Capability Type parameters. */
-  readonly parametersSchema?: string;
-  /** String of the URN for this Capability Type. */
-  readonly urn?: string;
-  /** String of the kind of this Capability Type. */
-  readonly kind?: string;
-  /** Control plane actions necessary to execute capability type. */
-  readonly azureRbacActions?: string[];
-  /** Data plane actions necessary to execute capability type. */
-  readonly azureRbacDataActions?: string[];
-  /** Required Azure Role Definition Ids to execute capability type. */
-  readonly requiredAzureRoleDefinitionIds?: string[];
-  /** Runtime properties of this Capability Type. */
-  readonly runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
-}
-
-export function capabilityTypePropertiesDeserializer(item: any): CapabilityTypeProperties {
-  return {
-    publisher: item["publisher"],
-    targetType: item["targetType"],
-    displayName: item["displayName"],
-    description: item["description"],
-    parametersSchema: item["parametersSchema"],
-    urn: item["urn"],
-    kind: item["kind"],
-    azureRbacActions: !item["azureRbacActions"]
-      ? item["azureRbacActions"]
-      : item["azureRbacActions"].map((p: any) => {
-          return p;
-        }),
-    azureRbacDataActions: !item["azureRbacDataActions"]
-      ? item["azureRbacDataActions"]
-      : item["azureRbacDataActions"].map((p: any) => {
-          return p;
-        }),
-    requiredAzureRoleDefinitionIds: !item["requiredAzureRoleDefinitionIds"]
-      ? item["requiredAzureRoleDefinitionIds"]
-      : item["requiredAzureRoleDefinitionIds"].map((p: any) => {
-          return p;
-        }),
-    runtimeProperties: !item["runtimeProperties"]
-      ? item["runtimeProperties"]
-      : capabilityTypePropertiesRuntimePropertiesDeserializer(item["runtimeProperties"]),
-  };
-}
-
-/** Runtime properties of this Capability Type. */
-export interface CapabilityTypePropertiesRuntimeProperties {
-  /** String of the kind of the resource's action type (continuous or discrete). */
-  readonly kind?: string;
-}
-
-export function capabilityTypePropertiesRuntimePropertiesDeserializer(
-  item: any,
-): CapabilityTypePropertiesRuntimeProperties {
-  return {
-    kind: item["kind"],
-  };
-}
-
-/** Model that represents a list of Capability Type resources and a link for pagination. */
-export interface _CapabilityTypeListResult {
-  /** The CapabilityType items on this page */
-  value: CapabilityType[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _capabilityTypeListResultDeserializer(item: any): _CapabilityTypeListResult {
-  return {
-    value: capabilityTypeArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function capabilityTypeArrayDeserializer(result: Array<CapabilityType>): any[] {
-  return result.map((item) => {
-    return capabilityTypeDeserializer(item);
-  });
-}
-
 /** Model that represents a Experiment resource. */
 export interface Experiment extends TrackedResource {
   /** The managed service identities assigned to this resource. */
@@ -567,14 +49,18 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -615,11 +101,15 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -636,14 +126,18 @@ export interface ExperimentProperties {
   selectors: ChaosTargetSelectorUnion[];
 }
 
-export function experimentPropertiesSerializer(item: ExperimentProperties): any {
+export function experimentPropertiesSerializer(
+  item: ExperimentProperties,
+): any {
   return {
     steps: chaosExperimentStepArraySerializer(item["steps"]),
     selectors: chaosTargetSelectorUnionArraySerializer(item["selectors"]),
   };
 }
 
-export function experimentPropertiesDeserializer(item: any): ExperimentProperties {
+export function experimentPropertiesDeserializer(
+  item: any,
+): ExperimentProperties {
   return {
     provisioningState: item["provisioningState"],
     steps: chaosExperimentStepArrayDeserializer(item["steps"]),
@@ -681,13 +175,17 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
-export function chaosExperimentStepArraySerializer(result: Array<ChaosExperimentStep>): any[] {
+export function chaosExperimentStepArraySerializer(
+  result: Array<ChaosExperimentStep>,
+): any[] {
   return result.map((item) => {
     return chaosExperimentStepSerializer(item);
   });
 }
 
-export function chaosExperimentStepArrayDeserializer(result: Array<ChaosExperimentStep>): any[] {
+export function chaosExperimentStepArrayDeserializer(
+  result: Array<ChaosExperimentStep>,
+): any[] {
   return result.map((item) => {
     return chaosExperimentStepDeserializer(item);
   });
@@ -708,14 +206,18 @@ export function chaosExperimentStepSerializer(item: ChaosExperimentStep): any {
   };
 }
 
-export function chaosExperimentStepDeserializer(item: any): ChaosExperimentStep {
+export function chaosExperimentStepDeserializer(
+  item: any,
+): ChaosExperimentStep {
   return {
     name: item["name"],
     branches: chaosExperimentBranchArrayDeserializer(item["branches"]),
   };
 }
 
-export function chaosExperimentBranchArraySerializer(result: Array<ChaosExperimentBranch>): any[] {
+export function chaosExperimentBranchArraySerializer(
+  result: Array<ChaosExperimentBranch>,
+): any[] {
   return result.map((item) => {
     return chaosExperimentBranchSerializer(item);
   });
@@ -737,14 +239,18 @@ export interface ChaosExperimentBranch {
   actions: ChaosExperimentActionUnion[];
 }
 
-export function chaosExperimentBranchSerializer(item: ChaosExperimentBranch): any {
+export function chaosExperimentBranchSerializer(
+  item: ChaosExperimentBranch,
+): any {
   return {
     name: item["name"],
     actions: chaosExperimentActionUnionArraySerializer(item["actions"]),
   };
 }
 
-export function chaosExperimentBranchDeserializer(item: any): ChaosExperimentBranch {
+export function chaosExperimentBranchDeserializer(
+  item: any,
+): ChaosExperimentBranch {
   return {
     name: item["name"],
     actions: chaosExperimentActionUnionArrayDeserializer(item["actions"]),
@@ -776,11 +282,15 @@ export interface ChaosExperimentAction {
   type: ExperimentActionType;
 }
 
-export function chaosExperimentActionSerializer(item: ChaosExperimentAction): any {
+export function chaosExperimentActionSerializer(
+  item: ChaosExperimentAction,
+): any {
   return { name: item["name"], type: item["type"] };
 }
 
-export function chaosExperimentActionDeserializer(item: any): ChaosExperimentAction {
+export function chaosExperimentActionDeserializer(
+  item: any,
+): ChaosExperimentAction {
   return {
     name: item["name"],
     type: item["type"],
@@ -794,7 +304,9 @@ export type ChaosExperimentActionUnion =
   | DiscreteAction
   | ChaosExperimentAction;
 
-export function chaosExperimentActionUnionSerializer(item: ChaosExperimentActionUnion): any {
+export function chaosExperimentActionUnionSerializer(
+  item: ChaosExperimentActionUnion,
+): any {
   switch (item.type) {
     case "continuous":
       return continuousActionSerializer(item as ContinuousAction);
@@ -810,7 +322,9 @@ export function chaosExperimentActionUnionSerializer(item: ChaosExperimentAction
   }
 }
 
-export function chaosExperimentActionUnionDeserializer(item: any): ChaosExperimentActionUnion {
+export function chaosExperimentActionUnionDeserializer(
+  item: any,
+): ChaosExperimentActionUnion {
   switch (item.type) {
     case "continuous":
       return continuousActionDeserializer(item as ContinuousAction);
@@ -876,13 +390,17 @@ export function continuousActionDeserializer(item: any): ContinuousAction {
   };
 }
 
-export function keyValuePairArraySerializer(result: Array<KeyValuePair>): any[] {
+export function keyValuePairArraySerializer(
+  result: Array<KeyValuePair>,
+): any[] {
   return result.map((item) => {
     return keyValuePairSerializer(item);
   });
 }
 
-export function keyValuePairArrayDeserializer(result: Array<KeyValuePair>): any[] {
+export function keyValuePairArrayDeserializer(
+  result: Array<KeyValuePair>,
+): any[] {
   return result.map((item) => {
     return keyValuePairDeserializer(item);
   });
@@ -986,15 +504,21 @@ export function chaosTargetSelectorSerializer(item: ChaosTargetSelector): any {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionSerializer(item["filter"]),
+    filter: !item["filter"]
+      ? item["filter"]
+      : chaosTargetFilterUnionSerializer(item["filter"]),
   };
 }
 
-export function chaosTargetSelectorDeserializer(item: any): ChaosTargetSelector {
+export function chaosTargetSelectorDeserializer(
+  item: any,
+): ChaosTargetSelector {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionDeserializer(item["filter"]),
+    filter: !item["filter"]
+      ? item["filter"]
+      : chaosTargetFilterUnionDeserializer(item["filter"]),
   };
 }
 
@@ -1004,26 +528,36 @@ export type ChaosTargetSelectorUnion =
   | ChaosTargetQuerySelector
   | ChaosTargetSelector;
 
-export function chaosTargetSelectorUnionSerializer(item: ChaosTargetSelectorUnion): any {
+export function chaosTargetSelectorUnionSerializer(
+  item: ChaosTargetSelectorUnion,
+): any {
   switch (item.type) {
     case "List":
       return chaosTargetListSelectorSerializer(item as ChaosTargetListSelector);
 
     case "Query":
-      return chaosTargetQuerySelectorSerializer(item as ChaosTargetQuerySelector);
+      return chaosTargetQuerySelectorSerializer(
+        item as ChaosTargetQuerySelector,
+      );
 
     default:
       return chaosTargetSelectorSerializer(item);
   }
 }
 
-export function chaosTargetSelectorUnionDeserializer(item: any): ChaosTargetSelectorUnion {
+export function chaosTargetSelectorUnionDeserializer(
+  item: any,
+): ChaosTargetSelectorUnion {
   switch (item.type) {
     case "List":
-      return chaosTargetListSelectorDeserializer(item as ChaosTargetListSelector);
+      return chaosTargetListSelectorDeserializer(
+        item as ChaosTargetListSelector,
+      );
 
     case "Query":
-      return chaosTargetQuerySelectorDeserializer(item as ChaosTargetQuerySelector);
+      return chaosTargetQuerySelectorDeserializer(
+        item as ChaosTargetQuerySelector,
+      );
 
     default:
       return chaosTargetSelectorDeserializer(item);
@@ -1066,9 +600,13 @@ export function chaosTargetFilterDeserializer(item: any): ChaosTargetFilter {
 }
 
 /** Alias for ChaosTargetFilterUnion */
-export type ChaosTargetFilterUnion = ChaosTargetSimpleFilter | ChaosTargetFilter;
+export type ChaosTargetFilterUnion =
+  | ChaosTargetSimpleFilter
+  | ChaosTargetFilter;
 
-export function chaosTargetFilterUnionSerializer(item: ChaosTargetFilterUnion): any {
+export function chaosTargetFilterUnionSerializer(
+  item: ChaosTargetFilterUnion,
+): any {
   switch (item.type) {
     case "Simple":
       return chaosTargetSimpleFilterSerializer(item as ChaosTargetSimpleFilter);
@@ -1078,10 +616,14 @@ export function chaosTargetFilterUnionSerializer(item: ChaosTargetFilterUnion): 
   }
 }
 
-export function chaosTargetFilterUnionDeserializer(item: any): ChaosTargetFilterUnion {
+export function chaosTargetFilterUnionDeserializer(
+  item: any,
+): ChaosTargetFilterUnion {
   switch (item.type) {
     case "Simple":
-      return chaosTargetSimpleFilterDeserializer(item as ChaosTargetSimpleFilter);
+      return chaosTargetSimpleFilterDeserializer(
+        item as ChaosTargetSimpleFilter,
+      );
 
     default:
       return chaosTargetFilterDeserializer(item);
@@ -1111,7 +653,9 @@ export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
   type: "Simple";
 }
 
-export function chaosTargetSimpleFilterSerializer(item: ChaosTargetSimpleFilter): any {
+export function chaosTargetSimpleFilterSerializer(
+  item: ChaosTargetSimpleFilter,
+): any {
   return {
     type: item["type"],
     parameters: !item["parameters"]
@@ -1120,7 +664,9 @@ export function chaosTargetSimpleFilterSerializer(item: ChaosTargetSimpleFilter)
   };
 }
 
-export function chaosTargetSimpleFilterDeserializer(item: any): ChaosTargetSimpleFilter {
+export function chaosTargetSimpleFilterDeserializer(
+  item: any,
+): ChaosTargetSimpleFilter {
   return {
     type: item["type"],
     parameters: !item["parameters"]
@@ -1167,31 +713,43 @@ export interface ChaosTargetListSelector extends ChaosTargetSelector {
   type: "List";
 }
 
-export function chaosTargetListSelectorSerializer(item: ChaosTargetListSelector): any {
+export function chaosTargetListSelectorSerializer(
+  item: ChaosTargetListSelector,
+): any {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionSerializer(item["filter"]),
+    filter: !item["filter"]
+      ? item["filter"]
+      : chaosTargetFilterUnionSerializer(item["filter"]),
     targets: targetReferenceArraySerializer(item["targets"]),
   };
 }
 
-export function chaosTargetListSelectorDeserializer(item: any): ChaosTargetListSelector {
+export function chaosTargetListSelectorDeserializer(
+  item: any,
+): ChaosTargetListSelector {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionDeserializer(item["filter"]),
+    filter: !item["filter"]
+      ? item["filter"]
+      : chaosTargetFilterUnionDeserializer(item["filter"]),
     targets: targetReferenceArrayDeserializer(item["targets"]),
   };
 }
 
-export function targetReferenceArraySerializer(result: Array<TargetReference>): any[] {
+export function targetReferenceArraySerializer(
+  result: Array<TargetReference>,
+): any[] {
   return result.map((item) => {
     return targetReferenceSerializer(item);
   });
 }
 
-export function targetReferenceArrayDeserializer(result: Array<TargetReference>): any[] {
+export function targetReferenceArrayDeserializer(
+  result: Array<TargetReference>,
+): any[] {
   return result.map((item) => {
     return targetReferenceDeserializer(item);
   });
@@ -1241,11 +799,15 @@ export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
   type: "Query";
 }
 
-export function chaosTargetQuerySelectorSerializer(item: ChaosTargetQuerySelector): any {
+export function chaosTargetQuerySelectorSerializer(
+  item: ChaosTargetQuerySelector,
+): any {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionSerializer(item["filter"]),
+    filter: !item["filter"]
+      ? item["filter"]
+      : chaosTargetFilterUnionSerializer(item["filter"]),
     queryString: item["queryString"],
     subscriptionIds: item["subscriptionIds"].map((p: any) => {
       return p;
@@ -1253,11 +815,15 @@ export function chaosTargetQuerySelectorSerializer(item: ChaosTargetQuerySelecto
   };
 }
 
-export function chaosTargetQuerySelectorDeserializer(item: any): ChaosTargetQuerySelector {
+export function chaosTargetQuerySelectorDeserializer(
+  item: any,
+): ChaosTargetQuerySelector {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionDeserializer(item["filter"]),
+    filter: !item["filter"]
+      ? item["filter"]
+      : chaosTargetFilterUnionDeserializer(item["filter"]),
     queryString: item["queryString"],
     subscriptionIds: item["subscriptionIds"].map((p: any) => {
       return p;
@@ -1290,6 +856,174 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
   };
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(item: Resource): any {
+  return item;
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
+}
+
 /** Describes an experiment update. */
 export interface ExperimentUpdate {
   /** Resource tags. */
@@ -1315,7 +1049,9 @@ export interface _ExperimentListResult {
   nextLink?: string;
 }
 
-export function _experimentListResultDeserializer(item: any): _ExperimentListResult {
+export function _experimentListResultDeserializer(
+  item: any,
+): _ExperimentListResult {
   return {
     value: experimentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1340,7 +1076,9 @@ export interface ExperimentExecution extends ProxyResource {
   properties?: ExperimentExecutionProperties;
 }
 
-export function experimentExecutionDeserializer(item: any): ExperimentExecution {
+export function experimentExecutionDeserializer(
+  item: any,
+): ExperimentExecution {
   return {
     id: item["id"],
     name: item["name"],
@@ -1369,8 +1107,30 @@ export function experimentExecutionPropertiesDeserializer(
 ): ExperimentExecutionProperties {
   return {
     status: item["status"],
-    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
-    stoppedAt: !item["stoppedAt"] ? item["stoppedAt"] : new Date(item["stoppedAt"]),
+    startedAt: !item["startedAt"]
+      ? item["startedAt"]
+      : new Date(item["startedAt"]),
+    stoppedAt: !item["stoppedAt"]
+      ? item["stoppedAt"]
+      : new Date(item["stoppedAt"]),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(item: ProxyResource): any {
+  return item;
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
   };
 }
 
@@ -1391,7 +1151,9 @@ export function _experimentExecutionListResultDeserializer(
   };
 }
 
-export function experimentExecutionArrayDeserializer(result: Array<ExperimentExecution>): any[] {
+export function experimentExecutionArrayDeserializer(
+  result: Array<ExperimentExecution>,
+): any[] {
   return result.map((item) => {
     return experimentExecutionDeserializer(item);
   });
@@ -1409,7 +1171,9 @@ export interface ExperimentExecutionDetails {
   readonly properties?: ExperimentExecutionDetailsProperties;
 }
 
-export function experimentExecutionDetailsDeserializer(item: any): ExperimentExecutionDetails {
+export function experimentExecutionDetailsDeserializer(
+  item: any,
+): ExperimentExecutionDetails {
   return {
     type: item["type"],
     id: item["id"],
@@ -1441,13 +1205,21 @@ export function experimentExecutionDetailsPropertiesDeserializer(
 ): ExperimentExecutionDetailsProperties {
   return {
     status: item["status"],
-    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
-    stoppedAt: !item["stoppedAt"] ? item["stoppedAt"] : new Date(item["stoppedAt"]),
+    startedAt: !item["startedAt"]
+      ? item["startedAt"]
+      : new Date(item["startedAt"]),
+    stoppedAt: !item["stoppedAt"]
+      ? item["stoppedAt"]
+      : new Date(item["stoppedAt"]),
     failureReason: item["failureReason"],
-    lastActionAt: !item["lastActionAt"] ? item["lastActionAt"] : new Date(item["lastActionAt"]),
+    lastActionAt: !item["lastActionAt"]
+      ? item["lastActionAt"]
+      : new Date(item["lastActionAt"]),
     runInformation: !item["runInformation"]
       ? item["runInformation"]
-      : experimentExecutionDetailsPropertiesRunInformationDeserializer(item["runInformation"]),
+      : experimentExecutionDetailsPropertiesRunInformationDeserializer(
+          item["runInformation"],
+        ),
   };
 }
 
@@ -1461,7 +1233,9 @@ export function experimentExecutionDetailsPropertiesRunInformationDeserializer(
   item: any,
 ): ExperimentExecutionDetailsPropertiesRunInformation {
   return {
-    steps: !item["steps"] ? item["steps"] : stepStatusArrayDeserializer(item["steps"]),
+    steps: !item["steps"]
+      ? item["steps"]
+      : stepStatusArrayDeserializer(item["steps"]),
   };
 }
 
@@ -1494,7 +1268,9 @@ export function stepStatusDeserializer(item: any): StepStatus {
   };
 }
 
-export function branchStatusArrayDeserializer(result: Array<BranchStatus>): any[] {
+export function branchStatusArrayDeserializer(
+  result: Array<BranchStatus>,
+): any[] {
   return result.map((item) => {
     return branchStatusDeserializer(item);
   });
@@ -1517,11 +1293,15 @@ export function branchStatusDeserializer(item: any): BranchStatus {
     branchName: item["branchName"],
     branchId: item["branchId"],
     status: item["status"],
-    actions: !item["actions"] ? item["actions"] : actionStatusArrayDeserializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : actionStatusArrayDeserializer(item["actions"]),
   };
 }
 
-export function actionStatusArrayDeserializer(result: Array<ActionStatus>): any[] {
+export function actionStatusArrayDeserializer(
+  result: Array<ActionStatus>,
+): any[] {
   return result.map((item) => {
     return actionStatusDeserializer(item);
   });
@@ -1548,11 +1328,15 @@ export function actionStatusDeserializer(item: any): ActionStatus {
     actionName: item["actionName"],
     actionId: item["actionId"],
     status: item["status"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    startTime: !item["startTime"]
+      ? item["startTime"]
+      : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     targets: !item["targets"]
       ? item["targets"]
-      : experimentExecutionActionTargetDetailsPropertiesArrayDeserializer(item["targets"]),
+      : experimentExecutionActionTargetDetailsPropertiesArrayDeserializer(
+          item["targets"],
+        ),
   };
 }
 
@@ -1613,6 +1397,424 @@ export function experimentExecutionActionTargetDetailsErrorDeserializer(
   };
 }
 
+/** Model that represents a Capability resource. */
+export interface Capability extends ProxyResource {
+  /** The properties of a capability resource. */
+  properties?: CapabilityProperties;
+}
+
+export function capabilitySerializer(item: Capability): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : capabilityPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function capabilityDeserializer(item: any): Capability {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : capabilityPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model that represents the Capability properties model. */
+export interface CapabilityProperties {
+  /** String of the Publisher that this Capability extends. */
+  readonly publisher?: string;
+  /** String of the Target Type that this Capability extends. */
+  readonly targetType?: string;
+  /** Localized string of the description. */
+  readonly description?: string;
+  /** URL to retrieve JSON schema of the Capability parameters. */
+  readonly parametersSchema?: string;
+  /** String of the URN for this Capability Type. */
+  readonly urn?: string;
+}
+
+export function capabilityPropertiesSerializer(
+  item: CapabilityProperties,
+): any {
+  return item;
+}
+
+export function capabilityPropertiesDeserializer(
+  item: any,
+): CapabilityProperties {
+  return {
+    publisher: item["publisher"],
+    targetType: item["targetType"],
+    description: item["description"],
+    parametersSchema: item["parametersSchema"],
+    urn: item["urn"],
+  };
+}
+
+/** Model that represents a list of Capability resources and a link for pagination. */
+export interface _CapabilityListResult {
+  /** The Capability items on this page */
+  value: Capability[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _capabilityListResultDeserializer(
+  item: any,
+): _CapabilityListResult {
+  return {
+    value: capabilityArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function capabilityArraySerializer(result: Array<Capability>): any[] {
+  return result.map((item) => {
+    return capabilitySerializer(item);
+  });
+}
+
+export function capabilityArrayDeserializer(result: Array<Capability>): any[] {
+  return result.map((item) => {
+    return capabilityDeserializer(item);
+  });
+}
+
+/** Model that represents a Capability Type resource. */
+export interface CapabilityType extends ProxyResource {
+  /** The properties of the capability type resource. */
+  properties?: CapabilityTypeProperties;
+}
+
+export function capabilityTypeDeserializer(item: any): CapabilityType {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : capabilityTypePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model that represents the Capability Type properties model. */
+export interface CapabilityTypeProperties {
+  /** String of the Publisher that this Capability Type extends. */
+  readonly publisher?: string;
+  /** String of the Target Type that this Capability Type extends. */
+  readonly targetType?: string;
+  /** Localized string of the display name. */
+  readonly displayName?: string;
+  /** Localized string of the description. */
+  readonly description?: string;
+  /** URL to retrieve JSON schema of the Capability Type parameters. */
+  readonly parametersSchema?: string;
+  /** String of the URN for this Capability Type. */
+  readonly urn?: string;
+  /** String of the kind of this Capability Type. */
+  readonly kind?: string;
+  /** Control plane actions necessary to execute capability type. */
+  readonly azureRbacActions?: string[];
+  /** Data plane actions necessary to execute capability type. */
+  readonly azureRbacDataActions?: string[];
+  /** Required Azure Role Definition Ids to execute capability type. */
+  readonly requiredAzureRoleDefinitionIds?: string[];
+  /** Runtime properties of this Capability Type. */
+  readonly runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
+}
+
+export function capabilityTypePropertiesDeserializer(
+  item: any,
+): CapabilityTypeProperties {
+  return {
+    publisher: item["publisher"],
+    targetType: item["targetType"],
+    displayName: item["displayName"],
+    description: item["description"],
+    parametersSchema: item["parametersSchema"],
+    urn: item["urn"],
+    kind: item["kind"],
+    azureRbacActions: !item["azureRbacActions"]
+      ? item["azureRbacActions"]
+      : item["azureRbacActions"].map((p: any) => {
+          return p;
+        }),
+    azureRbacDataActions: !item["azureRbacDataActions"]
+      ? item["azureRbacDataActions"]
+      : item["azureRbacDataActions"].map((p: any) => {
+          return p;
+        }),
+    requiredAzureRoleDefinitionIds: !item["requiredAzureRoleDefinitionIds"]
+      ? item["requiredAzureRoleDefinitionIds"]
+      : item["requiredAzureRoleDefinitionIds"].map((p: any) => {
+          return p;
+        }),
+    runtimeProperties: !item["runtimeProperties"]
+      ? item["runtimeProperties"]
+      : capabilityTypePropertiesRuntimePropertiesDeserializer(
+          item["runtimeProperties"],
+        ),
+  };
+}
+
+/** Runtime properties of this Capability Type. */
+export interface CapabilityTypePropertiesRuntimeProperties {
+  /** String of the kind of the resource's action type (continuous or discrete). */
+  readonly kind?: string;
+}
+
+export function capabilityTypePropertiesRuntimePropertiesDeserializer(
+  item: any,
+): CapabilityTypePropertiesRuntimeProperties {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Model that represents a list of Capability Type resources and a link for pagination. */
+export interface _CapabilityTypeListResult {
+  /** The CapabilityType items on this page */
+  value: CapabilityType[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _capabilityTypeListResultDeserializer(
+  item: any,
+): _CapabilityTypeListResult {
+  return {
+    value: capabilityTypeArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function capabilityTypeArrayDeserializer(
+  result: Array<CapabilityType>,
+): any[] {
+  return result.map((item) => {
+    return capabilityTypeDeserializer(item);
+  });
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for and operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** Fully qualified ID of the resource against which the original async operation was started. */
+  readonly resourceId?: string;
+}
+
+export function operationStatusResultDeserializer(
+  item: any,
+): OperationStatusResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    percentComplete: item["percentComplete"],
+    startTime: !item["startTime"]
+      ? item["startTime"]
+      : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    operations: !item["operations"]
+      ? item["operations"]
+      : operationStatusResultArrayDeserializer(item["operations"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+    resourceId: item["resourceId"],
+  };
+}
+
+export function operationStatusResultArrayDeserializer(
+  result: Array<OperationStatusResult>,
+): any[] {
+  return result.map((item) => {
+    return operationStatusResultDeserializer(item);
+  });
+}
+
+/** Model that represents a Target resource. */
+export interface Target extends ProxyResource {
+  /** The properties of the target resource. */
+  properties: Record<string, any>;
+  /** Azure resource location. */
+  location?: string;
+}
+
+export function targetSerializer(item: Target): any {
+  return { properties: item["properties"], location: item["location"] };
+}
+
+export function targetDeserializer(item: any): Target {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: item["properties"],
+    location: item["location"],
+  };
+}
+
+/** Model that represents a list of Target resources and a link for pagination. */
+export interface _TargetListResult {
+  /** The Target items on this page */
+  value: Target[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _targetListResultDeserializer(item: any): _TargetListResult {
+  return {
+    value: targetArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function targetArraySerializer(result: Array<Target>): any[] {
+  return result.map((item) => {
+    return targetSerializer(item);
+  });
+}
+
+export function targetArrayDeserializer(result: Array<Target>): any[] {
+  return result.map((item) => {
+    return targetDeserializer(item);
+  });
+}
+
 /** Model that represents a Target Type resource. */
 export interface TargetType extends ProxyResource {
   /** The properties of the target type resource. */
@@ -1643,7 +1845,9 @@ export interface TargetTypeProperties {
   readonly resourceTypes?: string[];
 }
 
-export function targetTypePropertiesDeserializer(item: any): TargetTypeProperties {
+export function targetTypePropertiesDeserializer(
+  item: any,
+): TargetTypeProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -1664,7 +1868,9 @@ export interface _TargetTypeListResult {
   nextLink?: string;
 }
 
-export function _targetTypeListResultDeserializer(item: any): _TargetTypeListResult {
+export function _targetTypeListResultDeserializer(
+  item: any,
+): _TargetTypeListResult {
   return {
     value: targetTypeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1674,52 +1880,6 @@ export function _targetTypeListResultDeserializer(item: any): _TargetTypeListRes
 export function targetTypeArrayDeserializer(result: Array<TargetType>): any[] {
   return result.map((item) => {
     return targetTypeDeserializer(item);
-  });
-}
-
-/** The current status of an async operation. */
-export interface OperationStatusResult {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-  /** Fully qualified ID of the resource against which the original async operation was started. */
-  readonly resourceId?: string;
-}
-
-export function operationStatusResultDeserializer(item: any): OperationStatusResult {
-  return {
-    id: item["id"],
-    name: item["name"],
-    status: item["status"],
-    percentComplete: item["percentComplete"],
-    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    operations: !item["operations"]
-      ? item["operations"]
-      : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    resourceId: item["resourceId"],
-  };
-}
-
-export function operationStatusResultArrayDeserializer(
-  result: Array<OperationStatusResult>,
-): any[] {
-  return result.map((item) => {
-    return operationStatusResultDeserializer(item);
   });
 }
 

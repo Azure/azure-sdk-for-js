@@ -65,11 +65,12 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ChaosManagementClient } from "@azure/arm-chaos";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
+ });
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new ChaosManagementClient(credential, subscriptionId);
 ```
 

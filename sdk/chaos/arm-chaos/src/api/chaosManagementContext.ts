@@ -6,7 +6,6 @@ import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-/** Chaos Management Client */
 export interface ChaosManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
@@ -22,15 +21,15 @@ export interface ChaosManagementClientOptionalParams extends ClientOptions {
   apiVersion?: string;
 }
 
-/** Chaos Management Client */
 export function createChaosManagement(
   credential: TokenCredential,
   subscriptionId: string,
   options: ChaosManagementClientOptionalParams = {},
 ): ChaosManagementContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-chaos/2.0.0`;
+  const userAgentInfo = `azsdk-js-arm-chaos/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

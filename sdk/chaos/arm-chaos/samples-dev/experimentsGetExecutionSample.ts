@@ -14,7 +14,7 @@ async function getTheExecutionOfAExperiment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const client = new ChaosManagementClient(credential, subscriptionId);
-  const result = await client.experimentExecutions.getExecution(
+  const result = await client.experiments.getExecution(
     "exampleRG",
     "exampleExperiment",
     "f24500ad-744e-4a26-864b-b76199eac333",
