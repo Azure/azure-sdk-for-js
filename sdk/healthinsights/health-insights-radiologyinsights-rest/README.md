@@ -683,6 +683,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 ```
 
 ### Print out the Laterality Discrepancy Inference codes 
+
 ```ts snippet:ReadmeSampleLateralityDiscrepancy
 import {
   RadiologyInsightsJobOutput,
