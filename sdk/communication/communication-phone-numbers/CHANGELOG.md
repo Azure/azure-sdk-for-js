@@ -1,5 +1,12 @@
 # Release History
 
+## 1.4.0 (2025-06-10)
+
+### Features Added
+
+- GA release of the reservations functionality.
+- API version `2025-04-01` is the default.
+
 ## 1.4.0-beta.1 (2025-05-21)
 
 ### Features Added
