@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the resource types for a specified resource provider.
  *
  * @summary List the resource types for a specified resource provider.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetProviderResourceTypes.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/GetProviderResourceTypes.json
  */
 async function getProviderResourceTypes(): Promise<void> {
   const subscriptionId =
