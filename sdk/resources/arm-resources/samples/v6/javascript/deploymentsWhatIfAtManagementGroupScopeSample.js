@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the management group.
  *
  * @summary Returns changes that will be made by the deployment if executed at the scope of the management group.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentWhatIfOnManagementGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentWhatIfOnManagementGroup.json
  */
 async function predictTemplateChangesAtManagementGroupScope() {
   const groupId = "myManagementGruop";
