@@ -190,10 +190,9 @@ async function parseSnippetDefinitions(
 
   const snippetFile = path.join(project.path, ...SNIPPET_PATH);
 
-  const relativeIndexPath = path.relative(
-    path.dirname(snippetFile),
-    path.join(project.path, "src"),
-  );
+  const relativeIndexPath = path
+    .relative(path.dirname(snippetFile), path.join(project.path, "src"))
+    .replaceAll("\\", "/");
 
   const program = ts.createProgram({
     rootNames: [snippetFile],
@@ -455,8 +454,8 @@ async function parseSnippetDefinitions(
 
           if (
             moduleSpecifierText === relativeIndexPath ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index")
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
           ) {
             return { moduleSpecifier: project.name, isDefault: false };
           } else {
@@ -480,8 +479,8 @@ async function parseSnippetDefinitions(
 
         if (
           moduleSpecifierText === relativeIndexPath ||
-          moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
-          moduleSpecifierText === path.join(relativeIndexPath, "index")
+          moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+          moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
         ) {
           return { moduleSpecifier: project.name, isDefault: true };
         } else {
