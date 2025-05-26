@@ -9,6 +9,8 @@ import { FileAccessControl } from "./fileAccessControl.js";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.js";
 import type { AzureMonitorExporterOptions } from "../../../config.js";
 import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
+import type { CustomerStatsbeatMetrics } from "../../../export/statsbeat/customerStatsbeat.js";
+import { DropCode, RetryCode } from "../../../export/statsbeat/types.js";
 
 /**
  * File system persist class.
@@ -30,6 +32,7 @@ export class FileSystemPersist implements PersistentStorage {
   constructor(
     instrumentationKey: string,
     private _options?: AzureMonitorExporterOptions,
+    private _customerStatsbeatMetrics?: CustomerStatsbeatMetrics,
   ) {
     this._instrumentationKey = instrumentationKey;
     if (this._options?.disableOfflineStorage) {
@@ -73,7 +76,8 @@ export class FileSystemPersist implements PersistentStorage {
   push(value: unknown[]): Promise<boolean> {
     if (this._enabled) {
       diag.debug("Pushing value to persistent storage", value.toString());
-      return this._storeToDisk(JSON.stringify(value));
+      const envelopeLength = value.length;
+      return this._storeToDisk(JSON.stringify(value), envelopeLength);
     }
     // Only return a false promise if the SDK isn't set to disable offline storage
     if (!this._options?.disableOfflineStorage) {
@@ -138,7 +142,7 @@ export class FileSystemPersist implements PersistentStorage {
     }
   }
 
-  private async _storeToDisk(payload: string): Promise<boolean> {
+  private async _storeToDisk(payload: string, envelopeLength: number): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
@@ -149,6 +153,11 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       const size = await getShallowDirectorySize(this._tempDirectory);
       if (size > this.maxBytesOnDisk) {
+        // If the directory size exceeds the max limit, we send customer statsbeat and warn the user
+        this._customerStatsbeatMetrics?.countDroppedItems(
+          envelopeLength,
+          DropCode.CLIENT_PERSISTENCE_CAPACITY
+        )
         diag.warn(
           `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
         );
@@ -167,6 +176,11 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
+      // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
+      this._customerStatsbeatMetrics?.countRetryItems(
+        envelopeLength,
+        RetryCode.CLIENT_STORAGE_DISABLED
+      );
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
     }

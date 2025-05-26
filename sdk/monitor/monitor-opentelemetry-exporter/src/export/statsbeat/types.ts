@@ -53,6 +53,26 @@ export class NetworkStatsbeat {
   }
 }
 
+export class CustomerStatsbeat {
+  public endpoint: string;
+
+  public host: string;
+
+  public totalItemSuccessCount: { count: number; telemetry_type: TelemetryType }[];
+
+  public totalItemDropCount: { count: number; "drop.code": DropCode }[];
+
+  public totalItemRetryCount: { count: number; "retry.code": RetryCode }[];
+
+  constructor(endpoint: string, host: string) {
+    this.endpoint = endpoint;
+    this.host = host;
+    this.totalItemSuccessCount = [];
+    this.totalItemDropCount = [];
+    this.totalItemRetryCount = [];
+  }
+}
+
 export const STATSBEAT_LANGUAGE = "node";
 
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
@@ -85,6 +105,12 @@ export enum StatsbeatCounter {
   FEATURE = "Feature",
 }
 
+export enum CustomStatsbeatCounter {
+  ITEM_SUCCESS_COUNT = "preview.item.success.count",
+  ITEM_DROP_COUNT = "preview.item.dropped.count",
+  ITEM_RETRY_COUNT = "preview.item.retry.count",
+}
+
 export const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
 export const AIMS_API_VERSION = "api-version=2017-12-01";
 export const AIMS_FORMAT = "format=json";
@@ -115,6 +141,43 @@ export interface CommonStatsbeatProperties {
   language: string;
   version: string;
   attach: string;
+}
+
+export interface CustomerStatsbeatProperties {
+  language: string;
+  version: string;
+  computeType: string;
+}
+
+export enum TelemetryType {
+  AVAILABILITY = "AVAILABILITY",
+  CUSTOM_EVENT = "CUSTOM_EVENT",
+  CUSTOM_METRIC = "CUSTOM_METRIC",
+  DEPENDENCY = "DEPENDENCY",
+  EXCEPTION = "EXCEPTION",
+  PAGE_VIEW = "PAGE_VIEW",
+  PERFORMANCE_COUNTER = "PERFORMANCE_COUNTER",
+  REQUEST = "REQUEST",
+  TRACE = "TRACE",
+  UNKNOWN = "UNKNOWN",
+}
+
+export enum DropCode {
+  CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
+  CLIENT_EXPIRED_DATA = "CLIENT_EXPIRED_DATA",
+  CLIENT_READONLY = "CLIENT_READONLY",
+  CLIENT_STALE_DATA = "CLIENT_STALE_DATA",
+  CLIENT_PERSISTENCE_CAPACITY = "CLIENT_PERSISTENCE_CAPACITY",
+  NON_RETRYABLE_STATUS_CODE = "NON_RETRYABLE_STATUS_CODE",
+  UNKNOWN = "UNKNOWN",
+}
+
+export enum RetryCode {
+  CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
+  CLIENT_STORAGE_DISABLED = "CLIENT_STORAGE_DISABLED",
+  CLIENT_TIMEOUT = "CLIENT_TIMEOUT",
+  RETRYABLE_STATUS_CODE = "RETRYABLE_STATUS_CODE",
+  UNKNOWN = "UNKNOWN",
 }
 
 export interface AttachStatsbeatProperties {
