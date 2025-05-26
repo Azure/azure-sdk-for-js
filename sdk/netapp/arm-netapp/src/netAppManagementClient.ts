@@ -30,10 +30,12 @@ import {
   VolumeGroupsImpl,
   SubvolumesImpl,
   BackupsImpl,
+  NetAppResourceQuotaLimitsAccountImpl,
   BackupVaultsImpl,
   BackupsUnderBackupVaultImpl,
   BackupsUnderVolumeImpl,
   BackupsUnderAccountImpl,
+  BucketsImpl,
 } from "./operations/index.js";
 import {
   Operations,
@@ -51,10 +53,12 @@ import {
   VolumeGroups,
   Subvolumes,
   Backups,
+  NetAppResourceQuotaLimitsAccount,
   BackupVaults,
   BackupsUnderBackupVault,
   BackupsUnderVolume,
   BackupsUnderAccount,
+  Buckets,
 } from "./operationsInterfaces/index.js";
 import { NetAppManagementClientOptionalParams } from "./models/index.js";
 
@@ -90,7 +94,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/21.5.0`;
+    const packageDetails = `azsdk-js-arm-netapp/21.6.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -144,7 +148,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-01-01";
+    this.apiVersion = options.apiVersion || "2025-01-01-preview";
     this.operations = new OperationsImpl(this);
     this.netAppResource = new NetAppResourceImpl(this);
     this.netAppResourceUsages = new NetAppResourceUsagesImpl(this);
@@ -160,10 +164,13 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     this.volumeGroups = new VolumeGroupsImpl(this);
     this.subvolumes = new SubvolumesImpl(this);
     this.backups = new BackupsImpl(this);
+    this.netAppResourceQuotaLimitsAccount =
+      new NetAppResourceQuotaLimitsAccountImpl(this);
     this.backupVaults = new BackupVaultsImpl(this);
     this.backupsUnderBackupVault = new BackupsUnderBackupVaultImpl(this);
     this.backupsUnderVolume = new BackupsUnderVolumeImpl(this);
     this.backupsUnderAccount = new BackupsUnderAccountImpl(this);
+    this.buckets = new BucketsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -210,8 +217,10 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
   volumeGroups: VolumeGroups;
   subvolumes: Subvolumes;
   backups: Backups;
+  netAppResourceQuotaLimitsAccount: NetAppResourceQuotaLimitsAccount;
   backupVaults: BackupVaults;
   backupsUnderBackupVault: BackupsUnderBackupVault;
   backupsUnderVolume: BackupsUnderVolume;
   backupsUnderAccount: BackupsUnderAccount;
+  buckets: Buckets;
 }
