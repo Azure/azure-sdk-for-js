@@ -6,22 +6,13 @@ import {
   ChaosManagementContext,
   ChaosManagementClientOptionalParams,
 } from "./api/index.js";
-import {
-  TargetTypesOperations,
-  _getTargetTypesOperations,
-} from "./classic/targetTypes/index.js";
-import {
-  TargetsOperations,
-  _getTargetsOperations,
-} from "./classic/targets/index.js";
+import { TargetTypesOperations, _getTargetTypesOperations } from "./classic/targetTypes/index.js";
+import { TargetsOperations, _getTargetsOperations } from "./classic/targets/index.js";
 import {
   OperationStatusesOperations,
   _getOperationStatusesOperations,
 } from "./classic/operationStatuses/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   CapabilityTypesOperations,
   _getCapabilityTypesOperations,
@@ -30,10 +21,7 @@ import {
   CapabilitiesOperations,
   _getCapabilitiesOperations,
 } from "./classic/capabilities/index.js";
-import {
-  ExperimentsOperations,
-  _getExperimentsOperations,
-} from "./classic/experiments/index.js";
+import { ExperimentsOperations, _getExperimentsOperations } from "./classic/experiments/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 

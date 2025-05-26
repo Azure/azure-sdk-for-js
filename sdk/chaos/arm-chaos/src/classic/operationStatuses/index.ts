@@ -18,11 +18,8 @@ export interface OperationStatusesOperations {
 
 function _getOperationStatuses(context: ChaosManagementContext) {
   return {
-    get: (
-      location: string,
-      operationId: string,
-      options?: OperationStatusesGetOptionalParams,
-    ) => get(context, location, operationId, options),
+    get: (location: string, operationId: string, options?: OperationStatusesGetOptionalParams) =>
+      get(context, location, operationId, options),
   };
 }
 

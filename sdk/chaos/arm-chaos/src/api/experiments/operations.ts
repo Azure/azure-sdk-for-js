@@ -65,15 +65,13 @@ export function _executionDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _executionDetailsDeserialize(
@@ -125,15 +123,13 @@ export function _listAllExecutionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listAllExecutionsDeserialize(
@@ -158,13 +154,7 @@ export function listAllExecutions(
 ): PagedAsyncIterableIterator<ExperimentExecution> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listAllExecutionsSend(
-        context,
-        resourceGroupName,
-        experimentName,
-        options,
-      ),
+    () => _listAllExecutionsSend(context, resourceGroupName, experimentName, options),
     _listAllExecutionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -191,15 +181,13 @@ export function _getExecutionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getExecutionDeserialize(
@@ -251,20 +239,16 @@ export function _startSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _startDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _startDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -285,8 +269,7 @@ export function start(
   return getLongRunningPoller(context, _startDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _startSend(context, resourceGroupName, experimentName, options),
+    getInitialResponse: () => _startSend(context, resourceGroupName, experimentName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -309,20 +292,16 @@ export function _cancelSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _cancelDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -343,8 +322,7 @@ export function cancel(
   return getLongRunningPoller(context, _cancelDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _cancelSend(context, resourceGroupName, experimentName, options),
+    getInitialResponse: () => _cancelSend(context, resourceGroupName, experimentName, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
@@ -365,15 +343,13 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listAllDeserialize(
@@ -421,15 +397,13 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listDeserialize(
@@ -478,20 +452,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -514,18 +484,12 @@ export function $delete(
   experimentName: string,
   options: ExperimentsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(context, resourceGroupName, experimentName, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, experimentName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -547,22 +511,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: experimentUpdateSerializer(properties),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: experimentUpdateSerializer(properties),
+  });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Experiment> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Experiment> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -585,13 +545,7 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(
-        context,
-        resourceGroupName,
-        experimentName,
-        properties,
-        options,
-      ),
+      _updateSend(context, resourceGroupName, experimentName, properties, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<Experiment>, Experiment>;
 }
@@ -615,17 +569,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: experimentSerializer(resource),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: experimentSerializer(resource),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -649,24 +601,13 @@ export function createOrUpdate(
   resource: Experiment,
   options: ExperimentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Experiment>, Experiment> {
-  return getLongRunningPoller(
-    context,
-    _createOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createOrUpdateSend(
-          context,
-          resourceGroupName,
-          experimentName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Experiment>, Experiment>;
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(context, resourceGroupName, experimentName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Experiment>, Experiment>;
 }
 
 export function _getSend(
@@ -687,20 +628,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Experiment> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Experiment> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -718,11 +655,6 @@ export async function get(
   experimentName: string,
   options: ExperimentsGetOptionalParams = { requestOptions: {} },
 ): Promise<Experiment> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    experimentName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, experimentName, options);
   return _getDeserialize(result);
 }

@@ -72,9 +72,7 @@ export interface ExperimentsOperations {
     options?: ExperimentsCancelOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Get a list of Experiment resources in a subscription. */
-  listAll: (
-    options?: ExperimentsListAllOptionalParams,
-  ) => PagedAsyncIterableIterator<Experiment>;
+  listAll: (options?: ExperimentsListAllOptionalParams) => PagedAsyncIterableIterator<Experiment>;
   /** Get a list of Experiment resources in a resource group. */
   list: (
     resourceGroupName: string,
@@ -120,14 +118,7 @@ function _getExperiments(context: ChaosManagementContext) {
       experimentName: string,
       executionId: string,
       options?: ExperimentsExecutionDetailsOptionalParams,
-    ) =>
-      executionDetails(
-        context,
-        resourceGroupName,
-        experimentName,
-        executionId,
-        options,
-      ),
+    ) => executionDetails(context, resourceGroupName, experimentName, executionId, options),
     listAllExecutions: (
       resourceGroupName: string,
       experimentName: string,
@@ -138,14 +129,7 @@ function _getExperiments(context: ChaosManagementContext) {
       experimentName: string,
       executionId: string,
       options?: ExperimentsGetExecutionOptionalParams,
-    ) =>
-      getExecution(
-        context,
-        resourceGroupName,
-        experimentName,
-        executionId,
-        options,
-      ),
+    ) => getExecution(context, resourceGroupName, experimentName, executionId, options),
     start: (
       resourceGroupName: string,
       experimentName: string,
@@ -156,12 +140,9 @@ function _getExperiments(context: ChaosManagementContext) {
       experimentName: string,
       options?: ExperimentsCancelOptionalParams,
     ) => cancel(context, resourceGroupName, experimentName, options),
-    listAll: (options?: ExperimentsListAllOptionalParams) =>
-      listAll(context, options),
-    list: (
-      resourceGroupName: string,
-      options?: ExperimentsListOptionalParams,
-    ) => list(context, resourceGroupName, options),
+    listAll: (options?: ExperimentsListAllOptionalParams) => listAll(context, options),
+    list: (resourceGroupName: string, options?: ExperimentsListOptionalParams) =>
+      list(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       experimentName: string,
@@ -172,21 +153,13 @@ function _getExperiments(context: ChaosManagementContext) {
       experimentName: string,
       properties: ExperimentUpdate,
       options?: ExperimentsUpdateOptionalParams,
-    ) =>
-      update(context, resourceGroupName, experimentName, properties, options),
+    ) => update(context, resourceGroupName, experimentName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       experimentName: string,
       resource: Experiment,
       options?: ExperimentsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        experimentName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, experimentName, resource, options),
     get: (
       resourceGroupName: string,
       experimentName: string,
@@ -195,9 +168,7 @@ function _getExperiments(context: ChaosManagementContext) {
   };
 }
 
-export function _getExperimentsOperations(
-  context: ChaosManagementContext,
-): ExperimentsOperations {
+export function _getExperimentsOperations(context: ChaosManagementContext): ExperimentsOperations {
   return {
     ..._getExperiments(context),
   };

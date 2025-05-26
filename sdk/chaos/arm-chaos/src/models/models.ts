@@ -49,18 +49,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -101,15 +97,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -126,18 +118,14 @@ export interface ExperimentProperties {
   selectors: ChaosTargetSelectorUnion[];
 }
 
-export function experimentPropertiesSerializer(
-  item: ExperimentProperties,
-): any {
+export function experimentPropertiesSerializer(item: ExperimentProperties): any {
   return {
     steps: chaosExperimentStepArraySerializer(item["steps"]),
     selectors: chaosTargetSelectorUnionArraySerializer(item["selectors"]),
   };
 }
 
-export function experimentPropertiesDeserializer(
-  item: any,
-): ExperimentProperties {
+export function experimentPropertiesDeserializer(item: any): ExperimentProperties {
   return {
     provisioningState: item["provisioningState"],
     steps: chaosExperimentStepArrayDeserializer(item["steps"]),
@@ -175,17 +163,13 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
-export function chaosExperimentStepArraySerializer(
-  result: Array<ChaosExperimentStep>,
-): any[] {
+export function chaosExperimentStepArraySerializer(result: Array<ChaosExperimentStep>): any[] {
   return result.map((item) => {
     return chaosExperimentStepSerializer(item);
   });
 }
 
-export function chaosExperimentStepArrayDeserializer(
-  result: Array<ChaosExperimentStep>,
-): any[] {
+export function chaosExperimentStepArrayDeserializer(result: Array<ChaosExperimentStep>): any[] {
   return result.map((item) => {
     return chaosExperimentStepDeserializer(item);
   });
@@ -206,18 +190,14 @@ export function chaosExperimentStepSerializer(item: ChaosExperimentStep): any {
   };
 }
 
-export function chaosExperimentStepDeserializer(
-  item: any,
-): ChaosExperimentStep {
+export function chaosExperimentStepDeserializer(item: any): ChaosExperimentStep {
   return {
     name: item["name"],
     branches: chaosExperimentBranchArrayDeserializer(item["branches"]),
   };
 }
 
-export function chaosExperimentBranchArraySerializer(
-  result: Array<ChaosExperimentBranch>,
-): any[] {
+export function chaosExperimentBranchArraySerializer(result: Array<ChaosExperimentBranch>): any[] {
   return result.map((item) => {
     return chaosExperimentBranchSerializer(item);
   });
@@ -239,18 +219,14 @@ export interface ChaosExperimentBranch {
   actions: ChaosExperimentActionUnion[];
 }
 
-export function chaosExperimentBranchSerializer(
-  item: ChaosExperimentBranch,
-): any {
+export function chaosExperimentBranchSerializer(item: ChaosExperimentBranch): any {
   return {
     name: item["name"],
     actions: chaosExperimentActionUnionArraySerializer(item["actions"]),
   };
 }
 
-export function chaosExperimentBranchDeserializer(
-  item: any,
-): ChaosExperimentBranch {
+export function chaosExperimentBranchDeserializer(item: any): ChaosExperimentBranch {
   return {
     name: item["name"],
     actions: chaosExperimentActionUnionArrayDeserializer(item["actions"]),
@@ -282,15 +258,11 @@ export interface ChaosExperimentAction {
   type: ExperimentActionType;
 }
 
-export function chaosExperimentActionSerializer(
-  item: ChaosExperimentAction,
-): any {
+export function chaosExperimentActionSerializer(item: ChaosExperimentAction): any {
   return { name: item["name"], type: item["type"] };
 }
 
-export function chaosExperimentActionDeserializer(
-  item: any,
-): ChaosExperimentAction {
+export function chaosExperimentActionDeserializer(item: any): ChaosExperimentAction {
   return {
     name: item["name"],
     type: item["type"],
@@ -304,9 +276,7 @@ export type ChaosExperimentActionUnion =
   | DiscreteAction
   | ChaosExperimentAction;
 
-export function chaosExperimentActionUnionSerializer(
-  item: ChaosExperimentActionUnion,
-): any {
+export function chaosExperimentActionUnionSerializer(item: ChaosExperimentActionUnion): any {
   switch (item.type) {
     case "continuous":
       return continuousActionSerializer(item as ContinuousAction);
@@ -322,9 +292,7 @@ export function chaosExperimentActionUnionSerializer(
   }
 }
 
-export function chaosExperimentActionUnionDeserializer(
-  item: any,
-): ChaosExperimentActionUnion {
+export function chaosExperimentActionUnionDeserializer(item: any): ChaosExperimentActionUnion {
   switch (item.type) {
     case "continuous":
       return continuousActionDeserializer(item as ContinuousAction);
@@ -390,17 +358,13 @@ export function continuousActionDeserializer(item: any): ContinuousAction {
   };
 }
 
-export function keyValuePairArraySerializer(
-  result: Array<KeyValuePair>,
-): any[] {
+export function keyValuePairArraySerializer(result: Array<KeyValuePair>): any[] {
   return result.map((item) => {
     return keyValuePairSerializer(item);
   });
 }
 
-export function keyValuePairArrayDeserializer(
-  result: Array<KeyValuePair>,
-): any[] {
+export function keyValuePairArrayDeserializer(result: Array<KeyValuePair>): any[] {
   return result.map((item) => {
     return keyValuePairDeserializer(item);
   });
@@ -504,21 +468,15 @@ export function chaosTargetSelectorSerializer(item: ChaosTargetSelector): any {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"]
-      ? item["filter"]
-      : chaosTargetFilterUnionSerializer(item["filter"]),
+    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionSerializer(item["filter"]),
   };
 }
 
-export function chaosTargetSelectorDeserializer(
-  item: any,
-): ChaosTargetSelector {
+export function chaosTargetSelectorDeserializer(item: any): ChaosTargetSelector {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"]
-      ? item["filter"]
-      : chaosTargetFilterUnionDeserializer(item["filter"]),
+    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionDeserializer(item["filter"]),
   };
 }
 
@@ -528,36 +486,26 @@ export type ChaosTargetSelectorUnion =
   | ChaosTargetQuerySelector
   | ChaosTargetSelector;
 
-export function chaosTargetSelectorUnionSerializer(
-  item: ChaosTargetSelectorUnion,
-): any {
+export function chaosTargetSelectorUnionSerializer(item: ChaosTargetSelectorUnion): any {
   switch (item.type) {
     case "List":
       return chaosTargetListSelectorSerializer(item as ChaosTargetListSelector);
 
     case "Query":
-      return chaosTargetQuerySelectorSerializer(
-        item as ChaosTargetQuerySelector,
-      );
+      return chaosTargetQuerySelectorSerializer(item as ChaosTargetQuerySelector);
 
     default:
       return chaosTargetSelectorSerializer(item);
   }
 }
 
-export function chaosTargetSelectorUnionDeserializer(
-  item: any,
-): ChaosTargetSelectorUnion {
+export function chaosTargetSelectorUnionDeserializer(item: any): ChaosTargetSelectorUnion {
   switch (item.type) {
     case "List":
-      return chaosTargetListSelectorDeserializer(
-        item as ChaosTargetListSelector,
-      );
+      return chaosTargetListSelectorDeserializer(item as ChaosTargetListSelector);
 
     case "Query":
-      return chaosTargetQuerySelectorDeserializer(
-        item as ChaosTargetQuerySelector,
-      );
+      return chaosTargetQuerySelectorDeserializer(item as ChaosTargetQuerySelector);
 
     default:
       return chaosTargetSelectorDeserializer(item);
@@ -600,13 +548,9 @@ export function chaosTargetFilterDeserializer(item: any): ChaosTargetFilter {
 }
 
 /** Alias for ChaosTargetFilterUnion */
-export type ChaosTargetFilterUnion =
-  | ChaosTargetSimpleFilter
-  | ChaosTargetFilter;
+export type ChaosTargetFilterUnion = ChaosTargetSimpleFilter | ChaosTargetFilter;
 
-export function chaosTargetFilterUnionSerializer(
-  item: ChaosTargetFilterUnion,
-): any {
+export function chaosTargetFilterUnionSerializer(item: ChaosTargetFilterUnion): any {
   switch (item.type) {
     case "Simple":
       return chaosTargetSimpleFilterSerializer(item as ChaosTargetSimpleFilter);
@@ -616,14 +560,10 @@ export function chaosTargetFilterUnionSerializer(
   }
 }
 
-export function chaosTargetFilterUnionDeserializer(
-  item: any,
-): ChaosTargetFilterUnion {
+export function chaosTargetFilterUnionDeserializer(item: any): ChaosTargetFilterUnion {
   switch (item.type) {
     case "Simple":
-      return chaosTargetSimpleFilterDeserializer(
-        item as ChaosTargetSimpleFilter,
-      );
+      return chaosTargetSimpleFilterDeserializer(item as ChaosTargetSimpleFilter);
 
     default:
       return chaosTargetFilterDeserializer(item);
@@ -653,9 +593,7 @@ export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
   type: "Simple";
 }
 
-export function chaosTargetSimpleFilterSerializer(
-  item: ChaosTargetSimpleFilter,
-): any {
+export function chaosTargetSimpleFilterSerializer(item: ChaosTargetSimpleFilter): any {
   return {
     type: item["type"],
     parameters: !item["parameters"]
@@ -664,9 +602,7 @@ export function chaosTargetSimpleFilterSerializer(
   };
 }
 
-export function chaosTargetSimpleFilterDeserializer(
-  item: any,
-): ChaosTargetSimpleFilter {
+export function chaosTargetSimpleFilterDeserializer(item: any): ChaosTargetSimpleFilter {
   return {
     type: item["type"],
     parameters: !item["parameters"]
@@ -713,43 +649,31 @@ export interface ChaosTargetListSelector extends ChaosTargetSelector {
   type: "List";
 }
 
-export function chaosTargetListSelectorSerializer(
-  item: ChaosTargetListSelector,
-): any {
+export function chaosTargetListSelectorSerializer(item: ChaosTargetListSelector): any {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"]
-      ? item["filter"]
-      : chaosTargetFilterUnionSerializer(item["filter"]),
+    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionSerializer(item["filter"]),
     targets: targetReferenceArraySerializer(item["targets"]),
   };
 }
 
-export function chaosTargetListSelectorDeserializer(
-  item: any,
-): ChaosTargetListSelector {
+export function chaosTargetListSelectorDeserializer(item: any): ChaosTargetListSelector {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"]
-      ? item["filter"]
-      : chaosTargetFilterUnionDeserializer(item["filter"]),
+    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionDeserializer(item["filter"]),
     targets: targetReferenceArrayDeserializer(item["targets"]),
   };
 }
 
-export function targetReferenceArraySerializer(
-  result: Array<TargetReference>,
-): any[] {
+export function targetReferenceArraySerializer(result: Array<TargetReference>): any[] {
   return result.map((item) => {
     return targetReferenceSerializer(item);
   });
 }
 
-export function targetReferenceArrayDeserializer(
-  result: Array<TargetReference>,
-): any[] {
+export function targetReferenceArrayDeserializer(result: Array<TargetReference>): any[] {
   return result.map((item) => {
     return targetReferenceDeserializer(item);
   });
@@ -799,15 +723,11 @@ export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
   type: "Query";
 }
 
-export function chaosTargetQuerySelectorSerializer(
-  item: ChaosTargetQuerySelector,
-): any {
+export function chaosTargetQuerySelectorSerializer(item: ChaosTargetQuerySelector): any {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"]
-      ? item["filter"]
-      : chaosTargetFilterUnionSerializer(item["filter"]),
+    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionSerializer(item["filter"]),
     queryString: item["queryString"],
     subscriptionIds: item["subscriptionIds"].map((p: any) => {
       return p;
@@ -815,15 +735,11 @@ export function chaosTargetQuerySelectorSerializer(
   };
 }
 
-export function chaosTargetQuerySelectorDeserializer(
-  item: any,
-): ChaosTargetQuerySelector {
+export function chaosTargetQuerySelectorDeserializer(item: any): ChaosTargetQuerySelector {
   return {
     id: item["id"],
     type: item["type"],
-    filter: !item["filter"]
-      ? item["filter"]
-      : chaosTargetFilterUnionDeserializer(item["filter"]),
+    filter: !item["filter"] ? item["filter"] : chaosTargetFilterUnionDeserializer(item["filter"]),
     queryString: item["queryString"],
     subscriptionIds: item["subscriptionIds"].map((p: any) => {
       return p;
@@ -903,9 +819,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -946,9 +860,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -971,26 +883,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -1004,23 +910,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -1049,9 +949,7 @@ export interface _ExperimentListResult {
   nextLink?: string;
 }
 
-export function _experimentListResultDeserializer(
-  item: any,
-): _ExperimentListResult {
+export function _experimentListResultDeserializer(item: any): _ExperimentListResult {
   return {
     value: experimentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1076,9 +974,7 @@ export interface ExperimentExecution extends ProxyResource {
   properties?: ExperimentExecutionProperties;
 }
 
-export function experimentExecutionDeserializer(
-  item: any,
-): ExperimentExecution {
+export function experimentExecutionDeserializer(item: any): ExperimentExecution {
   return {
     id: item["id"],
     name: item["name"],
@@ -1107,12 +1003,8 @@ export function experimentExecutionPropertiesDeserializer(
 ): ExperimentExecutionProperties {
   return {
     status: item["status"],
-    startedAt: !item["startedAt"]
-      ? item["startedAt"]
-      : new Date(item["startedAt"]),
-    stoppedAt: !item["stoppedAt"]
-      ? item["stoppedAt"]
-      : new Date(item["stoppedAt"]),
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    stoppedAt: !item["stoppedAt"] ? item["stoppedAt"] : new Date(item["stoppedAt"]),
   };
 }
 
@@ -1151,9 +1043,7 @@ export function _experimentExecutionListResultDeserializer(
   };
 }
 
-export function experimentExecutionArrayDeserializer(
-  result: Array<ExperimentExecution>,
-): any[] {
+export function experimentExecutionArrayDeserializer(result: Array<ExperimentExecution>): any[] {
   return result.map((item) => {
     return experimentExecutionDeserializer(item);
   });
@@ -1171,9 +1061,7 @@ export interface ExperimentExecutionDetails {
   readonly properties?: ExperimentExecutionDetailsProperties;
 }
 
-export function experimentExecutionDetailsDeserializer(
-  item: any,
-): ExperimentExecutionDetails {
+export function experimentExecutionDetailsDeserializer(item: any): ExperimentExecutionDetails {
   return {
     type: item["type"],
     id: item["id"],
@@ -1205,21 +1093,13 @@ export function experimentExecutionDetailsPropertiesDeserializer(
 ): ExperimentExecutionDetailsProperties {
   return {
     status: item["status"],
-    startedAt: !item["startedAt"]
-      ? item["startedAt"]
-      : new Date(item["startedAt"]),
-    stoppedAt: !item["stoppedAt"]
-      ? item["stoppedAt"]
-      : new Date(item["stoppedAt"]),
+    startedAt: !item["startedAt"] ? item["startedAt"] : new Date(item["startedAt"]),
+    stoppedAt: !item["stoppedAt"] ? item["stoppedAt"] : new Date(item["stoppedAt"]),
     failureReason: item["failureReason"],
-    lastActionAt: !item["lastActionAt"]
-      ? item["lastActionAt"]
-      : new Date(item["lastActionAt"]),
+    lastActionAt: !item["lastActionAt"] ? item["lastActionAt"] : new Date(item["lastActionAt"]),
     runInformation: !item["runInformation"]
       ? item["runInformation"]
-      : experimentExecutionDetailsPropertiesRunInformationDeserializer(
-          item["runInformation"],
-        ),
+      : experimentExecutionDetailsPropertiesRunInformationDeserializer(item["runInformation"]),
   };
 }
 
@@ -1233,9 +1113,7 @@ export function experimentExecutionDetailsPropertiesRunInformationDeserializer(
   item: any,
 ): ExperimentExecutionDetailsPropertiesRunInformation {
   return {
-    steps: !item["steps"]
-      ? item["steps"]
-      : stepStatusArrayDeserializer(item["steps"]),
+    steps: !item["steps"] ? item["steps"] : stepStatusArrayDeserializer(item["steps"]),
   };
 }
 
@@ -1268,9 +1146,7 @@ export function stepStatusDeserializer(item: any): StepStatus {
   };
 }
 
-export function branchStatusArrayDeserializer(
-  result: Array<BranchStatus>,
-): any[] {
+export function branchStatusArrayDeserializer(result: Array<BranchStatus>): any[] {
   return result.map((item) => {
     return branchStatusDeserializer(item);
   });
@@ -1293,15 +1169,11 @@ export function branchStatusDeserializer(item: any): BranchStatus {
     branchName: item["branchName"],
     branchId: item["branchId"],
     status: item["status"],
-    actions: !item["actions"]
-      ? item["actions"]
-      : actionStatusArrayDeserializer(item["actions"]),
+    actions: !item["actions"] ? item["actions"] : actionStatusArrayDeserializer(item["actions"]),
   };
 }
 
-export function actionStatusArrayDeserializer(
-  result: Array<ActionStatus>,
-): any[] {
+export function actionStatusArrayDeserializer(result: Array<ActionStatus>): any[] {
   return result.map((item) => {
     return actionStatusDeserializer(item);
   });
@@ -1328,15 +1200,11 @@ export function actionStatusDeserializer(item: any): ActionStatus {
     actionName: item["actionName"],
     actionId: item["actionId"],
     status: item["status"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     targets: !item["targets"]
       ? item["targets"]
-      : experimentExecutionActionTargetDetailsPropertiesArrayDeserializer(
-          item["targets"],
-        ),
+      : experimentExecutionActionTargetDetailsPropertiesArrayDeserializer(item["targets"]),
   };
 }
 
@@ -1439,15 +1307,11 @@ export interface CapabilityProperties {
   readonly urn?: string;
 }
 
-export function capabilityPropertiesSerializer(
-  item: CapabilityProperties,
-): any {
+export function capabilityPropertiesSerializer(item: CapabilityProperties): any {
   return item;
 }
 
-export function capabilityPropertiesDeserializer(
-  item: any,
-): CapabilityProperties {
+export function capabilityPropertiesDeserializer(item: any): CapabilityProperties {
   return {
     publisher: item["publisher"],
     targetType: item["targetType"],
@@ -1465,9 +1329,7 @@ export interface _CapabilityListResult {
   nextLink?: string;
 }
 
-export function _capabilityListResultDeserializer(
-  item: any,
-): _CapabilityListResult {
+export function _capabilityListResultDeserializer(item: any): _CapabilityListResult {
   return {
     value: capabilityArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1532,9 +1394,7 @@ export interface CapabilityTypeProperties {
   readonly runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
 }
 
-export function capabilityTypePropertiesDeserializer(
-  item: any,
-): CapabilityTypeProperties {
+export function capabilityTypePropertiesDeserializer(item: any): CapabilityTypeProperties {
   return {
     publisher: item["publisher"],
     targetType: item["targetType"],
@@ -1560,9 +1420,7 @@ export function capabilityTypePropertiesDeserializer(
         }),
     runtimeProperties: !item["runtimeProperties"]
       ? item["runtimeProperties"]
-      : capabilityTypePropertiesRuntimePropertiesDeserializer(
-          item["runtimeProperties"],
-        ),
+      : capabilityTypePropertiesRuntimePropertiesDeserializer(item["runtimeProperties"]),
   };
 }
 
@@ -1588,18 +1446,14 @@ export interface _CapabilityTypeListResult {
   nextLink?: string;
 }
 
-export function _capabilityTypeListResultDeserializer(
-  item: any,
-): _CapabilityTypeListResult {
+export function _capabilityTypeListResultDeserializer(item: any): _CapabilityTypeListResult {
   return {
     value: capabilityTypeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function capabilityTypeArrayDeserializer(
-  result: Array<CapabilityType>,
-): any[] {
+export function capabilityTypeArrayDeserializer(result: Array<CapabilityType>): any[] {
   return result.map((item) => {
     return capabilityTypeDeserializer(item);
   });
@@ -1613,9 +1467,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1646,9 +1498,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -1733,24 +1583,18 @@ export interface OperationStatusResult {
   readonly resourceId?: string;
 }
 
-export function operationStatusResultDeserializer(
-  item: any,
-): OperationStatusResult {
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
   return {
     id: item["id"],
     name: item["name"],
     status: item["status"],
     percentComplete: item["percentComplete"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     operations: !item["operations"]
       ? item["operations"]
       : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     resourceId: item["resourceId"],
   };
 }
@@ -1845,9 +1689,7 @@ export interface TargetTypeProperties {
   readonly resourceTypes?: string[];
 }
 
-export function targetTypePropertiesDeserializer(
-  item: any,
-): TargetTypeProperties {
+export function targetTypePropertiesDeserializer(item: any): TargetTypeProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -1868,9 +1710,7 @@ export interface _TargetTypeListResult {
   nextLink?: string;
 }
 
-export function _targetTypeListResultDeserializer(
-  item: any,
-): _TargetTypeListResult {
+export function _targetTypeListResultDeserializer(item: any): _TargetTypeListResult {
   return {
     value: targetTypeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],

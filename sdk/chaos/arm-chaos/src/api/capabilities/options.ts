@@ -13,8 +13,7 @@ export interface CapabilitiesListOptionalParams extends OperationOptions {
 export interface CapabilitiesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CapabilitiesCreateOrUpdateOptionalParams
-  extends OperationOptions {}
+export interface CapabilitiesCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CapabilitiesGetOptionalParams extends OperationOptions {}

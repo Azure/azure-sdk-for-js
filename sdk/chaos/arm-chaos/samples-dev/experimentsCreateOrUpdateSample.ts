@@ -14,48 +14,44 @@ async function createOrUpdateAExperimentInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const client = new ChaosManagementClient(credential, subscriptionId);
-  const result = await client.experiments.createOrUpdate(
-    "exampleRG",
-    "exampleExperiment",
-    {
-      identity: { type: "SystemAssigned" },
-      tags: { key7131: "ryohwcoiccwsnewjigfmijz", key2138: "fjaeecgnvqd" },
-      location: "eastus2euap",
-      properties: {
-        selectors: [
-          {
-            type: "List",
-            id: "selector1",
-            targets: [
-              {
-                type: "ChaosTarget",
-                id: "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/exampleVM/providers/Microsoft.Chaos/targets/Microsoft-VirtualMachine",
-              },
-            ],
-          },
-        ],
-        steps: [
-          {
-            name: "step1",
-            branches: [
-              {
-                name: "branch1",
-                actions: [
-                  {
-                    name: "urn:csci:microsoft:virtualMachine:shutdown/1.0",
-                    type: "continuous",
-                    duration: "PT10M",
-                    parameters: [{ key: "abruptShutdown", value: "false" }],
-                    selectorId: "selector1",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+  const result = await client.experiments.createOrUpdate("exampleRG", "exampleExperiment", {
+    identity: { type: "SystemAssigned" },
+    tags: { key7131: "ryohwcoiccwsnewjigfmijz", key2138: "fjaeecgnvqd" },
+    location: "eastus2euap",
+    properties: {
+      selectors: [
+        {
+          type: "List",
+          id: "selector1",
+          targets: [
+            {
+              type: "ChaosTarget",
+              id: "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/exampleVM/providers/Microsoft.Chaos/targets/Microsoft-VirtualMachine",
+            },
+          ],
+        },
+      ],
+      steps: [
+        {
+          name: "step1",
+          branches: [
+            {
+              name: "branch1",
+              actions: [
+                {
+                  name: "urn:csci:microsoft:virtualMachine:shutdown/1.0",
+                  type: "continuous",
+                  duration: "PT10M",
+                  parameters: [{ key: "abruptShutdown", value: "false" }],
+                  selectorId: "selector1",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
-  );
+  });
   console.log(result);
 }
 

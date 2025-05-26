@@ -9,12 +9,7 @@ import {
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "../../api/targets/options.js";
-import {
-  list,
-  $delete,
-  createOrUpdate,
-  get,
-} from "../../api/targets/operations.js";
+import { list, $delete, createOrUpdate, get } from "../../api/targets/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Targets operations. */
@@ -135,9 +130,7 @@ function _getTargets(context: ChaosManagementContext) {
   };
 }
 
-export function _getTargetsOperations(
-  context: ChaosManagementContext,
-): TargetsOperations {
+export function _getTargetsOperations(context: ChaosManagementContext): TargetsOperations {
   return {
     ..._getTargets(context),
   };
