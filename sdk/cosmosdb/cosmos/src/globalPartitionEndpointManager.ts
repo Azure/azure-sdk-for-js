@@ -187,7 +187,7 @@ export class GlobalPartitionEndpointManager {
       return false;
     }
 
-    const currentTime = new Date();
+    const currentTime = Date.now();
     await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
       currentTime,
@@ -351,7 +351,7 @@ export class GlobalPartitionEndpointManager {
       const now = new Date();
 
       if (
-        now.getTime() - firstRequestFailureTime.getTime() >
+        now.getTime() - firstRequestFailureTime >
         Constants.AllowedPartitionUnavailabilityDurationInMs
       ) {
         const originalFailedLocation = partitionFailover.firstFailedEndPoint;
@@ -396,8 +396,8 @@ export class PartitionKeyRangeFailoverInfo {
 
   private consecutiveReadRequestFailureCount: number = 0;
   private consecutiveWriteRequestFailureCount: number = 0;
-  private firstRequestFailureTime = new Date();
-  private lastRequestFailureTime = new Date();
+  private firstRequestFailureTime: number = Date.now();
+  private lastRequestFailureTime: number = Date.now();
 
   private failureCountSemaphore: semaphore.Semaphore;
   private timestampSemaphore: semaphore.Semaphore;
@@ -427,17 +427,14 @@ export class PartitionKeyRangeFailoverInfo {
 
   public async incrementRequestFailureCounts(
     isReadOnlyRequest: boolean,
-    currentTime: Date,
+    currentTime: number,
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.failureCountSemaphore.take(async () => {
         try {
           const { lastRequestFailureTime } = await this.snapshotPartitionFailoverTimestamps();
 
-          if (
-            currentTime.getTime() - lastRequestFailureTime.getTime() >
-            Constants.TimeoutCounterResetWindow
-          ) {
+          if (currentTime - lastRequestFailureTime > Constants.TimeoutCounterResetWindow) {
             this.consecutiveReadRequestFailureCount = 0;
             this.consecutiveWriteRequestFailureCount = 0;
           }
@@ -479,8 +476,8 @@ export class PartitionKeyRangeFailoverInfo {
   }
 
   public async snapshotPartitionFailoverTimestamps(): Promise<{
-    firstRequestFailureTime: Date;
-    lastRequestFailureTime: Date;
+    firstRequestFailureTime: number;
+    lastRequestFailureTime: number;
   }> {
     return new Promise((resolve, reject) => {
       this.timestampSemaphore.take(() => {

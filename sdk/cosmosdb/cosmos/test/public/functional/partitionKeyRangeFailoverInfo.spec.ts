@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, beforeEach, vi, assert, afterEach } from "vitest";
+import { describe, it, beforeEach, assert } from "vitest";
 import { PartitionKeyRangeFailoverInfo } from "../../../src/globalPartitionEndpointManager.js";
 
 describe("PartitionKeyRangeFailoverInfo", () => {
@@ -22,8 +22,8 @@ describe("PartitionKeyRangeFailoverInfo", () => {
       consecutiveReadRequestFailureCount: 0,
       consecutiveWriteRequestFailureCount: 0,
     });
-    assert.instanceOf(timestamps.firstRequestFailureTime, Date);
-    assert.instanceOf(timestamps.lastRequestFailureTime, Date);
+    assert.equal(typeof timestamps.firstRequestFailureTime, "number");
+    assert.equal(typeof timestamps.lastRequestFailureTime, "number");
   });
 
   it("increments read failure counts and checks circuit breaker triggering", async () => {
@@ -120,7 +120,7 @@ describe("PartitionKeyRangeFailoverInfo", () => {
 
   it("snapshotPartitionFailoverTimestamps returns accurate timestamps", async () => {
     const timestamps = await failoverInfo.snapshotPartitionFailoverTimestamps();
-    assert.instanceOf(timestamps.firstRequestFailureTime, Date);
-    assert.instanceOf(timestamps.lastRequestFailureTime, Date);
+    assert.equal(typeof timestamps.firstRequestFailureTime, "number");
+    assert.equal(typeof timestamps.lastRequestFailureTime, "number");
   });
 });
