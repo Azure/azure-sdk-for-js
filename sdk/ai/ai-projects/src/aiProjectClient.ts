@@ -47,6 +47,7 @@ export class AIProjectClient {
   private _endpoint: string;
   private _credential: TokenCredential;
   private _agents: AgentsClient | undefined;
+  private _options: AIProjectClientOptionalParams;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -57,6 +58,7 @@ export class AIProjectClient {
   ) {
     this._endpoint = endpointParam;
     this._credential = credential;
+    this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
@@ -79,7 +81,7 @@ export class AIProjectClient {
     this.redTeams = _getRedTeamsOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
-    this.datasets = _getDatasetsOperations(this._azureScopeClient);
+    this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.evaluations = _getEvaluationsOperations(this._azureScopeClient);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
