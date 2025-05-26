@@ -36,7 +36,20 @@
   - Added Enum KnownManagedServiceIdentityType
   - Added Enum KnownVersions
   - Added function restorePoller
-
+  - Type of parameter tags of interface ExperimentUpdate is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter properties of interface Target is changed from {
+        [propertyName: string]: any;
+    } to Record<string, any>
+  - Type of parameter tags of interface TrackedResource is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter type of interface ChaosExperimentAction is changed from "delay" | "discrete" | "continuous" to ExperimentActionType
+  - Type of parameter type of interface ChaosTargetFilter is changed from "Simple" to FilterType
+  - Type of parameter type of interface ChaosTargetSelector is changed from "List" | "Query" to SelectorType
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+    
 ### Breaking Changes
 
   - Removed operation Experiments.beginCancel
@@ -101,21 +114,8 @@
   - Interface TargetType no longer has parameter systemData
   - Interface Experiment has a new required parameter properties
   - Interface TargetType has a new required parameter properties
-  - Type of parameter type of interface ChaosExperimentAction is changed from "delay" | "discrete" | "continuous" to ExperimentActionType
-  - Type of parameter type of interface ChaosTargetFilter is changed from "Simple" to FilterType
-  - Type of parameter type of interface ChaosTargetSelector is changed from "List" | "Query" to SelectorType
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
   - Type of parameter identity of interface Experiment is changed from ResourceIdentity to ManagedServiceIdentity
   - Type of parameter identity of interface ExperimentUpdate is changed from ResourceIdentity to ManagedServiceIdentity
-  - Type of parameter tags of interface ExperimentUpdate is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter properties of interface Target is changed from {
-        [propertyName: string]: any;
-    } to Record<string, any>
-  - Type of parameter tags of interface TrackedResource is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
   - Class ChaosManagementClient no longer has parameter $host
   - Class ChaosManagementClient no longer has parameter apiVersion
   - Class ChaosManagementClient no longer has parameter subscriptionId
