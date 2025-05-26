@@ -751,7 +751,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 }
 ```
 
-### Print out the Quality Measure Inference with the measure denominator, compliance typa and quality criterium. ! The MIPS-codes (“merit based payment incentive”) need to be filled in in the qualityMeasureOptions !
+### Print out the Quality Measure Inference with the measure denominator, compliance typa and quality criterium. The MIPS-codes (“merit based payment incentive”) need to be filled in in the qualityMeasureOptions
+
 ```ts snippet:ReadmeSampleQualityMeasure
 import {
   RadiologyInsightsJobOutput,
