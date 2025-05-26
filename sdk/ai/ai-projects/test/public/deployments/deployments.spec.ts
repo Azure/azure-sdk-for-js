@@ -10,7 +10,7 @@ import type {
   ModelDeployment,
 } from "../../../src/index.js";
 
-describe("datasets - basic", () => {
+describe("deployments - basic", () => {
   let recorder: Recorder;
   let projectsClient: AIProjectClient;
   let deployments: DeploymentsOperations;
