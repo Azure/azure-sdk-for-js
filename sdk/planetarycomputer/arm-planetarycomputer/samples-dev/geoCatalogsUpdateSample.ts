@@ -14,20 +14,16 @@ async function geoCatalogsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";
   const client = new SpatioClient(credential, subscriptionId);
-  const result = await client.geoCatalogs.update(
-    "MyResourceGroup",
-    "MyCatalog",
-    {
-      tags: { MyTag: "MyValue" },
-      identity: {
-        type: "UserAssigned",
-        userAssignedIdentities: {
-          "/subscriptions/cd9b6cdf-dcf0-4dca-ab19-82be07b74704/resourceGroups/MyResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/MyManagedIdentity":
-            {},
-        },
+  const result = await client.geoCatalogs.update("MyResourceGroup", "MyCatalog", {
+    tags: { MyTag: "MyValue" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/cd9b6cdf-dcf0-4dca-ab19-82be07b74704/resourceGroups/MyResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/MyManagedIdentity":
+          {},
       },
     },
-  );
+  });
   console.log(result);
 }
 

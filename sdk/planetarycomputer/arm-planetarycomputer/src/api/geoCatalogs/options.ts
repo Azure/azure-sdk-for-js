@@ -4,12 +4,10 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GeoCatalogsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface GeoCatalogsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface GeoCatalogsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface GeoCatalogsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GeoCatalogsDeleteOptionalParams extends OperationOptions {
