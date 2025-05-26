@@ -48,7 +48,7 @@ Managed Identities can also be used to authenticate through DefaultAzureCredenti
 
 ```ts snippet:ReadmeSampleCreateClient_Node
 import { DefaultAzureCredential } from "@azure/identity";
-import RadiologyInsightsRestClient from "@azure-rest/health-insights-radiologyinsights-rest";
+import RadiologyInsightsRestClient from "@azure-rest/health-insights-radiologyinsights";
 
 const endpoint = "https://<your-endpoint>";
 const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ import RadiologyInsightsRestClient, {
   RadiologyProcedureInference,
   Coding,
   ImagingProcedure,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 const endpoint = "https://<your-endpoint>";
 const credential = new DefaultAzureCredential();
@@ -292,7 +292,7 @@ function displayImaging(images: ImagingProcedure): void {
 import {
   RadiologyInsightsJobOutput,
   ExtensionOutput,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput, content: string): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -336,7 +336,7 @@ import {
   RadiologyInsightsJobOutput,
   CompleteOrderDiscrepancyInference,
   CodeableConcept,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -376,7 +376,7 @@ import {
   FindingInference,
   CodeableConcept,
   Extension,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   if (radiologyInsightsResult.result) {
@@ -440,7 +440,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 import {
   RadiologyInsightsJobOutput,
   FollowupCommunicationInference,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -473,7 +473,7 @@ import {
   ImagingProcedureRecommendation,
   CodeableConcept,
   ImagingProcedure,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -547,7 +547,7 @@ import {
   PresentGuidanceInformation,
   Extension,
   ImagingProcedure,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -683,13 +683,12 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 ```
 
 ### Print out the Laterality Discrepancy Inference codes 
-
 ```ts snippet:ReadmeSampleLateralityDiscrepancy
 import {
   RadiologyInsightsJobOutput,
   LateralityDiscrepancyInference,
   CodeableConcept,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -717,7 +716,7 @@ import {
   RadiologyInsightsJobOutput,
   LimitedOrderDiscrepancyInference,
   CodeableConcept,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -751,14 +750,13 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 }
 ```
 
-### Print out the Quality Measure Inference with the measure denominator, compliance typa and quality criterium. The MIPS-codes (“merit based payment incentive”) need to be filled in in the qualityMeasureOptions
-
+### Print out the Quality Measure Inference with the measure denominator, compliance typa and quality criterium. ! The MIPS-codes (“merit based payment incentive”) need to be filled in in the qualityMeasureOptions !
 ```ts snippet:ReadmeSampleQualityMeasure
 import {
   RadiologyInsightsJobOutput,
   QualityMeasureInference,
   CodeableConcept,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -802,7 +800,7 @@ import {
   RadiologyProcedureInference,
   CodeableConcept,
   ImagingProcedure,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -863,12 +861,11 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 ```
 
 ### Print out the Scoring and Assessment Inference with category and description and single or range values if present
-
 ```ts snippet:ReadmeSampleScoringAndAssessment
 import {
   RadiologyInsightsJobOutput,
   ScoringAndAssessmentInference,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -912,7 +909,7 @@ import {
   RadiologyInsightsJobOutput,
   SexMismatchInference,
   CodeableConcept,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
   for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -937,7 +934,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 
 ```ts snippet:ReadmeSampleManagedIdentity
 import { DefaultAzureCredential } from "@azure/identity";
-import RadiologyInsightsRestClient from "@azure-rest/health-insights-radiologyinsights-rest";
+import RadiologyInsightsRestClient from "@azure-rest/health-insights-radiologyinsights";
 
 const managedIdentityClientId = "<client-id>";
 const endpoint = "https://<your-endpoint>";

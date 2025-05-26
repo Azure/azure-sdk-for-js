@@ -25,7 +25,7 @@ import RadiologyInsightsRestClient, {
   RadiologyProcedureInference,
   ScoringAndAssessmentInference,
   SexMismatchInference,
-} from "@azure-rest/health-insights-radiologyinsights-rest";
+} from "@azure-rest/health-insights-radiologyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
