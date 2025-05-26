@@ -9,18 +9,14 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationResultArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function operationResultArrayDeserializer(
-  result: Array<OperationResult>,
-): any[] {
+export function operationResultArrayDeserializer(result: Array<OperationResult>): any[] {
   return result.map((item) => {
     return operationResultDeserializer(item);
   });
@@ -64,9 +60,7 @@ export interface AvailableOperationDisplay {
   description?: string;
 }
 
-export function availableOperationDisplayDeserializer(
-  item: any,
-): AvailableOperationDisplay {
+export function availableOperationDisplayDeserializer(item: any): AvailableOperationDisplay {
   return {
     provider: item["provider"],
     resource: item["resource"],
@@ -83,9 +77,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -108,26 +100,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -141,23 +127,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -179,16 +159,12 @@ export function applicationResourceSerializer(item: ApplicationResource): any {
       ? item["properties"]
       : applicationResourcePropertiesSerializer(item["properties"]),
     tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedIdentitySerializer(item["identity"]),
+    identity: !item["identity"] ? item["identity"] : managedIdentitySerializer(item["identity"]),
     location: item["location"],
   };
 }
 
-export function applicationResourceDeserializer(
-  item: any,
-): ApplicationResource {
+export function applicationResourceDeserializer(item: any): ApplicationResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -200,9 +176,7 @@ export function applicationResourceDeserializer(
       ? item["properties"]
       : applicationResourcePropertiesDeserializer(item["properties"]),
     tags: item["tags"],
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedIdentityDeserializer(item["identity"]),
+    identity: !item["identity"] ? item["identity"] : managedIdentityDeserializer(item["identity"]),
     location: item["location"],
   };
 }
@@ -224,15 +198,11 @@ export interface ApplicationResourceProperties {
   upgradePolicy?: ApplicationUpgradePolicy;
 }
 
-export function applicationResourcePropertiesSerializer(
-  item: ApplicationResourceProperties,
-): any {
+export function applicationResourcePropertiesSerializer(item: ApplicationResourceProperties): any {
   return {
     managedIdentities: !item["managedIdentities"]
       ? item["managedIdentities"]
-      : applicationUserAssignedIdentityArraySerializer(
-          item["managedIdentities"],
-        ),
+      : applicationUserAssignedIdentityArraySerializer(item["managedIdentities"]),
     version: item["version"],
     parameters: item["parameters"],
     upgradePolicy: !item["upgradePolicy"]
@@ -247,9 +217,7 @@ export function applicationResourcePropertiesDeserializer(
   return {
     managedIdentities: !item["managedIdentities"]
       ? item["managedIdentities"]
-      : applicationUserAssignedIdentityArrayDeserializer(
-          item["managedIdentities"],
-        ),
+      : applicationUserAssignedIdentityArrayDeserializer(item["managedIdentities"]),
     provisioningState: item["provisioningState"],
     version: item["version"],
     parameters: item["parameters"],
@@ -316,9 +284,7 @@ export interface ApplicationUpgradePolicy {
   recreateApplication?: boolean;
 }
 
-export function applicationUpgradePolicySerializer(
-  item: ApplicationUpgradePolicy,
-): any {
+export function applicationUpgradePolicySerializer(item: ApplicationUpgradePolicy): any {
   return {
     applicationHealthPolicy: !item["applicationHealthPolicy"]
       ? item["applicationHealthPolicy"]
@@ -326,9 +292,7 @@ export function applicationUpgradePolicySerializer(
     forceRestart: item["forceRestart"],
     rollingUpgradeMonitoringPolicy: !item["rollingUpgradeMonitoringPolicy"]
       ? item["rollingUpgradeMonitoringPolicy"]
-      : rollingUpgradeMonitoringPolicySerializer(
-          item["rollingUpgradeMonitoringPolicy"],
-        ),
+      : rollingUpgradeMonitoringPolicySerializer(item["rollingUpgradeMonitoringPolicy"]),
     instanceCloseDelayDuration: item["instanceCloseDelayDuration"],
     upgradeMode: item["upgradeMode"],
     upgradeReplicaSetCheckTimeout: item["upgradeReplicaSetCheckTimeout"],
@@ -336,9 +300,7 @@ export function applicationUpgradePolicySerializer(
   };
 }
 
-export function applicationUpgradePolicyDeserializer(
-  item: any,
-): ApplicationUpgradePolicy {
+export function applicationUpgradePolicyDeserializer(item: any): ApplicationUpgradePolicy {
   return {
     applicationHealthPolicy: !item["applicationHealthPolicy"]
       ? item["applicationHealthPolicy"]
@@ -346,9 +308,7 @@ export function applicationUpgradePolicyDeserializer(
     forceRestart: item["forceRestart"],
     rollingUpgradeMonitoringPolicy: !item["rollingUpgradeMonitoringPolicy"]
       ? item["rollingUpgradeMonitoringPolicy"]
-      : rollingUpgradeMonitoringPolicyDeserializer(
-          item["rollingUpgradeMonitoringPolicy"],
-        ),
+      : rollingUpgradeMonitoringPolicyDeserializer(item["rollingUpgradeMonitoringPolicy"]),
     instanceCloseDelayDuration: item["instanceCloseDelayDuration"],
     upgradeMode: item["upgradeMode"],
     upgradeReplicaSetCheckTimeout: item["upgradeReplicaSetCheckTimeout"],
@@ -373,43 +333,29 @@ export interface ApplicationHealthPolicy {
   serviceTypeHealthPolicyMap?: Record<string, ServiceTypeHealthPolicy>;
 }
 
-export function applicationHealthPolicySerializer(
-  item: ApplicationHealthPolicy,
-): any {
+export function applicationHealthPolicySerializer(item: ApplicationHealthPolicy): any {
   return {
     considerWarningAsError: item["considerWarningAsError"],
-    maxPercentUnhealthyDeployedApplications:
-      item["maxPercentUnhealthyDeployedApplications"],
+    maxPercentUnhealthyDeployedApplications: item["maxPercentUnhealthyDeployedApplications"],
     defaultServiceTypeHealthPolicy: !item["defaultServiceTypeHealthPolicy"]
       ? item["defaultServiceTypeHealthPolicy"]
-      : serviceTypeHealthPolicySerializer(
-          item["defaultServiceTypeHealthPolicy"],
-        ),
+      : serviceTypeHealthPolicySerializer(item["defaultServiceTypeHealthPolicy"]),
     serviceTypeHealthPolicyMap: !item["serviceTypeHealthPolicyMap"]
       ? item["serviceTypeHealthPolicyMap"]
-      : serviceTypeHealthPolicyRecordSerializer(
-          item["serviceTypeHealthPolicyMap"],
-        ),
+      : serviceTypeHealthPolicyRecordSerializer(item["serviceTypeHealthPolicyMap"]),
   };
 }
 
-export function applicationHealthPolicyDeserializer(
-  item: any,
-): ApplicationHealthPolicy {
+export function applicationHealthPolicyDeserializer(item: any): ApplicationHealthPolicy {
   return {
     considerWarningAsError: item["considerWarningAsError"],
-    maxPercentUnhealthyDeployedApplications:
-      item["maxPercentUnhealthyDeployedApplications"],
+    maxPercentUnhealthyDeployedApplications: item["maxPercentUnhealthyDeployedApplications"],
     defaultServiceTypeHealthPolicy: !item["defaultServiceTypeHealthPolicy"]
       ? item["defaultServiceTypeHealthPolicy"]
-      : serviceTypeHealthPolicyDeserializer(
-          item["defaultServiceTypeHealthPolicy"],
-        ),
+      : serviceTypeHealthPolicyDeserializer(item["defaultServiceTypeHealthPolicy"]),
     serviceTypeHealthPolicyMap: !item["serviceTypeHealthPolicyMap"]
       ? item["serviceTypeHealthPolicyMap"]
-      : serviceTypeHealthPolicyRecordDeserializer(
-          item["serviceTypeHealthPolicyMap"],
-        ),
+      : serviceTypeHealthPolicyRecordDeserializer(item["serviceTypeHealthPolicyMap"]),
   };
 }
 
@@ -444,27 +390,19 @@ export interface ServiceTypeHealthPolicy {
   maxPercentUnhealthyReplicasPerPartition: number;
 }
 
-export function serviceTypeHealthPolicySerializer(
-  item: ServiceTypeHealthPolicy,
-): any {
+export function serviceTypeHealthPolicySerializer(item: ServiceTypeHealthPolicy): any {
   return {
     maxPercentUnhealthyServices: item["maxPercentUnhealthyServices"],
-    maxPercentUnhealthyPartitionsPerService:
-      item["maxPercentUnhealthyPartitionsPerService"],
-    maxPercentUnhealthyReplicasPerPartition:
-      item["maxPercentUnhealthyReplicasPerPartition"],
+    maxPercentUnhealthyPartitionsPerService: item["maxPercentUnhealthyPartitionsPerService"],
+    maxPercentUnhealthyReplicasPerPartition: item["maxPercentUnhealthyReplicasPerPartition"],
   };
 }
 
-export function serviceTypeHealthPolicyDeserializer(
-  item: any,
-): ServiceTypeHealthPolicy {
+export function serviceTypeHealthPolicyDeserializer(item: any): ServiceTypeHealthPolicy {
   return {
     maxPercentUnhealthyServices: item["maxPercentUnhealthyServices"],
-    maxPercentUnhealthyPartitionsPerService:
-      item["maxPercentUnhealthyPartitionsPerService"],
-    maxPercentUnhealthyReplicasPerPartition:
-      item["maxPercentUnhealthyReplicasPerPartition"],
+    maxPercentUnhealthyPartitionsPerService: item["maxPercentUnhealthyPartitionsPerService"],
+    maxPercentUnhealthyReplicasPerPartition: item["maxPercentUnhealthyReplicasPerPartition"],
   };
 }
 
@@ -473,9 +411,7 @@ export function serviceTypeHealthPolicyRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : serviceTypeHealthPolicySerializer(item[key]);
+    result[key] = !item[key] ? item[key] : serviceTypeHealthPolicySerializer(item[key]);
   });
   return result;
 }
@@ -485,9 +421,7 @@ export function serviceTypeHealthPolicyRecordDeserializer(
 ): Record<string, ServiceTypeHealthPolicy> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : serviceTypeHealthPolicyDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : serviceTypeHealthPolicyDeserializer(item[key]);
   });
   return result;
 }
@@ -617,9 +551,7 @@ export function userAssignedIdentityRecordSerializer(
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : userAssignedIdentitySerializer(item[key]);
+    result[key] = !item[key] ? item[key] : userAssignedIdentitySerializer(item[key]);
   });
   return result;
 }
@@ -629,9 +561,7 @@ export function userAssignedIdentityRecordDeserializer(
 ): Record<string, UserAssignedIdentity> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key]
-      ? item[key]
-      : userAssignedIdentityDeserializer(item[key]);
+    result[key] = !item[key] ? item[key] : userAssignedIdentityDeserializer(item[key]);
   });
   return result;
 }
@@ -644,15 +574,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -724,9 +650,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -765,9 +689,7 @@ export interface ApplicationUpdateParameters {
   tags?: Record<string, string>;
 }
 
-export function applicationUpdateParametersSerializer(
-  item: ApplicationUpdateParameters,
-): any {
+export function applicationUpdateParametersSerializer(item: ApplicationUpdateParameters): any {
   return { tags: item["tags"] };
 }
 
@@ -779,26 +701,20 @@ export interface _ApplicationResourceList {
   nextLink?: string;
 }
 
-export function _applicationResourceListDeserializer(
-  item: any,
-): _ApplicationResourceList {
+export function _applicationResourceListDeserializer(item: any): _ApplicationResourceList {
   return {
     value: applicationResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function applicationResourceArraySerializer(
-  result: Array<ApplicationResource>,
-): any[] {
+export function applicationResourceArraySerializer(result: Array<ApplicationResource>): any[] {
   return result.map((item) => {
     return applicationResourceSerializer(item);
   });
 }
 
-export function applicationResourceArrayDeserializer(
-  result: Array<ApplicationResource>,
-): any[] {
+export function applicationResourceArrayDeserializer(result: Array<ApplicationResource>): any[] {
   return result.map((item) => {
     return applicationResourceDeserializer(item);
   });
@@ -826,9 +742,7 @@ export interface ApplicationTypeResource extends ProxyResource {
   location?: string;
 }
 
-export function applicationTypeResourceSerializer(
-  item: ApplicationTypeResource,
-): any {
+export function applicationTypeResourceSerializer(item: ApplicationTypeResource): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -838,9 +752,7 @@ export function applicationTypeResourceSerializer(
   };
 }
 
-export function applicationTypeResourceDeserializer(
-  item: any,
-): ApplicationTypeResource {
+export function applicationTypeResourceDeserializer(item: any): ApplicationTypeResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -896,9 +808,7 @@ export interface _ApplicationTypeResourceList {
   nextLink?: string;
 }
 
-export function _applicationTypeResourceListDeserializer(
-  item: any,
-): _ApplicationTypeResourceList {
+export function _applicationTypeResourceListDeserializer(item: any): _ApplicationTypeResourceList {
   return {
     value: applicationTypeResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -955,9 +865,7 @@ export function applicationTypeVersionResourceDeserializer(
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : applicationTypeVersionResourcePropertiesDeserializer(
-          item["properties"],
-        ),
+      : applicationTypeVersionResourcePropertiesDeserializer(item["properties"]),
     tags: item["tags"],
     location: item["location"],
   };
@@ -1068,8 +976,7 @@ export function serviceResourceDeserializer(item: any): ServiceResource {
 }
 
 /** The service resource properties. */
-export interface ServiceResourceProperties
-  extends ServiceResourcePropertiesBase {
+export interface ServiceResourceProperties extends ServiceResourcePropertiesBase {
   /** The current deployment or provisioning state, which only appears in the response */
   readonly provisioningState?: string;
   /** The kind of service (Stateless or Stateful). */
@@ -1089,9 +996,7 @@ export interface ServiceResourceProperties
   serviceDnsName?: string;
 }
 
-export function serviceResourcePropertiesSerializer(
-  item: ServiceResourceProperties,
-): any {
+export function serviceResourcePropertiesSerializer(item: ServiceResourceProperties): any {
   return {
     placementConstraints: item["placementConstraints"],
     correlationScheme: !item["correlationScheme"]
@@ -1102,26 +1007,20 @@ export function serviceResourcePropertiesSerializer(
       : serviceLoadMetricArraySerializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArraySerializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArraySerializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
       : scalingPolicyArraySerializer(item["scalingPolicies"]),
     serviceKind: item["serviceKind"],
     serviceTypeName: item["serviceTypeName"],
-    partitionDescription: partitionUnionSerializer(
-      item["partitionDescription"],
-    ),
+    partitionDescription: partitionUnionSerializer(item["partitionDescription"]),
     servicePackageActivationMode: item["servicePackageActivationMode"],
     serviceDnsName: item["serviceDnsName"],
   };
 }
 
-export function serviceResourcePropertiesDeserializer(
-  item: any,
-): ServiceResourceProperties {
+export function serviceResourcePropertiesDeserializer(item: any): ServiceResourceProperties {
   return {
     placementConstraints: item["placementConstraints"],
     correlationScheme: !item["correlationScheme"]
@@ -1132,9 +1031,7 @@ export function serviceResourcePropertiesDeserializer(
       : serviceLoadMetricArrayDeserializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArrayDeserializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArrayDeserializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1142,9 +1039,7 @@ export function serviceResourcePropertiesDeserializer(
     provisioningState: item["provisioningState"],
     serviceKind: item["serviceKind"],
     serviceTypeName: item["serviceTypeName"],
-    partitionDescription: partitionUnionDeserializer(
-      item["partitionDescription"],
-    ),
+    partitionDescription: partitionUnionDeserializer(item["partitionDescription"]),
     servicePackageActivationMode: item["servicePackageActivationMode"],
     serviceDnsName: item["serviceDnsName"],
   };
@@ -1161,14 +1056,10 @@ export function serviceResourcePropertiesUnionSerializer(
 ): any {
   switch (item.serviceKind) {
     case "Stateful":
-      return statefulServicePropertiesSerializer(
-        item as StatefulServiceProperties,
-      );
+      return statefulServicePropertiesSerializer(item as StatefulServiceProperties);
 
     case "Stateless":
-      return statelessServicePropertiesSerializer(
-        item as StatelessServiceProperties,
-      );
+      return statelessServicePropertiesSerializer(item as StatelessServiceProperties);
 
     default:
       return serviceResourcePropertiesSerializer(item);
@@ -1180,14 +1071,10 @@ export function serviceResourcePropertiesUnionDeserializer(
 ): ServiceResourcePropertiesUnion {
   switch (item.serviceKind) {
     case "Stateful":
-      return statefulServicePropertiesDeserializer(
-        item as StatefulServiceProperties,
-      );
+      return statefulServicePropertiesDeserializer(item as StatefulServiceProperties);
 
     case "Stateless":
-      return statelessServicePropertiesDeserializer(
-        item as StatelessServiceProperties,
-      );
+      return statelessServicePropertiesDeserializer(item as StatelessServiceProperties);
 
     default:
       return serviceResourcePropertiesDeserializer(item);
@@ -1237,14 +1124,10 @@ export type PartitionUnion =
 export function partitionUnionSerializer(item: PartitionUnion): any {
   switch (item.partitionScheme) {
     case "UniformInt64Range":
-      return uniformInt64RangePartitionSchemeSerializer(
-        item as UniformInt64RangePartitionScheme,
-      );
+      return uniformInt64RangePartitionSchemeSerializer(item as UniformInt64RangePartitionScheme);
 
     case "Singleton":
-      return singletonPartitionSchemeSerializer(
-        item as SingletonPartitionScheme,
-      );
+      return singletonPartitionSchemeSerializer(item as SingletonPartitionScheme);
 
     case "Named":
       return namedPartitionSchemeSerializer(item as NamedPartitionScheme);
@@ -1257,14 +1140,10 @@ export function partitionUnionSerializer(item: PartitionUnion): any {
 export function partitionUnionDeserializer(item: any): PartitionUnion {
   switch (item.partitionScheme) {
     case "UniformInt64Range":
-      return uniformInt64RangePartitionSchemeDeserializer(
-        item as UniformInt64RangePartitionScheme,
-      );
+      return uniformInt64RangePartitionSchemeDeserializer(item as UniformInt64RangePartitionScheme);
 
     case "Singleton":
-      return singletonPartitionSchemeDeserializer(
-        item as SingletonPartitionScheme,
-      );
+      return singletonPartitionSchemeDeserializer(item as SingletonPartitionScheme);
 
     case "Named":
       return namedPartitionSchemeDeserializer(item as NamedPartitionScheme);
@@ -1341,15 +1220,11 @@ export interface SingletonPartitionScheme extends Partition {
   partitionScheme: "Singleton";
 }
 
-export function singletonPartitionSchemeSerializer(
-  item: SingletonPartitionScheme,
-): any {
+export function singletonPartitionSchemeSerializer(item: SingletonPartitionScheme): any {
   return { partitionScheme: item["partitionScheme"] };
 }
 
-export function singletonPartitionSchemeDeserializer(
-  item: any,
-): SingletonPartitionScheme {
+export function singletonPartitionSchemeDeserializer(item: any): SingletonPartitionScheme {
   return {
     partitionScheme: item["partitionScheme"],
   };
@@ -1363,9 +1238,7 @@ export interface NamedPartitionScheme extends Partition {
   partitionScheme: "Named";
 }
 
-export function namedPartitionSchemeSerializer(
-  item: NamedPartitionScheme,
-): any {
+export function namedPartitionSchemeSerializer(item: NamedPartitionScheme): any {
   return {
     partitionScheme: item["partitionScheme"],
     names: item["names"].map((p: any) => {
@@ -1374,9 +1247,7 @@ export function namedPartitionSchemeSerializer(
   };
 }
 
-export function namedPartitionSchemeDeserializer(
-  item: any,
-): NamedPartitionScheme {
+export function namedPartitionSchemeDeserializer(item: any): NamedPartitionScheme {
   return {
     partitionScheme: item["partitionScheme"],
     names: item["names"].map((p: any) => {
@@ -1423,15 +1294,11 @@ export interface StatefulServiceProperties extends ServiceResourceProperties {
   serviceKind: "Stateful";
 }
 
-export function statefulServicePropertiesSerializer(
-  item: StatefulServiceProperties,
-): any {
+export function statefulServicePropertiesSerializer(item: StatefulServiceProperties): any {
   return {
     serviceKind: item["serviceKind"],
     serviceTypeName: item["serviceTypeName"],
-    partitionDescription: partitionUnionSerializer(
-      item["partitionDescription"],
-    ),
+    partitionDescription: partitionUnionSerializer(item["partitionDescription"]),
     servicePackageActivationMode: item["servicePackageActivationMode"],
     serviceDnsName: item["serviceDnsName"],
     placementConstraints: item["placementConstraints"],
@@ -1443,9 +1310,7 @@ export function statefulServicePropertiesSerializer(
       : serviceLoadMetricArraySerializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArraySerializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArraySerializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1460,16 +1325,12 @@ export function statefulServicePropertiesSerializer(
   };
 }
 
-export function statefulServicePropertiesDeserializer(
-  item: any,
-): StatefulServiceProperties {
+export function statefulServicePropertiesDeserializer(item: any): StatefulServiceProperties {
   return {
     provisioningState: item["provisioningState"],
     serviceKind: item["serviceKind"],
     serviceTypeName: item["serviceTypeName"],
-    partitionDescription: partitionUnionDeserializer(
-      item["partitionDescription"],
-    ),
+    partitionDescription: partitionUnionDeserializer(item["partitionDescription"]),
     servicePackageActivationMode: item["servicePackageActivationMode"],
     serviceDnsName: item["serviceDnsName"],
     placementConstraints: item["placementConstraints"],
@@ -1481,9 +1342,7 @@ export function statefulServicePropertiesDeserializer(
       : serviceLoadMetricArrayDeserializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArrayDeserializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArrayDeserializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1510,15 +1369,11 @@ export interface StatelessServiceProperties extends ServiceResourceProperties {
   serviceKind: "Stateless";
 }
 
-export function statelessServicePropertiesSerializer(
-  item: StatelessServiceProperties,
-): any {
+export function statelessServicePropertiesSerializer(item: StatelessServiceProperties): any {
   return {
     serviceKind: item["serviceKind"],
     serviceTypeName: item["serviceTypeName"],
-    partitionDescription: partitionUnionSerializer(
-      item["partitionDescription"],
-    ),
+    partitionDescription: partitionUnionSerializer(item["partitionDescription"]),
     servicePackageActivationMode: item["servicePackageActivationMode"],
     serviceDnsName: item["serviceDnsName"],
     placementConstraints: item["placementConstraints"],
@@ -1530,9 +1385,7 @@ export function statelessServicePropertiesSerializer(
       : serviceLoadMetricArraySerializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArraySerializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArraySerializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1543,16 +1396,12 @@ export function statelessServicePropertiesSerializer(
   };
 }
 
-export function statelessServicePropertiesDeserializer(
-  item: any,
-): StatelessServiceProperties {
+export function statelessServicePropertiesDeserializer(item: any): StatelessServiceProperties {
   return {
     provisioningState: item["provisioningState"],
     serviceKind: item["serviceKind"],
     serviceTypeName: item["serviceTypeName"],
-    partitionDescription: partitionUnionDeserializer(
-      item["partitionDescription"],
-    ),
+    partitionDescription: partitionUnionDeserializer(item["partitionDescription"]),
     servicePackageActivationMode: item["servicePackageActivationMode"],
     serviceDnsName: item["serviceDnsName"],
     placementConstraints: item["placementConstraints"],
@@ -1564,9 +1413,7 @@ export function statelessServicePropertiesDeserializer(
       : serviceLoadMetricArrayDeserializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArrayDeserializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArrayDeserializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1593,9 +1440,7 @@ export interface ServiceResourcePropertiesBase {
   scalingPolicies?: ScalingPolicy[];
 }
 
-export function serviceResourcePropertiesBaseSerializer(
-  item: ServiceResourcePropertiesBase,
-): any {
+export function serviceResourcePropertiesBaseSerializer(item: ServiceResourcePropertiesBase): any {
   return {
     placementConstraints: item["placementConstraints"],
     correlationScheme: !item["correlationScheme"]
@@ -1606,9 +1451,7 @@ export function serviceResourcePropertiesBaseSerializer(
       : serviceLoadMetricArraySerializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArraySerializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArraySerializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1629,9 +1472,7 @@ export function serviceResourcePropertiesBaseDeserializer(
       : serviceLoadMetricArrayDeserializer(item["serviceLoadMetrics"]),
     servicePlacementPolicies: !item["servicePlacementPolicies"]
       ? item["servicePlacementPolicies"]
-      : servicePlacementPolicyUnionArrayDeserializer(
-          item["servicePlacementPolicies"],
-        ),
+      : servicePlacementPolicyUnionArrayDeserializer(item["servicePlacementPolicies"]),
     defaultMoveCost: item["defaultMoveCost"],
     scalingPolicies: !item["scalingPolicies"]
       ? item["scalingPolicies"]
@@ -1639,17 +1480,13 @@ export function serviceResourcePropertiesBaseDeserializer(
   };
 }
 
-export function serviceCorrelationArraySerializer(
-  result: Array<ServiceCorrelation>,
-): any[] {
+export function serviceCorrelationArraySerializer(result: Array<ServiceCorrelation>): any[] {
   return result.map((item) => {
     return serviceCorrelationSerializer(item);
   });
 }
 
-export function serviceCorrelationArrayDeserializer(
-  result: Array<ServiceCorrelation>,
-): any[] {
+export function serviceCorrelationArrayDeserializer(result: Array<ServiceCorrelation>): any[] {
   return result.map((item) => {
     return serviceCorrelationDeserializer(item);
   });
@@ -1692,17 +1529,13 @@ export enum KnownServiceCorrelationScheme {
  */
 export type ServiceCorrelationScheme = string;
 
-export function serviceLoadMetricArraySerializer(
-  result: Array<ServiceLoadMetric>,
-): any[] {
+export function serviceLoadMetricArraySerializer(result: Array<ServiceLoadMetric>): any[] {
   return result.map((item) => {
     return serviceLoadMetricSerializer(item);
   });
 }
 
-export function serviceLoadMetricArrayDeserializer(
-  result: Array<ServiceLoadMetric>,
-): any[] {
+export function serviceLoadMetricArrayDeserializer(result: Array<ServiceLoadMetric>): any[] {
   return result.map((item) => {
     return serviceLoadMetricDeserializer(item);
   });
@@ -1787,15 +1620,11 @@ export interface ServicePlacementPolicy {
   type: ServicePlacementPolicyType;
 }
 
-export function servicePlacementPolicySerializer(
-  item: ServicePlacementPolicy,
-): any {
+export function servicePlacementPolicySerializer(item: ServicePlacementPolicy): any {
   return { type: item["type"] };
 }
 
-export function servicePlacementPolicyDeserializer(
-  item: any,
-): ServicePlacementPolicy {
+export function servicePlacementPolicyDeserializer(item: any): ServicePlacementPolicy {
   return {
     type: item["type"],
   };
@@ -1810,9 +1639,7 @@ export type ServicePlacementPolicyUnion =
   | ServicePlacementNonPartiallyPlaceServicePolicy
   | ServicePlacementPolicy;
 
-export function servicePlacementPolicyUnionSerializer(
-  item: ServicePlacementPolicyUnion,
-): any {
+export function servicePlacementPolicyUnionSerializer(item: ServicePlacementPolicyUnion): any {
   switch (item.type) {
     case "InvalidDomain":
       return servicePlacementInvalidDomainPolicySerializer(
@@ -1844,9 +1671,7 @@ export function servicePlacementPolicyUnionSerializer(
   }
 }
 
-export function servicePlacementPolicyUnionDeserializer(
-  item: any,
-): ServicePlacementPolicyUnion {
+export function servicePlacementPolicyUnionDeserializer(item: any): ServicePlacementPolicyUnion {
   switch (item.type) {
     case "InvalidDomain":
       return servicePlacementInvalidDomainPolicyDeserializer(
@@ -1906,8 +1731,7 @@ export enum KnownServicePlacementPolicyType {
 export type ServicePlacementPolicyType = string;
 
 /** Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service. */
-export interface ServicePlacementInvalidDomainPolicy
-  extends ServicePlacementPolicy {
+export interface ServicePlacementInvalidDomainPolicy extends ServicePlacementPolicy {
   /** The name of the domain that should not be used for placement. */
   domainName: string;
   /** The type of placement policy for a service fabric service. Following are the possible values. */
@@ -1930,8 +1754,7 @@ export function servicePlacementInvalidDomainPolicyDeserializer(
 }
 
 /** Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain. */
-export interface ServicePlacementRequiredDomainPolicy
-  extends ServicePlacementPolicy {
+export interface ServicePlacementRequiredDomainPolicy extends ServicePlacementPolicy {
   /** The name of the domain that should used for placement as per this policy. */
   domainName: string;
   /** The type of placement policy for a service fabric service. Following are the possible values. */
@@ -1963,8 +1786,7 @@ export function servicePlacementRequiredDomainPolicyDeserializer(
  * or datacenter boundaries. Note that since this is an optimization it is possible that the Primary replica
  * may not end up located in this domain due to failures, capacity limits, or other constraints.
  */
-export interface ServicePlacementPreferPrimaryDomainPolicy
-  extends ServicePlacementPolicy {
+export interface ServicePlacementPreferPrimaryDomainPolicy extends ServicePlacementPolicy {
   /** The name of the domain that should used for placement as per this policy. */
   domainName: string;
   /** The type of placement policy for a service fabric service. Following are the possible values. */
@@ -1997,8 +1819,7 @@ export function servicePlacementPreferPrimaryDomainPolicyDeserializer(
  * datacenter will be packed into one of the remaining datacenters. If this is not desirable then this
  * policy should be set.
  */
-export interface ServicePlacementRequireDomainDistributionPolicy
-  extends ServicePlacementPolicy {
+export interface ServicePlacementRequireDomainDistributionPolicy extends ServicePlacementPolicy {
   /** The name of the domain that should used for placement as per this policy. */
   domainName: string;
   /** The type of placement policy for a service fabric service. Following are the possible values. */
@@ -2021,8 +1842,7 @@ export function servicePlacementRequireDomainDistributionPolicyDeserializer(
 }
 
 /** The type of placement policy for a service fabric service. Following are the possible values. */
-export interface ServicePlacementNonPartiallyPlaceServicePolicy
-  extends ServicePlacementPolicy {
+export interface ServicePlacementNonPartiallyPlaceServicePolicy extends ServicePlacementPolicy {
   type: "NonPartiallyPlaceService";
 }
 
@@ -2064,17 +1884,13 @@ export enum KnownMoveCost {
  */
 export type MoveCost = string;
 
-export function scalingPolicyArraySerializer(
-  result: Array<ScalingPolicy>,
-): any[] {
+export function scalingPolicyArraySerializer(result: Array<ScalingPolicy>): any[] {
   return result.map((item) => {
     return scalingPolicySerializer(item);
   });
 }
 
-export function scalingPolicyArrayDeserializer(
-  result: Array<ScalingPolicy>,
-): any[] {
+export function scalingPolicyArrayDeserializer(result: Array<ScalingPolicy>): any[] {
   return result.map((item) => {
     return scalingPolicyDeserializer(item);
   });
@@ -2097,9 +1913,7 @@ export function scalingPolicySerializer(item: ScalingPolicy): any {
 
 export function scalingPolicyDeserializer(item: any): ScalingPolicy {
   return {
-    scalingMechanism: scalingMechanismUnionDeserializer(
-      item["scalingMechanism"],
-    ),
+    scalingMechanism: scalingMechanismUnionDeserializer(item["scalingMechanism"]),
     scalingTrigger: scalingTriggerUnionDeserializer(item["scalingTrigger"]),
   };
 }
@@ -2125,9 +1939,7 @@ export type ScalingMechanismUnion =
   | PartitionInstanceCountScaleMechanism
   | ScalingMechanism;
 
-export function scalingMechanismUnionSerializer(
-  item: ScalingMechanismUnion,
-): any {
+export function scalingMechanismUnionSerializer(item: ScalingMechanismUnion): any {
   switch (item.kind) {
     case "AddRemoveIncrementalNamedPartition":
       return addRemoveIncrementalNamedPartitionScalingMechanismSerializer(
@@ -2144,9 +1956,7 @@ export function scalingMechanismUnionSerializer(
   }
 }
 
-export function scalingMechanismUnionDeserializer(
-  item: any,
-): ScalingMechanismUnion {
+export function scalingMechanismUnionDeserializer(item: any): ScalingMechanismUnion {
   switch (item.kind) {
     case "AddRemoveIncrementalNamedPartition":
       return addRemoveIncrementalNamedPartitionScalingMechanismDeserializer(
@@ -2182,8 +1992,7 @@ export enum KnownServiceScalingMechanismKind {
 export type ServiceScalingMechanismKind = string;
 
 /** Represents a scaling mechanism for adding or removing named partitions of a stateless service. Partition names are in the format '0','1'...'N-1'. */
-export interface AddRemoveIncrementalNamedPartitionScalingMechanism
-  extends ScalingMechanism {
+export interface AddRemoveIncrementalNamedPartitionScalingMechanism extends ScalingMechanism {
   /** Minimum number of named partitions of the service. */
   minPartitionCount: number;
   /** Maximum number of named partitions of the service. */
@@ -2279,18 +2088,14 @@ export function scalingTriggerUnionSerializer(item: ScalingTriggerUnion): any {
       );
 
     case "AverageServiceLoadTrigger":
-      return averageServiceLoadScalingTriggerSerializer(
-        item as AverageServiceLoadScalingTrigger,
-      );
+      return averageServiceLoadScalingTriggerSerializer(item as AverageServiceLoadScalingTrigger);
 
     default:
       return scalingTriggerSerializer(item);
   }
 }
 
-export function scalingTriggerUnionDeserializer(
-  item: any,
-): ScalingTriggerUnion {
+export function scalingTriggerUnionDeserializer(item: any): ScalingTriggerUnion {
   switch (item.kind) {
     case "AveragePartitionLoadTrigger":
       return averagePartitionLoadScalingTriggerDeserializer(
@@ -2298,9 +2103,7 @@ export function scalingTriggerUnionDeserializer(
       );
 
     case "AverageServiceLoadTrigger":
-      return averageServiceLoadScalingTriggerDeserializer(
-        item as AverageServiceLoadScalingTrigger,
-      );
+      return averageServiceLoadScalingTriggerDeserializer(item as AverageServiceLoadScalingTrigger);
 
     default:
       return scalingTriggerDeserializer(item);
@@ -2411,9 +2214,7 @@ export interface ServiceUpdateParameters {
   tags?: Record<string, string>;
 }
 
-export function serviceUpdateParametersSerializer(
-  item: ServiceUpdateParameters,
-): any {
+export function serviceUpdateParametersSerializer(item: ServiceUpdateParameters): any {
   return { tags: item["tags"] };
 }
 
@@ -2425,26 +2226,20 @@ export interface _ServiceResourceList {
   nextLink?: string;
 }
 
-export function _serviceResourceListDeserializer(
-  item: any,
-): _ServiceResourceList {
+export function _serviceResourceListDeserializer(item: any): _ServiceResourceList {
   return {
     value: serviceResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function serviceResourceArraySerializer(
-  result: Array<ServiceResource>,
-): any[] {
+export function serviceResourceArraySerializer(result: Array<ServiceResource>): any[] {
   return result.map((item) => {
     return serviceResourceSerializer(item);
   });
 }
 
-export function serviceResourceArrayDeserializer(
-  result: Array<ServiceResource>,
-): any[] {
+export function serviceResourceArrayDeserializer(result: Array<ServiceResource>): any[] {
   return result.map((item) => {
     return serviceResourceDeserializer(item);
   });
@@ -2485,9 +2280,7 @@ export interface ManagedClusterVersionDetails {
   osType?: OsType;
 }
 
-export function managedClusterVersionDetailsDeserializer(
-  item: any,
-): ManagedClusterVersionDetails {
+export function managedClusterVersionDetailsDeserializer(item: any): ManagedClusterVersionDetails {
   return {
     clusterCodeVersion: item["clusterCodeVersion"],
     supportExpiryUtc: !item["supportExpiryUtc"]
@@ -2526,9 +2319,7 @@ export interface ManagedVMSize {
 
 export function managedVMSizeDeserializer(item: any): ManagedVMSize {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : vmSizeDeserializer(item["properties"]),
+    properties: !item["properties"] ? item["properties"] : vmSizeDeserializer(item["properties"]),
     id: item["id"],
     name: item["name"],
     type: item["type"],
@@ -2555,18 +2346,14 @@ export interface _ManagedVMSizesResult {
   nextLink?: string;
 }
 
-export function _managedVMSizesResultDeserializer(
-  item: any,
-): _ManagedVMSizesResult {
+export function _managedVMSizesResultDeserializer(item: any): _ManagedVMSizesResult {
   return {
     value: managedVMSizeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function managedVMSizeArrayDeserializer(
-  result: Array<ManagedVMSize>,
-): any[] {
+export function managedVMSizeArrayDeserializer(result: Array<ManagedVMSize>): any[] {
   return result.map((item) => {
     return managedVMSizeDeserializer(item);
   });
@@ -2699,9 +2486,7 @@ export interface ManagedClusterProperties {
   vmImage?: string;
 }
 
-export function managedClusterPropertiesSerializer(
-  item: ManagedClusterProperties,
-): any {
+export function managedClusterPropertiesSerializer(item: ManagedClusterProperties): any {
   return {
     dnsName: item["dnsName"],
     clientConnectionPort: item["clientConnectionPort"],
@@ -2715,9 +2500,7 @@ export function managedClusterPropertiesSerializer(
     networkSecurityRules: !item["networkSecurityRules"]
       ? item["networkSecurityRules"]
       : networkSecurityRuleArraySerializer(item["networkSecurityRules"]),
-    clients: !item["clients"]
-      ? item["clients"]
-      : clientCertificateArraySerializer(item["clients"]),
+    clients: !item["clients"] ? item["clients"] : clientCertificateArraySerializer(item["clients"]),
     azureActiveDirectory: !item["azureActiveDirectory"]
       ? item["azureActiveDirectory"]
       : azureActiveDirectorySerializer(item["azureActiveDirectory"]),
@@ -2734,18 +2517,14 @@ export function managedClusterPropertiesSerializer(
         }),
     enableAutoOSUpgrade: item["enableAutoOSUpgrade"],
     zonalResiliency: item["zonalResiliency"],
-    applicationTypeVersionsCleanupPolicy: !item[
-      "applicationTypeVersionsCleanupPolicy"
-    ]
+    applicationTypeVersionsCleanupPolicy: !item["applicationTypeVersionsCleanupPolicy"]
       ? item["applicationTypeVersionsCleanupPolicy"]
       : applicationTypeVersionsCleanupPolicySerializer(
           item["applicationTypeVersionsCleanupPolicy"],
         ),
     enableIpv6: item["enableIpv6"],
     subnetId: item["subnetId"],
-    ipTags: !item["ipTags"]
-      ? item["ipTags"]
-      : ipTagArraySerializer(item["ipTags"]),
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArraySerializer(item["ipTags"]),
     enableServicePublicIP: item["enableServicePublicIP"],
     auxiliarySubnets: !item["auxiliarySubnets"]
       ? item["auxiliarySubnets"]
@@ -2761,20 +2540,15 @@ export function managedClusterPropertiesSerializer(
     upgradeDescription: !item["upgradeDescription"]
       ? item["upgradeDescription"]
       : clusterUpgradePolicySerializer(item["upgradeDescription"]),
-    httpGatewayTokenAuthConnectionPort:
-      item["httpGatewayTokenAuthConnectionPort"],
-    enableHttpGatewayExclusiveAuthMode:
-      item["enableHttpGatewayExclusiveAuthMode"],
-    autoGeneratedDomainNameLabelScope:
-      item["autoGeneratedDomainNameLabelScope"],
+    httpGatewayTokenAuthConnectionPort: item["httpGatewayTokenAuthConnectionPort"],
+    enableHttpGatewayExclusiveAuthMode: item["enableHttpGatewayExclusiveAuthMode"],
+    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     allocatedOutboundPorts: item["allocatedOutboundPorts"],
     VMImage: item["vmImage"],
   };
 }
 
-export function managedClusterPropertiesDeserializer(
-  item: any,
-): ManagedClusterProperties {
+export function managedClusterPropertiesDeserializer(item: any): ManagedClusterProperties {
   return {
     dnsName: item["dnsName"],
     fqdn: item["fqdn"],
@@ -2817,18 +2591,14 @@ export function managedClusterPropertiesDeserializer(
         }),
     enableAutoOSUpgrade: item["enableAutoOSUpgrade"],
     zonalResiliency: item["zonalResiliency"],
-    applicationTypeVersionsCleanupPolicy: !item[
-      "applicationTypeVersionsCleanupPolicy"
-    ]
+    applicationTypeVersionsCleanupPolicy: !item["applicationTypeVersionsCleanupPolicy"]
       ? item["applicationTypeVersionsCleanupPolicy"]
       : applicationTypeVersionsCleanupPolicyDeserializer(
           item["applicationTypeVersionsCleanupPolicy"],
         ),
     enableIpv6: item["enableIpv6"],
     subnetId: item["subnetId"],
-    ipTags: !item["ipTags"]
-      ? item["ipTags"]
-      : ipTagArrayDeserializer(item["ipTags"]),
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArrayDeserializer(item["ipTags"]),
     ipv6Address: item["ipv6Address"],
     enableServicePublicIP: item["enableServicePublicIP"],
     auxiliarySubnets: !item["auxiliarySubnets"]
@@ -2845,12 +2615,9 @@ export function managedClusterPropertiesDeserializer(
     upgradeDescription: !item["upgradeDescription"]
       ? item["upgradeDescription"]
       : clusterUpgradePolicyDeserializer(item["upgradeDescription"]),
-    httpGatewayTokenAuthConnectionPort:
-      item["httpGatewayTokenAuthConnectionPort"],
-    enableHttpGatewayExclusiveAuthMode:
-      item["enableHttpGatewayExclusiveAuthMode"],
-    autoGeneratedDomainNameLabelScope:
-      item["autoGeneratedDomainNameLabelScope"],
+    httpGatewayTokenAuthConnectionPort: item["httpGatewayTokenAuthConnectionPort"],
+    enableHttpGatewayExclusiveAuthMode: item["enableHttpGatewayExclusiveAuthMode"],
+    autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     allocatedOutboundPorts: item["allocatedOutboundPorts"],
     vmImage: item["VMImage"],
   };
@@ -2886,17 +2653,13 @@ export enum KnownClusterState {
  */
 export type ClusterState = string;
 
-export function loadBalancingRuleArraySerializer(
-  result: Array<LoadBalancingRule>,
-): any[] {
+export function loadBalancingRuleArraySerializer(result: Array<LoadBalancingRule>): any[] {
   return result.map((item) => {
     return loadBalancingRuleSerializer(item);
   });
 }
 
-export function loadBalancingRuleArrayDeserializer(
-  result: Array<LoadBalancingRule>,
-): any[] {
+export function loadBalancingRuleArrayDeserializer(result: Array<LoadBalancingRule>): any[] {
   return result.map((item) => {
     return loadBalancingRuleDeserializer(item);
   });
@@ -2983,17 +2746,13 @@ export enum KnownProbeProtocol {
  */
 export type ProbeProtocol = string;
 
-export function networkSecurityRuleArraySerializer(
-  result: Array<NetworkSecurityRule>,
-): any[] {
+export function networkSecurityRuleArraySerializer(result: Array<NetworkSecurityRule>): any[] {
   return result.map((item) => {
     return networkSecurityRuleSerializer(item);
   });
 }
 
-export function networkSecurityRuleArrayDeserializer(
-  result: Array<NetworkSecurityRule>,
-): any[] {
+export function networkSecurityRuleArrayDeserializer(result: Array<NetworkSecurityRule>): any[] {
   return result.map((item) => {
     return networkSecurityRuleDeserializer(item);
   });
@@ -3066,9 +2825,7 @@ export function networkSecurityRuleSerializer(item: NetworkSecurityRule): any {
   };
 }
 
-export function networkSecurityRuleDeserializer(
-  item: any,
-): NetworkSecurityRule {
+export function networkSecurityRuleDeserializer(item: any): NetworkSecurityRule {
   return {
     name: item["name"],
     description: item["description"],
@@ -3172,17 +2929,13 @@ export enum KnownDirection {
  */
 export type Direction = string;
 
-export function clientCertificateArraySerializer(
-  result: Array<ClientCertificate>,
-): any[] {
+export function clientCertificateArraySerializer(result: Array<ClientCertificate>): any[] {
   return result.map((item) => {
     return clientCertificateSerializer(item);
   });
 }
 
-export function clientCertificateArrayDeserializer(
-  result: Array<ClientCertificate>,
-): any[] {
+export function clientCertificateArrayDeserializer(result: Array<ClientCertificate>): any[] {
   return result.map((item) => {
     return clientCertificateDeserializer(item);
   });
@@ -3228,9 +2981,7 @@ export interface AzureActiveDirectory {
   clientApplication?: string;
 }
 
-export function azureActiveDirectorySerializer(
-  item: AzureActiveDirectory,
-): any {
+export function azureActiveDirectorySerializer(item: AzureActiveDirectory): any {
   return {
     tenantId: item["tenantId"],
     clusterApplication: item["clusterApplication"],
@@ -3238,9 +2989,7 @@ export function azureActiveDirectorySerializer(
   };
 }
 
-export function azureActiveDirectoryDeserializer(
-  item: any,
-): AzureActiveDirectory {
+export function azureActiveDirectoryDeserializer(item: any): AzureActiveDirectory {
   return {
     tenantId: item["tenantId"],
     clusterApplication: item["clusterApplication"],
@@ -3272,23 +3021,17 @@ export interface SettingsSectionDescription {
   parameters: SettingsParameterDescription[];
 }
 
-export function settingsSectionDescriptionSerializer(
-  item: SettingsSectionDescription,
-): any {
+export function settingsSectionDescriptionSerializer(item: SettingsSectionDescription): any {
   return {
     name: item["name"],
     parameters: settingsParameterDescriptionArraySerializer(item["parameters"]),
   };
 }
 
-export function settingsSectionDescriptionDeserializer(
-  item: any,
-): SettingsSectionDescription {
+export function settingsSectionDescriptionDeserializer(item: any): SettingsSectionDescription {
   return {
     name: item["name"],
-    parameters: settingsParameterDescriptionArrayDeserializer(
-      item["parameters"],
-    ),
+    parameters: settingsParameterDescriptionArrayDeserializer(item["parameters"]),
   };
 }
 
@@ -3316,15 +3059,11 @@ export interface SettingsParameterDescription {
   value: string;
 }
 
-export function settingsParameterDescriptionSerializer(
-  item: SettingsParameterDescription,
-): any {
+export function settingsParameterDescriptionSerializer(item: SettingsParameterDescription): any {
   return { name: item["name"], value: item["value"] };
 }
 
-export function settingsParameterDescriptionDeserializer(
-  item: any,
-): SettingsParameterDescription {
+export function settingsParameterDescriptionDeserializer(item: any): SettingsParameterDescription {
   return {
     name: item["name"],
     value: item["value"],
@@ -3515,8 +3254,7 @@ export function subnetSerializer(item: Subnet): any {
     name: item["name"],
     enableIpv6: item["enableIpv6"],
     privateEndpointNetworkPolicies: item["privateEndpointNetworkPolicies"],
-    privateLinkServiceNetworkPolicies:
-      item["privateLinkServiceNetworkPolicies"],
+    privateLinkServiceNetworkPolicies: item["privateLinkServiceNetworkPolicies"],
     networkSecurityGroupId: item["networkSecurityGroupId"],
   };
 }
@@ -3526,8 +3264,7 @@ export function subnetDeserializer(item: any): Subnet {
     name: item["name"],
     enableIpv6: item["enableIpv6"],
     privateEndpointNetworkPolicies: item["privateEndpointNetworkPolicies"],
-    privateLinkServiceNetworkPolicies:
-      item["privateLinkServiceNetworkPolicies"],
+    privateLinkServiceNetworkPolicies: item["privateLinkServiceNetworkPolicies"],
     networkSecurityGroupId: item["networkSecurityGroupId"],
   };
 }
@@ -3568,17 +3305,13 @@ export enum KnownPrivateLinkServiceNetworkPolicies {
  */
 export type PrivateLinkServiceNetworkPolicies = string;
 
-export function serviceEndpointArraySerializer(
-  result: Array<ServiceEndpoint>,
-): any[] {
+export function serviceEndpointArraySerializer(result: Array<ServiceEndpoint>): any[] {
   return result.map((item) => {
     return serviceEndpointSerializer(item);
   });
 }
 
-export function serviceEndpointArrayDeserializer(
-  result: Array<ServiceEndpoint>,
-): any[] {
+export function serviceEndpointArrayDeserializer(result: Array<ServiceEndpoint>): any[] {
   return result.map((item) => {
     return serviceEndpointDeserializer(item);
   });
@@ -3651,9 +3384,7 @@ export interface ClusterUpgradePolicy {
   upgradeReplicaSetCheckTimeout?: string;
 }
 
-export function clusterUpgradePolicySerializer(
-  item: ClusterUpgradePolicy,
-): any {
+export function clusterUpgradePolicySerializer(item: ClusterUpgradePolicy): any {
   return {
     forceRestart: item["forceRestart"],
     healthPolicy: !item["healthPolicy"]
@@ -3669,9 +3400,7 @@ export function clusterUpgradePolicySerializer(
   };
 }
 
-export function clusterUpgradePolicyDeserializer(
-  item: any,
-): ClusterUpgradePolicy {
+export function clusterUpgradePolicyDeserializer(item: any): ClusterUpgradePolicy {
   return {
     forceRestart: item["forceRestart"],
     healthPolicy: !item["healthPolicy"]
@@ -3718,9 +3447,7 @@ export function clusterHealthPolicySerializer(item: ClusterHealthPolicy): any {
   };
 }
 
-export function clusterHealthPolicyDeserializer(
-  item: any,
-): ClusterHealthPolicy {
+export function clusterHealthPolicyDeserializer(item: any): ClusterHealthPolicy {
   return {
     maxPercentUnhealthyNodes: item["maxPercentUnhealthyNodes"],
     maxPercentUnhealthyApplications: item["maxPercentUnhealthyApplications"],
@@ -3755,10 +3482,8 @@ export function clusterUpgradeDeltaHealthPolicySerializer(
 ): any {
   return {
     maxPercentDeltaUnhealthyNodes: item["maxPercentDeltaUnhealthyNodes"],
-    maxPercentUpgradeDomainDeltaUnhealthyNodes:
-      item["maxPercentUpgradeDomainDeltaUnhealthyNodes"],
-    maxPercentDeltaUnhealthyApplications:
-      item["maxPercentDeltaUnhealthyApplications"],
+    maxPercentUpgradeDomainDeltaUnhealthyNodes: item["maxPercentUpgradeDomainDeltaUnhealthyNodes"],
+    maxPercentDeltaUnhealthyApplications: item["maxPercentDeltaUnhealthyApplications"],
   };
 }
 
@@ -3767,10 +3492,8 @@ export function clusterUpgradeDeltaHealthPolicyDeserializer(
 ): ClusterUpgradeDeltaHealthPolicy {
   return {
     maxPercentDeltaUnhealthyNodes: item["maxPercentDeltaUnhealthyNodes"],
-    maxPercentUpgradeDomainDeltaUnhealthyNodes:
-      item["maxPercentUpgradeDomainDeltaUnhealthyNodes"],
-    maxPercentDeltaUnhealthyApplications:
-      item["maxPercentDeltaUnhealthyApplications"],
+    maxPercentUpgradeDomainDeltaUnhealthyNodes: item["maxPercentUpgradeDomainDeltaUnhealthyNodes"],
+    maxPercentDeltaUnhealthyApplications: item["maxPercentDeltaUnhealthyApplications"],
   };
 }
 
@@ -3788,9 +3511,7 @@ export interface ClusterMonitoringPolicy {
   upgradeDomainTimeout: string;
 }
 
-export function clusterMonitoringPolicySerializer(
-  item: ClusterMonitoringPolicy,
-): any {
+export function clusterMonitoringPolicySerializer(item: ClusterMonitoringPolicy): any {
   return {
     healthCheckWaitDuration: item["healthCheckWaitDuration"],
     healthCheckStableDuration: item["healthCheckStableDuration"],
@@ -3800,9 +3521,7 @@ export function clusterMonitoringPolicySerializer(
   };
 }
 
-export function clusterMonitoringPolicyDeserializer(
-  item: any,
-): ClusterMonitoringPolicy {
+export function clusterMonitoringPolicyDeserializer(item: any): ClusterMonitoringPolicy {
   return {
     healthCheckWaitDuration: item["healthCheckWaitDuration"],
     healthCheckStableDuration: item["healthCheckStableDuration"],
@@ -3923,26 +3642,20 @@ export interface _ManagedClusterListResult {
   nextLink?: string;
 }
 
-export function _managedClusterListResultDeserializer(
-  item: any,
-): _ManagedClusterListResult {
+export function _managedClusterListResultDeserializer(item: any): _ManagedClusterListResult {
   return {
     value: managedClusterArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function managedClusterArraySerializer(
-  result: Array<ManagedCluster>,
-): any[] {
+export function managedClusterArraySerializer(result: Array<ManagedCluster>): any[] {
   return result.map((item) => {
     return managedClusterSerializer(item);
   });
 }
 
-export function managedClusterArrayDeserializer(
-  result: Array<ManagedCluster>,
-): any[] {
+export function managedClusterArrayDeserializer(result: Array<ManagedCluster>): any[] {
   return result.map((item) => {
     return managedClusterDeserializer(item);
   });
@@ -3954,9 +3667,7 @@ export interface FaultSimulationIdContent {
   simulationId: string;
 }
 
-export function faultSimulationIdContentSerializer(
-  item: FaultSimulationIdContent,
-): any {
+export function faultSimulationIdContentSerializer(item: FaultSimulationIdContent): any {
   return { simulationId: item["simulationId"] };
 }
 
@@ -3978,9 +3689,7 @@ export function faultSimulationDeserializer(item: any): FaultSimulation {
   return {
     simulationId: item["simulationId"],
     status: item["status"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     details: !item["details"]
       ? item["details"]
@@ -4030,17 +3739,13 @@ export interface FaultSimulationDetails {
   parameters?: FaultSimulationContentUnion;
 }
 
-export function faultSimulationDetailsDeserializer(
-  item: any,
-): FaultSimulationDetails {
+export function faultSimulationDetailsDeserializer(item: any): FaultSimulationDetails {
   return {
     clusterId: item["clusterId"],
     operationId: item["operationId"],
     nodeTypeFaultSimulation: !item["nodeTypeFaultSimulation"]
       ? item["nodeTypeFaultSimulation"]
-      : nodeTypeFaultSimulationArrayDeserializer(
-          item["nodeTypeFaultSimulation"],
-        ),
+      : nodeTypeFaultSimulationArrayDeserializer(item["nodeTypeFaultSimulation"]),
     parameters: !item["parameters"]
       ? item["parameters"]
       : faultSimulationContentUnionDeserializer(item["parameters"]),
@@ -4067,9 +3772,7 @@ export interface NodeTypeFaultSimulation {
   operationStatus?: SfmcOperationStatus;
 }
 
-export function nodeTypeFaultSimulationDeserializer(
-  item: any,
-): NodeTypeFaultSimulation {
+export function nodeTypeFaultSimulationDeserializer(item: any): NodeTypeFaultSimulation {
   return {
     nodeTypeName: item["nodeTypeName"],
     status: item["status"],
@@ -4119,9 +3822,7 @@ export interface FaultSimulationContent {
   constraints?: FaultSimulationConstraints;
 }
 
-export function faultSimulationContentSerializer(
-  item: FaultSimulationContent,
-): any {
+export function faultSimulationContentSerializer(item: FaultSimulationContent): any {
   return {
     faultKind: item["faultKind"],
     force: item["force"],
@@ -4131,9 +3832,7 @@ export function faultSimulationContentSerializer(
   };
 }
 
-export function faultSimulationContentDeserializer(
-  item: any,
-): FaultSimulationContent {
+export function faultSimulationContentDeserializer(item: any): FaultSimulationContent {
   return {
     faultKind: item["faultKind"],
     force: item["force"],
@@ -4144,32 +3843,22 @@ export function faultSimulationContentDeserializer(
 }
 
 /** Alias for FaultSimulationContentUnion */
-export type FaultSimulationContentUnion =
-  | ZoneFaultSimulationContent
-  | FaultSimulationContent;
+export type FaultSimulationContentUnion = ZoneFaultSimulationContent | FaultSimulationContent;
 
-export function faultSimulationContentUnionSerializer(
-  item: FaultSimulationContentUnion,
-): any {
+export function faultSimulationContentUnionSerializer(item: FaultSimulationContentUnion): any {
   switch (item.faultKind) {
     case "Zone":
-      return zoneFaultSimulationContentSerializer(
-        item as ZoneFaultSimulationContent,
-      );
+      return zoneFaultSimulationContentSerializer(item as ZoneFaultSimulationContent);
 
     default:
       return faultSimulationContentSerializer(item);
   }
 }
 
-export function faultSimulationContentUnionDeserializer(
-  item: any,
-): FaultSimulationContentUnion {
+export function faultSimulationContentUnionDeserializer(item: any): FaultSimulationContentUnion {
   switch (item.faultKind) {
     case "Zone":
-      return zoneFaultSimulationContentDeserializer(
-        item as ZoneFaultSimulationContent,
-      );
+      return zoneFaultSimulationContentDeserializer(item as ZoneFaultSimulationContent);
 
     default:
       return faultSimulationContentDeserializer(item);
@@ -4197,9 +3886,7 @@ export interface FaultSimulationConstraints {
   expirationTime?: Date;
 }
 
-export function faultSimulationConstraintsSerializer(
-  item: FaultSimulationConstraints,
-): any {
+export function faultSimulationConstraintsSerializer(item: FaultSimulationConstraints): any {
   return {
     expirationTime: !item["expirationTime"]
       ? item["expirationTime"]
@@ -4207,9 +3894,7 @@ export function faultSimulationConstraintsSerializer(
   };
 }
 
-export function faultSimulationConstraintsDeserializer(
-  item: any,
-): FaultSimulationConstraints {
+export function faultSimulationConstraintsDeserializer(item: any): FaultSimulationConstraints {
   return {
     expirationTime: !item["expirationTime"]
       ? item["expirationTime"]
@@ -4225,9 +3910,7 @@ export interface ZoneFaultSimulationContent extends FaultSimulationContent {
   faultKind: "Zone";
 }
 
-export function zoneFaultSimulationContentSerializer(
-  item: ZoneFaultSimulationContent,
-): any {
+export function zoneFaultSimulationContentSerializer(item: ZoneFaultSimulationContent): any {
   return {
     faultKind: item["faultKind"],
     force: item["force"],
@@ -4242,9 +3925,7 @@ export function zoneFaultSimulationContentSerializer(
   };
 }
 
-export function zoneFaultSimulationContentDeserializer(
-  item: any,
-): ZoneFaultSimulationContent {
+export function zoneFaultSimulationContentDeserializer(item: any): ZoneFaultSimulationContent {
   return {
     faultKind: item["faultKind"],
     force: item["force"],
@@ -4267,18 +3948,14 @@ export interface _FaultSimulationListResult {
   nextLink?: string;
 }
 
-export function _faultSimulationListResultDeserializer(
-  item: any,
-): _FaultSimulationListResult {
+export function _faultSimulationListResultDeserializer(item: any): _FaultSimulationListResult {
   return {
     value: faultSimulationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function faultSimulationArrayDeserializer(
-  result: Array<FaultSimulation>,
-): any[] {
+export function faultSimulationArrayDeserializer(result: Array<FaultSimulation>): any[] {
   return result.map((item) => {
     return faultSimulationDeserializer(item);
   });
@@ -4290,9 +3967,7 @@ export interface FaultSimulationContentWrapper {
   parameters: FaultSimulationContentUnion;
 }
 
-export function faultSimulationContentWrapperSerializer(
-  item: FaultSimulationContentWrapper,
-): any {
+export function faultSimulationContentWrapperSerializer(item: FaultSimulationContentWrapper): any {
   return {
     parameters: faultSimulationContentUnionSerializer(item["parameters"]),
   };
@@ -4306,9 +3981,7 @@ export interface ManagedAzResiliencyStatus {
   readonly isClusterZoneResilient?: boolean;
 }
 
-export function managedAzResiliencyStatusDeserializer(
-  item: any,
-): ManagedAzResiliencyStatus {
+export function managedAzResiliencyStatusDeserializer(item: any): ManagedAzResiliencyStatus {
   return {
     baseResourceStatus: !item["baseResourceStatus"]
       ? item["baseResourceStatus"]
@@ -4317,9 +3990,7 @@ export function managedAzResiliencyStatusDeserializer(
   };
 }
 
-export function resourceAzStatusArrayDeserializer(
-  result: Array<ResourceAzStatus>,
-): any[] {
+export function resourceAzStatusArrayDeserializer(result: Array<ResourceAzStatus>): any[] {
   return result.map((item) => {
     return resourceAzStatusDeserializer(item);
   });
@@ -4605,9 +4276,7 @@ export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
       : vmImagePlanSerializer(item["vmImagePlan"]),
     serviceArtifactReferenceId: item["serviceArtifactReferenceId"],
     dscpConfigurationId: item["dscpConfigurationId"],
-    additionalNetworkInterfaceConfigurations: !item[
-      "additionalNetworkInterfaceConfigurations"
-    ]
+    additionalNetworkInterfaceConfigurations: !item["additionalNetworkInterfaceConfigurations"]
       ? item["additionalNetworkInterfaceConfigurations"]
       : additionalNetworkInterfaceConfigurationArraySerializer(
           item["additionalNetworkInterfaceConfigurations"],
@@ -4698,9 +4367,7 @@ export function nodeTypePropertiesDeserializer(item: any): NodeTypeProperties {
       : vmImagePlanDeserializer(item["vmImagePlan"]),
     serviceArtifactReferenceId: item["serviceArtifactReferenceId"],
     dscpConfigurationId: item["dscpConfigurationId"],
-    additionalNetworkInterfaceConfigurations: !item[
-      "additionalNetworkInterfaceConfigurations"
-    ]
+    additionalNetworkInterfaceConfigurations: !item["additionalNetworkInterfaceConfigurations"]
       ? item["additionalNetworkInterfaceConfigurations"]
       : additionalNetworkInterfaceConfigurationArrayDeserializer(
           item["additionalNetworkInterfaceConfigurations"],
@@ -4751,32 +4418,24 @@ export interface EndpointRangeDescription {
   endPort: number;
 }
 
-export function endpointRangeDescriptionSerializer(
-  item: EndpointRangeDescription,
-): any {
+export function endpointRangeDescriptionSerializer(item: EndpointRangeDescription): any {
   return { startPort: item["startPort"], endPort: item["endPort"] };
 }
 
-export function endpointRangeDescriptionDeserializer(
-  item: any,
-): EndpointRangeDescription {
+export function endpointRangeDescriptionDeserializer(item: any): EndpointRangeDescription {
   return {
     startPort: item["startPort"],
     endPort: item["endPort"],
   };
 }
 
-export function vaultSecretGroupArraySerializer(
-  result: Array<VaultSecretGroup>,
-): any[] {
+export function vaultSecretGroupArraySerializer(result: Array<VaultSecretGroup>): any[] {
   return result.map((item) => {
     return vaultSecretGroupSerializer(item);
   });
 }
 
-export function vaultSecretGroupArrayDeserializer(
-  result: Array<VaultSecretGroup>,
-): any[] {
+export function vaultSecretGroupArrayDeserializer(result: Array<VaultSecretGroup>): any[] {
   return result.map((item) => {
     return vaultSecretGroupDeserializer(item);
   });
@@ -4793,18 +4452,14 @@ export interface VaultSecretGroup {
 export function vaultSecretGroupSerializer(item: VaultSecretGroup): any {
   return {
     sourceVault: subResourceSerializer(item["sourceVault"]),
-    vaultCertificates: vaultCertificateArraySerializer(
-      item["vaultCertificates"],
-    ),
+    vaultCertificates: vaultCertificateArraySerializer(item["vaultCertificates"]),
   };
 }
 
 export function vaultSecretGroupDeserializer(item: any): VaultSecretGroup {
   return {
     sourceVault: subResourceDeserializer(item["sourceVault"]),
-    vaultCertificates: vaultCertificateArrayDeserializer(
-      item["vaultCertificates"],
-    ),
+    vaultCertificates: vaultCertificateArrayDeserializer(item["vaultCertificates"]),
   };
 }
 
@@ -4824,17 +4479,13 @@ export function subResourceDeserializer(item: any): SubResource {
   };
 }
 
-export function vaultCertificateArraySerializer(
-  result: Array<VaultCertificate>,
-): any[] {
+export function vaultCertificateArraySerializer(result: Array<VaultCertificate>): any[] {
   return result.map((item) => {
     return vaultCertificateSerializer(item);
   });
 }
 
-export function vaultCertificateArrayDeserializer(
-  result: Array<VaultCertificate>,
-): any[] {
+export function vaultCertificateArrayDeserializer(result: Array<VaultCertificate>): any[] {
   return result.map((item) => {
     return vaultCertificateDeserializer(item);
   });
@@ -4862,17 +4513,13 @@ export function vaultCertificateDeserializer(item: any): VaultCertificate {
   };
 }
 
-export function vmssExtensionArraySerializer(
-  result: Array<VmssExtension>,
-): any[] {
+export function vmssExtensionArraySerializer(result: Array<VmssExtension>): any[] {
   return result.map((item) => {
     return vmssExtensionSerializer(item);
   });
 }
 
-export function vmssExtensionArrayDeserializer(
-  result: Array<VmssExtension>,
-): any[] {
+export function vmssExtensionArrayDeserializer(result: Array<VmssExtension>): any[] {
   return result.map((item) => {
     return vmssExtensionDeserializer(item);
   });
@@ -4926,9 +4573,7 @@ export interface VmssExtensionProperties {
   setupOrder?: VmssExtensionSetupOrder[];
 }
 
-export function vmssExtensionPropertiesSerializer(
-  item: VmssExtensionProperties,
-): any {
+export function vmssExtensionPropertiesSerializer(item: VmssExtensionProperties): any {
   return {
     publisher: item["publisher"],
     type: item["type"],
@@ -4939,9 +4584,7 @@ export function vmssExtensionPropertiesSerializer(
       : _vmssExtensionPropertiesSettingsSerializer(item["settings"]),
     protectedSettings: !item["protectedSettings"]
       ? item["protectedSettings"]
-      : _vmssExtensionPropertiesProtectedSettingsSerializer(
-          item["protectedSettings"],
-        ),
+      : _vmssExtensionPropertiesProtectedSettingsSerializer(item["protectedSettings"]),
     forceUpdateTag: item["forceUpdateTag"],
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
@@ -4957,9 +4600,7 @@ export function vmssExtensionPropertiesSerializer(
   };
 }
 
-export function vmssExtensionPropertiesDeserializer(
-  item: any,
-): VmssExtensionProperties {
+export function vmssExtensionPropertiesDeserializer(item: any): VmssExtensionProperties {
   return {
     publisher: item["publisher"],
     type: item["type"],
@@ -4970,9 +4611,7 @@ export function vmssExtensionPropertiesDeserializer(
       : _vmssExtensionPropertiesSettingsDeserializer(item["settings"]),
     protectedSettings: !item["protectedSettings"]
       ? item["protectedSettings"]
-      : _vmssExtensionPropertiesProtectedSettingsDeserializer(
-          item["protectedSettings"],
-        ),
+      : _vmssExtensionPropertiesProtectedSettingsDeserializer(item["protectedSettings"]),
     forceUpdateTag: item["forceUpdateTag"],
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
@@ -5060,9 +4699,7 @@ export function vmManagedIdentityDeserializer(item: any): VmManagedIdentity {
   };
 }
 
-export function frontendConfigurationArraySerializer(
-  result: Array<FrontendConfiguration>,
-): any[] {
+export function frontendConfigurationArraySerializer(result: Array<FrontendConfiguration>): any[] {
   return result.map((item) => {
     return frontendConfigurationSerializer(item);
   });
@@ -5088,27 +4725,21 @@ export interface FrontendConfiguration {
   applicationGatewayBackendAddressPoolId?: string;
 }
 
-export function frontendConfigurationSerializer(
-  item: FrontendConfiguration,
-): any {
+export function frontendConfigurationSerializer(item: FrontendConfiguration): any {
   return {
     ipAddressType: item["ipAddressType"],
     loadBalancerBackendAddressPoolId: item["loadBalancerBackendAddressPoolId"],
     loadBalancerInboundNatPoolId: item["loadBalancerInboundNatPoolId"],
-    applicationGatewayBackendAddressPoolId:
-      item["applicationGatewayBackendAddressPoolId"],
+    applicationGatewayBackendAddressPoolId: item["applicationGatewayBackendAddressPoolId"],
   };
 }
 
-export function frontendConfigurationDeserializer(
-  item: any,
-): FrontendConfiguration {
+export function frontendConfigurationDeserializer(item: any): FrontendConfiguration {
   return {
     ipAddressType: item["ipAddressType"],
     loadBalancerBackendAddressPoolId: item["loadBalancerBackendAddressPoolId"],
     loadBalancerInboundNatPoolId: item["loadBalancerInboundNatPoolId"],
-    applicationGatewayBackendAddressPoolId:
-      item["applicationGatewayBackendAddressPoolId"],
+    applicationGatewayBackendAddressPoolId: item["applicationGatewayBackendAddressPoolId"],
   };
 }
 
@@ -5130,17 +4761,13 @@ export enum KnownIPAddressType {
  */
 export type IPAddressType = string;
 
-export function vmssDataDiskArraySerializer(
-  result: Array<VmssDataDisk>,
-): any[] {
+export function vmssDataDiskArraySerializer(result: Array<VmssDataDisk>): any[] {
   return result.map((item) => {
     return vmssDataDiskSerializer(item);
   });
 }
 
-export function vmssDataDiskArrayDeserializer(
-  result: Array<VmssDataDisk>,
-): any[] {
+export function vmssDataDiskArrayDeserializer(result: Array<VmssDataDisk>): any[] {
   return result.map((item) => {
     return vmssDataDiskDeserializer(item);
   });
@@ -5251,17 +4878,13 @@ export enum KnownSecurityEncryptionType {
  */
 export type SecurityEncryptionType = string;
 
-export function nodeTypeNatConfigArraySerializer(
-  result: Array<NodeTypeNatConfig>,
-): any[] {
+export function nodeTypeNatConfigArraySerializer(result: Array<NodeTypeNatConfig>): any[] {
   return result.map((item) => {
     return nodeTypeNatConfigSerializer(item);
   });
 }
 
-export function nodeTypeNatConfigArrayDeserializer(
-  result: Array<NodeTypeNatConfig>,
-): any[] {
+export function nodeTypeNatConfigArrayDeserializer(result: Array<NodeTypeNatConfig>): any[] {
   return result.map((item) => {
     return nodeTypeNatConfigDeserializer(item);
   });
@@ -5373,23 +4996,17 @@ export function additionalNetworkInterfaceConfigurationDeserializer(
     dscpConfiguration: !item["dscpConfiguration"]
       ? item["dscpConfiguration"]
       : subResourceDeserializer(item["dscpConfiguration"]),
-    ipConfigurations: ipConfigurationArrayDeserializer(
-      item["ipConfigurations"],
-    ),
+    ipConfigurations: ipConfigurationArrayDeserializer(item["ipConfigurations"]),
   };
 }
 
-export function ipConfigurationArraySerializer(
-  result: Array<IpConfiguration>,
-): any[] {
+export function ipConfigurationArraySerializer(result: Array<IpConfiguration>): any[] {
   return result.map((item) => {
     return ipConfigurationSerializer(item);
   });
 }
 
-export function ipConfigurationArrayDeserializer(
-  result: Array<IpConfiguration>,
-): any[] {
+export function ipConfigurationArrayDeserializer(result: Array<IpConfiguration>): any[] {
   return result.map((item) => {
     return ipConfigurationDeserializer(item);
   });
@@ -5416,50 +5033,36 @@ export interface IpConfiguration {
 export function ipConfigurationSerializer(item: IpConfiguration): any {
   return {
     name: item["name"],
-    applicationGatewayBackendAddressPools: !item[
-      "applicationGatewayBackendAddressPools"
-    ]
+    applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
-      : subResourceArraySerializer(
-          item["applicationGatewayBackendAddressPools"],
-        ),
+      : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
     loadBalancerBackendAddressPools: !item["loadBalancerBackendAddressPools"]
       ? item["loadBalancerBackendAddressPools"]
       : subResourceArraySerializer(item["loadBalancerBackendAddressPools"]),
     loadBalancerInboundNatPools: !item["loadBalancerInboundNatPools"]
       ? item["loadBalancerInboundNatPools"]
       : subResourceArraySerializer(item["loadBalancerInboundNatPools"]),
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : subResourceSerializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : subResourceSerializer(item["subnet"]),
     privateIPAddressVersion: item["privateIPAddressVersion"],
     publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
       ? item["publicIPAddressConfiguration"]
-      : ipConfigurationPublicIPAddressConfigurationSerializer(
-          item["publicIPAddressConfiguration"],
-        ),
+      : ipConfigurationPublicIPAddressConfigurationSerializer(item["publicIPAddressConfiguration"]),
   };
 }
 
 export function ipConfigurationDeserializer(item: any): IpConfiguration {
   return {
     name: item["name"],
-    applicationGatewayBackendAddressPools: !item[
-      "applicationGatewayBackendAddressPools"
-    ]
+    applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
-      : subResourceArrayDeserializer(
-          item["applicationGatewayBackendAddressPools"],
-        ),
+      : subResourceArrayDeserializer(item["applicationGatewayBackendAddressPools"]),
     loadBalancerBackendAddressPools: !item["loadBalancerBackendAddressPools"]
       ? item["loadBalancerBackendAddressPools"]
       : subResourceArrayDeserializer(item["loadBalancerBackendAddressPools"]),
     loadBalancerInboundNatPools: !item["loadBalancerInboundNatPools"]
       ? item["loadBalancerInboundNatPools"]
       : subResourceArrayDeserializer(item["loadBalancerInboundNatPools"]),
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : subResourceDeserializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : subResourceDeserializer(item["subnet"]),
     privateIPAddressVersion: item["privateIPAddressVersion"],
     publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
       ? item["publicIPAddressConfiguration"]
@@ -5475,9 +5078,7 @@ export function subResourceArraySerializer(result: Array<SubResource>): any[] {
   });
 }
 
-export function subResourceArrayDeserializer(
-  result: Array<SubResource>,
-): any[] {
+export function subResourceArrayDeserializer(result: Array<SubResource>): any[] {
   return result.map((item) => {
     return subResourceDeserializer(item);
   });
@@ -5516,9 +5117,7 @@ export function ipConfigurationPublicIPAddressConfigurationSerializer(
 ): any {
   return {
     name: item["name"],
-    ipTags: !item["ipTags"]
-      ? item["ipTags"]
-      : ipTagArraySerializer(item["ipTags"]),
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArraySerializer(item["ipTags"]),
     publicIPAddressVersion: item["publicIPAddressVersion"],
   };
 }
@@ -5528,9 +5127,7 @@ export function ipConfigurationPublicIPAddressConfigurationDeserializer(
 ): IPConfigurationPublicIPAddressConfiguration {
   return {
     name: item["name"],
-    ipTags: !item["ipTags"]
-      ? item["ipTags"]
-      : ipTagArrayDeserializer(item["ipTags"]),
+    ipTags: !item["ipTags"] ? item["ipTags"] : ipTagArrayDeserializer(item["ipTags"]),
     publicIPAddressVersion: item["publicIPAddressVersion"],
   };
 }
@@ -5553,17 +5150,13 @@ export enum KnownPublicIPAddressVersion {
  */
 export type PublicIPAddressVersion = string;
 
-export function vmApplicationArraySerializer(
-  result: Array<VmApplication>,
-): any[] {
+export function vmApplicationArraySerializer(result: Array<VmApplication>): any[] {
   return result.map((item) => {
     return vmApplicationSerializer(item);
   });
 }
 
-export function vmApplicationArrayDeserializer(
-  result: Array<VmApplication>,
-): any[] {
+export function vmApplicationArrayDeserializer(result: Array<VmApplication>): any[] {
   return result.map((item) => {
     return vmApplicationDeserializer(item);
   });
@@ -5637,9 +5230,7 @@ export interface NodeTypeUpdateParameters {
   sku?: NodeTypeSku;
 }
 
-export function nodeTypeUpdateParametersSerializer(
-  item: NodeTypeUpdateParameters,
-): any {
+export function nodeTypeUpdateParametersSerializer(item: NodeTypeUpdateParameters): any {
   return {
     tags: item["tags"],
     sku: !item["sku"] ? item["sku"] : nodeTypeSkuSerializer(item["sku"]),
@@ -5654,9 +5245,7 @@ export interface _NodeTypeListResult {
   nextLink?: string;
 }
 
-export function _nodeTypeListResultDeserializer(
-  item: any,
-): _NodeTypeListResult {
+export function _nodeTypeListResultDeserializer(item: any): _NodeTypeListResult {
   return {
     value: nodeTypeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -5685,9 +5274,7 @@ export interface NodeTypeActionParameters {
   updateType?: UpdateType;
 }
 
-export function nodeTypeActionParametersSerializer(
-  item: NodeTypeActionParameters,
-): any {
+export function nodeTypeActionParametersSerializer(item: NodeTypeActionParameters): any {
   return {
     nodes: !item["nodes"]
       ? item["nodes"]
@@ -5725,18 +5312,14 @@ export interface _NodeTypeListSkuResult {
   nextLink?: string;
 }
 
-export function _nodeTypeListSkuResultDeserializer(
-  item: any,
-): _NodeTypeListSkuResult {
+export function _nodeTypeListSkuResultDeserializer(item: any): _NodeTypeListSkuResult {
   return {
     value: nodeTypeAvailableSkuArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function nodeTypeAvailableSkuArrayDeserializer(
-  result: Array<NodeTypeAvailableSku>,
-): any[] {
+export function nodeTypeAvailableSkuArrayDeserializer(result: Array<NodeTypeAvailableSku>): any[] {
   return result.map((item) => {
     return nodeTypeAvailableSkuDeserializer(item);
   });
@@ -5752,14 +5335,10 @@ export interface NodeTypeAvailableSku {
   readonly capacity?: NodeTypeSkuCapacity;
 }
 
-export function nodeTypeAvailableSkuDeserializer(
-  item: any,
-): NodeTypeAvailableSku {
+export function nodeTypeAvailableSkuDeserializer(item: any): NodeTypeAvailableSku {
   return {
     resourceType: item["resourceType"],
-    sku: !item["sku"]
-      ? item["sku"]
-      : nodeTypeSupportedSkuDeserializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : nodeTypeSupportedSkuDeserializer(item["sku"]),
     capacity: !item["capacity"]
       ? item["capacity"]
       : nodeTypeSkuCapacityDeserializer(item["capacity"]),
@@ -5774,9 +5353,7 @@ export interface NodeTypeSupportedSku {
   readonly tier?: string;
 }
 
-export function nodeTypeSupportedSkuDeserializer(
-  item: any,
-): NodeTypeSupportedSku {
+export function nodeTypeSupportedSkuDeserializer(item: any): NodeTypeSupportedSku {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -5795,9 +5372,7 @@ export interface NodeTypeSkuCapacity {
   readonly scaleType?: NodeTypeSkuScaleType;
 }
 
-export function nodeTypeSkuCapacityDeserializer(
-  item: any,
-): NodeTypeSkuCapacity {
+export function nodeTypeSkuCapacityDeserializer(item: any): NodeTypeSkuCapacity {
   return {
     minimum: item["minimum"],
     maximum: item["maximum"],
@@ -5843,20 +5418,14 @@ export interface LongRunningOperationResult {
   error?: ErrorModelError;
 }
 
-export function longRunningOperationResultDeserializer(
-  item: any,
-): LongRunningOperationResult {
+export function longRunningOperationResultDeserializer(item: any): LongRunningOperationResult {
   return {
     name: item["name"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     percentComplete: item["percentComplete"],
     status: item["status"],
-    error: !item["error"]
-      ? item["error"]
-      : errorModelErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorModelErrorDeserializer(item["error"]),
   };
 }
 

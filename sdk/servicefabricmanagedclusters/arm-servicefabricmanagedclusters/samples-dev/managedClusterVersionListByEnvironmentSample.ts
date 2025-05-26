@@ -14,10 +14,7 @@ async function listClusterVersionsByEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.managedClusterVersion.listByEnvironment(
-    "eastus",
-    "Windows",
-  );
+  const result = await client.managedClusterVersion.listByEnvironment("eastus", "Windows");
   console.log(result);
 }
 

@@ -4,5 +4,4 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ManagedApplyMaintenanceWindowPostOptionalParams
-  extends OperationOptions {}
+export interface ManagedApplyMaintenanceWindowPostOptionalParams extends OperationOptions {}

@@ -14,10 +14,7 @@ async function getMaintenanceWindowStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.managedMaintenanceWindowStatus.get(
-    "resourceGroup1",
-    "mycluster1",
-  );
+  const result = await client.managedMaintenanceWindowStatus.get("resourceGroup1", "mycluster1");
   console.log(result);
 }
 

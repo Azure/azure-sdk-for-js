@@ -4,22 +4,19 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ApplicationsStartRollbackOptionalParams
-  extends OperationOptions {
+export interface ApplicationsStartRollbackOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface ApplicationsResumeUpgradeOptionalParams
-  extends OperationOptions {
+export interface ApplicationsResumeUpgradeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface ApplicationsReadUpgradeOptionalParams
-  extends OperationOptions {
+export interface ApplicationsReadUpgradeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -37,8 +34,7 @@ export interface ApplicationsDeleteOptionalParams extends OperationOptions {
 export interface ApplicationsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface ApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

@@ -18,11 +18,8 @@ export interface OperationStatusOperations {
 
 function _getOperationStatus(context: ServiceFabricContext) {
   return {
-    get: (
-      location: string,
-      operationId: string,
-      options?: OperationStatusGetOptionalParams,
-    ) => get(context, location, operationId, options),
+    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
+      get(context, location, operationId, options),
   };
 }
 

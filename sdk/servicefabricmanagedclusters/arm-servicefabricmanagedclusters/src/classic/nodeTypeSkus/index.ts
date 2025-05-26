@@ -29,9 +29,7 @@ function _getNodeTypeSkus(context: ServiceFabricContext) {
   };
 }
 
-export function _getNodeTypeSkusOperations(
-  context: ServiceFabricContext,
-): NodeTypeSkusOperations {
+export function _getNodeTypeSkusOperations(context: ServiceFabricContext): NodeTypeSkusOperations {
   return {
     ..._getNodeTypeSkus(context),
   };

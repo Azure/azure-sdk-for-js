@@ -14,12 +14,7 @@ async function deleteAnApplicationTypeVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  await client.applicationTypeVersions.delete(
-    "resRg",
-    "myCluster",
-    "myAppType",
-    "1.0",
-  );
+  await client.applicationTypeVersions.delete("resRg", "myCluster", "myAppType", "1.0");
 }
 
 async function main(): Promise<void> {

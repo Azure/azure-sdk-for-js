@@ -10,9 +10,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** Get the list of available Service Fabric resource provider API operations. */
-  list: (
-    options?: OperationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<OperationResult>;
+  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationResult>;
 }
 
 function _getOperations(context: ServiceFabricContext) {
@@ -21,9 +19,7 @@ function _getOperations(context: ServiceFabricContext) {
   };
 }
 
-export function _getOperationsOperations(
-  context: ServiceFabricContext,
-): OperationsOperations {
+export function _getOperationsOperations(context: ServiceFabricContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

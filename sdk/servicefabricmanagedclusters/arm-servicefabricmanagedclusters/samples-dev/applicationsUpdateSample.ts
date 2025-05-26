@@ -14,11 +14,7 @@ async function patchAnApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.applications.update(
-    "resRg",
-    "myCluster",
-    "myApp",
-  );
+  const result = await client.applications.update("resRg", "myCluster", "myApp");
   console.log(result);
 }
 

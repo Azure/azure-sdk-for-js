@@ -62,10 +62,7 @@ export interface ApplicationTypeVersionsOperations {
     version: string,
     parameters: ApplicationTypeVersionResource,
     options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<ApplicationTypeVersionResource>,
-    ApplicationTypeVersionResource
-  >;
+  ) => PollerLike<OperationState<ApplicationTypeVersionResource>, ApplicationTypeVersionResource>;
   /** Get a Service Fabric managed application type version resource created or in the process of being created in the Service Fabric managed application type name resource. */
   get: (
     resourceGroupName: string,
@@ -84,28 +81,14 @@ function _getApplicationTypeVersions(context: ServiceFabricContext) {
       applicationTypeName: string,
       options?: ApplicationTypeVersionsListByApplicationTypesOptionalParams,
     ) =>
-      listByApplicationTypes(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationTypeName,
-        options,
-      ),
+      listByApplicationTypes(context, resourceGroupName, clusterName, applicationTypeName, options),
     delete: (
       resourceGroupName: string,
       clusterName: string,
       applicationTypeName: string,
       version: string,
       options?: ApplicationTypeVersionsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationTypeName,
-        version,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, clusterName, applicationTypeName, version, options),
     update: (
       resourceGroupName: string,
       clusterName: string,
@@ -146,15 +129,7 @@ function _getApplicationTypeVersions(context: ServiceFabricContext) {
       applicationTypeName: string,
       version: string,
       options?: ApplicationTypeVersionsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationTypeName,
-        version,
-        options,
-      ),
+    ) => get(context, resourceGroupName, clusterName, applicationTypeName, version, options),
   };
 }
 

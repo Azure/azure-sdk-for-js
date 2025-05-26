@@ -8,23 +8,19 @@ export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationTypeVersionsDeleteOptionalParams
-  extends OperationOptions {
+export interface ApplicationTypeVersionsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface ApplicationTypeVersionsUpdateOptionalParams
-  extends OperationOptions {}
+export interface ApplicationTypeVersionsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationTypeVersionsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface ApplicationTypeVersionsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface ApplicationTypeVersionsGetOptionalParams
-  extends OperationOptions {}
+export interface ApplicationTypeVersionsGetOptionalParams extends OperationOptions {}

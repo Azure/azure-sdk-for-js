@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
-import {
-  ApplicationTypeResource,
-  ApplicationTypeUpdateParameters,
-} from "../../models/models.js";
+import { ApplicationTypeResource, ApplicationTypeUpdateParameters } from "../../models/models.js";
 import {
   ApplicationTypesListOptionalParams,
   ApplicationTypesDeleteOptionalParams,
@@ -80,29 +77,14 @@ function _getApplicationTypes(context: ServiceFabricContext) {
       clusterName: string,
       applicationTypeName: string,
       options?: ApplicationTypesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationTypeName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, clusterName, applicationTypeName, options),
     update: (
       resourceGroupName: string,
       clusterName: string,
       applicationTypeName: string,
       parameters: ApplicationTypeUpdateParameters,
       options?: ApplicationTypesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationTypeName,
-        parameters,
-        options,
-      ),
+    ) => update(context, resourceGroupName, clusterName, applicationTypeName, parameters, options),
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
@@ -123,14 +105,7 @@ function _getApplicationTypes(context: ServiceFabricContext) {
       clusterName: string,
       applicationTypeName: string,
       options?: ApplicationTypesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationTypeName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, clusterName, applicationTypeName, options),
   };
 }
 

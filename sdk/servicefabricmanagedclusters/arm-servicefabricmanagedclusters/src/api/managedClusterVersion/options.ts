@@ -4,17 +4,13 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ManagedClusterVersionListByEnvironmentOptionalParams
-  extends OperationOptions {}
+export interface ManagedClusterVersionListByEnvironmentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagedClusterVersionGetByEnvironmentOptionalParams
-  extends OperationOptions {}
+export interface ManagedClusterVersionGetByEnvironmentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagedClusterVersionListOptionalParams
-  extends OperationOptions {}
+export interface ManagedClusterVersionListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagedClusterVersionGetOptionalParams
-  extends OperationOptions {}
+export interface ManagedClusterVersionGetOptionalParams extends OperationOptions {}

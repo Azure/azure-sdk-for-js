@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricContext } from "../../api/serviceFabricContext.js";
-import {
-  ServiceResource,
-  ServiceUpdateParameters,
-} from "../../models/models.js";
+import { ServiceResource, ServiceUpdateParameters } from "../../models/models.js";
 import {
   ServicesListByApplicationsOptionalParams,
   ServicesDeleteOptionalParams,
@@ -80,29 +77,14 @@ function _getServices(context: ServiceFabricContext) {
       clusterName: string,
       applicationName: string,
       options?: ServicesListByApplicationsOptionalParams,
-    ) =>
-      listByApplications(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationName,
-        options,
-      ),
+    ) => listByApplications(context, resourceGroupName, clusterName, applicationName, options),
     delete: (
       resourceGroupName: string,
       clusterName: string,
       applicationName: string,
       serviceName: string,
       options?: ServicesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationName,
-        serviceName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, clusterName, applicationName, serviceName, options),
     update: (
       resourceGroupName: string,
       clusterName: string,
@@ -143,21 +125,11 @@ function _getServices(context: ServiceFabricContext) {
       applicationName: string,
       serviceName: string,
       options?: ServicesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        clusterName,
-        applicationName,
-        serviceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, clusterName, applicationName, serviceName, options),
   };
 }
 
-export function _getServicesOperations(
-  context: ServiceFabricContext,
-): ServicesOperations {
+export function _getServicesOperations(context: ServiceFabricContext): ServicesOperations {
   return {
     ..._getServices(context),
   };

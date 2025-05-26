@@ -59,12 +59,9 @@ function _getManagedClusterVersion(context: ServiceFabricContext) {
       environment: ManagedClusterVersionEnvironment,
       clusterVersion: string,
       options?: ManagedClusterVersionGetByEnvironmentOptionalParams,
-    ) =>
-      getByEnvironment(context, location, environment, clusterVersion, options),
-    list: (
-      location: string,
-      options?: ManagedClusterVersionListOptionalParams,
-    ) => list(context, location, options),
+    ) => getByEnvironment(context, location, environment, clusterVersion, options),
+    list: (location: string, options?: ManagedClusterVersionListOptionalParams) =>
+      list(context, location, options),
     get: (
       location: string,
       clusterVersion: string,

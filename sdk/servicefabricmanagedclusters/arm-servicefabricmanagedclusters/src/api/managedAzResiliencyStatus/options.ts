@@ -4,5 +4,4 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ManagedAzResiliencyStatusGetOptionalParams
-  extends OperationOptions {}
+export interface ManagedAzResiliencyStatusGetOptionalParams extends OperationOptions {}

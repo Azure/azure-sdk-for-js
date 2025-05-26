@@ -4,9 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ManagedUnsupportedVMSizesListOptionalParams
-  extends OperationOptions {}
+export interface ManagedUnsupportedVMSizesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagedUnsupportedVMSizesGetOptionalParams
-  extends OperationOptions {}
+export interface ManagedUnsupportedVMSizesGetOptionalParams extends OperationOptions {}

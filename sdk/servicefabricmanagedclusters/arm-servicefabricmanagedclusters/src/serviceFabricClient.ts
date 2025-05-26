@@ -18,10 +18,7 @@ import {
   NodeTypeSkusOperations,
   _getNodeTypeSkusOperations,
 } from "./classic/nodeTypeSkus/index.js";
-import {
-  NodeTypesOperations,
-  _getNodeTypesOperations,
-} from "./classic/nodeTypes/index.js";
+import { NodeTypesOperations, _getNodeTypesOperations } from "./classic/nodeTypes/index.js";
 import {
   ManagedMaintenanceWindowStatusOperations,
   _getManagedMaintenanceWindowStatusOperations,
@@ -46,10 +43,7 @@ import {
   ManagedClusterVersionOperations,
   _getManagedClusterVersionOperations,
 } from "./classic/managedClusterVersion/index.js";
-import {
-  ServicesOperations,
-  _getServicesOperations,
-} from "./classic/services/index.js";
+import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
 import {
   ApplicationTypeVersionsOperations,
   _getApplicationTypeVersionsOperations,
@@ -62,10 +56,7 @@ import {
   ApplicationsOperations,
   _getApplicationsOperations,
 } from "./classic/applications/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -95,24 +86,16 @@ export class ServiceFabricClient {
     this.operationResults = _getOperationResultsOperations(this._client);
     this.nodeTypeSkus = _getNodeTypeSkusOperations(this._client);
     this.nodeTypes = _getNodeTypesOperations(this._client);
-    this.managedMaintenanceWindowStatus =
-      _getManagedMaintenanceWindowStatusOperations(this._client);
-    this.managedApplyMaintenanceWindow =
-      _getManagedApplyMaintenanceWindowOperations(this._client);
-    this.managedAzResiliencyStatus = _getManagedAzResiliencyStatusOperations(
+    this.managedMaintenanceWindowStatus = _getManagedMaintenanceWindowStatusOperations(
       this._client,
     );
+    this.managedApplyMaintenanceWindow = _getManagedApplyMaintenanceWindowOperations(this._client);
+    this.managedAzResiliencyStatus = _getManagedAzResiliencyStatusOperations(this._client);
     this.managedClusters = _getManagedClustersOperations(this._client);
-    this.managedUnsupportedVMSizes = _getManagedUnsupportedVMSizesOperations(
-      this._client,
-    );
-    this.managedClusterVersion = _getManagedClusterVersionOperations(
-      this._client,
-    );
+    this.managedUnsupportedVMSizes = _getManagedUnsupportedVMSizesOperations(this._client);
+    this.managedClusterVersion = _getManagedClusterVersionOperations(this._client);
     this.services = _getServicesOperations(this._client);
-    this.applicationTypeVersions = _getApplicationTypeVersionsOperations(
-      this._client,
-    );
+    this.applicationTypeVersions = _getApplicationTypeVersionsOperations(this._client);
     this.applicationTypes = _getApplicationTypesOperations(this._client);
     this.applications = _getApplicationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);

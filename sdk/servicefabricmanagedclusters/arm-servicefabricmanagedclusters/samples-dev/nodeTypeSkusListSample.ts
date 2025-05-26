@@ -15,11 +15,7 @@ async function listANodeTypeSKUs(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.nodeTypeSkus.list(
-    "resRg",
-    "myCluster",
-    "BE",
-  )) {
+  for await (const item of client.nodeTypeSkus.list("resRg", "myCluster", "BE")) {
     resArray.push(item);
   }
 

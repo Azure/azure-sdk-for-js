@@ -14,10 +14,7 @@ async function errorResponseDescribingWhyTheOperationFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.operationStatus.get(
-    "eastus",
-    "00000000-0000-0000-0000-000000001234",
-  );
+  const result = await client.operationStatus.get("eastus", "00000000-0000-0000-0000-000000001234");
   console.log(result);
 }
 
@@ -31,10 +28,7 @@ async function okTheRequestHasSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.operationStatus.get(
-    "eastus",
-    "00000000-0000-0000-0000-000000001234",
-  );
+  const result = await client.operationStatus.get("eastus", "00000000-0000-0000-0000-000000001234");
   console.log(result);
 }
 

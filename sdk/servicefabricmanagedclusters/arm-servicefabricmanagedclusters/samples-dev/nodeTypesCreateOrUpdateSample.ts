@@ -14,11 +14,7 @@ async function putANodeTypeWithAutoScaleParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 
@@ -32,11 +28,7 @@ async function putNodeTypeWithCustomVmImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 
@@ -50,11 +42,7 @@ async function putNodeTypeWithSharedGalleriesCustomVmImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 
@@ -68,11 +56,7 @@ async function putNodeTypeWithDedicatedHosts(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 
@@ -86,11 +70,7 @@ async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric(): Promis
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 
@@ -104,11 +84,7 @@ async function putNodeTypeWithVmImagePlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 
@@ -140,11 +116,7 @@ async function putANodeTypeWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.nodeTypes.createOrUpdate(
-    "resRg",
-    "myCluster",
-    "BE",
-  );
+  const result = await client.nodeTypes.createOrUpdate("resRg", "myCluster", "BE");
   console.log(result);
 }
 

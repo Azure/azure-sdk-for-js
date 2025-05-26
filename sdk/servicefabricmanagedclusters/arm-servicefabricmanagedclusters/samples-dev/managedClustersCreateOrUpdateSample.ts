@@ -14,10 +14,7 @@ async function putAClusterWithMaximumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.managedClusters.createOrUpdate(
-    "resRg",
-    "mycluster",
-  );
+  const result = await client.managedClusters.createOrUpdate("resRg", "mycluster");
   console.log(result);
 }
 
@@ -31,10 +28,7 @@ async function putAClusterWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ServiceFabricClient(credential, subscriptionId);
-  const result = await client.managedClusters.createOrUpdate(
-    "resRg",
-    "myCluster",
-  );
+  const result = await client.managedClusters.createOrUpdate("resRg", "myCluster");
   console.log(result);
 }
 

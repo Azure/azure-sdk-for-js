@@ -178,14 +178,7 @@ function _getNodeTypes(context: ServiceFabricContext) {
       clusterName: string,
       nodeTypeName: string,
       options?: NodeTypesListFaultSimulationOptionalParams,
-    ) =>
-      listFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        options,
-      ),
+    ) => listFaultSimulation(context, resourceGroupName, clusterName, nodeTypeName, options),
     getFaultSimulation: (
       resourceGroupName: string,
       clusterName: string,
@@ -237,133 +230,67 @@ function _getNodeTypes(context: ServiceFabricContext) {
       nodeTypeName: string,
       parameters: NodeTypeActionParameters,
       options?: NodeTypesStartOptionalParams,
-    ) =>
-      start(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => start(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     restart: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeTypeActionParameters,
       options?: NodeTypesRestartOptionalParams,
-    ) =>
-      restart(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => restart(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     reimage: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeTypeActionParameters,
       options?: NodeTypesReimageOptionalParams,
-    ) =>
-      reimage(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => reimage(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     redeploy: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeTypeActionParameters,
       options?: NodeTypesRedeployOptionalParams,
-    ) =>
-      redeploy(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => redeploy(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     deleteNode: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeTypeActionParameters,
       options?: NodeTypesDeleteNodeOptionalParams,
-    ) =>
-      deleteNode(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => deleteNode(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     deallocate: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeTypeActionParameters,
       options?: NodeTypesDeallocateOptionalParams,
-    ) =>
-      deallocate(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => deallocate(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     listByManagedClusters: (
       resourceGroupName: string,
       clusterName: string,
       options?: NodeTypesListByManagedClustersOptionalParams,
-    ) =>
-      listByManagedClusters(context, resourceGroupName, clusterName, options),
+    ) => listByManagedClusters(context, resourceGroupName, clusterName, options),
     delete: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       options?: NodeTypesDeleteOptionalParams,
-    ) =>
-      $delete(context, resourceGroupName, clusterName, nodeTypeName, options),
+    ) => $delete(context, resourceGroupName, clusterName, nodeTypeName, options),
     update: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeTypeUpdateParameters,
       options?: NodeTypesUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => update(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     createOrUpdate: (
       resourceGroupName: string,
       clusterName: string,
       nodeTypeName: string,
       parameters: NodeType,
       options?: NodeTypesCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     get: (
       resourceGroupName: string,
       clusterName: string,
@@ -373,9 +300,7 @@ function _getNodeTypes(context: ServiceFabricContext) {
   };
 }
 
-export function _getNodeTypesOperations(
-  context: ServiceFabricContext,
-): NodeTypesOperations {
+export function _getNodeTypesOperations(context: ServiceFabricContext): NodeTypesOperations {
   return {
     ..._getNodeTypes(context),
   };

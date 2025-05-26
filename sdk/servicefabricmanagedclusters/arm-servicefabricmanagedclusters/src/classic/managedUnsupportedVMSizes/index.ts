@@ -27,15 +27,10 @@ export interface ManagedUnsupportedVMSizesOperations {
 
 function _getManagedUnsupportedVMSizes(context: ServiceFabricContext) {
   return {
-    list: (
-      location: string,
-      options?: ManagedUnsupportedVMSizesListOptionalParams,
-    ) => list(context, location, options),
-    get: (
-      location: string,
-      vmSize: string,
-      options?: ManagedUnsupportedVMSizesGetOptionalParams,
-    ) => get(context, location, vmSize, options),
+    list: (location: string, options?: ManagedUnsupportedVMSizesListOptionalParams) =>
+      list(context, location, options),
+    get: (location: string, vmSize: string, options?: ManagedUnsupportedVMSizesGetOptionalParams) =>
+      get(context, location, vmSize, options),
   };
 }
 
