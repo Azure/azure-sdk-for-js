@@ -861,6 +861,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 ```
 
 ### Print out the Scoring and Assessment Inference with category and description and single or range values if present
+
 ```ts snippet:ReadmeSampleScoringAndAssessment
 import {
   RadiologyInsightsJobOutput,
