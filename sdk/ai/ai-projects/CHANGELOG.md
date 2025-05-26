@@ -1,5 +1,13 @@
 # Release History
 
+## 1.0.0-beta.9 (2025-05-27)
+
+### Other Changes
+
+- add test for `evaluations`, `inference.textEmbeddings`, `inference.chatCompletion`, `datasets`
+- add support test `dataset`, which use `@azure/storage-blob`'s `ContainerClient`
+- update datasets samples to use the specified connectionName for a container
+
 ## 1.0.0-beta.8 (2025-05-21)
 
 ### Bugs Fixed
