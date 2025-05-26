@@ -52,26 +52,23 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { ChaosManagementClient } from "@azure/arm-chaos";
+import { ChaosManagementClient } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ChaosManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ChaosManagementClient(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { ChaosManagementClient } from "@azure/arm-chaos";
+import { ChaosManagementClient } from "../src/index.js";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
- });
-
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ChaosManagementClient(credential, subscriptionId);
+});
+const client = new ChaosManagementClient(credential);
 ```
 
 
