@@ -6,14 +6,23 @@ import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-to
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
-import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src/index.js";
+import type { AzureOpenAIParameters } from "../../../src/index.js";
+import {
+  KnowledgeRetrievalClient,
+  SearchClient,
+  SearchIndexClient,
+  SearchIndexerClient,
+} from "../../../src/index.js";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
+  agentName: string;
   openAIClient: OpenAIClient;
+  knowledgeRetrievalClient: KnowledgeRetrievalClient;
+  azureOpenAIParameters: AzureOpenAIParameters;
 }
 
 interface Env {
@@ -86,16 +95,24 @@ export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string,
+  agentName: string,
 ): Promise<Clients<IndexModel>> {
   const recorderOptions = createRecorderStartOptions();
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
+  agentName = recorder.variable("TEST_AGENT_NAME", agentName);
 
   const credential = createTestCredential();
 
   const endPoint: string = assertEnvironmentVariable("ENDPOINT");
   const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
+
+  const azureOpenAIParameters: AzureOpenAIParameters = {
+    deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+    resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+    modelName: "text-embedding-ada-002",
+  };
 
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
@@ -124,12 +141,21 @@ export async function createClients<IndexModel extends object>(
     credential,
     recorder.configureClientOptions({}),
   );
+  const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+    endPoint,
+    agentName,
+    credential,
+    recorder.configureClientOptions({}),
+  );
 
   return {
     searchClient,
     indexClient,
     indexerClient,
-    indexName,
     openAIClient,
+    knowledgeRetrievalClient,
+    indexName,
+    agentName,
+    azureOpenAIParameters,
   };
 }
