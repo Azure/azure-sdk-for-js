@@ -694,13 +694,13 @@ export interface IncomingCall {
     callConnectionId: string;
     callerDisplayName?: string;
     correlationId: string;
-    customContext?: CustomCallingContextInternal;
-    from?: CommunicationIdentifierModel;
+    customContext?: CustomCallingContext;
+    from?: CommunicationIdentifier;
     incomingCallContext?: string;
     kind: "IncomingCall";
-    onBehalfOfCallee?: CommunicationIdentifierModel;
+    onBehalfOfCallee?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
-    to?: CommunicationIdentifierModel;
+    to?: CommunicationIdentifier;
 }
 
 // @public
