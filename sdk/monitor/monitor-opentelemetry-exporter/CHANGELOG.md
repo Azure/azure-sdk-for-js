@@ -4,8 +4,10 @@
 
 ### Other Changes
 
+- Ensure that the longIntervalStatsbeat reader is properly bound to a MetricProducer.
 - Removed error logging upon failure to initialize long interval statsbeat.
 - No longer send statsbeat counters when values are zero.
+- SEMATTRS_ENDUSER_ID is properly added to tags but not to properties in telemetry envelopes.
 
 ## 1.0.0-beta.31 (2025-04-16)
 
