@@ -394,7 +394,11 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -418,7 +422,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -450,7 +458,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
