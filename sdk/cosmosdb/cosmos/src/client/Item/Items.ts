@@ -88,8 +88,9 @@ export class Items {
   constructor(
     public readonly container: Container,
     private readonly clientContext: ClientContext,
+    partitionKeyRangeCache?: PartitionKeyRangeCache,
   ) {
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+    this.partitionKeyRangeCache = partitionKeyRangeCache;
   }
 
   /**

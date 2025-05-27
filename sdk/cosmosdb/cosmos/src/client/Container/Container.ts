@@ -44,6 +44,7 @@ import { MetadataLookUpType } from "../../CosmosDiagnostics.js";
 import type { EncryptionSettingForProperty } from "../../encryption/index.js";
 import { EncryptionProcessor } from "../../encryption/index.js";
 import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
+import { PartitionKeyRangeCache } from "../../routing/partitionKeyRangeCache.js";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -82,7 +83,7 @@ export class Container {
    */
   public get items(): Items {
     if (!this.$items) {
-      this.$items = new Items(this, this.clientContext);
+      this.$items = new Items(this, this.clientContext, this.partitionKeyRangeCache);
     }
     return this.$items;
   }
@@ -129,6 +130,7 @@ export class Container {
 
   private isEncryptionInitialized: boolean = false;
   private encryptionInitializationPromise: Promise<void>;
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
 
   /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
@@ -153,6 +155,7 @@ export class Container {
         this.encryptionManager,
       );
     }
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
 
   /**
@@ -180,7 +183,7 @@ export class Container {
    * ```
    */
   public item(id: string, partitionKeyValue?: PartitionKey): Item {
-    return new Item(this, id, this.clientContext, partitionKeyValue);
+    return new Item(this, id, this.clientContext, partitionKeyValue, this.partitionKeyRangeCache);
   }
 
   /**
