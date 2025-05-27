@@ -19,10 +19,6 @@ import type {
   OpenApiFunctionDefinition,
   AISearchIndexResource,
   BingGroundingToolDefinition,
-  MicrosoftFabricToolDefinition,
-  BingCustomSearchToolDefinition,
-  BingCustomSearchConfiguration,
-  SharepointToolDefinition,
   BingGroundingSearchConfiguration,
 } from "./index.js";
 
@@ -89,31 +85,6 @@ export class ToolUtility {
   }
 
   /**
-   * Creates a sharepoint grounding search tool
-   *
-   * @param connectionId - The ID of the sharepoint search connection.
-   *
-   * @returns An object containing the definition and resources for the sharepoint grounding search tool
-   *
-   */
-  static createSharepointGroundingTool(connectionId: string): {
-    definition: SharepointToolDefinition;
-  } {
-    return {
-      definition: {
-        type: "sharepoint_grounding",
-        sharepointGrounding: {
-          connectionList: [
-            {
-              connectionId: connectionId,
-            },
-          ],
-        },
-      },
-    };
-  }
-
-  /**
    * Creates a bing grounding search tool
    *
    * @param connectionId - The ID of the bing search connection.
@@ -136,30 +107,6 @@ export class ToolUtility {
             setLang: searchConfiguration?.setLang,
             count: searchConfiguration?.count,
             freshness: searchConfiguration?.freshness,
-          })),
-        },
-      },
-    };
-  }
-
-  /**
-   * Creates a bing custom search tool
-   *
-   * @param searchConfigurations - The ID of bing search connection and instanceName.
-   *
-   * @returns An object containing the definition and resources for the bing custom search tool
-   */
-
-  static createBingCustomSearchTool(searchConfigurations: BingCustomSearchConfiguration[]): {
-    definition: BingCustomSearchToolDefinition;
-  } {
-    return {
-      definition: {
-        type: "bing_custom_search",
-        bingCustomSearch: {
-          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
-            connectionId: searchConfiguration.connectionId,
-            instanceName: searchConfiguration.instanceName,
           })),
         },
       },
@@ -234,23 +181,6 @@ export class ToolUtility {
               filter: options?.filter,
             },
           ],
-        },
-      },
-    };
-  }
-
-  /**
-   * Creates a Microsoft Fabric tool
-   *
-   * @param connectionIds - A list of the IDs of the Fabric connections to use.
-   * @returns An object containing the definition for the Microsoft Fabric tool
-   */
-  static createFabricTool(connectionId: string): { definition: MicrosoftFabricToolDefinition } {
-    return {
-      definition: {
-        type: "fabric_dataagent",
-        fabricDataagent: {
-          connectionList: [{ connectionId: connectionId }],
         },
       },
     };
@@ -407,31 +337,6 @@ export class ToolSet {
     definition: BingGroundingToolDefinition;
   } {
     const tool = ToolUtility.createBingGroundingTool(searchConfigurations);
-    this.toolDefinitions.push(tool.definition);
-    return tool;
-  }
-
-  /**
-   * Adds a Microsoft Fabric tool to the tool set.
-   *
-   * @param connectionId - The ID of the Fabric connection to use.
-   * @returns An object containing the definition for the Microsoft Fabric tool
-   */
-  addFabricTool(connectionId: string): { definition: MicrosoftFabricToolDefinition } {
-    const tool = ToolUtility.createFabricTool(connectionId);
-    this.toolDefinitions.push(tool.definition);
-    return tool;
-  }
-
-  /**
-   * Adds sharepoint grounding search tool to the tool set.
-   *
-   * @param connectionId - The ID of the sharepoint search connection.
-   *
-   * @returns An object containing the definition and resources for the sharepoint grounding search tool
-   */
-  addSharepointGroundingTool(connectionId: string): { definition: SharepointToolDefinition } {
-    const tool = ToolUtility.createSharepointGroundingTool(connectionId);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }
