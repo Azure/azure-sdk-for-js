@@ -3,9 +3,9 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "../logger.js";
+import { logger } from "./logger";
 import type { TokenCredential } from "@azure/core-auth";
-import type { ConfidentialLedgerClient } from "./clientDefinitions.js";
+import type { ConfidentialLedgerClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
 export interface ConfidentialLedgerClientOptions extends ClientOptions {

@@ -56,7 +56,7 @@ import type {
   UpdateUserDefinedRoleDefaultResponse,
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],
@@ -79,8 +79,8 @@ const responseMap: Record<string, string[]> = {
   "PATCH /app/ledgerUsers/{userId}": ["200"],
   "GET /app/userDefinedEndpoints": ["200"],
   "PUT /app/userDefinedEndpoints": ["201"],
-  "GET /app/userDefinedEndpoints/runTimeOptions": ["200"],
-  "PATCH /app/userDefinedEndpoints/runTimeOptions": ["200"],
+  "GET /app/userDefinedEndpoints/runtimeOptions": ["200"],
+  "PATCH /app/userDefinedEndpoints/runtimeOptions": ["200"],
   "GET /app/userDefinedEndpoints/modules": ["200"],
   "GET /app/roles": ["200"],
   "PUT /app/roles": ["200"],

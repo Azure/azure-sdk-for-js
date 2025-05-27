@@ -23,7 +23,7 @@ import type {
   JSRuntimeOptionsOutput,
   ModuleDefOutput,
   RoleOutput,
-} from "./outputModels.js";
+} from "./outputModels";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitution200Response extends HttpResponse {

@@ -9,7 +9,7 @@ import type {
   Bundle,
   JSRuntimeOptions,
   Role,
-} from "./models.js";
+} from "./models";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
@@ -156,7 +156,7 @@ export type UpdateRuntimeOptionsParameters =
 
 export interface GetUserDefinedEndpointsModuleQueryParamProperties {
   /** module name of the user defined endpoint */
-  module: string;
+  module_name: string;
 }
 
 export interface GetUserDefinedEndpointsModuleQueryParam {

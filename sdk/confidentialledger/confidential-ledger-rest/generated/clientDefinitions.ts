@@ -29,7 +29,7 @@ import type {
   CreateUserDefinedRoleParameters,
   UpdateUserDefinedRoleParameters,
   DeleteUserDefinedRoleParameters,
-} from "./parameters.js";
+} from "./parameters";
 import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
@@ -85,7 +85,7 @@ import type {
   UpdateUserDefinedRoleDefaultResponse,
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {
@@ -332,8 +332,8 @@ export interface Routes {
   (path: "/app/ledgerUsers/{userId}", userId: string): DeleteLedgerUser;
   /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: get, put */
   (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
-  /** Resource for '/app/userDefinedEndpoints/runTimeOptions' has methods for the following verbs: get, patch */
-  (path: "/app/userDefinedEndpoints/runTimeOptions"): GetRuntimeOptions;
+  /** Resource for '/app/userDefinedEndpoints/runtimeOptions' has methods for the following verbs: get, patch */
+  (path: "/app/userDefinedEndpoints/runtimeOptions"): GetRuntimeOptions;
   /** Resource for '/app/userDefinedEndpoints/modules' has methods for the following verbs: get */
   (path: "/app/userDefinedEndpoints/modules"): GetUserDefinedEndpointsModule;
   /** Resource for '/app/roles' has methods for the following verbs: get, put, patch, delete */
