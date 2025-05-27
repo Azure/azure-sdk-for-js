@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, isRestError } from "@azure/core-rest-pipeline";
 
 export * from "./BlobServiceClient.js";
 export * from "./Clients.js";
@@ -58,7 +58,7 @@ export * from "./policies/StorageSharedKeyCredentialPolicyV2.js";
 export * from "./StorageRetryPolicyFactory.js";
 export { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
-export { RestError };
+export { RestError, isRestError };
 export {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,

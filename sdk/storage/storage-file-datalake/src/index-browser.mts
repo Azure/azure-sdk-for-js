@@ -41,5 +41,5 @@ export {
 } from "@azure/storage-blob";
 export { CommonOptions } from "./StorageClient.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
-export { RestError } from "@azure/core-rest-pipeline";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log.js";

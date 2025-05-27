@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { AnonymousCredential } from "@azure/storage-blob";
 export { Credential } from "@azure/storage-blob";
 export { SasIPRange } from "./SasIPRange.js";
@@ -32,5 +32,5 @@ export {
   ResponseWithHeaders,
   HttpResponse,
 } from "./utils/utils.common.js";
-export { RestError };
+export { RestError, isRestError };
 export { logger } from "./log.js";
