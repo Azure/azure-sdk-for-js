@@ -24,9 +24,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [
@@ -73,8 +71,8 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.18.2",
-    "@azure/logger": "^1.1.4",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -83,7 +81,7 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.5.0",
+    "@azure/identity": "^4.10.0",
     "@types/node": "^18.0.0",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",

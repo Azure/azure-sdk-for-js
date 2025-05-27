@@ -29,7 +29,7 @@ import type {
   CreateUserDefinedRoleParameters,
   UpdateUserDefinedRoleParameters,
   DeleteUserDefinedRoleParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
@@ -85,7 +85,7 @@ import type {
   UpdateUserDefinedRoleDefaultResponse,
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {
