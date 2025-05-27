@@ -18,11 +18,7 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-import {
-  trace,
-  context,
-  SpanKind
-} from "@opentelemetry/api";
+import { trace, context, SpanKind } from "@opentelemetry/api";
 import type { Tracer } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
