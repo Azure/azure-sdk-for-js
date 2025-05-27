@@ -119,6 +119,8 @@
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview"
   },
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
