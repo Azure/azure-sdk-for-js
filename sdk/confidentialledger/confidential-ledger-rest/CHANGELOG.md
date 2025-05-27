@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2-beta.2 (2025-05-22)
+## 1.1.2-beta.2 (2025-05-27)
 
 ### Bugs Fixed
 
@@ -14,7 +14,7 @@
 - User defined endpoint
 - User defined endpoint runtimeoptions
 - User defined endpoint modules
-- User defined roles 
+- User defined roles
 - User defined functions support on ledger API
 - User List endpoint
 
