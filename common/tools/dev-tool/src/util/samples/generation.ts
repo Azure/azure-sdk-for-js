@@ -4,6 +4,7 @@
 import fs from "fs-extra";
 import { stat as statFile } from "fs/promises";
 import path from "node:path";
+import semver from "semver";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
@@ -26,6 +27,7 @@ import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { resolveModule } from "./transforms";
 import { Config, resolveConfig } from "../resolveTsConfig";
 import { CompilerOptions } from "typescript";
+import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
 
 const log = createPrinter("generator");
 
@@ -91,6 +93,7 @@ export async function makeSampleGenerationInfo(
   topLevelDirectory: string,
   onError: () => void,
 ): Promise<SampleGenerationInfo> {
+  await loadPnpmWorkspaceCatalogs();
   const sampleSources = await collect(
     findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts")),
   );
@@ -206,7 +209,12 @@ export async function makeSampleGenerationInfo(
                 );
               }
 
-              current[dependency] = dependencyVersion;
+              if (semver.valid(dependencyVersion)) {
+                current[dependency] = dependencyVersion;
+              } else {
+                current[dependency] = resolveCatalogVersion(dependency, dependencyVersion);
+              }
+
               // It would be really weird to depend on `@types/*` in a source file but if we did
               // it'd be handled above.
               if (dependency.indexOf("@types/") !== 0) {
@@ -217,7 +225,11 @@ export async function makeSampleGenerationInfo(
                   packageJson.dependencies[typeDependency];
 
                 if (typeDependencyVersion) {
-                  typesDependencies[typeDependency] = typeDependencyVersion;
+                  if (semver.valid(typeDependencyVersion)) {
+                    typesDependencies[typeDependency] = typeDependencyVersion;
+                  } else {
+                    typesDependencies[typeDependency] = resolveCatalogVersion(typeDependency, typeDependencyVersion);
+                  }
                 }
               }
             }

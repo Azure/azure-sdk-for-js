@@ -54,7 +54,7 @@ catalogs:
     '@azure-tools/test-recorder': ^3.5.2
   internal:
     '@azure/eventgrid': 5.11.0
-    '@azure/identity': 4.10.0
+    '@azure/identity': ^4.10.0
     '@azure/keyvault-keys': 4.9.0
     '@azure/keyvault-secrets': 4.9.0
     '@azure/service-bus': 7.9.5
