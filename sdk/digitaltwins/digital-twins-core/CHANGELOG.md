@@ -19,10 +19,6 @@
   - Client methods that previously returned `RestResponse` now return `void`. In the event the operation fails, a `RestError` will still be thrown. To access the raw HTTP response, use the `onResponse` callback described above.
 - Digital Twin objects returned from operations no longer have their properties wrapped in a `body` property.
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.1.0 (2022-07-19)
 
 ### Features Added
