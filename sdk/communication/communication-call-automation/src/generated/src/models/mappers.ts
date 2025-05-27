@@ -328,30 +328,30 @@ export const CustomCallingContextInternal: coreClient.CompositeMapper = {
         serializedName: "teamsPhoneCallDetails",
         type: {
           name: "Composite",
-          className: "TeamsPhoneCallDetails",
+          className: "TeamsPhoneCallDetailsInternal",
         },
       },
     },
   },
 };
 
-export const TeamsPhoneCallDetails: coreClient.CompositeMapper = {
+export const TeamsPhoneCallDetailsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TeamsPhoneCallDetails",
+    className: "TeamsPhoneCallDetailsInternal",
     modelProperties: {
       teamsPhoneCallerDetails: {
         serializedName: "teamsPhoneCallerDetails",
         type: {
           name: "Composite",
-          className: "TeamsPhoneCallerDetails",
+          className: "TeamsPhoneCallerDetailsInternal",
         },
       },
       teamsPhoneSourceDetails: {
         serializedName: "teamsPhoneSourceDetails",
         type: {
           name: "Composite",
-          className: "TeamsPhoneSourceDetails",
+          className: "TeamsPhoneSourceDetailsInternal",
         },
       },
       sessionId: {
@@ -400,10 +400,10 @@ export const TeamsPhoneCallDetails: coreClient.CompositeMapper = {
   },
 };
 
-export const TeamsPhoneCallerDetails: coreClient.CompositeMapper = {
+export const TeamsPhoneCallerDetailsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TeamsPhoneCallerDetails",
+    className: "TeamsPhoneCallerDetailsInternal",
     modelProperties: {
       caller: {
         serializedName: "caller",
@@ -455,10 +455,10 @@ export const TeamsPhoneCallerDetails: coreClient.CompositeMapper = {
   },
 };
 
-export const TeamsPhoneSourceDetails: coreClient.CompositeMapper = {
+export const TeamsPhoneSourceDetailsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TeamsPhoneSourceDetails",
+    className: "TeamsPhoneSourceDetailsInternal",
     modelProperties: {
       source: {
         serializedName: "source",

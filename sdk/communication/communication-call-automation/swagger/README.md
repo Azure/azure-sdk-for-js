@@ -145,6 +145,15 @@ directive:
       from: CustomCallingContext
       to: CustomCallingContextInternal
   - rename-model:
+      from: TeamsPhoneCallDetails
+      to: TeamsPhoneCallDetailsInternal
+  - rename-model:
+      from: TeamsPhoneCallerDetails
+      to: TeamsPhoneCallerDetailsInternal
+  - rename-model:
+      from: TeamsPhoneSourceDetails
+      to: TeamsPhoneSourceDetailsInternal
+  - rename-model:
       from: TranscriptionOptions
       to: TranscriptionOptionsInternal
   - rename-model:

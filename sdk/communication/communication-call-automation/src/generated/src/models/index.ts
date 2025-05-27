@@ -122,15 +122,15 @@ export interface CustomCallingContextInternal {
   /** Custom calling context SIP headers */
   sipHeaders?: { [propertyName: string]: string };
   /** Custom calling context TeamsPhoneCallDetails */
-  teamsPhoneCallDetails?: TeamsPhoneCallDetails;
+  teamsPhoneCallDetails?: TeamsPhoneCallDetailsInternal;
 }
 
 /** The call details which will be sent to the target */
-export interface TeamsPhoneCallDetails {
+export interface TeamsPhoneCallDetailsInternal {
   /** Container for details relating to the original caller of the call */
-  teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+  teamsPhoneCallerDetails?: TeamsPhoneCallerDetailsInternal;
   /** Container for details relating to the entity responsible for the creation of these call details */
-  teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+  teamsPhoneSourceDetails?: TeamsPhoneSourceDetailsInternal;
   /** Id to exclusively identify this call session. IVR will use this for their telemetry/reporting. */
   sessionId?: string;
   /** The intent of the call */
@@ -148,7 +148,7 @@ export interface TeamsPhoneCallDetails {
 }
 
 /** Container for details relating to the original caller of the call */
-export interface TeamsPhoneCallerDetails {
+export interface TeamsPhoneCallerDetailsInternal {
   /** Caller's ID */
   caller: CommunicationIdentifierModel;
   /** Caller's name */
@@ -166,7 +166,7 @@ export interface TeamsPhoneCallerDetails {
 }
 
 /** Container for details relating to the entity responsible for the creation of these call details */
-export interface TeamsPhoneSourceDetails {
+export interface TeamsPhoneSourceDetailsInternal {
   /** ID of the source entity passing along the call details (ex. Application Instance ID of - CQ/AA) */
   source: CommunicationIdentifierModel;
   /** Language of the source entity passing along the call details, passed in the ISO-639 standard */

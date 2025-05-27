@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters.js";
+import {
+  communicationIdentifierConverter,
+  callParticipantConverter,
+  teamsPhoneCallDetailsConverter,
+} from "./utli/converters.js";
 import type {
   CallAutomationEvent,
   AddParticipantSucceeded,
@@ -95,25 +99,23 @@ export function parseCallAutomationEvent(
       callbackEvent = { kind: "IncomingCall" } as IncomingCall;
 
       // Normalize customContext: convert undefined to null and ensure all properties are null if undefined
-      if (parsed.customContext === undefined) {
+      if (data.customContext === undefined) {
         parsed.customContext = {
           voipHeaders: null,
           sipHeaders: null,
           teamsPhoneCallDetails: null,
         };
-      } else if (parsed.customContext) {
+      } else if (data.customContext) {
         // If customContext exists, ensure its properties are null instead of undefined
         parsed.customContext = {
           voipHeaders:
-            parsed.customContext.voipHeaders === undefined
-              ? null
-              : parsed.customContext.voipHeaders,
+            data.customContext.voipHeaders === undefined ? null : data.customContext.voipHeaders,
           sipHeaders:
-            parsed.customContext.sipHeaders === undefined ? null : parsed.customContext.sipHeaders,
+            data.customContext.sipHeaders === undefined ? null : data.customContext.sipHeaders,
           teamsPhoneCallDetails:
-            parsed.customContext.teamsPhoneCallDetails === undefined
+            data.customContext.teamsPhoneCallDetails === undefined
               ? null
-              : parsed.customContext.teamsPhoneCallDetails,
+              : teamsPhoneCallDetailsConverter(data.customContext.teamsPhoneCallDetails),
         };
       }
       break;
