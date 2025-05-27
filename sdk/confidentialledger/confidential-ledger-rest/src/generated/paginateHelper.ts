@@ -201,9 +201,6 @@ export type PaginateReturn<TResult> = TResult extends
   | {
       body: { ledgerUsers?: infer TPage };
     }
-  | {
-      body: { functions?: infer TPage };
-    }
   ? GetArrayType<TPage>
   : Array<unknown>;
 
@@ -325,7 +322,6 @@ function getPaginationProperties(initialResponse: PathUncheckedResponse) {
     "collections",
     "entries",
     "ledgerUsers",
-    "functions",
   ]);
 
   let nextLinkName: string | undefined;

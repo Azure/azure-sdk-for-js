@@ -8,8 +8,6 @@ import type {
   LedgerUserMultipleRoles,
   Bundle,
   JSRuntimeOptions,
-  UserDefinedFunction,
-  UserDefinedFunctionExecutionProperties,
   Role,
 } from "./models.js";
 
@@ -25,8 +23,6 @@ export interface ListLedgerEntriesQueryParamProperties {
   fromTransactionId?: string;
   /** Specify the last transaction ID in a range. */
   toTransactionId?: string;
-  /** Single tag. */
-  tag?: string;
 }
 
 export interface ListLedgerEntriesQueryParam {
@@ -44,8 +40,6 @@ export interface CreateLedgerEntryBodyParam {
 export interface CreateLedgerEntryQueryParamProperties {
   /** The collection id. */
   collectionId?: string;
-  /** Comma separated tags. */
-  tags?: string;
 }
 
 export interface CreateLedgerEntryQueryParam {
@@ -162,7 +156,7 @@ export type UpdateRuntimeOptionsParameters =
 
 export interface GetUserDefinedEndpointsModuleQueryParamProperties {
   /** module name of the user defined endpoint */
-  module_name: string;
+  module: string;
 }
 
 export interface GetUserDefinedEndpointsModuleQueryParam {
@@ -171,39 +165,6 @@ export interface GetUserDefinedEndpointsModuleQueryParam {
 
 export type GetUserDefinedEndpointsModuleParameters =
   GetUserDefinedEndpointsModuleQueryParam & RequestParameters;
-export type ListUserDefinedFunctionsParameters = RequestParameters;
-export type DeleteUserDefinedFunctionParameters = RequestParameters;
-export type GetUserDefinedFunctionParameters = RequestParameters;
-
-export interface CreateUserDefinedFunctionBodyParam {
-  /** Specify a user defined function of a Confidential Ledger. */
-  body: UserDefinedFunction;
-}
-
-export interface CreateUserDefinedFunctionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type CreateUserDefinedFunctionParameters =
-  CreateUserDefinedFunctionMediaTypesParam &
-    CreateUserDefinedFunctionBodyParam &
-    RequestParameters;
-
-export interface ExecuteUserDefinedFunctionBodyParam {
-  /** Specify user defined function execution properties. */
-  body?: UserDefinedFunctionExecutionProperties;
-}
-
-export interface ExecuteUserDefinedFunctionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ExecuteUserDefinedFunctionParameters =
-  ExecuteUserDefinedFunctionMediaTypesParam &
-    ExecuteUserDefinedFunctionBodyParam &
-    RequestParameters;
 
 export interface GetUserDefinedRoleQueryParamProperties {
   /** user defined role name */
