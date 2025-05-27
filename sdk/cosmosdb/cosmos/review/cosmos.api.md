@@ -1407,7 +1407,8 @@ export enum IndexKind {
 
 // @public
 export class Item {
-    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
+    // Warning: (ae-forgotten-export) The symbol "PartitionKeyRangeCache" needs to be exported by the entry point index.d.ts
+    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey, partitionKeyRangeCache?: PartitionKeyRangeCache);
     // (undocumented)
     readonly container: Container;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -1436,7 +1437,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 
 // @public
 export class Items {
-    constructor(container: Container, clientContext: ClientContext);
+    constructor(container: Container, clientContext: ClientContext, partitionKeyRangeCache?: PartitionKeyRangeCache);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     // @deprecated
