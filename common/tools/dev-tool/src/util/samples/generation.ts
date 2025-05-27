@@ -80,6 +80,10 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
   return out;
 }
 
+function isValidNpmVersionSpecifier(specifier: string) {
+  return semver.valid(specifier) || ["latest", "dev", "next"].includes(specifier);
+}
+
 /**
  * Extracts the sample generation meta-information from the sample sources and
  * configuration in package.json.
@@ -209,7 +213,7 @@ export async function makeSampleGenerationInfo(
                 );
               }
 
-              if (semver.valid(dependencyVersion)) {
+              if (isValidNpmVersionSpecifier(dependencyVersion)) {
                 current[dependency] = dependencyVersion;
               } else {
                 current[dependency] = resolveCatalogVersion(dependency, dependencyVersion);
@@ -225,10 +229,13 @@ export async function makeSampleGenerationInfo(
                   packageJson.dependencies[typeDependency];
 
                 if (typeDependencyVersion) {
-                  if (semver.valid(typeDependencyVersion)) {
+                  if (isValidNpmVersionSpecifier(typeDependencyVersion)) {
                     typesDependencies[typeDependency] = typeDependencyVersion;
                   } else {
-                    typesDependencies[typeDependency] = resolveCatalogVersion(typeDependency, typeDependencyVersion);
+                    typesDependencies[typeDependency] = resolveCatalogVersion(
+                      typeDependency,
+                      typeDependencyVersion,
+                    );
                   }
                 }
               }
