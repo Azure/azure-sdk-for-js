@@ -18,7 +18,12 @@
  *
  * @summary demonstrates OpenTelemetry http Instrumentation. It is about how OpenTelemetry will instrument the Node.js native http module.
  */
-import * as api from "@opentelemetry/api";
+import {
+  trace,
+  context,
+  SpanKind
+} from "@opentelemetry/api";
+import type { Tracer } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
@@ -32,8 +37,8 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import "dotenv/config";
 
 // OPEN TELEMETRY SETUP
-let serverTracer: api.Tracer;
-let clientTracer: api.Tracer;
+let serverTracer: Tracer;
+let clientTracer: Tracer;
 setupOpenTelemetry();
 
 // Open Telemetry setup need to happen before http library is loaded
@@ -53,13 +58,13 @@ function startServer(port: number): void {
 
 /** A function which handles requests and send response. */
 function handleRequest(request: IncomingMessage, response: ServerResponse): void {
-  const currentSpan = api.trace.getSpan(api.context.active());
+  const currentSpan = trace.getSpan(context.active());
   if (currentSpan) {
     // display traceId in the terminal
     console.log(`traceId: ${currentSpan.spanContext().traceId}`);
   }
   const span = serverTracer.startSpan("handleRequest", {
-    kind: api.SpanKind.SERVER,
+    kind: SpanKind.SERVER,
     attributes: { key: "value" },
   });
   // Annotate our span to capture metadata about the operation
@@ -89,7 +94,7 @@ function makeRequest(): void {
   // the span, which is created to track work that happens outside of the
   // request lifecycle entirely.
   const span = clientTracer.startSpan("makeRequest");
-  api.context.with(api.trace.setSpan(api.context.active(), span), () => {
+  context.with(trace.setSpan(context.active(), span), () => {
     http.get(
       {
         host: "localhost",
@@ -124,7 +129,7 @@ function setupOpenTelemetry(): void {
   });
 
   // Initialize the OpenTelemetry APIs to use the NodeTracerProvider bindings
-  api.trace.setGlobalTracerProvider(provider);
+  trace.setGlobalTracerProvider(provider);
 
   registerInstrumentations({
     instrumentations: [new HttpInstrumentation()],
