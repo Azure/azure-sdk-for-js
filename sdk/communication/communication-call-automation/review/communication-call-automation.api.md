@@ -691,15 +691,13 @@ export interface IncomingCall {
     callConnectionId: string;
     callerDisplayName?: string;
     correlationId: string;
-    customContext?: CustomCallingContextInternal;
-    from?: CommunicationIdentifierModel;
-    from?: CommunicationIdentifierModel;
+    customContext?: CustomCallingContext;
+    from?: CommunicationIdentifier;
     incomingCallContext?: string;
     kind: "IncomingCall";
     onBehalfOfCallee?: CommunicationIdentifier;
-    to?: CommunicationIdentifierModel;
-    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
-    to?: CommunicationIdentifierModel;
+    resultInformation?: ResultInformation;
+    to?: CommunicationIdentifier;
 }
 
 // @public

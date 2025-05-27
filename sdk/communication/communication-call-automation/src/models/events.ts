@@ -5,8 +5,6 @@ import type { CommunicationIdentifier } from "@azure/communication-common";
 
 import type {
   Tone,
-  CustomCallingContextInternal,
-  CommunicationIdentifierModel,
   ChoiceResult,
   DtmfResult,
   RecognitionType,
@@ -14,13 +12,9 @@ import type {
   MediaStreamingUpdate,
   TranscriptionUpdate,
   RecordingKind,
-  RestIncomingCall,
-  CommunicationIdentifierModel,
-  RestIncomingCall,
-  CommunicationIdentifierModel,
 } from "../generated/src/models/index.js";
 
-import type { CallParticipant, RecordingState } from "./models.js";
+import type { CallParticipant, RecordingState, CustomCallingContext } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
