@@ -693,10 +693,12 @@ export interface IncomingCall {
     correlationId: string;
     customContext?: CustomCallingContextInternal;
     from?: CommunicationIdentifierModel;
+    from?: CommunicationIdentifierModel;
     incomingCallContext?: string;
     kind: "IncomingCall";
-    onBehalfOfCallee?: CommunicationIdentifierModel;
-    resultInformation?: ResultInformation;
+    onBehalfOfCallee?: CommunicationIdentifier;
+    to?: CommunicationIdentifierModel;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     to?: CommunicationIdentifierModel;
 }
 

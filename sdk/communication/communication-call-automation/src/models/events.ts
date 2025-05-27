@@ -14,6 +14,10 @@ import type {
   MediaStreamingUpdate,
   TranscriptionUpdate,
   RecordingKind,
+  RestIncomingCall,
+  CommunicationIdentifierModel,
+  RestIncomingCall,
+  CommunicationIdentifierModel,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant, RecordingState } from "./models.js";
@@ -166,17 +170,17 @@ export interface IncomingCall {
   /** Call connection ID. */
   callConnectionId: string;
   /** The communication identifier of the target user.*/
-  to?: CommunicationIdentifierModel;
+  to?: CommunicationIdentifier;
   /** The communication identifier of the user who initiated the call.*/
-  from?: CommunicationIdentifierModel;
+  from?: CommunicationIdentifier;
   /** Display name of caller.*/
   callerDisplayName?: string;
   /** Custom Context of Incoming Call */
-  customContext?: CustomCallingContextInternal;
+  customContext?: CustomCallingContext;
   /** Incoming call context.*/
   incomingCallContext?: string;
   /** The communication identifier of the user on behalf of whom the call is made.*/
-  onBehalfOfCallee?: CommunicationIdentifierModel;
+  onBehalfOfCallee?: CommunicationIdentifier;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code/sub-code and message. */
