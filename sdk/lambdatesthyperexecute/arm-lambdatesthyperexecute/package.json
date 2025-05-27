@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-lambdatesthyperexecute",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for HyperExecuteClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -99,7 +99,7 @@
     "lint:fix": "echo skipped",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
