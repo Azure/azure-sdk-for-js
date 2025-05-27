@@ -34,7 +34,6 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private networkStatsbeatMeter: Meter;
   private networkStatsbeatMeterProvider: MeterProvider;
   private networkAzureExporter: AzureMonitorStatsbeatExporter;
-  private networkMetricReader: PeriodicExportingMetricReader;
 
   // Custom dimensions
   private cikey: string;
@@ -62,22 +61,20 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   constructor(options: StatsbeatOptions) {
     super();
     this.connectionString = super.getConnectionString(options.endpointUrl);
-    this.networkStatsbeatMeterProvider = new MeterProvider();
-
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this.connectionString,
     };
 
     this.networkAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
-
     // Exports Network Statsbeat every 15 minutes
     const networkMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.networkAzureExporter,
       exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionShortInterval, // 15 minutes
     };
+    this.networkStatsbeatMeterProvider = new MeterProvider({
+      readers: [new PeriodicExportingMetricReader(networkMetricReaderOptions)],
+    });
 
-    this.networkMetricReader = new PeriodicExportingMetricReader(networkMetricReaderOptions);
-    this.networkStatsbeatMeterProvider.addMetricReader(this.networkMetricReader);
     this.networkStatsbeatMeter = this.networkStatsbeatMeterProvider.getMeter(
       "Azure Monitor Network Statsbeat",
     );
@@ -170,9 +167,12 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   // Observable gauge callbacks
   private successCallback(observableResult: ObservableResult): void {
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
-    const attributes = { ...this.commonProperties, ...this.networkProperties };
-    observableResult.observe(counter.totalSuccessfulRequestCount, attributes);
-    counter.totalSuccessfulRequestCount = 0;
+    // Only send metrics if count is greater than zero
+    if (counter.totalSuccessfulRequestCount > 0) {
+      const attributes = { ...this.commonProperties, ...this.networkProperties };
+      observableResult.observe(counter.totalSuccessfulRequestCount, attributes);
+      counter.totalSuccessfulRequestCount = 0;
+    }
   }
 
   private failureCallback(observableResult: BatchObservableResult): void {
@@ -186,11 +186,14 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
 
     // For each { statusCode -> count } mapping, call observe, passing the count and attributes that include the statusCode
     for (let i = 0; i < counter.totalFailedRequestCount.length; i++) {
-      attributes.statusCode = counter.totalFailedRequestCount[i].statusCode;
-      observableResult.observe(this.failureCountGauge, counter.totalFailedRequestCount[i].count, {
-        ...attributes,
-      });
-      counter.totalFailedRequestCount[i].count = 0;
+      // Only send metrics if count is greater than zero
+      if (counter.totalFailedRequestCount[i].count > 0) {
+        attributes.statusCode = counter.totalFailedRequestCount[i].statusCode;
+        observableResult.observe(this.failureCountGauge, counter.totalFailedRequestCount[i].count, {
+          ...attributes,
+        });
+        counter.totalFailedRequestCount[i].count = 0;
+      }
     }
   }
 
@@ -199,11 +202,14 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     const attributes = { ...this.networkProperties, ...this.commonProperties, statusCode: 0 };
 
     for (let i = 0; i < counter.retryCount.length; i++) {
-      attributes.statusCode = counter.retryCount[i].statusCode;
-      observableResult.observe(this.retryCountGauge, counter.retryCount[i].count, {
-        ...attributes,
-      });
-      counter.retryCount[i].count = 0;
+      // Only send metrics if count is greater than zero
+      if (counter.retryCount[i].count > 0) {
+        attributes.statusCode = counter.retryCount[i].statusCode;
+        observableResult.observe(this.retryCountGauge, counter.retryCount[i].count, {
+          ...attributes,
+        });
+        counter.retryCount[i].count = 0;
+      }
     }
   }
 
@@ -212,11 +218,14 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     const attributes = { ...this.networkProperties, ...this.commonProperties, statusCode: 0 };
 
     for (let i = 0; i < counter.throttleCount.length; i++) {
-      attributes.statusCode = counter.throttleCount[i].statusCode;
-      observableResult.observe(this.throttleCountGauge, counter.throttleCount[i].count, {
-        ...attributes,
-      });
-      counter.throttleCount[i].count = 0;
+      // Only send metrics if count is greater than zero
+      if (counter.throttleCount[i].count > 0) {
+        attributes.statusCode = counter.throttleCount[i].statusCode;
+        observableResult.observe(this.throttleCountGauge, counter.throttleCount[i].count, {
+          ...attributes,
+        });
+        counter.throttleCount[i].count = 0;
+      }
     }
   }
 
@@ -225,11 +234,14 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     const attributes = { ...this.networkProperties, ...this.commonProperties, exceptionType: "" };
 
     for (let i = 0; i < counter.exceptionCount.length; i++) {
-      attributes.exceptionType = counter.exceptionCount[i].exceptionType;
-      observableResult.observe(this.exceptionCountGauge, counter.exceptionCount[i].count, {
-        ...attributes,
-      });
-      counter.exceptionCount[i].count = 0;
+      // Only send metrics if count is greater than zero
+      if (counter.exceptionCount[i].count > 0) {
+        attributes.exceptionType = counter.exceptionCount[i].exceptionType;
+        observableResult.observe(this.exceptionCountGauge, counter.exceptionCount[i].count, {
+          ...attributes,
+        });
+        counter.exceptionCount[i].count = 0;
+      }
     }
   }
 
@@ -241,32 +253,47 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       currentCounter.time = Number(new Date());
       const intervalRequests =
         currentCounter.totalRequestCount - currentCounter.lastRequestCount || 0;
-      currentCounter.averageRequestExecutionTime =
-        (currentCounter.intervalRequestExecutionTime -
-          currentCounter.lastIntervalRequestExecutionTime) /
-          intervalRequests || 0;
-      currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
 
+      // Only calculate average if there were actual requests
+      if (intervalRequests > 0) {
+        currentCounter.averageRequestExecutionTime =
+          (currentCounter.intervalRequestExecutionTime -
+            currentCounter.lastIntervalRequestExecutionTime) /
+            intervalRequests || 0;
+      } else {
+        currentCounter.averageRequestExecutionTime = 0;
+      }
+
+      currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;
       currentCounter.lastTime = currentCounter.time;
     }
-    observableResult.observe(counter.averageRequestExecutionTime, attributes);
 
-    counter.averageRequestExecutionTime = 0;
+    // Only report if there's a non-zero average duration
+    if (counter.averageRequestExecutionTime > 0) {
+      observableResult.observe(counter.averageRequestExecutionTime, attributes);
+      counter.averageRequestExecutionTime = 0;
+    }
   }
 
   private readFailureCallback(observableResult: ObservableResult): void {
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
-    const attributes = { ...this.commonProperties, ...this.networkProperties };
-    observableResult.observe(counter.totalReadFailureCount, attributes);
-    counter.totalReadFailureCount = 0;
+    // Only send metrics if count is greater than zero
+    if (counter.totalReadFailureCount > 0) {
+      const attributes = { ...this.commonProperties, ...this.networkProperties };
+      observableResult.observe(counter.totalReadFailureCount, attributes);
+      counter.totalReadFailureCount = 0;
+    }
   }
 
   private writeFailureCallback(observableResult: ObservableResult): void {
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
-    const attributes = { ...this.commonProperties, ...this.networkProperties };
-    observableResult.observe(counter.totalWriteFailureCount, attributes);
-    counter.totalWriteFailureCount = 0;
+    // Only send metrics if count is greater than zero
+    if (counter.totalWriteFailureCount > 0) {
+      const attributes = { ...this.commonProperties, ...this.networkProperties };
+      observableResult.observe(counter.totalWriteFailureCount, attributes);
+      counter.totalWriteFailureCount = 0;
+    }
   }
 
   // Public methods to increase counters
