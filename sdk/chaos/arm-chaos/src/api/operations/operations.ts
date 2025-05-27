@@ -8,12 +8,12 @@ import {
   _operationListResultDeserializer,
   Operation,
 } from "../../models/models.js";
-import { OperationsListOptionalParams } from "./options.js";
+import { OperationsListAllOptionalParams } from "./options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -21,9 +21,9 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _listSend(
+export function _listAllSend(
   context: Client,
-  options: OperationsListOptionalParams = { requestOptions: {} },
+  options: OperationsListAllOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Chaos/operations{?api%2Dversion}",
@@ -43,7 +43,7 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(
+export async function _listAllDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
@@ -57,14 +57,14 @@ export async function _listDeserialize(
 }
 
 /** List the operations for the provider */
-export function list(
+export function listAll(
   context: Client,
-  options: OperationsListOptionalParams = { requestOptions: {} },
+  options: OperationsListAllOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
-    _listDeserialize,
+    () => _listAllSend(context, options),
+    _listAllDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

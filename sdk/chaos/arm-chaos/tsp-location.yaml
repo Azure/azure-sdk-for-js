@@ -1,4 +1,4 @@
 directory: specification/chaos/Chaos.Management
-commit: 8279d4aee23a3fef5aac9c76333b0895c83e44c3
+commit: 00fe353f7286992beaa53a95dc667795191693be
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

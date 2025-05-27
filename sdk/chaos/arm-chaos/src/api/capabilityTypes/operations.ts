@@ -10,11 +10,11 @@ import {
   _capabilityTypeListResultDeserializer,
 } from "../../models/models.js";
 import { CapabilityTypesListOptionalParams, CapabilityTypesGetOptionalParams } from "./options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

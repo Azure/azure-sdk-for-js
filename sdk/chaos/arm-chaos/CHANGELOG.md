@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0 (2025-05-26)
+## 2.0.0 (2025-05-27)
     
 ### Features Added
 
@@ -9,12 +9,10 @@
   - Added operation ExperimentsOperations.delete
   - Added operation ExperimentsOperations.start
   - Added operation ExperimentsOperations.update
-  - Added operation OperationsOperations.list
   - Added Interface CapabilityProperties
   - Added Interface CapabilityTypeProperties
   - Added Interface ExperimentProperties
   - Added Interface ManagedServiceIdentity
-  - Added Interface OperationsListOptionalParams
   - Added Interface OperationStatusResult
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
@@ -62,7 +60,6 @@
   - Removed operation Experiments.beginStartAndWait
   - Removed operation Experiments.beginUpdate
   - Removed operation Experiments.beginUpdateAndWait
-  - Removed operation Operations.listAll
   - Class ChaosManagementClient has a new signature
   - Interface Capability no longer has parameter description
   - Interface Capability no longer has parameter parametersSchema

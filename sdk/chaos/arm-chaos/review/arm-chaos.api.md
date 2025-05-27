@@ -490,12 +490,12 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationsListAllOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    listAll: (options?: OperationsListAllOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public

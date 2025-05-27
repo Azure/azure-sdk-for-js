@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { list } from "./operations.js";
-export { OperationsListOptionalParams } from "./options.js";
+export { listAll } from "./operations.js";
+export { OperationsListAllOptionalParams } from "./options.js";

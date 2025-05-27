@@ -104,7 +104,7 @@ export {
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsGetOptionalParams,
 } from "./api/experiments/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { OperationsListAllOptionalParams } from "./api/operations/index.js";
 export { OperationStatusesGetOptionalParams } from "./api/operationStatuses/index.js";
 export {
   TargetsListOptionalParams,
