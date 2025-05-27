@@ -10,6 +10,7 @@ import { ClientOptions } from '@azure-rest/core-client';
 import type { GetChatCompletions } from '@azure-rest/ai-inference';
 import type { GetEmbeddings } from '@azure-rest/ai-inference';
 import type { GetImageEmbeddings } from '@azure-rest/ai-inference';
+import { isUnexpected } from '@azure-rest/ai-inference';
 import type { ModelClientOptions } from '@azure-rest/ai-inference';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
@@ -451,6 +452,8 @@ export interface InputDataset extends InputData {
 
 // @public
 export type InputDataUnion = InputDataset | InputData;
+
+export { isUnexpected }
 
 // @public
 export enum KnownVersions {

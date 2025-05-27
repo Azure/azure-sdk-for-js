@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../src/index.js";
-import { isUnexpected } from "@azure-rest/ai-inference";
+import { isUnexpected } from "../../../src/index.js";
 
 describe("inference - textEmbeddings", () => {
   let recorder: Recorder;
@@ -17,7 +18,7 @@ describe("inference - textEmbeddings", () => {
     projectsClient = createProjectsClient(recorder);
 
     // Get deployment name from environment variable or use a default for recording
-    deploymentName = process.env["EMBEDDING_DEPLOYMENT_NAME"] || "embedding-ada";
+    deploymentName = assertEnvironmentVariable("EMBEDDING_DEPLOYMENT_NAME");
   });
 
   afterEach(async function () {

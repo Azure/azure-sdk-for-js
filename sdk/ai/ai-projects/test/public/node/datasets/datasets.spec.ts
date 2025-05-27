@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import * as path from "path";
@@ -34,8 +35,7 @@ describe("datasets - basic", () => {
     datasets = projectsClient.datasets;
 
     // Get connection name from environment variable or use a default for recording
-    containerConnectionName =
-      process.env["AZURE_STORAGE_CONNECTION_NAME"] || "test-storage-connection";
+    containerConnectionName = assertEnvironmentVariable("AZURE_STORAGE_CONNECTION_NAME");
   });
   afterEach(async function () {
     // Clean up any created datasets

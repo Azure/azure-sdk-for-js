@@ -110,4 +110,5 @@ export {
   IndexesOperations,
   RedTeamsOperations,
 } from "./classic/index.js";
+export { isUnexpected } from "@azure-rest/ai-inference";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

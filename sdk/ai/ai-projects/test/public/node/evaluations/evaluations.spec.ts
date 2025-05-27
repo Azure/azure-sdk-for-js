@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import * as path from "path";
@@ -32,9 +33,8 @@ describe("evaluations - basic", () => {
     evaluations = projectsClient.evaluations;
 
     // Get connection name from environment variable or use a default for recording
-    containerConnectionName =
-      process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage-connection-name>";
-    evaluationDeploymentName = process.env["EVALUATION_DEPLOYMENT_NAME"] || "gpt-4o-mini";
+    containerConnectionName = assertEnvironmentVariable("AZURE_STORAGE_CONNECTION_NAME");
+    evaluationDeploymentName = assertEnvironmentVariable("EVALUATION_DEPLOYMENT_NAME");
   });
 
   afterEach(async function () {
