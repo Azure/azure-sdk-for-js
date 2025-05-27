@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type Access = string;
@@ -34,239 +37,133 @@ export interface ApplicationHealthPolicy {
     considerWarningAsError: boolean;
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
     maxPercentUnhealthyDeployedApplications: number;
-    serviceTypeHealthPolicyMap?: {
-        [propertyName: string]: ServiceTypeHealthPolicy;
-    };
+    serviceTypeHealthPolicyMap?: Record<string, ServiceTypeHealthPolicy>;
 }
 
 // @public
 export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
+    location?: string;
+    properties?: ApplicationResourceProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationResourceProperties {
     managedIdentities?: ApplicationUserAssignedIdentity[];
-    parameters?: {
-        [propertyName: string]: string;
-    };
+    parameters?: Record<string, string>;
     readonly provisioningState?: string;
     upgradePolicy?: ApplicationUpgradePolicy;
     version?: string;
 }
 
 // @public
-export interface ApplicationResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ApplicationResource[];
-}
-
-// @public
-export interface Applications {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateOrUpdateResponse>, ApplicationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<ApplicationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
-    beginReadUpgrade(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsReadUpgradeResponse>, ApplicationsReadUpgradeResponse>>;
-    beginReadUpgradeAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams): Promise<ApplicationsReadUpgradeResponse>;
-    beginResumeUpgrade(resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsResumeUpgradeResponse>, ApplicationsResumeUpgradeResponse>>;
-    beginResumeUpgradeAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams): Promise<ApplicationsResumeUpgradeResponse>;
-    beginStartRollback(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsStartRollbackResponse>, ApplicationsStartRollbackResponse>>;
-    beginStartRollbackAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams): Promise<ApplicationsStartRollbackResponse>;
-    get(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
-    list(resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<ApplicationResource>;
-    update(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
-}
-
-// @public
-export interface ApplicationsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationsCreateOrUpdateResponse = ApplicationResource;
-
-// @public
-export interface ApplicationsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ApplicationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationsGetResponse = ApplicationResource;
-
-// @public
-export interface ApplicationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationsListNextResponse = ApplicationResourceList;
-
-// @public
-export interface ApplicationsListOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
+    delete: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams) => Promise<ApplicationResource>;
+    list: (resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams) => PagedAsyncIterableIterator<ApplicationResource>;
+    readUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsReadUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    resumeUpgrade: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: RuntimeResumeApplicationUpgradeParameters, options?: ApplicationsResumeUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
+    startRollback: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsStartRollbackOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationUpdateParameters, options?: ApplicationsUpdateOptionalParams) => Promise<ApplicationResource>;
 }
 
 // @public
-export type ApplicationsListResponse = ApplicationResourceList;
-
-// @public
-export interface ApplicationsReadUpgradeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationsReadUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsReadUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationsReadUpgradeResponse = ApplicationsReadUpgradeHeaders;
-
-// @public
-export interface ApplicationsResumeUpgradeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationsResumeUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsResumeUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationsResumeUpgradeResponse = ApplicationsResumeUpgradeHeaders;
-
-// @public
-export interface ApplicationsStartRollbackHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationsStartRollbackOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationsStartRollbackOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationsStartRollbackResponse = ApplicationsStartRollbackHeaders;
-
-// @public
-export interface ApplicationsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ApplicationsUpdateResponse = ApplicationResource;
 
 // @public
 export interface ApplicationTypeResource extends ProxyResource {
+    location?: string;
+    properties?: ApplicationTypeResourceProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationTypeResourceProperties {
     readonly provisioningState?: string;
 }
 
 // @public
-export interface ApplicationTypeResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ApplicationTypeResource[];
+export interface ApplicationTypesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationTypes {
-    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeResource, options?: ApplicationTypesCreateOrUpdateOptionalParams): Promise<ApplicationTypesCreateOrUpdateResponse>;
-    get(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesGetOptionalParams): Promise<ApplicationTypesGetResponse>;
-    list(resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams): PagedAsyncIterableIterator<ApplicationTypeResource>;
-    update(resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeUpdateParameters, options?: ApplicationTypesUpdateOptionalParams): Promise<ApplicationTypesUpdateResponse>;
-}
-
-// @public
-export interface ApplicationTypesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationTypesCreateOrUpdateResponse = ApplicationTypeResource;
-
-// @public
-export interface ApplicationTypesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationTypesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ApplicationTypesGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationTypesGetResponse = ApplicationTypeResource;
-
-// @public
-export interface ApplicationTypesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationTypesListNextResponse = ApplicationTypeResourceList;
-
-// @public
-export interface ApplicationTypesListOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypesOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeResource, options?: ApplicationTypesCreateOrUpdateOptionalParams) => Promise<ApplicationTypeResource>;
+    delete: (resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesGetOptionalParams) => Promise<ApplicationTypeResource>;
+    list: (resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams) => PagedAsyncIterableIterator<ApplicationTypeResource>;
+    update: (resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeUpdateParameters, options?: ApplicationTypesUpdateOptionalParams) => Promise<ApplicationTypeResource>;
 }
 
 // @public
-export type ApplicationTypesListResponse = ApplicationTypeResourceList;
-
-// @public
-export interface ApplicationTypesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ApplicationTypesUpdateResponse = ApplicationTypeResource;
 
 // @public
 export interface ApplicationTypeUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface ApplicationTypeVersionResource extends ProxyResource {
-    appPackageUrl?: string;
+    location?: string;
+    properties?: ApplicationTypeVersionResourceProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ApplicationTypeVersionResourceProperties {
+    appPackageUrl: string;
     readonly provisioningState?: string;
-}
-
-// @public
-export interface ApplicationTypeVersionResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ApplicationTypeVersionResource[];
-}
-
-// @public
-export interface ApplicationTypeVersions {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationTypeVersionsCreateOrUpdateResponse>, ApplicationTypeVersionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<ApplicationTypeVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsGetOptionalParams): Promise<ApplicationTypeVersionsGetResponse>;
-    listByApplicationTypes(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListByApplicationTypesOptionalParams): PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
-    update(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionUpdateParameters, options?: ApplicationTypeVersionsUpdateOptionalParams): Promise<ApplicationTypeVersionsUpdateResponse>;
 }
 
 // @public
@@ -275,72 +172,44 @@ export interface ApplicationTypeVersionsCleanupPolicy {
 }
 
 // @public
-export interface ApplicationTypeVersionsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationTypeVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationTypeVersionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationTypeVersionsCreateOrUpdateResponse = ApplicationTypeVersionResource;
-
-// @public
-export interface ApplicationTypeVersionsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ApplicationTypeVersionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ApplicationTypeVersionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ApplicationTypeVersionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypeVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationTypeVersionsGetResponse = ApplicationTypeVersionResource;
-
-// @public
-export interface ApplicationTypeVersionsListByApplicationTypesNextOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationTypeVersionsListByApplicationTypesNextResponse = ApplicationTypeVersionResourceList;
-
-// @public
-export interface ApplicationTypeVersionsListByApplicationTypesOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypeVersionsOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ApplicationTypeVersionResource>, ApplicationTypeVersionResource>;
+    delete: (resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsGetOptionalParams) => Promise<ApplicationTypeVersionResource>;
+    listByApplicationTypes: (resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListByApplicationTypesOptionalParams) => PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
+    update: (resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionUpdateParameters, options?: ApplicationTypeVersionsUpdateOptionalParams) => Promise<ApplicationTypeVersionResource>;
 }
 
 // @public
-export type ApplicationTypeVersionsListByApplicationTypesResponse = ApplicationTypeVersionResourceList;
-
-// @public
-export interface ApplicationTypeVersionsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationTypeVersionsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ApplicationTypeVersionsUpdateResponse = ApplicationTypeVersionResource;
 
 // @public
 export interface ApplicationTypeVersionUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface ApplicationUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -354,7 +223,7 @@ export interface ApplicationUpgradePolicy {
     upgradeReplicaSetCheckTimeout?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationUserAssignedIdentity {
     name: string;
     principalId: string;
@@ -446,6 +315,14 @@ export interface ClusterUpgradePolicy {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
+
+// @public
 export type Direction = string;
 
 // @public
@@ -458,8 +335,18 @@ export interface EndpointRangeDescription {
 }
 
 // @public
-export interface ErrorModel {
-    error?: ErrorModelError;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -469,10 +356,63 @@ export interface ErrorModelError {
 }
 
 // @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EvictionPolicyType = string;
 
 // @public
 export type FailureAction = string;
+
+// @public
+export type FaultKind = string;
+
+// @public
+export interface FaultSimulation {
+    details?: FaultSimulationDetails;
+    endTime?: Date;
+    simulationId?: string;
+    startTime?: Date;
+    status?: FaultSimulationStatus;
+}
+
+// @public
+export interface FaultSimulationConstraints {
+    expirationTime?: Date;
+}
+
+// @public
+export interface FaultSimulationContent {
+    constraints?: FaultSimulationConstraints;
+    faultKind: FaultKind;
+    force?: boolean;
+}
+
+// @public
+export type FaultSimulationContentUnion = ZoneFaultSimulationContent | FaultSimulationContent;
+
+// @public
+export interface FaultSimulationContentWrapper {
+    parameters: FaultSimulationContentUnion;
+}
+
+// @public
+export interface FaultSimulationDetails {
+    clusterId?: string;
+    nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
+    operationId?: string;
+    parameters?: FaultSimulationContentUnion;
+}
+
+// @public
+export interface FaultSimulationIdContent {
+    simulationId: string;
+}
+
+// @public
+export type FaultSimulationStatus = string;
 
 // @public
 export interface FrontendConfiguration {
@@ -481,9 +421,6 @@ export interface FrontendConfiguration {
     loadBalancerBackendAddressPoolId?: string;
     loadBalancerInboundNatPoolId?: string;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type IPAddressType = string;
@@ -495,12 +432,12 @@ export interface IpConfiguration {
     loadBalancerInboundNatPools?: SubResource[];
     name: string;
     privateIPAddressVersion?: PrivateIPAddressVersion;
-    publicIPAddressConfiguration?: IpConfigurationPublicIPAddressConfiguration;
+    publicIPAddressConfiguration?: IPConfigurationPublicIPAddressConfiguration;
     subnet?: SubResource;
 }
 
 // @public
-export interface IpConfigurationPublicIPAddressConfiguration {
+export interface IPConfigurationPublicIPAddressConfiguration {
     ipTags?: IpTag[];
     name: string;
     publicIPAddressVersion?: PublicIPAddressVersion;
@@ -550,6 +487,14 @@ export enum KnownClusterUpgradeMode {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDirection {
     Inbound = "inbound",
     Outbound = "outbound"
@@ -558,8 +503,11 @@ export enum KnownDirection {
 // @public
 export enum KnownDiskType {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS"
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS"
 }
 
 // @public
@@ -572,6 +520,21 @@ export enum KnownEvictionPolicyType {
 export enum KnownFailureAction {
     Manual = "Manual",
     Rollback = "Rollback"
+}
+
+// @public
+export enum KnownFaultKind {
+    Zone = "Zone"
+}
+
+// @public
+export enum KnownFaultSimulationStatus {
+    Active = "Active",
+    Done = "Done",
+    StartFailed = "StartFailed",
+    Starting = "Starting",
+    StopFailed = "StopFailed",
+    Stopping = "Stopping"
 }
 
 // @public
@@ -688,7 +651,14 @@ export enum KnownRollingUpgradeMode {
 }
 
 // @public
+export enum KnownSecurityEncryptionType {
+    DiskWithVMGuestState = "DiskWithVMGuestState",
+    VMGuestStateOnly = "VMGuestStateOnly"
+}
+
+// @public
 export enum KnownSecurityType {
+    ConfidentialVM = "ConfidentialVM",
     Standard = "Standard",
     TrustedLaunch = "TrustedLaunch"
 }
@@ -741,6 +711,16 @@ export enum KnownServiceScalingTriggerKind {
 }
 
 // @public
+export enum KnownSfmcOperationStatus {
+    Aborted = "Aborted",
+    Canceled = "Canceled",
+    Created = "Created",
+    Failed = "Failed",
+    Started = "Started",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownSkuName {
     Basic = "Basic",
     Standard = "Standard"
@@ -753,10 +733,10 @@ export enum KnownUpdateType {
 }
 
 // @public
-export enum KnownUpgradeMode {
-    Monitored = "Monitored",
-    UnmonitoredAuto = "UnmonitoredAuto",
-    UnmonitoredManual = "UnmonitoredManual"
+export enum KnownVersions {
+    V20241101Preview = "2024-11-01-preview",
+    // (undocumented)
+    V20250301Preview = "2025-03-01-preview"
 }
 
 // @public
@@ -798,12 +778,12 @@ export interface LongRunningOperationResult {
 }
 
 // @public
-export interface ManagedApplyMaintenanceWindow {
-    post(resourceGroupName: string, clusterName: string, options?: ManagedApplyMaintenanceWindowPostOptionalParams): Promise<void>;
+export interface ManagedApplyMaintenanceWindowOperations {
+    post: (resourceGroupName: string, clusterName: string, options?: ManagedApplyMaintenanceWindowPostOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface ManagedApplyMaintenanceWindowPostOptionalParams extends coreClient.OperationOptions {
+export interface ManagedApplyMaintenanceWindowPostOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -813,22 +793,37 @@ export interface ManagedAzResiliencyStatus {
 }
 
 // @public
-export interface ManagedAzResiliencyStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedAzResiliencyStatusGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ManagedAzResiliencyStatusGetResponse = ManagedAzResiliencyStatus;
 
 // @public
 export interface ManagedAzResiliencyStatusOperations {
-    get(resourceGroupName: string, clusterName: string, options?: ManagedAzResiliencyStatusGetOptionalParams): Promise<ManagedAzResiliencyStatusGetResponse>;
+    get: (resourceGroupName: string, clusterName: string, options?: ManagedAzResiliencyStatusGetOptionalParams) => Promise<ManagedAzResiliencyStatus>;
 }
 
 // @public
-export interface ManagedCluster extends Resource {
+export interface ManagedCluster extends TrackedResource {
+    readonly etag?: string;
+    properties?: ManagedClusterProperties;
+    sku: Sku;
+}
+
+// @public
+export type ManagedClusterAddOnFeature = string;
+
+// @public
+export interface ManagedClusterCodeVersionResult {
+    id?: string;
+    name?: string;
+    properties?: ManagedClusterVersionDetails;
+    type?: string;
+}
+
+// @public
+export interface ManagedClusterProperties {
     addonFeatures?: ManagedClusterAddOnFeature[];
     adminPassword?: string;
-    adminUserName?: string;
+    adminUserName: string;
     allocatedOutboundPorts?: number;
     allowRdpAccess?: boolean;
     applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
@@ -844,7 +839,7 @@ export interface ManagedCluster extends Resource {
     clusterUpgradeCadence?: ClusterUpgradeCadence;
     clusterUpgradeMode?: ClusterUpgradeMode;
     ddosProtectionPlanId?: string;
-    dnsName?: string;
+    dnsName: string;
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
@@ -862,169 +857,117 @@ export interface ManagedCluster extends Resource {
     publicIPPrefixId?: string;
     publicIPv6PrefixId?: string;
     serviceEndpoints?: ServiceEndpoint[];
-    sku: Sku;
     subnetId?: string;
     upgradeDescription?: ClusterUpgradePolicy;
     useCustomVnet?: boolean;
+    vmImage?: string;
     zonalResiliency?: boolean;
     zonalUpdateMode?: ZonalUpdateMode;
 }
 
 // @public
-export type ManagedClusterAddOnFeature = string;
-
-// @public
-export interface ManagedClusterCodeVersionResult {
-    clusterCodeVersion?: string;
-    id?: string;
-    name?: string;
-    osType?: OsType;
-    supportExpiryUtc?: string;
-    type?: string;
-}
-
-// @public
-export interface ManagedClusterListResult {
-    nextLink?: string;
-    // (undocumented)
-    value?: ManagedCluster[];
-}
-
-// @public
-export interface ManagedClusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedClustersGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
-    listBySubscription(options?: ManagedClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
-    update(resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams): Promise<ManagedClustersUpdateResponse>;
-}
-
-// @public
-export interface ManagedClustersCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedClustersCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
-
-// @public
-export interface ManagedClustersDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedClustersDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ManagedClustersGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersGetFaultSimulationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClustersGetResponse = ManagedCluster;
-
-// @public
-export interface ManagedClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClustersListByResourceGroupNextResponse = ManagedClusterListResult;
-
-// @public
-export interface ManagedClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClustersListByResourceGroupResponse = ManagedClusterListResult;
-
-// @public
-export interface ManagedClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClustersListBySubscriptionNextResponse = ManagedClusterListResult;
-
-// @public
-export interface ManagedClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersListFaultSimulationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClustersListBySubscriptionResponse = ManagedClusterListResult;
-
-// @public
-export interface ManagedClustersUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClustersOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ManagedClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ManagedClustersGetOptionalParams) => Promise<ManagedCluster>;
+    getFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersGetFaultSimulationOptionalParams) => Promise<FaultSimulation>;
+    listByResourceGroup: (resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedCluster>;
+    listBySubscription: (options?: ManagedClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ManagedCluster>;
+    listFaultSimulation: (resourceGroupName: string, clusterName: string, options?: ManagedClustersListFaultSimulationOptionalParams) => PagedAsyncIterableIterator<FaultSimulation>;
+    startFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationContentWrapper, options?: ManagedClustersStartFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+    stopFaultSimulation: (resourceGroupName: string, clusterName: string, parameters: FaultSimulationIdContent, options?: ManagedClustersStopFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+    update: (resourceGroupName: string, clusterName: string, parameters: ManagedClusterUpdateParameters, options?: ManagedClustersUpdateOptionalParams) => Promise<ManagedCluster>;
 }
 
 // @public
-export type ManagedClustersUpdateResponse = ManagedCluster;
+export interface ManagedClustersStartFaultSimulationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedClustersStopFaultSimulationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedClustersUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface ManagedClusterUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface ManagedClusterVersion {
-    get(location: string, clusterVersion: string, options?: ManagedClusterVersionGetOptionalParams): Promise<ManagedClusterVersionGetResponse>;
-    getByEnvironment(location: string, environment: ManagedClusterVersionEnvironment, clusterVersion: string, options?: ManagedClusterVersionGetByEnvironmentOptionalParams): Promise<ManagedClusterVersionGetByEnvironmentResponse>;
-    list(location: string, options?: ManagedClusterVersionListOptionalParams): Promise<ManagedClusterVersionListResponse>;
-    listByEnvironment(location: string, environment: ManagedClusterVersionEnvironment, options?: ManagedClusterVersionListByEnvironmentOptionalParams): Promise<ManagedClusterVersionListByEnvironmentResponse>;
+export interface ManagedClusterVersionDetails {
+    clusterCodeVersion?: string;
+    osType?: OsType;
+    supportExpiryUtc?: Date;
 }
 
 // @public
 export type ManagedClusterVersionEnvironment = string;
 
 // @public
-export interface ManagedClusterVersionGetByEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClusterVersionGetByEnvironmentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClusterVersionGetByEnvironmentResponse = ManagedClusterCodeVersionResult;
-
-// @public
-export interface ManagedClusterVersionGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClusterVersionGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClusterVersionGetResponse = ManagedClusterCodeVersionResult;
-
-// @public
-export interface ManagedClusterVersionListByEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClusterVersionListByEnvironmentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClusterVersionListByEnvironmentResponse = ManagedClusterCodeVersionResult[];
-
-// @public
-export interface ManagedClusterVersionListOptionalParams extends coreClient.OperationOptions {
+export interface ManagedClusterVersionListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedClusterVersionListResponse = ManagedClusterCodeVersionResult[];
+export interface ManagedClusterVersionOperations {
+    get: (location: string, clusterVersion: string, options?: ManagedClusterVersionGetOptionalParams) => Promise<ManagedClusterCodeVersionResult>;
+    getByEnvironment: (location: string, environment: ManagedClusterVersionEnvironment, clusterVersion: string, options?: ManagedClusterVersionGetByEnvironmentOptionalParams) => Promise<ManagedClusterCodeVersionResult>;
+    list: (location: string, options?: ManagedClusterVersionListOptionalParams) => Promise<ManagedClusterCodeVersionResult[]>;
+    listByEnvironment: (location: string, environment: ManagedClusterVersionEnvironment, options?: ManagedClusterVersionListByEnvironmentOptionalParams) => Promise<ManagedClusterCodeVersionResult[]>;
+}
 
 // @public
 export interface ManagedIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ManagedIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -1042,57 +985,30 @@ export interface ManagedMaintenanceWindowStatus {
 }
 
 // @public
-export interface ManagedMaintenanceWindowStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedMaintenanceWindowStatusGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ManagedMaintenanceWindowStatusGetResponse = ManagedMaintenanceWindowStatus;
 
 // @public
 export interface ManagedMaintenanceWindowStatusOperations {
-    get(resourceGroupName: string, clusterName: string, options?: ManagedMaintenanceWindowStatusGetOptionalParams): Promise<ManagedMaintenanceWindowStatusGetResponse>;
-}
-
-// @public
-export interface ManagedProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+    get: (resourceGroupName: string, clusterName: string, options?: ManagedMaintenanceWindowStatusGetOptionalParams) => Promise<ManagedMaintenanceWindowStatus>;
 }
 
 // @public
 export type ManagedResourceProvisioningState = string;
 
 // @public
-export interface ManagedUnsupportedVMSizes {
-    get(location: string, vmSize: string, options?: ManagedUnsupportedVMSizesGetOptionalParams): Promise<ManagedUnsupportedVMSizesGetResponse>;
-    list(location: string, options?: ManagedUnsupportedVMSizesListOptionalParams): PagedAsyncIterableIterator<ManagedVMSize>;
+export interface ManagedUnsupportedVMSizesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ManagedUnsupportedVMSizesGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedUnsupportedVMSizesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedUnsupportedVMSizesGetResponse = ManagedVMSize;
-
-// @public
-export interface ManagedUnsupportedVMSizesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedUnsupportedVMSizesOperations {
+    get: (location: string, vmSize: string, options?: ManagedUnsupportedVMSizesGetOptionalParams) => Promise<ManagedVMSize>;
+    list: (location: string, options?: ManagedUnsupportedVMSizesListOptionalParams) => PagedAsyncIterableIterator<ManagedVMSize>;
 }
-
-// @public
-export type ManagedUnsupportedVMSizesListNextResponse = ManagedVMSizesResult;
-
-// @public
-export interface ManagedUnsupportedVMSizesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ManagedUnsupportedVMSizesListResponse = ManagedVMSizesResult;
 
 // @public
 export interface ManagedVMSize {
@@ -1100,12 +1016,6 @@ export interface ManagedVMSize {
     readonly name?: string;
     readonly properties?: VMSize;
     readonly type?: string;
-}
-
-// @public
-export interface ManagedVMSizesResult {
-    readonly nextLink?: string;
-    value?: ManagedVMSize[];
 }
 
 // @public
@@ -1136,62 +1046,10 @@ export interface NetworkSecurityRule {
 }
 
 // @public
-export interface NodeType extends ManagedProxyResource {
-    additionalDataDisks?: VmssDataDisk[];
-    additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
-    applicationPorts?: EndpointRangeDescription;
-    capacities?: {
-        [propertyName: string]: string;
-    };
-    computerNamePrefix?: string;
-    dataDiskLetter?: string;
-    dataDiskSizeGB?: number;
-    dataDiskType?: DiskType;
-    dscpConfigurationId?: string;
-    enableAcceleratedNetworking?: boolean;
-    enableEncryptionAtHost?: boolean;
-    enableNodePublicIP?: boolean;
-    enableNodePublicIPv6?: boolean;
-    enableOverProvisioning?: boolean;
-    ephemeralPorts?: EndpointRangeDescription;
-    evictionPolicy?: EvictionPolicyType;
-    frontendConfigurations?: FrontendConfiguration[];
-    hostGroupId?: string;
-    isPrimary?: boolean;
-    isSpotVM?: boolean;
-    isStateless?: boolean;
-    multiplePlacementGroups?: boolean;
-    natConfigurations?: NodeTypeNatConfig[];
-    natGatewayId?: string;
-    networkSecurityRules?: NetworkSecurityRule[];
-    placementProperties?: {
-        [propertyName: string]: string;
-    };
-    readonly provisioningState?: ManagedResourceProvisioningState;
-    secureBootEnabled?: boolean;
-    securityType?: SecurityType;
-    serviceArtifactReferenceId?: string;
+export interface NodeType extends ProxyResource {
+    properties?: NodeTypeProperties;
     sku?: NodeTypeSku;
-    spotRestoreTimeout?: string;
-    subnetId?: string;
-    useDefaultPublicLoadBalancer?: boolean;
-    useEphemeralOSDisk?: boolean;
-    useTempDataDisk?: boolean;
-    vmApplications?: VmApplication[];
-    vmExtensions?: VmssExtension[];
-    vmImageOffer?: string;
-    vmImagePlan?: VmImagePlan;
-    vmImagePublisher?: string;
-    vmImageResourceId?: string;
-    vmImageSku?: string;
-    vmImageVersion?: string;
-    vmInstanceCount?: number;
-    vmManagedIdentity?: VmManagedIdentity;
-    vmSecrets?: VaultSecretGroup[];
-    vmSetupActions?: VmSetupAction[];
-    vmSharedGalleryImageId?: string;
-    vmSize?: string;
-    zones?: string[];
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1209,15 +1067,11 @@ export interface NodeTypeAvailableSku {
 }
 
 // @public
-export interface NodeTypeListResult {
-    nextLink?: string;
-    value?: NodeType[];
-}
-
-// @public
-export interface NodeTypeListSkuResult {
-    nextLink?: string;
-    value?: NodeTypeAvailableSku[];
+export interface NodeTypeFaultSimulation {
+    nodeTypeName?: string;
+    operationId?: string;
+    operationStatus?: SfmcOperationStatus;
+    status?: FaultSimulationStatus;
 }
 
 // @public
@@ -1228,68 +1082,88 @@ export interface NodeTypeNatConfig {
 }
 
 // @public
-export interface NodeTypes {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesCreateOrUpdateResponse>, NodeTypesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams): Promise<NodeTypesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams): Promise<void>;
-    beginDeleteNode(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteNodeAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams): Promise<void>;
-    beginReimage(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginReimageAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NodeTypesUpdateResponse>, NodeTypesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): Promise<NodeTypesUpdateResponse>;
-    get(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams): Promise<NodeTypesGetResponse>;
-    listByManagedClusters(resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams): PagedAsyncIterableIterator<NodeType>;
+export interface NodeTypeProperties {
+    additionalDataDisks?: VmssDataDisk[];
+    additionalNetworkInterfaceConfigurations?: AdditionalNetworkInterfaceConfiguration[];
+    applicationPorts?: EndpointRangeDescription;
+    capacities?: Record<string, string>;
+    computerNamePrefix?: string;
+    dataDiskLetter?: string;
+    dataDiskSizeGB?: number;
+    dataDiskType?: DiskType;
+    dscpConfigurationId?: string;
+    enableAcceleratedNetworking?: boolean;
+    enableEncryptionAtHost?: boolean;
+    enableNodePublicIP?: boolean;
+    enableNodePublicIPv6?: boolean;
+    enableOverProvisioning?: boolean;
+    ephemeralPorts?: EndpointRangeDescription;
+    evictionPolicy?: EvictionPolicyType;
+    frontendConfigurations?: FrontendConfiguration[];
+    hostGroupId?: string;
+    isPrimary: boolean;
+    isSpotVM?: boolean;
+    isStateless?: boolean;
+    multiplePlacementGroups?: boolean;
+    natConfigurations?: NodeTypeNatConfig[];
+    natGatewayId?: string;
+    networkSecurityRules?: NetworkSecurityRule[];
+    placementProperties?: Record<string, string>;
+    readonly provisioningState?: ManagedResourceProvisioningState;
+    secureBootEnabled?: boolean;
+    securityEncryptionType?: SecurityEncryptionType;
+    securityType?: SecurityType;
+    serviceArtifactReferenceId?: string;
+    spotRestoreTimeout?: string;
+    subnetId?: string;
+    useDefaultPublicLoadBalancer?: boolean;
+    useEphemeralOSDisk?: boolean;
+    useTempDataDisk?: boolean;
+    vmApplications?: VmApplication[];
+    vmExtensions?: VmssExtension[];
+    vmImageOffer?: string;
+    vmImagePlan?: VmImagePlan;
+    vmImagePublisher?: string;
+    vmImageResourceId?: string;
+    vmImageSku?: string;
+    vmImageVersion?: string;
+    vmInstanceCount: number;
+    vmManagedIdentity?: VmManagedIdentity;
+    vmSecrets?: VaultSecretGroup[];
+    vmSetupActions?: VmSetupAction[];
+    vmSharedGalleryImageId?: string;
+    vmSize?: string;
+    zoneBalance?: boolean;
+    zones?: string[];
 }
 
 // @public
-export interface NodeTypesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface NodeTypesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NodeTypesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NodeTypesCreateOrUpdateResponse = NodeType;
-
-// @public
-export interface NodeTypesDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface NodeTypesDeleteNodeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface NodeTypesDeleteNodeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NodeTypesDeallocateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NodeTypesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NodeTypesDeleteNodeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NodeTypesGetOptionalParams extends coreClient.OperationOptions {
+export interface NodeTypesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type NodeTypesGetResponse = NodeType;
+export interface NodeTypesGetFaultSimulationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface NodeTypesGetOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface NodeTypeSku {
@@ -1307,79 +1181,78 @@ export interface NodeTypeSkuCapacity {
 }
 
 // @public
-export interface NodeTypeSkus {
-    list(resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypeSkusListOptionalParams): PagedAsyncIterableIterator<NodeTypeAvailableSku>;
-}
-
-// @public
 export type NodeTypeSkuScaleType = string;
 
 // @public
-export interface NodeTypeSkusListNextOptionalParams extends coreClient.OperationOptions {
+export interface NodeTypeSkusListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NodeTypeSkusListNextResponse = NodeTypeListSkuResult;
-
-// @public
-export interface NodeTypeSkusListOptionalParams extends coreClient.OperationOptions {
+export interface NodeTypeSkusOperations {
+    list: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypeSkusListOptionalParams) => PagedAsyncIterableIterator<NodeTypeAvailableSku>;
 }
 
 // @public
-export type NodeTypeSkusListResponse = NodeTypeListSkuResult;
-
-// @public
-export interface NodeTypesListByManagedClustersNextOptionalParams extends coreClient.OperationOptions {
+export interface NodeTypesListByManagedClustersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NodeTypesListByManagedClustersNextResponse = NodeTypeListResult;
-
-// @public
-export interface NodeTypesListByManagedClustersOptionalParams extends coreClient.OperationOptions {
+export interface NodeTypesListFaultSimulationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NodeTypesListByManagedClustersResponse = NodeTypeListResult;
-
-// @public
-export interface NodeTypesReimageHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
+export interface NodeTypesOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeType, options?: NodeTypesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NodeType>, NodeType>;
+    deallocate: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeallocateOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteNode: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesDeleteNodeOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams) => Promise<NodeType>;
+    getFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesGetFaultSimulationOptionalParams) => Promise<FaultSimulation>;
+    listByManagedClusters: (resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams) => PagedAsyncIterableIterator<NodeType>;
+    listFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesListFaultSimulationOptionalParams) => PagedAsyncIterableIterator<FaultSimulation>;
+    redeploy: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRedeployOptionalParams) => PollerLike<OperationState<void>, void>;
+    reimage: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesReimageOptionalParams) => PollerLike<OperationState<void>, void>;
+    restart: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    startFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentWrapper, options?: NodeTypesStartFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+    stopFaultSimulation: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
+    update: (resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams) => PollerLike<OperationState<NodeType>, NodeType>;
 }
 
 // @public
-export interface NodeTypesReimageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NodeTypesRedeployOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NodeTypesRestartHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface NodeTypesRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NodeTypesReimageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface NodeTypesUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface NodeTypesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NodeTypesRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type NodeTypesUpdateResponse = NodeType;
+export interface NodeTypesStartFaultSimulationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NodeTypesStartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NodeTypesStopFaultSimulationOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NodeTypesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface NodeTypeSupportedSku {
@@ -1390,19 +1263,11 @@ export interface NodeTypeSupportedSku {
 // @public
 export interface NodeTypeUpdateParameters {
     sku?: NodeTypeSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export type NsgProtocol = string;
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    value?: OperationResult[];
-}
 
 // @public
 export interface OperationResult {
@@ -1414,59 +1279,52 @@ export interface OperationResult {
 }
 
 // @public
-export interface OperationResults {
-    get(location: string, operationId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
+export interface OperationResultsGetOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface OperationResultsGetHeaders {
-    location?: string;
+export interface OperationResultsOperations {
+    get: (location: string, operationId: string, options?: OperationResultsGetOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface OperationResultsGetOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationResultsGetResponse = OperationResultsGetHeaders;
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationResult>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusOperations {
+    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<LongRunningOperationResult>;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export interface OperationStatus {
-    get(location: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<OperationStatusGetResponse>;
-}
-
-// @public
-export interface OperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationStatusGetResponse = LongRunningOperationResult;
 
 // @public
 export type OsType = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface Partition {
-    partitionScheme: "Named" | "Singleton" | "UniformInt64Range";
+    // (undocumented)
+    partitionScheme: PartitionScheme;
 }
 
 // @public
@@ -1480,8 +1338,8 @@ export interface PartitionInstanceCountScaleMechanism extends ScalingMechanism {
 // @public
 export type PartitionScheme = string;
 
-// @public (undocumented)
-export type PartitionUnion = Partition | NamedPartitionScheme | SingletonPartitionScheme | UniformInt64RangePartitionScheme;
+// @public
+export type PartitionUnion = UniformInt64RangePartitionScheme | SingletonPartitionScheme | NamedPartitionScheme | Partition;
 
 // @public
 export type PrivateEndpointNetworkPolicies = string;
@@ -1499,15 +1357,7 @@ export type ProbeProtocol = string;
 export type Protocol = string;
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1515,14 +1365,9 @@ export type PublicIPAddressVersion = string;
 
 // @public
 export interface Resource {
-    readonly etag?: string;
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -1532,6 +1377,16 @@ export interface ResourceAzStatus {
     readonly isZoneResilient?: boolean;
     readonly resourceName?: string;
     readonly resourceType?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceFabricClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1554,11 +1409,12 @@ export interface RuntimeResumeApplicationUpgradeParameters {
 
 // @public
 export interface ScalingMechanism {
-    kind: "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount";
+    // (undocumented)
+    kind: ServiceScalingMechanismKind;
 }
 
-// @public (undocumented)
-export type ScalingMechanismUnion = ScalingMechanism | AddRemoveIncrementalNamedPartitionScalingMechanism | PartitionInstanceCountScaleMechanism;
+// @public
+export type ScalingMechanismUnion = AddRemoveIncrementalNamedPartitionScalingMechanism | PartitionInstanceCountScaleMechanism | ScalingMechanism;
 
 // @public
 export interface ScalingPolicy {
@@ -1568,11 +1424,15 @@ export interface ScalingPolicy {
 
 // @public
 export interface ScalingTrigger {
-    kind: "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger";
+    // (undocumented)
+    kind: ServiceScalingTriggerKind;
 }
 
-// @public (undocumented)
-export type ScalingTriggerUnion = ScalingTrigger | AveragePartitionLoadScalingTrigger | AverageServiceLoadScalingTrigger;
+// @public
+export type ScalingTriggerUnion = AveragePartitionLoadScalingTrigger | AverageServiceLoadScalingTrigger | ScalingTrigger;
+
+// @public
+export type SecurityEncryptionType = string;
 
 // @public
 export type SecurityType = string;
@@ -1593,51 +1453,29 @@ export interface ServiceEndpoint {
 }
 
 // @public (undocumented)
-export class ServiceFabricManagedClustersManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ServiceFabricManagedClustersManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    applications: Applications;
-    // (undocumented)
-    applicationTypes: ApplicationTypes;
-    // (undocumented)
-    applicationTypeVersions: ApplicationTypeVersions;
-    // (undocumented)
-    managedApplyMaintenanceWindow: ManagedApplyMaintenanceWindow;
-    // (undocumented)
-    managedAzResiliencyStatusOperations: ManagedAzResiliencyStatusOperations;
-    // (undocumented)
-    managedClusters: ManagedClusters;
-    // (undocumented)
-    managedClusterVersion: ManagedClusterVersion;
-    // (undocumented)
-    managedMaintenanceWindowStatusOperations: ManagedMaintenanceWindowStatusOperations;
-    // (undocumented)
-    managedUnsupportedVMSizes: ManagedUnsupportedVMSizes;
-    // (undocumented)
-    nodeTypes: NodeTypes;
-    // (undocumented)
-    nodeTypeSkus: NodeTypeSkus;
-    // (undocumented)
-    operationResults: OperationResults;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    operationStatus: OperationStatus;
-    // (undocumented)
-    services: Services;
-    // (undocumented)
-    subscriptionId: string;
+export class ServiceFabricClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ServiceFabricClientOptionalParams);
+    readonly applications: ApplicationsOperations;
+    readonly applicationTypes: ApplicationTypesOperations;
+    readonly applicationTypeVersions: ApplicationTypeVersionsOperations;
+    readonly managedApplyMaintenanceWindow: ManagedApplyMaintenanceWindowOperations;
+    readonly managedAzResiliencyStatus: ManagedAzResiliencyStatusOperations;
+    readonly managedClusters: ManagedClustersOperations;
+    readonly managedClusterVersion: ManagedClusterVersionOperations;
+    readonly managedMaintenanceWindowStatus: ManagedMaintenanceWindowStatusOperations;
+    readonly managedUnsupportedVMSizes: ManagedUnsupportedVMSizesOperations;
+    readonly nodeTypes: NodeTypesOperations;
+    readonly nodeTypeSkus: NodeTypeSkusOperations;
+    readonly operationResults: OperationResultsOperations;
+    readonly operations: OperationsOperations;
+    readonly operationStatus: OperationStatusOperations;
+    readonly pipeline: Pipeline;
+    readonly services: ServicesOperations;
 }
 
 // @public
-export interface ServiceFabricManagedClustersManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface ServiceFabricClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -1666,19 +1504,21 @@ export interface ServicePlacementInvalidDomainPolicy extends ServicePlacementPol
 
 // @public
 export interface ServicePlacementNonPartiallyPlaceServicePolicy extends ServicePlacementPolicy {
+    // (undocumented)
     type: "NonPartiallyPlaceService";
 }
 
 // @public
 export interface ServicePlacementPolicy {
-    type: "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomain" | "RequiredDomainDistribution";
+    // (undocumented)
+    type: ServicePlacementPolicyType;
 }
 
 // @public
 export type ServicePlacementPolicyType = string;
 
-// @public (undocumented)
-export type ServicePlacementPolicyUnion = ServicePlacementPolicy | ServicePlacementInvalidDomainPolicy | ServicePlacementNonPartiallyPlaceServicePolicy | ServicePlacementPreferPrimaryDomainPolicy | ServicePlacementRequiredDomainPolicy | ServicePlacementRequireDomainDistributionPolicy;
+// @public
+export type ServicePlacementPolicyUnion = ServicePlacementInvalidDomainPolicy | ServicePlacementRequiredDomainPolicy | ServicePlacementPreferPrimaryDomainPolicy | ServicePlacementRequireDomainDistributionPolicy | ServicePlacementNonPartiallyPlaceServicePolicy | ServicePlacementPolicy;
 
 // @public
 export interface ServicePlacementPreferPrimaryDomainPolicy extends ServicePlacementPolicy {
@@ -1700,14 +1540,9 @@ export interface ServicePlacementRequireDomainDistributionPolicy extends Service
 
 // @public
 export interface ServiceResource extends ProxyResource {
+    location?: string;
     properties?: ServiceResourcePropertiesUnion;
-}
-
-// @public
-export interface ServiceResourceList {
-    readonly nextLink?: string;
-    // (undocumented)
-    value?: ServiceResource[];
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1730,19 +1565,8 @@ export interface ServiceResourcePropertiesBase {
     servicePlacementPolicies?: ServicePlacementPolicyUnion[];
 }
 
-// @public (undocumented)
-export type ServiceResourcePropertiesUnion = ServiceResourceProperties | StatefulServiceProperties | StatelessServiceProperties;
-
 // @public
-export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
-    listByApplications(resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
-    update(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceUpdateParameters, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
-}
+export type ServiceResourcePropertiesUnion = StatefulServiceProperties | StatelessServiceProperties | ServiceResourceProperties;
 
 // @public
 export type ServiceScalingMechanismKind = string;
@@ -1751,59 +1575,35 @@ export type ServiceScalingMechanismKind = string;
 export type ServiceScalingTriggerKind = string;
 
 // @public
-export interface ServicesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServicesCreateOrUpdateResponse = ServiceResource;
-
-// @public
-export interface ServicesDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface ServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesGetResponse = ServiceResource;
-
-// @public
-export interface ServicesListByApplicationsNextOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListByApplicationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesListByApplicationsNextResponse = ServiceResourceList;
-
-// @public
-export interface ServicesListByApplicationsOptionalParams extends coreClient.OperationOptions {
+export interface ServicesOperations {
+    createOrUpdate: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ServiceResource>, ServiceResource>;
+    delete: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<ServiceResource>;
+    listByApplications: (resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams) => PagedAsyncIterableIterator<ServiceResource>;
+    update: (resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceUpdateParameters, options?: ServicesUpdateOptionalParams) => Promise<ServiceResource>;
 }
 
 // @public
-export type ServicesListByApplicationsResponse = ServiceResourceList;
-
-// @public
-export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServicesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServicesUpdateResponse = ServiceResource;
 
 // @public
 export interface ServiceTypeHealthPolicy {
@@ -1814,9 +1614,7 @@ export interface ServiceTypeHealthPolicy {
 
 // @public
 export interface ServiceUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1830,6 +1628,9 @@ export interface SettingsSectionDescription {
     name: string;
     parameters: SettingsParameterDescription[];
 }
+
+// @public
+export type SfmcOperationStatus = string;
 
 // @public
 export interface SingletonPartitionScheme extends Partition {
@@ -1882,10 +1683,16 @@ export interface SubResource {
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: string;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1900,9 +1707,6 @@ export interface UniformInt64RangePartitionScheme extends Partition {
 export type UpdateType = string;
 
 // @public
-export type UpgradeMode = string;
-
-// @public (undocumented)
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -1961,15 +1765,20 @@ export interface VmssDataDisk {
 
 // @public
 export interface VmssExtension {
+    name: string;
+    properties: VmssExtensionProperties;
+}
+
+// @public
+export interface VmssExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    name: string;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: Record<string, any>;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher: string;
-    settings?: Record<string, unknown>;
+    settings?: Record<string, any>;
     setupOrder?: VmssExtensionSetupOrder[];
     type: string;
     typeHandlerVersion: string;
@@ -1980,6 +1789,12 @@ export type VmssExtensionSetupOrder = string;
 
 // @public
 export type ZonalUpdateMode = string;
+
+// @public
+export interface ZoneFaultSimulationContent extends FaultSimulationContent {
+    faultKind: "Zone";
+    zones?: string[];
+}
 
 // (No @packageDocumentation comment for this package)
 
