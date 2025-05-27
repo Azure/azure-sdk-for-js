@@ -233,10 +233,8 @@ export async function uploadFile(
   );
   // file name as blob name
   const blobName = nodePath.basename(filePath);
-  console.log("[uploadFileAndCreate] Start uploading blobName", blobName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
   await blockBlobClient.uploadStream(fs.createReadStream(filePath));
-  console.log("[uploadFileAndCreate] Done uploading blobName", blobName);
 
   const datasetVersion = await createOrUpdate(context, name, outputVersion, {
     name: name,
@@ -244,7 +242,6 @@ export async function uploadFile(
     type: "uri_file",
     dataUri: blockBlobClient.url,
   });
-  console.log("[uploadFileAndCreate] Done creating dataset version", datasetVersion);
   return datasetVersion;
 }
 
