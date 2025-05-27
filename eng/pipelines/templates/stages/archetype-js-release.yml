@@ -173,8 +173,8 @@ stages:
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
-                      name: azsdk-pool-mms-win-2022-general
-                      image: azsdk-pool-mms-win-2022-1espt
+                      name: azsdk-pool
+                      image: windows-2022
                       os: windows
                     steps:
                       - checkout: self
