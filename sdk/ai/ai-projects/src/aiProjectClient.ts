@@ -137,8 +137,11 @@ export class AIProjectClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
   public get agents(): AgentsClient {
+    const { apiVersion, ...clientOptions } = this._options;
+
     if (!this._agents) {
       this._agents = new AgentsClient(this._endpoint, this._credential, {
+        ...clientOptions,
         userAgentOptions: this._cognitiveScopeClient.getUserAgent(),
       });
     }
