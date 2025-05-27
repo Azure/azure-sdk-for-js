@@ -9,6 +9,7 @@ import {
 import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
 import { HealthStatus, OperationType, ResourceType } from "../../../src/common/index.js";
 import { Constants, ErrorResponse, HTTPMethod, RequestContext } from "../../../src/index.js";
+import { mock } from "node:test";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",
@@ -257,6 +258,7 @@ describe("GlobalPartitionEndpointManager", () => {
     let globalPartitionEndpointManager: GlobalPartitionEndpointManager;
     beforeEach(() => {
       const mockGEM = createMockGlobalEndpointManager();
+      mockGEM.canUseMultipleWriteLocations = () => true; // Enable multiple write locations to have multimaster account
       globalPartitionEndpointManager = createMockGlobalPartitionEndpointManager(mockGEM);
     });
 
