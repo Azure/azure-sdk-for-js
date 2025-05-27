@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.8 (2025-05-21)
+
+### Bugs Fixed
+
+- Upgrading ai-agents package to fix bugs with bing grounding serialization and url encoding
+
+### Other Changes
+
+- Updated to OpenTelemetry v2 packages.
+
 ## 1.0.0-beta.7 (2025-05-16)
 
 ### Breaking changes

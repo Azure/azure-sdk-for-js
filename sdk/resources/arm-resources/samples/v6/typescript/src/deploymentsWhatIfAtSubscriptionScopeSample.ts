@@ -17,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the subscription.
  *
  * @summary Returns changes that will be made by the deployment if executed at the scope of the subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentWhatIfOnSubscription.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentWhatIfOnSubscription.json
  */
 async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
   const subscriptionId =

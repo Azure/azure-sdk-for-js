@@ -657,7 +657,16 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao
@@ -877,6 +886,9 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/sitemanager/arm-sitemanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
@@ -1610,7 +1622,7 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /common/tools/ @Azure/azure-sdk-js-dev
 
 # PRLabel: %dev-tool
-/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
+/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv @maorleger
 
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng

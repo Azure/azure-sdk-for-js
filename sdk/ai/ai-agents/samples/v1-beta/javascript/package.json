@@ -28,7 +28,6 @@
   "dependencies": {
     "@azure/ai-agents": "next",
     "dotenv": "latest",
-    "@azure/core-util": "^1.9.0",
     "@azure/identity": "^4.3.0"
   }
 }
