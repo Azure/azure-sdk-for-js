@@ -43,12 +43,15 @@ export function bearerAuthenticationPolicy(
       // Ensure allowInsecureConnection is explicitly set when sending request to non-https URLs
       ensureSecureConnection(request, options);
 
+      // Check if there is an explicit noAuth scheme override in the request
+      const isNoAuth = isNoAuthRequest(request, options);
+
       const scheme = (request.authSchemes ?? options.authSchemes)?.find(
         (x) => x.kind === "http" && x.scheme === "bearer",
       );
 
       // Skip adding authentication header if no bearer authentication scheme is found
-      if (!scheme) {
+      if (!scheme || isNoAuth) {
         return next(request);
       }
 
@@ -59,4 +62,22 @@ export function bearerAuthenticationPolicy(
       return next(request);
     },
   };
+}
+
+/**
+ * Checks if the request explicitly specifies no authentication is required
+ * @param request - The pipeline request
+ * @param options - The bearer authentication policy options
+ * @returns boolean indicating if authentication should be skipped
+ */
+function isNoAuthRequest(
+  request: PipelineRequest,
+  options: BearerAuthenticationPolicyOptions
+): boolean {
+  const authSchemes = request.authSchemes ?? options.authSchemes;
+  if (!authSchemes) {
+    return false;
+  }
+
+  return authSchemes.some((scheme) => scheme.kind === "noAuth");
 }
