@@ -185,14 +185,11 @@ describe("Per Partition Automatic Failover", { timeout: 30000 }, () => {
       readPartitionKeyRangesResponse,
       SuccessResponse,
 
-      readPartitionKeyRangesResponse,
       ServiceUnavailableResponse,
       SuccessResponse,
 
-      readPartitionKeyRangesResponse,
       SuccessResponse,
 
-      readPartitionKeyRangesResponse,
       WriteForbiddenResponse,
       WriteForbiddenResponse,
       databaseAccountResponse,

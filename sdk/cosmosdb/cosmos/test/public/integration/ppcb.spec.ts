@@ -168,14 +168,6 @@ const ServiceUnavailableResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
-const WriteForbiddenResponse = {
-  code: StatusCodes.Forbidden,
-  substatus: SubStatusCodes.WriteForbidden,
-  result: {},
-  headers: {},
-  diagnostics: getEmptyCosmosDiagnostics(),
-};
-
 const SuccessResponse = {
   code: StatusCodes.Created,
   result: {},
@@ -191,16 +183,11 @@ describe("Per Partition Circuit Breaker", { timeout: 30000 }, () => {
     const responses = [
       databaseAccountResponse,
       collectionResponse,
-      ...Array.from({ length: 11 }).flatMap(() => [
-        readPartitionKeyRangesResponse,
-        ServiceUnavailableResponse,
-        SuccessResponse,
-      ]),
-
       readPartitionKeyRangesResponse,
+      ...Array.from({ length: 11 }).flatMap(() => [ServiceUnavailableResponse, SuccessResponse]),
+
       SuccessResponse,
 
-      readPartitionKeyRangesResponse,
       ServiceUnavailableResponse,
       SuccessResponse,
     ];
