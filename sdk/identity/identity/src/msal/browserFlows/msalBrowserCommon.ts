@@ -141,12 +141,6 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
         msalApp.setActiveAccount(result.account);
         return msalToPublic(clientId, result.account);
       }
-
-      // If by this point we happen to have an active account, we should stop trying to parse this.
-      const activeAccount = msalApp.getActiveAccount();
-      if (activeAccount) {
-        return msalToPublic(clientId, activeAccount);
-      }
     } catch (e: any) {
       logger.info(`Failed to acquire token through MSAL. ${e.message}`);
     }
