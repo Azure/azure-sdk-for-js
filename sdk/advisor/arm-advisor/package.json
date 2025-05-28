@@ -8,10 +8,10 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/core-auth": "workspace:*",
-    "@azure/core-client": "workspace:*",
-    "@azure/core-paging": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-auth": "workspace:^",
+    "@azure/core-client": "workspace:^",
+    "@azure/core-paging": "workspace:^",
+    "@azure/core-rest-pipeline": "workspace:^",
     "tslib": "catalog:"
   },
   "keywords": [
@@ -27,10 +27,10 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "workspace:*",
-    "@azure-tools/test-recorder": "workspace:*",
-    "@azure-tools/test-utils-vitest": "workspace:*",
-    "@azure/dev-tool": "workspace:*",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",

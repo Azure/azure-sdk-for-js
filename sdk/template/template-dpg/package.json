@@ -106,11 +106,11 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
-    "@azure-tools/test-credential": "workspace:*",
-    "@azure-tools/test-recorder": "workspace:*",
-    "@azure-tools/test-utils-vitest": "workspace:*",
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -121,11 +121,11 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
-    "@azure-rest/core-client": "workspace:*",
-    "@azure/core-auth": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
-    "@azure/core-util": "workspace:*",
-    "@azure/logger": "workspace:*",
+    "@azure-rest/core-client": "workspace:^",
+    "@azure/core-auth": "workspace:^",
+    "@azure/core-rest-pipeline": "workspace:^",
+    "@azure/core-util": "workspace:^",
+    "@azure/logger": "workspace:^",
     "tslib": "catalog:"
   },
   "tshy": {

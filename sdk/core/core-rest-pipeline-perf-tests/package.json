@@ -43,16 +43,16 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
-    "@azure/core-auth": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure-tools/test-perf": "workspace:^",
+    "@azure/core-auth": "workspace:^",
+    "@azure/core-rest-pipeline": "workspace:^",
     "dotenv": "catalog:testing",
     "tslib": "catalog:",
     "undici": "^7.1.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/express": "^4.17.13",
     "@types/node": "catalog:",
     "concurrently": "^8.2.0",

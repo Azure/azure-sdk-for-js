@@ -51,8 +51,8 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@vitest/coverage-istanbul": "catalog:testing",
     "@vitest/expect": "catalog:testing",
     "@types/node": "catalog:",

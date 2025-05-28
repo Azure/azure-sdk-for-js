@@ -42,17 +42,17 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/test-utils/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure-tools/test-recorder": "workspace:*",
-    "@azure/abort-controller": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
-    "@azure/core-tracing": "workspace:*",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure/abort-controller": "workspace:^",
+    "@azure/core-rest-pipeline": "workspace:^",
+    "@azure/core-tracing": "workspace:^",
     "@opentelemetry/api": "catalog:otel",
     "tslib": "catalog:",
     "vitest": "catalog:testing"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

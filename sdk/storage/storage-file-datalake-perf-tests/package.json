@@ -43,15 +43,15 @@
   "private": true,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
-    "@azure/storage-file-datalake": "workspace:*",
+    "@azure-tools/test-perf": "workspace:^",
+    "@azure/storage-file-datalake": "workspace:^",
     "dotenv": "catalog:testing",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
     "@types/node": "catalog:",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "eslint": "catalog:",
     "typescript": "catalog:"
   },

@@ -59,15 +59,15 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
+    "@azure-tools/test-perf": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/monitor-query": "workspace:*",
+    "@azure/monitor-query": "workspace:^",
     "dotenv": "catalog:testing",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"

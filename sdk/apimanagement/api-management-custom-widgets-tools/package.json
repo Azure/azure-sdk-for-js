@@ -43,8 +43,8 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -54,8 +54,8 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
-    "@azure/abort-controller": "workspace:*",
-    "@azure-rest/core-client": "workspace:*",
+    "@azure/abort-controller": "workspace:^",
+    "@azure-rest/core-client": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/storage-blob": "catalog:internal",
     "mime": "^4.0.1",

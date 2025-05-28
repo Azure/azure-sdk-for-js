@@ -87,7 +87,7 @@ function isValidNpmVersionSpecifier(specifier: string) {
 function resolveDependencyVersion(name: string, specifier: string): string {
   if (isValidNpmVersionSpecifier(specifier)) {
     return specifier;
-  } else if (specifier === "workspace:*") {
+  } else if (specifier === "workspace:^") {
     return "latest";
   } else {
     return resolveCatalogVersion(name, specifier);

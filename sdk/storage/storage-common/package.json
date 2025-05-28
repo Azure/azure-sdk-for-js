@@ -45,15 +45,15 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:^",
     "events": "catalog:polyfills",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-utils-vitest": "workspace:*",
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/logger": "workspace:*",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/logger": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",

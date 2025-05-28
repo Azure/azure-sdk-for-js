@@ -75,7 +75,7 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
 
       console.log(`version in package's dep = ${depVersionRange}`); //^1.0.0
       console.log(`dep's version = ${packageVersion}`); //1.0.0
-      if (depVersionRange === "workspace:*") {
+      if (depVersionRange === "workspace:^") {
         continue;
       } else if (depVersionRange.startsWith("catalog:")) {
         const parsedPackageVersion = semver.parse(packageVersion);

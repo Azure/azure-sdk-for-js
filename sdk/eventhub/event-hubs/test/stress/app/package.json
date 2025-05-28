@@ -15,7 +15,7 @@
     "@azure/event-hubs": "5.10.0",
     "@azure/storage-blob": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
-    "@azure/core-amqp": "workspace:*",
+    "@azure/core-amqp": "workspace:^",
     "dotenv": "catalog:testing",
     "minimist": "^1.2.8",
     "uuid": "^8.3.0"

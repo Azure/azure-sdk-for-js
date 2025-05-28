@@ -47,8 +47,8 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/inquirer": "^9.0.7",
     "@types/mustache": "^4.2.1",

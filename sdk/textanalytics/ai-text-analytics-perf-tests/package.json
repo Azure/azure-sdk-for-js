@@ -43,15 +43,15 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
-    "@azure/ai-text-analytics": "workspace:*",
+    "@azure-tools/test-perf": "workspace:^",
+    "@azure/ai-text-analytics": "workspace:^",
     "@azure/identity": "catalog:internal",
     "dotenv": "catalog:testing",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"

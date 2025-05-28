@@ -52,18 +52,18 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/logger": "workspace:*",
+    "@azure/logger": "workspace:^",
     "@azure/web-pubsub-client": "1.0.0-beta.2",
     "long": "^5.3.1",
     "protobufjs": "^7.4.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-utils-vitest": "workspace:*",
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/web-pubsub": "workspace:*",
+    "@azure/web-pubsub": "workspace:^",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
