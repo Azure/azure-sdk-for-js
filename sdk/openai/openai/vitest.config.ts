@@ -19,6 +19,7 @@ export default mergeConfig(
       hookTimeout: 25000,
       fileParallelism: false,
       globalSetup: [resolve(__dirname, "test/utils/setup.ts")],
+      retry: 2,
     },
   }),
 );

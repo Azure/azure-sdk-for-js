@@ -77,10 +77,7 @@ export interface EncryptionScopes {
     encryptionScopeName: string,
     options?: EncryptionScopesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<EncryptionScopesDeleteResponse>,
-      EncryptionScopesDeleteResponse
-    >
+    SimplePollerLike<OperationState<EncryptionScopesDeleteResponse>, EncryptionScopesDeleteResponse>
   >;
   /**
    * Deletes the specified encryptionScope associated with the Cognitive Services account.

@@ -451,7 +451,7 @@ describe("EventHubConsumerClient", () => {
       clients.push(createConsumer().consumer);
 
       const startPosition = await getStartingPositionsForTests(clients[0]);
-      for (const partitionId of await partitionIds) {
+      for (const partitionId of partitionIds) {
         const subscription = clients[0].subscribe(partitionId, tester, { startPosition });
         subscriptions.push(subscription);
       }

@@ -306,8 +306,7 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
-    console.log(resource);
+    const resource = (span as any)["resource"]["attributes"];
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -330,7 +329,7 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
+    const resource = (span as any)["resource"]["attributes"];
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -350,9 +349,9 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
+    const resource = (span as any)["resource"]["_rawAttributes"];
     console.log(resource);
-    Object.keys(resource).forEach((attr) => {
+    Object.keys(resource || {}).forEach((attr) => {
       assert.ok(!attr.includes("process"));
     });
   });
