@@ -560,8 +560,6 @@ export interface DownloadRecordingOptions extends OperationOptions {
 // @public
 export interface DtmfData {
     data: string;
-    participant?: CommunicationIdentifier | undefined;
-    timestamp?: Date;
 }
 
 // @public (undocumented)

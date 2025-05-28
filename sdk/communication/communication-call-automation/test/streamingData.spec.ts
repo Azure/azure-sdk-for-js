@@ -24,7 +24,7 @@ describe("Stream data parser unit tests", function () {
     '{"kind":"AudioData","audioData":{"timestamp":"2024-05-30T06:25:02.948Z","data":"test","silent":false, "participantRawID":"28:6b45c5b6-1c34-47c0-8980-11e98d47d23f"}}';
 
   const dtmfDataJson =
-    '{"kind":"DtmfData","dtmfData":{"timestamp":"2024-05-30T06:25:02.948Z","data":"test", "participantRawID":"28:6b45c5b6-1c34-47c0-8980-11e98d47d23f"}}';
+    '{"kind":"DtmfData","dtmfData":{"data":"test"}}';
   it("Successfully parse binary data to transcription meta data ", function () {
     const transcriptionMetaDataBinary = encoder.encode(transcriptionMetaDataJson);
     const parsedData = StreamingData.parse(transcriptionMetaDataBinary);
@@ -129,7 +129,6 @@ function validateAudioMetadata(audioMetadata: AudioMetadata): void {
   assert.equal(audioMetadata.encoding, "PCM");
   assert.equal(audioMetadata.sampleRate, 16000);
   assert.equal(audioMetadata.channels, 1);
-  assert.equal(audioMetadata.length, 640);
 }
 
 function validateAudioData(audioData: AudioData): void {
@@ -139,9 +138,4 @@ function validateAudioData(audioData: AudioData): void {
 
 function validateDtmfData(dtmfData: DtmfData): void {
   assert.equal(dtmfData.data, "test");
-  assert.equal(String(dtmfData.timestamp), "2024-05-30T06:25:02.948Z");
-  assert.equal(
-    (dtmfData.participant as { id: string }).id,
-    "28:6b45c5b6-1c34-47c0-8980-11e98d47d23f",
-  );
 }

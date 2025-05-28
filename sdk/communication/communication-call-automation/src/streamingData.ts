@@ -102,11 +102,6 @@ export class StreamingData {
       case "DtmfData": {
         const dtmfData: DtmfData = {
           data: jsonObject.dtmfData.data,
-          timestamp: jsonObject.dtmfData.timestamp,
-          participant:
-            jsonObject.dtmfData.participantRawID !== undefined
-              ? createIdentifierFromRawId(jsonObject.dtmfData.participantRawID)
-              : undefined,
         };
         StreamingData.streamingKind = kind;
         return dtmfData;

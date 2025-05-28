@@ -99,12 +99,6 @@ export interface TranscriptionData {
 export interface DtmfData {
   /** A unique identifier for the media subscription.*/
   data: string;
-  /** The timestamp indicating when the media content was received by the bot,
-          or if the bot is sending media, the timestamp of when the media was sourced.
-          The format is ISO 8601 (yyyy-mm-ddThh:mm).*/
-  timestamp?: Date;
-  /** The identified speaker based on participant raw ID. */
-  participant?: CommunicationIdentifier | undefined;
 }
 
 // StreamingDataResult type  | TranscriptionMetadata| TranscriptionData| AudioData| AudioMetadata;
