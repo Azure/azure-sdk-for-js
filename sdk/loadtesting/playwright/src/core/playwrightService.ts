@@ -153,6 +153,13 @@ const getServiceConfig = (
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
     console.log("\nRunning tests using Azure Playwright service.");
   }
+  const metadata = {
+    ...config.metadata,
+    azurePlaywright: {
+      playwrightServiceEntra,
+      customerConfig,
+    },
+  };
 
   return {
     use: {
@@ -171,6 +178,7 @@ const getServiceConfig = (
         slowMo: playwrightServiceConfig.slowMo,
       },
     },
+    metadata,
     ...globalFunctions,
   };
 };
