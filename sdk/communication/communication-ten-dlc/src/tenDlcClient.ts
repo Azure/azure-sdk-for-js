@@ -133,7 +133,7 @@ export class TenDlcClient {
       options,
     );
     try {
-      return this.client.tenDlc.upsertUSCampaign(campaingId, campaingId, updatedOptions);
+      return this.client.tenDlc.upsertUSCampaign(campaingId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",

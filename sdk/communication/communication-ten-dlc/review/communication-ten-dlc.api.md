@@ -45,7 +45,7 @@ export interface BrandDetails {
 }
 
 // @public
-export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "VettingSubmitted";
+export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "VettingSubmitted" | "PendingCustomerUpdate";
 
 // @public
 export interface CampaignDetails {
@@ -57,7 +57,7 @@ export interface CampaignDetails {
 }
 
 // @public
-export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged";
+export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "PendingCustomerUpdate";
 
 // @public
 export type CompanyVertical = "Agriculture" | "Communication" | "Construction" | "Education" | "Energy" | "Entertainment" | "Financial" | "Gambling" | "Government" | "Healthcare" | "Hospitality" | "HumanResources" | "Insurance" | "Legal" | "Manufacturing" | "Ngo" | "Political" | "Postal" | "Professional" | "RealEstate" | "Retail" | "Technology" | "Transportation";
@@ -196,7 +196,7 @@ export interface TenDlcCosts {
 }
 
 // @public
-export type TenDlcCostType = "Brand" | "StandardCampaign";
+export type TenDlcCostType = "Brand" | "StandardCampaign" | "CampaignCharity" | "CampaignEmergency" | "CampaignFranchises" | "CampaignLowVolume" | "CampaignSoleProp";
 
 // @public
 export interface TenDlcDeleteUSBrandOptionalParams extends coreClient.OperationOptions {
@@ -288,6 +288,7 @@ export interface USCampaign {
     costs?: TenDlcCost[];
     id: string;
     messageDetails?: MessageDetails;
+    name?: string;
     phoneNumberCount?: number;
     reviewNotes?: ReviewNote[];
     status?: CampaignStatus;
