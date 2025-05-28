@@ -361,12 +361,10 @@ export class TenDlcImpl implements TenDlc {
 
   /**
    * @param campaignId
-   * @param id Unique identifier that corresponds to a campaign
    * @param options The options parameters.
    */
   async upsertUSCampaign(
     campaignId: string,
-    id: string,
     options?: TenDlcUpsertUSCampaignOptionalParams,
   ): Promise<TenDlcUpsertUSCampaignResponse> {
     return tracingClient.withSpan(
@@ -374,7 +372,7 @@ export class TenDlcImpl implements TenDlc {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { campaignId, id, options },
+          { campaignId, options },
           upsertUSCampaignOperationSpec,
         ) as Promise<TenDlcUpsertUSCampaignResponse>;
       },
@@ -707,21 +705,7 @@ const upsertUSCampaignOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse,
     },
   },
-  requestBody: {
-    parameterPath: {
-      id: ["id"],
-      brandId: ["options", "brandId"],
-      status: ["options", "status"],
-      statusUpdatedDate: ["options", "statusUpdatedDate"],
-      costs: ["options", "costs"],
-      submissionDate: ["options", "submissionDate"],
-      reviewNotes: ["options", "reviewNotes"],
-      phoneNumberCount: ["options", "phoneNumberCount"],
-      campaignDetails: ["options", "campaignDetails"],
-      messageDetails: ["options", "messageDetails"],
-    },
-    mapper: { ...Mappers.USCampaign, required: true },
-  },
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.campaignId],
   headerParameters: [Parameters.contentType, Parameters.accept],

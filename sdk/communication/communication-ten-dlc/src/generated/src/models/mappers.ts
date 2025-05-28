@@ -450,6 +450,12 @@ export const USCampaign: coreClient.CompositeMapper = {
           name: "Uuid",
         },
       },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
       brandId: {
         serializedName: "brandId",
         type: {

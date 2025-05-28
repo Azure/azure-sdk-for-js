@@ -977,7 +977,12 @@
             "description": "The type of cost.",
             "enum": [
               "Brand",
-              "StandardCampaign"
+              "StandardCampaign",
+              "CampaignCharity",
+              "CampaignEmergency",
+              "CampaignFranchises",
+              "CampaignLowVolume",
+              "CampaignSoleProp"
             ],
             "type": "string",
             "x-ms-enum": {
@@ -1056,7 +1061,8 @@
               "Denied",
               "Approved",
               "MicrosoftSupportEngaged",
-              "VettingSubmitted"
+              "VettingSubmitted",
+              "PendingCustomerUpdate"
             ],
             "type": "string",
             "x-ms-enum": {
@@ -1100,6 +1106,10 @@
             "description": "Unique identifier that corresponds to a campaign",
             "type": "string"
           },
+          "name": {
+            "description": "Friendly name of US 10DLC Campaign.",
+            "type": "string"
+          },
           "brandId": {
             "format": "uuid",
             "description": "Unique identifier that corresponds to a brand",
@@ -1114,7 +1124,8 @@
               "PendingCancellation",
               "Denied",
               "Approved",
-              "MicrosoftSupportEngaged"
+              "MicrosoftSupportEngaged",
+              "PendingCustomerUpdate"
             ],
             "type": "string",
             "x-ms-enum": {

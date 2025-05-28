@@ -106,12 +106,10 @@ export interface TenDlc {
   ): Promise<TenDlcSubmitUSBrandForVettingResponse>;
   /**
    * @param campaignId
-   * @param id Unique identifier that corresponds to a campaign
    * @param options The options parameters.
    */
   upsertUSCampaign(
     campaignId: string,
-    id: string,
     options?: TenDlcUpsertUSCampaignOptionalParams,
   ): Promise<TenDlcUpsertUSCampaignResponse>;
   /**

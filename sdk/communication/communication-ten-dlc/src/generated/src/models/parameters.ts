@@ -142,53 +142,8 @@ export const filter: OperationQueryParameter = {
   },
 };
 
-export const id1: OperationParameter = {
-  parameterPath: "id",
-  mapper: USCampaignMapper,
-};
-
-export const brandId1: OperationParameter = {
-  parameterPath: ["options", "brandId"],
-  mapper: USCampaignMapper,
-};
-
-export const status1: OperationParameter = {
-  parameterPath: ["options", "status"],
-  mapper: USCampaignMapper,
-};
-
-export const statusUpdatedDate1: OperationParameter = {
-  parameterPath: ["options", "statusUpdatedDate"],
-  mapper: USCampaignMapper,
-};
-
-export const costs1: OperationParameter = {
-  parameterPath: ["options", "costs"],
-  mapper: USCampaignMapper,
-};
-
-export const submissionDate1: OperationParameter = {
-  parameterPath: ["options", "submissionDate"],
-  mapper: USCampaignMapper,
-};
-
-export const reviewNotes1: OperationParameter = {
-  parameterPath: ["options", "reviewNotes"],
-  mapper: USCampaignMapper,
-};
-
-export const phoneNumberCount: OperationParameter = {
-  parameterPath: ["options", "phoneNumberCount"],
-  mapper: USCampaignMapper,
-};
-
-export const campaignDetails: OperationParameter = {
-  parameterPath: ["options", "campaignDetails"],
-  mapper: USCampaignMapper,
-};
-
-export const messageDetails: OperationParameter = {
-  parameterPath: ["options", "messageDetails"],
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: USCampaignMapper,
 };
 

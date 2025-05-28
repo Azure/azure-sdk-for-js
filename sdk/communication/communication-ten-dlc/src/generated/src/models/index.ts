@@ -154,6 +154,8 @@ export interface USBrands {
 export interface USCampaign {
   /** Unique identifier that corresponds to a campaign */
   id: string;
+  /** Friendly name of US 10DLC Campaign. */
+  name?: string;
   /** Unique identifier that corresponds to a brand */
   brandId?: string;
   /** 10DLC status e.g. 'submitted', 'approved', etc */
@@ -259,9 +261,17 @@ export type BrandStatus =
   | "Denied"
   | "Approved"
   | "MicrosoftSupportEngaged"
-  | "VettingSubmitted";
+  | "VettingSubmitted"
+  | "PendingCustomerUpdate";
 /** Defines values for TenDlcCostType. */
-export type TenDlcCostType = "Brand" | "StandardCampaign";
+export type TenDlcCostType =
+  | "Brand"
+  | "StandardCampaign"
+  | "CampaignCharity"
+  | "CampaignEmergency"
+  | "CampaignFranchises"
+  | "CampaignLowVolume"
+  | "CampaignSoleProp";
 /** Defines values for BillingFrequency. */
 export type BillingFrequency = "Monthly" | "Once";
 /** Defines values for CompanyVertical. */
@@ -333,7 +343,8 @@ export type CampaignStatus =
   | "PendingCancellation"
   | "Denied"
   | "Approved"
-  | "MicrosoftSupportEngaged";
+  | "MicrosoftSupportEngaged"
+  | "PendingCustomerUpdate";
 /** Defines values for ContentType. */
 export type ContentType =
   | "AccountNotification"
@@ -432,27 +443,8 @@ export type TenDlcSubmitUSBrandForVettingResponse = USBrand;
 /** Optional parameters. */
 export interface TenDlcUpsertUSCampaignOptionalParams
   extends coreClient.OperationOptions {
-  /** Unique identifier that corresponds to a brand */
-  brandId?: string;
-  /** 10DLC status e.g. 'submitted', 'approved', etc */
-  status?: CampaignStatus;
-  /** Last date and time when the 10DLC status was updated */
-  statusUpdatedDate?: Date;
-  /** Represents the costs tied to the campaign */
-  costs?: TenDlcCost[];
-  /** Date and time when the 10DLC was submitted */
-  submissionDate?: Date;
-  /**
-   * Notes added to the 10DLC Campaign after being reviewed to help customer understand
-   * review results and necessary follow up actions.
-   */
-  reviewNotes?: ReviewNote[];
-  /** Count of local phone numbers currently associated to the 10DLC Campaign. */
-  phoneNumberCount?: number;
-  /** Information about the campaign. */
-  campaignDetails?: CampaignDetails;
-  /** Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like. */
-  messageDetails?: MessageDetails;
+  /** Represents a US 10DLC campaign. */
+  body?: USCampaign;
 }
 
 /** Contains response data for the upsertUSCampaign operation. */
