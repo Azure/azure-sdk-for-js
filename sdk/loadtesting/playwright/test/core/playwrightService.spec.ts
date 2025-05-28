@@ -91,13 +91,12 @@ describe("getServiceConfig", () => {
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
+
     const mockVersion = "1.0.0";
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     vi.spyOn(require("../../package.json"), "version", "get").mockReturnValue(mockVersion);
     const config = localGetServiceConfig({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    const customerConfig = await import("../../src/common/customerConfig.js");
-    const playwrightServiceEntra = await import("../../src/core/playwrightServiceEntra.js");
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
@@ -109,12 +108,6 @@ describe("getServiceConfig", () => {
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
-        },
-      },
-      metadata: {
-        azurePlaywright: {
-          playwrightServiceEntra: playwrightServiceEntra.default,
-          customerConfig: customerConfig.default,
         },
       },
       globalSetup: [globalSetupPath],
@@ -135,7 +128,6 @@ describe("getServiceConfig", () => {
     const config = localGetServiceConfig(samplePlaywrightConfigInput);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     const customerConfig = await import("../../src/common/customerConfig.js");
-    const playwrightServiceEntra = await import("../../src/core/playwrightServiceEntra.js");
     expect(customerConfig.default.globalSetup).to.deep.equal(["sample-setup.ts"]);
     expect(customerConfig.default.globalTeardown).to.deep.equal(["sample-teardown.ts"]);
     expect(config).to.deep.equal({
@@ -149,12 +141,6 @@ describe("getServiceConfig", () => {
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
-        },
-      },
-      metadata: {
-        azurePlaywright: {
-          playwrightServiceEntra: playwrightServiceEntra.default,
-          customerConfig: customerConfig.default,
         },
       },
       globalSetup: ["sample-setup.ts", globalSetupPath],
@@ -179,7 +165,6 @@ describe("getServiceConfig", () => {
     const config = localGetServiceConfig(sampleConfig);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     const customerConfig = await import("../../src/common/customerConfig.js");
-    const playwrightServiceEntra = await import("../../src/core/playwrightServiceEntra.js");
     expect(customerConfig.default.globalSetup).to.deep.equal(["sample-setup.ts"]);
     expect(customerConfig.default.globalTeardown).to.deep.equal(["sample-teardown.ts"]);
     expect(config).to.deep.equal({
@@ -193,12 +178,6 @@ describe("getServiceConfig", () => {
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
-        },
-      },
-      metadata: {
-        azurePlaywright: {
-          playwrightServiceEntra: playwrightServiceEntra.default,
-          customerConfig: customerConfig.default,
         },
       },
       globalSetup: ["sample-setup.ts", globalSetupPath],
@@ -361,15 +340,10 @@ describe("getServiceConfig", () => {
       "../../src/core/playwrightService.js"
     );
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    const customerConfig = await import("../../src/common/customerConfig.js");
-    const playwrightServiceEntra = await import("../../src/core/playwrightServiceEntra.js");
     const mockVersion = "1.0.0";
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     vi.spyOn(require("../../package.json"), "version", "get").mockReturnValue(mockVersion);
-    const config = localGetServiceConfig({
-      ...samplePlaywrightConfigInput,
-      metadata: { sample: "value" },
-    });
+    const config = localGetServiceConfig(samplePlaywrightConfigInput);
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
@@ -381,13 +355,6 @@ describe("getServiceConfig", () => {
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
-        },
-      },
-      metadata: {
-        sample: "value",
-        azurePlaywright: {
-          playwrightServiceEntra: playwrightServiceEntra.default,
-          customerConfig: customerConfig.default,
         },
       },
       globalSetup: globalSetupPath,
