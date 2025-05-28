@@ -17,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Captures the specified resource group as a template.
  *
  * @summary Captures the specified resource group as a template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/ExportResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/ExportResourceGroup.json
  */
 async function exportAResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function exportAResourceGroup(): Promise<void> {
  * This sample demonstrates how to Captures the specified resource group as a template.
  *
  * @summary Captures the specified resource group as a template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/ExportResourceGroupAsBicep.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/ExportResourceGroupAsBicep.json
  */
 async function exportAResourceGroupAsBicep(): Promise<void> {
   const subscriptionId =
@@ -68,7 +68,7 @@ async function exportAResourceGroupAsBicep(): Promise<void> {
  * This sample demonstrates how to Captures the specified resource group as a template.
  *
  * @summary Captures the specified resource group as a template.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/ExportResourceGroupWithFiltering.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/ExportResourceGroupWithFiltering.json
  */
 async function exportAResourceGroupWithFiltering(): Promise<void> {
   const subscriptionId =
