@@ -189,53 +189,6 @@ stages:
                           TargetLanguage: javascript
                           ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
 
-              - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
-                  - job: UpdatePackageVersion
-                    displayName: Update Package Version
-                    condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
-                    dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
-                    variables:
-                      - template: /eng/pipelines/templates/variables/image.yml
-                    pool:
-                      name: $(LINUXPOOL)
-                      image: $(LINUXVMIMAGE)
-                      os: linux
-                    steps:
-                      - checkout: self
-                      - download: current
-                      - template: /eng/pipelines/templates/steps/common.yml
-                      - bash: |
-                          npm install
-                        workingDirectory: ./eng/tools/eng-package-utils
-                        displayName: Install eng-package-utils dependencies
-
-                      - bash: |
-                          npm install
-                        workingDirectory: ./eng/tools/versioning
-                        displayName: Install versioning tool dependencies
-
-                      - bash: |
-                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
-                        displayName: Increment package version
-
-                      - bash: |
-                          pnpm install
-                        displayName: "Install library dependencies"
-
-                      # Disabled until packages can be updated to support ES2019 syntax.
-                      # - bash: |
-                      #     npm install -g ./common/tools/dev-tool
-                      #     npm install ./eng/tools/eng-package-utils
-                      #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                      #   displayName: Update samples
-
-                      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-                        parameters:
-                          RepoName: azure-sdk-for-js
-                          PRBranchName: post-release-automation-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
-                          CommitMsg: Post release automated changes for ${{ artifact.name }}
-                          PRTitle: Post release automated changes for ${{ parameters.ServiceDirectory }} releases
-                          CloseAfterOpenForTesting: ${{ parameters.TestPipeline }}
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}
     variables:
