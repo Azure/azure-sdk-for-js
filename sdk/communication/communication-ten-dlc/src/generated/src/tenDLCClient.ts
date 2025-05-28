@@ -12,8 +12,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { TenDlcImpl } from "./operations/index.js";
-import { TenDlc } from "./operationsInterfaces/index.js";
+import { TenDlcImpl, PhoneNumbersImpl } from "./operations/index.js";
+import { TenDlc, PhoneNumbers } from "./operationsInterfaces/index.js";
 import { TenDLCClientOptionalParams } from "./models/index.js";
 
 export class TenDLCClient extends coreClient.ServiceClient {
@@ -59,6 +59,7 @@ export class TenDLCClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.apiVersion = options.apiVersion || "2025-04-01-preview";
     this.tenDlc = new TenDlcImpl(this);
+    this.phoneNumbers = new PhoneNumbersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -91,4 +92,5 @@ export class TenDLCClient extends coreClient.ServiceClient {
   }
 
   tenDlc: TenDlc;
+  phoneNumbers: PhoneNumbers;
 }

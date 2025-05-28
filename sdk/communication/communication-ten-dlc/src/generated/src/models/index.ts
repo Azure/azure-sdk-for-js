@@ -244,12 +244,40 @@ export interface USCampaigns {
   nextLink?: string;
 }
 
+/** The 10DLC configuration of a purchased phone number. */
+export interface TenDlcConfigurationRequest {
+  /** The phone number SMS capability type. */
+  sms?: PhoneNumberCapabilityType;
+  /** The 10DLC campaign ID associated with the phone number. */
+  tenDlcCampaignId?: string;
+}
+
+/** The 10DLC configuration of a purchased phone number. */
+export interface TenDlcConfigurationResponse {
+  /** The phone number SMS capability type. */
+  sms?: PhoneNumberCapabilityType;
+  /** The 10DLC campaign ID associated with the phone number. */
+  tenDlcCampaignId?: string;
+}
+
 /** A wrapper for a list of 10DLC cost entities */
 export interface TenDlcCosts {
   /** List of 10DLC costs. */
   costs?: TenDlcCost[];
   /** Represents the URL link to the next page of local 10DLC costs results. */
   nextLink?: string;
+}
+
+/** Defines headers for PhoneNumbers_setTenDlcConfiguration operation. */
+export interface PhoneNumbersSetTenDlcConfigurationHeaders {
+  /** URL to retrieve the final result after operation completes. */
+  location?: string;
+  /** URL to query for status of the operation. */
+  operationLocation?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The tendlcConfiguration operation id. */
+  tendlcConfigurationId?: string;
 }
 
 /** Defines values for BrandStatus. */
@@ -373,6 +401,12 @@ export type SubContentType =
   | "PollingVoting"
   | "PublicServiceAnnouncement"
   | "SecurityAlert";
+/** Defines values for PhoneNumberCapabilityType. */
+export type PhoneNumberCapabilityType =
+  | "none"
+  | "inbound"
+  | "outbound"
+  | "inbound+outbound";
 
 /** Optional parameters. */
 export interface TenDlcUpsertUSBrandOptionalParams
@@ -518,6 +552,31 @@ export interface TenDlcGetCostsNextOptionalParams
 
 /** Contains response data for the getCostsNext operation. */
 export type TenDlcGetCostsNextResponse = TenDlcCosts;
+
+/** Optional parameters. */
+export interface PhoneNumbersSetTenDlcConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** The phone number SMS capability type. */
+  sms?: PhoneNumberCapabilityType;
+  /** The 10DLC campaign ID associated with the phone number. */
+  tenDlcCampaignId?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the setTenDlcConfiguration operation. */
+export type PhoneNumbersSetTenDlcConfigurationResponse =
+  PhoneNumbersSetTenDlcConfigurationHeaders & TenDlcConfigurationResponse;
+
+/** Optional parameters. */
+export interface PhoneNumbersGetTenDlcConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTenDlcConfiguration operation. */
+export type PhoneNumbersGetTenDlcConfigurationResponse =
+  TenDlcConfigurationResponse;
 
 /** Optional parameters. */
 export interface TenDLCClientOptionalParams

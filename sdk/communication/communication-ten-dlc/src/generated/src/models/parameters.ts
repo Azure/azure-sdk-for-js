@@ -14,6 +14,7 @@ import {
 import {
   USBrand as USBrandMapper,
   USCampaign as USCampaignMapper,
+  TenDlcConfigurationRequest as TenDlcConfigurationRequestMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -168,4 +169,37 @@ export const nextLink: OperationURLParameter = {
     },
   },
   skipEncoding: true,
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sms: OperationParameter = {
+  parameterPath: ["options", "sms"],
+  mapper: TenDlcConfigurationRequestMapper,
+};
+
+export const tenDlcCampaignId: OperationParameter = {
+  parameterPath: ["options", "tenDlcCampaignId"],
+  mapper: TenDlcConfigurationRequestMapper,
+};
+
+export const phoneNumber: OperationURLParameter = {
+  parameterPath: "phoneNumber",
+  mapper: {
+    serializedName: "phoneNumber",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

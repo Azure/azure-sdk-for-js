@@ -734,6 +734,48 @@ export const USCampaigns: coreClient.CompositeMapper = {
   },
 };
 
+export const TenDlcConfigurationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenDlcConfigurationRequest",
+    modelProperties: {
+      sms: {
+        serializedName: "sms",
+        type: {
+          name: "String",
+        },
+      },
+      tenDlcCampaignId: {
+        serializedName: "tenDlcCampaignId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TenDlcConfigurationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenDlcConfigurationResponse",
+    modelProperties: {
+      sms: {
+        serializedName: "sms",
+        type: {
+          name: "String",
+        },
+      },
+      tenDlcCampaignId: {
+        serializedName: "tenDlcCampaignId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const TenDlcCosts: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -760,3 +802,37 @@ export const TenDlcCosts: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const PhoneNumbersSetTenDlcConfigurationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PhoneNumbersSetTenDlcConfigurationHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        operationLocation: {
+          serializedName: "operation-location",
+          type: {
+            name: "String",
+          },
+        },
+        operationId: {
+          serializedName: "operation-id",
+          type: {
+            name: "String",
+          },
+        },
+        tendlcConfigurationId: {
+          serializedName: "tendlcconfiguration-id",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };

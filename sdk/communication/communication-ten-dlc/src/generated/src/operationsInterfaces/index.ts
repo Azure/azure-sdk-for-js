@@ -7,3 +7,4 @@
  */
 
 export * from "./tenDlc.js";
+export * from "./phoneNumbers.js";
