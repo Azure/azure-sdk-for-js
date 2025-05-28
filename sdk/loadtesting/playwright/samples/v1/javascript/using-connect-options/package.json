@@ -8,8 +8,9 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@azure/playwright": "^1.0.0-beta.1",
+    "@azure/playwright": "beta",
     "@playwright/test": "latest",
-    "@types/node": "^20.14.6"
+    "@types/node": "^20.14.6",
+    "@azure/identity": "^4.0.0"
   }
 }
