@@ -2,10 +2,6 @@
 
 ## 2.1.3 (2025-05-29)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fix compiler error in AbortError example snippet [PR #31649](https://github.com/Azure/azure-sdk-for-js/pull/31649)

@@ -2,12 +2,6 @@
 
 ## 4.3.7 (2025-05-29)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Add util polyfill to support browser compatibility [PR #33771](https://github.com/Azure/azure-sdk-for-js/pull/33771)
