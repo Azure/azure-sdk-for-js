@@ -8,7 +8,7 @@ import DocumentTranslationClient, {
 } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
-import { writeFileSync } from "node:fs";
+import { createWriteStream } from "node:fs";
 import { BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
 
 describe("snippets", () => {
@@ -55,14 +55,14 @@ describe("snippets", () => {
     if (!response.body) {
       throw new Error("No response body received");
     }
-
-    const chunks: Buffer[] = [];
-    for await (const chunk of response.body) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
     // @ts-preserve-whitespace
     // Write the buffer to a file
-    writeFileSync("test-output.txt", Buffer.concat(chunks));
+    const writeStream = createWriteStream("test-output.txt");
+    response.body.pipe(writeStream);
+    await new Promise<void>((resolve, reject) => {
+      writeStream.on('finish', resolve);
+      writeStream.on('error', reject);
+    });
   });
 
   it("ReadmeSampleBatchDocumentTranslation", async () => {
