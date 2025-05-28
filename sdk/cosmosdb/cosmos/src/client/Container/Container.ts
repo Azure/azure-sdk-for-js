@@ -44,7 +44,6 @@ import { MetadataLookUpType } from "../../CosmosDiagnostics.js";
 import type { EncryptionSettingForProperty } from "../../encryption/index.js";
 import { EncryptionProcessor } from "../../encryption/index.js";
 import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
-import { PartitionKeyRangeCache } from "../../routing/partitionKeyRangeCache.js";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
