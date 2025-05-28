@@ -55,7 +55,6 @@ describe("inference - chatCompletions", () => {
     const content = response.body.choices[0].message.content;
     assert.isNotNull(content);
     assert.isString(content);
-    console.log("Chat completion content:", content);
     // Don't assert exact content as it may vary, but ensure we got a response
     assert.isTrue(content.length > 0);
   });

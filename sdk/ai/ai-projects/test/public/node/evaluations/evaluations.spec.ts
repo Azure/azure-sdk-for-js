@@ -49,18 +49,15 @@ describe("evaluations - basic", () => {
   it("should create an evaluation and perform various operations", async function () {
     // Upload a dataset for evaluation
     const sampleDataPath = path.join(__dirname, "./sample_data_evaluation.jsonl");
-    console.log("Uploading dataset:", sampleDataPath);
     await recorder.setMatcher("CustomDefaultMatcher", {
       compareBodies: false,
     });
-    console.log("Uploading dataset...");
     const dataset = await projectsClient.datasets.uploadFile(
       datasetName,
       datasetVersion,
       sampleDataPath,
       containerConnectionName,
     );
-    console.log("Dataset uploaded:", dataset);
 
     assert.isNotNull(dataset);
     assert.isNotNull(dataset.id);
@@ -91,16 +88,13 @@ describe("evaluations - basic", () => {
       };
 
       const evaluation = await evaluations.create(newEvaluation);
-      console.log("Created evaluation:", evaluation);
       assert.isNotNull(evaluation);
       assert.isNotNull(evaluation.name);
       assert.equal(evaluation.displayName, evaluationDisplayName);
       assert.equal(evaluation.description, "This is a test evaluation");
 
       // Get the evaluation by ID
-      console.log("Getting evaluation by ID...");
       const retrievedEval = await evaluations.get(evaluation.name);
-      console.log("Retrieved evaluation:", retrievedEval);
       assert.isNotNull(retrievedEval);
       assert.equal(retrievedEval.name, evaluation.name);
       assert.equal(retrievedEval.displayName, evaluationDisplayName);

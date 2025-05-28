@@ -143,7 +143,6 @@ describe("datasets - basic", () => {
       }
       assert.isNotNull(datasetsList);
       assert.isAtLeast(datasetsList.length, 1);
-      console.log(`Retrieved ${datasetsList.length} datasets`);
     } finally {
       // Clean up the temporary file
       if (fs.existsSync(testFilePath)) {
@@ -203,7 +202,6 @@ describe("datasets - basic", () => {
       assert.isNotNull(dataset);
       assert.equal(dataset.name, folderDatasetName);
       assert.equal(dataset.version, VERSION3);
-      console.log(`Created folder dataset: ${dataset.name}, version: ${dataset.version}`);
 
       // Verify we can retrieve the dataset
       const retrievedDataset = await datasets.get(folderDatasetName, VERSION3);

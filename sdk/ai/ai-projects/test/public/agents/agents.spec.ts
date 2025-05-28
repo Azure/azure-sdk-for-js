@@ -33,6 +33,5 @@ describe("agents - basic", () => {
     assert.equal(agent.instructions, "You are a helpful agent");
 
     await agents.deleteAgent(agent.id);
-    console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 });

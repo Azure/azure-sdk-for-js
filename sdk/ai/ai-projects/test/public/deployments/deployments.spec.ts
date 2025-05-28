@@ -36,11 +36,9 @@ describe("deployments - basic", () => {
     const deploymentNames: string[] = [];
     for await (const deployment of deploymentsListIterator) {
       deploymentNames.push(deployment.name);
-      console.log(`Deployment name: ${deployment.name}`);
     }
 
     assert.isNotNull(deploymentNames);
-    console.log(`Retrieved ${deploymentNames.length} deployments`);
 
     const deploymentName = deploymentNames[0];
     const deployment = await deployments.get(deploymentName);
@@ -66,10 +64,8 @@ describe("deployments - basic", () => {
     const deploymentsList: ModelDeployment[] = [];
     for await (const deployment of deploymentsListIterator) {
       deploymentsList.push(deployment as ModelDeployment);
-      console.log(`Deployment name: ${deployment.name}`);
     }
 
     assert.isNotNull(deploymentsList);
-    console.log(`Retrieved ${deploymentsList.length} deployments with publisher ${modelPublisher}`);
   });
 });
