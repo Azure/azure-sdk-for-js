@@ -62,7 +62,7 @@
     "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
     "lint": "echo skipped",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "prepack": "npm run build",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",

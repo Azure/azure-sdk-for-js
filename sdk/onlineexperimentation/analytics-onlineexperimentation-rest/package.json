@@ -83,7 +83,7 @@
   "scripts": {
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

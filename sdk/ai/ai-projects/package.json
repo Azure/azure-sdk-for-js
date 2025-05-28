@@ -114,7 +114,7 @@
     "generate-samples": "dev-tool samples publish -f",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
