@@ -5,8 +5,6 @@ import type { CommunicationIdentifier } from "@azure/communication-common";
 
 import type {
   Tone,
-  CustomCallingContextInternal,
-  CommunicationIdentifierModel,
   ChoiceResult,
   DtmfResult,
   RecognitionType,
@@ -16,7 +14,7 @@ import type {
   RecordingKind,
 } from "../generated/src/models/index.js";
 
-import type { CallParticipant, RecordingState } from "./models.js";
+import type { CallParticipant, RecordingState, CustomCallingContext } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
@@ -166,17 +164,17 @@ export interface IncomingCall {
   /** Call connection ID. */
   callConnectionId: string;
   /** The communication identifier of the target user.*/
-  to?: CommunicationIdentifierModel;
+  to?: CommunicationIdentifier;
   /** The communication identifier of the user who initiated the call.*/
-  from?: CommunicationIdentifierModel;
+  from?: CommunicationIdentifier;
   /** Display name of caller.*/
   callerDisplayName?: string;
   /** Custom Context of Incoming Call */
-  customContext?: CustomCallingContextInternal;
+  customContext?: CustomCallingContext;
   /** Incoming call context.*/
   incomingCallContext?: string;
   /** The communication identifier of the user on behalf of whom the call is made.*/
-  onBehalfOfCallee?: CommunicationIdentifierModel;
+  onBehalfOfCallee?: CommunicationIdentifier;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** Contains the resulting SIP code/sub-code and message. */
