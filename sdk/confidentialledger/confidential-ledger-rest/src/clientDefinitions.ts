@@ -108,60 +108,46 @@ export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */
   get(
     options?: GetConstitutionParameters,
-  ): StreamableMethod<
-    GetConstitution200Response | GetConstitutionDefaultResponse
-  >;
+  ): StreamableMethod<GetConstitution200Response | GetConstitutionDefaultResponse>;
 }
 
 export interface ListConsortiumMembers {
   /** Consortium members can manage the Confidential Ledger. */
   get(
     options?: ListConsortiumMembersParameters,
-  ): StreamableMethod<
-    ListConsortiumMembers200Response | ListConsortiumMembersDefaultResponse
-  >;
+  ): StreamableMethod<ListConsortiumMembers200Response | ListConsortiumMembersDefaultResponse>;
 }
 
 export interface GetEnclaveQuotes {
   /** A quote is an SGX enclave measurement that can be used to verify the validity of a node and its enclave. */
   get(
     options?: GetEnclaveQuotesParameters,
-  ): StreamableMethod<
-    GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse
-  >;
+  ): StreamableMethod<GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse>;
 }
 
 export interface ListCollections {
   /** Collection ids are user-created collections of ledger entries */
   get(
     options?: ListCollectionsParameters,
-  ): StreamableMethod<
-    ListCollections200Response | ListCollectionsDefaultResponse
-  >;
+  ): StreamableMethod<ListCollections200Response | ListCollectionsDefaultResponse>;
 }
 
 export interface ListLedgerEntries {
   /** A collection id may optionally be specified. Only entries in the specified (or default) collection will be returned. */
   get(
     options?: ListLedgerEntriesParameters,
-  ): StreamableMethod<
-    ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse
-  >;
+  ): StreamableMethod<ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse>;
   /** A collection id may optionally be specified. */
   post(
     options: CreateLedgerEntryParameters,
-  ): StreamableMethod<
-    CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse
-  >;
+  ): StreamableMethod<CreateLedgerEntry200Response | CreateLedgerEntryDefaultResponse>;
 }
 
 export interface GetLedgerEntry {
   /** To return older ledger entries, the relevant sections of the ledger must be read from disk and validated. To prevent blocking within the enclave, the response will indicate whether the entry is ready and part of the response, or if the loading is still ongoing. */
   get(
     options?: GetLedgerEntryParameters,
-  ): StreamableMethod<
-    GetLedgerEntry200Response | GetLedgerEntryDefaultResponse
-  >;
+  ): StreamableMethod<GetLedgerEntry200Response | GetLedgerEntryDefaultResponse>;
 }
 
 export interface GetReceipt {
@@ -175,18 +161,14 @@ export interface GetTransactionStatus {
   /** Gets the status of an entry identified by a transaction id. */
   get(
     options?: GetTransactionStatusParameters,
-  ): StreamableMethod<
-    GetTransactionStatus200Response | GetTransactionStatusDefaultResponse
-  >;
+  ): StreamableMethod<GetTransactionStatus200Response | GetTransactionStatusDefaultResponse>;
 }
 
 export interface GetCurrentLedgerEntry {
   /** A collection id may optionally be specified. */
   get(
     options?: GetCurrentLedgerEntryParameters,
-  ): StreamableMethod<
-    GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse
-  >;
+  ): StreamableMethod<GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse>;
 }
 
 export interface ListUsers {
@@ -200,9 +182,7 @@ export interface ListLedgerUsers {
   /** All users' object IDs and multiple roles will be returned. */
   get(
     options?: ListLedgerUsersParameters,
-  ): StreamableMethod<
-    ListLedgerUsers200Response | ListLedgerUsersDefaultResponse
-  >;
+  ): StreamableMethod<ListLedgerUsers200Response | ListLedgerUsersDefaultResponse>;
 }
 
 export interface DeleteUser {
@@ -211,24 +191,18 @@ export interface DeleteUser {
     options?: DeleteUserParameters,
   ): StreamableMethod<DeleteUser204Response | DeleteUserDefaultResponse>;
   /** Gets a user. */
-  get(
-    options?: GetUserParameters,
-  ): StreamableMethod<GetUser200Response | GetUserDefaultResponse>;
+  get(options?: GetUserParameters): StreamableMethod<GetUser200Response | GetUserDefaultResponse>;
   /** A JSON merge patch is applied for existing users */
   patch(
     options: CreateOrUpdateUserParameters,
-  ): StreamableMethod<
-    CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse
-  >;
+  ): StreamableMethod<CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse>;
 }
 
 export interface DeleteLedgerUser {
   /** Deletes a user with multiple roles from the Confidential Ledger. */
   delete(
     options?: DeleteLedgerUserParameters,
-  ): StreamableMethod<
-    DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse
-  >;
+  ): StreamableMethod<DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse>;
   /** Gets a user with multiple roles. */
   get(
     options?: GetLedgerUserParameters,
@@ -237,8 +211,7 @@ export interface DeleteLedgerUser {
   patch(
     options: CreateOrUpdateLedgerUserParameters,
   ): StreamableMethod<
-    | CreateOrUpdateLedgerUser200Response
-    | CreateOrUpdateLedgerUserDefaultResponse
+    CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse
   >;
 }
 
@@ -246,15 +219,12 @@ export interface GetUserDefinedEndpoint {
   /** Returns the user defined endpoint in the ACL instance */
   get(
     options?: GetUserDefinedEndpointParameters,
-  ): StreamableMethod<
-    GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse
-  >;
+  ): StreamableMethod<GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse>;
   /** Creates the user defined endpoint in the ACL instance */
   put(
     options: CreateUserDefinedEndpointParameters,
   ): StreamableMethod<
-    | CreateUserDefinedEndpoint201Response
-    | CreateUserDefinedEndpointDefaultResponse
+    CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse
   >;
 }
 
@@ -262,15 +232,11 @@ export interface GetRuntimeOptions {
   /** It returns the runtime options */
   get(
     options?: GetRuntimeOptionsParameters,
-  ): StreamableMethod<
-    GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse
-  >;
+  ): StreamableMethod<GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse>;
   /** Updates the runtime options. */
   patch(
     options: UpdateRuntimeOptionsParameters,
-  ): StreamableMethod<
-    UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse
-  >;
+  ): StreamableMethod<UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse>;
 }
 
 export interface GetUserDefinedEndpointsModule {
@@ -278,8 +244,7 @@ export interface GetUserDefinedEndpointsModule {
   get(
     options: GetUserDefinedEndpointsModuleParameters,
   ): StreamableMethod<
-    | GetUserDefinedEndpointsModule200Response
-    | GetUserDefinedEndpointsModuleDefaultResponse
+    GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse
   >;
 }
 
@@ -288,8 +253,7 @@ export interface ListUserDefinedFunctions {
   get(
     options?: ListUserDefinedFunctionsParameters,
   ): StreamableMethod<
-    | ListUserDefinedFunctions200Response
-    | ListUserDefinedFunctionsDefaultResponse
+    ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse
   >;
 }
 
@@ -298,15 +262,12 @@ export interface DeleteUserDefinedFunction {
   delete(
     options?: DeleteUserDefinedFunctionParameters,
   ): StreamableMethod<
-    | DeleteUserDefinedFunction204Response
-    | DeleteUserDefinedFunctionDefaultResponse
+    DeleteUserDefinedFunction204Response | DeleteUserDefinedFunctionDefaultResponse
   >;
   /** Returns the user defined function in the Confidential Ledger */
   get(
     options?: GetUserDefinedFunctionParameters,
-  ): StreamableMethod<
-    GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse
-  >;
+  ): StreamableMethod<GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse>;
   /** Creates the user defined function in the Confidential Ledger */
   put(
     options: CreateUserDefinedFunctionParameters,
@@ -322,8 +283,7 @@ export interface ExecuteUserDefinedFunction {
   post(
     options?: ExecuteUserDefinedFunctionParameters,
   ): StreamableMethod<
-    | ExecuteUserDefinedFunction200Response
-    | ExecuteUserDefinedFunctionDefaultResponse
+    ExecuteUserDefinedFunction200Response | ExecuteUserDefinedFunctionDefaultResponse
   >;
 }
 
@@ -331,27 +291,19 @@ export interface GetUserDefinedRole {
   /** user defined roles allow users to define and manage app specific AuthZ policy. */
   get(
     options: GetUserDefinedRoleParameters,
-  ): StreamableMethod<
-    GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse>;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   put(
     options: CreateUserDefinedRoleParameters,
-  ): StreamableMethod<
-    CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse>;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   patch(
     options: UpdateUserDefinedRoleParameters,
-  ): StreamableMethod<
-    UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse>;
   /** A user defined role allows the users to create and manage their own role actions using the API. */
   delete(
     options: DeleteUserDefinedRoleParameters,
-  ): StreamableMethod<
-    DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse
-  >;
+  ): StreamableMethod<DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse>;
 }
 
 export interface Routes {
@@ -366,20 +318,11 @@ export interface Routes {
   /** Resource for '/app/transactions' has methods for the following verbs: get, post */
   (path: "/app/transactions"): ListLedgerEntries;
   /** Resource for '/app/transactions/\{transactionId\}' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}",
-    transactionId: string,
-  ): GetLedgerEntry;
+  (path: "/app/transactions/{transactionId}", transactionId: string): GetLedgerEntry;
   /** Resource for '/app/transactions/\{transactionId\}/receipt' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}/receipt",
-    transactionId: string,
-  ): GetReceipt;
+  (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
   /** Resource for '/app/transactions/\{transactionId\}/status' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}/status",
-    transactionId: string,
-  ): GetTransactionStatus;
+  (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
   /** Resource for '/app/transactions/current' has methods for the following verbs: get */
   (path: "/app/transactions/current"): GetCurrentLedgerEntry;
   /** Resource for '/app/users' has methods for the following verbs: get */
@@ -399,10 +342,7 @@ export interface Routes {
   /** Resource for '/app/userDefinedFunctions' has methods for the following verbs: get */
   (path: "/app/userDefinedFunctions"): ListUserDefinedFunctions;
   /** Resource for '/app/userDefinedFunctions/\{functionId\}' has methods for the following verbs: delete, get, put */
-  (
-    path: "/app/userDefinedFunctions/{functionId}",
-    functionId: string,
-  ): DeleteUserDefinedFunction;
+  (path: "/app/userDefinedFunctions/{functionId}", functionId: string): DeleteUserDefinedFunction;
   /** Resource for '/app/userDefinedFunctions/\{functionId\}:execute' has methods for the following verbs: post */
   (
     path: "/app/userDefinedFunctions/{functionId}:execute",

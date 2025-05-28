@@ -22,13 +22,9 @@ export interface ConfidentialLedgerClientOptions extends ClientOptions {
 export default function createClient(
   ledgerEndpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2024-12-09-preview",
-    ...options
-  }: ConfidentialLedgerClientOptions = {},
+  { apiVersion = "2024-12-09-preview", ...options }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${ledgerEndpoint}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${ledgerEndpoint}`;
   const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.2-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -43,16 +39,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://confidential-ledger.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://confidential-ledger.azure.com/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as ConfidentialLedgerClient;
+  const client = getClient(endpointUrl, credentials, options) as ConfidentialLedgerClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

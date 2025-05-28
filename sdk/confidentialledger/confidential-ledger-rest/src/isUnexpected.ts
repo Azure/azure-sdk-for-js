@@ -108,9 +108,7 @@ export function isUnexpected(
   response: GetConstitution200Response | GetConstitutionDefaultResponse,
 ): response is GetConstitutionDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListConsortiumMembers200Response
-    | ListConsortiumMembersDefaultResponse,
+  response: ListConsortiumMembers200Response | ListConsortiumMembersDefaultResponse,
 ): response is ListConsortiumMembersDefaultResponse;
 export function isUnexpected(
   response: GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse,
@@ -131,14 +129,10 @@ export function isUnexpected(
   response: GetReceipt200Response | GetReceiptDefaultResponse,
 ): response is GetReceiptDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetTransactionStatus200Response
-    | GetTransactionStatusDefaultResponse,
+  response: GetTransactionStatus200Response | GetTransactionStatusDefaultResponse,
 ): response is GetTransactionStatusDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCurrentLedgerEntry200Response
-    | GetCurrentLedgerEntryDefaultResponse,
+  response: GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse,
 ): response is GetCurrentLedgerEntryDefaultResponse;
 export function isUnexpected(
   response: ListUsers200Response | ListUsersDefaultResponse,
@@ -162,47 +156,31 @@ export function isUnexpected(
   response: GetLedgerUser200Response | GetLedgerUserDefaultResponse,
 ): response is GetLedgerUserDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateOrUpdateLedgerUser200Response
-    | CreateOrUpdateLedgerUserDefaultResponse,
+  response: CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse,
 ): response is CreateOrUpdateLedgerUserDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetUserDefinedEndpoint200Response
-    | GetUserDefinedEndpointDefaultResponse,
+  response: GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse,
 ): response is GetUserDefinedEndpointDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateUserDefinedEndpoint201Response
-    | CreateUserDefinedEndpointDefaultResponse,
+  response: CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse,
 ): response is CreateUserDefinedEndpointDefaultResponse;
 export function isUnexpected(
   response: GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse,
 ): response is GetRuntimeOptionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpdateRuntimeOptions200Response
-    | UpdateRuntimeOptionsDefaultResponse,
+  response: UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse,
 ): response is UpdateRuntimeOptionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetUserDefinedEndpointsModule200Response
-    | GetUserDefinedEndpointsModuleDefaultResponse,
+  response: GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse,
 ): response is GetUserDefinedEndpointsModuleDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListUserDefinedFunctions200Response
-    | ListUserDefinedFunctionsDefaultResponse,
+  response: ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse,
 ): response is ListUserDefinedFunctionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteUserDefinedFunction204Response
-    | DeleteUserDefinedFunctionDefaultResponse,
+  response: DeleteUserDefinedFunction204Response | DeleteUserDefinedFunctionDefaultResponse,
 ): response is DeleteUserDefinedFunctionDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetUserDefinedFunction200Response
-    | GetUserDefinedFunctionDefaultResponse,
+  response: GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse,
 ): response is GetUserDefinedFunctionDefaultResponse;
 export function isUnexpected(
   response:
@@ -211,27 +189,19 @@ export function isUnexpected(
     | CreateUserDefinedFunctionDefaultResponse,
 ): response is CreateUserDefinedFunctionDefaultResponse;
 export function isUnexpected(
-  response:
-    | ExecuteUserDefinedFunction200Response
-    | ExecuteUserDefinedFunctionDefaultResponse,
+  response: ExecuteUserDefinedFunction200Response | ExecuteUserDefinedFunctionDefaultResponse,
 ): response is ExecuteUserDefinedFunctionDefaultResponse;
 export function isUnexpected(
   response: GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse,
 ): response is GetUserDefinedRoleDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateUserDefinedRole200Response
-    | CreateUserDefinedRoleDefaultResponse,
+  response: CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse,
 ): response is CreateUserDefinedRoleDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpdateUserDefinedRole200Response
-    | UpdateUserDefinedRoleDefaultResponse,
+  response: UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse,
 ): response is UpdateUserDefinedRoleDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteUserDefinedRole200Response
-    | DeleteUserDefinedRoleDefaultResponse,
+  response: DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse,
 ): response is DeleteUserDefinedRoleDefaultResponse;
 export function isUnexpected(
   response:
@@ -365,24 +335,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

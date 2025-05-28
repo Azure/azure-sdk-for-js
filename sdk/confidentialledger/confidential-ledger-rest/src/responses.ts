@@ -302,8 +302,7 @@ export interface GetUserDefinedEndpointsModule200Response extends HttpResponse {
 }
 
 /** It gets the module for the user defined endpoint. */
-export interface GetUserDefinedEndpointsModuleDefaultResponse
-  extends HttpResponse {
+export interface GetUserDefinedEndpointsModuleDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -380,8 +379,7 @@ export interface ExecuteUserDefinedFunction200Response extends HttpResponse {
 }
 
 /** Executes the user defined function in the Confidential Ledger */
-export interface ExecuteUserDefinedFunctionDefaultResponse
-  extends HttpResponse {
+export interface ExecuteUserDefinedFunctionDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
