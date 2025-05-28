@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentAtManagementGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentAtManagementGroup.json
  */
 async function createDeploymentAtManagementGroupScope() {
   const groupId = "my-management-group-id";

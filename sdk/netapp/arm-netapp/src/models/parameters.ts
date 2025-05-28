@@ -51,6 +51,9 @@ import {
   BackupVaultPatch as BackupVaultPatchMapper,
   BackupRestoreFiles as BackupRestoreFilesMapper,
   BackupsMigrationRequest as BackupsMigrationRequestMapper,
+  Bucket as BucketMapper,
+  BucketPatch as BucketPatchMapper,
+  BucketCredentialsExpiry as BucketCredentialsExpiryMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -80,7 +83,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-01-01",
+    defaultValue: "2025-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -227,6 +230,9 @@ export const usageType: OperationURLParameter = {
 export const quotaLimitName: OperationURLParameter = {
   parameterPath: "quotaLimitName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9\\-]{0,62}$"),
+    },
     serializedName: "quotaLimitName",
     required: true,
     type: {
@@ -600,4 +606,37 @@ export const body38: OperationParameter = {
 export const body39: OperationParameter = {
   parameterPath: "body",
   mapper: BackupsMigrationRequestMapper,
+};
+
+export const bucketName: OperationURLParameter = {
+  parameterPath: "bucketName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^([a-z]|(\\d(?!\\d{0,2}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})))([a-z\\d]|(\\.(?!(\\.|-)))|(-(?!\\.))){1,61}[a-z\\d]$",
+      ),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "bucketName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body40: OperationParameter = {
+  parameterPath: "body",
+  mapper: BucketMapper,
+};
+
+export const body41: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: BucketPatchMapper,
+};
+
+export const body42: OperationParameter = {
+  parameterPath: "body",
+  mapper: BucketCredentialsExpiryMapper,
 };
