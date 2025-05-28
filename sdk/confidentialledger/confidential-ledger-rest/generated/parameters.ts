@@ -11,7 +11,7 @@ import type {
   UserDefinedFunction,
   UserDefinedFunctionExecutionProperties,
   Role,
-} from "./models.js";
+} from "./models";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;

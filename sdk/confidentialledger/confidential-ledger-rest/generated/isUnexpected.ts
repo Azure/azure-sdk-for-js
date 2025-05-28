@@ -67,7 +67,7 @@ import type {
   UpdateUserDefinedRoleDefaultResponse,
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],

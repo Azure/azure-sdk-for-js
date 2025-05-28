@@ -24,9 +24,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [
