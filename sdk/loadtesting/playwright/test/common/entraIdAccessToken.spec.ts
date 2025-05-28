@@ -32,7 +32,10 @@ describe("EntraIdAccessToken", () => {
     vi.mocked(parseJwt).mockReturnValue({
       exp: expiry / 1000,
     });
-    const entraIdAccessToken = new EntraIdAccessToken();
+    const credential = {
+      getToken: vi.fn().mockRejectedValue(new Error()),
+    };
+    const entraIdAccessToken = new EntraIdAccessToken(credential);
     expect(entraIdAccessToken.token).to.equal(token);
     expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -124,13 +127,19 @@ describe("EntraIdAccessToken", () => {
   });
 
   it("should return true if entra id access token needs rotation due to no token", () => {
-    const entraIdAccessToken = new EntraIdAccessToken();
+    const credential = {
+      getToken: vi.fn().mockRejectedValue(new Error()),
+    };
+    const entraIdAccessToken = new EntraIdAccessToken(credential);
     const status = entraIdAccessToken.doesEntraIdAccessTokenNeedRotation();
     expect(status).toBeTruthy();
   });
 
   it("should return true if entra id access token needs rotation due to expiry", () => {
-    const entraIdAccessToken = new EntraIdAccessToken();
+    const credential = {
+      getToken: vi.fn().mockRejectedValue(new Error()),
+    };
+    const entraIdAccessToken = new EntraIdAccessToken(credential);
     entraIdAccessToken.token = "token";
     entraIdAccessToken["_expiryTimestamp"] =
       Date.now() +
@@ -141,7 +150,10 @@ describe("EntraIdAccessToken", () => {
   });
 
   it("should return false if entra id access token does not need rotation", () => {
-    const entraIdAccessToken = new EntraIdAccessToken();
+    const credential = {
+      getToken: vi.fn().mockRejectedValue(new Error()),
+    };
+    const entraIdAccessToken = new EntraIdAccessToken(credential);
     entraIdAccessToken.token = "token";
     entraIdAccessToken["_expiryTimestamp"] =
       Date.now() +

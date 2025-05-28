@@ -39,4 +39,9 @@ export const ServiceErrorMessageConstants = {
     key: "ExpiredMptPatError",
     message: "Your authentication token has expired. Create a new token.",
   },
+  NO_CRED_ENTRA_AUTH_ERROR: {
+    key: "NoCredEntraAuthError",
+    message:
+      "Azure credentials not found when using Entra ID authentication. Please refer to https://aka.ms/mpt/authentication for more information.",
+  },
 };
