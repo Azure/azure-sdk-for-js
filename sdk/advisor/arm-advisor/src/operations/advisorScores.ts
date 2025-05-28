@@ -34,9 +34,7 @@ export class AdvisorScoresImpl implements AdvisorScores {
    * Gets the list of advisor scores.
    * @param options The options parameters.
    */
-  list(
-    options?: AdvisorScoresListOptionalParams,
-  ): Promise<AdvisorScoresListResponse> {
+  list(options?: AdvisorScoresListOptionalParams): Promise<AdvisorScoresListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -45,14 +43,8 @@ export class AdvisorScoresImpl implements AdvisorScores {
    * @param name The scope of Advisor score entity.
    * @param options The options parameters.
    */
-  get(
-    name: string,
-    options?: AdvisorScoresGetOptionalParams,
-  ): Promise<AdvisorScoresGetResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getOperationSpec,
-    );
+  get(name: string, options?: AdvisorScoresGetOptionalParams): Promise<AdvisorScoresGetResponse> {
+    return this.client.sendOperationRequest({ name, options }, getOperationSpec);
   }
 }
 // Operation Specifications

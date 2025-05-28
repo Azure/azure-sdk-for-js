@@ -21,9 +21,7 @@ export interface ResiliencyReviews {
    * Get list of Azure Advisor resiliency reviews.
    * @param options The options parameters.
    */
-  list(
-    options?: ResiliencyReviewsListOptionalParams,
-  ): PagedAsyncIterableIterator<ResiliencyReview>;
+  list(options?: ResiliencyReviewsListOptionalParams): PagedAsyncIterableIterator<ResiliencyReview>;
   /**
    * Get existing Azure Advisor resiliency review by id.
    * @param reviewId Existing review id. This is a GUID-formatted string (e.g.

@@ -164,9 +164,7 @@ export class SuppressionsImpl implements Suppressions {
    * attribute of a recommendation is referred to as a suppression.
    * @param options The options parameters.
    */
-  private _list(
-    options?: SuppressionsListOptionalParams,
-  ): Promise<SuppressionsListResponse> {
+  private _list(options?: SuppressionsListOptionalParams): Promise<SuppressionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -179,10 +177,7 @@ export class SuppressionsImpl implements Suppressions {
     nextLink: string,
     options?: SuppressionsListNextOptionalParams,
   ): Promise<SuppressionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -270,11 +265,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -290,11 +281,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

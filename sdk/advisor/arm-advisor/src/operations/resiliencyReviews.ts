@@ -110,10 +110,7 @@ export class ResiliencyReviewsImpl implements ResiliencyReviews {
     reviewId: string,
     options?: ResiliencyReviewsGetOptionalParams,
   ): Promise<ResiliencyReviewsGetResponse> {
-    return this.client.sendOperationRequest(
-      { reviewId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ reviewId, options }, getOperationSpec);
   }
 
   /**
@@ -125,10 +122,7 @@ export class ResiliencyReviewsImpl implements ResiliencyReviews {
     nextLink: string,
     options?: ResiliencyReviewsListNextOptionalParams,
   ): Promise<ResiliencyReviewsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -145,12 +139,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -167,11 +156,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.reviewId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.reviewId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -186,11 +171,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

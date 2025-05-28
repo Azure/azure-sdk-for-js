@@ -1153,22 +1153,19 @@ export enum KnownReasonForRejectionName {
 export type ReasonForRejectionName = string;
 
 /** Optional parameters. */
-export interface RecommendationMetadataGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationMetadataGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RecommendationMetadataGetResponse = MetadataEntity;
 
 /** Optional parameters. */
-export interface RecommendationMetadataListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationMetadataListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RecommendationMetadataListResponse = MetadataEntityListResult;
 
 /** Optional parameters. */
-export interface RecommendationMetadataListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationMetadataListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationMetadataListNextResponse = MetadataEntityListResult;
@@ -1206,12 +1203,10 @@ export interface ConfigurationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ConfigurationsListBySubscriptionNextResponse =
-  ConfigurationListResult;
+export type ConfigurationsListBySubscriptionNextResponse = ConfigurationListResult;
 
 /** Optional parameters. */
-export interface RecommendationsGenerateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsGenerateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the generate operation. */
 export type RecommendationsGenerateResponse = RecommendationsGenerateHeaders;
@@ -1221,8 +1216,7 @@ export interface RecommendationsGetGenerateStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RecommendationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface RecommendationsListOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup' */
   filter?: string;
   /** The number of recommendations per page if a paged version of this API is being used. */
@@ -1235,62 +1229,52 @@ export interface RecommendationsListOptionalParams
 export type RecommendationsListResponse = ResourceRecommendationBaseListResult;
 
 /** Optional parameters. */
-export interface RecommendationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
-export interface RecommendationsPatchOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsPatchOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the patch operation. */
 export type RecommendationsPatchResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
-export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type RecommendationsListNextResponse =
-  ResourceRecommendationBaseListResult;
+export type RecommendationsListNextResponse = ResourceRecommendationBaseListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationEntityListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationEntityListResult;
 
 /** Optional parameters. */
-export interface SuppressionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SuppressionsGetResponse = SuppressionContract;
 
 /** Optional parameters. */
-export interface SuppressionsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SuppressionsCreateResponse = SuppressionContract;
 
 /** Optional parameters. */
-export interface SuppressionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SuppressionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface SuppressionsListOptionalParams extends coreClient.OperationOptions {
   /** The number of suppressions per page if a paged version of this API is being used. */
   top?: number;
   /** The page-continuation token to use with a paged version of this API. */
@@ -1301,8 +1285,7 @@ export interface SuppressionsListOptionalParams
 export type SuppressionsListResponse = SuppressionContractListResult;
 
 /** Optional parameters. */
-export interface SuppressionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SuppressionsListNextResponse = SuppressionContractListResult;
@@ -1314,40 +1297,34 @@ export interface PredictOptionalParams extends coreClient.OperationOptions {}
 export type PredictResponse = PredictionResponse;
 
 /** Optional parameters. */
-export interface AdvisorScoresListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdvisorScoresListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AdvisorScoresListResponse = AdvisorScoreResponse;
 
 /** Optional parameters. */
-export interface AdvisorScoresGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdvisorScoresGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AdvisorScoresGetResponse = AdvisorScoreEntity;
 
 /** Optional parameters. */
-export interface AssessmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssessmentsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AssessmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssessmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AssessmentsGetResponse = AssessmentResult;
 
 /** Optional parameters. */
-export interface AssessmentsPutOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssessmentsPutOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
 export type AssessmentsPutResponse = AssessmentResult;
 
 /** Optional parameters. */
-export interface AssessmentsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface AssessmentsListOptionalParams extends coreClient.OperationOptions {
   /** Limit the result to the specified number of rows. */
   top?: string;
   /** The page-continuation token to use with a paged version of this API. */
@@ -1358,43 +1335,37 @@ export interface AssessmentsListOptionalParams
 export type AssessmentsListResponse = AssessmentListResult;
 
 /** Optional parameters. */
-export interface AssessmentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssessmentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AssessmentsListNextResponse = AssessmentListResult;
 
 /** Optional parameters. */
-export interface AssessmentTypesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssessmentTypesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AssessmentTypesListResponse = AssessmentTypeListResult;
 
 /** Optional parameters. */
-export interface AssessmentTypesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssessmentTypesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AssessmentTypesListNextResponse = AssessmentTypeListResult;
 
 /** Optional parameters. */
-export interface WorkloadsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkloadsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type WorkloadsListResponse = WorkloadListResult;
 
 /** Optional parameters. */
-export interface WorkloadsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkloadsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkloadsListNextResponse = WorkloadListResult;
 
 /** Optional parameters. */
-export interface ResiliencyReviewsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ResiliencyReviewsListOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply.<br>Filter can be applied to properties ['reviewStatus', 'reviewId'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=reviewStatus eq 'New' */
   filter?: string;
   /** The number of items to be included in the result. */
@@ -1407,22 +1378,19 @@ export interface ResiliencyReviewsListOptionalParams
 export type ResiliencyReviewsListResponse = ResiliencyReviewCollection;
 
 /** Optional parameters. */
-export interface ResiliencyReviewsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResiliencyReviewsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ResiliencyReviewsGetResponse = ResiliencyReview;
 
 /** Optional parameters. */
-export interface ResiliencyReviewsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResiliencyReviewsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ResiliencyReviewsListNextResponse = ResiliencyReviewCollection;
 
 /** Optional parameters. */
-export interface TriageRecommendationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface TriageRecommendationsListOptionalParams extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
   /** The number of items to skip before starting to collect the result set. */
@@ -1433,8 +1401,7 @@ export interface TriageRecommendationsListOptionalParams
 export type TriageRecommendationsListResponse = TriageRecommendationCollection;
 
 /** Optional parameters. */
-export interface TriageRecommendationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriageRecommendationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TriageRecommendationsGetResponse = TriageRecommendation;
@@ -1452,37 +1419,31 @@ export interface TriageRecommendationsResetTriageRecommendationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TriageRecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriageRecommendationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TriageRecommendationsListNextResponse =
-  TriageRecommendationCollection;
+export type TriageRecommendationsListNextResponse = TriageRecommendationCollection;
 
 /** Optional parameters. */
-export interface TriageResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriageResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TriageResourcesGetResponse = TriageResource;
 
 /** Optional parameters. */
-export interface TriageResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriageResourcesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type TriageResourcesListResponse = TriageResourceCollection;
 
 /** Optional parameters. */
-export interface TriageResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TriageResourcesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TriageResourcesListNextResponse = TriageResourceCollection;
 
 /** Optional parameters. */
-export interface AdvisorManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AdvisorManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

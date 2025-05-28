@@ -92,9 +92,7 @@ export class AssessmentTypesImpl implements AssessmentTypes {
    * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
-  private _list(
-    options?: AssessmentTypesListOptionalParams,
-  ): Promise<AssessmentTypesListResponse> {
+  private _list(options?: AssessmentTypesListOptionalParams): Promise<AssessmentTypesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +105,7 @@ export class AssessmentTypesImpl implements AssessmentTypes {
     nextLink: string,
     options?: AssessmentTypesListNextOptionalParams,
   ): Promise<AssessmentTypesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +138,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

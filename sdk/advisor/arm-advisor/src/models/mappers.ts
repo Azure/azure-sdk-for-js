@@ -319,33 +319,32 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const ResourceRecommendationBaseListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ResourceRecommendationBaseListResult",
-      modelProperties: {
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
+export const ResourceRecommendationBaseListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceRecommendationBaseListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ResourceRecommendationBase",
-              },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceRecommendationBase",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ShortDescription: coreClient.CompositeMapper = {
   type: {
@@ -464,27 +463,26 @@ export const RecommendationPropertiesReview: coreClient.CompositeMapper = {
   },
 };
 
-export const RecommendationPropertiesResourceWorkload: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "RecommendationPropertiesResourceWorkload",
-      modelProperties: {
-        id: {
-          serializedName: "id",
-          type: {
-            name: "String",
-          },
+export const RecommendationPropertiesResourceWorkload: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecommendationPropertiesResourceWorkload",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
         },
-        name: {
-          serializedName: "name",
-          type: {
-            name: "String",
-          },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const OperationEntityListResult: coreClient.CompositeMapper = {
   type: {
@@ -568,39 +566,37 @@ export const OperationDisplayInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const TrackedRecommendationPropertiesPayload: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TrackedRecommendationPropertiesPayload",
-      modelProperties: {
-        properties: {
-          serializedName: "properties",
-          type: {
-            name: "Composite",
-            className: "TrackedRecommendationPropertiesPayloadProperties",
-          },
+export const TrackedRecommendationPropertiesPayload: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedRecommendationPropertiesPayload",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "TrackedRecommendationPropertiesPayloadProperties",
         },
       },
     },
-  };
+  },
+};
 
-export const TrackedRecommendationPropertiesPayloadProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TrackedRecommendationPropertiesPayloadProperties",
-      modelProperties: {
-        trackedProperties: {
-          serializedName: "trackedProperties",
-          type: {
-            name: "Composite",
-            className: "TrackedRecommendationProperties",
-          },
+export const TrackedRecommendationPropertiesPayloadProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedRecommendationPropertiesPayloadProperties",
+    modelProperties: {
+      trackedProperties: {
+        serializedName: "trackedProperties",
+        type: {
+          name: "Composite",
+          className: "TrackedRecommendationProperties",
         },
       },
     },
-  };
+  },
+};
 
 export const SuppressionContractListResult: coreClient.CompositeMapper = {
   type: {

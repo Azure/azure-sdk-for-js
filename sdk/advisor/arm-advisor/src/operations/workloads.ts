@@ -38,9 +38,7 @@ export class WorkloadsImpl implements Workloads {
    * Get list of Workloads.
    * @param options The options parameters.
    */
-  public list(
-    options?: WorkloadsListOptionalParams,
-  ): PagedAsyncIterableIterator<WorkloadResult> {
+  public list(options?: WorkloadsListOptionalParams): PagedAsyncIterableIterator<WorkloadResult> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -92,9 +90,7 @@ export class WorkloadsImpl implements Workloads {
    * Get list of Workloads.
    * @param options The options parameters.
    */
-  private _list(
-    options?: WorkloadsListOptionalParams,
-  ): Promise<WorkloadsListResponse> {
+  private _list(options?: WorkloadsListOptionalParams): Promise<WorkloadsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class WorkloadsImpl implements Workloads {
     nextLink: string,
     options?: WorkloadsListNextOptionalParams,
   ): Promise<WorkloadsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +136,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

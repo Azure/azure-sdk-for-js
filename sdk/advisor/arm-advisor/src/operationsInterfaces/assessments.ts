@@ -24,18 +24,13 @@ export interface Assessments {
    * Get list of Azure Advisor assessment.
    * @param options The options parameters.
    */
-  list(
-    options?: AssessmentsListOptionalParams,
-  ): PagedAsyncIterableIterator<AssessmentResult>;
+  list(options?: AssessmentsListOptionalParams): PagedAsyncIterableIterator<AssessmentResult>;
   /**
    * Delete a existing Azure Advisor assessment.
    * @param assessmentName Advisor assessment name.
    * @param options The options parameters.
    */
-  delete(
-    assessmentName: string,
-    options?: AssessmentsDeleteOptionalParams,
-  ): Promise<void>;
+  delete(assessmentName: string, options?: AssessmentsDeleteOptionalParams): Promise<void>;
   /**
    * Get a existing Azure Advisor assessment.
    * @param assessmentName Advisor assessment name.

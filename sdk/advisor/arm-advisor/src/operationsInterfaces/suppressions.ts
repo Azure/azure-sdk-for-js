@@ -25,9 +25,7 @@ export interface Suppressions {
    * attribute of a recommendation is referred to as a suppression.
    * @param options The options parameters.
    */
-  list(
-    options?: SuppressionsListOptionalParams,
-  ): PagedAsyncIterableIterator<SuppressionContract>;
+  list(options?: SuppressionsListOptionalParams): PagedAsyncIterableIterator<SuppressionContract>;
   /**
    * Obtains the details of a suppression.
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which

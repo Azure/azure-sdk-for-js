@@ -61,12 +61,7 @@ export class TriageResourcesImpl implements TriageResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          reviewId,
-          recommendationId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(reviewId, recommendationId, options, settings);
       },
     };
   }
@@ -87,12 +82,7 @@ export class TriageResourcesImpl implements TriageResources {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        reviewId,
-        recommendationId,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(reviewId, recommendationId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -105,11 +95,7 @@ export class TriageResourcesImpl implements TriageResources {
     recommendationId: string,
     options?: TriageResourcesListOptionalParams,
   ): AsyncIterableIterator<TriageResource> {
-    for await (const page of this.listPagingPage(
-      reviewId,
-      recommendationId,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(reviewId, recommendationId, options)) {
       yield* page;
     }
   }

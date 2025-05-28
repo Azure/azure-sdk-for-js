@@ -109,10 +109,7 @@ export class TriageRecommendationsImpl implements TriageRecommendations {
     reviewId: string,
     options?: TriageRecommendationsListOptionalParams,
   ): Promise<TriageRecommendationsListResponse> {
-    return this.client.sendOperationRequest(
-      { reviewId, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ reviewId, options }, listOperationSpec);
   }
 
   /**
@@ -206,10 +203,7 @@ export class TriageRecommendationsImpl implements TriageRecommendations {
     nextLink: string,
     options?: TriageRecommendationsListNextOptionalParams,
   ): Promise<TriageRecommendationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { reviewId, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ reviewId, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -227,11 +221,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skip],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.reviewId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.reviewId],
   headerParameters: [Parameters.accept],
   serializer,
 };

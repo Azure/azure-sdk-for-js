@@ -19,16 +19,11 @@ export interface AdvisorScores {
    * Gets the list of advisor scores.
    * @param options The options parameters.
    */
-  list(
-    options?: AdvisorScoresListOptionalParams,
-  ): Promise<AdvisorScoresListResponse>;
+  list(options?: AdvisorScoresListOptionalParams): Promise<AdvisorScoresListResponse>;
   /**
    * Gets the advisor score.
    * @param name The scope of Advisor score entity.
    * @param options The options parameters.
    */
-  get(
-    name: string,
-    options?: AdvisorScoresGetOptionalParams,
-  ): Promise<AdvisorScoresGetResponse>;
+  get(name: string, options?: AdvisorScoresGetOptionalParams): Promise<AdvisorScoresGetResponse>;
 }

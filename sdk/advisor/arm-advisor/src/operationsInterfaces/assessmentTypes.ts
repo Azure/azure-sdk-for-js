@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  AssessmentTypeResult,
-  AssessmentTypesListOptionalParams,
-} from "../models/index.js";
+import { AssessmentTypeResult, AssessmentTypesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AssessmentTypes. */

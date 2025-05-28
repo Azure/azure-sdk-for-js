@@ -98,14 +98,8 @@ export class AssessmentsImpl implements Assessments {
    * @param assessmentName Advisor assessment name.
    * @param options The options parameters.
    */
-  delete(
-    assessmentName: string,
-    options?: AssessmentsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { assessmentName, options },
-      deleteOperationSpec,
-    );
+  delete(assessmentName: string, options?: AssessmentsDeleteOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ assessmentName, options }, deleteOperationSpec);
   }
 
   /**
@@ -117,10 +111,7 @@ export class AssessmentsImpl implements Assessments {
     assessmentName: string,
     options?: AssessmentsGetOptionalParams,
   ): Promise<AssessmentsGetResponse> {
-    return this.client.sendOperationRequest(
-      { assessmentName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ assessmentName, options }, getOperationSpec);
   }
 
   /**
@@ -144,9 +135,7 @@ export class AssessmentsImpl implements Assessments {
    * Get list of Azure Advisor assessment.
    * @param options The options parameters.
    */
-  private _list(
-    options?: AssessmentsListOptionalParams,
-  ): Promise<AssessmentsListResponse> {
+  private _list(options?: AssessmentsListOptionalParams): Promise<AssessmentsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -159,10 +148,7 @@ export class AssessmentsImpl implements Assessments {
     nextLink: string,
     options?: AssessmentsListNextOptionalParams,
   ): Promise<AssessmentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -179,11 +165,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -199,11 +181,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -223,11 +201,7 @@ const putOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.assessmentContract,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -243,11 +217,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top1,
-    Parameters.skiptoken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top1, Parameters.skiptoken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -263,11 +233,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
