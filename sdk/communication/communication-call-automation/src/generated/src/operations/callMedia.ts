@@ -18,6 +18,8 @@ import {
   CallMediaStartTranscriptionOptionalParams,
   StopTranscriptionRequest,
   CallMediaStopTranscriptionOptionalParams,
+  UpdateTranscriptionRequest,
+  CallMediaUpdateTranscriptionOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
   CallMediaRecognizeOptionalParams,
@@ -27,8 +29,6 @@ import {
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
   CallMediaSendDtmfTonesResponse,
-  UpdateTranscriptionRequest,
-  CallMediaUpdateTranscriptionOptionalParams,
   HoldRequest,
   CallMediaHoldOptionalParams,
   UnholdRequest,
@@ -37,8 +37,6 @@ import {
   CallMediaStartMediaStreamingOptionalParams,
   StopMediaStreamingRequest,
   CallMediaStopMediaStreamingOptionalParams,
-  InterruptAudioAndAnnounceRequest,
-  CallMediaInterruptAudioAndAnnounceOptionalParams,
 } from "../models/index.js";
 
 /** Class containing CallMedia operations. */
@@ -101,6 +99,23 @@ export class CallMediaImpl implements CallMedia {
     return this.client.sendOperationRequest(
       { callConnectionId, stopTranscriptionRequest, options },
       stopTranscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * API to change transcription language.
+   * @param callConnectionId The call connection id
+   * @param updateTranscriptionRequest The UpdateTranscription request
+   * @param options The options parameters.
+   */
+  updateTranscription(
+    callConnectionId: string,
+    updateTranscriptionRequest: UpdateTranscriptionRequest,
+    options?: CallMediaUpdateTranscriptionOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, updateTranscriptionRequest, options },
+      updateTranscriptionOperationSpec,
     );
   }
 
@@ -188,23 +203,6 @@ export class CallMediaImpl implements CallMedia {
   }
 
   /**
-   * API to change transcription language.
-   * @param callConnectionId The call connection id
-   * @param updateTranscriptionRequest The UpdateTranscription request
-   * @param options The options parameters.
-   */
-  updateTranscription(
-    callConnectionId: string,
-    updateTranscriptionRequest: UpdateTranscriptionRequest,
-    options?: CallMediaUpdateTranscriptionOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, updateTranscriptionRequest, options },
-      updateTranscriptionOperationSpec,
-    );
-  }
-
-  /**
    * Hold participant from the call using identifier.
    * @param callConnectionId The call connection id.
    * @param holdRequest The participants to be hold from the call.
@@ -271,23 +269,6 @@ export class CallMediaImpl implements CallMedia {
       stopMediaStreamingOperationSpec,
     );
   }
-
-  /**
-   * Plays audio to participants in the call.
-   * @param callConnectionId The call connection id.
-   * @param interruptRequest play request payload.
-   * @param options The options parameters.
-   */
-  interruptAudioAndAnnounce(
-    callConnectionId: string,
-    interruptRequest: InterruptAudioAndAnnounceRequest,
-    options?: CallMediaInterruptAudioAndAnnounceOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, interruptRequest, options },
-      interruptAudioAndAnnounceOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -334,6 +315,22 @@ const stopTranscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.stopTranscriptionRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:updateTranscription",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.updateTranscriptionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -425,22 +422,6 @@ const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:updateTranscription",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.updateTranscriptionRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
 const holdOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:hold",
   httpMethod: "POST",
@@ -499,22 +480,6 @@ const stopMediaStreamingOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.stopMediaStreamingRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const interruptAudioAndAnnounceOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:interruptAudioAndAnnounce",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.interruptRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
