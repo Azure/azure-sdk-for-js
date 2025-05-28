@@ -559,7 +559,8 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-describe("Full text search feature", async () => {
+// Skipping these tests as they are not supported by public emulator
+describe.skip("Full text search feature", async () => {
   let database: Database;
 
   beforeAll(async () => {
@@ -604,7 +605,7 @@ describe("Full text search feature", async () => {
 
   it("should execute a full text query", async () => {
     const containerName = "full text search container 1";
-    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text1, ['swim', 'run'])";
+    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text1, 'swim', 'run')";
 
     const { container } = await database.containers.createIfNotExists({
       id: containerName,
@@ -638,7 +639,7 @@ describe("Full text search feature", async () => {
     };
 
     const query =
-      "SELECT TOP 10 c FROM c WHERE FullTextContains(c.text, 'swim') AND FullTextContains(c.text2, 'swim') ORDER BY RANK RRF (FullTextScore(c.text, ['swim', 'run']),FullTextScore(c.text2, ['swim', 'run']))";
+      "SELECT TOP 10 c FROM c WHERE FullTextContains(c.text, 'swim') AND FullTextContains(c.text2, 'swim') ORDER BY RANK RRF (FullTextScore(c.text, 'swim', 'run'),FullTextScore(c.text2, 'swim', 'run'))";
 
     const { container } = await database.containers.createIfNotExists({
       id: containerName,
@@ -675,7 +676,7 @@ describe("Full text search feature", async () => {
 
   it("should execute a full text query with fetchAll", async () => {
     const containerName = "full text search container 3";
-    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text, ['swim', 'run'])";
+    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text, 'swim', 'run')";
 
     const { container } = await database.containers.createIfNotExists({
       id: containerName,
