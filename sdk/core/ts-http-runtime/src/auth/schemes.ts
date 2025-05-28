@@ -57,17 +57,10 @@ export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
   flows: TFlows;
 }
 
-/** Represents no authentication scheme */
-export interface NoAuthScheme {
-  /** Type of auth scheme */
-  kind: "noAuth";
-}
-
 /** Union type of all supported authentication schemes */
 export type AuthScheme =
   | BasicAuthScheme
   | BearerAuthScheme
   | NoAuthAuthScheme
   | ApiKeyAuthScheme
-  | OAuth2AuthScheme<OAuth2Flow[]>
-  | NoAuthScheme;
+  | OAuth2AuthScheme<OAuth2Flow[]>;

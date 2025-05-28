@@ -13,6 +13,7 @@ import type {
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { randomUUID } from "./util/uuidUtils.js";
+import { AuthScheme } from "./auth/schemes.js";
 
 /**
  * Settings to initialize a request.
@@ -110,6 +111,15 @@ export interface PipelineRequestOptions {
   allowInsecureConnection?: boolean;
 
   /**
+   * List of authentication schemes used for this specific request.
+   * These schemes define how the request will be authenticated.
+   * If provided, these schemes override the client level authentication schemes.
+   *
+   * If no auth schemes are provided at client or request level, defaults to no auth.
+   */
+  authSchemes?: AuthScheme[];
+
+  /**
    * Additional options to set on the request. This provides a way to override
    * existing ones or provide request properties that are not declared.
    *
@@ -142,6 +152,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
   public requestOverrides?: Record<string, unknown>;
+  public authSchemes?: AuthScheme[];
 
   constructor(options: PipelineRequestOptions) {
     this.url = options.url;
@@ -162,6 +173,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
     this.requestOverrides = options.requestOverrides;
+    this.authSchemes = options.authSchemes;
   }
 }
 
