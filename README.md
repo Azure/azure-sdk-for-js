@@ -81,7 +81,7 @@ function createSecretClientWithManagedIdentity(
   const credential = new ManagedIdentityCredential();
 
   // Create secret client with managed identity and empty user agent
-  const secretClient = new SecretClient(keyvaultUri, credential as any, {
+  const secretClient = new SecretClient(keyvaultUri, credential, {
     additionalPolicies: [
       {
         position: "perCall",
