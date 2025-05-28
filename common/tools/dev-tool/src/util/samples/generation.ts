@@ -84,6 +84,16 @@ function isValidNpmVersionSpecifier(specifier: string) {
   return semver.valid(specifier) || ["latest", "dev", "next"].includes(specifier);
 }
 
+function resolveDependencyVersion(name: string, specifier: string): string {
+  if (isValidNpmVersionSpecifier(specifier)) {
+    return specifier;
+  } else if (specifier === "workspace:*") {
+    return "latest";
+  } else {
+    return resolveCatalogVersion(name, specifier);
+  }
+}
+
 /**
  * Extracts the sample generation meta-information from the sample sources and
  * configuration in package.json.
@@ -98,6 +108,7 @@ export async function makeSampleGenerationInfo(
   onError: () => void,
 ): Promise<SampleGenerationInfo> {
   await loadPnpmWorkspaceCatalogs();
+
   const sampleSources = await collect(
     findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts")),
   );
@@ -213,11 +224,7 @@ export async function makeSampleGenerationInfo(
                 );
               }
 
-              if (isValidNpmVersionSpecifier(dependencyVersion)) {
-                current[dependency] = dependencyVersion;
-              } else {
-                current[dependency] = resolveCatalogVersion(dependency, dependencyVersion);
-              }
+              current[dependency] = resolveDependencyVersion(dependency, dependencyVersion);
 
               // It would be really weird to depend on `@types/*` in a source file but if we did
               // it'd be handled above.
@@ -229,14 +236,10 @@ export async function makeSampleGenerationInfo(
                   packageJson.dependencies[typeDependency];
 
                 if (typeDependencyVersion) {
-                  if (isValidNpmVersionSpecifier(typeDependencyVersion)) {
-                    typesDependencies[typeDependency] = typeDependencyVersion;
-                  } else {
-                    typesDependencies[typeDependency] = resolveCatalogVersion(
-                      typeDependency,
-                      typeDependencyVersion,
-                    );
-                  }
+                  typesDependencies[typeDependency] = resolveDependencyVersion(
+                    typeDependency,
+                    typeDependencyVersion,
+                  );
                 }
               }
             }

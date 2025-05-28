@@ -13,6 +13,10 @@ export interface RushJsonProject {
    */
   packageName: string;
   /**
+   * The name of the package.
+   */
+  version: string;
+  /**
    * The path to the project, relative to the monorepo root.
    */
   projectFolder: string;
@@ -67,18 +71,22 @@ export async function getRushJson(): Promise<any> {
   }
 
   const pnpmPackages = JSON.parse(listPackagesCommand.output);
-  const results = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const results: any = {
     projects: [] as RushJsonProject[],
   };
 
   for (const pkg of pnpmPackages) {
     if (pkg.name !== "@azure/monorepo" && pkg.path.startsWith(_workspaceRoot)) {
       const projectFolder = pkg.path.slice(_workspaceRoot.length + 1);
-      results.projects.push({
+      const pkgInfo = {
         packageName: pkg.name,
+        version: pkg.version,
         projectFolder,
         versionPolicyName: getVersionPolicyName(pkg.name, pkg.path),
-      });
+      };
+      results.projects.push(pkgInfo);
+      results[pkg.name] = pkgInfo;
     }
   }
 
