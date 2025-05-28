@@ -16,6 +16,13 @@ import {
   RecommendationsImpl,
   OperationsImpl,
   SuppressionsImpl,
+  AdvisorScoresImpl,
+  AssessmentsImpl,
+  AssessmentTypesImpl,
+  WorkloadsImpl,
+  ResiliencyReviewsImpl,
+  TriageRecommendationsImpl,
+  TriageResourcesImpl,
 } from "./operations/index.js";
 import {
   RecommendationMetadata,
@@ -23,8 +30,22 @@ import {
   Recommendations,
   Operations,
   Suppressions,
+  AdvisorScores,
+  Assessments,
+  AssessmentTypes,
+  Workloads,
+  ResiliencyReviews,
+  TriageRecommendations,
+  TriageResources,
 } from "./operationsInterfaces/index.js";
-import { AdvisorManagementClientOptionalParams } from "./models/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import {
+  AdvisorManagementClientOptionalParams,
+  PredictionRequest,
+  PredictOptionalParams,
+  PredictResponse,
+} from "./models/index.js";
 
 export class AdvisorManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -72,7 +93,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-advisor/3.2.0`;
+    const packageDetails = `azsdk-js-arm-advisor/3.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,12 +143,19 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-01-01";
+    this.apiVersion = options.apiVersion || "2024-11-18-preview";
     this.recommendationMetadata = new RecommendationMetadataImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.recommendations = new RecommendationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.suppressions = new SuppressionsImpl(this);
+    this.advisorScores = new AdvisorScoresImpl(this);
+    this.assessments = new AssessmentsImpl(this);
+    this.assessmentTypes = new AssessmentTypesImpl(this);
+    this.workloads = new WorkloadsImpl(this);
+    this.resiliencyReviews = new ResiliencyReviewsImpl(this);
+    this.triageRecommendations = new TriageRecommendationsImpl(this);
+    this.triageResources = new TriageResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -156,9 +184,49 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Predicts a recommendation.
+   * @param predictionRequest Parameters for predict recommendation.
+   * @param options The options parameters.
+   */
+  predict(
+    predictionRequest: PredictionRequest,
+    options?: PredictOptionalParams,
+  ): Promise<PredictResponse> {
+    return this.sendOperationRequest({ predictionRequest, options }, predictOperationSpec);
+  }
+
   recommendationMetadata: RecommendationMetadata;
   configurations: Configurations;
   recommendations: Recommendations;
   operations: Operations;
   suppressions: Suppressions;
+  advisorScores: AdvisorScores;
+  assessments: Assessments;
+  assessmentTypes: AssessmentTypes;
+  workloads: Workloads;
+  resiliencyReviews: ResiliencyReviews;
+  triageRecommendations: TriageRecommendations;
+  triageResources: TriageResources;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const predictOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/predict",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PredictionResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  requestBody: Parameters.predictionRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};

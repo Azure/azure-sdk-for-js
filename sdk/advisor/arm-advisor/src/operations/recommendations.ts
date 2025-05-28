@@ -23,6 +23,9 @@ import {
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGetOptionalParams,
   RecommendationsGetResponse,
+  TrackedRecommendationPropertiesPayload,
+  RecommendationsPatchOptionalParams,
+  RecommendationsPatchResponse,
   RecommendationsListNextResponse,
 } from "../models/index.js";
 
@@ -151,6 +154,26 @@ export class RecommendationsImpl implements Recommendations {
   }
 
   /**
+   * Update the tracked properties of a Recommendation.
+   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
+   *                    the tracked recommendation applies.
+   * @param recommendationId The RecommendationId ID.
+   * @param trackedProperties The properties to update on the recommendation.
+   * @param options The options parameters.
+   */
+  patch(
+    resourceUri: string,
+    recommendationId: string,
+    trackedProperties: TrackedRecommendationPropertiesPayload,
+    options?: RecommendationsPatchOptionalParams,
+  ): Promise<RecommendationsPatchResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, recommendationId, trackedProperties, options },
+      patchOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -226,6 +249,24 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const patchOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceRecommendationBase,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  requestBody: Parameters.trackedProperties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

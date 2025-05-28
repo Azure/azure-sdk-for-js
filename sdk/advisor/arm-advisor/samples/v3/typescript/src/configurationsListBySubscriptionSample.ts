@@ -7,9 +7,7 @@
  */
 import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve Azure Advisor configurations and also retrieve configurations of contained resource groups.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Retrieve Azure Advisor configurations and also retrieve configurations of contained resource groups.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListConfigurations.json
  */
-async function getConfigurations() {
+async function getConfigurations(): Promise<void> {
   const subscriptionId =
     process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getConfigurations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getConfigurations();
 }
 
