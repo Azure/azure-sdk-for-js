@@ -21,11 +21,11 @@ export const build = workingTreeUnchangedCheck({
 export const unitTestNode = scriptCheck({
   description: "Run Node unit tests",
   tags: ["local"],
-  checkCommand: "rushx unit-test:node",
+  checkCommand: "rushx test:node",
 });
 
 export const unitTestBrowser = scriptCheck({
   description: "Run browser unit tests",
   tags: ["local"],
-  checkCommand: "rushx unit-test:browser",
+  checkCommand: "rushx test:browser",
 });

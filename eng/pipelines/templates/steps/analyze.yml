@@ -4,12 +4,6 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-    parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: "template"
-      TestPipeline: ${{ parameters.TestPipeline }}
-
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -77,6 +71,14 @@ steps:
   - pwsh: |
       node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
+
+  - pwsh: |
+      node eng/tools/rush-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+    displayName: "Update snippets"
+
+  - pwsh: |
+      eng/tools/check-snippet-changes.ps1
+    displayName: "Check snippet changes"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:
