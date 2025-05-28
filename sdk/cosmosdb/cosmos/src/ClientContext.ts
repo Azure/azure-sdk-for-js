@@ -45,6 +45,7 @@ import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform.js";
 import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
 import type { RetryOptions } from "./retry/retryOptions.js";
+import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -61,6 +62,7 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  public partitionKeyRangeCache: PartitionKeyRangeCache;
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
 
@@ -98,6 +100,7 @@ export class ClientContext {
       );
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this);
   }
 
   /** @hidden */

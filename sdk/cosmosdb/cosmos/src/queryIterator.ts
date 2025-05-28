@@ -69,7 +69,7 @@ export class QueryIterator<T> {
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
     this.isInitialized = false;
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
   }
 
   /**

@@ -53,11 +53,10 @@ export class Item {
     public readonly id: string,
     private readonly clientContext: ClientContext,
     partitionKey?: PartitionKey,
-    partitionKeyRangeCache?: PartitionKeyRangeCache,
   ) {
     this.partitionKey =
       partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
-    this.partitionKeyRangeCache = partitionKeyRangeCache;
+    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
   }
 
   /**
