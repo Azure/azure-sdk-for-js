@@ -39,14 +39,7 @@ function _getPrivateLinkResources(context: OnlineExperimentationContext) {
       workspaceName: string,
       privateLinkResourceName: string,
       options?: PrivateLinkResourcesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        workspaceName,
-        privateLinkResourceName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, workspaceName, privateLinkResourceName, options),
   };
 }
 

@@ -9,12 +9,7 @@ import {
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import {
-  list,
-  $delete,
-  update,
-  get,
-} from "../../api/privateEndpointConnections/operations.js";
+import { list, $delete, update, get } from "../../api/privateEndpointConnections/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -67,14 +62,7 @@ function _getPrivateEndpointConnections(context: OnlineExperimentationContext) {
       workspaceName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        workspaceName,
-        privateEndpointConnectionName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, workspaceName, privateEndpointConnectionName, options),
     update: (
       resourceGroupName: string,
       workspaceName: string,
@@ -95,14 +83,7 @@ function _getPrivateEndpointConnections(context: OnlineExperimentationContext) {
       workspaceName: string,
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        workspaceName,
-        privateEndpointConnectionName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, workspaceName, privateEndpointConnectionName, options),
   };
 }
 
