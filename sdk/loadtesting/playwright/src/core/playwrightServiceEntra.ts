@@ -6,7 +6,7 @@ import { coreLogger } from "../common/logger.js";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import type { TokenCredential } from "@azure/identity";
 
-class PlaywrightServiceEntra {
+export class PlaywrightServiceEntra {
   private _entraIdAccessTokenRotationInterval?: NodeJS.Timeout;
   private static instance: PlaywrightServiceEntra;
   private _entraIdAccessToken: EntraIdAccessToken;

@@ -3,18 +3,28 @@
 
 import { dirname } from "node:path";
 import type { FullConfig } from "@playwright/test";
-import playwrightServiceEntra from "../playwrightServiceEntra.js";
+import playwrightServiceEntra, { PlaywrightServiceEntra } from "../playwrightServiceEntra.js";
 import { loadCustomerGlobalFunction } from "../../common/executor.js";
-import customerConfig from "../../common/customerConfig.js";
+import customerConfig, { CustomerConfig } from "../../common/customerConfig.js";
 
 const playwrightServiceGlobalSetupWrapper = async (config: FullConfig): Promise<any> => {
+  const entraInstance: PlaywrightServiceEntra =
+    config.metadata.azurePlaywright?.playwrightServiceEntra ?? playwrightServiceEntra;
+  const customerConfigInstance: CustomerConfig =
+    config.metadata.azurePlaywright?.customerConfig ?? customerConfig;
+
   const rootDir = config.configFile ? dirname(config.configFile!) : process.cwd();
   let customerGlobalSetupFunc: any = null;
-  if (customerConfig.globalSetup && typeof customerConfig.globalSetup === "string") {
-    customerGlobalSetupFunc = await loadCustomerGlobalFunction(rootDir, customerConfig.globalSetup);
+  if (
+    customerConfigInstance.globalSetup &&
+    typeof customerConfigInstance.globalSetup === "string"
+  ) {
+    customerGlobalSetupFunc = await loadCustomerGlobalFunction(
+      rootDir,
+      customerConfigInstance.globalSetup,
+    );
   }
-
-  await playwrightServiceEntra.globalSetup();
+  await entraInstance.globalSetup();
   if (customerGlobalSetupFunc) {
     return customerGlobalSetupFunc(config);
   }
