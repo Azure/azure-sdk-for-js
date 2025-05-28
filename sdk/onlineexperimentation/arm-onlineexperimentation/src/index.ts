@@ -19,8 +19,8 @@ export {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  OnlineExperimentWorkspace,
-  OnlineExperimentWorkspaceProperties,
+  OnlineExperimentationWorkspace,
+  OnlineExperimentationWorkspaceProperties,
   KnownResourceProvisioningState,
   ResourceProvisioningState,
   ResourceEncryptionConfiguration,
@@ -28,6 +28,16 @@ export {
   KeyEncryptionKeyIdentity,
   KnownKeyEncryptionKeyIdentityType,
   KeyEncryptionKeyIdentityType,
+  KnownPublicNetworkAccessType,
+  PublicNetworkAccessType,
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
+  PrivateEndpoint,
+  PrivateLinkServiceConnectionState,
+  KnownPrivateEndpointServiceConnectionStatus,
+  PrivateEndpointServiceConnectionStatus,
+  KnownPrivateEndpointConnectionProvisioningState,
+  PrivateEndpointConnectionProvisioningState,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
@@ -37,22 +47,41 @@ export {
   OnlineExperimentationWorkspaceSkuName,
   KnownOnlineExperimentationWorkspaceSkuTier,
   OnlineExperimentationWorkspaceSkuTier,
-  TrackedResource,
+  ProxyResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  TrackedResource,
+  OnlineExperimentationWorkspacePatch,
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
   KnownVersions,
 } from "./models/index.js";
 export { OnlineExperimentationClientOptionalParams } from "./api/index.js";
 export {
-  OnlineExperimentWorkspacesListBySubscriptionOptionalParams,
-  OnlineExperimentWorkspacesListByResourceGroupOptionalParams,
-  OnlineExperimentWorkspacesDeleteOptionalParams,
-  OnlineExperimentWorkspacesUpdateOptionalParams,
-  OnlineExperimentWorkspacesCreateOrUpdateOptionalParams,
-  OnlineExperimentWorkspacesGetOptionalParams,
-} from "./api/onlineExperimentWorkspaces/index.js";
+  OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
+  OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
+  OnlineExperimentationWorkspacesDeleteOptionalParams,
+  OnlineExperimentationWorkspacesUpdateOptionalParams,
+  OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
+  OnlineExperimentationWorkspacesGetOptionalParams,
+} from "./api/onlineExperimentationWorkspaces/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { OnlineExperimentWorkspacesOperations, OperationsOperations } from "./classic/index.js";
+export {
+  PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsUpdateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+} from "./api/privateEndpointConnections/index.js";
+export {
+  PrivateLinkResourcesListOptionalParams,
+  PrivateLinkResourcesGetOptionalParams,
+} from "./api/privateLinkResources/index.js";
+export {
+  OnlineExperimentationWorkspacesOperations,
+  OperationsOperations,
+  PrivateEndpointConnectionsOperations,
+  PrivateLinkResourcesOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
