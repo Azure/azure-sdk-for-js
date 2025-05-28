@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential } from "@azure/identity";
-import { DefaultAzureCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/core-auth";
 import { coreLogger } from "./logger.js";
 import {
   EntraIdAccessTokenConstants,
@@ -17,13 +16,21 @@ export class EntraIdAccessToken {
   public token?: string;
   private _expiryTimestamp?: number; // in milliseconds
   private _credential?: TokenCredential;
+  private _noOpFlag = false;
 
   constructor(credential?: TokenCredential) {
-    this._credential = credential ?? new DefaultAzureCredential();
+    this._credential = credential;
+    if (!this._credential) {
+      this._noOpFlag = true;
+      return;
+    }
     this.setEntraIdAccessTokenFromEnvironment();
   }
 
   public fetchEntraIdAccessToken = async (): Promise<void> => {
+    if (this._noOpFlag) {
+      throw new Error(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
+    }
     try {
       coreLogger.info("Fetching entra id access token");
       const accessToken = await this._credential!.getToken(EntraIdAccessTokenConstants.SCOPE);
@@ -41,7 +48,7 @@ export class EntraIdAccessToken {
       coreLogger.info("Entra id access token fetched and set in environment variable");
       coreLogger.info(
         "Entra id access token expiry:",
-        new Date(this._expiryTimestamp).toISOString(),
+        new Date(this._expiryTimestamp!).toISOString(),
       );
       return;
     } catch (err) {
@@ -52,6 +59,9 @@ export class EntraIdAccessToken {
   };
 
   public doesEntraIdAccessTokenNeedRotation(): boolean {
+    if (this._noOpFlag) {
+      throw new Error(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
+    }
     if (!this.token) {
       coreLogger.info("Entra id access token not found, needs rotation");
       return true;
