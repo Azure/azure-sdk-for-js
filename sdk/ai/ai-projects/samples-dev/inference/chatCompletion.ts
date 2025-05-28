@@ -7,7 +7,8 @@
  * Get the chat completions for the provided chat messages.
  */
 
-import { AIProjectClient, isUnexpected } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
+import { isUnexpected } from "@azure/ai-projects/inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createRestError } from "@azure-rest/core-client";
 import "dotenv/config";

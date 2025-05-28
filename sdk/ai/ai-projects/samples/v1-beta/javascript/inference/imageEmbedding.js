@@ -9,7 +9,8 @@
 const path = require("path");
 const fs = require("fs");
 const { fileURLToPath } = require("url");
-const { AIProjectClient, isUnexpected } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
+const { isUnexpected } = require("@azure/ai-projects/inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 

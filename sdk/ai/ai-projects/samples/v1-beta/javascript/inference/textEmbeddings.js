@@ -7,7 +7,8 @@
  * Get the text embeddings for arrays of given texts.
  */
 
-const { AIProjectClient, isUnexpected } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
+const { isUnexpected } = require("@azure/ai-projects/inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 

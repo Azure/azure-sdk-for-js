@@ -7,7 +7,8 @@
  * Get the text embeddings for arrays of given texts.
  */
 
-import { AIProjectClient, isUnexpected } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
+import { isUnexpected } from "@azure/ai-projects/inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

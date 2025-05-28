@@ -6,7 +6,7 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AIProjectClient } from "../../../src/index.js";
-import { isUnexpected } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/api/inference/index.js";
 
 describe("inference - textEmbeddings", () => {
   let recorder: Recorder;

@@ -7,7 +7,8 @@
  * Get the chat completions for the provided chat messages.
  */
 
-const { AIProjectClient, isUnexpected } = require("@azure/ai-projects");
+const { AIProjectClient } = require("@azure/ai-projects");
+const { isUnexpected } = require("@azure/ai-projects/inference");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createRestError } = require("@azure-rest/core-client");
 require("dotenv/config");
