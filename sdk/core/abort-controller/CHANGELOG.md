@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.3 (Unreleased)
+## 2.1.3 (2025-05-29)
 
 ### Features Added
 
@@ -8,7 +8,12 @@
 
 ### Bugs Fixed
 
+- Fix compiler error in AbortError example snippet [PR #31649](https://github.com/Azure/azure-sdk-for-js/pull/31649)
+
 ### Other Changes
+
+- Add React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
+- Stop packing d.ts.map files [PR #32490](https://github.com/Azure/azure-sdk-for-js/pull/32490)
 
 ## 2.1.2 (2024-04-09)
 
