@@ -23,8 +23,7 @@ describe("Stream data parser unit tests", function () {
   const audioDataJson =
     '{"kind":"AudioData","audioData":{"timestamp":"2024-05-30T06:25:02.948Z","data":"test","silent":false, "participantRawID":"28:6b45c5b6-1c34-47c0-8980-11e98d47d23f"}}';
 
-  const dtmfDataJson =
-    '{"kind":"DtmfData","dtmfData":{"data":"test"}}';
+  const dtmfDataJson = '{"kind":"DtmfData","dtmfData":{"data":"test"}}';
   it("Successfully parse binary data to transcription meta data ", function () {
     const transcriptionMetaDataBinary = encoder.encode(transcriptionMetaDataJson);
     const parsedData = StreamingData.parse(transcriptionMetaDataBinary);
