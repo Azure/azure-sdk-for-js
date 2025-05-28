@@ -109,6 +109,9 @@ describe("Highlevel", () => {
 
     await blockBlobClient.upload(inputStream, maxPutBlobSizeLimitInMB * MB);
     fs.unlinkSync(tempFile);
+<<<<<<< HEAD
+  });
+=======
 
     const response = await blockBlobClient.download(0);
     const downloadedFile = path.join(
@@ -116,7 +119,8 @@ describe("Highlevel", () => {
       recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
+>>>>>>> 84b81e889b (Content validation)
 
   it(
     "uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
