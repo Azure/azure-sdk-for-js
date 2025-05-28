@@ -51,7 +51,7 @@ The software may collect information about you and your use of the software and 
 ### Telemetry Configuration
 Telemetry collection is on by default.
 
-To opt out, you can disable telemetry at client construction. Create a custom http pipeline policy that removes user agent string, apply that policy in the `additionalPolicies` during client creation. This will disable telemetry for all methods in the client. Do this for every new client.
+To opt out, you can disable telemetry at client construction. Create a custom HTTP pipeline policy that removes the user agent string, and then pass that policy into the `additionalPolicies` option during client creation. This will disable telemetry for all methods in the client. Do this for every new client.
 
 The example below uses the `@azure/keyvault-secrets` package. In your code, you can replace `@azure/keyvault-secrets` with the package you are using.
 
