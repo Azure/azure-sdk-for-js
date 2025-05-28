@@ -102,7 +102,6 @@ const secretClient = createSecretClientWithManagedIdentity(keyvaultUri);
 // const secretValue = await secretClient.getSecret("your-secret-name");
 ```
 
-
 ### Community
 
 Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#community-resources).
