@@ -213,8 +213,6 @@ export class PhoneNumbersClient {
    * const reservationId = "<reservation-id>";
    * const reservationResponse = await client.getReservation(reservationId);
    *
-   * console.log(`Reservation ID: ${reservationResponse.id}`);
-   * console.log(`Reservation status: ${reservationResponse.status}`);
    * console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
    * ```
    * Get a reservation.
@@ -287,23 +285,25 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts snippet:PhoneNumbersClientBrowseAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
-   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   * import {
+   *   PhoneNumbersClient,
+   *   BrowseAvailableNumbersRequest,
+   * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
-   *    countryCode: "FR",
-   *    phoneNumberType: "tollFree",
-   *    };
-   *
+   *   countryCode: "US",
+   *   phoneNumberType: "tollFree",
+   * };
    * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
-   *    browseAvailableNumberRequest,
+   *   browseAvailableNumberRequest,
    *   {
-   *      capabilities: {
-   *        calling: "outbound",
+   *     capabilities: {
+   *       calling: "outbound",
    *     },
-   *   assignmentType: "application",
+   *     assignmentType: "application",
    *   },
    * );
    * for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
@@ -611,28 +611,52 @@ export class PhoneNumbersClient {
    * Partial success is possible, in which case the response will have a 207 status code.
    *
    * Example usage:
-   * ```ts snippet:PhoneNumbersClientUpdateReservation
+   * ```ts snippet:PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers
    * import { DefaultAzureCredential } from "@azure/identity";
    * import {
    *   PhoneNumbersClient,
-   *   PhoneNumbersCreateOrUpdateReservationOptionalParams,
+   *   BrowseAvailableNumbersRequest,
+   *   AvailablePhoneNumber,
    * } from "@azure/communication-phone-numbers";
    *
    * const credential = new DefaultAzureCredential();
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
-   * const reservationId = "<reservation-id>";
+   * const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+   *   countryCode: "US",
+   *   phoneNumberType: "tollFree",
+   * };
+   *
+   * const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+   *   browseAvailableNumberRequest,
+   *   {
+   *     capabilities: {
+   *       calling: "outbound",
+   *     },
+   *     assignmentType: "application",
+   *   },
+   * );
+   * const phoneNumbers = browseAvailableNumbers.phoneNumbers;
    * const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
    * const reservationResponse = await client.createOrUpdateReservation(
-   *      {
-   *         reservationId: reservationId,
-   *       },
-   *       {
-   *         add: phoneNumbersList,
-   *       },
-   *     );
-   * console.log(`Reservation updated with status: ${reservationResponse.status}`);
-   * console.log(`Updated reservation details: ${JSON.stringify(reservationResponse)}`);
+   *   {
+   *     reservationId: "reservationId",
+   *   },
+   *   {
+   *     add: phoneNumbersList,
+   *   },
+   * );
+   * const numbersWithError: AvailablePhoneNumber[] = [];
+   * for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+   *   if (number != null && number.status === "error") {
+   *     numbersWithError.push(number);
+   *   }
+   * }
+   * if (numbersWithError.length > 0) {
+   *   console.log("Errors occurred during reservation");
+   * } else {
+   *   console.log("Reservation operation completed without errors.");
+   * }
    * ```
    *
    * Create or update a reservation.
@@ -913,7 +937,7 @@ export class PhoneNumbersClient {
    * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
    *
    * for await (const reservation of client.listReservations()) {
-   *   console.log("reservation: ", reservation.id);
+   *   console.log(`Reservation id: ${reservation.id}`);
    * }
    * ```
    * List all phone number reservations. Note that the reservations will not be populated with the phone numbers associated with them.
