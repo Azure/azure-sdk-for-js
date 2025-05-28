@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export class CustomerConfig {
+class CustomerConfig {
   private static instance: CustomerConfig;
   public globalSetup?: string | string[];
   public globalTeardown?: string | string[];
