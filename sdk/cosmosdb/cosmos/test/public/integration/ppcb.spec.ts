@@ -7,8 +7,7 @@ import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
-import { StatusCodes, SubStatusCodes } from "../../../src/common/statusCodes.js";
-import { sleep } from "../../../src/common/helper.js";
+import { StatusCodes } from "../../../src/common/statusCodes.js";
 
 const endpoint = "https://ppcb.documents.azure.com/";
 
