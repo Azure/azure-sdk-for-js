@@ -88,7 +88,7 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "lint": "echo skipped.",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "prepack": "npm install && npm run build",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
