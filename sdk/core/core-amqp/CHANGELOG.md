@@ -1,14 +1,17 @@
 # Release History
 
-## 4.3.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.3.7 (2025-05-29)
 
 ### Bugs Fixed
 
+- Mark more network errors as retryable [PR #33230](https://github.com/Azure/azure-sdk-for-js/pull/33230)
+- Use AggregateError [PR #32774](https://github.com/Azure/azure-sdk-for-js/pull/32774)
+- Set `port` when it is not undefined in connection config [PR #32456](https://github.com/Azure/azure-sdk-for-js/pull/32456)
+- Parse port number from endpoint [PR #32406](https://github.com/Azure/azure-sdk-for-js/pull/32406)
+
 ### Other Changes
+
+- Add util polyfill to rhea-based libs for browser compatibility [PR #33771](https://github.com/Azure/azure-sdk-for-js/pull/33771)
 
 ## 4.3.6 (2025-03-06)
 
