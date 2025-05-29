@@ -83,7 +83,6 @@ describe("[Mocked] ChatClient", async function () {
       mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id,
     );
     assert.deepEqual(createThreadResult.chatThread?.metadata, mockThread.metadata);
-    assert.deepEqual(createThreadResult.chatThread?.retentionPolicy, mockThread.retentionPolicy);
 
     const request = spy.getCall(0).args[0];
 

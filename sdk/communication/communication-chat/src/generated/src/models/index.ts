@@ -10,8 +10,7 @@ import * as coreClient from "@azure/core-client";
 
 export type ChatRetentionPolicyUnion =
   | ChatRetentionPolicy
-  | ThreadCreationDateRetentionPolicy
-  | NoneRetentionPolicy;
+  | ThreadCreationDateRetentionPolicy;
 
 /** A paged collection of chat message read receipts. */
 export interface ChatMessageReadReceiptsCollection {
@@ -263,7 +262,7 @@ export interface CreateChatThreadRequest {
 /** Data retention policy for auto deletion. */
 export interface ChatRetentionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "threadCreationDate" | "none";
+  kind: "threadCreationDate";
 }
 
 /** Result of the create chat thread operation. */
@@ -379,12 +378,6 @@ export interface ThreadCreationDateRetentionPolicy extends ChatRetentionPolicy {
   deleteThreadAfterDays: number;
 }
 
-/** No thread retention policy. */
-export interface NoneRetentionPolicy extends ChatRetentionPolicy {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "none";
-}
-
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
@@ -459,8 +452,6 @@ export type ChatMessageType =
   | "participantRemoved";
 /** Defines values for ChatAttachmentType. */
 export type ChatAttachmentType = "image" | "file";
-/** Defines values for RetentionPolicyKind. */
-export type RetentionPolicyKind = "threadCreationDate" | "none";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams

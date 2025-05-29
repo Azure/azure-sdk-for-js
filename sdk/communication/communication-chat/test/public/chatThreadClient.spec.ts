@@ -8,7 +8,6 @@ import {
   ChatClient,
   ChatMessage,
   ChatThreadClient,
-  NoneRetentionPolicy,
   ThreadCreationDateRetentionPolicy,
 } from "../../src";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
@@ -52,17 +51,12 @@ describe("ChatThreadClient", function () {
 
     // Create a thread
     const request = { topic: "test topic" };
-    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
-      kind: "threadCreationDate",
-      deleteThreadAfterDays: 60,
-    };
     const options = {
       participants: [{ id: testUser }, { id: testUser2 }],
       metadata: {
         threadType: "primary",
         secondaryThread: "test-id",
       },
-      retentionPolicy: retentionPolicy,
     };
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
@@ -89,15 +83,7 @@ describe("ChatThreadClient", function () {
 
     const thread = await chatThreadClient.getProperties();
     assert.equal(metadata.threadType, thread.metadata?.threadType);
-  });
-
-  it("successfully updates the thread retention policy to none retention plicy", async function () {
-    const retentionPolicy: NoneRetentionPolicy = { kind: "none" };
-
-    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
-
-    const thread = await chatThreadClient.getProperties();
-    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
+    assert.isUndefined(thread.retentionPolicy);
   });
 
   it("successfully updates the thread retention policy", async function () {
@@ -111,15 +97,26 @@ describe("ChatThreadClient", function () {
     assert.equal(retentionPolicy.kind, thread.retentionPolicy?.kind);
     assert.equal(
       retentionPolicy.deleteThreadAfterDays,
-      (thread.retentionPolicy as ThreadCreationDateRetentionPolicy).deleteThreadAfterDays,
+      thread.retentionPolicy?.deleteThreadAfterDays,
     );
   });
 
-  it("successfully updates the thread retention policy to none retention plicy by setting null", async function () {
+  it("successfully updates the thread retention policy to undefined", async function () {
+    const request = { topic: "test topic" };
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+
+    const chatThreadResult = await chatClient.createChatThread(request, { retentionPolicy });
+    threadId = chatThreadResult.chatThread?.id as string;
+
+    assert.equal(retentionPolicy.kind, chatThreadResult.chatThread?.retentionPolicy?.kind);
+
     await chatThreadClient.updateProperties({ retentionPolicy: null as any });
 
     const thread = await chatThreadClient.getProperties();
-    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
+    assert.isUndefined(thread.retentionPolicy);
   });
 
   it("successfully sends a message", async function () {
@@ -156,7 +153,7 @@ describe("ChatThreadClient", function () {
     }
 
     let pagesCount = 0;
-    const maxPageSize = 3;
+    const maxPageSize = 2;
     const receivedPagedItems: ChatMessage[] = [];
     for await (const page of chatThreadClient.listMessages({ maxPageSize: maxPageSize }).byPage()) {
       ++pagesCount;

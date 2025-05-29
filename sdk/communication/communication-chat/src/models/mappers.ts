@@ -213,9 +213,6 @@ export const mapToRetentionPolicySdkModel = (
 ): ChatRetentionPolicy => {
   if (retentionPolicy.kind === "threadCreationDate") {
     return retentionPolicy as RestModel.ThreadCreationDateRetentionPolicy;
-  }
-  if (retentionPolicy.kind === "none") {
-    return retentionPolicy as RestModel.NoneRetentionPolicy;
   } else {
     throw new Error(`Retention Policy ${retentionPolicy.kind} is not supported`);
   }

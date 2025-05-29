@@ -71,7 +71,6 @@ import {
   ChatThreadDeleteChatImageOptionalParams,
 } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { createXhrHttpClient, isReadableStream, isBlob } from "./xhrHttpClient";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
 
@@ -604,43 +603,9 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public async uploadImage(
-    image: ArrayBuffer | Blob,
-    imageFilename: string,
-    options?: UploadImageOptions,
-  ): Promise<UploadChatImageResult>;
-
-  /**
-   * Uploads an chat image stream to a thread identified by threadId.
-   * Allowed image types "jpg", "png", "gif", "heic", "webp".
-   * Returns the id of the uploaded image.
-   * @param image - Request for uploading an image.
-   * @param imageFileName - The image's file name with file extension.
-   * @param imageBytesLength - The image's file length in bytes.
-   * @param options - Operation options.
-   */
-  public async uploadImage(
-    image: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
-    imageFileName: string,
-    imageBytesLength: number,
-    // eslint-disable-next-line
-    options?: UploadImageStreamOptions,
-  ): Promise<UploadChatImageResult>;
-
-  async uploadImage(
-    image: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream,
-    imageFilename: string,
-    imageBytesLengthOrOptions?: number | UploadImageOptions,
-    options: UploadImageStreamOptions = {},
+    request: HttpRequestBody,
+    options: UploadImageOptions,
   ): Promise<UploadChatImageResult> {
-    let uploadImageOptions = {};
-    if (imageBytesLengthOrOptions !== undefined) {
-      if (typeof imageBytesLengthOrOptions === "number") {
-        uploadImageOptions = { ...options, imageBytesLength: imageBytesLengthOrOptions };
-      } else {
-        uploadImageOptions = { ...options, ...imageBytesLengthOrOptions };
-      }
-    }
-
     return tracingClient.withSpan(
       "ChatThreadClient-UploadImage",
       options,
@@ -654,22 +619,21 @@ export class ChatThreadClient {
           console.log("using xhrClient");
           result = await this.client.chatThread.uploadChatImage(
             this.threadId,
-            isReadableStream(image) ? await this.getArrayBufferFromReadableStream(image) : image,
-            { imageFilename, ...updatedOptions },
+            this.isReadableStream(request)
+              ? await this.getArrayBufferFromReadableStream(request)
+              : request,
+            updatedOptions,
           );
         } else {
-          // backend (node fetch client) or readable readable stream
-          // Backend (no browser) need to convert Blob/ReadableStream to ArrayBuffer
-          let chatImageFile = image;
-          if (isBlob(image)) {
-            chatImageFile = await this.getArrayBufferFromBlob(image);
-          } else if (isReadableStream(image)) {
-            chatImageFile = await this.getArrayBufferFromReadableStream(image);
-          }
-          result = await this.client.chatThread.uploadChatImage(this.threadId, chatImageFile, {
-            imageFilename,
-            ...updatedOptions,
-          });
+          // backend & fetch client for readable stream
+          console.log("using default client");
+
+          // backend (no browser) need to convert Blob to ReadableStream or ArrayBuffer
+          result = await this.client.chatThread.uploadChatImage(
+            this.threadId,
+            this.isBlob(request) ? await this.getArrayBufferFromBlob(request) : request,
+            updatedOptions,
+          );
         }
         // const result = await this.client.chatThread.uploadChatImage(
         //   this.threadId,
