@@ -8,7 +8,7 @@ import DocumentTranslationClient, {
 } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
-import { writeFileSync } from "node:fs";
+import { writeFile } from "node:fs/promises";
 import { BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
 
 describe("snippets", () => {
@@ -20,7 +20,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateClient", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -29,7 +29,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleSynchronousDocumentTranslation", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -51,17 +51,17 @@ describe("snippets", () => {
       ],
     };
     // @ts-preserve-whitespace
-    const response = await client.path("/document:translate").post(options);
-    if (isUnexpected(response)) {
-      throw response.body.error;
+    const response = await client.path("/document:translate").post(options).asNodeStream();
+    if (!response.body) {
+      throw new Error("No response body received");
     }
     // @ts-preserve-whitespace
-    // Write the response to a file
-    writeFileSync("test-output.txt", response.body);
+    // Write the buffer to a file
+    await writeFile("test-output.txt", response.body);
   });
 
   it("ReadmeSampleBatchDocumentTranslation", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -114,7 +114,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCancelDocumentTranslation", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -132,7 +132,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleGetDocumentsStatus", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -153,7 +153,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleGetDocumentStatus", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -191,7 +191,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleGetTranslationsStatus", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -222,7 +222,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleGetTranslationStatus", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
@@ -246,7 +246,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleGetSupportedFormats", async () => {
-    const endpoint = "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+    const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
     const key = "YOUR_SUBSCRIPTION_KEY";
     const credential = {
       key,
