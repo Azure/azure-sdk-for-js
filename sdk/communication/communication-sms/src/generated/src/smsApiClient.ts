@@ -38,7 +38,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-sms/1.2.0-beta.4`;
+    const packageDetails = `azsdk-js-communication-sms/1.2.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -57,7 +57,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-12-10-preview";
+    this.apiVersion = options.apiVersion || "2025-05-29-preview";
     this.sms = new SmsImpl(this);
     this.optOuts = new OptOutsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

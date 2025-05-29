@@ -67,7 +67,14 @@ export interface SmsClientOptions extends CommonClientOptions {
 export interface SmsSendOptions extends OperationOptions {
     deliveryReportTimeoutInSeconds?: number;
     enableDeliveryReport?: boolean;
+    messagingConnect?: MessagingConnectOptions;
     tag?: string;
+}
+
+// @public
+export interface MessagingConnectOptions {
+    apiKey: string;
+    partner: string;
 }
 
 // @public
