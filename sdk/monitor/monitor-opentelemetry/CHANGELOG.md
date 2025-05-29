@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed process time normalized calculation returning NaN.
+- Fixed import issue with @azure/functions-core that was causing bundling errors in applications that don't use Azure Functions. [#34045](https://github.com/Azure/azure-sdk-for-js/issues/34045)
 
 ### Other Changes
 

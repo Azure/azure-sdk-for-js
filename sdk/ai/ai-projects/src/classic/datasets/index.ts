@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
 import {
   DatasetVersionUnion,
   PendingUploadRequest,
@@ -89,7 +89,10 @@ export interface DatasetsOperations {
   ) => Promise<DatasetVersionUnion>;
 }
 
-function _getDatasets(context: AIProjectContext) {
+function _getDatasets(
+  context: AIProjectContext,
+  projectOptions: AIProjectClientOptionalParams = {},
+) {
   return {
     getCredentials: (
       name: string,
@@ -116,14 +119,17 @@ function _getDatasets(context: AIProjectContext) {
     listVersions: (name: string, options?: DatasetsListVersionsOptionalParams) =>
       listVersions(context, name, options),
     uploadFile: (name: string, version: string, filePath: string, connectionName?: string) =>
-      uploadFile(context, name, version, filePath, connectionName),
+      uploadFile(context, name, version, filePath, { connectionName, projectOptions }),
     uploadFolder: (name: string, version: string, folderPath: string, connectionName?: string) =>
-      uploadFolder(context, name, version, folderPath, connectionName),
+      uploadFolder(context, name, version, folderPath, { connectionName, projectOptions }),
   };
 }
 
-export function _getDatasetsOperations(context: AIProjectContext): DatasetsOperations {
+export function _getDatasetsOperations(
+  context: AIProjectContext,
+  projectOptions: AIProjectClientOptionalParams = {},
+): DatasetsOperations {
   return {
-    ..._getDatasets(context),
+    ..._getDatasets(context, projectOptions),
   };
 }

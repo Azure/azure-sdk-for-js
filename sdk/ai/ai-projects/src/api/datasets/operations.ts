@@ -4,7 +4,7 @@
 
 import * as fs from "fs";
 import * as nodePath from "path";
-import { AIProjectContext as Client } from "../index.js";
+import { DatasetUploadOptionalParams, AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
   _pagedDatasetVersionDeserializer,
@@ -145,9 +145,9 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
-  // Optional connection name for the storage account to be used
-  connectionName?: string,
+  options?: DatasetUploadOptionalParams,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
+  const { connectionName, projectOptions = {} } = options || {};
   // Start a pending upload to get the container URL with SAS token
   const pendingUploadResponse = await pendingUpload(context, name, version, {
     pendingUploadType: "BlobReference",
@@ -195,6 +195,11 @@ async function createDatasetAndGetItsContainer(
   // Create container client from the blob URI (which includes the SAS token)
   const containerClient = new ContainerClient(blobReference.credential.sasUri);
 
+  const pipeline = containerClient["storageClientContext"].pipeline;
+  for (const { policy } of projectOptions.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign" });
+  }
+
   return {
     containerClient,
     version,
@@ -206,7 +211,7 @@ export async function uploadFile(
   name: string,
   version: string,
   filePath: string,
-  connectionName?: string,
+  options?: DatasetUploadOptionalParams,
 ): Promise<DatasetVersionUnion> {
   // if file does not exist
 
@@ -224,7 +229,7 @@ export async function uploadFile(
     context,
     name,
     version,
-    connectionName,
+    options,
   );
   // file name as blob name
   const blobName = nodePath.basename(filePath);
@@ -245,7 +250,7 @@ export async function uploadFolder(
   name: string,
   version: string,
   folderPath: string,
-  connectionName?: string,
+  options?: DatasetUploadOptionalParams,
 ): Promise<DatasetVersionUnion> {
   // Check if the folder exists
   const folderExists = fs.existsSync(folderPath);
@@ -262,7 +267,7 @@ export async function uploadFolder(
     context,
     name,
     version,
-    connectionName,
+    options,
   );
 
   // Helper function to recursively get all files in a directory
