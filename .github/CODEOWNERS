@@ -360,9 +360,6 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appplatform/arm-appplatform/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/appservice/arm-appservice/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -742,9 +739,6 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/marketplaceordering/arm-marketplaceordering/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/mediaservices/arm-mediaservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
@@ -1664,3 +1658,4 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
+/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @weshaggard @benbp

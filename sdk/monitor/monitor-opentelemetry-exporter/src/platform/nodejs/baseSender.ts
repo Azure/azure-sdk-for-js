@@ -115,6 +115,9 @@ export abstract class BaseSender {
             envelopes.length,
             RetryCode.RETRYABLE_STATUS_CODE,
           );
+          return {
+            code: ExportResultCode.SUCCESS,
+          };
         }
         if (result) {
           diag.info(result);
@@ -124,6 +127,11 @@ export abstract class BaseSender {
           const successfulEnvelopes: Envelope[] = [...envelopes];
           
           // Figure out which items to retry and which were successful
+          // If we have a partial success, count the succeeded envelopes
+          if (breezeResponse.itemsAccepted > 0 && statusCode === 206) {
+            this.networkStatsbeatMetrics?.countSuccess(duration);
+          }
+          // Figure out if we need to either retry or count failures
           if (breezeResponse.errors) {
             breezeResponse.errors.forEach((error) => {
               // Mark as undefined so we don't process them in countSuccessfulEnvelopes
