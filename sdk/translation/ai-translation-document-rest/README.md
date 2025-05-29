@@ -95,7 +95,7 @@ Used to synchronously translate a single document. The method doesn't require an
 import DocumentTranslationClient, {
   DocumentTranslateParameters,
 } from "@azure-rest/ai-translation-document";
-import { createWriteStream } from "node:fs";
+import { writeFile } from "node:fs/promises";
 
 const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const key = "YOUR_SUBSCRIPTION_KEY";
@@ -125,12 +125,7 @@ if (!response.body) {
 }
 
 // Write the buffer to a file
-const writeStream = createWriteStream("test-output.txt");
-response.body.pipe(writeStream);
-await new Promise<void>((resolve, reject) => {
-  writeStream.on("finish", resolve);
-  writeStream.on("error", reject);
-});
+await writeFile("test-output.txt", response.body);
 ```
 
 ### Batch Document Translation

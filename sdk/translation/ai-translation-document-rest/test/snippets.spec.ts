@@ -8,7 +8,7 @@ import DocumentTranslationClient, {
 } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
-import { createWriteStream } from "node:fs";
+import { writeFile } from "node:fs/promises";
 import { BlobServiceClient, ContainerSASPermissions } from "@azure/storage-blob";
 
 describe("snippets", () => {
@@ -57,12 +57,7 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     // Write the buffer to a file
-    const writeStream = createWriteStream("test-output.txt");
-    response.body.pipe(writeStream);
-    await new Promise<void>((resolve, reject) => {
-      writeStream.on('finish', resolve);
-      writeStream.on('error', reject);
-    });
+    await writeFile("test-output.txt", response.body);
   });
 
   it("ReadmeSampleBatchDocumentTranslation", async () => {
