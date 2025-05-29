@@ -41,9 +41,6 @@ export async function createRecordedClientContext(
           value: "class=REDACTED",
         },
       ],
-      removeHeaderSanitizer: {
-        headersForRemoval: ["ServiceBusNotification-Tags"],
-      },
     },
     ["record", "playback"],
   );
