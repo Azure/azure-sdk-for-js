@@ -74,6 +74,7 @@ export class PartitionKeyRangeCache {
   }
 
   /**
+   * Given a partition key, returns the partition key range id
    * @hidden
    */
   public async getPartitionKeyRangeIdFromPartitionKey(
