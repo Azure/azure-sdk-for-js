@@ -163,6 +163,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
+    updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 

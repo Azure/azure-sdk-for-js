@@ -43,10 +43,11 @@ import type {
   SendMessageOptions,
   SendReadReceiptOptions,
   SendTypingNotificationOptions,
+  UpdateChatThreadPropertiesOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
 } from "./models/options.js";
-import { ChatApiClient } from "./generated/src/index.js";
+import { ChatApiClient, ChatThreadUpdateChatThreadPropertiesOptionalParams } from "./generated/src/index.js";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
 import { tracingClient } from "./generated/src/tracing.js";
@@ -118,7 +119,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-UpdateTopic",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadUpdateChatThreadPropertiesOptionalParams | undefined) => {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           { topic: topic },
@@ -127,6 +128,24 @@ export class ChatThreadClient {
       },
     );
   }
+
+    /**
+   * Updates a thread's properties.
+   * @param options - Operation options.
+   */
+    public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
+      return tracingClient.withSpan(
+        "ChatThreadClient-UpdateProperties",
+        options,
+        async (updatedOptions: ChatThreadUpdateChatThreadPropertiesOptionalParams | undefined) => {
+          await this.client.chatThread.updateChatThreadProperties(
+            this.threadId,
+            options,
+            updatedOptions,
+          );
+        },
+      );
+    }
 
   /**
    * Sends a chat message to a thread identified by threadId.
