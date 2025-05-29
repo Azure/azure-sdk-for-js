@@ -64,7 +64,6 @@ matrix([[true, false]], async (useAad) => {
       for (const phoneNumber of browseGeographicAvailableNumbers.phoneNumbers) {
         assert.equal(phoneNumber.phoneNumberType, "geographic");
       }
-
       const browseMobileAvailableNumberRequest: BrowseAvailableNumbersRequest = {
         countryCode: "IE",
         phoneNumberType: "mobile",
