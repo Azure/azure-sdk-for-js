@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2025-04-17)
+## 1.0.0 (2025-05-12)
 
 ### Features Added
 
-Initial release of the Azure HyperExecute package
+This is the first stable version with the package of @azure/arm-lambdatesthyperexecute

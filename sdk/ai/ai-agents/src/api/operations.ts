@@ -469,9 +469,9 @@ export async function createRunStreaming(
   threadId: string,
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
-  options.stream = true;
+  const streamOptions = { ...options, stream: true };
 
-  return processStream(_createRunSend(context, threadId, assistantId, options));
+  return processStream(_createRunSend(context, threadId, assistantId, streamOptions));
 }
 
 /** Create a thread and run and stream the events */
@@ -480,8 +480,8 @@ export async function createThreadAndRunStreaming(
   assistantId: string,
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
-  options.stream = true;
-  return processStream(_createThreadAndRunSend(context, assistantId, options));
+  const streamOptions = { ...options, stream: true };
+  return processStream(_createThreadAndRunSend(context, assistantId, streamOptions));
 }
 
 export async function submitToolOutputsToRunStreaming(
@@ -490,11 +490,11 @@ export async function submitToolOutputsToRunStreaming(
   runId: string,
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
-  options.stream = true;
+  const streamOptions = { ...options, stream: true };
 
   return processStream(
     context
       .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-      .post(options),
+      .post(streamOptions),
   );
 }

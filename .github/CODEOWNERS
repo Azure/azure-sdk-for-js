@@ -360,9 +360,6 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/applicationinsights/arm-appinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appplatform/arm-appplatform/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/appservice/arm-appservice/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -657,7 +654,16 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao
@@ -733,9 +739,6 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 
 # PRLabel: %Mgmt
 /sdk/marketplaceordering/arm-marketplaceordering/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/mediaservices/arm-mediaservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
@@ -1613,7 +1616,7 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /common/tools/ @Azure/azure-sdk-js-dev
 
 # PRLabel: %dev-tool
-/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
+/common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv @maorleger
 
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
@@ -1655,3 +1658,4 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
 /eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
+/eng/pipelines/docindex.yml                  @danieljurek @mikeharder @weshaggard @benbp

@@ -105,6 +105,12 @@ export interface DeploymentProperties {
   parameters?: { [propertyName: string]: DeploymentParameter };
   /** The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
   parametersLink?: ParametersLink;
+  /** The configurations to use for deployment extensions. The keys of this object are deployment extension aliases as defined in the deployment template. */
+  extensionConfigs?: {
+    [propertyName: string]: {
+      [propertyName: string]: DeploymentExtensionConfigItem;
+    };
+  };
   /** The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources. */
   mode: DeploymentMode;
   /** The debug setting of the deployment. */
@@ -161,6 +167,18 @@ export interface ParametersLink {
   uri: string;
   /** If included, must match the ContentVersion in the template. */
   contentVersion?: string;
+}
+
+export interface DeploymentExtensionConfigItem {
+  /**
+   * The value type of the extension config property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: ExtensionConfigPropertyType;
+  /** The value of the extension config property. */
+  value?: any;
+  /** The Azure Key Vault reference used to retrieve the secret value of the extension config property. */
+  keyVaultReference?: KeyVaultParameterReference;
 }
 
 /** The debug setting. */
@@ -260,6 +278,11 @@ export interface DeploymentPropertiesExtended {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly parametersLink?: ParametersLink;
+  /**
+   * The extensions used in this deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensions?: DeploymentExtensionDefinition[];
   /**
    * The deployment mode. Possible values are Incremental and Complete.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -469,6 +492,34 @@ export interface BasicDependency {
   resourceName?: string;
 }
 
+export interface DeploymentExtensionDefinition {
+  /**
+   * The alias of the extension as defined in the deployment template.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alias?: string;
+  /**
+   * The extension name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The extension version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * The extension configuration ID. It uniquely identifies a deployment control plane within an extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configId?: string;
+  /**
+   * The extension configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly config?: { [propertyName: string]: DeploymentExtensionConfigItem };
+}
+
 /** Deployment on error behavior with additional details. */
 export interface OnErrorDeploymentExtended {
   /**
@@ -485,10 +536,30 @@ export interface OnErrorDeploymentExtended {
 /** The resource Id model. */
 export interface ResourceReference {
   /**
-   * The fully qualified resource Id.
+   * The fully qualified Azure resource ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
+  /**
+   * The key of the extension the resource was deployed with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extension?: DeploymentExtensionDefinition;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The extensible resource identifiers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly identifiers?: Record<string, unknown>;
+  /**
+   * The API version the resource was deployed with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiVersion?: string;
 }
 
 export interface DeploymentDiagnosticsDefinition {
@@ -1051,12 +1122,20 @@ export interface StatusMessage {
 
 /** Target resource. */
 export interface TargetResource {
-  /** The ID of the resource. */
+  /** The Azure resource ID of the resource. */
   id?: string;
   /** The name of the resource. */
   resourceName?: string;
   /** The type of the resource. */
   resourceType?: string;
+  /** The extension the resource was deployed with. */
+  extension?: DeploymentExtensionDefinition;
+  /** The extensible resource identifiers. */
+  identifiers?: Record<string, unknown>;
+  /** The API version the resource was deployed with. */
+  apiVersion?: string;
+  /** The symbolic name of the resource as defined in the deployment template. */
+  symbolicName?: string;
 }
 
 /** HTTP message. */
@@ -1259,6 +1338,39 @@ export interface TagsDeleteAtScopeHeaders {
   /** URL to get status of this long-running operation. */
   location?: string;
 }
+
+/** Known values of {@link ExtensionConfigPropertyType} that the service accepts. */
+export enum KnownExtensionConfigPropertyType {
+  /** Property type representing a string value. */
+  String = "String",
+  /** Property type representing an integer value. */
+  Int = "Int",
+  /** Property type representing a boolean value. */
+  Bool = "Bool",
+  /** Property type representing an array value. */
+  Array = "Array",
+  /** Property type representing an object value. */
+  Object = "Object",
+  /** Property type representing a secure string value. */
+  SecureString = "SecureString",
+  /** Property type representing a secure object value. */
+  SecureObject = "SecureObject",
+}
+
+/**
+ * Defines values for ExtensionConfigPropertyType. \
+ * {@link KnownExtensionConfigPropertyType} can be used interchangeably with ExtensionConfigPropertyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String**: Property type representing a string value. \
+ * **Int**: Property type representing an integer value. \
+ * **Bool**: Property type representing a boolean value. \
+ * **Array**: Property type representing an array value. \
+ * **Object**: Property type representing an object value. \
+ * **SecureString**: Property type representing a secure string value. \
+ * **SecureObject**: Property type representing a secure object value.
+ */
+export type ExtensionConfigPropertyType = string;
 
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
 export enum KnownExpressionEvaluationOptionsScopeType {
