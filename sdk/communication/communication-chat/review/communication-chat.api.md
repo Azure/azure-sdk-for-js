@@ -140,8 +140,12 @@ export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdd
 export interface ChatParticipant {
     displayName?: string;
     id: CommunicationIdentifier;
+    metadata?: Record<string, string>;
     shareHistoryTime?: Date;
 }
+
+// @public
+export type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy | NoneRetentionPolicy;;
 
 // @public
 export class ChatThreadClient {
@@ -184,6 +188,8 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
+    metadata?: Record<string, string>;
+    retentionPolicy?: ChatRetentionPolicy;
     topic: string;
 }
 
@@ -192,7 +198,9 @@ export { ChatThreadPropertiesUpdatedEvent }
 // @public
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
+    metadata?: Record<string, string>;
     participants?: ChatParticipant[];
+    retentionPolicy?: ChatRetentionPolicy;
 }
 
 // @public
@@ -298,7 +306,20 @@ export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
 }
 
+// @public
+export interface ThreadCreationDateRetentionPolicy {
+    deleteThreadAfterDays: number;
+    kind: "threadCreationDate";
+}
+
 export { TypingIndicatorReceivedEvent }
+
+// @public
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+    retentionPolicy?: ChatRetentionPolicy;
+    topic?: string;
+}
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {
