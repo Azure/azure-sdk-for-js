@@ -1,14 +1,10 @@
 # Release History
 
-## 4.3.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.3.7 (2025-05-29)
 
 ### Other Changes
+
+- Add top-level `react-native` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field. [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
 
 ## 4.3.6 (2025-03-06)
 
