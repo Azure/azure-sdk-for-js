@@ -8,7 +8,7 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models/index.js";
-import type { ChatParticipant } from "./models.js";
+import type { ChatParticipant, ChatRetentionPolicy } from "./models.js";
 
 export {
   RestListMessagesOptions,
@@ -31,6 +31,18 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
  * Options to update a chat thread.
  */
 export interface UpdateTopicOptions extends OperationOptions {}
+
+/**
+ * Options to update a chat thread.
+ */
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
+  /** Thread topic. */
+  topic?: string;
+  /** Thread metadata. */
+  metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
+}
 
 /**
  * Options to get chat threads.
