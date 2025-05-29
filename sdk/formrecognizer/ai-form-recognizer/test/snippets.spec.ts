@@ -847,6 +847,17 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleSovereignClouds", () => {
+    const credential = new DefaultAzureCredential();
+    const client = new DocumentAnalysisClient(
+      "https://<resource name>.cognitiveservices.azure.com", // endpoint
+      credential,
+      {
+        audience: KnownFormRecognizerAudience.AzureGovernment,
+      },
+    );
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });
