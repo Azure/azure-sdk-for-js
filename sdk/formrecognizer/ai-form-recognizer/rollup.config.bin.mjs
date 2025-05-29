@@ -50,7 +50,7 @@ const config = {
   input: ["dist/esm/bin/gen-model.js"],
   output: {
     format: "cjs",
-    file: "dist-bin/gen-model.js",
+    dir: "dist-bin",
   },
   external: [...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)],
   plugins: [
