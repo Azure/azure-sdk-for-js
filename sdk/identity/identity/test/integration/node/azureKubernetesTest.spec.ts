@@ -8,7 +8,7 @@ describe("Azure Kubernetes Integration test", function () {
   let podOutput: string;
   beforeEach(async function (ctx) {
     if (!isLiveMode()) {
-      ctx.skip();
+      ctx();
     }
 
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
@@ -20,7 +20,7 @@ describe("Azure Kubernetes Integration test", function () {
 
   it("can authenticate using managed identity", async function (ctx) {
     if (!isLiveMode()) {
-      ctx.skip();
+      ctx();
     }
 
     assert.include(
@@ -32,7 +32,7 @@ describe("Azure Kubernetes Integration test", function () {
 
   it("can authenticate using workload identity", async function (ctx) {
     if (!isLiveMode()) {
-      ctx.skip();
+      ctx();
     }
 
     assert.include(
