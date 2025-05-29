@@ -744,9 +744,6 @@ sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK
 /sdk/marketplaceordering/arm-marketplaceordering/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mediaservices/arm-mediaservices/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
