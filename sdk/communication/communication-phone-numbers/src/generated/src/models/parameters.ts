@@ -124,7 +124,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-04-15-preview",
+    defaultValue: "2025-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
