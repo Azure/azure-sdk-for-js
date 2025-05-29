@@ -8,7 +8,6 @@ export {
   DeletionRecoveryLevel,
   KeyVaultError,
   ErrorModel,
-  ErrorModel_1,
   DeletedCertificateBundle,
   CertificatePolicy,
   KeyProperties,
